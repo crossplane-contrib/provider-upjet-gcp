@@ -78,13 +78,15 @@ spec:
                     description: |-
                       Specifies that this app profile is intended for read-only usage via the Data Boost feature.
                       Structure is documented below.
-                    properties:
-                      computeBillingOwner:
-                        description: |-
-                          The Compute Billing Owner for this Data Boost App Profile.
-                          Possible values are: HOST_PAYS.
-                        type: string
-                    type: object
+                    items:
+                      properties:
+                        computeBillingOwner:
+                          description: |-
+                            The Compute Billing Owner for this Data Boost App Profile.
+                            Possible values are: HOST_PAYS.
+                          type: string
+                      type: object
+                    type: array
                   description:
                     description: Long form description of the use case for this app
                       profile.
@@ -234,13 +236,15 @@ spec:
                     description: |-
                       Specifies that this app profile is intended for read-only usage via the Data Boost feature.
                       Structure is documented below.
-                    properties:
-                      computeBillingOwner:
-                        description: |-
-                          The Compute Billing Owner for this Data Boost App Profile.
-                          Possible values are: HOST_PAYS.
-                        type: string
-                    type: object
+                    items:
+                      properties:
+                        computeBillingOwner:
+                          description: |-
+                            The Compute Billing Owner for this Data Boost App Profile.
+                            Possible values are: HOST_PAYS.
+                          type: string
+                      type: object
+                    type: array
                   description:
                     description: Long form description of the use case for this app
                       profile.
@@ -471,13 +475,15 @@ spec:
                     description: |-
                       Specifies that this app profile is intended for read-only usage via the Data Boost feature.
                       Structure is documented below.
-                    properties:
-                      computeBillingOwner:
-                        description: |-
-                          The Compute Billing Owner for this Data Boost App Profile.
-                          Possible values are: HOST_PAYS.
-                        type: string
-                    type: object
+                    items:
+                      properties:
+                        computeBillingOwner:
+                          description: |-
+                            The Compute Billing Owner for this Data Boost App Profile.
+                            Possible values are: HOST_PAYS.
+                          type: string
+                      type: object
+                    type: array
                   description:
                     description: Long form description of the use case for this app
                       profile.

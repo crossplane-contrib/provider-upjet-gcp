@@ -329,21 +329,23 @@ spec:
                             Optional. Configuration for Private Service Connect.
                             This is required only when using connection type PRIVATE_SERVICE_CONNECT_INTERFACES.
                             Structure is documented below.
-                          properties:
-                            networkAttachment:
-                              description: |-
-                                Optional. The reference to the network attachment used to establish private connectivity.
-                                It will be of the form projects/{project-id}/regions/{region}/networkAttachments/{network-attachment-id}.
-                                This is required only when using connection type PRIVATE_SERVICE_CONNECT_INTERFACES.
-                              type: string
-                            unreachableCidrBlock:
-                              description: |-
-                                Optional. Input only. The CIDR block to which the CDF instance can't route traffic to in the consumer project VPC.
-                                The size of this block should be at least /25. This range should not overlap with the primary address range of any subnetwork used by the network attachment.
-                                This range can be used for other purposes in the consumer VPC as long as there is no requirement for CDF to reach destinations using these addresses.
-                                If this value is not provided, the server chooses a non RFC 1918 address range. The format of this field is governed by RFC 4632.
-                              type: string
-                          type: object
+                          items:
+                            properties:
+                              networkAttachment:
+                                description: |-
+                                  Optional. The reference to the network attachment used to establish private connectivity.
+                                  It will be of the form projects/{project-id}/regions/{region}/networkAttachments/{network-attachment-id}.
+                                  This is required only when using connection type PRIVATE_SERVICE_CONNECT_INTERFACES.
+                                type: string
+                              unreachableCidrBlock:
+                                description: |-
+                                  Optional. Input only. The CIDR block to which the CDF instance can't route traffic to in the consumer project VPC.
+                                  The size of this block should be at least /25. This range should not overlap with the primary address range of any subnetwork used by the network attachment.
+                                  This range can be used for other purposes in the consumer VPC as long as there is no requirement for CDF to reach destinations using these addresses.
+                                  If this value is not provided, the server chooses a non RFC 1918 address range. The format of this field is governed by RFC 4632.
+                                type: string
+                            type: object
+                          type: array
                       type: object
                     type: array
                   options:
@@ -649,21 +651,23 @@ spec:
                             Optional. Configuration for Private Service Connect.
                             This is required only when using connection type PRIVATE_SERVICE_CONNECT_INTERFACES.
                             Structure is documented below.
-                          properties:
-                            networkAttachment:
-                              description: |-
-                                Optional. The reference to the network attachment used to establish private connectivity.
-                                It will be of the form projects/{project-id}/regions/{region}/networkAttachments/{network-attachment-id}.
-                                This is required only when using connection type PRIVATE_SERVICE_CONNECT_INTERFACES.
-                              type: string
-                            unreachableCidrBlock:
-                              description: |-
-                                Optional. Input only. The CIDR block to which the CDF instance can't route traffic to in the consumer project VPC.
-                                The size of this block should be at least /25. This range should not overlap with the primary address range of any subnetwork used by the network attachment.
-                                This range can be used for other purposes in the consumer VPC as long as there is no requirement for CDF to reach destinations using these addresses.
-                                If this value is not provided, the server chooses a non RFC 1918 address range. The format of this field is governed by RFC 4632.
-                              type: string
-                          type: object
+                          items:
+                            properties:
+                              networkAttachment:
+                                description: |-
+                                  Optional. The reference to the network attachment used to establish private connectivity.
+                                  It will be of the form projects/{project-id}/regions/{region}/networkAttachments/{network-attachment-id}.
+                                  This is required only when using connection type PRIVATE_SERVICE_CONNECT_INTERFACES.
+                                type: string
+                              unreachableCidrBlock:
+                                description: |-
+                                  Optional. Input only. The CIDR block to which the CDF instance can't route traffic to in the consumer project VPC.
+                                  The size of this block should be at least /25. This range should not overlap with the primary address range of any subnetwork used by the network attachment.
+                                  This range can be used for other purposes in the consumer VPC as long as there is no requirement for CDF to reach destinations using these addresses.
+                                  If this value is not provided, the server chooses a non RFC 1918 address range. The format of this field is governed by RFC 4632.
+                                type: string
+                            type: object
+                          type: array
                       type: object
                     type: array
                   options:
@@ -998,27 +1002,29 @@ spec:
                             Optional. Configuration for Private Service Connect.
                             This is required only when using connection type PRIVATE_SERVICE_CONNECT_INTERFACES.
                             Structure is documented below.
-                          properties:
-                            effectiveUnreachableCidrBlock:
-                              description: |-
-                                (Output)
-                                Output only. The CIDR block to which the CDF instance can't route traffic to in the consumer project VPC.
-                                The size of this block is /25. The format of this field is governed by RFC 4632.
-                              type: string
-                            networkAttachment:
-                              description: |-
-                                Optional. The reference to the network attachment used to establish private connectivity.
-                                It will be of the form projects/{project-id}/regions/{region}/networkAttachments/{network-attachment-id}.
-                                This is required only when using connection type PRIVATE_SERVICE_CONNECT_INTERFACES.
-                              type: string
-                            unreachableCidrBlock:
-                              description: |-
-                                Optional. Input only. The CIDR block to which the CDF instance can't route traffic to in the consumer project VPC.
-                                The size of this block should be at least /25. This range should not overlap with the primary address range of any subnetwork used by the network attachment.
-                                This range can be used for other purposes in the consumer VPC as long as there is no requirement for CDF to reach destinations using these addresses.
-                                If this value is not provided, the server chooses a non RFC 1918 address range. The format of this field is governed by RFC 4632.
-                              type: string
-                          type: object
+                          items:
+                            properties:
+                              effectiveUnreachableCidrBlock:
+                                description: |-
+                                  (Output)
+                                  Output only. The CIDR block to which the CDF instance can't route traffic to in the consumer project VPC.
+                                  The size of this block is /25. The format of this field is governed by RFC 4632.
+                                type: string
+                              networkAttachment:
+                                description: |-
+                                  Optional. The reference to the network attachment used to establish private connectivity.
+                                  It will be of the form projects/{project-id}/regions/{region}/networkAttachments/{network-attachment-id}.
+                                  This is required only when using connection type PRIVATE_SERVICE_CONNECT_INTERFACES.
+                                type: string
+                              unreachableCidrBlock:
+                                description: |-
+                                  Optional. Input only. The CIDR block to which the CDF instance can't route traffic to in the consumer project VPC.
+                                  The size of this block should be at least /25. This range should not overlap with the primary address range of any subnetwork used by the network attachment.
+                                  This range can be used for other purposes in the consumer VPC as long as there is no requirement for CDF to reach destinations using these addresses.
+                                  If this value is not provided, the server chooses a non RFC 1918 address range. The format of this field is governed by RFC 4632.
+                                type: string
+                            type: object
+                          type: array
                       type: object
                     type: array
                   options:

@@ -505,12 +505,14 @@ spec:
                             type: object
                           type: array
                         maxRunDuration:
-                          properties:
-                            nanos:
-                              type: number
-                            seconds:
-                              type: number
-                          type: object
+                          items:
+                            properties:
+                              nanos:
+                                type: number
+                              seconds:
+                                type: number
+                            type: object
+                          type: array
                         minNodeCpus:
                           type: number
                         nodeAffinities:
@@ -530,10 +532,12 @@ spec:
                         onHostMaintenance:
                           type: string
                         onInstanceStopAction:
-                          properties:
-                            discardLocalSsd:
-                              type: boolean
-                          type: object
+                          items:
+                            properties:
+                              discardLocalSsd:
+                                type: boolean
+                            type: object
+                          type: array
                         preemptible:
                           type: boolean
                         provisioningModel:
@@ -1115,12 +1119,14 @@ spec:
                             type: object
                           type: array
                         maxRunDuration:
-                          properties:
-                            nanos:
-                              type: number
-                            seconds:
-                              type: number
-                          type: object
+                          items:
+                            properties:
+                              nanos:
+                                type: number
+                              seconds:
+                                type: number
+                            type: object
+                          type: array
                         minNodeCpus:
                           type: number
                         nodeAffinities:
@@ -1140,10 +1146,12 @@ spec:
                         onHostMaintenance:
                           type: string
                         onInstanceStopAction:
-                          properties:
-                            discardLocalSsd:
-                              type: boolean
-                          type: object
+                          items:
+                            properties:
+                              discardLocalSsd:
+                                type: boolean
+                            type: object
+                          type: array
                         preemptible:
                           type: boolean
                         provisioningModel:
@@ -1746,12 +1754,14 @@ spec:
                             type: object
                           type: array
                         maxRunDuration:
-                          properties:
-                            nanos:
-                              type: number
-                            seconds:
-                              type: number
-                          type: object
+                          items:
+                            properties:
+                              nanos:
+                                type: number
+                              seconds:
+                                type: number
+                            type: object
+                          type: array
                         minNodeCpus:
                           type: number
                         nodeAffinities:
@@ -1771,10 +1781,12 @@ spec:
                         onHostMaintenance:
                           type: string
                         onInstanceStopAction:
-                          properties:
-                            discardLocalSsd:
-                              type: boolean
-                          type: object
+                          items:
+                            properties:
+                              discardLocalSsd:
+                                type: boolean
+                            type: object
+                          type: array
                         preemptible:
                           type: boolean
                         provisioningModel:

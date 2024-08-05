@@ -1086,8 +1086,10 @@ func (in *BucketInitParameters) DeepCopyInto(out *BucketInitParameters) {
 	}
 	if in.SoftDeletePolicy != nil {
 		in, out := &in.SoftDeletePolicy, &out.SoftDeletePolicy
-		*out = new(SoftDeletePolicyInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]SoftDeletePolicyInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.StorageClass != nil {
 		in, out := &in.StorageClass, &out.StorageClass
@@ -1787,8 +1789,10 @@ func (in *BucketObservation) DeepCopyInto(out *BucketObservation) {
 	}
 	if in.SoftDeletePolicy != nil {
 		in, out := &in.SoftDeletePolicy, &out.SoftDeletePolicy
-		*out = new(SoftDeletePolicyObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]SoftDeletePolicyObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.StorageClass != nil {
 		in, out := &in.StorageClass, &out.StorageClass
@@ -1957,8 +1961,10 @@ func (in *BucketParameters) DeepCopyInto(out *BucketParameters) {
 	}
 	if in.SoftDeletePolicy != nil {
 		in, out := &in.SoftDeletePolicy, &out.SoftDeletePolicy
-		*out = new(SoftDeletePolicyParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]SoftDeletePolicyParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.StorageClass != nil {
 		in, out := &in.StorageClass, &out.StorageClass

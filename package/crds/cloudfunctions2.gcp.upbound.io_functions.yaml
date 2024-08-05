@@ -84,7 +84,9 @@ spec:
                           description: |-
                             Security patches are applied automatically to the runtime without requiring
                             the function to be redeployed.
-                          type: object
+                          items:
+                            type: object
+                          type: array
                         dockerRepository:
                           description: User managed repository created in Artifact
                             Registry optionally with a customer managed encryption
@@ -185,7 +187,9 @@ spec:
                           description: |-
                             Security patches are only applied when a function is redeployed.
                             Structure is documented below.
-                          type: object
+                          items:
+                            type: object
+                          type: array
                         runtime:
                           description: |-
                             The runtime in which to run the function. Required when deploying a new
@@ -1290,7 +1294,9 @@ spec:
                           description: |-
                             Security patches are applied automatically to the runtime without requiring
                             the function to be redeployed.
-                          type: object
+                          items:
+                            type: object
+                          type: array
                         dockerRepository:
                           description: User managed repository created in Artifact
                             Registry optionally with a customer managed encryption
@@ -1391,7 +1397,9 @@ spec:
                           description: |-
                             Security patches are only applied when a function is redeployed.
                             Structure is documented below.
-                          type: object
+                          items:
+                            type: object
+                          type: array
                         runtime:
                           description: |-
                             The runtime in which to run the function. Required when deploying a new
@@ -2650,7 +2658,9 @@ spec:
                           description: |-
                             Security patches are applied automatically to the runtime without requiring
                             the function to be redeployed.
-                          type: object
+                          items:
+                            type: object
+                          type: array
                         build:
                           description: |-
                             (Output)
@@ -2681,13 +2691,15 @@ spec:
                           description: |-
                             Security patches are only applied when a function is redeployed.
                             Structure is documented below.
-                          properties:
-                            runtimeVersion:
-                              description: |-
-                                (Output)
-                                The runtime version which was used during latest function deployment.
-                              type: string
-                          type: object
+                          items:
+                            properties:
+                              runtimeVersion:
+                                description: |-
+                                  (Output)
+                                  The runtime version which was used during latest function deployment.
+                                type: string
+                            type: object
+                          type: array
                         runtime:
                           description: |-
                             The runtime in which to run the function. Required when deploying a new

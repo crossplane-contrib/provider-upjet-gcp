@@ -510,8 +510,10 @@ func (in *DockerRepositoryInitParameters) DeepCopyInto(out *DockerRepositoryInit
 	*out = *in
 	if in.CustomRepository != nil {
 		in, out := &in.CustomRepository, &out.CustomRepository
-		*out = new(CustomRepositoryInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]CustomRepositoryInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.PublicRepository != nil {
 		in, out := &in.PublicRepository, &out.PublicRepository
@@ -535,8 +537,10 @@ func (in *DockerRepositoryObservation) DeepCopyInto(out *DockerRepositoryObserva
 	*out = *in
 	if in.CustomRepository != nil {
 		in, out := &in.CustomRepository, &out.CustomRepository
-		*out = new(CustomRepositoryObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]CustomRepositoryObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.PublicRepository != nil {
 		in, out := &in.PublicRepository, &out.PublicRepository
@@ -560,8 +564,10 @@ func (in *DockerRepositoryParameters) DeepCopyInto(out *DockerRepositoryParamete
 	*out = *in
 	if in.CustomRepository != nil {
 		in, out := &in.CustomRepository, &out.CustomRepository
-		*out = new(CustomRepositoryParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]CustomRepositoryParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.PublicRepository != nil {
 		in, out := &in.PublicRepository, &out.PublicRepository
@@ -720,8 +726,10 @@ func (in *MavenRepositoryInitParameters) DeepCopyInto(out *MavenRepositoryInitPa
 	*out = *in
 	if in.CustomRepository != nil {
 		in, out := &in.CustomRepository, &out.CustomRepository
-		*out = new(MavenRepositoryCustomRepositoryInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]MavenRepositoryCustomRepositoryInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.PublicRepository != nil {
 		in, out := &in.PublicRepository, &out.PublicRepository
@@ -745,8 +753,10 @@ func (in *MavenRepositoryObservation) DeepCopyInto(out *MavenRepositoryObservati
 	*out = *in
 	if in.CustomRepository != nil {
 		in, out := &in.CustomRepository, &out.CustomRepository
-		*out = new(MavenRepositoryCustomRepositoryObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]MavenRepositoryCustomRepositoryObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.PublicRepository != nil {
 		in, out := &in.PublicRepository, &out.PublicRepository
@@ -770,8 +780,10 @@ func (in *MavenRepositoryParameters) DeepCopyInto(out *MavenRepositoryParameters
 	*out = *in
 	if in.CustomRepository != nil {
 		in, out := &in.CustomRepository, &out.CustomRepository
-		*out = new(MavenRepositoryCustomRepositoryParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]MavenRepositoryCustomRepositoryParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.PublicRepository != nil {
 		in, out := &in.PublicRepository, &out.PublicRepository
@@ -948,8 +960,10 @@ func (in *NpmRepositoryInitParameters) DeepCopyInto(out *NpmRepositoryInitParame
 	*out = *in
 	if in.CustomRepository != nil {
 		in, out := &in.CustomRepository, &out.CustomRepository
-		*out = new(NpmRepositoryCustomRepositoryInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]NpmRepositoryCustomRepositoryInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.PublicRepository != nil {
 		in, out := &in.PublicRepository, &out.PublicRepository
@@ -973,8 +987,10 @@ func (in *NpmRepositoryObservation) DeepCopyInto(out *NpmRepositoryObservation) 
 	*out = *in
 	if in.CustomRepository != nil {
 		in, out := &in.CustomRepository, &out.CustomRepository
-		*out = new(NpmRepositoryCustomRepositoryObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]NpmRepositoryCustomRepositoryObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.PublicRepository != nil {
 		in, out := &in.PublicRepository, &out.PublicRepository
@@ -998,8 +1014,10 @@ func (in *NpmRepositoryParameters) DeepCopyInto(out *NpmRepositoryParameters) {
 	*out = *in
 	if in.CustomRepository != nil {
 		in, out := &in.CustomRepository, &out.CustomRepository
-		*out = new(NpmRepositoryCustomRepositoryParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]NpmRepositoryCustomRepositoryParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.PublicRepository != nil {
 		in, out := &in.PublicRepository, &out.PublicRepository
@@ -1158,8 +1176,10 @@ func (in *PythonRepositoryInitParameters) DeepCopyInto(out *PythonRepositoryInit
 	*out = *in
 	if in.CustomRepository != nil {
 		in, out := &in.CustomRepository, &out.CustomRepository
-		*out = new(PythonRepositoryCustomRepositoryInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]PythonRepositoryCustomRepositoryInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.PublicRepository != nil {
 		in, out := &in.PublicRepository, &out.PublicRepository
@@ -1183,8 +1203,10 @@ func (in *PythonRepositoryObservation) DeepCopyInto(out *PythonRepositoryObserva
 	*out = *in
 	if in.CustomRepository != nil {
 		in, out := &in.CustomRepository, &out.CustomRepository
-		*out = new(PythonRepositoryCustomRepositoryObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]PythonRepositoryCustomRepositoryObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.PublicRepository != nil {
 		in, out := &in.PublicRepository, &out.PublicRepository
@@ -1208,8 +1230,10 @@ func (in *PythonRepositoryParameters) DeepCopyInto(out *PythonRepositoryParamete
 	*out = *in
 	if in.CustomRepository != nil {
 		in, out := &in.CustomRepository, &out.CustomRepository
-		*out = new(PythonRepositoryCustomRepositoryParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]PythonRepositoryCustomRepositoryParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.PublicRepository != nil {
 		in, out := &in.PublicRepository, &out.PublicRepository

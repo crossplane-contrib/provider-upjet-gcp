@@ -48,8 +48,8 @@ func (in *BuildConfigInitParameters) DeepCopyInto(out *BuildConfigInitParameters
 	*out = *in
 	if in.AutomaticUpdatePolicy != nil {
 		in, out := &in.AutomaticUpdatePolicy, &out.AutomaticUpdatePolicy
-		*out = new(AutomaticUpdatePolicyInitParameters)
-		**out = **in
+		*out = make([]AutomaticUpdatePolicyInitParameters, len(*in))
+		copy(*out, *in)
 	}
 	if in.DockerRepository != nil {
 		in, out := &in.DockerRepository, &out.DockerRepository
@@ -89,8 +89,8 @@ func (in *BuildConfigInitParameters) DeepCopyInto(out *BuildConfigInitParameters
 	}
 	if in.OnDeployUpdatePolicy != nil {
 		in, out := &in.OnDeployUpdatePolicy, &out.OnDeployUpdatePolicy
-		*out = new(OnDeployUpdatePolicyInitParameters)
-		**out = **in
+		*out = make([]OnDeployUpdatePolicyInitParameters, len(*in))
+		copy(*out, *in)
 	}
 	if in.Runtime != nil {
 		in, out := &in.Runtime, &out.Runtime
@@ -151,8 +151,8 @@ func (in *BuildConfigObservation) DeepCopyInto(out *BuildConfigObservation) {
 	*out = *in
 	if in.AutomaticUpdatePolicy != nil {
 		in, out := &in.AutomaticUpdatePolicy, &out.AutomaticUpdatePolicy
-		*out = new(AutomaticUpdatePolicyParameters)
-		**out = **in
+		*out = make([]AutomaticUpdatePolicyParameters, len(*in))
+		copy(*out, *in)
 	}
 	if in.Build != nil {
 		in, out := &in.Build, &out.Build
@@ -187,8 +187,10 @@ func (in *BuildConfigObservation) DeepCopyInto(out *BuildConfigObservation) {
 	}
 	if in.OnDeployUpdatePolicy != nil {
 		in, out := &in.OnDeployUpdatePolicy, &out.OnDeployUpdatePolicy
-		*out = new(OnDeployUpdatePolicyObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]OnDeployUpdatePolicyObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.Runtime != nil {
 		in, out := &in.Runtime, &out.Runtime
@@ -229,8 +231,8 @@ func (in *BuildConfigParameters) DeepCopyInto(out *BuildConfigParameters) {
 	*out = *in
 	if in.AutomaticUpdatePolicy != nil {
 		in, out := &in.AutomaticUpdatePolicy, &out.AutomaticUpdatePolicy
-		*out = new(AutomaticUpdatePolicyParameters)
-		**out = **in
+		*out = make([]AutomaticUpdatePolicyParameters, len(*in))
+		copy(*out, *in)
 	}
 	if in.DockerRepository != nil {
 		in, out := &in.DockerRepository, &out.DockerRepository
@@ -270,8 +272,8 @@ func (in *BuildConfigParameters) DeepCopyInto(out *BuildConfigParameters) {
 	}
 	if in.OnDeployUpdatePolicy != nil {
 		in, out := &in.OnDeployUpdatePolicy, &out.OnDeployUpdatePolicy
-		*out = new(OnDeployUpdatePolicyParameters)
-		**out = **in
+		*out = make([]OnDeployUpdatePolicyParameters, len(*in))
+		copy(*out, *in)
 	}
 	if in.Runtime != nil {
 		in, out := &in.Runtime, &out.Runtime

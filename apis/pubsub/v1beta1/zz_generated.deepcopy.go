@@ -844,8 +844,10 @@ func (in *IngestionDataSourceSettingsInitParameters) DeepCopyInto(out *Ingestion
 	*out = *in
 	if in.AwsKinesis != nil {
 		in, out := &in.AwsKinesis, &out.AwsKinesis
-		*out = new(AwsKinesisInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]AwsKinesisInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -864,8 +866,10 @@ func (in *IngestionDataSourceSettingsObservation) DeepCopyInto(out *IngestionDat
 	*out = *in
 	if in.AwsKinesis != nil {
 		in, out := &in.AwsKinesis, &out.AwsKinesis
-		*out = new(AwsKinesisObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]AwsKinesisObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -884,8 +888,10 @@ func (in *IngestionDataSourceSettingsParameters) DeepCopyInto(out *IngestionData
 	*out = *in
 	if in.AwsKinesis != nil {
 		in, out := &in.AwsKinesis, &out.AwsKinesis
-		*out = new(AwsKinesisParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]AwsKinesisParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -3620,8 +3626,10 @@ func (in *TopicInitParameters) DeepCopyInto(out *TopicInitParameters) {
 	*out = *in
 	if in.IngestionDataSourceSettings != nil {
 		in, out := &in.IngestionDataSourceSettings, &out.IngestionDataSourceSettings
-		*out = new(IngestionDataSourceSettingsInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]IngestionDataSourceSettingsInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.KMSKeyName != nil {
 		in, out := &in.KMSKeyName, &out.KMSKeyName
@@ -3748,8 +3756,10 @@ func (in *TopicObservation) DeepCopyInto(out *TopicObservation) {
 	}
 	if in.IngestionDataSourceSettings != nil {
 		in, out := &in.IngestionDataSourceSettings, &out.IngestionDataSourceSettings
-		*out = new(IngestionDataSourceSettingsObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]IngestionDataSourceSettingsObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.KMSKeyName != nil {
 		in, out := &in.KMSKeyName, &out.KMSKeyName
@@ -3829,8 +3839,10 @@ func (in *TopicParameters) DeepCopyInto(out *TopicParameters) {
 	*out = *in
 	if in.IngestionDataSourceSettings != nil {
 		in, out := &in.IngestionDataSourceSettings, &out.IngestionDataSourceSettings
-		*out = new(IngestionDataSourceSettingsParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]IngestionDataSourceSettingsParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.KMSKeyName != nil {
 		in, out := &in.KMSKeyName, &out.KMSKeyName

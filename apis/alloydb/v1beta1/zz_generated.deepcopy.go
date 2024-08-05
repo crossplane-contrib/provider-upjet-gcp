@@ -1202,8 +1202,10 @@ func (in *ClusterInitParameters) DeepCopyInto(out *ClusterInitParameters) {
 	}
 	if in.MaintenanceUpdatePolicy != nil {
 		in, out := &in.MaintenanceUpdatePolicy, &out.MaintenanceUpdatePolicy
-		*out = new(MaintenanceUpdatePolicyInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]MaintenanceUpdatePolicyInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.Network != nil {
 		in, out := &in.Network, &out.Network
@@ -1234,8 +1236,10 @@ func (in *ClusterInitParameters) DeepCopyInto(out *ClusterInitParameters) {
 	}
 	if in.PscConfig != nil {
 		in, out := &in.PscConfig, &out.PscConfig
-		*out = new(PscConfigInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]PscConfigInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.RestoreBackupSource != nil {
 		in, out := &in.RestoreBackupSource, &out.RestoreBackupSource
@@ -1455,8 +1459,10 @@ func (in *ClusterObservation) DeepCopyInto(out *ClusterObservation) {
 	}
 	if in.MaintenanceUpdatePolicy != nil {
 		in, out := &in.MaintenanceUpdatePolicy, &out.MaintenanceUpdatePolicy
-		*out = new(MaintenanceUpdatePolicyObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]MaintenanceUpdatePolicyObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.MigrationSource != nil {
 		in, out := &in.MigrationSource, &out.MigrationSource
@@ -1489,8 +1495,10 @@ func (in *ClusterObservation) DeepCopyInto(out *ClusterObservation) {
 	}
 	if in.PscConfig != nil {
 		in, out := &in.PscConfig, &out.PscConfig
-		*out = new(PscConfigObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]PscConfigObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.Reconciling != nil {
 		in, out := &in.Reconciling, &out.Reconciling
@@ -1651,8 +1659,10 @@ func (in *ClusterParameters) DeepCopyInto(out *ClusterParameters) {
 	}
 	if in.MaintenanceUpdatePolicy != nil {
 		in, out := &in.MaintenanceUpdatePolicy, &out.MaintenanceUpdatePolicy
-		*out = new(MaintenanceUpdatePolicyParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]MaintenanceUpdatePolicyParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.Network != nil {
 		in, out := &in.Network, &out.Network
@@ -1683,8 +1693,10 @@ func (in *ClusterParameters) DeepCopyInto(out *ClusterParameters) {
 	}
 	if in.PscConfig != nil {
 		in, out := &in.PscConfig, &out.PscConfig
-		*out = new(PscConfigParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]PscConfigParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.RestoreBackupSource != nil {
 		in, out := &in.RestoreBackupSource, &out.RestoreBackupSource
@@ -2405,13 +2417,17 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 	}
 	if in.NetworkConfig != nil {
 		in, out := &in.NetworkConfig, &out.NetworkConfig
-		*out = new(InstanceNetworkConfigInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]InstanceNetworkConfigInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.PscInstanceConfig != nil {
 		in, out := &in.PscInstanceConfig, &out.PscInstanceConfig
-		*out = new(PscInstanceConfigInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]PscInstanceConfigInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.QueryInsightsConfig != nil {
 		in, out := &in.QueryInsightsConfig, &out.QueryInsightsConfig
@@ -2696,13 +2712,17 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 	}
 	if in.NetworkConfig != nil {
 		in, out := &in.NetworkConfig, &out.NetworkConfig
-		*out = new(InstanceNetworkConfigObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]InstanceNetworkConfigObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.PscInstanceConfig != nil {
 		in, out := &in.PscInstanceConfig, &out.PscInstanceConfig
-		*out = new(PscInstanceConfigObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]PscInstanceConfigObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.PublicIPAddress != nil {
 		in, out := &in.PublicIPAddress, &out.PublicIPAddress
@@ -2883,13 +2903,17 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 	}
 	if in.NetworkConfig != nil {
 		in, out := &in.NetworkConfig, &out.NetworkConfig
-		*out = new(InstanceNetworkConfigParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]InstanceNetworkConfigParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.PscInstanceConfig != nil {
 		in, out := &in.PscInstanceConfig, &out.PscInstanceConfig
-		*out = new(PscInstanceConfigParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]PscInstanceConfigParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.QueryInsightsConfig != nil {
 		in, out := &in.QueryInsightsConfig, &out.QueryInsightsConfig
@@ -3088,8 +3112,10 @@ func (in *MaintenanceWindowsInitParameters) DeepCopyInto(out *MaintenanceWindows
 	}
 	if in.StartTime != nil {
 		in, out := &in.StartTime, &out.StartTime
-		*out = new(StartTimeInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]StartTimeInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -3113,8 +3139,10 @@ func (in *MaintenanceWindowsObservation) DeepCopyInto(out *MaintenanceWindowsObs
 	}
 	if in.StartTime != nil {
 		in, out := &in.StartTime, &out.StartTime
-		*out = new(StartTimeObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]StartTimeObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -3138,8 +3166,10 @@ func (in *MaintenanceWindowsParameters) DeepCopyInto(out *MaintenanceWindowsPara
 	}
 	if in.StartTime != nil {
 		in, out := &in.StartTime, &out.StartTime
-		*out = new(StartTimeParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]StartTimeParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 

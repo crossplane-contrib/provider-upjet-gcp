@@ -45,8 +45,10 @@ func (in *AppProfileInitParameters) DeepCopyInto(out *AppProfileInitParameters) 
 	*out = *in
 	if in.DataBoostIsolationReadOnly != nil {
 		in, out := &in.DataBoostIsolationReadOnly, &out.DataBoostIsolationReadOnly
-		*out = new(DataBoostIsolationReadOnlyInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]DataBoostIsolationReadOnlyInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
@@ -142,8 +144,10 @@ func (in *AppProfileObservation) DeepCopyInto(out *AppProfileObservation) {
 	*out = *in
 	if in.DataBoostIsolationReadOnly != nil {
 		in, out := &in.DataBoostIsolationReadOnly, &out.DataBoostIsolationReadOnly
-		*out = new(DataBoostIsolationReadOnlyObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]DataBoostIsolationReadOnlyObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
@@ -222,8 +226,10 @@ func (in *AppProfileParameters) DeepCopyInto(out *AppProfileParameters) {
 	*out = *in
 	if in.DataBoostIsolationReadOnly != nil {
 		in, out := &in.DataBoostIsolationReadOnly, &out.DataBoostIsolationReadOnly
-		*out = new(DataBoostIsolationReadOnlyParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]DataBoostIsolationReadOnlyParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description

@@ -859,8 +859,10 @@ func (in *NetworkConfigInitParameters) DeepCopyInto(out *NetworkConfigInitParame
 	}
 	if in.PrivateServiceConnectConfig != nil {
 		in, out := &in.PrivateServiceConnectConfig, &out.PrivateServiceConnectConfig
-		*out = new(PrivateServiceConnectConfigInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]PrivateServiceConnectConfigInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -894,8 +896,10 @@ func (in *NetworkConfigObservation) DeepCopyInto(out *NetworkConfigObservation) 
 	}
 	if in.PrivateServiceConnectConfig != nil {
 		in, out := &in.PrivateServiceConnectConfig, &out.PrivateServiceConnectConfig
-		*out = new(PrivateServiceConnectConfigObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]PrivateServiceConnectConfigObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -929,8 +933,10 @@ func (in *NetworkConfigParameters) DeepCopyInto(out *NetworkConfigParameters) {
 	}
 	if in.PrivateServiceConnectConfig != nil {
 		in, out := &in.PrivateServiceConnectConfig, &out.PrivateServiceConnectConfig
-		*out = new(PrivateServiceConnectConfigParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]PrivateServiceConnectConfigParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 

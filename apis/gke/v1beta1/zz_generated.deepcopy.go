@@ -598,8 +598,10 @@ func (in *BackupScheduleInitParameters) DeepCopyInto(out *BackupScheduleInitPara
 	}
 	if in.RpoConfig != nil {
 		in, out := &in.RpoConfig, &out.RpoConfig
-		*out = new(RpoConfigInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]RpoConfigInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -628,8 +630,10 @@ func (in *BackupScheduleObservation) DeepCopyInto(out *BackupScheduleObservation
 	}
 	if in.RpoConfig != nil {
 		in, out := &in.RpoConfig, &out.RpoConfig
-		*out = new(RpoConfigObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]RpoConfigObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -658,8 +662,10 @@ func (in *BackupScheduleParameters) DeepCopyInto(out *BackupScheduleParameters) 
 	}
 	if in.RpoConfig != nil {
 		in, out := &in.RpoConfig, &out.RpoConfig
-		*out = new(RpoConfigParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]RpoConfigParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -841,8 +847,10 @@ func (in *ExclusionWindowsInitParameters) DeepCopyInto(out *ExclusionWindowsInit
 	}
 	if in.DaysOfWeek != nil {
 		in, out := &in.DaysOfWeek, &out.DaysOfWeek
-		*out = new(DaysOfWeekInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]DaysOfWeekInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.Duration != nil {
 		in, out := &in.Duration, &out.Duration
@@ -851,13 +859,17 @@ func (in *ExclusionWindowsInitParameters) DeepCopyInto(out *ExclusionWindowsInit
 	}
 	if in.SingleOccurrenceDate != nil {
 		in, out := &in.SingleOccurrenceDate, &out.SingleOccurrenceDate
-		*out = new(SingleOccurrenceDateInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]SingleOccurrenceDateInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.StartTime != nil {
 		in, out := &in.StartTime, &out.StartTime
-		*out = new(StartTimeInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]StartTimeInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -881,8 +893,10 @@ func (in *ExclusionWindowsObservation) DeepCopyInto(out *ExclusionWindowsObserva
 	}
 	if in.DaysOfWeek != nil {
 		in, out := &in.DaysOfWeek, &out.DaysOfWeek
-		*out = new(DaysOfWeekObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]DaysOfWeekObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.Duration != nil {
 		in, out := &in.Duration, &out.Duration
@@ -891,13 +905,17 @@ func (in *ExclusionWindowsObservation) DeepCopyInto(out *ExclusionWindowsObserva
 	}
 	if in.SingleOccurrenceDate != nil {
 		in, out := &in.SingleOccurrenceDate, &out.SingleOccurrenceDate
-		*out = new(SingleOccurrenceDateObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]SingleOccurrenceDateObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.StartTime != nil {
 		in, out := &in.StartTime, &out.StartTime
-		*out = new(StartTimeObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]StartTimeObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -921,8 +939,10 @@ func (in *ExclusionWindowsParameters) DeepCopyInto(out *ExclusionWindowsParamete
 	}
 	if in.DaysOfWeek != nil {
 		in, out := &in.DaysOfWeek, &out.DaysOfWeek
-		*out = new(DaysOfWeekParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]DaysOfWeekParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.Duration != nil {
 		in, out := &in.Duration, &out.Duration
@@ -931,13 +951,17 @@ func (in *ExclusionWindowsParameters) DeepCopyInto(out *ExclusionWindowsParamete
 	}
 	if in.SingleOccurrenceDate != nil {
 		in, out := &in.SingleOccurrenceDate, &out.SingleOccurrenceDate
-		*out = new(SingleOccurrenceDateParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]SingleOccurrenceDateParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.StartTime != nil {
 		in, out := &in.StartTime, &out.StartTime
-		*out = new(StartTimeParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]StartTimeParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 

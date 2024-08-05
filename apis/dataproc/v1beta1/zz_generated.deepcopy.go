@@ -9426,8 +9426,10 @@ func (in *MetastoreServiceInitParameters) DeepCopyInto(out *MetastoreServiceInit
 	}
 	if in.ScheduledBackup != nil {
 		in, out := &in.ScheduledBackup, &out.ScheduledBackup
-		*out = new(ScheduledBackupInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]ScheduledBackupInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.TelemetryConfig != nil {
 		in, out := &in.TelemetryConfig, &out.TelemetryConfig
@@ -9614,8 +9616,10 @@ func (in *MetastoreServiceObservation) DeepCopyInto(out *MetastoreServiceObserva
 	}
 	if in.ScheduledBackup != nil {
 		in, out := &in.ScheduledBackup, &out.ScheduledBackup
-		*out = new(ScheduledBackupObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]ScheduledBackupObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.State != nil {
 		in, out := &in.State, &out.State
@@ -9765,8 +9769,10 @@ func (in *MetastoreServiceParameters) DeepCopyInto(out *MetastoreServiceParamete
 	}
 	if in.ScheduledBackup != nil {
 		in, out := &in.ScheduledBackup, &out.ScheduledBackup
-		*out = new(ScheduledBackupParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]ScheduledBackupParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.TelemetryConfig != nil {
 		in, out := &in.TelemetryConfig, &out.TelemetryConfig

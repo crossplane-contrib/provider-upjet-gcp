@@ -297,29 +297,35 @@ spec:
                             type: object
                           type: array
                         containerdConfig:
-                          properties:
-                            privateRegistryAccessConfig:
-                              properties:
-                                certificateAuthorityDomainConfig:
-                                  items:
-                                    properties:
-                                      fqdns:
-                                        items:
-                                          type: string
-                                        type: array
-                                      gcpSecretManagerCertificateConfig:
+                          items:
+                            properties:
+                              privateRegistryAccessConfig:
+                                items:
+                                  properties:
+                                    certificateAuthorityDomainConfig:
+                                      items:
                                         properties:
-                                          secretUri:
-                                            type: string
+                                          fqdns:
+                                            items:
+                                              type: string
+                                            type: array
+                                          gcpSecretManagerCertificateConfig:
+                                            items:
+                                              properties:
+                                                secretUri:
+                                                  type: string
+                                              type: object
+                                            type: array
                                         type: object
-                                    type: object
-                                  type: array
-                                enabled:
-                                  description: Makes nodes obtainable through the
-                                    ProvisioningRequest API exclusively.
-                                  type: boolean
-                              type: object
-                          type: object
+                                      type: array
+                                    enabled:
+                                      description: Makes nodes obtainable through
+                                        the ProvisioningRequest API exclusively.
+                                      type: boolean
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
                         diskSizeGb:
                           type: number
                         diskType:
@@ -686,12 +692,14 @@ spec:
                     description: |-
                       Specifies node pool-level settings of queued provisioning.
                       Structure is documented below.
-                    properties:
-                      enabled:
-                        description: Makes nodes obtainable through the ProvisioningRequest
-                          API exclusively.
-                        type: boolean
-                    type: object
+                    items:
+                      properties:
+                        enabled:
+                          description: Makes nodes obtainable through the ProvisioningRequest
+                            API exclusively.
+                          type: boolean
+                      type: object
+                    type: array
                   upgradeSettings:
                     description: |-
                       Specify node upgrade settings to change how GKE upgrades nodes.
@@ -909,29 +917,35 @@ spec:
                             type: object
                           type: array
                         containerdConfig:
-                          properties:
-                            privateRegistryAccessConfig:
-                              properties:
-                                certificateAuthorityDomainConfig:
-                                  items:
-                                    properties:
-                                      fqdns:
-                                        items:
-                                          type: string
-                                        type: array
-                                      gcpSecretManagerCertificateConfig:
+                          items:
+                            properties:
+                              privateRegistryAccessConfig:
+                                items:
+                                  properties:
+                                    certificateAuthorityDomainConfig:
+                                      items:
                                         properties:
-                                          secretUri:
-                                            type: string
+                                          fqdns:
+                                            items:
+                                              type: string
+                                            type: array
+                                          gcpSecretManagerCertificateConfig:
+                                            items:
+                                              properties:
+                                                secretUri:
+                                                  type: string
+                                              type: object
+                                            type: array
                                         type: object
-                                    type: object
-                                  type: array
-                                enabled:
-                                  description: Makes nodes obtainable through the
-                                    ProvisioningRequest API exclusively.
-                                  type: boolean
-                              type: object
-                          type: object
+                                      type: array
+                                    enabled:
+                                      description: Makes nodes obtainable through
+                                        the ProvisioningRequest API exclusively.
+                                      type: boolean
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
                         diskSizeGb:
                           type: number
                         diskType:
@@ -1298,12 +1312,14 @@ spec:
                     description: |-
                       Specifies node pool-level settings of queued provisioning.
                       Structure is documented below.
-                    properties:
-                      enabled:
-                        description: Makes nodes obtainable through the ProvisioningRequest
-                          API exclusively.
-                        type: boolean
-                    type: object
+                    items:
+                      properties:
+                        enabled:
+                          description: Makes nodes obtainable through the ProvisioningRequest
+                            API exclusively.
+                          type: boolean
+                      type: object
+                    type: array
                   upgradeSettings:
                     description: |-
                       Specify node upgrade settings to change how GKE upgrades nodes.
@@ -1704,29 +1720,35 @@ spec:
                             type: object
                           type: array
                         containerdConfig:
-                          properties:
-                            privateRegistryAccessConfig:
-                              properties:
-                                certificateAuthorityDomainConfig:
-                                  items:
-                                    properties:
-                                      fqdns:
-                                        items:
-                                          type: string
-                                        type: array
-                                      gcpSecretManagerCertificateConfig:
+                          items:
+                            properties:
+                              privateRegistryAccessConfig:
+                                items:
+                                  properties:
+                                    certificateAuthorityDomainConfig:
+                                      items:
                                         properties:
-                                          secretUri:
-                                            type: string
+                                          fqdns:
+                                            items:
+                                              type: string
+                                            type: array
+                                          gcpSecretManagerCertificateConfig:
+                                            items:
+                                              properties:
+                                                secretUri:
+                                                  type: string
+                                              type: object
+                                            type: array
                                         type: object
-                                    type: object
-                                  type: array
-                                enabled:
-                                  description: Makes nodes obtainable through the
-                                    ProvisioningRequest API exclusively.
-                                  type: boolean
-                              type: object
-                          type: object
+                                      type: array
+                                    enabled:
+                                      description: Makes nodes obtainable through
+                                        the ProvisioningRequest API exclusively.
+                                      type: boolean
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
                         diskSizeGb:
                           type: number
                         diskType:
@@ -2030,12 +2052,14 @@ spec:
                     description: |-
                       Specifies node pool-level settings of queued provisioning.
                       Structure is documented below.
-                    properties:
-                      enabled:
-                        description: Makes nodes obtainable through the ProvisioningRequest
-                          API exclusively.
-                        type: boolean
-                    type: object
+                    items:
+                      properties:
+                        enabled:
+                          description: Makes nodes obtainable through the ProvisioningRequest
+                            API exclusively.
+                          type: boolean
+                      type: object
+                    type: array
                   upgradeSettings:
                     description: |-
                       Specify node upgrade settings to change how GKE upgrades nodes.

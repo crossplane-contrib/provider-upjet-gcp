@@ -951,8 +951,10 @@ func (in *CryptoKeyVersionInitParameters) DeepCopyInto(out *CryptoKeyVersionInit
 	}
 	if in.ExternalProtectionLevelOptions != nil {
 		in, out := &in.ExternalProtectionLevelOptions, &out.ExternalProtectionLevelOptions
-		*out = new(CryptoKeyVersionExternalProtectionLevelOptionsInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]CryptoKeyVersionExternalProtectionLevelOptionsInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.State != nil {
 		in, out := &in.State, &out.State
@@ -1025,8 +1027,10 @@ func (in *CryptoKeyVersionObservation) DeepCopyInto(out *CryptoKeyVersionObserva
 	}
 	if in.ExternalProtectionLevelOptions != nil {
 		in, out := &in.ExternalProtectionLevelOptions, &out.ExternalProtectionLevelOptions
-		*out = new(CryptoKeyVersionExternalProtectionLevelOptionsObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]CryptoKeyVersionExternalProtectionLevelOptionsObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.GenerateTime != nil {
 		in, out := &in.GenerateTime, &out.GenerateTime
@@ -1085,8 +1089,10 @@ func (in *CryptoKeyVersionParameters) DeepCopyInto(out *CryptoKeyVersionParamete
 	}
 	if in.ExternalProtectionLevelOptions != nil {
 		in, out := &in.ExternalProtectionLevelOptions, &out.ExternalProtectionLevelOptions
-		*out = new(CryptoKeyVersionExternalProtectionLevelOptionsParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]CryptoKeyVersionExternalProtectionLevelOptionsParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.State != nil {
 		in, out := &in.State, &out.State

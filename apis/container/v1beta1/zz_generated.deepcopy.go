@@ -7308,8 +7308,10 @@ func (in *NodeConfigContainerdConfigPrivateRegistryAccessConfigCertificateAuthor
 	}
 	if in.GCPSecretManagerCertificateConfig != nil {
 		in, out := &in.GCPSecretManagerCertificateConfig, &out.GCPSecretManagerCertificateConfig
-		*out = new(ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -7339,8 +7341,10 @@ func (in *NodeConfigContainerdConfigPrivateRegistryAccessConfigCertificateAuthor
 	}
 	if in.GCPSecretManagerCertificateConfig != nil {
 		in, out := &in.GCPSecretManagerCertificateConfig, &out.GCPSecretManagerCertificateConfig
-		*out = new(ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -7370,8 +7374,10 @@ func (in *NodeConfigContainerdConfigPrivateRegistryAccessConfigCertificateAuthor
 	}
 	if in.GCPSecretManagerCertificateConfig != nil {
 		in, out := &in.GCPSecretManagerCertificateConfig, &out.GCPSecretManagerCertificateConfig
-		*out = new(ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -10143,8 +10149,10 @@ func (in *NodePoolInitParameters_2) DeepCopyInto(out *NodePoolInitParameters_2) 
 	}
 	if in.QueuedProvisioning != nil {
 		in, out := &in.QueuedProvisioning, &out.QueuedProvisioning
-		*out = new(NodePoolQueuedProvisioningInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]NodePoolQueuedProvisioningInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.UpgradeSettings != nil {
 		in, out := &in.UpgradeSettings, &out.UpgradeSettings
@@ -10729,8 +10737,10 @@ func (in *NodePoolNodeConfigContainerdConfigInitParameters) DeepCopyInto(out *No
 	*out = *in
 	if in.PrivateRegistryAccessConfig != nil {
 		in, out := &in.PrivateRegistryAccessConfig, &out.PrivateRegistryAccessConfig
-		*out = new(NodeConfigContainerdConfigPrivateRegistryAccessConfigInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]NodeConfigContainerdConfigPrivateRegistryAccessConfigInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -10749,8 +10759,10 @@ func (in *NodePoolNodeConfigContainerdConfigObservation) DeepCopyInto(out *NodeP
 	*out = *in
 	if in.PrivateRegistryAccessConfig != nil {
 		in, out := &in.PrivateRegistryAccessConfig, &out.PrivateRegistryAccessConfig
-		*out = new(NodeConfigContainerdConfigPrivateRegistryAccessConfigObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]NodeConfigContainerdConfigPrivateRegistryAccessConfigObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -10769,8 +10781,10 @@ func (in *NodePoolNodeConfigContainerdConfigParameters) DeepCopyInto(out *NodePo
 	*out = *in
 	if in.PrivateRegistryAccessConfig != nil {
 		in, out := &in.PrivateRegistryAccessConfig, &out.PrivateRegistryAccessConfig
-		*out = new(NodeConfigContainerdConfigPrivateRegistryAccessConfigParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]NodeConfigContainerdConfigPrivateRegistryAccessConfigParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -11315,8 +11329,10 @@ func (in *NodePoolNodeConfigInitParameters_2) DeepCopyInto(out *NodePoolNodeConf
 	}
 	if in.ContainerdConfig != nil {
 		in, out := &in.ContainerdConfig, &out.ContainerdConfig
-		*out = new(NodePoolNodeConfigContainerdConfigInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]NodePoolNodeConfigContainerdConfigInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.DiskSizeGb != nil {
 		in, out := &in.DiskSizeGb, &out.DiskSizeGb
@@ -12190,8 +12206,10 @@ func (in *NodePoolNodeConfigObservation_2) DeepCopyInto(out *NodePoolNodeConfigO
 	}
 	if in.ContainerdConfig != nil {
 		in, out := &in.ContainerdConfig, &out.ContainerdConfig
-		*out = new(NodePoolNodeConfigContainerdConfigObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]NodePoolNodeConfigContainerdConfigObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.DiskSizeGb != nil {
 		in, out := &in.DiskSizeGb, &out.DiskSizeGb
@@ -12507,8 +12525,10 @@ func (in *NodePoolNodeConfigParameters_2) DeepCopyInto(out *NodePoolNodeConfigPa
 	}
 	if in.ContainerdConfig != nil {
 		in, out := &in.ContainerdConfig, &out.ContainerdConfig
-		*out = new(NodePoolNodeConfigContainerdConfigParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]NodePoolNodeConfigContainerdConfigParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.DiskSizeGb != nil {
 		in, out := &in.DiskSizeGb, &out.DiskSizeGb
@@ -13555,8 +13575,10 @@ func (in *NodePoolObservation_2) DeepCopyInto(out *NodePoolObservation_2) {
 	}
 	if in.QueuedProvisioning != nil {
 		in, out := &in.QueuedProvisioning, &out.QueuedProvisioning
-		*out = new(NodePoolQueuedProvisioningObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]NodePoolQueuedProvisioningObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.UpgradeSettings != nil {
 		in, out := &in.UpgradeSettings, &out.UpgradeSettings
@@ -13688,8 +13710,10 @@ func (in *NodePoolParameters_2) DeepCopyInto(out *NodePoolParameters_2) {
 	}
 	if in.QueuedProvisioning != nil {
 		in, out := &in.QueuedProvisioning, &out.QueuedProvisioning
-		*out = new(NodePoolQueuedProvisioningParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]NodePoolQueuedProvisioningParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.UpgradeSettings != nil {
 		in, out := &in.UpgradeSettings, &out.UpgradeSettings

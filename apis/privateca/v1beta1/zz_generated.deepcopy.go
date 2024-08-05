@@ -1693,8 +1693,10 @@ func (in *CertificateAuthorityConfigInitParameters) DeepCopyInto(out *Certificat
 	}
 	if in.SubjectKeyID != nil {
 		in, out := &in.SubjectKeyID, &out.SubjectKeyID
-		*out = new(CertificateAuthorityConfigSubjectKeyIDInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]CertificateAuthorityConfigSubjectKeyIDInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.X509Config != nil {
 		in, out := &in.X509Config, &out.X509Config
@@ -1727,8 +1729,10 @@ func (in *CertificateAuthorityConfigObservation) DeepCopyInto(out *CertificateAu
 	}
 	if in.SubjectKeyID != nil {
 		in, out := &in.SubjectKeyID, &out.SubjectKeyID
-		*out = new(CertificateAuthorityConfigSubjectKeyIDObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]CertificateAuthorityConfigSubjectKeyIDObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.X509Config != nil {
 		in, out := &in.X509Config, &out.X509Config
@@ -1761,8 +1765,10 @@ func (in *CertificateAuthorityConfigParameters) DeepCopyInto(out *CertificateAut
 	}
 	if in.SubjectKeyID != nil {
 		in, out := &in.SubjectKeyID, &out.SubjectKeyID
-		*out = new(CertificateAuthorityConfigSubjectKeyIDParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]CertificateAuthorityConfigSubjectKeyIDParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.X509Config != nil {
 		in, out := &in.X509Config, &out.X509Config
@@ -3735,8 +3741,10 @@ func (in *ConfigInitParameters) DeepCopyInto(out *ConfigInitParameters) {
 	}
 	if in.SubjectKeyID != nil {
 		in, out := &in.SubjectKeyID, &out.SubjectKeyID
-		*out = new(ConfigSubjectKeyIDInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]ConfigSubjectKeyIDInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.X509Config != nil {
 		in, out := &in.X509Config, &out.X509Config
@@ -3776,8 +3784,10 @@ func (in *ConfigObservation) DeepCopyInto(out *ConfigObservation) {
 	}
 	if in.SubjectKeyID != nil {
 		in, out := &in.SubjectKeyID, &out.SubjectKeyID
-		*out = new(ConfigSubjectKeyIDObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]ConfigSubjectKeyIDObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.X509Config != nil {
 		in, out := &in.X509Config, &out.X509Config
@@ -3817,8 +3827,10 @@ func (in *ConfigParameters) DeepCopyInto(out *ConfigParameters) {
 	}
 	if in.SubjectKeyID != nil {
 		in, out := &in.SubjectKeyID, &out.SubjectKeyID
-		*out = new(ConfigSubjectKeyIDParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]ConfigSubjectKeyIDParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.X509Config != nil {
 		in, out := &in.X509Config, &out.X509Config

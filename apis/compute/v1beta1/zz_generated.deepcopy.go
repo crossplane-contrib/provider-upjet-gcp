@@ -11661,8 +11661,10 @@ func (in *ExprOptionsInitParameters) DeepCopyInto(out *ExprOptionsInitParameters
 	*out = *in
 	if in.RecaptchaOptions != nil {
 		in, out := &in.RecaptchaOptions, &out.RecaptchaOptions
-		*out = new(RecaptchaOptionsInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]RecaptchaOptionsInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -11681,8 +11683,10 @@ func (in *ExprOptionsObservation) DeepCopyInto(out *ExprOptionsObservation) {
 	*out = *in
 	if in.RecaptchaOptions != nil {
 		in, out := &in.RecaptchaOptions, &out.RecaptchaOptions
-		*out = new(RecaptchaOptionsObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]RecaptchaOptionsObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -11701,8 +11705,10 @@ func (in *ExprOptionsParameters) DeepCopyInto(out *ExprOptionsParameters) {
 	*out = *in
 	if in.RecaptchaOptions != nil {
 		in, out := &in.RecaptchaOptions, &out.RecaptchaOptions
-		*out = new(RecaptchaOptionsParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]RecaptchaOptionsParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -23108,8 +23114,10 @@ func (in *InstanceFromTemplateSchedulingInitParameters) DeepCopyInto(out *Instan
 	}
 	if in.MaxRunDuration != nil {
 		in, out := &in.MaxRunDuration, &out.MaxRunDuration
-		*out = new(SchedulingMaxRunDurationInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]SchedulingMaxRunDurationInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.MinNodeCpus != nil {
 		in, out := &in.MinNodeCpus, &out.MinNodeCpus
@@ -23130,8 +23138,10 @@ func (in *InstanceFromTemplateSchedulingInitParameters) DeepCopyInto(out *Instan
 	}
 	if in.OnInstanceStopAction != nil {
 		in, out := &in.OnInstanceStopAction, &out.OnInstanceStopAction
-		*out = new(SchedulingOnInstanceStopActionInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]SchedulingOnInstanceStopActionInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.Preemptible != nil {
 		in, out := &in.Preemptible, &out.Preemptible
@@ -23177,8 +23187,10 @@ func (in *InstanceFromTemplateSchedulingObservation) DeepCopyInto(out *InstanceF
 	}
 	if in.MaxRunDuration != nil {
 		in, out := &in.MaxRunDuration, &out.MaxRunDuration
-		*out = new(SchedulingMaxRunDurationObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]SchedulingMaxRunDurationObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.MinNodeCpus != nil {
 		in, out := &in.MinNodeCpus, &out.MinNodeCpus
@@ -23199,8 +23211,10 @@ func (in *InstanceFromTemplateSchedulingObservation) DeepCopyInto(out *InstanceF
 	}
 	if in.OnInstanceStopAction != nil {
 		in, out := &in.OnInstanceStopAction, &out.OnInstanceStopAction
-		*out = new(SchedulingOnInstanceStopActionObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]SchedulingOnInstanceStopActionObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.Preemptible != nil {
 		in, out := &in.Preemptible, &out.Preemptible
@@ -23246,8 +23260,10 @@ func (in *InstanceFromTemplateSchedulingParameters) DeepCopyInto(out *InstanceFr
 	}
 	if in.MaxRunDuration != nil {
 		in, out := &in.MaxRunDuration, &out.MaxRunDuration
-		*out = new(SchedulingMaxRunDurationParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]SchedulingMaxRunDurationParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.MinNodeCpus != nil {
 		in, out := &in.MinNodeCpus, &out.MinNodeCpus
@@ -23268,8 +23284,10 @@ func (in *InstanceFromTemplateSchedulingParameters) DeepCopyInto(out *InstanceFr
 	}
 	if in.OnInstanceStopAction != nil {
 		in, out := &in.OnInstanceStopAction, &out.OnInstanceStopAction
-		*out = new(SchedulingOnInstanceStopActionParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]SchedulingOnInstanceStopActionParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.Preemptible != nil {
 		in, out := &in.Preemptible, &out.Preemptible
@@ -28368,8 +28386,10 @@ func (in *InstanceTemplateSchedulingInitParameters) DeepCopyInto(out *InstanceTe
 	}
 	if in.MaxRunDuration != nil {
 		in, out := &in.MaxRunDuration, &out.MaxRunDuration
-		*out = new(InstanceTemplateSchedulingMaxRunDurationInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]InstanceTemplateSchedulingMaxRunDurationInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.MinNodeCpus != nil {
 		in, out := &in.MinNodeCpus, &out.MinNodeCpus
@@ -28390,8 +28410,10 @@ func (in *InstanceTemplateSchedulingInitParameters) DeepCopyInto(out *InstanceTe
 	}
 	if in.OnInstanceStopAction != nil {
 		in, out := &in.OnInstanceStopAction, &out.OnInstanceStopAction
-		*out = new(InstanceTemplateSchedulingOnInstanceStopActionInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]InstanceTemplateSchedulingOnInstanceStopActionInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.Preemptible != nil {
 		in, out := &in.Preemptible, &out.Preemptible
@@ -28695,8 +28717,10 @@ func (in *InstanceTemplateSchedulingObservation) DeepCopyInto(out *InstanceTempl
 	}
 	if in.MaxRunDuration != nil {
 		in, out := &in.MaxRunDuration, &out.MaxRunDuration
-		*out = new(InstanceTemplateSchedulingMaxRunDurationObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]InstanceTemplateSchedulingMaxRunDurationObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.MinNodeCpus != nil {
 		in, out := &in.MinNodeCpus, &out.MinNodeCpus
@@ -28717,8 +28741,10 @@ func (in *InstanceTemplateSchedulingObservation) DeepCopyInto(out *InstanceTempl
 	}
 	if in.OnInstanceStopAction != nil {
 		in, out := &in.OnInstanceStopAction, &out.OnInstanceStopAction
-		*out = new(InstanceTemplateSchedulingOnInstanceStopActionObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]InstanceTemplateSchedulingOnInstanceStopActionObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.Preemptible != nil {
 		in, out := &in.Preemptible, &out.Preemptible
@@ -28824,8 +28850,10 @@ func (in *InstanceTemplateSchedulingParameters) DeepCopyInto(out *InstanceTempla
 	}
 	if in.MaxRunDuration != nil {
 		in, out := &in.MaxRunDuration, &out.MaxRunDuration
-		*out = new(InstanceTemplateSchedulingMaxRunDurationParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]InstanceTemplateSchedulingMaxRunDurationParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.MinNodeCpus != nil {
 		in, out := &in.MinNodeCpus, &out.MinNodeCpus
@@ -28846,8 +28874,10 @@ func (in *InstanceTemplateSchedulingParameters) DeepCopyInto(out *InstanceTempla
 	}
 	if in.OnInstanceStopAction != nil {
 		in, out := &in.OnInstanceStopAction, &out.OnInstanceStopAction
-		*out = new(InstanceTemplateSchedulingOnInstanceStopActionParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]InstanceTemplateSchedulingOnInstanceStopActionParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.Preemptible != nil {
 		in, out := &in.Preemptible, &out.Preemptible
@@ -63068,8 +63098,10 @@ func (in *RuleMatchInitParameters) DeepCopyInto(out *RuleMatchInitParameters) {
 	}
 	if in.ExprOptions != nil {
 		in, out := &in.ExprOptions, &out.ExprOptions
-		*out = new(ExprOptionsInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]ExprOptionsInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.VersionedExpr != nil {
 		in, out := &in.VersionedExpr, &out.VersionedExpr
@@ -63107,8 +63139,10 @@ func (in *RuleMatchObservation) DeepCopyInto(out *RuleMatchObservation) {
 	}
 	if in.ExprOptions != nil {
 		in, out := &in.ExprOptions, &out.ExprOptions
-		*out = new(ExprOptionsObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]ExprOptionsObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.VersionedExpr != nil {
 		in, out := &in.VersionedExpr, &out.VersionedExpr
@@ -63146,8 +63180,10 @@ func (in *RuleMatchParameters) DeepCopyInto(out *RuleMatchParameters) {
 	}
 	if in.ExprOptions != nil {
 		in, out := &in.ExprOptions, &out.ExprOptions
-		*out = new(ExprOptionsParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]ExprOptionsParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.VersionedExpr != nil {
 		in, out := &in.VersionedExpr, &out.VersionedExpr
@@ -64435,8 +64471,10 @@ func (in *SchedulingInitParameters) DeepCopyInto(out *SchedulingInitParameters) 
 	}
 	if in.MaxRunDuration != nil {
 		in, out := &in.MaxRunDuration, &out.MaxRunDuration
-		*out = new(MaxRunDurationInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]MaxRunDurationInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.MinNodeCpus != nil {
 		in, out := &in.MinNodeCpus, &out.MinNodeCpus
@@ -64457,8 +64495,10 @@ func (in *SchedulingInitParameters) DeepCopyInto(out *SchedulingInitParameters) 
 	}
 	if in.OnInstanceStopAction != nil {
 		in, out := &in.OnInstanceStopAction, &out.OnInstanceStopAction
-		*out = new(OnInstanceStopActionInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]OnInstanceStopActionInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.Preemptible != nil {
 		in, out := &in.Preemptible, &out.Preemptible
@@ -64762,8 +64802,10 @@ func (in *SchedulingObservation) DeepCopyInto(out *SchedulingObservation) {
 	}
 	if in.MaxRunDuration != nil {
 		in, out := &in.MaxRunDuration, &out.MaxRunDuration
-		*out = new(MaxRunDurationObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]MaxRunDurationObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.MinNodeCpus != nil {
 		in, out := &in.MinNodeCpus, &out.MinNodeCpus
@@ -64784,8 +64826,10 @@ func (in *SchedulingObservation) DeepCopyInto(out *SchedulingObservation) {
 	}
 	if in.OnInstanceStopAction != nil {
 		in, out := &in.OnInstanceStopAction, &out.OnInstanceStopAction
-		*out = new(OnInstanceStopActionObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]OnInstanceStopActionObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.Preemptible != nil {
 		in, out := &in.Preemptible, &out.Preemptible
@@ -64891,8 +64935,10 @@ func (in *SchedulingParameters) DeepCopyInto(out *SchedulingParameters) {
 	}
 	if in.MaxRunDuration != nil {
 		in, out := &in.MaxRunDuration, &out.MaxRunDuration
-		*out = new(MaxRunDurationParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]MaxRunDurationParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.MinNodeCpus != nil {
 		in, out := &in.MinNodeCpus, &out.MinNodeCpus
@@ -64913,8 +64959,10 @@ func (in *SchedulingParameters) DeepCopyInto(out *SchedulingParameters) {
 	}
 	if in.OnInstanceStopAction != nil {
 		in, out := &in.OnInstanceStopAction, &out.OnInstanceStopAction
-		*out = new(OnInstanceStopActionParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]OnInstanceStopActionParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.Preemptible != nil {
 		in, out := &in.Preemptible, &out.Preemptible
@@ -65391,8 +65439,10 @@ func (in *SecuritySettingsInitParameters) DeepCopyInto(out *SecuritySettingsInit
 	*out = *in
 	if in.AwsV4Authentication != nil {
 		in, out := &in.AwsV4Authentication, &out.AwsV4Authentication
-		*out = new(AwsV4AuthenticationInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]AwsV4AuthenticationInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.ClientTLSPolicy != nil {
 		in, out := &in.ClientTLSPolicy, &out.ClientTLSPolicy
@@ -65427,8 +65477,10 @@ func (in *SecuritySettingsObservation) DeepCopyInto(out *SecuritySettingsObserva
 	*out = *in
 	if in.AwsV4Authentication != nil {
 		in, out := &in.AwsV4Authentication, &out.AwsV4Authentication
-		*out = new(AwsV4AuthenticationObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]AwsV4AuthenticationObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.ClientTLSPolicy != nil {
 		in, out := &in.ClientTLSPolicy, &out.ClientTLSPolicy
@@ -65463,8 +65515,10 @@ func (in *SecuritySettingsParameters) DeepCopyInto(out *SecuritySettingsParamete
 	*out = *in
 	if in.AwsV4Authentication != nil {
 		in, out := &in.AwsV4Authentication, &out.AwsV4Authentication
-		*out = new(AwsV4AuthenticationParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]AwsV4AuthenticationParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.ClientTLSPolicy != nil {
 		in, out := &in.ClientTLSPolicy, &out.ClientTLSPolicy

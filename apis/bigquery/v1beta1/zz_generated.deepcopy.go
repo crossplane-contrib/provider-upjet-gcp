@@ -6868,8 +6868,10 @@ func (in *ExternalDataConfigurationInitParameters) DeepCopyInto(out *ExternalDat
 	}
 	if in.BigtableOptions != nil {
 		in, out := &in.BigtableOptions, &out.BigtableOptions
-		*out = new(BigtableOptionsInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]BigtableOptionsInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.Compression != nil {
 		in, out := &in.Compression, &out.Compression
@@ -7001,8 +7003,10 @@ func (in *ExternalDataConfigurationObservation) DeepCopyInto(out *ExternalDataCo
 	}
 	if in.BigtableOptions != nil {
 		in, out := &in.BigtableOptions, &out.BigtableOptions
-		*out = new(BigtableOptionsObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]BigtableOptionsObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.Compression != nil {
 		in, out := &in.Compression, &out.Compression
@@ -7134,8 +7138,10 @@ func (in *ExternalDataConfigurationParameters) DeepCopyInto(out *ExternalDataCon
 	}
 	if in.BigtableOptions != nil {
 		in, out := &in.BigtableOptions, &out.BigtableOptions
-		*out = new(BigtableOptionsParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]BigtableOptionsParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.Compression != nil {
 		in, out := &in.Compression, &out.Compression

@@ -4206,8 +4206,10 @@ func (in *HTTPCheckInitParameters) DeepCopyInto(out *HTTPCheckInitParameters) {
 	}
 	if in.ServiceAgentAuthentication != nil {
 		in, out := &in.ServiceAgentAuthentication, &out.ServiceAgentAuthentication
-		*out = new(ServiceAgentAuthenticationInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]ServiceAgentAuthenticationInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.UseSSL != nil {
 		in, out := &in.UseSSL, &out.UseSSL
@@ -4308,8 +4310,10 @@ func (in *HTTPCheckObservation) DeepCopyInto(out *HTTPCheckObservation) {
 	}
 	if in.ServiceAgentAuthentication != nil {
 		in, out := &in.ServiceAgentAuthentication, &out.ServiceAgentAuthentication
-		*out = new(ServiceAgentAuthenticationObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]ServiceAgentAuthenticationObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.UseSSL != nil {
 		in, out := &in.UseSSL, &out.UseSSL
@@ -4410,8 +4414,10 @@ func (in *HTTPCheckParameters) DeepCopyInto(out *HTTPCheckParameters) {
 	}
 	if in.ServiceAgentAuthentication != nil {
 		in, out := &in.ServiceAgentAuthentication, &out.ServiceAgentAuthentication
-		*out = new(ServiceAgentAuthenticationParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]ServiceAgentAuthenticationParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.UseSSL != nil {
 		in, out := &in.UseSSL, &out.UseSSL
