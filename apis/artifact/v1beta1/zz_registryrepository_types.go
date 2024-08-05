@@ -213,7 +213,7 @@ type DockerRepositoryInitParameters struct {
 
 	// Settings for a remote repository with a custom uri.
 	// Structure is documented below.
-	CustomRepository *CustomRepositoryInitParameters `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
+	CustomRepository []CustomRepositoryInitParameters `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
 
 	// One of the publicly available Yum repositories supported by Artifact Registry.
 	// Structure is documented below.
@@ -224,7 +224,7 @@ type DockerRepositoryObservation struct {
 
 	// Settings for a remote repository with a custom uri.
 	// Structure is documented below.
-	CustomRepository *CustomRepositoryObservation `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
+	CustomRepository []CustomRepositoryObservation `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
 
 	// One of the publicly available Yum repositories supported by Artifact Registry.
 	// Structure is documented below.
@@ -236,7 +236,7 @@ type DockerRepositoryParameters struct {
 	// Settings for a remote repository with a custom uri.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	CustomRepository *CustomRepositoryParameters `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
+	CustomRepository []CustomRepositoryParameters `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
 
 	// One of the publicly available Yum repositories supported by Artifact Registry.
 	// Structure is documented below.
@@ -305,7 +305,7 @@ type MavenRepositoryInitParameters struct {
 
 	// Settings for a remote repository with a custom uri.
 	// Structure is documented below.
-	CustomRepository *MavenRepositoryCustomRepositoryInitParameters `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
+	CustomRepository []MavenRepositoryCustomRepositoryInitParameters `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
 
 	// One of the publicly available Yum repositories supported by Artifact Registry.
 	// Structure is documented below.
@@ -316,7 +316,7 @@ type MavenRepositoryObservation struct {
 
 	// Settings for a remote repository with a custom uri.
 	// Structure is documented below.
-	CustomRepository *MavenRepositoryCustomRepositoryObservation `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
+	CustomRepository []MavenRepositoryCustomRepositoryObservation `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
 
 	// One of the publicly available Yum repositories supported by Artifact Registry.
 	// Structure is documented below.
@@ -328,7 +328,7 @@ type MavenRepositoryParameters struct {
 	// Settings for a remote repository with a custom uri.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	CustomRepository *MavenRepositoryCustomRepositoryParameters `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
+	CustomRepository []MavenRepositoryCustomRepositoryParameters `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
 
 	// One of the publicly available Yum repositories supported by Artifact Registry.
 	// Structure is documented below.
@@ -388,7 +388,7 @@ type NpmRepositoryInitParameters struct {
 
 	// Settings for a remote repository with a custom uri.
 	// Structure is documented below.
-	CustomRepository *NpmRepositoryCustomRepositoryInitParameters `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
+	CustomRepository []NpmRepositoryCustomRepositoryInitParameters `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
 
 	// One of the publicly available Yum repositories supported by Artifact Registry.
 	// Structure is documented below.
@@ -399,7 +399,7 @@ type NpmRepositoryObservation struct {
 
 	// Settings for a remote repository with a custom uri.
 	// Structure is documented below.
-	CustomRepository *NpmRepositoryCustomRepositoryObservation `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
+	CustomRepository []NpmRepositoryCustomRepositoryObservation `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
 
 	// One of the publicly available Yum repositories supported by Artifact Registry.
 	// Structure is documented below.
@@ -411,7 +411,7 @@ type NpmRepositoryParameters struct {
 	// Settings for a remote repository with a custom uri.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	CustomRepository *NpmRepositoryCustomRepositoryParameters `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
+	CustomRepository []NpmRepositoryCustomRepositoryParameters `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
 
 	// One of the publicly available Yum repositories supported by Artifact Registry.
 	// Structure is documented below.
@@ -474,7 +474,7 @@ type PythonRepositoryInitParameters struct {
 
 	// Settings for a remote repository with a custom uri.
 	// Structure is documented below.
-	CustomRepository *PythonRepositoryCustomRepositoryInitParameters `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
+	CustomRepository []PythonRepositoryCustomRepositoryInitParameters `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
 
 	// One of the publicly available Yum repositories supported by Artifact Registry.
 	// Structure is documented below.
@@ -485,7 +485,7 @@ type PythonRepositoryObservation struct {
 
 	// Settings for a remote repository with a custom uri.
 	// Structure is documented below.
-	CustomRepository *PythonRepositoryCustomRepositoryObservation `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
+	CustomRepository []PythonRepositoryCustomRepositoryObservation `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
 
 	// One of the publicly available Yum repositories supported by Artifact Registry.
 	// Structure is documented below.
@@ -497,7 +497,7 @@ type PythonRepositoryParameters struct {
 	// Settings for a remote repository with a custom uri.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	CustomRepository *PythonRepositoryCustomRepositoryParameters `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
+	CustomRepository []PythonRepositoryCustomRepositoryParameters `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
 
 	// One of the publicly available Yum repositories supported by Artifact Registry.
 	// Structure is documented below.

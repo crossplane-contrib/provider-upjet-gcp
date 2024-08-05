@@ -326,7 +326,7 @@ type ConfigInitParameters struct {
 
 	// When specified this provides a custom SKI to be used in the certificate. This should only be used to maintain a SKI of an existing CA originally created outside CA service, which was not generated using method (1) described in RFC 5280 section 4.2.1.2..
 	// Structure is documented below.
-	SubjectKeyID *ConfigSubjectKeyIDInitParameters `json:"subjectKeyId,omitempty" tf:"subject_key_id,omitempty"`
+	SubjectKeyID []ConfigSubjectKeyIDInitParameters `json:"subjectKeyId,omitempty" tf:"subject_key_id,omitempty"`
 
 	// Describes how some of the technical X.509 fields in a certificate should be populated.
 	// Structure is documented below.
@@ -345,7 +345,7 @@ type ConfigObservation struct {
 
 	// When specified this provides a custom SKI to be used in the certificate. This should only be used to maintain a SKI of an existing CA originally created outside CA service, which was not generated using method (1) described in RFC 5280 section 4.2.1.2..
 	// Structure is documented below.
-	SubjectKeyID *ConfigSubjectKeyIDObservation `json:"subjectKeyId,omitempty" tf:"subject_key_id,omitempty"`
+	SubjectKeyID []ConfigSubjectKeyIDObservation `json:"subjectKeyId,omitempty" tf:"subject_key_id,omitempty"`
 
 	// Describes how some of the technical X.509 fields in a certificate should be populated.
 	// Structure is documented below.
@@ -367,7 +367,7 @@ type ConfigParameters struct {
 	// When specified this provides a custom SKI to be used in the certificate. This should only be used to maintain a SKI of an existing CA originally created outside CA service, which was not generated using method (1) described in RFC 5280 section 4.2.1.2..
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	SubjectKeyID *ConfigSubjectKeyIDParameters `json:"subjectKeyId,omitempty" tf:"subject_key_id,omitempty"`
+	SubjectKeyID []ConfigSubjectKeyIDParameters `json:"subjectKeyId,omitempty" tf:"subject_key_id,omitempty"`
 
 	// Describes how some of the technical X.509 fields in a certificate should be populated.
 	// Structure is documented below.

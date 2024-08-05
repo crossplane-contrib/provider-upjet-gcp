@@ -87,14 +87,14 @@ type IngestionDataSourceSettingsInitParameters struct {
 
 	// Settings for ingestion from Amazon Kinesis Data Streams.
 	// Structure is documented below.
-	AwsKinesis *AwsKinesisInitParameters `json:"awsKinesis,omitempty" tf:"aws_kinesis,omitempty"`
+	AwsKinesis []AwsKinesisInitParameters `json:"awsKinesis,omitempty" tf:"aws_kinesis,omitempty"`
 }
 
 type IngestionDataSourceSettingsObservation struct {
 
 	// Settings for ingestion from Amazon Kinesis Data Streams.
 	// Structure is documented below.
-	AwsKinesis *AwsKinesisObservation `json:"awsKinesis,omitempty" tf:"aws_kinesis,omitempty"`
+	AwsKinesis []AwsKinesisObservation `json:"awsKinesis,omitempty" tf:"aws_kinesis,omitempty"`
 }
 
 type IngestionDataSourceSettingsParameters struct {
@@ -102,7 +102,7 @@ type IngestionDataSourceSettingsParameters struct {
 	// Settings for ingestion from Amazon Kinesis Data Streams.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	AwsKinesis *AwsKinesisParameters `json:"awsKinesis,omitempty" tf:"aws_kinesis,omitempty"`
+	AwsKinesis []AwsKinesisParameters `json:"awsKinesis,omitempty" tf:"aws_kinesis,omitempty"`
 }
 
 type MessageStoragePolicyInitParameters struct {
@@ -187,7 +187,7 @@ type TopicInitParameters struct {
 
 	// Settings for ingestion from a data source into this topic.
 	// Structure is documented below.
-	IngestionDataSourceSettings *IngestionDataSourceSettingsInitParameters `json:"ingestionDataSourceSettings,omitempty" tf:"ingestion_data_source_settings,omitempty"`
+	IngestionDataSourceSettings []IngestionDataSourceSettingsInitParameters `json:"ingestionDataSourceSettings,omitempty" tf:"ingestion_data_source_settings,omitempty"`
 
 	// The resource name of the Cloud KMS CryptoKey to be used to protect access
 	// to messages published on this topic. Your project's PubSub service account
@@ -246,7 +246,7 @@ type TopicObservation struct {
 
 	// Settings for ingestion from a data source into this topic.
 	// Structure is documented below.
-	IngestionDataSourceSettings *IngestionDataSourceSettingsObservation `json:"ingestionDataSourceSettings,omitempty" tf:"ingestion_data_source_settings,omitempty"`
+	IngestionDataSourceSettings []IngestionDataSourceSettingsObservation `json:"ingestionDataSourceSettings,omitempty" tf:"ingestion_data_source_settings,omitempty"`
 
 	// The resource name of the Cloud KMS CryptoKey to be used to protect access
 	// to messages published on this topic. Your project's PubSub service account
@@ -294,7 +294,7 @@ type TopicParameters struct {
 	// Settings for ingestion from a data source into this topic.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	IngestionDataSourceSettings *IngestionDataSourceSettingsParameters `json:"ingestionDataSourceSettings,omitempty" tf:"ingestion_data_source_settings,omitempty"`
+	IngestionDataSourceSettings []IngestionDataSourceSettingsParameters `json:"ingestionDataSourceSettings,omitempty" tf:"ingestion_data_source_settings,omitempty"`
 
 	// The resource name of the Cloud KMS CryptoKey to be used to protect access
 	// to messages published on this topic. Your project's PubSub service account

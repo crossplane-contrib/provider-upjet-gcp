@@ -200,7 +200,7 @@ type HTTPCheckInitParameters struct {
 
 	// The authentication information using the Monitoring Service Agent. Optional when creating an HTTPS check; defaults to empty. Do not use with other authentication fields.
 	// Structure is documented below.
-	ServiceAgentAuthentication *ServiceAgentAuthenticationInitParameters `json:"serviceAgentAuthentication,omitempty" tf:"service_agent_authentication,omitempty"`
+	ServiceAgentAuthentication []ServiceAgentAuthenticationInitParameters `json:"serviceAgentAuthentication,omitempty" tf:"service_agent_authentication,omitempty"`
 
 	// If true, use HTTPS instead of HTTP to run the check.
 	UseSSL *bool `json:"useSsl,omitempty" tf:"use_ssl,omitempty"`
@@ -253,7 +253,7 @@ type HTTPCheckObservation struct {
 
 	// The authentication information using the Monitoring Service Agent. Optional when creating an HTTPS check; defaults to empty. Do not use with other authentication fields.
 	// Structure is documented below.
-	ServiceAgentAuthentication *ServiceAgentAuthenticationObservation `json:"serviceAgentAuthentication,omitempty" tf:"service_agent_authentication,omitempty"`
+	ServiceAgentAuthentication []ServiceAgentAuthenticationObservation `json:"serviceAgentAuthentication,omitempty" tf:"service_agent_authentication,omitempty"`
 
 	// If true, use HTTPS instead of HTTP to run the check.
 	UseSSL *bool `json:"useSsl,omitempty" tf:"use_ssl,omitempty"`
@@ -318,7 +318,7 @@ type HTTPCheckParameters struct {
 	// The authentication information using the Monitoring Service Agent. Optional when creating an HTTPS check; defaults to empty. Do not use with other authentication fields.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	ServiceAgentAuthentication *ServiceAgentAuthenticationParameters `json:"serviceAgentAuthentication,omitempty" tf:"service_agent_authentication,omitempty"`
+	ServiceAgentAuthentication []ServiceAgentAuthenticationParameters `json:"serviceAgentAuthentication,omitempty" tf:"service_agent_authentication,omitempty"`
 
 	// If true, use HTTPS instead of HTTP to run the check.
 	// +kubebuilder:validation:Optional

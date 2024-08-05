@@ -103,7 +103,7 @@ type CryptoKeyVersionInitParameters struct {
 
 	// ExternalProtectionLevelOptions stores a group of additional fields for configuring a CryptoKeyVersion that are specific to the EXTERNAL protection level and EXTERNAL_VPC protection levels.
 	// Structure is documented below.
-	ExternalProtectionLevelOptions *CryptoKeyVersionExternalProtectionLevelOptionsInitParameters `json:"externalProtectionLevelOptions,omitempty" tf:"external_protection_level_options,omitempty"`
+	ExternalProtectionLevelOptions []CryptoKeyVersionExternalProtectionLevelOptionsInitParameters `json:"externalProtectionLevelOptions,omitempty" tf:"external_protection_level_options,omitempty"`
 
 	// The current state of the CryptoKeyVersion.
 	// Possible values are: PENDING_GENERATION, ENABLED, DISABLED, DESTROYED, DESTROY_SCHEDULED, PENDING_IMPORT, IMPORT_FAILED.
@@ -126,7 +126,7 @@ type CryptoKeyVersionObservation struct {
 
 	// ExternalProtectionLevelOptions stores a group of additional fields for configuring a CryptoKeyVersion that are specific to the EXTERNAL protection level and EXTERNAL_VPC protection levels.
 	// Structure is documented below.
-	ExternalProtectionLevelOptions *CryptoKeyVersionExternalProtectionLevelOptionsObservation `json:"externalProtectionLevelOptions,omitempty" tf:"external_protection_level_options,omitempty"`
+	ExternalProtectionLevelOptions []CryptoKeyVersionExternalProtectionLevelOptionsObservation `json:"externalProtectionLevelOptions,omitempty" tf:"external_protection_level_options,omitempty"`
 
 	// The time this CryptoKeyVersion key material was generated
 	GenerateTime *string `json:"generateTime,omitempty" tf:"generate_time,omitempty"`
@@ -165,7 +165,7 @@ type CryptoKeyVersionParameters struct {
 	// ExternalProtectionLevelOptions stores a group of additional fields for configuring a CryptoKeyVersion that are specific to the EXTERNAL protection level and EXTERNAL_VPC protection levels.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	ExternalProtectionLevelOptions *CryptoKeyVersionExternalProtectionLevelOptionsParameters `json:"externalProtectionLevelOptions,omitempty" tf:"external_protection_level_options,omitempty"`
+	ExternalProtectionLevelOptions []CryptoKeyVersionExternalProtectionLevelOptionsParameters `json:"externalProtectionLevelOptions,omitempty" tf:"external_protection_level_options,omitempty"`
 
 	// The current state of the CryptoKeyVersion.
 	// Possible values are: PENDING_GENERATION, ENABLED, DISABLED, DESTROYED, DESTROY_SCHEDULED, PENDING_IMPORT, IMPORT_FAILED.

@@ -420,7 +420,7 @@ type NetworkConfigInitParameters struct {
 	// Optional. Configuration for Private Service Connect.
 	// This is required only when using connection type PRIVATE_SERVICE_CONNECT_INTERFACES.
 	// Structure is documented below.
-	PrivateServiceConnectConfig *PrivateServiceConnectConfigInitParameters `json:"privateServiceConnectConfig,omitempty" tf:"private_service_connect_config,omitempty"`
+	PrivateServiceConnectConfig []PrivateServiceConnectConfigInitParameters `json:"privateServiceConnectConfig,omitempty" tf:"private_service_connect_config,omitempty"`
 }
 
 type NetworkConfigObservation struct {
@@ -443,7 +443,7 @@ type NetworkConfigObservation struct {
 	// Optional. Configuration for Private Service Connect.
 	// This is required only when using connection type PRIVATE_SERVICE_CONNECT_INTERFACES.
 	// Structure is documented below.
-	PrivateServiceConnectConfig *PrivateServiceConnectConfigObservation `json:"privateServiceConnectConfig,omitempty" tf:"private_service_connect_config,omitempty"`
+	PrivateServiceConnectConfig []PrivateServiceConnectConfigObservation `json:"privateServiceConnectConfig,omitempty" tf:"private_service_connect_config,omitempty"`
 }
 
 type NetworkConfigParameters struct {
@@ -470,7 +470,7 @@ type NetworkConfigParameters struct {
 	// This is required only when using connection type PRIVATE_SERVICE_CONNECT_INTERFACES.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	PrivateServiceConnectConfig *PrivateServiceConnectConfigParameters `json:"privateServiceConnectConfig,omitempty" tf:"private_service_connect_config,omitempty"`
+	PrivateServiceConnectConfig []PrivateServiceConnectConfigParameters `json:"privateServiceConnectConfig,omitempty" tf:"private_service_connect_config,omitempty"`
 }
 
 type PrivateServiceConnectConfigInitParameters struct {

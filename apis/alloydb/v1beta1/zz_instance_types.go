@@ -125,11 +125,11 @@ type InstanceInitParameters struct {
 
 	// Instance level network configuration.
 	// Structure is documented below.
-	NetworkConfig *InstanceNetworkConfigInitParameters `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
+	NetworkConfig []InstanceNetworkConfigInitParameters `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
 
 	// Configuration for Private Service Connect (PSC) for the instance.
 	// Structure is documented below.
-	PscInstanceConfig *PscInstanceConfigInitParameters `json:"pscInstanceConfig,omitempty" tf:"psc_instance_config,omitempty"`
+	PscInstanceConfig []PscInstanceConfigInitParameters `json:"pscInstanceConfig,omitempty" tf:"psc_instance_config,omitempty"`
 
 	// Configuration for query insights.
 	// Structure is documented below.
@@ -257,11 +257,11 @@ type InstanceObservation struct {
 
 	// Instance level network configuration.
 	// Structure is documented below.
-	NetworkConfig *InstanceNetworkConfigObservation `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
+	NetworkConfig []InstanceNetworkConfigObservation `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
 
 	// Configuration for Private Service Connect (PSC) for the instance.
 	// Structure is documented below.
-	PscInstanceConfig *PscInstanceConfigObservation `json:"pscInstanceConfig,omitempty" tf:"psc_instance_config,omitempty"`
+	PscInstanceConfig []PscInstanceConfigObservation `json:"pscInstanceConfig,omitempty" tf:"psc_instance_config,omitempty"`
 
 	// The public IP addresses for the Instance. This is available ONLY when
 	// networkConfig.enablePublicIp is set to true. This is the connection
@@ -380,12 +380,12 @@ type InstanceParameters struct {
 	// Instance level network configuration.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	NetworkConfig *InstanceNetworkConfigParameters `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
+	NetworkConfig []InstanceNetworkConfigParameters `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
 
 	// Configuration for Private Service Connect (PSC) for the instance.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	PscInstanceConfig *PscInstanceConfigParameters `json:"pscInstanceConfig,omitempty" tf:"psc_instance_config,omitempty"`
+	PscInstanceConfig []PscInstanceConfigParameters `json:"pscInstanceConfig,omitempty" tf:"psc_instance_config,omitempty"`
 
 	// Configuration for query insights.
 	// Structure is documented below.

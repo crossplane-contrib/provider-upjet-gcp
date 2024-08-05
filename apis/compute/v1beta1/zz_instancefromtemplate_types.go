@@ -776,7 +776,7 @@ type InstanceFromTemplateSchedulingInitParameters struct {
 
 	LocalSsdRecoveryTimeout []SchedulingLocalSsdRecoveryTimeoutInitParameters `json:"localSsdRecoveryTimeout,omitempty" tf:"local_ssd_recovery_timeout,omitempty"`
 
-	MaxRunDuration *SchedulingMaxRunDurationInitParameters `json:"maxRunDuration,omitempty" tf:"max_run_duration,omitempty"`
+	MaxRunDuration []SchedulingMaxRunDurationInitParameters `json:"maxRunDuration,omitempty" tf:"max_run_duration,omitempty"`
 
 	MinNodeCpus *float64 `json:"minNodeCpus,omitempty" tf:"min_node_cpus,omitempty"`
 
@@ -784,7 +784,7 @@ type InstanceFromTemplateSchedulingInitParameters struct {
 
 	OnHostMaintenance *string `json:"onHostMaintenance,omitempty" tf:"on_host_maintenance,omitempty"`
 
-	OnInstanceStopAction *SchedulingOnInstanceStopActionInitParameters `json:"onInstanceStopAction,omitempty" tf:"on_instance_stop_action,omitempty"`
+	OnInstanceStopAction []SchedulingOnInstanceStopActionInitParameters `json:"onInstanceStopAction,omitempty" tf:"on_instance_stop_action,omitempty"`
 
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 
@@ -798,7 +798,7 @@ type InstanceFromTemplateSchedulingObservation struct {
 
 	LocalSsdRecoveryTimeout []SchedulingLocalSsdRecoveryTimeoutObservation `json:"localSsdRecoveryTimeout,omitempty" tf:"local_ssd_recovery_timeout,omitempty"`
 
-	MaxRunDuration *SchedulingMaxRunDurationObservation `json:"maxRunDuration,omitempty" tf:"max_run_duration,omitempty"`
+	MaxRunDuration []SchedulingMaxRunDurationObservation `json:"maxRunDuration,omitempty" tf:"max_run_duration,omitempty"`
 
 	MinNodeCpus *float64 `json:"minNodeCpus,omitempty" tf:"min_node_cpus,omitempty"`
 
@@ -806,7 +806,7 @@ type InstanceFromTemplateSchedulingObservation struct {
 
 	OnHostMaintenance *string `json:"onHostMaintenance,omitempty" tf:"on_host_maintenance,omitempty"`
 
-	OnInstanceStopAction *SchedulingOnInstanceStopActionObservation `json:"onInstanceStopAction,omitempty" tf:"on_instance_stop_action,omitempty"`
+	OnInstanceStopAction []SchedulingOnInstanceStopActionObservation `json:"onInstanceStopAction,omitempty" tf:"on_instance_stop_action,omitempty"`
 
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 
@@ -825,7 +825,7 @@ type InstanceFromTemplateSchedulingParameters struct {
 	LocalSsdRecoveryTimeout []SchedulingLocalSsdRecoveryTimeoutParameters `json:"localSsdRecoveryTimeout,omitempty" tf:"local_ssd_recovery_timeout,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	MaxRunDuration *SchedulingMaxRunDurationParameters `json:"maxRunDuration,omitempty" tf:"max_run_duration,omitempty"`
+	MaxRunDuration []SchedulingMaxRunDurationParameters `json:"maxRunDuration,omitempty" tf:"max_run_duration,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	MinNodeCpus *float64 `json:"minNodeCpus,omitempty" tf:"min_node_cpus,omitempty"`
@@ -837,7 +837,7 @@ type InstanceFromTemplateSchedulingParameters struct {
 	OnHostMaintenance *string `json:"onHostMaintenance,omitempty" tf:"on_host_maintenance,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	OnInstanceStopAction *SchedulingOnInstanceStopActionParameters `json:"onInstanceStopAction,omitempty" tf:"on_instance_stop_action,omitempty"`
+	OnInstanceStopAction []SchedulingOnInstanceStopActionParameters `json:"onInstanceStopAction,omitempty" tf:"on_instance_stop_action,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`

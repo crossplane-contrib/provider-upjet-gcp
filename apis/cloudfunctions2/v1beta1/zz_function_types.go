@@ -23,7 +23,7 @@ type BuildConfigInitParameters struct {
 
 	// Security patches are applied automatically to the runtime without requiring
 	// the function to be redeployed.
-	AutomaticUpdatePolicy *AutomaticUpdatePolicyInitParameters `json:"automaticUpdatePolicy,omitempty" tf:"automatic_update_policy,omitempty"`
+	AutomaticUpdatePolicy []AutomaticUpdatePolicyInitParameters `json:"automaticUpdatePolicy,omitempty" tf:"automatic_update_policy,omitempty"`
 
 	// User managed repository created in Artifact Registry optionally with a customer managed encryption key.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/artifact/v1beta1.RegistryRepository
@@ -51,7 +51,7 @@ type BuildConfigInitParameters struct {
 
 	// Security patches are only applied when a function is redeployed.
 	// Structure is documented below.
-	OnDeployUpdatePolicy *OnDeployUpdatePolicyInitParameters `json:"onDeployUpdatePolicy,omitempty" tf:"on_deploy_update_policy,omitempty"`
+	OnDeployUpdatePolicy []OnDeployUpdatePolicyInitParameters `json:"onDeployUpdatePolicy,omitempty" tf:"on_deploy_update_policy,omitempty"`
 
 	// The runtime in which to run the function. Required when deploying a new
 	// function, optional when updating an existing function.
@@ -92,7 +92,7 @@ type BuildConfigObservation struct {
 
 	// Security patches are applied automatically to the runtime without requiring
 	// the function to be redeployed.
-	AutomaticUpdatePolicy *AutomaticUpdatePolicyParameters `json:"automaticUpdatePolicy,omitempty" tf:"automatic_update_policy,omitempty"`
+	AutomaticUpdatePolicy []AutomaticUpdatePolicyParameters `json:"automaticUpdatePolicy,omitempty" tf:"automatic_update_policy,omitempty"`
 
 	// (Output)
 	// The Cloud Build name of the latest successful
@@ -115,7 +115,7 @@ type BuildConfigObservation struct {
 
 	// Security patches are only applied when a function is redeployed.
 	// Structure is documented below.
-	OnDeployUpdatePolicy *OnDeployUpdatePolicyObservation `json:"onDeployUpdatePolicy,omitempty" tf:"on_deploy_update_policy,omitempty"`
+	OnDeployUpdatePolicy []OnDeployUpdatePolicyObservation `json:"onDeployUpdatePolicy,omitempty" tf:"on_deploy_update_policy,omitempty"`
 
 	// The runtime in which to run the function. Required when deploying a new
 	// function, optional when updating an existing function.
@@ -137,7 +137,7 @@ type BuildConfigParameters struct {
 	// Security patches are applied automatically to the runtime without requiring
 	// the function to be redeployed.
 	// +kubebuilder:validation:Optional
-	AutomaticUpdatePolicy *AutomaticUpdatePolicyParameters `json:"automaticUpdatePolicy,omitempty" tf:"automatic_update_policy,omitempty"`
+	AutomaticUpdatePolicy []AutomaticUpdatePolicyParameters `json:"automaticUpdatePolicy,omitempty" tf:"automatic_update_policy,omitempty"`
 
 	// User managed repository created in Artifact Registry optionally with a customer managed encryption key.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/artifact/v1beta1.RegistryRepository
@@ -169,7 +169,7 @@ type BuildConfigParameters struct {
 	// Security patches are only applied when a function is redeployed.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	OnDeployUpdatePolicy *OnDeployUpdatePolicyParameters `json:"onDeployUpdatePolicy,omitempty" tf:"on_deploy_update_policy,omitempty"`
+	OnDeployUpdatePolicy []OnDeployUpdatePolicyParameters `json:"onDeployUpdatePolicy,omitempty" tf:"on_deploy_update_policy,omitempty"`
 
 	// The runtime in which to run the function. Required when deploying a new
 	// function, optional when updating an existing function.

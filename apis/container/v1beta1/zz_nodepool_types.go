@@ -44,13 +44,13 @@ type NetworkConfigNetworkPerformanceConfigParameters struct {
 type NodeConfigContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigInitParameters struct {
 	Fqdns []*string `json:"fqdns,omitempty" tf:"fqdns,omitempty"`
 
-	GCPSecretManagerCertificateConfig *ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigInitParameters `json:"gcpSecretManagerCertificateConfig,omitempty" tf:"gcp_secret_manager_certificate_config,omitempty"`
+	GCPSecretManagerCertificateConfig []ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigInitParameters `json:"gcpSecretManagerCertificateConfig,omitempty" tf:"gcp_secret_manager_certificate_config,omitempty"`
 }
 
 type NodeConfigContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigObservation struct {
 	Fqdns []*string `json:"fqdns,omitempty" tf:"fqdns,omitempty"`
 
-	GCPSecretManagerCertificateConfig *ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigObservation `json:"gcpSecretManagerCertificateConfig,omitempty" tf:"gcp_secret_manager_certificate_config,omitempty"`
+	GCPSecretManagerCertificateConfig []ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigObservation `json:"gcpSecretManagerCertificateConfig,omitempty" tf:"gcp_secret_manager_certificate_config,omitempty"`
 }
 
 type NodeConfigContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigParameters struct {
@@ -59,7 +59,7 @@ type NodeConfigContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDo
 	Fqdns []*string `json:"fqdns" tf:"fqdns,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	GCPSecretManagerCertificateConfig *ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigParameters `json:"gcpSecretManagerCertificateConfig" tf:"gcp_secret_manager_certificate_config,omitempty"`
+	GCPSecretManagerCertificateConfig []ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigParameters `json:"gcpSecretManagerCertificateConfig" tf:"gcp_secret_manager_certificate_config,omitempty"`
 }
 
 type NodeConfigContainerdConfigPrivateRegistryAccessConfigInitParameters struct {
@@ -296,7 +296,7 @@ type NodePoolInitParameters_2 struct {
 
 	// Specifies node pool-level settings of queued provisioning.
 	// Structure is documented below.
-	QueuedProvisioning *NodePoolQueuedProvisioningInitParameters `json:"queuedProvisioning,omitempty" tf:"queued_provisioning,omitempty"`
+	QueuedProvisioning []NodePoolQueuedProvisioningInitParameters `json:"queuedProvisioning,omitempty" tf:"queued_provisioning,omitempty"`
 
 	// Specify node upgrade settings to change how GKE upgrades nodes.
 	// The maximum number of nodes upgraded simultaneously is limited to 20. Structure is documented below.
@@ -455,17 +455,17 @@ type NodePoolNodeConfigConfidentialNodesParameters_2 struct {
 }
 
 type NodePoolNodeConfigContainerdConfigInitParameters struct {
-	PrivateRegistryAccessConfig *NodeConfigContainerdConfigPrivateRegistryAccessConfigInitParameters `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
+	PrivateRegistryAccessConfig []NodeConfigContainerdConfigPrivateRegistryAccessConfigInitParameters `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
 }
 
 type NodePoolNodeConfigContainerdConfigObservation struct {
-	PrivateRegistryAccessConfig *NodeConfigContainerdConfigPrivateRegistryAccessConfigObservation `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
+	PrivateRegistryAccessConfig []NodeConfigContainerdConfigPrivateRegistryAccessConfigObservation `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
 }
 
 type NodePoolNodeConfigContainerdConfigParameters struct {
 
 	// +kubebuilder:validation:Optional
-	PrivateRegistryAccessConfig *NodeConfigContainerdConfigPrivateRegistryAccessConfigParameters `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
+	PrivateRegistryAccessConfig []NodeConfigContainerdConfigPrivateRegistryAccessConfigParameters `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
 }
 
 type NodePoolNodeConfigEffectiveTaintsInitParameters struct {
@@ -626,7 +626,7 @@ type NodePoolNodeConfigInitParameters_2 struct {
 	// Configuration for Confidential Nodes feature. Structure is documented below.
 	ConfidentialNodes []NodePoolNodeConfigConfidentialNodesInitParameters_2 `json:"confidentialNodes,omitempty" tf:"confidential_nodes,omitempty"`
 
-	ContainerdConfig *NodePoolNodeConfigContainerdConfigInitParameters `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
+	ContainerdConfig []NodePoolNodeConfigContainerdConfigInitParameters `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
 
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
@@ -797,7 +797,7 @@ type NodePoolNodeConfigObservation_2 struct {
 	// Configuration for Confidential Nodes feature. Structure is documented below.
 	ConfidentialNodes []NodePoolNodeConfigConfidentialNodesObservation_2 `json:"confidentialNodes,omitempty" tf:"confidential_nodes,omitempty"`
 
-	ContainerdConfig *NodePoolNodeConfigContainerdConfigObservation `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
+	ContainerdConfig []NodePoolNodeConfigContainerdConfigObservation `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
 
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
@@ -892,7 +892,7 @@ type NodePoolNodeConfigParameters_2 struct {
 	ConfidentialNodes []NodePoolNodeConfigConfidentialNodesParameters_2 `json:"confidentialNodes,omitempty" tf:"confidential_nodes,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	ContainerdConfig *NodePoolNodeConfigContainerdConfigParameters `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
+	ContainerdConfig []NodePoolNodeConfigContainerdConfigParameters `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
@@ -1218,7 +1218,7 @@ type NodePoolObservation_2 struct {
 
 	// Specifies node pool-level settings of queued provisioning.
 	// Structure is documented below.
-	QueuedProvisioning *NodePoolQueuedProvisioningObservation `json:"queuedProvisioning,omitempty" tf:"queued_provisioning,omitempty"`
+	QueuedProvisioning []NodePoolQueuedProvisioningObservation `json:"queuedProvisioning,omitempty" tf:"queued_provisioning,omitempty"`
 
 	// Specify node upgrade settings to change how GKE upgrades nodes.
 	// The maximum number of nodes upgraded simultaneously is limited to 20. Structure is documented below.
@@ -1315,7 +1315,7 @@ type NodePoolParameters_2 struct {
 	// Specifies node pool-level settings of queued provisioning.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	QueuedProvisioning *NodePoolQueuedProvisioningParameters `json:"queuedProvisioning,omitempty" tf:"queued_provisioning,omitempty"`
+	QueuedProvisioning []NodePoolQueuedProvisioningParameters `json:"queuedProvisioning,omitempty" tf:"queued_provisioning,omitempty"`
 
 	// Specify node upgrade settings to change how GKE upgrades nodes.
 	// The maximum number of nodes upgraded simultaneously is limited to 20. Structure is documented below.

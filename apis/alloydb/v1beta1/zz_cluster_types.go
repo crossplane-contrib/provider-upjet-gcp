@@ -238,7 +238,7 @@ type ClusterInitParameters struct {
 
 	// MaintenanceUpdatePolicy defines the policy for system updates.
 	// Structure is documented below.
-	MaintenanceUpdatePolicy *MaintenanceUpdatePolicyInitParameters `json:"maintenanceUpdatePolicy,omitempty" tf:"maintenance_update_policy,omitempty"`
+	MaintenanceUpdatePolicy []MaintenanceUpdatePolicyInitParameters `json:"maintenanceUpdatePolicy,omitempty" tf:"maintenance_update_policy,omitempty"`
 
 	// The relative resource name of the VPC network on which the instance can be accessed. It is specified in the following form:
 	// "projects/{projectNumber}/global/networks/{network_id}".
@@ -264,7 +264,7 @@ type ClusterInitParameters struct {
 
 	// Configuration for Private Service Connect (PSC) for the cluster.
 	// Structure is documented below.
-	PscConfig *PscConfigInitParameters `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
+	PscConfig []PscConfigInitParameters `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
 
 	// The source when restoring from a backup. Conflicts with 'restore_continuous_backup_source', both can't be set together.
 	// Structure is documented below.
@@ -355,7 +355,7 @@ type ClusterObservation struct {
 
 	// MaintenanceUpdatePolicy defines the policy for system updates.
 	// Structure is documented below.
-	MaintenanceUpdatePolicy *MaintenanceUpdatePolicyObservation `json:"maintenanceUpdatePolicy,omitempty" tf:"maintenance_update_policy,omitempty"`
+	MaintenanceUpdatePolicy []MaintenanceUpdatePolicyObservation `json:"maintenanceUpdatePolicy,omitempty" tf:"maintenance_update_policy,omitempty"`
 
 	// Cluster created via DMS migration.
 	// Structure is documented below.
@@ -378,7 +378,7 @@ type ClusterObservation struct {
 
 	// Configuration for Private Service Connect (PSC) for the cluster.
 	// Structure is documented below.
-	PscConfig *PscConfigObservation `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
+	PscConfig []PscConfigObservation `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
 
 	// Output only. Reconciling (https://google.aip.dev/128#reconciliation).
 	// Set to true if the current state of Cluster does not match the user's intended state, and the service is actively updating the resource to reconcile them.
@@ -476,7 +476,7 @@ type ClusterParameters struct {
 	// MaintenanceUpdatePolicy defines the policy for system updates.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	MaintenanceUpdatePolicy *MaintenanceUpdatePolicyParameters `json:"maintenanceUpdatePolicy,omitempty" tf:"maintenance_update_policy,omitempty"`
+	MaintenanceUpdatePolicy []MaintenanceUpdatePolicyParameters `json:"maintenanceUpdatePolicy,omitempty" tf:"maintenance_update_policy,omitempty"`
 
 	// The relative resource name of the VPC network on which the instance can be accessed. It is specified in the following form:
 	// "projects/{projectNumber}/global/networks/{network_id}".
@@ -506,7 +506,7 @@ type ClusterParameters struct {
 	// Configuration for Private Service Connect (PSC) for the cluster.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	PscConfig *PscConfigParameters `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
+	PscConfig []PscConfigParameters `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
 
 	// The source when restoring from a backup. Conflicts with 'restore_continuous_backup_source', both can't be set together.
 	// Structure is documented below.
@@ -685,7 +685,7 @@ type MaintenanceWindowsInitParameters struct {
 
 	// Preferred time to start the maintenance operation on the specified day. Maintenance will start within 1 hour of this time.
 	// Structure is documented below.
-	StartTime *StartTimeInitParameters `json:"startTime,omitempty" tf:"start_time,omitempty"`
+	StartTime []StartTimeInitParameters `json:"startTime,omitempty" tf:"start_time,omitempty"`
 }
 
 type MaintenanceWindowsObservation struct {
@@ -696,7 +696,7 @@ type MaintenanceWindowsObservation struct {
 
 	// Preferred time to start the maintenance operation on the specified day. Maintenance will start within 1 hour of this time.
 	// Structure is documented below.
-	StartTime *StartTimeObservation `json:"startTime,omitempty" tf:"start_time,omitempty"`
+	StartTime []StartTimeObservation `json:"startTime,omitempty" tf:"start_time,omitempty"`
 }
 
 type MaintenanceWindowsParameters struct {
@@ -709,7 +709,7 @@ type MaintenanceWindowsParameters struct {
 	// Preferred time to start the maintenance operation on the specified day. Maintenance will start within 1 hour of this time.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	StartTime *StartTimeParameters `json:"startTime" tf:"start_time,omitempty"`
+	StartTime []StartTimeParameters `json:"startTime" tf:"start_time,omitempty"`
 }
 
 type MigrationSourceInitParameters struct {

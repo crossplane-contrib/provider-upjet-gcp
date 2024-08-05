@@ -1292,7 +1292,7 @@ type InstanceTemplateSchedulingInitParameters struct {
 	LocalSsdRecoveryTimeout []InstanceTemplateSchedulingLocalSsdRecoveryTimeoutInitParameters `json:"localSsdRecoveryTimeout,omitempty" tf:"local_ssd_recovery_timeout,omitempty"`
 
 	// The duration of the instance. Instance will run and be terminated after then, the termination action could be defined in instance_termination_action. Structure is documented below.
-	MaxRunDuration *InstanceTemplateSchedulingMaxRunDurationInitParameters `json:"maxRunDuration,omitempty" tf:"max_run_duration,omitempty"`
+	MaxRunDuration []InstanceTemplateSchedulingMaxRunDurationInitParameters `json:"maxRunDuration,omitempty" tf:"max_run_duration,omitempty"`
 
 	MinNodeCpus *float64 `json:"minNodeCpus,omitempty" tf:"min_node_cpus,omitempty"`
 
@@ -1308,7 +1308,7 @@ type InstanceTemplateSchedulingInitParameters struct {
 	OnHostMaintenance *string `json:"onHostMaintenance,omitempty" tf:"on_host_maintenance,omitempty"`
 
 	// Specifies the action to be performed when the instance is terminated using max_run_duration and STOP instance_termination_action. Only support true discard_local_ssd at this point. Structure is documented below.
-	OnInstanceStopAction *InstanceTemplateSchedulingOnInstanceStopActionInitParameters `json:"onInstanceStopAction,omitempty" tf:"on_instance_stop_action,omitempty"`
+	OnInstanceStopAction []InstanceTemplateSchedulingOnInstanceStopActionInitParameters `json:"onInstanceStopAction,omitempty" tf:"on_instance_stop_action,omitempty"`
 
 	// Allows instance to be preempted. This defaults to
 	// false. Read more on this
@@ -1470,7 +1470,7 @@ type InstanceTemplateSchedulingObservation struct {
 	LocalSsdRecoveryTimeout []InstanceTemplateSchedulingLocalSsdRecoveryTimeoutObservation `json:"localSsdRecoveryTimeout,omitempty" tf:"local_ssd_recovery_timeout,omitempty"`
 
 	// The duration of the instance. Instance will run and be terminated after then, the termination action could be defined in instance_termination_action. Structure is documented below.
-	MaxRunDuration *InstanceTemplateSchedulingMaxRunDurationObservation `json:"maxRunDuration,omitempty" tf:"max_run_duration,omitempty"`
+	MaxRunDuration []InstanceTemplateSchedulingMaxRunDurationObservation `json:"maxRunDuration,omitempty" tf:"max_run_duration,omitempty"`
 
 	MinNodeCpus *float64 `json:"minNodeCpus,omitempty" tf:"min_node_cpus,omitempty"`
 
@@ -1486,7 +1486,7 @@ type InstanceTemplateSchedulingObservation struct {
 	OnHostMaintenance *string `json:"onHostMaintenance,omitempty" tf:"on_host_maintenance,omitempty"`
 
 	// Specifies the action to be performed when the instance is terminated using max_run_duration and STOP instance_termination_action. Only support true discard_local_ssd at this point. Structure is documented below.
-	OnInstanceStopAction *InstanceTemplateSchedulingOnInstanceStopActionObservation `json:"onInstanceStopAction,omitempty" tf:"on_instance_stop_action,omitempty"`
+	OnInstanceStopAction []InstanceTemplateSchedulingOnInstanceStopActionObservation `json:"onInstanceStopAction,omitempty" tf:"on_instance_stop_action,omitempty"`
 
 	// Allows instance to be preempted. This defaults to
 	// false. Read more on this
@@ -1538,7 +1538,7 @@ type InstanceTemplateSchedulingParameters struct {
 
 	// The duration of the instance. Instance will run and be terminated after then, the termination action could be defined in instance_termination_action. Structure is documented below.
 	// +kubebuilder:validation:Optional
-	MaxRunDuration *InstanceTemplateSchedulingMaxRunDurationParameters `json:"maxRunDuration,omitempty" tf:"max_run_duration,omitempty"`
+	MaxRunDuration []InstanceTemplateSchedulingMaxRunDurationParameters `json:"maxRunDuration,omitempty" tf:"max_run_duration,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	MinNodeCpus *float64 `json:"minNodeCpus,omitempty" tf:"min_node_cpus,omitempty"`
@@ -1558,7 +1558,7 @@ type InstanceTemplateSchedulingParameters struct {
 
 	// Specifies the action to be performed when the instance is terminated using max_run_duration and STOP instance_termination_action. Only support true discard_local_ssd at this point. Structure is documented below.
 	// +kubebuilder:validation:Optional
-	OnInstanceStopAction *InstanceTemplateSchedulingOnInstanceStopActionParameters `json:"onInstanceStopAction,omitempty" tf:"on_instance_stop_action,omitempty"`
+	OnInstanceStopAction []InstanceTemplateSchedulingOnInstanceStopActionParameters `json:"onInstanceStopAction,omitempty" tf:"on_instance_stop_action,omitempty"`
 
 	// Allows instance to be preempted. This defaults to
 	// false. Read more on this

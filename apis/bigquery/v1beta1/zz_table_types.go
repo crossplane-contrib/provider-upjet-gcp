@@ -386,7 +386,7 @@ type ExternalDataConfigurationInitParameters struct {
 
 	// Additional properties to set if
 	// source_format is set to "BIGTABLE". Structure is documented below.
-	BigtableOptions *BigtableOptionsInitParameters `json:"bigtableOptions,omitempty" tf:"bigtable_options,omitempty"`
+	BigtableOptions []BigtableOptionsInitParameters `json:"bigtableOptions,omitempty" tf:"bigtable_options,omitempty"`
 
 	// The compression type of the data source.
 	// Valid values are "NONE" or "GZIP".
@@ -486,7 +486,7 @@ type ExternalDataConfigurationObservation struct {
 
 	// Additional properties to set if
 	// source_format is set to "BIGTABLE". Structure is documented below.
-	BigtableOptions *BigtableOptionsObservation `json:"bigtableOptions,omitempty" tf:"bigtable_options,omitempty"`
+	BigtableOptions []BigtableOptionsObservation `json:"bigtableOptions,omitempty" tf:"bigtable_options,omitempty"`
 
 	// The compression type of the data source.
 	// Valid values are "NONE" or "GZIP".
@@ -589,7 +589,7 @@ type ExternalDataConfigurationParameters struct {
 	// Additional properties to set if
 	// source_format is set to "BIGTABLE". Structure is documented below.
 	// +kubebuilder:validation:Optional
-	BigtableOptions *BigtableOptionsParameters `json:"bigtableOptions,omitempty" tf:"bigtable_options,omitempty"`
+	BigtableOptions []BigtableOptionsParameters `json:"bigtableOptions,omitempty" tf:"bigtable_options,omitempty"`
 
 	// The compression type of the data source.
 	// Valid values are "NONE" or "GZIP".

@@ -435,7 +435,7 @@ type MetastoreServiceInitParameters struct {
 
 	// The configuration of scheduled backup for the metastore service.
 	// Structure is documented below.
-	ScheduledBackup *ScheduledBackupInitParameters `json:"scheduledBackup,omitempty" tf:"scheduled_backup,omitempty"`
+	ScheduledBackup []ScheduledBackupInitParameters `json:"scheduledBackup,omitempty" tf:"scheduled_backup,omitempty"`
 
 	// The configuration specifying telemetry settings for the Dataproc Metastore service. If unspecified defaults to JSON.
 	// Structure is documented below.
@@ -523,7 +523,7 @@ type MetastoreServiceObservation struct {
 
 	// The configuration of scheduled backup for the metastore service.
 	// Structure is documented below.
-	ScheduledBackup *ScheduledBackupObservation `json:"scheduledBackup,omitempty" tf:"scheduled_backup,omitempty"`
+	ScheduledBackup []ScheduledBackupObservation `json:"scheduledBackup,omitempty" tf:"scheduled_backup,omitempty"`
 
 	// The current state of the metastore service.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
@@ -624,7 +624,7 @@ type MetastoreServiceParameters struct {
 	// The configuration of scheduled backup for the metastore service.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	ScheduledBackup *ScheduledBackupParameters `json:"scheduledBackup,omitempty" tf:"scheduled_backup,omitempty"`
+	ScheduledBackup []ScheduledBackupParameters `json:"scheduledBackup,omitempty" tf:"scheduled_backup,omitempty"`
 
 	// The configuration specifying telemetry settings for the Dataproc Metastore service. If unspecified defaults to JSON.
 	// Structure is documented below.

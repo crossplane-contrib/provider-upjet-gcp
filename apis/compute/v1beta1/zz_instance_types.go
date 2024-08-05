@@ -1596,7 +1596,7 @@ type SchedulingInitParameters struct {
 	LocalSsdRecoveryTimeout []LocalSsdRecoveryTimeoutInitParameters `json:"localSsdRecoveryTimeout,omitempty" tf:"local_ssd_recovery_timeout,omitempty"`
 
 	// The duration of the instance. Instance will run and be terminated after then, the termination action could be defined in instance_termination_action. Structure is documented below.
-	MaxRunDuration *MaxRunDurationInitParameters `json:"maxRunDuration,omitempty" tf:"max_run_duration,omitempty"`
+	MaxRunDuration []MaxRunDurationInitParameters `json:"maxRunDuration,omitempty" tf:"max_run_duration,omitempty"`
 
 	// The minimum number of virtual CPUs this instance will consume when running on a sole-tenant node.
 	MinNodeCpus *float64 `json:"minNodeCpus,omitempty" tf:"min_node_cpus,omitempty"`
@@ -1614,7 +1614,7 @@ type SchedulingInitParameters struct {
 	OnHostMaintenance *string `json:"onHostMaintenance,omitempty" tf:"on_host_maintenance,omitempty"`
 
 	// Specifies the action to be performed when the instance is terminated using max_run_duration and STOP instance_termination_action. Only support true discard_local_ssd at this point. Structure is documented below.
-	OnInstanceStopAction *OnInstanceStopActionInitParameters `json:"onInstanceStopAction,omitempty" tf:"on_instance_stop_action,omitempty"`
+	OnInstanceStopAction []OnInstanceStopActionInitParameters `json:"onInstanceStopAction,omitempty" tf:"on_instance_stop_action,omitempty"`
 
 	// Specifies if the instance is preemptible.
 	// If this field is set to true, then automatic_restart must be
@@ -1643,7 +1643,7 @@ type SchedulingObservation struct {
 	LocalSsdRecoveryTimeout []LocalSsdRecoveryTimeoutObservation `json:"localSsdRecoveryTimeout,omitempty" tf:"local_ssd_recovery_timeout,omitempty"`
 
 	// The duration of the instance. Instance will run and be terminated after then, the termination action could be defined in instance_termination_action. Structure is documented below.
-	MaxRunDuration *MaxRunDurationObservation `json:"maxRunDuration,omitempty" tf:"max_run_duration,omitempty"`
+	MaxRunDuration []MaxRunDurationObservation `json:"maxRunDuration,omitempty" tf:"max_run_duration,omitempty"`
 
 	// The minimum number of virtual CPUs this instance will consume when running on a sole-tenant node.
 	MinNodeCpus *float64 `json:"minNodeCpus,omitempty" tf:"min_node_cpus,omitempty"`
@@ -1661,7 +1661,7 @@ type SchedulingObservation struct {
 	OnHostMaintenance *string `json:"onHostMaintenance,omitempty" tf:"on_host_maintenance,omitempty"`
 
 	// Specifies the action to be performed when the instance is terminated using max_run_duration and STOP instance_termination_action. Only support true discard_local_ssd at this point. Structure is documented below.
-	OnInstanceStopAction *OnInstanceStopActionObservation `json:"onInstanceStopAction,omitempty" tf:"on_instance_stop_action,omitempty"`
+	OnInstanceStopAction []OnInstanceStopActionObservation `json:"onInstanceStopAction,omitempty" tf:"on_instance_stop_action,omitempty"`
 
 	// Specifies if the instance is preemptible.
 	// If this field is set to true, then automatic_restart must be
@@ -1694,7 +1694,7 @@ type SchedulingParameters struct {
 
 	// The duration of the instance. Instance will run and be terminated after then, the termination action could be defined in instance_termination_action. Structure is documented below.
 	// +kubebuilder:validation:Optional
-	MaxRunDuration *MaxRunDurationParameters `json:"maxRunDuration,omitempty" tf:"max_run_duration,omitempty"`
+	MaxRunDuration []MaxRunDurationParameters `json:"maxRunDuration,omitempty" tf:"max_run_duration,omitempty"`
 
 	// The minimum number of virtual CPUs this instance will consume when running on a sole-tenant node.
 	// +kubebuilder:validation:Optional
@@ -1716,7 +1716,7 @@ type SchedulingParameters struct {
 
 	// Specifies the action to be performed when the instance is terminated using max_run_duration and STOP instance_termination_action. Only support true discard_local_ssd at this point. Structure is documented below.
 	// +kubebuilder:validation:Optional
-	OnInstanceStopAction *OnInstanceStopActionParameters `json:"onInstanceStopAction,omitempty" tf:"on_instance_stop_action,omitempty"`
+	OnInstanceStopAction []OnInstanceStopActionParameters `json:"onInstanceStopAction,omitempty" tf:"on_instance_stop_action,omitempty"`
 
 	// Specifies if the instance is preemptible.
 	// If this field is set to true, then automatic_restart must be

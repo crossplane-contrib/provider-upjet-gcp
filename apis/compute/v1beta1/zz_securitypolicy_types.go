@@ -191,14 +191,14 @@ type ExprOptionsInitParameters struct {
 
 	// reCAPTCHA configuration options to be applied for the rule. If the rule does not evaluate reCAPTCHA tokens, this field has no effect.
 	// Structure is documented below.
-	RecaptchaOptions *RecaptchaOptionsInitParameters `json:"recaptchaOptions,omitempty" tf:"recaptcha_options,omitempty"`
+	RecaptchaOptions []RecaptchaOptionsInitParameters `json:"recaptchaOptions,omitempty" tf:"recaptcha_options,omitempty"`
 }
 
 type ExprOptionsObservation struct {
 
 	// reCAPTCHA configuration options to be applied for the rule. If the rule does not evaluate reCAPTCHA tokens, this field has no effect.
 	// Structure is documented below.
-	RecaptchaOptions *RecaptchaOptionsObservation `json:"recaptchaOptions,omitempty" tf:"recaptcha_options,omitempty"`
+	RecaptchaOptions []RecaptchaOptionsObservation `json:"recaptchaOptions,omitempty" tf:"recaptcha_options,omitempty"`
 }
 
 type ExprOptionsParameters struct {
@@ -206,7 +206,7 @@ type ExprOptionsParameters struct {
 	// reCAPTCHA configuration options to be applied for the rule. If the rule does not evaluate reCAPTCHA tokens, this field has no effect.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	RecaptchaOptions *RecaptchaOptionsParameters `json:"recaptchaOptions" tf:"recaptcha_options,omitempty"`
+	RecaptchaOptions []RecaptchaOptionsParameters `json:"recaptchaOptions" tf:"recaptcha_options,omitempty"`
 }
 
 type ExprParameters struct {
@@ -576,7 +576,7 @@ type RuleMatchInitParameters struct {
 
 	// The configuration options available when specifying a user defined CEVAL expression (i.e., 'expr').
 	// Structure is documented below.
-	ExprOptions *ExprOptionsInitParameters `json:"exprOptions,omitempty" tf:"expr_options,omitempty"`
+	ExprOptions []ExprOptionsInitParameters `json:"exprOptions,omitempty" tf:"expr_options,omitempty"`
 
 	// Predefined rule expression. If this field is specified, config must also be specified.
 	// Available options:
@@ -597,7 +597,7 @@ type RuleMatchObservation struct {
 
 	// The configuration options available when specifying a user defined CEVAL expression (i.e., 'expr').
 	// Structure is documented below.
-	ExprOptions *ExprOptionsObservation `json:"exprOptions,omitempty" tf:"expr_options,omitempty"`
+	ExprOptions []ExprOptionsObservation `json:"exprOptions,omitempty" tf:"expr_options,omitempty"`
 
 	// Predefined rule expression. If this field is specified, config must also be specified.
 	// Available options:
@@ -621,7 +621,7 @@ type RuleMatchParameters struct {
 	// The configuration options available when specifying a user defined CEVAL expression (i.e., 'expr').
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	ExprOptions *ExprOptionsParameters `json:"exprOptions,omitempty" tf:"expr_options,omitempty"`
+	ExprOptions []ExprOptionsParameters `json:"exprOptions,omitempty" tf:"expr_options,omitempty"`
 
 	// Predefined rule expression. If this field is specified, config must also be specified.
 	// Available options:

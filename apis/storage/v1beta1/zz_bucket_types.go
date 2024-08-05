@@ -125,7 +125,7 @@ type BucketInitParameters struct {
 	Rpo *string `json:"rpo,omitempty" tf:"rpo,omitempty"`
 
 	// The bucket's soft delete policy, which defines the period of time that soft-deleted objects will be retained, and cannot be permanently deleted. Structure is documented below.
-	SoftDeletePolicy *SoftDeletePolicyInitParameters `json:"softDeletePolicy,omitempty" tf:"soft_delete_policy,omitempty"`
+	SoftDeletePolicy []SoftDeletePolicyInitParameters `json:"softDeletePolicy,omitempty" tf:"soft_delete_policy,omitempty"`
 
 	// The Storage Class of the new bucket. Supported values include: STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE.
 	StorageClass *string `json:"storageClass,omitempty" tf:"storage_class,omitempty"`
@@ -205,7 +205,7 @@ type BucketObservation struct {
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
 	// The bucket's soft delete policy, which defines the period of time that soft-deleted objects will be retained, and cannot be permanently deleted. Structure is documented below.
-	SoftDeletePolicy *SoftDeletePolicyObservation `json:"softDeletePolicy,omitempty" tf:"soft_delete_policy,omitempty"`
+	SoftDeletePolicy []SoftDeletePolicyObservation `json:"softDeletePolicy,omitempty" tf:"soft_delete_policy,omitempty"`
 
 	// The Storage Class of the new bucket. Supported values include: STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE.
 	StorageClass *string `json:"storageClass,omitempty" tf:"storage_class,omitempty"`
@@ -298,7 +298,7 @@ type BucketParameters struct {
 
 	// The bucket's soft delete policy, which defines the period of time that soft-deleted objects will be retained, and cannot be permanently deleted. Structure is documented below.
 	// +kubebuilder:validation:Optional
-	SoftDeletePolicy *SoftDeletePolicyParameters `json:"softDeletePolicy,omitempty" tf:"soft_delete_policy,omitempty"`
+	SoftDeletePolicy []SoftDeletePolicyParameters `json:"softDeletePolicy,omitempty" tf:"soft_delete_policy,omitempty"`
 
 	// The Storage Class of the new bucket. Supported values include: STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE.
 	// +kubebuilder:validation:Optional

@@ -1892,7 +1892,7 @@ type SecuritySettingsInitParameters struct {
 	// The configuration needed to generate a signature for access to private storage buckets that support AWS's Signature Version 4 for authentication.
 	// Allowed only for INTERNET_IP_PORT and INTERNET_FQDN_PORT NEG backends.
 	// Structure is documented below.
-	AwsV4Authentication *AwsV4AuthenticationInitParameters `json:"awsV4Authentication,omitempty" tf:"aws_v4_authentication,omitempty"`
+	AwsV4Authentication []AwsV4AuthenticationInitParameters `json:"awsV4Authentication,omitempty" tf:"aws_v4_authentication,omitempty"`
 
 	// ClientTlsPolicy is a resource that specifies how a client should authenticate
 	// connections to backends of a service. This resource itself does not affect
@@ -1910,7 +1910,7 @@ type SecuritySettingsObservation struct {
 	// The configuration needed to generate a signature for access to private storage buckets that support AWS's Signature Version 4 for authentication.
 	// Allowed only for INTERNET_IP_PORT and INTERNET_FQDN_PORT NEG backends.
 	// Structure is documented below.
-	AwsV4Authentication *AwsV4AuthenticationObservation `json:"awsV4Authentication,omitempty" tf:"aws_v4_authentication,omitempty"`
+	AwsV4Authentication []AwsV4AuthenticationObservation `json:"awsV4Authentication,omitempty" tf:"aws_v4_authentication,omitempty"`
 
 	// ClientTlsPolicy is a resource that specifies how a client should authenticate
 	// connections to backends of a service. This resource itself does not affect
@@ -1929,7 +1929,7 @@ type SecuritySettingsParameters struct {
 	// Allowed only for INTERNET_IP_PORT and INTERNET_FQDN_PORT NEG backends.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	AwsV4Authentication *AwsV4AuthenticationParameters `json:"awsV4Authentication,omitempty" tf:"aws_v4_authentication,omitempty"`
+	AwsV4Authentication []AwsV4AuthenticationParameters `json:"awsV4Authentication,omitempty" tf:"aws_v4_authentication,omitempty"`
 
 	// ClientTlsPolicy is a resource that specifies how a client should authenticate
 	// connections to backends of a service. This resource itself does not affect

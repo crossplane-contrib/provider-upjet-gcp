@@ -308,7 +308,7 @@ type BackupScheduleInitParameters struct {
 	// exclusive with the cronSchedule field since at most one schedule can be defined
 	// for a BackupPLan. If this is defined, then backupRetainDays must also be defined.
 	// Structure is documented below.
-	RpoConfig *RpoConfigInitParameters `json:"rpoConfig,omitempty" tf:"rpo_config,omitempty"`
+	RpoConfig []RpoConfigInitParameters `json:"rpoConfig,omitempty" tf:"rpo_config,omitempty"`
 }
 
 type BackupScheduleObservation struct {
@@ -325,7 +325,7 @@ type BackupScheduleObservation struct {
 	// exclusive with the cronSchedule field since at most one schedule can be defined
 	// for a BackupPLan. If this is defined, then backupRetainDays must also be defined.
 	// Structure is documented below.
-	RpoConfig *RpoConfigObservation `json:"rpoConfig,omitempty" tf:"rpo_config,omitempty"`
+	RpoConfig []RpoConfigObservation `json:"rpoConfig,omitempty" tf:"rpo_config,omitempty"`
 }
 
 type BackupScheduleParameters struct {
@@ -345,7 +345,7 @@ type BackupScheduleParameters struct {
 	// for a BackupPLan. If this is defined, then backupRetainDays must also be defined.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	RpoConfig *RpoConfigParameters `json:"rpoConfig,omitempty" tf:"rpo_config,omitempty"`
+	RpoConfig []RpoConfigParameters `json:"rpoConfig,omitempty" tf:"rpo_config,omitempty"`
 }
 
 type DaysOfWeekInitParameters struct {
@@ -422,7 +422,7 @@ type ExclusionWindowsInitParameters struct {
 	// The exclusion window occurs on these days of each week in UTC.
 	// Only one of singleOccurrenceDate, daily and daysOfWeek may be set.
 	// Structure is documented below.
-	DaysOfWeek *DaysOfWeekInitParameters `json:"daysOfWeek,omitempty" tf:"days_of_week,omitempty"`
+	DaysOfWeek []DaysOfWeekInitParameters `json:"daysOfWeek,omitempty" tf:"days_of_week,omitempty"`
 
 	// Specifies duration of the window in seconds with up to nine fractional digits,
 	// terminated by 's'. Example: "3.5s". Restrictions for duration based on the
@@ -432,11 +432,11 @@ type ExclusionWindowsInitParameters struct {
 	// No recurrence. The exclusion window occurs only once and on this date in UTC.
 	// Only one of singleOccurrenceDate, daily and daysOfWeek may be set.
 	// Structure is documented below.
-	SingleOccurrenceDate *SingleOccurrenceDateInitParameters `json:"singleOccurrenceDate,omitempty" tf:"single_occurrence_date,omitempty"`
+	SingleOccurrenceDate []SingleOccurrenceDateInitParameters `json:"singleOccurrenceDate,omitempty" tf:"single_occurrence_date,omitempty"`
 
 	// Specifies the start time of the window using time of the day in UTC.
 	// Structure is documented below.
-	StartTime *StartTimeInitParameters `json:"startTime,omitempty" tf:"start_time,omitempty"`
+	StartTime []StartTimeInitParameters `json:"startTime,omitempty" tf:"start_time,omitempty"`
 }
 
 type ExclusionWindowsObservation struct {
@@ -449,7 +449,7 @@ type ExclusionWindowsObservation struct {
 	// The exclusion window occurs on these days of each week in UTC.
 	// Only one of singleOccurrenceDate, daily and daysOfWeek may be set.
 	// Structure is documented below.
-	DaysOfWeek *DaysOfWeekObservation `json:"daysOfWeek,omitempty" tf:"days_of_week,omitempty"`
+	DaysOfWeek []DaysOfWeekObservation `json:"daysOfWeek,omitempty" tf:"days_of_week,omitempty"`
 
 	// Specifies duration of the window in seconds with up to nine fractional digits,
 	// terminated by 's'. Example: "3.5s". Restrictions for duration based on the
@@ -459,11 +459,11 @@ type ExclusionWindowsObservation struct {
 	// No recurrence. The exclusion window occurs only once and on this date in UTC.
 	// Only one of singleOccurrenceDate, daily and daysOfWeek may be set.
 	// Structure is documented below.
-	SingleOccurrenceDate *SingleOccurrenceDateObservation `json:"singleOccurrenceDate,omitempty" tf:"single_occurrence_date,omitempty"`
+	SingleOccurrenceDate []SingleOccurrenceDateObservation `json:"singleOccurrenceDate,omitempty" tf:"single_occurrence_date,omitempty"`
 
 	// Specifies the start time of the window using time of the day in UTC.
 	// Structure is documented below.
-	StartTime *StartTimeObservation `json:"startTime,omitempty" tf:"start_time,omitempty"`
+	StartTime []StartTimeObservation `json:"startTime,omitempty" tf:"start_time,omitempty"`
 }
 
 type ExclusionWindowsParameters struct {
@@ -478,7 +478,7 @@ type ExclusionWindowsParameters struct {
 	// Only one of singleOccurrenceDate, daily and daysOfWeek may be set.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	DaysOfWeek *DaysOfWeekParameters `json:"daysOfWeek,omitempty" tf:"days_of_week,omitempty"`
+	DaysOfWeek []DaysOfWeekParameters `json:"daysOfWeek,omitempty" tf:"days_of_week,omitempty"`
 
 	// Specifies duration of the window in seconds with up to nine fractional digits,
 	// terminated by 's'. Example: "3.5s". Restrictions for duration based on the
@@ -490,12 +490,12 @@ type ExclusionWindowsParameters struct {
 	// Only one of singleOccurrenceDate, daily and daysOfWeek may be set.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	SingleOccurrenceDate *SingleOccurrenceDateParameters `json:"singleOccurrenceDate,omitempty" tf:"single_occurrence_date,omitempty"`
+	SingleOccurrenceDate []SingleOccurrenceDateParameters `json:"singleOccurrenceDate,omitempty" tf:"single_occurrence_date,omitempty"`
 
 	// Specifies the start time of the window using time of the day in UTC.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	StartTime *StartTimeParameters `json:"startTime" tf:"start_time,omitempty"`
+	StartTime []StartTimeParameters `json:"startTime" tf:"start_time,omitempty"`
 }
 
 type NamespacedNamesInitParameters struct {
