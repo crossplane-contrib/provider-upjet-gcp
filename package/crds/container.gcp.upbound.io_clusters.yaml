@@ -228,20 +228,24 @@ spec:
                                 description: |-
                                   Logging configuration for the cluster.
                                   Structure is documented below.
-                                properties:
-                                  enabled:
-                                    description: Enables vertical pod autoscaling
-                                    type: boolean
-                                type: object
+                                items:
+                                  properties:
+                                    enabled:
+                                      description: Enables vertical pod autoscaling
+                                      type: boolean
+                                  type: object
+                                type: array
                               rayClusterMonitoringConfig:
                                 description: |-
                                   Monitoring configuration for the cluster.
                                   Structure is documented below.
-                                properties:
-                                  enabled:
-                                    description: Enables vertical pod autoscaling
-                                    type: boolean
-                                type: object
+                                items:
+                                  properties:
+                                    enabled:
+                                      description: Enables vertical pod autoscaling
+                                      type: boolean
+                                  type: object
+                                type: array
                             type: object
                           type: array
                         statefulHaConfig:
@@ -249,11 +253,13 @@ spec:
                             .
                             The status of the Stateful HA addon, which provides automatic configurable failover for stateful applications.
                             It is disabled by default for Standard clusters. Set enabled = true to enable.
-                          properties:
-                            enabled:
-                              description: Enables vertical pod autoscaling
-                              type: boolean
-                          type: object
+                          items:
+                            properties:
+                              enabled:
+                                description: Enables vertical pod autoscaling
+                                type: boolean
+                            type: object
+                          type: array
                       type: object
                     type: array
                   allowNetAdmin:
@@ -1125,35 +1131,41 @@ spec:
                         containerdConfig:
                           description: Parameters to customize containerd runtime.
                             Structure is documented below.
-                          properties:
-                            privateRegistryAccessConfig:
-                              description: 'Configuration for private container registries.
-                                There are two fields in this config:'
-                              properties:
-                                certificateAuthorityDomainConfig:
-                                  description: 'List of configuration objects for
-                                    CA and domains. Each object identifies a certificate
-                                    and its assigned domains. See how to configure
-                                    for private container registries for more detail.
-                                    Example:'
-                                  items:
-                                    properties:
-                                      fqdns:
-                                        items:
-                                          type: string
-                                        type: array
-                                      gcpSecretManagerCertificateConfig:
+                          items:
+                            properties:
+                              privateRegistryAccessConfig:
+                                description: 'Configuration for private container
+                                  registries. There are two fields in this config:'
+                                items:
+                                  properties:
+                                    certificateAuthorityDomainConfig:
+                                      description: 'List of configuration objects
+                                        for CA and domains. Each object identifies
+                                        a certificate and its assigned domains. See
+                                        how to configure for private container registries
+                                        for more detail. Example:'
+                                      items:
                                         properties:
-                                          secretUri:
-                                            type: string
+                                          fqdns:
+                                            items:
+                                              type: string
+                                            type: array
+                                          gcpSecretManagerCertificateConfig:
+                                            items:
+                                              properties:
+                                                secretUri:
+                                                  type: string
+                                              type: object
+                                            type: array
                                         type: object
-                                    type: object
-                                  type: array
-                                enabled:
-                                  description: Enables vertical pod autoscaling
-                                  type: boolean
-                              type: object
-                          type: object
+                                      type: array
+                                    enabled:
+                                      description: Enables vertical pod autoscaling
+                                      type: boolean
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
                         diskSizeGb:
                           description: |-
                             Size of the disk attached to each node, specified
@@ -1711,35 +1723,41 @@ spec:
                               containerdConfig:
                                 description: Parameters to customize containerd runtime.
                                   Structure is documented below.
-                                properties:
-                                  privateRegistryAccessConfig:
-                                    description: 'Configuration for private container
-                                      registries. There are two fields in this config:'
-                                    properties:
-                                      certificateAuthorityDomainConfig:
-                                        description: 'List of configuration objects
-                                          for CA and domains. Each object identifies
-                                          a certificate and its assigned domains.
-                                          See how to configure for private container
-                                          registries for more detail. Example:'
-                                        items:
-                                          properties:
-                                            fqdns:
-                                              items:
-                                                type: string
-                                              type: array
-                                            gcpSecretManagerCertificateConfig:
+                                items:
+                                  properties:
+                                    privateRegistryAccessConfig:
+                                      description: 'Configuration for private container
+                                        registries. There are two fields in this config:'
+                                      items:
+                                        properties:
+                                          certificateAuthorityDomainConfig:
+                                            description: 'List of configuration objects
+                                              for CA and domains. Each object identifies
+                                              a certificate and its assigned domains.
+                                              See how to configure for private container
+                                              registries for more detail. Example:'
+                                            items:
                                               properties:
-                                                secretUri:
-                                                  type: string
+                                                fqdns:
+                                                  items:
+                                                    type: string
+                                                  type: array
+                                                gcpSecretManagerCertificateConfig:
+                                                  items:
+                                                    properties:
+                                                      secretUri:
+                                                        type: string
+                                                    type: object
+                                                  type: array
                                               type: object
-                                          type: object
-                                        type: array
-                                      enabled:
-                                        description: Enables vertical pod autoscaling
-                                        type: boolean
-                                    type: object
-                                type: object
+                                            type: array
+                                          enabled:
+                                            description: Enables vertical pod autoscaling
+                                            type: boolean
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
                               loggingVariant:
                                 description: The type of logging agent that is deployed
                                   by default for newly created node pools in the cluster.
@@ -2226,20 +2244,24 @@ spec:
                                 description: |-
                                   Logging configuration for the cluster.
                                   Structure is documented below.
-                                properties:
-                                  enabled:
-                                    description: Enables vertical pod autoscaling
-                                    type: boolean
-                                type: object
+                                items:
+                                  properties:
+                                    enabled:
+                                      description: Enables vertical pod autoscaling
+                                      type: boolean
+                                  type: object
+                                type: array
                               rayClusterMonitoringConfig:
                                 description: |-
                                   Monitoring configuration for the cluster.
                                   Structure is documented below.
-                                properties:
-                                  enabled:
-                                    description: Enables vertical pod autoscaling
-                                    type: boolean
-                                type: object
+                                items:
+                                  properties:
+                                    enabled:
+                                      description: Enables vertical pod autoscaling
+                                      type: boolean
+                                  type: object
+                                type: array
                             type: object
                           type: array
                         statefulHaConfig:
@@ -2247,11 +2269,13 @@ spec:
                             .
                             The status of the Stateful HA addon, which provides automatic configurable failover for stateful applications.
                             It is disabled by default for Standard clusters. Set enabled = true to enable.
-                          properties:
-                            enabled:
-                              description: Enables vertical pod autoscaling
-                              type: boolean
-                          type: object
+                          items:
+                            properties:
+                              enabled:
+                                description: Enables vertical pod autoscaling
+                                type: boolean
+                            type: object
+                          type: array
                       type: object
                     type: array
                   allowNetAdmin:
@@ -3114,35 +3138,41 @@ spec:
                         containerdConfig:
                           description: Parameters to customize containerd runtime.
                             Structure is documented below.
-                          properties:
-                            privateRegistryAccessConfig:
-                              description: 'Configuration for private container registries.
-                                There are two fields in this config:'
-                              properties:
-                                certificateAuthorityDomainConfig:
-                                  description: 'List of configuration objects for
-                                    CA and domains. Each object identifies a certificate
-                                    and its assigned domains. See how to configure
-                                    for private container registries for more detail.
-                                    Example:'
-                                  items:
-                                    properties:
-                                      fqdns:
-                                        items:
-                                          type: string
-                                        type: array
-                                      gcpSecretManagerCertificateConfig:
+                          items:
+                            properties:
+                              privateRegistryAccessConfig:
+                                description: 'Configuration for private container
+                                  registries. There are two fields in this config:'
+                                items:
+                                  properties:
+                                    certificateAuthorityDomainConfig:
+                                      description: 'List of configuration objects
+                                        for CA and domains. Each object identifies
+                                        a certificate and its assigned domains. See
+                                        how to configure for private container registries
+                                        for more detail. Example:'
+                                      items:
                                         properties:
-                                          secretUri:
-                                            type: string
+                                          fqdns:
+                                            items:
+                                              type: string
+                                            type: array
+                                          gcpSecretManagerCertificateConfig:
+                                            items:
+                                              properties:
+                                                secretUri:
+                                                  type: string
+                                              type: object
+                                            type: array
                                         type: object
-                                    type: object
-                                  type: array
-                                enabled:
-                                  description: Enables vertical pod autoscaling
-                                  type: boolean
-                              type: object
-                          type: object
+                                      type: array
+                                    enabled:
+                                      description: Enables vertical pod autoscaling
+                                      type: boolean
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
                         diskSizeGb:
                           description: |-
                             Size of the disk attached to each node, specified
@@ -3700,35 +3730,41 @@ spec:
                               containerdConfig:
                                 description: Parameters to customize containerd runtime.
                                   Structure is documented below.
-                                properties:
-                                  privateRegistryAccessConfig:
-                                    description: 'Configuration for private container
-                                      registries. There are two fields in this config:'
-                                    properties:
-                                      certificateAuthorityDomainConfig:
-                                        description: 'List of configuration objects
-                                          for CA and domains. Each object identifies
-                                          a certificate and its assigned domains.
-                                          See how to configure for private container
-                                          registries for more detail. Example:'
-                                        items:
-                                          properties:
-                                            fqdns:
-                                              items:
-                                                type: string
-                                              type: array
-                                            gcpSecretManagerCertificateConfig:
+                                items:
+                                  properties:
+                                    privateRegistryAccessConfig:
+                                      description: 'Configuration for private container
+                                        registries. There are two fields in this config:'
+                                      items:
+                                        properties:
+                                          certificateAuthorityDomainConfig:
+                                            description: 'List of configuration objects
+                                              for CA and domains. Each object identifies
+                                              a certificate and its assigned domains.
+                                              See how to configure for private container
+                                              registries for more detail. Example:'
+                                            items:
                                               properties:
-                                                secretUri:
-                                                  type: string
+                                                fqdns:
+                                                  items:
+                                                    type: string
+                                                  type: array
+                                                gcpSecretManagerCertificateConfig:
+                                                  items:
+                                                    properties:
+                                                      secretUri:
+                                                        type: string
+                                                    type: object
+                                                  type: array
                                               type: object
-                                          type: object
-                                        type: array
-                                      enabled:
-                                        description: Enables vertical pod autoscaling
-                                        type: boolean
-                                    type: object
-                                type: object
+                                            type: array
+                                          enabled:
+                                            description: Enables vertical pod autoscaling
+                                            type: boolean
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
                               loggingVariant:
                                 description: The type of logging agent that is deployed
                                   by default for newly created node pools in the cluster.
@@ -4372,20 +4408,24 @@ spec:
                                 description: |-
                                   Logging configuration for the cluster.
                                   Structure is documented below.
-                                properties:
-                                  enabled:
-                                    description: Enables vertical pod autoscaling
-                                    type: boolean
-                                type: object
+                                items:
+                                  properties:
+                                    enabled:
+                                      description: Enables vertical pod autoscaling
+                                      type: boolean
+                                  type: object
+                                type: array
                               rayClusterMonitoringConfig:
                                 description: |-
                                   Monitoring configuration for the cluster.
                                   Structure is documented below.
-                                properties:
-                                  enabled:
-                                    description: Enables vertical pod autoscaling
-                                    type: boolean
-                                type: object
+                                items:
+                                  properties:
+                                    enabled:
+                                      description: Enables vertical pod autoscaling
+                                      type: boolean
+                                  type: object
+                                type: array
                             type: object
                           type: array
                         statefulHaConfig:
@@ -4393,11 +4433,13 @@ spec:
                             .
                             The status of the Stateful HA addon, which provides automatic configurable failover for stateful applications.
                             It is disabled by default for Standard clusters. Set enabled = true to enable.
-                          properties:
-                            enabled:
-                              description: Enables vertical pod autoscaling
-                              type: boolean
-                          type: object
+                          items:
+                            properties:
+                              enabled:
+                                description: Enables vertical pod autoscaling
+                                type: boolean
+                            type: object
+                          type: array
                       type: object
                     type: array
                   allowNetAdmin:
@@ -5255,35 +5297,41 @@ spec:
                         containerdConfig:
                           description: Parameters to customize containerd runtime.
                             Structure is documented below.
-                          properties:
-                            privateRegistryAccessConfig:
-                              description: 'Configuration for private container registries.
-                                There are two fields in this config:'
-                              properties:
-                                certificateAuthorityDomainConfig:
-                                  description: 'List of configuration objects for
-                                    CA and domains. Each object identifies a certificate
-                                    and its assigned domains. See how to configure
-                                    for private container registries for more detail.
-                                    Example:'
-                                  items:
-                                    properties:
-                                      fqdns:
-                                        items:
-                                          type: string
-                                        type: array
-                                      gcpSecretManagerCertificateConfig:
+                          items:
+                            properties:
+                              privateRegistryAccessConfig:
+                                description: 'Configuration for private container
+                                  registries. There are two fields in this config:'
+                                items:
+                                  properties:
+                                    certificateAuthorityDomainConfig:
+                                      description: 'List of configuration objects
+                                        for CA and domains. Each object identifies
+                                        a certificate and its assigned domains. See
+                                        how to configure for private container registries
+                                        for more detail. Example:'
+                                      items:
                                         properties:
-                                          secretUri:
-                                            type: string
+                                          fqdns:
+                                            items:
+                                              type: string
+                                            type: array
+                                          gcpSecretManagerCertificateConfig:
+                                            items:
+                                              properties:
+                                                secretUri:
+                                                  type: string
+                                              type: object
+                                            type: array
                                         type: object
-                                    type: object
-                                  type: array
-                                enabled:
-                                  description: Enables vertical pod autoscaling
-                                  type: boolean
-                              type: object
-                          type: object
+                                      type: array
+                                    enabled:
+                                      description: Enables vertical pod autoscaling
+                                      type: boolean
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
                         diskSizeGb:
                           description: |-
                             Size of the disk attached to each node, specified
@@ -5889,35 +5937,41 @@ spec:
                               containerdConfig:
                                 description: Parameters to customize containerd runtime.
                                   Structure is documented below.
-                                properties:
-                                  privateRegistryAccessConfig:
-                                    description: 'Configuration for private container
-                                      registries. There are two fields in this config:'
-                                    properties:
-                                      certificateAuthorityDomainConfig:
-                                        description: 'List of configuration objects
-                                          for CA and domains. Each object identifies
-                                          a certificate and its assigned domains.
-                                          See how to configure for private container
-                                          registries for more detail. Example:'
-                                        items:
-                                          properties:
-                                            fqdns:
-                                              items:
-                                                type: string
-                                              type: array
-                                            gcpSecretManagerCertificateConfig:
+                                items:
+                                  properties:
+                                    privateRegistryAccessConfig:
+                                      description: 'Configuration for private container
+                                        registries. There are two fields in this config:'
+                                      items:
+                                        properties:
+                                          certificateAuthorityDomainConfig:
+                                            description: 'List of configuration objects
+                                              for CA and domains. Each object identifies
+                                              a certificate and its assigned domains.
+                                              See how to configure for private container
+                                              registries for more detail. Example:'
+                                            items:
                                               properties:
-                                                secretUri:
-                                                  type: string
+                                                fqdns:
+                                                  items:
+                                                    type: string
+                                                  type: array
+                                                gcpSecretManagerCertificateConfig:
+                                                  items:
+                                                    properties:
+                                                      secretUri:
+                                                        type: string
+                                                    type: object
+                                                  type: array
                                               type: object
-                                          type: object
-                                        type: array
-                                      enabled:
-                                        description: Enables vertical pod autoscaling
-                                        type: boolean
-                                    type: object
-                                type: object
+                                            type: array
+                                          enabled:
+                                            description: Enables vertical pod autoscaling
+                                            type: boolean
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
                               diskSizeGb:
                                 description: |-
                                   Size of the disk attached to each node, specified
@@ -6383,11 +6437,13 @@ spec:
                             type: object
                           type: array
                         queuedProvisioning:
-                          properties:
-                            enabled:
-                              description: Enables vertical pod autoscaling
-                              type: boolean
-                          type: object
+                          items:
+                            properties:
+                              enabled:
+                                description: Enables vertical pod autoscaling
+                                type: boolean
+                            type: object
+                          type: array
                         upgradeSettings:
                           description: Specifies the upgrade settings for NAP created
                             node pools. Structure is documented below.
@@ -6505,35 +6561,41 @@ spec:
                               containerdConfig:
                                 description: Parameters to customize containerd runtime.
                                   Structure is documented below.
-                                properties:
-                                  privateRegistryAccessConfig:
-                                    description: 'Configuration for private container
-                                      registries. There are two fields in this config:'
-                                    properties:
-                                      certificateAuthorityDomainConfig:
-                                        description: 'List of configuration objects
-                                          for CA and domains. Each object identifies
-                                          a certificate and its assigned domains.
-                                          See how to configure for private container
-                                          registries for more detail. Example:'
-                                        items:
-                                          properties:
-                                            fqdns:
-                                              items:
-                                                type: string
-                                              type: array
-                                            gcpSecretManagerCertificateConfig:
+                                items:
+                                  properties:
+                                    privateRegistryAccessConfig:
+                                      description: 'Configuration for private container
+                                        registries. There are two fields in this config:'
+                                      items:
+                                        properties:
+                                          certificateAuthorityDomainConfig:
+                                            description: 'List of configuration objects
+                                              for CA and domains. Each object identifies
+                                              a certificate and its assigned domains.
+                                              See how to configure for private container
+                                              registries for more detail. Example:'
+                                            items:
                                               properties:
-                                                secretUri:
-                                                  type: string
+                                                fqdns:
+                                                  items:
+                                                    type: string
+                                                  type: array
+                                                gcpSecretManagerCertificateConfig:
+                                                  items:
+                                                    properties:
+                                                      secretUri:
+                                                        type: string
+                                                    type: object
+                                                  type: array
                                               type: object
-                                          type: object
-                                        type: array
-                                      enabled:
-                                        description: Enables vertical pod autoscaling
-                                        type: boolean
-                                    type: object
-                                type: object
+                                            type: array
+                                          enabled:
+                                            description: Enables vertical pod autoscaling
+                                            type: boolean
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
                               loggingVariant:
                                 description: The type of logging agent that is deployed
                                   by default for newly created node pools in the cluster.

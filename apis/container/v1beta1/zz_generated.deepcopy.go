@@ -173,8 +173,10 @@ func (in *AddonsConfigInitParameters) DeepCopyInto(out *AddonsConfigInitParamete
 	}
 	if in.StatefulHaConfig != nil {
 		in, out := &in.StatefulHaConfig, &out.StatefulHaConfig
-		*out = new(StatefulHaConfigInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]StatefulHaConfigInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -270,8 +272,10 @@ func (in *AddonsConfigObservation) DeepCopyInto(out *AddonsConfigObservation) {
 	}
 	if in.StatefulHaConfig != nil {
 		in, out := &in.StatefulHaConfig, &out.StatefulHaConfig
-		*out = new(StatefulHaConfigObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]StatefulHaConfigObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -367,8 +371,10 @@ func (in *AddonsConfigParameters) DeepCopyInto(out *AddonsConfigParameters) {
 	}
 	if in.StatefulHaConfig != nil {
 		in, out := &in.StatefulHaConfig, &out.StatefulHaConfig
-		*out = new(StatefulHaConfigParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]StatefulHaConfigParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -1220,8 +1226,10 @@ func (in *CertificateAuthorityDomainConfigInitParameters) DeepCopyInto(out *Cert
 	}
 	if in.GCPSecretManagerCertificateConfig != nil {
 		in, out := &in.GCPSecretManagerCertificateConfig, &out.GCPSecretManagerCertificateConfig
-		*out = new(GCPSecretManagerCertificateConfigInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]GCPSecretManagerCertificateConfigInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -1251,8 +1259,10 @@ func (in *CertificateAuthorityDomainConfigObservation) DeepCopyInto(out *Certifi
 	}
 	if in.GCPSecretManagerCertificateConfig != nil {
 		in, out := &in.GCPSecretManagerCertificateConfig, &out.GCPSecretManagerCertificateConfig
-		*out = new(GCPSecretManagerCertificateConfigObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]GCPSecretManagerCertificateConfigObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -1282,8 +1292,10 @@ func (in *CertificateAuthorityDomainConfigParameters) DeepCopyInto(out *Certific
 	}
 	if in.GCPSecretManagerCertificateConfig != nil {
 		in, out := &in.GCPSecretManagerCertificateConfig, &out.GCPSecretManagerCertificateConfig
-		*out = new(GCPSecretManagerCertificateConfigParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]GCPSecretManagerCertificateConfigParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -3113,8 +3125,10 @@ func (in *ContainerdConfigInitParameters) DeepCopyInto(out *ContainerdConfigInit
 	*out = *in
 	if in.PrivateRegistryAccessConfig != nil {
 		in, out := &in.PrivateRegistryAccessConfig, &out.PrivateRegistryAccessConfig
-		*out = new(PrivateRegistryAccessConfigInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]PrivateRegistryAccessConfigInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -3133,8 +3147,10 @@ func (in *ContainerdConfigObservation) DeepCopyInto(out *ContainerdConfigObserva
 	*out = *in
 	if in.PrivateRegistryAccessConfig != nil {
 		in, out := &in.PrivateRegistryAccessConfig, &out.PrivateRegistryAccessConfig
-		*out = new(PrivateRegistryAccessConfigObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]PrivateRegistryAccessConfigObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -3153,8 +3169,10 @@ func (in *ContainerdConfigParameters) DeepCopyInto(out *ContainerdConfigParamete
 	*out = *in
 	if in.PrivateRegistryAccessConfig != nil {
 		in, out := &in.PrivateRegistryAccessConfig, &out.PrivateRegistryAccessConfig
-		*out = new(PrivateRegistryAccessConfigParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]PrivateRegistryAccessConfigParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -3244,8 +3262,10 @@ func (in *ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainC
 	}
 	if in.GCPSecretManagerCertificateConfig != nil {
 		in, out := &in.GCPSecretManagerCertificateConfig, &out.GCPSecretManagerCertificateConfig
-		*out = new(PrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]PrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -3275,8 +3295,10 @@ func (in *ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainC
 	}
 	if in.GCPSecretManagerCertificateConfig != nil {
 		in, out := &in.GCPSecretManagerCertificateConfig, &out.GCPSecretManagerCertificateConfig
-		*out = new(PrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]PrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -3306,8 +3328,10 @@ func (in *ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainC
 	}
 	if in.GCPSecretManagerCertificateConfig != nil {
 		in, out := &in.GCPSecretManagerCertificateConfig, &out.GCPSecretManagerCertificateConfig
-		*out = new(PrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]PrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -7277,8 +7301,10 @@ func (in *NodeConfigContainerdConfigObservation) DeepCopyInto(out *NodeConfigCon
 	*out = *in
 	if in.PrivateRegistryAccessConfig != nil {
 		in, out := &in.PrivateRegistryAccessConfig, &out.PrivateRegistryAccessConfig
-		*out = new(ContainerdConfigPrivateRegistryAccessConfigObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]ContainerdConfigPrivateRegistryAccessConfigObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -7477,8 +7503,10 @@ func (in *NodeConfigDefaultsContainerdConfigInitParameters) DeepCopyInto(out *No
 	*out = *in
 	if in.PrivateRegistryAccessConfig != nil {
 		in, out := &in.PrivateRegistryAccessConfig, &out.PrivateRegistryAccessConfig
-		*out = new(NodeConfigDefaultsContainerdConfigPrivateRegistryAccessConfigInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]NodeConfigDefaultsContainerdConfigPrivateRegistryAccessConfigInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -7497,8 +7525,10 @@ func (in *NodeConfigDefaultsContainerdConfigObservation) DeepCopyInto(out *NodeC
 	*out = *in
 	if in.PrivateRegistryAccessConfig != nil {
 		in, out := &in.PrivateRegistryAccessConfig, &out.PrivateRegistryAccessConfig
-		*out = new(NodeConfigDefaultsContainerdConfigPrivateRegistryAccessConfigObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]NodeConfigDefaultsContainerdConfigPrivateRegistryAccessConfigObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -7517,8 +7547,10 @@ func (in *NodeConfigDefaultsContainerdConfigParameters) DeepCopyInto(out *NodeCo
 	*out = *in
 	if in.PrivateRegistryAccessConfig != nil {
 		in, out := &in.PrivateRegistryAccessConfig, &out.PrivateRegistryAccessConfig
-		*out = new(NodeConfigDefaultsContainerdConfigPrivateRegistryAccessConfigParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]NodeConfigDefaultsContainerdConfigPrivateRegistryAccessConfigParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -7618,8 +7650,10 @@ func (in *NodeConfigDefaultsInitParameters) DeepCopyInto(out *NodeConfigDefaults
 	*out = *in
 	if in.ContainerdConfig != nil {
 		in, out := &in.ContainerdConfig, &out.ContainerdConfig
-		*out = new(NodeConfigDefaultsContainerdConfigInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]NodeConfigDefaultsContainerdConfigInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.LoggingVariant != nil {
 		in, out := &in.LoggingVariant, &out.LoggingVariant
@@ -7643,8 +7677,10 @@ func (in *NodeConfigDefaultsObservation) DeepCopyInto(out *NodeConfigDefaultsObs
 	*out = *in
 	if in.ContainerdConfig != nil {
 		in, out := &in.ContainerdConfig, &out.ContainerdConfig
-		*out = new(NodeConfigDefaultsContainerdConfigObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]NodeConfigDefaultsContainerdConfigObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.LoggingVariant != nil {
 		in, out := &in.LoggingVariant, &out.LoggingVariant
@@ -7668,8 +7704,10 @@ func (in *NodeConfigDefaultsParameters) DeepCopyInto(out *NodeConfigDefaultsPara
 	*out = *in
 	if in.ContainerdConfig != nil {
 		in, out := &in.ContainerdConfig, &out.ContainerdConfig
-		*out = new(NodeConfigDefaultsContainerdConfigParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]NodeConfigDefaultsContainerdConfigParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.LoggingVariant != nil {
 		in, out := &in.LoggingVariant, &out.LoggingVariant
@@ -8231,8 +8269,10 @@ func (in *NodeConfigInitParameters) DeepCopyInto(out *NodeConfigInitParameters) 
 	}
 	if in.ContainerdConfig != nil {
 		in, out := &in.ContainerdConfig, &out.ContainerdConfig
-		*out = new(ContainerdConfigInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]ContainerdConfigInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.DiskSizeGb != nil {
 		in, out := &in.DiskSizeGb, &out.DiskSizeGb
@@ -8717,8 +8757,10 @@ func (in *NodeConfigObservation) DeepCopyInto(out *NodeConfigObservation) {
 	}
 	if in.ContainerdConfig != nil {
 		in, out := &in.ContainerdConfig, &out.ContainerdConfig
-		*out = new(ContainerdConfigObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]ContainerdConfigObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.DiskSizeGb != nil {
 		in, out := &in.DiskSizeGb, &out.DiskSizeGb
@@ -9019,8 +9061,10 @@ func (in *NodeConfigParameters) DeepCopyInto(out *NodeConfigParameters) {
 	}
 	if in.ContainerdConfig != nil {
 		in, out := &in.ContainerdConfig, &out.ContainerdConfig
-		*out = new(ContainerdConfigParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]ContainerdConfigParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.DiskSizeGb != nil {
 		in, out := &in.DiskSizeGb, &out.DiskSizeGb
@@ -11909,8 +11953,10 @@ func (in *NodePoolNodeConfigObservation) DeepCopyInto(out *NodePoolNodeConfigObs
 	}
 	if in.ContainerdConfig != nil {
 		in, out := &in.ContainerdConfig, &out.ContainerdConfig
-		*out = new(NodeConfigContainerdConfigObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]NodeConfigContainerdConfigObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.DiskSizeGb != nil {
 		in, out := &in.DiskSizeGb, &out.DiskSizeGb
@@ -13435,8 +13481,10 @@ func (in *NodePoolObservation) DeepCopyInto(out *NodePoolObservation) {
 	}
 	if in.QueuedProvisioning != nil {
 		in, out := &in.QueuedProvisioning, &out.QueuedProvisioning
-		*out = new(QueuedProvisioningObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]QueuedProvisioningObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.UpgradeSettings != nil {
 		in, out := &in.UpgradeSettings, &out.UpgradeSettings
@@ -14586,8 +14634,10 @@ func (in *PrivateRegistryAccessConfigCertificateAuthorityDomainConfigObservation
 	}
 	if in.GCPSecretManagerCertificateConfig != nil {
 		in, out := &in.GCPSecretManagerCertificateConfig, &out.GCPSecretManagerCertificateConfig
-		*out = new(CertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]CertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -14928,13 +14978,17 @@ func (in *RayOperatorConfigInitParameters) DeepCopyInto(out *RayOperatorConfigIn
 	}
 	if in.RayClusterLoggingConfig != nil {
 		in, out := &in.RayClusterLoggingConfig, &out.RayClusterLoggingConfig
-		*out = new(RayClusterLoggingConfigInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]RayClusterLoggingConfigInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.RayClusterMonitoringConfig != nil {
 		in, out := &in.RayClusterMonitoringConfig, &out.RayClusterMonitoringConfig
-		*out = new(RayClusterMonitoringConfigInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]RayClusterMonitoringConfigInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -14958,13 +15012,17 @@ func (in *RayOperatorConfigObservation) DeepCopyInto(out *RayOperatorConfigObser
 	}
 	if in.RayClusterLoggingConfig != nil {
 		in, out := &in.RayClusterLoggingConfig, &out.RayClusterLoggingConfig
-		*out = new(RayClusterLoggingConfigObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]RayClusterLoggingConfigObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.RayClusterMonitoringConfig != nil {
 		in, out := &in.RayClusterMonitoringConfig, &out.RayClusterMonitoringConfig
-		*out = new(RayClusterMonitoringConfigObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]RayClusterMonitoringConfigObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -14988,13 +15046,17 @@ func (in *RayOperatorConfigParameters) DeepCopyInto(out *RayOperatorConfigParame
 	}
 	if in.RayClusterLoggingConfig != nil {
 		in, out := &in.RayClusterLoggingConfig, &out.RayClusterLoggingConfig
-		*out = new(RayClusterLoggingConfigParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]RayClusterLoggingConfigParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.RayClusterMonitoringConfig != nil {
 		in, out := &in.RayClusterMonitoringConfig, &out.RayClusterMonitoringConfig
-		*out = new(RayClusterMonitoringConfigParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]RayClusterMonitoringConfigParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 

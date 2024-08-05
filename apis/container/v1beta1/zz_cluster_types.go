@@ -98,7 +98,7 @@ type AddonsConfigInitParameters struct {
 	// .
 	// The status of the Stateful HA addon, which provides automatic configurable failover for stateful applications.
 	// It is disabled by default for Standard clusters. Set enabled = true to enable.
-	StatefulHaConfig *StatefulHaConfigInitParameters `json:"statefulHaConfig,omitempty" tf:"stateful_ha_config,omitempty"`
+	StatefulHaConfig []StatefulHaConfigInitParameters `json:"statefulHaConfig,omitempty" tf:"stateful_ha_config,omitempty"`
 }
 
 type AddonsConfigObservation struct {
@@ -164,7 +164,7 @@ type AddonsConfigObservation struct {
 	// .
 	// The status of the Stateful HA addon, which provides automatic configurable failover for stateful applications.
 	// It is disabled by default for Standard clusters. Set enabled = true to enable.
-	StatefulHaConfig *StatefulHaConfigObservation `json:"statefulHaConfig,omitempty" tf:"stateful_ha_config,omitempty"`
+	StatefulHaConfig []StatefulHaConfigObservation `json:"statefulHaConfig,omitempty" tf:"stateful_ha_config,omitempty"`
 }
 
 type AddonsConfigParameters struct {
@@ -242,7 +242,7 @@ type AddonsConfigParameters struct {
 	// The status of the Stateful HA addon, which provides automatic configurable failover for stateful applications.
 	// It is disabled by default for Standard clusters. Set enabled = true to enable.
 	// +kubebuilder:validation:Optional
-	StatefulHaConfig *StatefulHaConfigParameters `json:"statefulHaConfig,omitempty" tf:"stateful_ha_config,omitempty"`
+	StatefulHaConfig []StatefulHaConfigParameters `json:"statefulHaConfig,omitempty" tf:"stateful_ha_config,omitempty"`
 }
 
 type AdvancedDatapathObservabilityConfigInitParameters struct {
@@ -591,13 +591,13 @@ type CertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigObservatio
 type CertificateAuthorityDomainConfigInitParameters struct {
 	Fqdns []*string `json:"fqdns,omitempty" tf:"fqdns,omitempty"`
 
-	GCPSecretManagerCertificateConfig *GCPSecretManagerCertificateConfigInitParameters `json:"gcpSecretManagerCertificateConfig,omitempty" tf:"gcp_secret_manager_certificate_config,omitempty"`
+	GCPSecretManagerCertificateConfig []GCPSecretManagerCertificateConfigInitParameters `json:"gcpSecretManagerCertificateConfig,omitempty" tf:"gcp_secret_manager_certificate_config,omitempty"`
 }
 
 type CertificateAuthorityDomainConfigObservation struct {
 	Fqdns []*string `json:"fqdns,omitempty" tf:"fqdns,omitempty"`
 
-	GCPSecretManagerCertificateConfig *GCPSecretManagerCertificateConfigObservation `json:"gcpSecretManagerCertificateConfig,omitempty" tf:"gcp_secret_manager_certificate_config,omitempty"`
+	GCPSecretManagerCertificateConfig []GCPSecretManagerCertificateConfigObservation `json:"gcpSecretManagerCertificateConfig,omitempty" tf:"gcp_secret_manager_certificate_config,omitempty"`
 }
 
 type CertificateAuthorityDomainConfigParameters struct {
@@ -606,7 +606,7 @@ type CertificateAuthorityDomainConfigParameters struct {
 	Fqdns []*string `json:"fqdns" tf:"fqdns,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	GCPSecretManagerCertificateConfig *GCPSecretManagerCertificateConfigParameters `json:"gcpSecretManagerCertificateConfig" tf:"gcp_secret_manager_certificate_config,omitempty"`
+	GCPSecretManagerCertificateConfig []GCPSecretManagerCertificateConfigParameters `json:"gcpSecretManagerCertificateConfig" tf:"gcp_secret_manager_certificate_config,omitempty"`
 }
 
 type CidrBlocksInitParameters struct {
@@ -1789,32 +1789,32 @@ type ConfigConnectorConfigParameters struct {
 type ContainerdConfigInitParameters struct {
 
 	// Configuration for private container registries. There are two fields in this config:
-	PrivateRegistryAccessConfig *PrivateRegistryAccessConfigInitParameters `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
+	PrivateRegistryAccessConfig []PrivateRegistryAccessConfigInitParameters `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
 }
 
 type ContainerdConfigObservation struct {
 
 	// Configuration for private container registries. There are two fields in this config:
-	PrivateRegistryAccessConfig *PrivateRegistryAccessConfigObservation `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
+	PrivateRegistryAccessConfig []PrivateRegistryAccessConfigObservation `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
 }
 
 type ContainerdConfigParameters struct {
 
 	// Configuration for private container registries. There are two fields in this config:
 	// +kubebuilder:validation:Optional
-	PrivateRegistryAccessConfig *PrivateRegistryAccessConfigParameters `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
+	PrivateRegistryAccessConfig []PrivateRegistryAccessConfigParameters `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
 }
 
 type ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigInitParameters struct {
 	Fqdns []*string `json:"fqdns,omitempty" tf:"fqdns,omitempty"`
 
-	GCPSecretManagerCertificateConfig *PrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigInitParameters `json:"gcpSecretManagerCertificateConfig,omitempty" tf:"gcp_secret_manager_certificate_config,omitempty"`
+	GCPSecretManagerCertificateConfig []PrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigInitParameters `json:"gcpSecretManagerCertificateConfig,omitempty" tf:"gcp_secret_manager_certificate_config,omitempty"`
 }
 
 type ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigObservation struct {
 	Fqdns []*string `json:"fqdns,omitempty" tf:"fqdns,omitempty"`
 
-	GCPSecretManagerCertificateConfig *PrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigObservation `json:"gcpSecretManagerCertificateConfig,omitempty" tf:"gcp_secret_manager_certificate_config,omitempty"`
+	GCPSecretManagerCertificateConfig []PrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigObservation `json:"gcpSecretManagerCertificateConfig,omitempty" tf:"gcp_secret_manager_certificate_config,omitempty"`
 }
 
 type ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigParameters struct {
@@ -1823,7 +1823,7 @@ type ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfig
 	Fqdns []*string `json:"fqdns" tf:"fqdns,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	GCPSecretManagerCertificateConfig *PrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigParameters `json:"gcpSecretManagerCertificateConfig" tf:"gcp_secret_manager_certificate_config,omitempty"`
+	GCPSecretManagerCertificateConfig []PrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigParameters `json:"gcpSecretManagerCertificateConfig" tf:"gcp_secret_manager_certificate_config,omitempty"`
 }
 
 type ContainerdConfigPrivateRegistryAccessConfigObservation struct {
@@ -3249,26 +3249,26 @@ type NodeConfigConfidentialNodesParameters struct {
 type NodeConfigContainerdConfigObservation struct {
 
 	// Configuration for private container registries. There are two fields in this config:
-	PrivateRegistryAccessConfig *ContainerdConfigPrivateRegistryAccessConfigObservation `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
+	PrivateRegistryAccessConfig []ContainerdConfigPrivateRegistryAccessConfigObservation `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
 }
 
 type NodeConfigDefaultsContainerdConfigInitParameters struct {
 
 	// Configuration for private container registries. There are two fields in this config:
-	PrivateRegistryAccessConfig *NodeConfigDefaultsContainerdConfigPrivateRegistryAccessConfigInitParameters `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
+	PrivateRegistryAccessConfig []NodeConfigDefaultsContainerdConfigPrivateRegistryAccessConfigInitParameters `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
 }
 
 type NodeConfigDefaultsContainerdConfigObservation struct {
 
 	// Configuration for private container registries. There are two fields in this config:
-	PrivateRegistryAccessConfig *NodeConfigDefaultsContainerdConfigPrivateRegistryAccessConfigObservation `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
+	PrivateRegistryAccessConfig []NodeConfigDefaultsContainerdConfigPrivateRegistryAccessConfigObservation `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
 }
 
 type NodeConfigDefaultsContainerdConfigParameters struct {
 
 	// Configuration for private container registries. There are two fields in this config:
 	// +kubebuilder:validation:Optional
-	PrivateRegistryAccessConfig *NodeConfigDefaultsContainerdConfigPrivateRegistryAccessConfigParameters `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
+	PrivateRegistryAccessConfig []NodeConfigDefaultsContainerdConfigPrivateRegistryAccessConfigParameters `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
 }
 
 type NodeConfigDefaultsContainerdConfigPrivateRegistryAccessConfigInitParameters struct {
@@ -3303,7 +3303,7 @@ type NodeConfigDefaultsContainerdConfigPrivateRegistryAccessConfigParameters str
 type NodeConfigDefaultsInitParameters struct {
 
 	// Parameters to customize containerd runtime. Structure is documented below.
-	ContainerdConfig *NodeConfigDefaultsContainerdConfigInitParameters `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
+	ContainerdConfig []NodeConfigDefaultsContainerdConfigInitParameters `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
 
 	// The type of logging agent that is deployed by default for newly created node pools in the cluster. Valid values include DEFAULT and MAX_THROUGHPUT. See Increasing logging agent throughput for more information.
 	LoggingVariant *string `json:"loggingVariant,omitempty" tf:"logging_variant,omitempty"`
@@ -3312,7 +3312,7 @@ type NodeConfigDefaultsInitParameters struct {
 type NodeConfigDefaultsObservation struct {
 
 	// Parameters to customize containerd runtime. Structure is documented below.
-	ContainerdConfig *NodeConfigDefaultsContainerdConfigObservation `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
+	ContainerdConfig []NodeConfigDefaultsContainerdConfigObservation `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
 
 	// The type of logging agent that is deployed by default for newly created node pools in the cluster. Valid values include DEFAULT and MAX_THROUGHPUT. See Increasing logging agent throughput for more information.
 	LoggingVariant *string `json:"loggingVariant,omitempty" tf:"logging_variant,omitempty"`
@@ -3322,7 +3322,7 @@ type NodeConfigDefaultsParameters struct {
 
 	// Parameters to customize containerd runtime. Structure is documented below.
 	// +kubebuilder:validation:Optional
-	ContainerdConfig *NodeConfigDefaultsContainerdConfigParameters `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
+	ContainerdConfig []NodeConfigDefaultsContainerdConfigParameters `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
 
 	// The type of logging agent that is deployed by default for newly created node pools in the cluster. Valid values include DEFAULT and MAX_THROUGHPUT. See Increasing logging agent throughput for more information.
 	// +kubebuilder:validation:Optional
@@ -3443,7 +3443,7 @@ type NodeConfigInitParameters struct {
 	ConfidentialNodes []NodeConfigConfidentialNodesInitParameters `json:"confidentialNodes,omitempty" tf:"confidential_nodes,omitempty"`
 
 	// Parameters to customize containerd runtime. Structure is documented below.
-	ContainerdConfig *ContainerdConfigInitParameters `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
+	ContainerdConfig []ContainerdConfigInitParameters `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
 
 	// Size of the disk attached to each node, specified
 	// in GB. The smallest allowed disk size is 10GB. Defaults to 100GB.
@@ -3678,7 +3678,7 @@ type NodeConfigObservation struct {
 	ConfidentialNodes []NodeConfigConfidentialNodesObservation `json:"confidentialNodes,omitempty" tf:"confidential_nodes,omitempty"`
 
 	// Parameters to customize containerd runtime. Structure is documented below.
-	ContainerdConfig *ContainerdConfigObservation `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
+	ContainerdConfig []ContainerdConfigObservation `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
 
 	// Size of the disk attached to each node, specified
 	// in GB. The smallest allowed disk size is 10GB. Defaults to 100GB.
@@ -3850,7 +3850,7 @@ type NodeConfigParameters struct {
 
 	// Parameters to customize containerd runtime. Structure is documented below.
 	// +kubebuilder:validation:Optional
-	ContainerdConfig *ContainerdConfigParameters `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
+	ContainerdConfig []ContainerdConfigParameters `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
 
 	// Size of the disk attached to each node, specified
 	// in GB. The smallest allowed disk size is 10GB. Defaults to 100GB.
@@ -4243,7 +4243,7 @@ type NodePoolNodeConfigObservation struct {
 	ConfidentialNodes []NodePoolNodeConfigConfidentialNodesObservation `json:"confidentialNodes,omitempty" tf:"confidential_nodes,omitempty"`
 
 	// Parameters to customize containerd runtime. Structure is documented below.
-	ContainerdConfig *NodeConfigContainerdConfigObservation `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
+	ContainerdConfig []NodeConfigContainerdConfigObservation `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
 
 	// Size of the disk attached to each node, specified
 	// in GB. The smallest allowed disk size is 10GB. Defaults to 100GB.
@@ -4447,7 +4447,7 @@ type NodePoolObservation struct {
 
 	PlacementPolicy []PlacementPolicyObservation `json:"placementPolicy,omitempty" tf:"placement_policy,omitempty"`
 
-	QueuedProvisioning *QueuedProvisioningObservation `json:"queuedProvisioning,omitempty" tf:"queued_provisioning,omitempty"`
+	QueuedProvisioning []QueuedProvisioningObservation `json:"queuedProvisioning,omitempty" tf:"queued_provisioning,omitempty"`
 
 	// Specifies the upgrade settings for NAP created node pools. Structure is documented below.
 	UpgradeSettings []NodePoolUpgradeSettingsObservation `json:"upgradeSettings,omitempty" tf:"upgrade_settings,omitempty"`
@@ -4662,7 +4662,7 @@ type PrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManager
 type PrivateRegistryAccessConfigCertificateAuthorityDomainConfigObservation struct {
 	Fqdns []*string `json:"fqdns,omitempty" tf:"fqdns,omitempty"`
 
-	GCPSecretManagerCertificateConfig *CertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigObservation `json:"gcpSecretManagerCertificateConfig,omitempty" tf:"gcp_secret_manager_certificate_config,omitempty"`
+	GCPSecretManagerCertificateConfig []CertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigObservation `json:"gcpSecretManagerCertificateConfig,omitempty" tf:"gcp_secret_manager_certificate_config,omitempty"`
 }
 
 type PrivateRegistryAccessConfigInitParameters struct {
@@ -4784,11 +4784,11 @@ type RayOperatorConfigInitParameters struct {
 
 	// Logging configuration for the cluster.
 	// Structure is documented below.
-	RayClusterLoggingConfig *RayClusterLoggingConfigInitParameters `json:"rayClusterLoggingConfig,omitempty" tf:"ray_cluster_logging_config,omitempty"`
+	RayClusterLoggingConfig []RayClusterLoggingConfigInitParameters `json:"rayClusterLoggingConfig,omitempty" tf:"ray_cluster_logging_config,omitempty"`
 
 	// Monitoring configuration for the cluster.
 	// Structure is documented below.
-	RayClusterMonitoringConfig *RayClusterMonitoringConfigInitParameters `json:"rayClusterMonitoringConfig,omitempty" tf:"ray_cluster_monitoring_config,omitempty"`
+	RayClusterMonitoringConfig []RayClusterMonitoringConfigInitParameters `json:"rayClusterMonitoringConfig,omitempty" tf:"ray_cluster_monitoring_config,omitempty"`
 }
 
 type RayOperatorConfigObservation struct {
@@ -4798,11 +4798,11 @@ type RayOperatorConfigObservation struct {
 
 	// Logging configuration for the cluster.
 	// Structure is documented below.
-	RayClusterLoggingConfig *RayClusterLoggingConfigObservation `json:"rayClusterLoggingConfig,omitempty" tf:"ray_cluster_logging_config,omitempty"`
+	RayClusterLoggingConfig []RayClusterLoggingConfigObservation `json:"rayClusterLoggingConfig,omitempty" tf:"ray_cluster_logging_config,omitempty"`
 
 	// Monitoring configuration for the cluster.
 	// Structure is documented below.
-	RayClusterMonitoringConfig *RayClusterMonitoringConfigObservation `json:"rayClusterMonitoringConfig,omitempty" tf:"ray_cluster_monitoring_config,omitempty"`
+	RayClusterMonitoringConfig []RayClusterMonitoringConfigObservation `json:"rayClusterMonitoringConfig,omitempty" tf:"ray_cluster_monitoring_config,omitempty"`
 }
 
 type RayOperatorConfigParameters struct {
@@ -4814,12 +4814,12 @@ type RayOperatorConfigParameters struct {
 	// Logging configuration for the cluster.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	RayClusterLoggingConfig *RayClusterLoggingConfigParameters `json:"rayClusterLoggingConfig,omitempty" tf:"ray_cluster_logging_config,omitempty"`
+	RayClusterLoggingConfig []RayClusterLoggingConfigParameters `json:"rayClusterLoggingConfig,omitempty" tf:"ray_cluster_logging_config,omitempty"`
 
 	// Monitoring configuration for the cluster.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	RayClusterMonitoringConfig *RayClusterMonitoringConfigParameters `json:"rayClusterMonitoringConfig,omitempty" tf:"ray_cluster_monitoring_config,omitempty"`
+	RayClusterMonitoringConfig []RayClusterMonitoringConfigParameters `json:"rayClusterMonitoringConfig,omitempty" tf:"ray_cluster_monitoring_config,omitempty"`
 }
 
 type RecurringWindowInitParameters struct {
