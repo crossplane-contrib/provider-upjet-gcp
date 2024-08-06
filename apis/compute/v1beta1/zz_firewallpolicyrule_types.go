@@ -49,6 +49,12 @@ type FirewallPolicyRuleInitParameters struct {
 	// An integer indicating the priority of a rule in the list. The priority must be a positive value between 0 and 2147483647. Rules are evaluated from highest to lowest priority where 0 is the highest priority and 2147483647 is the lowest prority.
 	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
 
+	// A fully-qualified URL of a SecurityProfileGroup resource. Example: https://networksecurity.googleapis.com/v1/organizations/{organizationId}/locations/global/securityProfileGroups/my-security-profile-group. It must be specified if action = 'apply_security_profile_group' and cannot be specified for other actions.
+	SecurityProfileGroup *string `json:"securityProfileGroup,omitempty" tf:"security_profile_group,omitempty"`
+
+	// Boolean flag indicating if the traffic should be TLS decrypted. It can be set only if action = 'apply_security_profile_group' and cannot be set for other actions.
+	TLSInspect *bool `json:"tlsInspect,omitempty" tf:"tls_inspect,omitempty"`
+
 	// A list of network resource URLs to which this rule applies. This field allows you to control which network's VMs get this rule. If this field is left blank, all VMs within the organization will receive the rule.
 	TargetResources []*string `json:"targetResources,omitempty" tf:"target_resources,omitempty"`
 
@@ -90,6 +96,12 @@ type FirewallPolicyRuleObservation struct {
 
 	// Calculation of the complexity of a single firewall policy rule.
 	RuleTupleCount *float64 `json:"ruleTupleCount,omitempty" tf:"rule_tuple_count,omitempty"`
+
+	// A fully-qualified URL of a SecurityProfileGroup resource. Example: https://networksecurity.googleapis.com/v1/organizations/{organizationId}/locations/global/securityProfileGroups/my-security-profile-group. It must be specified if action = 'apply_security_profile_group' and cannot be specified for other actions.
+	SecurityProfileGroup *string `json:"securityProfileGroup,omitempty" tf:"security_profile_group,omitempty"`
+
+	// Boolean flag indicating if the traffic should be TLS decrypted. It can be set only if action = 'apply_security_profile_group' and cannot be set for other actions.
+	TLSInspect *bool `json:"tlsInspect,omitempty" tf:"tls_inspect,omitempty"`
 
 	// A list of network resource URLs to which this rule applies. This field allows you to control which network's VMs get this rule. If this field is left blank, all VMs within the organization will receive the rule.
 	TargetResources []*string `json:"targetResources,omitempty" tf:"target_resources,omitempty"`
@@ -141,6 +153,14 @@ type FirewallPolicyRuleParameters struct {
 	// An integer indicating the priority of a rule in the list. The priority must be a positive value between 0 and 2147483647. Rules are evaluated from highest to lowest priority where 0 is the highest priority and 2147483647 is the lowest prority.
 	// +kubebuilder:validation:Optional
 	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
+
+	// A fully-qualified URL of a SecurityProfileGroup resource. Example: https://networksecurity.googleapis.com/v1/organizations/{organizationId}/locations/global/securityProfileGroups/my-security-profile-group. It must be specified if action = 'apply_security_profile_group' and cannot be specified for other actions.
+	// +kubebuilder:validation:Optional
+	SecurityProfileGroup *string `json:"securityProfileGroup,omitempty" tf:"security_profile_group,omitempty"`
+
+	// Boolean flag indicating if the traffic should be TLS decrypted. It can be set only if action = 'apply_security_profile_group' and cannot be set for other actions.
+	// +kubebuilder:validation:Optional
+	TLSInspect *bool `json:"tlsInspect,omitempty" tf:"tls_inspect,omitempty"`
 
 	// A list of network resource URLs to which this rule applies. This field allows you to control which network's VMs get this rule. If this field is left blank, all VMs within the organization will receive the rule.
 	// +kubebuilder:validation:Optional

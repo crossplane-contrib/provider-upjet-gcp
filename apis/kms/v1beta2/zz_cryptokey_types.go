@@ -20,7 +20,7 @@ type CryptoKeyInitParameters struct {
 	CryptoKeyBackend *string `json:"cryptoKeyBackend,omitempty" tf:"crypto_key_backend,omitempty"`
 
 	// The period of time that versions of this key spend in the DESTROY_SCHEDULED state before transitioning to DESTROYED.
-	// If not specified at creation time, the default duration is 24 hours.
+	// If not specified at creation time, the default duration is 30 days.
 	DestroyScheduledDuration *string `json:"destroyScheduledDuration,omitempty" tf:"destroy_scheduled_duration,omitempty"`
 
 	// Whether this key may contain imported versions only.
@@ -43,7 +43,8 @@ type CryptoKeyInitParameters struct {
 	RotationPeriod *string `json:"rotationPeriod,omitempty" tf:"rotation_period,omitempty"`
 
 	// If set to true, the request will create a CryptoKey without any CryptoKeyVersions.
-	// You must use the google_kms_key_ring_import_job resource to import the CryptoKeyVersion.
+	// You must use the google_kms_crypto_key_version resource to create a new CryptoKeyVersion
+	// or google_kms_key_ring_import_job resource to import the CryptoKeyVersion.
 	SkipInitialVersionCreation *bool `json:"skipInitialVersionCreation,omitempty" tf:"skip_initial_version_creation,omitempty"`
 
 	// A template describing settings for new crypto key versions.
@@ -58,7 +59,7 @@ type CryptoKeyObservation struct {
 	CryptoKeyBackend *string `json:"cryptoKeyBackend,omitempty" tf:"crypto_key_backend,omitempty"`
 
 	// The period of time that versions of this key spend in the DESTROY_SCHEDULED state before transitioning to DESTROYED.
-	// If not specified at creation time, the default duration is 24 hours.
+	// If not specified at creation time, the default duration is 30 days.
 	DestroyScheduledDuration *string `json:"destroyScheduledDuration,omitempty" tf:"destroy_scheduled_duration,omitempty"`
 
 	// for all of the labels present on the resource.
@@ -97,7 +98,8 @@ type CryptoKeyObservation struct {
 	RotationPeriod *string `json:"rotationPeriod,omitempty" tf:"rotation_period,omitempty"`
 
 	// If set to true, the request will create a CryptoKey without any CryptoKeyVersions.
-	// You must use the google_kms_key_ring_import_job resource to import the CryptoKeyVersion.
+	// You must use the google_kms_crypto_key_version resource to create a new CryptoKeyVersion
+	// or google_kms_key_ring_import_job resource to import the CryptoKeyVersion.
 	SkipInitialVersionCreation *bool `json:"skipInitialVersionCreation,omitempty" tf:"skip_initial_version_creation,omitempty"`
 
 	// The combination of labels configured directly on the resource
@@ -118,7 +120,7 @@ type CryptoKeyParameters struct {
 	CryptoKeyBackend *string `json:"cryptoKeyBackend,omitempty" tf:"crypto_key_backend,omitempty"`
 
 	// The period of time that versions of this key spend in the DESTROY_SCHEDULED state before transitioning to DESTROYED.
-	// If not specified at creation time, the default duration is 24 hours.
+	// If not specified at creation time, the default duration is 30 days.
 	// +kubebuilder:validation:Optional
 	DestroyScheduledDuration *string `json:"destroyScheduledDuration,omitempty" tf:"destroy_scheduled_duration,omitempty"`
 
@@ -161,7 +163,8 @@ type CryptoKeyParameters struct {
 	RotationPeriod *string `json:"rotationPeriod,omitempty" tf:"rotation_period,omitempty"`
 
 	// If set to true, the request will create a CryptoKey without any CryptoKeyVersions.
-	// You must use the google_kms_key_ring_import_job resource to import the CryptoKeyVersion.
+	// You must use the google_kms_crypto_key_version resource to create a new CryptoKeyVersion
+	// or google_kms_key_ring_import_job resource to import the CryptoKeyVersion.
 	// +kubebuilder:validation:Optional
 	SkipInitialVersionCreation *bool `json:"skipInitialVersionCreation,omitempty" tf:"skip_initial_version_creation,omitempty"`
 

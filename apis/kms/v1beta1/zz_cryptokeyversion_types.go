@@ -56,6 +56,35 @@ type CertChainsObservation struct {
 type CertChainsParameters struct {
 }
 
+type CryptoKeyVersionExternalProtectionLevelOptionsInitParameters struct {
+
+	// The path to the external key material on the EKM when using EkmConnection e.g., "v0/my/key". Set this field instead of externalKeyUri when using an EkmConnection.
+	EkmConnectionKeyPath *string `json:"ekmConnectionKeyPath,omitempty" tf:"ekm_connection_key_path,omitempty"`
+
+	// The URI for an external resource that this CryptoKeyVersion represents.
+	ExternalKeyURI *string `json:"externalKeyUri,omitempty" tf:"external_key_uri,omitempty"`
+}
+
+type CryptoKeyVersionExternalProtectionLevelOptionsObservation struct {
+
+	// The path to the external key material on the EKM when using EkmConnection e.g., "v0/my/key". Set this field instead of externalKeyUri when using an EkmConnection.
+	EkmConnectionKeyPath *string `json:"ekmConnectionKeyPath,omitempty" tf:"ekm_connection_key_path,omitempty"`
+
+	// The URI for an external resource that this CryptoKeyVersion represents.
+	ExternalKeyURI *string `json:"externalKeyUri,omitempty" tf:"external_key_uri,omitempty"`
+}
+
+type CryptoKeyVersionExternalProtectionLevelOptionsParameters struct {
+
+	// The path to the external key material on the EKM when using EkmConnection e.g., "v0/my/key". Set this field instead of externalKeyUri when using an EkmConnection.
+	// +kubebuilder:validation:Optional
+	EkmConnectionKeyPath *string `json:"ekmConnectionKeyPath,omitempty" tf:"ekm_connection_key_path,omitempty"`
+
+	// The URI for an external resource that this CryptoKeyVersion represents.
+	// +kubebuilder:validation:Optional
+	ExternalKeyURI *string `json:"externalKeyUri,omitempty" tf:"external_key_uri,omitempty"`
+}
+
 type CryptoKeyVersionInitParameters struct {
 
 	// The name of the cryptoKey associated with the CryptoKeyVersions.
@@ -71,6 +100,10 @@ type CryptoKeyVersionInitParameters struct {
 	// Selector for a CryptoKey in kms to populate cryptoKey.
 	// +kubebuilder:validation:Optional
 	CryptoKeySelector *v1.Selector `json:"cryptoKeySelector,omitempty" tf:"-"`
+
+	// ExternalProtectionLevelOptions stores a group of additional fields for configuring a CryptoKeyVersion that are specific to the EXTERNAL protection level and EXTERNAL_VPC protection levels.
+	// Structure is documented below.
+	ExternalProtectionLevelOptions []CryptoKeyVersionExternalProtectionLevelOptionsInitParameters `json:"externalProtectionLevelOptions,omitempty" tf:"external_protection_level_options,omitempty"`
 
 	// The current state of the CryptoKeyVersion.
 	// Possible values are: PENDING_GENERATION, ENABLED, DISABLED, DESTROYED, DESTROY_SCHEDULED, PENDING_IMPORT, IMPORT_FAILED.
@@ -90,6 +123,10 @@ type CryptoKeyVersionObservation struct {
 	// The name of the cryptoKey associated with the CryptoKeyVersions.
 	// Format: 'projects/{{project}}/locations/{{location}}/keyRings/{{keyring}}/cryptoKeys/{{cryptoKey}}'
 	CryptoKey *string `json:"cryptoKey,omitempty" tf:"crypto_key,omitempty"`
+
+	// ExternalProtectionLevelOptions stores a group of additional fields for configuring a CryptoKeyVersion that are specific to the EXTERNAL protection level and EXTERNAL_VPC protection levels.
+	// Structure is documented below.
+	ExternalProtectionLevelOptions []CryptoKeyVersionExternalProtectionLevelOptionsObservation `json:"externalProtectionLevelOptions,omitempty" tf:"external_protection_level_options,omitempty"`
 
 	// The time this CryptoKeyVersion key material was generated
 	GenerateTime *string `json:"generateTime,omitempty" tf:"generate_time,omitempty"`
@@ -124,6 +161,11 @@ type CryptoKeyVersionParameters struct {
 	// Selector for a CryptoKey in kms to populate cryptoKey.
 	// +kubebuilder:validation:Optional
 	CryptoKeySelector *v1.Selector `json:"cryptoKeySelector,omitempty" tf:"-"`
+
+	// ExternalProtectionLevelOptions stores a group of additional fields for configuring a CryptoKeyVersion that are specific to the EXTERNAL protection level and EXTERNAL_VPC protection levels.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ExternalProtectionLevelOptions []CryptoKeyVersionExternalProtectionLevelOptionsParameters `json:"externalProtectionLevelOptions,omitempty" tf:"external_protection_level_options,omitempty"`
 
 	// The current state of the CryptoKeyVersion.
 	// Possible values are: PENDING_GENERATION, ENABLED, DISABLED, DESTROYED, DESTROY_SCHEDULED, PENDING_IMPORT, IMPORT_FAILED.

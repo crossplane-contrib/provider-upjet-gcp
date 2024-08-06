@@ -24,8 +24,8 @@ type DomainInitParameters struct {
 	// +listType=set
 	AuthorizedNetworks []*string `json:"authorizedNetworks,omitempty" tf:"authorized_networks,omitempty"`
 
-	// The fully qualified domain name. e.g. mydomain.myorganization.com, with the restrictions,
-	// https://cloud.google.com/managed-microsoft-ad/reference/rest/v1/projects.locations.global.domains.
+	// The fully qualified domain name. e.g. mydomain.myorganization.com, with the restrictions
+	// of https://cloud.google.com/managed-microsoft-ad/reference/rest/v1/projects.locations.global.domains.
 	DomainName *string `json:"domainName,omitempty" tf:"domain_name,omitempty"`
 
 	// Resource labels that can contain user-provided metadata
@@ -58,8 +58,8 @@ type DomainObservation struct {
 	// +listType=set
 	AuthorizedNetworks []*string `json:"authorizedNetworks,omitempty" tf:"authorized_networks,omitempty"`
 
-	// The fully qualified domain name. e.g. mydomain.myorganization.com, with the restrictions,
-	// https://cloud.google.com/managed-microsoft-ad/reference/rest/v1/projects.locations.global.domains.
+	// The fully qualified domain name. e.g. mydomain.myorganization.com, with the restrictions
+	// of https://cloud.google.com/managed-microsoft-ad/reference/rest/v1/projects.locations.global.domains.
 	DomainName *string `json:"domainName,omitempty" tf:"domain_name,omitempty"`
 
 	// +mapType=granular
@@ -112,8 +112,8 @@ type DomainParameters struct {
 	// +listType=set
 	AuthorizedNetworks []*string `json:"authorizedNetworks,omitempty" tf:"authorized_networks,omitempty"`
 
-	// The fully qualified domain name. e.g. mydomain.myorganization.com, with the restrictions,
-	// https://cloud.google.com/managed-microsoft-ad/reference/rest/v1/projects.locations.global.domains.
+	// The fully qualified domain name. e.g. mydomain.myorganization.com, with the restrictions
+	// of https://cloud.google.com/managed-microsoft-ad/reference/rest/v1/projects.locations.global.domains.
 	// +kubebuilder:validation:Optional
 	DomainName *string `json:"domainName,omitempty" tf:"domain_name,omitempty"`
 

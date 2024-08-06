@@ -76,6 +76,16 @@ spec:
                     description: Primary GCP region for analytics data storage. For
                       valid values, see Create an Apigee organization.
                     type: string
+                  apiConsumerDataEncryptionKeyName:
+                    description: Cloud KMS key name used for encrypting API consumer
+                      data.
+                    type: string
+                  apiConsumerDataLocation:
+                    description: |-
+                      This field is needed only for customers using non-default data residency regions.
+                      Apigee stores some control plane data only in single region.
+                      This field determines which single region Apigee should use.
+                    type: string
                   authorizedNetwork:
                     description: |-
                       Compute Engine network used for Service Networking to be peered with Apigee runtime instances.
@@ -159,6 +169,11 @@ spec:
                   billingType:
                     description: Billing type of the Apigee organization. See Apigee
                       pricing.
+                    type: string
+                  controlPlaneEncryptionKeyName:
+                    description: |-
+                      Cloud KMS key name used for encrypting control plane data that is stored in a multi region.
+                      Only used for the data residency region "US" or "EU".
                     type: string
                   description:
                     description: Description of the Apigee organization.
@@ -313,6 +328,16 @@ spec:
                     description: Primary GCP region for analytics data storage. For
                       valid values, see Create an Apigee organization.
                     type: string
+                  apiConsumerDataEncryptionKeyName:
+                    description: Cloud KMS key name used for encrypting API consumer
+                      data.
+                    type: string
+                  apiConsumerDataLocation:
+                    description: |-
+                      This field is needed only for customers using non-default data residency regions.
+                      Apigee stores some control plane data only in single region.
+                      This field determines which single region Apigee should use.
+                    type: string
                   authorizedNetwork:
                     description: |-
                       Compute Engine network used for Service Networking to be peered with Apigee runtime instances.
@@ -396,6 +421,11 @@ spec:
                   billingType:
                     description: Billing type of the Apigee organization. See Apigee
                       pricing.
+                    type: string
+                  controlPlaneEncryptionKeyName:
+                    description: |-
+                      Cloud KMS key name used for encrypting control plane data that is stored in a multi region.
+                      Only used for the data residency region "US" or "EU".
                     type: string
                   description:
                     description: Description of the Apigee organization.
@@ -714,6 +744,16 @@ spec:
                     description: Primary GCP region for analytics data storage. For
                       valid values, see Create an Apigee organization.
                     type: string
+                  apiConsumerDataEncryptionKeyName:
+                    description: Cloud KMS key name used for encrypting API consumer
+                      data.
+                    type: string
+                  apiConsumerDataLocation:
+                    description: |-
+                      This field is needed only for customers using non-default data residency regions.
+                      Apigee stores some control plane data only in single region.
+                      This field determines which single region Apigee should use.
+                    type: string
                   apigeeProjectId:
                     description: Output only. Project ID of the Apigee Tenant Project.
                     type: string
@@ -731,6 +771,11 @@ spec:
                     description: |-
                       Output only. Base64-encoded public certificate for the root CA of the Apigee organization.
                       Valid only when RuntimeType is CLOUD. A base64-encoded string.
+                    type: string
+                  controlPlaneEncryptionKeyName:
+                    description: |-
+                      Cloud KMS key name used for encrypting control plane data that is stored in a multi region.
+                      Only used for the data residency region "US" or "EU".
                     type: string
                   description:
                     description: Description of the Apigee organization.

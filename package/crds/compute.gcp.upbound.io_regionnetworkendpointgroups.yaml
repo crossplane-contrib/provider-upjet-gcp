@@ -1474,8 +1474,8 @@ spec:
     schema:
       openAPIV3Schema:
         description: RegionNetworkEndpointGroup is the Schema for the RegionNetworkEndpointGroups
-          API. A regional NEG that can support Serverless Products and proxying traffic
-          to external backends.
+          API. A regional NEG that can support Serverless Products, proxying traffic
+          to external backends and providing traffic to the PSC port mapping endpoints.
         properties:
           apiVersion:
             description: |-
@@ -1762,7 +1762,7 @@ spec:
                     description: |-
                       Type of network endpoints in this network endpoint group. Defaults to SERVERLESS.
                       Default value is SERVERLESS.
-                      Possible values are: SERVERLESS, PRIVATE_SERVICE_CONNECT, INTERNET_IP_PORT, INTERNET_FQDN_PORT.
+                      Possible values are: SERVERLESS, PRIVATE_SERVICE_CONNECT, INTERNET_IP_PORT, INTERNET_FQDN_PORT, GCE_VM_IP_PORTMAP.
                     type: string
                   networkRef:
                     description: Reference to a Network in compute to populate network.
@@ -2274,7 +2274,7 @@ spec:
                     description: |-
                       Type of network endpoints in this network endpoint group. Defaults to SERVERLESS.
                       Default value is SERVERLESS.
-                      Possible values are: SERVERLESS, PRIVATE_SERVICE_CONNECT, INTERNET_IP_PORT, INTERNET_FQDN_PORT.
+                      Possible values are: SERVERLESS, PRIVATE_SERVICE_CONNECT, INTERNET_IP_PORT, INTERNET_FQDN_PORT, GCE_VM_IP_PORTMAP.
                     type: string
                   networkRef:
                     description: Reference to a Network in compute to populate network.
@@ -2791,7 +2791,7 @@ spec:
                     description: |-
                       Type of network endpoints in this network endpoint group. Defaults to SERVERLESS.
                       Default value is SERVERLESS.
-                      Possible values are: SERVERLESS, PRIVATE_SERVICE_CONNECT, INTERNET_IP_PORT, INTERNET_FQDN_PORT.
+                      Possible values are: SERVERLESS, PRIVATE_SERVICE_CONNECT, INTERNET_IP_PORT, INTERNET_FQDN_PORT, GCE_VM_IP_PORTMAP.
                     type: string
                   project:
                     description: |-

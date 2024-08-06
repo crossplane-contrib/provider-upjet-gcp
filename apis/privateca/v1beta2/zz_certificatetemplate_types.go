@@ -22,6 +22,7 @@ type CertificateTemplateIdentityConstraintsInitParameters struct {
 	AllowSubjectPassthrough *bool `json:"allowSubjectPassthrough,omitempty" tf:"allow_subject_passthrough,omitempty"`
 
 	// Optional. A CEL expression that may be used to validate the resolved X.509 Subject and/or Subject Alternative Name before a certificate is signed. To see the full allowed syntax and some examples, see https://cloud.google.com/certificate-authority-service/docs/using-cel
+	// Structure is documented below.
 	CelExpression *IdentityConstraintsCelExpressionInitParameters `json:"celExpression,omitempty" tf:"cel_expression,omitempty"`
 }
 
@@ -34,6 +35,7 @@ type CertificateTemplateIdentityConstraintsObservation struct {
 	AllowSubjectPassthrough *bool `json:"allowSubjectPassthrough,omitempty" tf:"allow_subject_passthrough,omitempty"`
 
 	// Optional. A CEL expression that may be used to validate the resolved X.509 Subject and/or Subject Alternative Name before a certificate is signed. To see the full allowed syntax and some examples, see https://cloud.google.com/certificate-authority-service/docs/using-cel
+	// Structure is documented below.
 	CelExpression *IdentityConstraintsCelExpressionObservation `json:"celExpression,omitempty" tf:"cel_expression,omitempty"`
 }
 
@@ -48,6 +50,7 @@ type CertificateTemplateIdentityConstraintsParameters struct {
 	AllowSubjectPassthrough *bool `json:"allowSubjectPassthrough" tf:"allow_subject_passthrough,omitempty"`
 
 	// Optional. A CEL expression that may be used to validate the resolved X.509 Subject and/or Subject Alternative Name before a certificate is signed. To see the full allowed syntax and some examples, see https://cloud.google.com/certificate-authority-service/docs/using-cel
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	CelExpression *IdentityConstraintsCelExpressionParameters `json:"celExpression,omitempty" tf:"cel_expression,omitempty"`
 }
@@ -58,19 +61,28 @@ type CertificateTemplateInitParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Optional. Describes constraints on identities that may be appear in Certificates issued using this template. If this is omitted, then this template will not add restrictions on a certificate's identity.
+	// Structure is documented below.
 	IdentityConstraints *CertificateTemplateIdentityConstraintsInitParameters `json:"identityConstraints,omitempty" tf:"identity_constraints,omitempty"`
 
 	// Optional. Labels with user-defined metadata.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
+	// Optional. The maximum lifetime allowed for all issued certificates that use this template. If the issuing CaPool's IssuancePolicy specifies a maximum lifetime the minimum of the two durations will be the maximum lifetime for issued. Note that if the issuing CertificateAuthority expires before a Certificate's requested maximum_lifetime, the effective lifetime will be explicitly truncated to match it.
+	MaximumLifetime *string `json:"maximumLifetime,omitempty" tf:"maximum_lifetime,omitempty"`
+
 	// Optional. Describes the set of X.509 extensions that may appear in a Certificate issued using this CertificateTemplate. If a certificate request sets extensions that don't appear in the passthrough_extensions, those extensions will be dropped. If the issuing CaPool's IssuancePolicy defines baseline_values that don't appear here, the certificate issuance request will fail. If this is omitted, then this template will not add restrictions on a certificate's X.509 extensions. These constraints do not apply to X.509 extensions set in this CertificateTemplate's predefined_values.
+	// Structure is documented below.
 	PassthroughExtensions *PassthroughExtensionsInitParameters `json:"passthroughExtensions,omitempty" tf:"passthrough_extensions,omitempty"`
 
 	// Optional. A set of X.509 values that will be applied to all issued certificates that use this template. If the certificate request includes conflicting values for the same properties, they will be overwritten by the values defined here. If the issuing CaPool's IssuancePolicy defines conflicting baseline_values for the same properties, the certificate issuance request will fail.
+	// Structure is documented below.
 	PredefinedValues *PredefinedValuesInitParameters `json:"predefinedValues,omitempty" tf:"predefined_values,omitempty"`
 
-	// The project for the resource
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
@@ -89,25 +101,35 @@ type CertificateTemplateObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Optional. Describes constraints on identities that may be appear in Certificates issued using this template. If this is omitted, then this template will not add restrictions on a certificate's identity.
+	// Structure is documented below.
 	IdentityConstraints *CertificateTemplateIdentityConstraintsObservation `json:"identityConstraints,omitempty" tf:"identity_constraints,omitempty"`
 
 	// Optional. Labels with user-defined metadata.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The location for the resource
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
+	// Optional. The maximum lifetime allowed for all issued certificates that use this template. If the issuing CaPool's IssuancePolicy specifies a maximum lifetime the minimum of the two durations will be the maximum lifetime for issued. Note that if the issuing CertificateAuthority expires before a Certificate's requested maximum_lifetime, the effective lifetime will be explicitly truncated to match it.
+	MaximumLifetime *string `json:"maximumLifetime,omitempty" tf:"maximum_lifetime,omitempty"`
+
 	// Optional. Describes the set of X.509 extensions that may appear in a Certificate issued using this CertificateTemplate. If a certificate request sets extensions that don't appear in the passthrough_extensions, those extensions will be dropped. If the issuing CaPool's IssuancePolicy defines baseline_values that don't appear here, the certificate issuance request will fail. If this is omitted, then this template will not add restrictions on a certificate's X.509 extensions. These constraints do not apply to X.509 extensions set in this CertificateTemplate's predefined_values.
+	// Structure is documented below.
 	PassthroughExtensions *PassthroughExtensionsObservation `json:"passthroughExtensions,omitempty" tf:"passthrough_extensions,omitempty"`
 
 	// Optional. A set of X.509 values that will be applied to all issued certificates that use this template. If the certificate request includes conflicting values for the same properties, they will be overwritten by the values defined here. If the issuing CaPool's IssuancePolicy defines conflicting baseline_values for the same properties, the certificate issuance request will fail.
+	// Structure is documented below.
 	PredefinedValues *PredefinedValuesObservation `json:"predefinedValues,omitempty" tf:"predefined_values,omitempty"`
 
-	// The project for the resource
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// The combination of labels configured directly on the resource and default labels configured on the provider.
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
 	// +mapType=granular
 	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
@@ -122,10 +144,13 @@ type CertificateTemplateParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Optional. Describes constraints on identities that may be appear in Certificates issued using this template. If this is omitted, then this template will not add restrictions on a certificate's identity.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	IdentityConstraints *CertificateTemplateIdentityConstraintsParameters `json:"identityConstraints,omitempty" tf:"identity_constraints,omitempty"`
 
 	// Optional. Labels with user-defined metadata.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
@@ -134,15 +159,22 @@ type CertificateTemplateParameters struct {
 	// +kubebuilder:validation:Required
 	Location *string `json:"location" tf:"location,omitempty"`
 
+	// Optional. The maximum lifetime allowed for all issued certificates that use this template. If the issuing CaPool's IssuancePolicy specifies a maximum lifetime the minimum of the two durations will be the maximum lifetime for issued. Note that if the issuing CertificateAuthority expires before a Certificate's requested maximum_lifetime, the effective lifetime will be explicitly truncated to match it.
+	// +kubebuilder:validation:Optional
+	MaximumLifetime *string `json:"maximumLifetime,omitempty" tf:"maximum_lifetime,omitempty"`
+
 	// Optional. Describes the set of X.509 extensions that may appear in a Certificate issued using this CertificateTemplate. If a certificate request sets extensions that don't appear in the passthrough_extensions, those extensions will be dropped. If the issuing CaPool's IssuancePolicy defines baseline_values that don't appear here, the certificate issuance request will fail. If this is omitted, then this template will not add restrictions on a certificate's X.509 extensions. These constraints do not apply to X.509 extensions set in this CertificateTemplate's predefined_values.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	PassthroughExtensions *PassthroughExtensionsParameters `json:"passthroughExtensions,omitempty" tf:"passthrough_extensions,omitempty"`
 
 	// Optional. A set of X.509 values that will be applied to all issued certificates that use this template. If the certificate request includes conflicting values for the same properties, they will be overwritten by the values defined here. If the issuing CaPool's IssuancePolicy defines conflicting baseline_values for the same properties, the certificate issuance request will fail.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	PredefinedValues *PredefinedValuesParameters `json:"predefinedValues,omitempty" tf:"predefined_values,omitempty"`
 
-	// The project for the resource
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
@@ -215,6 +247,7 @@ type PassthroughExtensionsAdditionalExtensionsParameters struct {
 type PassthroughExtensionsInitParameters struct {
 
 	// Optional. A set of ObjectIds identifying custom X.509 extensions. Will be combined with known_extensions to determine the full set of X.509 extensions.
+	// Structure is documented below.
 	AdditionalExtensions []PassthroughExtensionsAdditionalExtensionsInitParameters `json:"additionalExtensions,omitempty" tf:"additional_extensions,omitempty"`
 
 	// Optional. A set of named X.509 extensions. Will be combined with additional_extensions to determine the full set of X.509 extensions.
@@ -224,6 +257,7 @@ type PassthroughExtensionsInitParameters struct {
 type PassthroughExtensionsObservation struct {
 
 	// Optional. A set of ObjectIds identifying custom X.509 extensions. Will be combined with known_extensions to determine the full set of X.509 extensions.
+	// Structure is documented below.
 	AdditionalExtensions []PassthroughExtensionsAdditionalExtensionsObservation `json:"additionalExtensions,omitempty" tf:"additional_extensions,omitempty"`
 
 	// Optional. A set of named X.509 extensions. Will be combined with additional_extensions to determine the full set of X.509 extensions.
@@ -233,6 +267,7 @@ type PassthroughExtensionsObservation struct {
 type PassthroughExtensionsParameters struct {
 
 	// Optional. A set of ObjectIds identifying custom X.509 extensions. Will be combined with known_extensions to determine the full set of X.509 extensions.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AdditionalExtensions []PassthroughExtensionsAdditionalExtensionsParameters `json:"additionalExtensions,omitempty" tf:"additional_extensions,omitempty"`
 
@@ -247,6 +282,7 @@ type PredefinedValuesAdditionalExtensionsInitParameters struct {
 	Critical *bool `json:"critical,omitempty" tf:"critical,omitempty"`
 
 	// Required. The OID for this X.509 extension.
+	// Structure is documented below.
 	ObjectID *PredefinedValuesAdditionalExtensionsObjectIDInitParameters `json:"objectId,omitempty" tf:"object_id,omitempty"`
 
 	// Required. The value of this X.509 extension.
@@ -278,6 +314,7 @@ type PredefinedValuesAdditionalExtensionsObservation struct {
 	Critical *bool `json:"critical,omitempty" tf:"critical,omitempty"`
 
 	// Required. The OID for this X.509 extension.
+	// Structure is documented below.
 	ObjectID *PredefinedValuesAdditionalExtensionsObjectIDObservation `json:"objectId,omitempty" tf:"object_id,omitempty"`
 
 	// Required. The value of this X.509 extension.
@@ -291,6 +328,7 @@ type PredefinedValuesAdditionalExtensionsParameters struct {
 	Critical *bool `json:"critical,omitempty" tf:"critical,omitempty"`
 
 	// Required. The OID for this X.509 extension.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ObjectID *PredefinedValuesAdditionalExtensionsObjectIDParameters `json:"objectId" tf:"object_id,omitempty"`
 
@@ -331,18 +369,22 @@ type PredefinedValuesCAOptionsParameters struct {
 type PredefinedValuesInitParameters struct {
 
 	// Optional. Describes custom X.509 extensions.
+	// Structure is documented below.
 	AdditionalExtensions []PredefinedValuesAdditionalExtensionsInitParameters `json:"additionalExtensions,omitempty" tf:"additional_extensions,omitempty"`
 
 	// Optional. Describes Online Certificate Status Protocol (OCSP) endpoint addresses that appear in the "Authority Information Access" extension in the certificate.
 	AiaOcspServers []*string `json:"aiaOcspServers,omitempty" tf:"aia_ocsp_servers,omitempty"`
 
 	// Optional. Describes options in this X509Parameters that are relevant in a CA certificate.
+	// Structure is documented below.
 	CAOptions *PredefinedValuesCAOptionsInitParameters `json:"caOptions,omitempty" tf:"ca_options,omitempty"`
 
 	// Optional. Indicates the intended use for keys that correspond to a certificate.
+	// Structure is documented below.
 	KeyUsage *PredefinedValuesKeyUsageInitParameters `json:"keyUsage,omitempty" tf:"key_usage,omitempty"`
 
 	// Optional. Describes the X.509 certificate policy object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
+	// Structure is documented below.
 	PolicyIds []PredefinedValuesPolicyIdsInitParameters `json:"policyIds,omitempty" tf:"policy_ids,omitempty"`
 }
 
@@ -517,38 +559,47 @@ type PredefinedValuesKeyUsageExtendedKeyUsageParameters struct {
 type PredefinedValuesKeyUsageInitParameters struct {
 
 	// Describes high-level ways in which a key may be used.
+	// Structure is documented below.
 	BaseKeyUsage *PredefinedValuesKeyUsageBaseKeyUsageInitParameters `json:"baseKeyUsage,omitempty" tf:"base_key_usage,omitempty"`
 
 	// Detailed scenarios in which a key may be used.
+	// Structure is documented below.
 	ExtendedKeyUsage *PredefinedValuesKeyUsageExtendedKeyUsageInitParameters `json:"extendedKeyUsage,omitempty" tf:"extended_key_usage,omitempty"`
 
 	// Used to describe extended key usages that are not listed in the KeyUsage.ExtendedKeyUsageOptions message.
+	// Structure is documented below.
 	UnknownExtendedKeyUsages []PredefinedValuesKeyUsageUnknownExtendedKeyUsagesInitParameters `json:"unknownExtendedKeyUsages,omitempty" tf:"unknown_extended_key_usages,omitempty"`
 }
 
 type PredefinedValuesKeyUsageObservation struct {
 
 	// Describes high-level ways in which a key may be used.
+	// Structure is documented below.
 	BaseKeyUsage *PredefinedValuesKeyUsageBaseKeyUsageObservation `json:"baseKeyUsage,omitempty" tf:"base_key_usage,omitempty"`
 
 	// Detailed scenarios in which a key may be used.
+	// Structure is documented below.
 	ExtendedKeyUsage *PredefinedValuesKeyUsageExtendedKeyUsageObservation `json:"extendedKeyUsage,omitempty" tf:"extended_key_usage,omitempty"`
 
 	// Used to describe extended key usages that are not listed in the KeyUsage.ExtendedKeyUsageOptions message.
+	// Structure is documented below.
 	UnknownExtendedKeyUsages []PredefinedValuesKeyUsageUnknownExtendedKeyUsagesObservation `json:"unknownExtendedKeyUsages,omitempty" tf:"unknown_extended_key_usages,omitempty"`
 }
 
 type PredefinedValuesKeyUsageParameters struct {
 
 	// Describes high-level ways in which a key may be used.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	BaseKeyUsage *PredefinedValuesKeyUsageBaseKeyUsageParameters `json:"baseKeyUsage,omitempty" tf:"base_key_usage,omitempty"`
 
 	// Detailed scenarios in which a key may be used.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ExtendedKeyUsage *PredefinedValuesKeyUsageExtendedKeyUsageParameters `json:"extendedKeyUsage,omitempty" tf:"extended_key_usage,omitempty"`
 
 	// Used to describe extended key usages that are not listed in the KeyUsage.ExtendedKeyUsageOptions message.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	UnknownExtendedKeyUsages []PredefinedValuesKeyUsageUnknownExtendedKeyUsagesParameters `json:"unknownExtendedKeyUsages,omitempty" tf:"unknown_extended_key_usages,omitempty"`
 }
@@ -575,24 +626,29 @@ type PredefinedValuesKeyUsageUnknownExtendedKeyUsagesParameters struct {
 type PredefinedValuesObservation struct {
 
 	// Optional. Describes custom X.509 extensions.
+	// Structure is documented below.
 	AdditionalExtensions []PredefinedValuesAdditionalExtensionsObservation `json:"additionalExtensions,omitempty" tf:"additional_extensions,omitempty"`
 
 	// Optional. Describes Online Certificate Status Protocol (OCSP) endpoint addresses that appear in the "Authority Information Access" extension in the certificate.
 	AiaOcspServers []*string `json:"aiaOcspServers,omitempty" tf:"aia_ocsp_servers,omitempty"`
 
 	// Optional. Describes options in this X509Parameters that are relevant in a CA certificate.
+	// Structure is documented below.
 	CAOptions *PredefinedValuesCAOptionsObservation `json:"caOptions,omitempty" tf:"ca_options,omitempty"`
 
 	// Optional. Indicates the intended use for keys that correspond to a certificate.
+	// Structure is documented below.
 	KeyUsage *PredefinedValuesKeyUsageObservation `json:"keyUsage,omitempty" tf:"key_usage,omitempty"`
 
 	// Optional. Describes the X.509 certificate policy object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
+	// Structure is documented below.
 	PolicyIds []PredefinedValuesPolicyIdsObservation `json:"policyIds,omitempty" tf:"policy_ids,omitempty"`
 }
 
 type PredefinedValuesParameters struct {
 
 	// Optional. Describes custom X.509 extensions.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AdditionalExtensions []PredefinedValuesAdditionalExtensionsParameters `json:"additionalExtensions,omitempty" tf:"additional_extensions,omitempty"`
 
@@ -601,14 +657,17 @@ type PredefinedValuesParameters struct {
 	AiaOcspServers []*string `json:"aiaOcspServers,omitempty" tf:"aia_ocsp_servers,omitempty"`
 
 	// Optional. Describes options in this X509Parameters that are relevant in a CA certificate.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	CAOptions *PredefinedValuesCAOptionsParameters `json:"caOptions,omitempty" tf:"ca_options,omitempty"`
 
 	// Optional. Indicates the intended use for keys that correspond to a certificate.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	KeyUsage *PredefinedValuesKeyUsageParameters `json:"keyUsage,omitempty" tf:"key_usage,omitempty"`
 
 	// Optional. Describes the X.509 certificate policy object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	PolicyIds []PredefinedValuesPolicyIdsParameters `json:"policyIds,omitempty" tf:"policy_ids,omitempty"`
 }
@@ -658,7 +717,7 @@ type CertificateTemplateStatus struct {
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 
-// CertificateTemplate is the Schema for the CertificateTemplates API. Certificate Authority Service provides reusable and parameterized templates that you can use for common certificate issuance scenarios. A certificate template represents a relatively static and well-defined certificate issuance schema within an organization.  A certificate template can essentially become a full-fledged vertical certificate issuance framework.
+// CertificateTemplate is the Schema for the CertificateTemplates API. Certificate Authority Service provides reusable and parameterized templates that you can use for common certificate issuance scenarios.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

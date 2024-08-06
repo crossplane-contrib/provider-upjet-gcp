@@ -236,6 +236,42 @@ spec:
                                       type: string
                                   type: object
                                 type: array
+                              exprOptions:
+                                description: |-
+                                  The configuration options available when specifying a user defined CEVAL expression (i.e., 'expr').
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    recaptchaOptions:
+                                      description: |-
+                                        reCAPTCHA configuration options to be applied for the rule. If the rule does not evaluate reCAPTCHA tokens, this field has no effect.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          actionTokenSiteKeys:
+                                            description: A list of site keys to be
+                                              used during the validation of reCAPTCHA
+                                              action-tokens. The provided site keys
+                                              need to be created from reCAPTCHA API
+                                              under the same project where the security
+                                              policy is created.
+                                            items:
+                                              type: string
+                                            type: array
+                                          sessionTokenSiteKeys:
+                                            description: A list of site keys to be
+                                              used during the validation of reCAPTCHA
+                                              session-tokens. The provided site keys
+                                              need to be created from reCAPTCHA API
+                                              under the same project where the security
+                                              policy is created.
+                                            items:
+                                              type: string
+                                            type: array
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
                               versionedExpr:
                                 description: |-
                                   Predefined rule expression. If this field is specified, config must also be specified.
@@ -527,6 +563,42 @@ spec:
                                         Textual representation of an expression in Common Expression Language syntax.
                                         The application context of the containing message determines which well-known feature set of CEL is supported.
                                       type: string
+                                  type: object
+                                type: array
+                              exprOptions:
+                                description: |-
+                                  The configuration options available when specifying a user defined CEVAL expression (i.e., 'expr').
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    recaptchaOptions:
+                                      description: |-
+                                        reCAPTCHA configuration options to be applied for the rule. If the rule does not evaluate reCAPTCHA tokens, this field has no effect.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          actionTokenSiteKeys:
+                                            description: A list of site keys to be
+                                              used during the validation of reCAPTCHA
+                                              action-tokens. The provided site keys
+                                              need to be created from reCAPTCHA API
+                                              under the same project where the security
+                                              policy is created.
+                                            items:
+                                              type: string
+                                            type: array
+                                          sessionTokenSiteKeys:
+                                            description: A list of site keys to be
+                                              used during the validation of reCAPTCHA
+                                              session-tokens. The provided site keys
+                                              need to be created from reCAPTCHA API
+                                              under the same project where the security
+                                              policy is created.
+                                            items:
+                                              type: string
+                                            type: array
+                                        type: object
+                                      type: array
                                   type: object
                                 type: array
                               versionedExpr:
@@ -985,6 +1057,42 @@ spec:
                                         Textual representation of an expression in Common Expression Language syntax.
                                         The application context of the containing message determines which well-known feature set of CEL is supported.
                                       type: string
+                                  type: object
+                                type: array
+                              exprOptions:
+                                description: |-
+                                  The configuration options available when specifying a user defined CEVAL expression (i.e., 'expr').
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    recaptchaOptions:
+                                      description: |-
+                                        reCAPTCHA configuration options to be applied for the rule. If the rule does not evaluate reCAPTCHA tokens, this field has no effect.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          actionTokenSiteKeys:
+                                            description: A list of site keys to be
+                                              used during the validation of reCAPTCHA
+                                              action-tokens. The provided site keys
+                                              need to be created from reCAPTCHA API
+                                              under the same project where the security
+                                              policy is created.
+                                            items:
+                                              type: string
+                                            type: array
+                                          sessionTokenSiteKeys:
+                                            description: A list of site keys to be
+                                              used during the validation of reCAPTCHA
+                                              session-tokens. The provided site keys
+                                              need to be created from reCAPTCHA API
+                                              under the same project where the security
+                                              policy is created.
+                                            items:
+                                              type: string
+                                            type: array
+                                        type: object
+                                      type: array
                                   type: object
                                 type: array
                               versionedExpr:
@@ -1369,6 +1477,36 @@ spec:
                                     The application context of the containing message determines which well-known feature set of CEL is supported.
                                   type: string
                               type: object
+                            exprOptions:
+                              description: |-
+                                The configuration options available when specifying a user defined CEVAL expression (i.e., 'expr').
+                                Structure is documented below.
+                              properties:
+                                recaptchaOptions:
+                                  description: |-
+                                    reCAPTCHA configuration options to be applied for the rule. If the rule does not evaluate reCAPTCHA tokens, this field has no effect.
+                                    Structure is documented below.
+                                  properties:
+                                    actionTokenSiteKeys:
+                                      description: A list of site keys to be used
+                                        during the validation of reCAPTCHA action-tokens.
+                                        The provided site keys need to be created
+                                        from reCAPTCHA API under the same project
+                                        where the security policy is created.
+                                      items:
+                                        type: string
+                                      type: array
+                                    sessionTokenSiteKeys:
+                                      description: A list of site keys to be used
+                                        during the validation of reCAPTCHA session-tokens.
+                                        The provided site keys need to be created
+                                        from reCAPTCHA API under the same project
+                                        where the security policy is created.
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                              type: object
                             versionedExpr:
                               description: |-
                                 Predefined rule expression. If this field is specified, config must also be specified.
@@ -1633,6 +1771,36 @@ spec:
                                     Textual representation of an expression in Common Expression Language syntax.
                                     The application context of the containing message determines which well-known feature set of CEL is supported.
                                   type: string
+                              type: object
+                            exprOptions:
+                              description: |-
+                                The configuration options available when specifying a user defined CEVAL expression (i.e., 'expr').
+                                Structure is documented below.
+                              properties:
+                                recaptchaOptions:
+                                  description: |-
+                                    reCAPTCHA configuration options to be applied for the rule. If the rule does not evaluate reCAPTCHA tokens, this field has no effect.
+                                    Structure is documented below.
+                                  properties:
+                                    actionTokenSiteKeys:
+                                      description: A list of site keys to be used
+                                        during the validation of reCAPTCHA action-tokens.
+                                        The provided site keys need to be created
+                                        from reCAPTCHA API under the same project
+                                        where the security policy is created.
+                                      items:
+                                        type: string
+                                      type: array
+                                    sessionTokenSiteKeys:
+                                      description: A list of site keys to be used
+                                        during the validation of reCAPTCHA session-tokens.
+                                        The provided site keys need to be created
+                                        from reCAPTCHA API under the same project
+                                        where the security policy is created.
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
                               type: object
                             versionedExpr:
                               description: |-
@@ -2063,6 +2231,36 @@ spec:
                                     Textual representation of an expression in Common Expression Language syntax.
                                     The application context of the containing message determines which well-known feature set of CEL is supported.
                                   type: string
+                              type: object
+                            exprOptions:
+                              description: |-
+                                The configuration options available when specifying a user defined CEVAL expression (i.e., 'expr').
+                                Structure is documented below.
+                              properties:
+                                recaptchaOptions:
+                                  description: |-
+                                    reCAPTCHA configuration options to be applied for the rule. If the rule does not evaluate reCAPTCHA tokens, this field has no effect.
+                                    Structure is documented below.
+                                  properties:
+                                    actionTokenSiteKeys:
+                                      description: A list of site keys to be used
+                                        during the validation of reCAPTCHA action-tokens.
+                                        The provided site keys need to be created
+                                        from reCAPTCHA API under the same project
+                                        where the security policy is created.
+                                      items:
+                                        type: string
+                                      type: array
+                                    sessionTokenSiteKeys:
+                                      description: A list of site keys to be used
+                                        during the validation of reCAPTCHA session-tokens.
+                                        The provided site keys need to be created
+                                        from reCAPTCHA API under the same project
+                                        where the security policy is created.
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
                               type: object
                             versionedExpr:
                               description: |-

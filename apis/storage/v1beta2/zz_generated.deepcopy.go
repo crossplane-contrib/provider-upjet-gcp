@@ -1586,6 +1586,21 @@ func (in *ConditionInitParameters) DeepCopyInto(out *ConditionInitParameters) {
 		*out = new(float64)
 		**out = **in
 	}
+	if in.SendDaysSinceCustomTimeIfZero != nil {
+		in, out := &in.SendDaysSinceCustomTimeIfZero, &out.SendDaysSinceCustomTimeIfZero
+		*out = new(bool)
+		**out = **in
+	}
+	if in.SendDaysSinceNoncurrentTimeIfZero != nil {
+		in, out := &in.SendDaysSinceNoncurrentTimeIfZero, &out.SendDaysSinceNoncurrentTimeIfZero
+		*out = new(bool)
+		**out = **in
+	}
+	if in.SendNumNewerVersionsIfZero != nil {
+		in, out := &in.SendNumNewerVersionsIfZero, &out.SendNumNewerVersionsIfZero
+		*out = new(bool)
+		**out = **in
+	}
 	if in.WithState != nil {
 		in, out := &in.WithState, &out.WithState
 		*out = new(string)
@@ -1679,6 +1694,21 @@ func (in *ConditionObservation) DeepCopyInto(out *ConditionObservation) {
 		*out = new(float64)
 		**out = **in
 	}
+	if in.SendDaysSinceCustomTimeIfZero != nil {
+		in, out := &in.SendDaysSinceCustomTimeIfZero, &out.SendDaysSinceCustomTimeIfZero
+		*out = new(bool)
+		**out = **in
+	}
+	if in.SendDaysSinceNoncurrentTimeIfZero != nil {
+		in, out := &in.SendDaysSinceNoncurrentTimeIfZero, &out.SendDaysSinceNoncurrentTimeIfZero
+		*out = new(bool)
+		**out = **in
+	}
+	if in.SendNumNewerVersionsIfZero != nil {
+		in, out := &in.SendNumNewerVersionsIfZero, &out.SendNumNewerVersionsIfZero
+		*out = new(bool)
+		**out = **in
+	}
 	if in.WithState != nil {
 		in, out := &in.WithState, &out.WithState
 		*out = new(string)
@@ -1770,6 +1800,21 @@ func (in *ConditionParameters) DeepCopyInto(out *ConditionParameters) {
 	if in.NumNewerVersions != nil {
 		in, out := &in.NumNewerVersions, &out.NumNewerVersions
 		*out = new(float64)
+		**out = **in
+	}
+	if in.SendDaysSinceCustomTimeIfZero != nil {
+		in, out := &in.SendDaysSinceCustomTimeIfZero, &out.SendDaysSinceCustomTimeIfZero
+		*out = new(bool)
+		**out = **in
+	}
+	if in.SendDaysSinceNoncurrentTimeIfZero != nil {
+		in, out := &in.SendDaysSinceNoncurrentTimeIfZero, &out.SendDaysSinceNoncurrentTimeIfZero
+		*out = new(bool)
+		**out = **in
+	}
+	if in.SendNumNewerVersionsIfZero != nil {
+		in, out := &in.SendNumNewerVersionsIfZero, &out.SendNumNewerVersionsIfZero
+		*out = new(bool)
 		**out = **in
 	}
 	if in.WithState != nil {

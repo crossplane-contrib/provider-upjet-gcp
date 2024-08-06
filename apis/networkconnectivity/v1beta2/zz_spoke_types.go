@@ -94,6 +94,7 @@ type LinkedInterconnectAttachmentsParameters struct {
 type LinkedRouterApplianceInstancesInitParameters struct {
 
 	// The list of router appliance instances
+	// Structure is documented below.
 	Instances []InstancesInitParameters `json:"instances,omitempty" tf:"instances,omitempty"`
 
 	// A value that controls whether site-to-site data transfer is enabled for these resources. Note that data transfer is available only in supported locations.
@@ -103,6 +104,7 @@ type LinkedRouterApplianceInstancesInitParameters struct {
 type LinkedRouterApplianceInstancesObservation struct {
 
 	// The list of router appliance instances
+	// Structure is documented below.
 	Instances []InstancesObservation `json:"instances,omitempty" tf:"instances,omitempty"`
 
 	// A value that controls whether site-to-site data transfer is enabled for these resources. Note that data transfer is available only in supported locations.
@@ -112,6 +114,7 @@ type LinkedRouterApplianceInstancesObservation struct {
 type LinkedRouterApplianceInstancesParameters struct {
 
 	// The list of router appliance instances
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Instances []InstancesParameters `json:"instances" tf:"instances,omitempty"`
 
@@ -217,19 +220,25 @@ type SpokeInitParameters struct {
 	HubSelector *v1.Selector `json:"hubSelector,omitempty" tf:"-"`
 
 	// Optional labels in key:value format. For more information about labels, see Requirements for labels.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// A collection of VLAN attachment resources. These resources should be redundant attachments that all advertise the same prefixes to Google Cloud. Alternatively, in active/passive configurations, all attachments should be capable of advertising the same prefixes.
+	// Structure is documented below.
 	LinkedInterconnectAttachments *LinkedInterconnectAttachmentsInitParameters `json:"linkedInterconnectAttachments,omitempty" tf:"linked_interconnect_attachments,omitempty"`
 
 	// The URIs of linked Router appliance resources
+	// Structure is documented below.
 	LinkedRouterApplianceInstances *LinkedRouterApplianceInstancesInitParameters `json:"linkedRouterApplianceInstances,omitempty" tf:"linked_router_appliance_instances,omitempty"`
 
 	// VPC network that is associated with the spoke.
+	// Structure is documented below.
 	LinkedVPCNetwork *LinkedVPCNetworkInitParameters `json:"linkedVpcNetwork,omitempty" tf:"linked_vpc_network,omitempty"`
 
 	// The URIs of linked VPN tunnel resources
+	// Structure is documented below.
 	LinkedVPNTunnels *LinkedVPNTunnelsInitParameters `json:"linkedVpnTunnels,omitempty" tf:"linked_vpn_tunnels,omitempty"`
 
 	// The location for the resource
@@ -238,7 +247,8 @@ type SpokeInitParameters struct {
 	// Immutable. The name of the spoke. Spoke names must be unique.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// The project for the resource
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
@@ -260,19 +270,25 @@ type SpokeObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Optional labels in key:value format. For more information about labels, see Requirements for labels.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// A collection of VLAN attachment resources. These resources should be redundant attachments that all advertise the same prefixes to Google Cloud. Alternatively, in active/passive configurations, all attachments should be capable of advertising the same prefixes.
+	// Structure is documented below.
 	LinkedInterconnectAttachments *LinkedInterconnectAttachmentsObservation `json:"linkedInterconnectAttachments,omitempty" tf:"linked_interconnect_attachments,omitempty"`
 
 	// The URIs of linked Router appliance resources
+	// Structure is documented below.
 	LinkedRouterApplianceInstances *LinkedRouterApplianceInstancesObservation `json:"linkedRouterApplianceInstances,omitempty" tf:"linked_router_appliance_instances,omitempty"`
 
 	// VPC network that is associated with the spoke.
+	// Structure is documented below.
 	LinkedVPCNetwork *LinkedVPCNetworkObservation `json:"linkedVpcNetwork,omitempty" tf:"linked_vpc_network,omitempty"`
 
 	// The URIs of linked VPN tunnel resources
+	// Structure is documented below.
 	LinkedVPNTunnels *LinkedVPNTunnelsObservation `json:"linkedVpnTunnels,omitempty" tf:"linked_vpn_tunnels,omitempty"`
 
 	// The location for the resource
@@ -281,13 +297,15 @@ type SpokeObservation struct {
 	// Immutable. The name of the spoke. Spoke names must be unique.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// The project for the resource
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// Output only. The current lifecycle state of this spoke. Possible values: STATE_UNSPECIFIED, CREATING, ACTIVE, DELETING
+	// Output only. The current lifecycle state of this spoke.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
-	// The combination of labels configured directly on the resource and default labels configured on the provider.
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
 	// +mapType=granular
 	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
@@ -319,23 +337,29 @@ type SpokeParameters struct {
 	HubSelector *v1.Selector `json:"hubSelector,omitempty" tf:"-"`
 
 	// Optional labels in key:value format. For more information about labels, see Requirements for labels.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// A collection of VLAN attachment resources. These resources should be redundant attachments that all advertise the same prefixes to Google Cloud. Alternatively, in active/passive configurations, all attachments should be capable of advertising the same prefixes.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	LinkedInterconnectAttachments *LinkedInterconnectAttachmentsParameters `json:"linkedInterconnectAttachments,omitempty" tf:"linked_interconnect_attachments,omitempty"`
 
 	// The URIs of linked Router appliance resources
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	LinkedRouterApplianceInstances *LinkedRouterApplianceInstancesParameters `json:"linkedRouterApplianceInstances,omitempty" tf:"linked_router_appliance_instances,omitempty"`
 
 	// VPC network that is associated with the spoke.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	LinkedVPCNetwork *LinkedVPCNetworkParameters `json:"linkedVpcNetwork,omitempty" tf:"linked_vpc_network,omitempty"`
 
 	// The URIs of linked VPN tunnel resources
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	LinkedVPNTunnels *LinkedVPNTunnelsParameters `json:"linkedVpnTunnels,omitempty" tf:"linked_vpn_tunnels,omitempty"`
 
@@ -347,7 +371,8 @@ type SpokeParameters struct {
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// The project for the resource
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }

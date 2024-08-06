@@ -38,6 +38,10 @@ type CertificateAuthorityConfigInitParameters struct {
 	// Structure is documented below.
 	SubjectConfig []ConfigSubjectConfigInitParameters `json:"subjectConfig,omitempty" tf:"subject_config,omitempty"`
 
+	// When specified this provides a custom SKI to be used in the certificate. This should only be used to maintain a SKI of an existing CA originally created outside CA service, which was not generated using method (1) described in RFC 5280 section 4.2.1.2..
+	// Structure is documented below.
+	SubjectKeyID []CertificateAuthorityConfigSubjectKeyIDInitParameters `json:"subjectKeyId,omitempty" tf:"subject_key_id,omitempty"`
+
 	// Describes how some of the technical X.509 fields in a certificate should be populated.
 	// Structure is documented below.
 	X509Config []ConfigX509ConfigInitParameters `json:"x509Config,omitempty" tf:"x509_config,omitempty"`
@@ -48,6 +52,10 @@ type CertificateAuthorityConfigObservation struct {
 	// Specifies some of the values in a certificate that are related to the subject.
 	// Structure is documented below.
 	SubjectConfig []ConfigSubjectConfigObservation `json:"subjectConfig,omitempty" tf:"subject_config,omitempty"`
+
+	// When specified this provides a custom SKI to be used in the certificate. This should only be used to maintain a SKI of an existing CA originally created outside CA service, which was not generated using method (1) described in RFC 5280 section 4.2.1.2..
+	// Structure is documented below.
+	SubjectKeyID []CertificateAuthorityConfigSubjectKeyIDObservation `json:"subjectKeyId,omitempty" tf:"subject_key_id,omitempty"`
 
 	// Describes how some of the technical X.509 fields in a certificate should be populated.
 	// Structure is documented below.
@@ -61,10 +69,34 @@ type CertificateAuthorityConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	SubjectConfig []ConfigSubjectConfigParameters `json:"subjectConfig" tf:"subject_config,omitempty"`
 
+	// When specified this provides a custom SKI to be used in the certificate. This should only be used to maintain a SKI of an existing CA originally created outside CA service, which was not generated using method (1) described in RFC 5280 section 4.2.1.2..
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SubjectKeyID []CertificateAuthorityConfigSubjectKeyIDParameters `json:"subjectKeyId,omitempty" tf:"subject_key_id,omitempty"`
+
 	// Describes how some of the technical X.509 fields in a certificate should be populated.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	X509Config []ConfigX509ConfigParameters `json:"x509Config" tf:"x509_config,omitempty"`
+}
+
+type CertificateAuthorityConfigSubjectKeyIDInitParameters struct {
+
+	// The value of the KeyId in lowercase hexidecimal.
+	KeyID *string `json:"keyId,omitempty" tf:"key_id,omitempty"`
+}
+
+type CertificateAuthorityConfigSubjectKeyIDObservation struct {
+
+	// The value of the KeyId in lowercase hexidecimal.
+	KeyID *string `json:"keyId,omitempty" tf:"key_id,omitempty"`
+}
+
+type CertificateAuthorityConfigSubjectKeyIDParameters struct {
+
+	// The value of the KeyId in lowercase hexidecimal.
+	// +kubebuilder:validation:Optional
+	KeyID *string `json:"keyId,omitempty" tf:"key_id,omitempty"`
 }
 
 type CertificateAuthorityInitParameters struct {

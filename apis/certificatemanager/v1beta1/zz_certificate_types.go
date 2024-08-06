@@ -261,7 +261,20 @@ type SelfManagedInitParameters struct {
 
 	// The certificate chain in PEM-encoded form.
 	// Leaf certificate comes first, followed by intermediate ones if any.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	CertificatePemSecretRef *v1.SecretKeySelector `json:"certificatePemSecretRef,omitempty" tf:"-"`
+
+	// The certificate chain in PEM-encoded form.
+	// Leaf certificate comes first, followed by intermediate ones if any.
 	PemCertificate *string `json:"pemCertificate,omitempty" tf:"pem_certificate,omitempty"`
+
+	// The private key of the leaf certificate in PEM-encoded form.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	PemPrivateKeySecretRef *v1.SecretKeySelector `json:"pemPrivateKeySecretRef,omitempty" tf:"-"`
+
+	// The private key of the leaf certificate in PEM-encoded form.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	PrivateKeyPemSecretRef *v1.SecretKeySelector `json:"privateKeyPemSecretRef,omitempty" tf:"-"`
 }
 
 type SelfManagedObservation struct {

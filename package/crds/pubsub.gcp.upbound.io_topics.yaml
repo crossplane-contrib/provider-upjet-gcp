@@ -73,6 +73,45 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  ingestionDataSourceSettings:
+                    description: |-
+                      Settings for ingestion from a data source into this topic.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        awsKinesis:
+                          description: |-
+                            Settings for ingestion from Amazon Kinesis Data Streams.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              awsRoleArn:
+                                description: |-
+                                  AWS role ARN to be used for Federated Identity authentication with
+                                  Kinesis. Check the Pub/Sub docs for how to set up this role and the
+                                  required permissions that need to be attached to it.
+                                type: string
+                              consumerArn:
+                                description: |-
+                                  The Kinesis consumer ARN to used for ingestion in
+                                  Enhanced Fan-Out mode. The consumer must be already
+                                  created and ready to be used.
+                                type: string
+                              gcpServiceAccount:
+                                description: |-
+                                  The GCP service account to be used for Federated Identity authentication
+                                  with Kinesis (via a AssumeRoleWithWebIdentity call for the provided
+                                  role). The awsRoleArn must be set up with accounts.google.com:sub
+                                  equals to this service account number.
+                                type: string
+                              streamArn:
+                                description: The Kinesis stream ARN to ingest data
+                                  from.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   kmsKeyName:
                     description: |-
                       The resource name of the Cloud KMS CryptoKey to be used to protect access
@@ -234,6 +273,45 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  ingestionDataSourceSettings:
+                    description: |-
+                      Settings for ingestion from a data source into this topic.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        awsKinesis:
+                          description: |-
+                            Settings for ingestion from Amazon Kinesis Data Streams.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              awsRoleArn:
+                                description: |-
+                                  AWS role ARN to be used for Federated Identity authentication with
+                                  Kinesis. Check the Pub/Sub docs for how to set up this role and the
+                                  required permissions that need to be attached to it.
+                                type: string
+                              consumerArn:
+                                description: |-
+                                  The Kinesis consumer ARN to used for ingestion in
+                                  Enhanced Fan-Out mode. The consumer must be already
+                                  created and ready to be used.
+                                type: string
+                              gcpServiceAccount:
+                                description: |-
+                                  The GCP service account to be used for Federated Identity authentication
+                                  with Kinesis (via a AssumeRoleWithWebIdentity call for the provided
+                                  role). The awsRoleArn must be set up with accounts.google.com:sub
+                                  equals to this service account number.
+                                type: string
+                              streamArn:
+                                description: The Kinesis stream ARN to ingest data
+                                  from.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   kmsKeyName:
                     description: |-
                       The resource name of the Cloud KMS CryptoKey to be used to protect access
@@ -563,6 +641,45 @@ spec:
                   id:
                     description: an identifier for the resource with format projects/{{project}}/topics/{{name}}
                     type: string
+                  ingestionDataSourceSettings:
+                    description: |-
+                      Settings for ingestion from a data source into this topic.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        awsKinesis:
+                          description: |-
+                            Settings for ingestion from Amazon Kinesis Data Streams.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              awsRoleArn:
+                                description: |-
+                                  AWS role ARN to be used for Federated Identity authentication with
+                                  Kinesis. Check the Pub/Sub docs for how to set up this role and the
+                                  required permissions that need to be attached to it.
+                                type: string
+                              consumerArn:
+                                description: |-
+                                  The Kinesis consumer ARN to used for ingestion in
+                                  Enhanced Fan-Out mode. The consumer must be already
+                                  created and ready to be used.
+                                type: string
+                              gcpServiceAccount:
+                                description: |-
+                                  The GCP service account to be used for Federated Identity authentication
+                                  with Kinesis (via a AssumeRoleWithWebIdentity call for the provided
+                                  role). The awsRoleArn must be set up with accounts.google.com:sub
+                                  equals to this service account number.
+                                type: string
+                              streamArn:
+                                description: The Kinesis stream ARN to ingest data
+                                  from.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   kmsKeyName:
                     description: |-
                       The resource name of the Cloud KMS CryptoKey to be used to protect access

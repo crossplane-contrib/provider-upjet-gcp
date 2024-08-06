@@ -171,6 +171,25 @@ type ConditionParameters struct {
 	VersionNamePrefixes []*string `json:"versionNamePrefixes,omitempty" tf:"version_name_prefixes,omitempty"`
 }
 
+type CustomRepositoryInitParameters struct {
+
+	// Specific uri to the registry, e.g. "https://registry-1.docker.io"
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+}
+
+type CustomRepositoryObservation struct {
+
+	// Specific uri to the registry, e.g. "https://registry-1.docker.io"
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+}
+
+type CustomRepositoryParameters struct {
+
+	// Specific uri to the registry, e.g. "https://registry-1.docker.io"
+	// +kubebuilder:validation:Optional
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+}
+
 type DockerConfigInitParameters struct {
 
 	// The repository which enabled this flag prevents all tags from being modified, moved or deleted. This does not prevent tags from being created.
@@ -192,6 +211,10 @@ type DockerConfigParameters struct {
 
 type DockerRepositoryInitParameters struct {
 
+	// Settings for a remote repository with a custom uri.
+	// Structure is documented below.
+	CustomRepository []CustomRepositoryInitParameters `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
+
 	// One of the publicly available Yum repositories supported by Artifact Registry.
 	// Structure is documented below.
 	PublicRepository *string `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
@@ -199,12 +222,21 @@ type DockerRepositoryInitParameters struct {
 
 type DockerRepositoryObservation struct {
 
+	// Settings for a remote repository with a custom uri.
+	// Structure is documented below.
+	CustomRepository []CustomRepositoryObservation `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
+
 	// One of the publicly available Yum repositories supported by Artifact Registry.
 	// Structure is documented below.
 	PublicRepository *string `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
 }
 
 type DockerRepositoryParameters struct {
+
+	// Settings for a remote repository with a custom uri.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CustomRepository []CustomRepositoryParameters `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
 
 	// One of the publicly available Yum repositories supported by Artifact Registry.
 	// Structure is documented below.
@@ -250,7 +282,30 @@ type MavenConfigParameters struct {
 	VersionPolicy *string `json:"versionPolicy,omitempty" tf:"version_policy,omitempty"`
 }
 
+type MavenRepositoryCustomRepositoryInitParameters struct {
+
+	// Specific uri to the registry, e.g. "https://registry-1.docker.io"
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+}
+
+type MavenRepositoryCustomRepositoryObservation struct {
+
+	// Specific uri to the registry, e.g. "https://registry-1.docker.io"
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+}
+
+type MavenRepositoryCustomRepositoryParameters struct {
+
+	// Specific uri to the registry, e.g. "https://registry-1.docker.io"
+	// +kubebuilder:validation:Optional
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+}
+
 type MavenRepositoryInitParameters struct {
+
+	// Settings for a remote repository with a custom uri.
+	// Structure is documented below.
+	CustomRepository []MavenRepositoryCustomRepositoryInitParameters `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
 
 	// One of the publicly available Yum repositories supported by Artifact Registry.
 	// Structure is documented below.
@@ -259,12 +314,21 @@ type MavenRepositoryInitParameters struct {
 
 type MavenRepositoryObservation struct {
 
+	// Settings for a remote repository with a custom uri.
+	// Structure is documented below.
+	CustomRepository []MavenRepositoryCustomRepositoryObservation `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
+
 	// One of the publicly available Yum repositories supported by Artifact Registry.
 	// Structure is documented below.
 	PublicRepository *string `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
 }
 
 type MavenRepositoryParameters struct {
+
+	// Settings for a remote repository with a custom uri.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CustomRepository []MavenRepositoryCustomRepositoryParameters `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
 
 	// One of the publicly available Yum repositories supported by Artifact Registry.
 	// Structure is documented below.
@@ -301,7 +365,30 @@ type MostRecentVersionsParameters struct {
 	PackageNamePrefixes []*string `json:"packageNamePrefixes,omitempty" tf:"package_name_prefixes,omitempty"`
 }
 
+type NpmRepositoryCustomRepositoryInitParameters struct {
+
+	// Specific uri to the registry, e.g. "https://registry-1.docker.io"
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+}
+
+type NpmRepositoryCustomRepositoryObservation struct {
+
+	// Specific uri to the registry, e.g. "https://registry-1.docker.io"
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+}
+
+type NpmRepositoryCustomRepositoryParameters struct {
+
+	// Specific uri to the registry, e.g. "https://registry-1.docker.io"
+	// +kubebuilder:validation:Optional
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+}
+
 type NpmRepositoryInitParameters struct {
+
+	// Settings for a remote repository with a custom uri.
+	// Structure is documented below.
+	CustomRepository []NpmRepositoryCustomRepositoryInitParameters `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
 
 	// One of the publicly available Yum repositories supported by Artifact Registry.
 	// Structure is documented below.
@@ -310,12 +397,21 @@ type NpmRepositoryInitParameters struct {
 
 type NpmRepositoryObservation struct {
 
+	// Settings for a remote repository with a custom uri.
+	// Structure is documented below.
+	CustomRepository []NpmRepositoryCustomRepositoryObservation `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
+
 	// One of the publicly available Yum repositories supported by Artifact Registry.
 	// Structure is documented below.
 	PublicRepository *string `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
 }
 
 type NpmRepositoryParameters struct {
+
+	// Settings for a remote repository with a custom uri.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CustomRepository []NpmRepositoryCustomRepositoryParameters `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
 
 	// One of the publicly available Yum repositories supported by Artifact Registry.
 	// Structure is documented below.
@@ -355,7 +451,30 @@ type PublicRepositoryParameters struct {
 	RepositoryPath *string `json:"repositoryPath" tf:"repository_path,omitempty"`
 }
 
+type PythonRepositoryCustomRepositoryInitParameters struct {
+
+	// Specific uri to the registry, e.g. "https://registry-1.docker.io"
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+}
+
+type PythonRepositoryCustomRepositoryObservation struct {
+
+	// Specific uri to the registry, e.g. "https://registry-1.docker.io"
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+}
+
+type PythonRepositoryCustomRepositoryParameters struct {
+
+	// Specific uri to the registry, e.g. "https://registry-1.docker.io"
+	// +kubebuilder:validation:Optional
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+}
+
 type PythonRepositoryInitParameters struct {
+
+	// Settings for a remote repository with a custom uri.
+	// Structure is documented below.
+	CustomRepository []PythonRepositoryCustomRepositoryInitParameters `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
 
 	// One of the publicly available Yum repositories supported by Artifact Registry.
 	// Structure is documented below.
@@ -364,12 +483,21 @@ type PythonRepositoryInitParameters struct {
 
 type PythonRepositoryObservation struct {
 
+	// Settings for a remote repository with a custom uri.
+	// Structure is documented below.
+	CustomRepository []PythonRepositoryCustomRepositoryObservation `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
+
 	// One of the publicly available Yum repositories supported by Artifact Registry.
 	// Structure is documented below.
 	PublicRepository *string `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
 }
 
 type PythonRepositoryParameters struct {
+
+	// Settings for a remote repository with a custom uri.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CustomRepository []PythonRepositoryCustomRepositoryParameters `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
 
 	// One of the publicly available Yum repositories supported by Artifact Registry.
 	// Structure is documented below.
@@ -619,6 +747,10 @@ type RemoteRepositoryConfigInitParameters struct {
 	// The description of the remote source.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// If true, the remote repository upstream and upstream credentials will
+	// not be validated.
+	DisableUpstreamValidation *bool `json:"disableUpstreamValidation,omitempty" tf:"disable_upstream_validation,omitempty"`
+
 	// Specific settings for a Docker remote repository.
 	// Structure is documented below.
 	DockerRepository []DockerRepositoryInitParameters `json:"dockerRepository,omitempty" tf:"docker_repository,omitempty"`
@@ -652,6 +784,10 @@ type RemoteRepositoryConfigObservation struct {
 
 	// The description of the remote source.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// If true, the remote repository upstream and upstream credentials will
+	// not be validated.
+	DisableUpstreamValidation *bool `json:"disableUpstreamValidation,omitempty" tf:"disable_upstream_validation,omitempty"`
 
 	// Specific settings for a Docker remote repository.
 	// Structure is documented below.
@@ -688,6 +824,11 @@ type RemoteRepositoryConfigParameters struct {
 	// The description of the remote source.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// If true, the remote repository upstream and upstream credentials will
+	// not be validated.
+	// +kubebuilder:validation:Optional
+	DisableUpstreamValidation *bool `json:"disableUpstreamValidation,omitempty" tf:"disable_upstream_validation,omitempty"`
 
 	// Specific settings for a Docker remote repository.
 	// Structure is documented below.

@@ -402,6 +402,12 @@ type InstanceParameters struct {
 
 type NetworkConfigInitParameters struct {
 
+	// Optional. Type of connection for establishing private IP connectivity between the Data Fusion customer project VPC and
+	// the corresponding tenant project from a predefined list of available connection modes.
+	// If this field is unspecified for a private instance, VPC peering is used.
+	// Possible values are: VPC_PEERING, PRIVATE_SERVICE_CONNECT_INTERFACES.
+	ConnectionType *string `json:"connectionType,omitempty" tf:"connection_type,omitempty"`
+
 	// The IP range in CIDR notation to use for the managed Data Fusion instance
 	// nodes. This range must not overlap with any other ranges used in the Data Fusion instance network.
 	IPAllocation *string `json:"ipAllocation,omitempty" tf:"ip_allocation,omitempty"`
@@ -410,10 +416,21 @@ type NetworkConfigInitParameters struct {
 	// will be peered for executing pipelines. In case of shared VPC where the network resides in another host
 	// project the network should specified in the form of projects/{host-project-id}/global/networks/{network}
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Optional. Configuration for Private Service Connect.
+	// This is required only when using connection type PRIVATE_SERVICE_CONNECT_INTERFACES.
+	// Structure is documented below.
+	PrivateServiceConnectConfig []PrivateServiceConnectConfigInitParameters `json:"privateServiceConnectConfig,omitempty" tf:"private_service_connect_config,omitempty"`
 }
 
 type NetworkConfigObservation struct {
 
+	// Optional. Type of connection for establishing private IP connectivity between the Data Fusion customer project VPC and
+	// the corresponding tenant project from a predefined list of available connection modes.
+	// If this field is unspecified for a private instance, VPC peering is used.
+	// Possible values are: VPC_PEERING, PRIVATE_SERVICE_CONNECT_INTERFACES.
+	ConnectionType *string `json:"connectionType,omitempty" tf:"connection_type,omitempty"`
+
 	// The IP range in CIDR notation to use for the managed Data Fusion instance
 	// nodes. This range must not overlap with any other ranges used in the Data Fusion instance network.
 	IPAllocation *string `json:"ipAllocation,omitempty" tf:"ip_allocation,omitempty"`
@@ -422,9 +439,21 @@ type NetworkConfigObservation struct {
 	// will be peered for executing pipelines. In case of shared VPC where the network resides in another host
 	// project the network should specified in the form of projects/{host-project-id}/global/networks/{network}
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Optional. Configuration for Private Service Connect.
+	// This is required only when using connection type PRIVATE_SERVICE_CONNECT_INTERFACES.
+	// Structure is documented below.
+	PrivateServiceConnectConfig []PrivateServiceConnectConfigObservation `json:"privateServiceConnectConfig,omitempty" tf:"private_service_connect_config,omitempty"`
 }
 
 type NetworkConfigParameters struct {
+
+	// Optional. Type of connection for establishing private IP connectivity between the Data Fusion customer project VPC and
+	// the corresponding tenant project from a predefined list of available connection modes.
+	// If this field is unspecified for a private instance, VPC peering is used.
+	// Possible values are: VPC_PEERING, PRIVATE_SERVICE_CONNECT_INTERFACES.
+	// +kubebuilder:validation:Optional
+	ConnectionType *string `json:"connectionType,omitempty" tf:"connection_type,omitempty"`
 
 	// The IP range in CIDR notation to use for the managed Data Fusion instance
 	// nodes. This range must not overlap with any other ranges used in the Data Fusion instance network.
@@ -436,6 +465,61 @@ type NetworkConfigParameters struct {
 	// project the network should specified in the form of projects/{host-project-id}/global/networks/{network}
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network" tf:"network,omitempty"`
+
+	// Optional. Configuration for Private Service Connect.
+	// This is required only when using connection type PRIVATE_SERVICE_CONNECT_INTERFACES.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PrivateServiceConnectConfig []PrivateServiceConnectConfigParameters `json:"privateServiceConnectConfig,omitempty" tf:"private_service_connect_config,omitempty"`
+}
+
+type PrivateServiceConnectConfigInitParameters struct {
+
+	// Optional. The reference to the network attachment used to establish private connectivity.
+	// It will be of the form projects/{project-id}/regions/{region}/networkAttachments/{network-attachment-id}.
+	// This is required only when using connection type PRIVATE_SERVICE_CONNECT_INTERFACES.
+	NetworkAttachment *string `json:"networkAttachment,omitempty" tf:"network_attachment,omitempty"`
+
+	// Optional. Input only. The CIDR block to which the CDF instance can't route traffic to in the consumer project VPC.
+	// The size of this block should be at least /25. This range should not overlap with the primary address range of any subnetwork used by the network attachment.
+	// This range can be used for other purposes in the consumer VPC as long as there is no requirement for CDF to reach destinations using these addresses.
+	// If this value is not provided, the server chooses a non RFC 1918 address range. The format of this field is governed by RFC 4632.
+	UnreachableCidrBlock *string `json:"unreachableCidrBlock,omitempty" tf:"unreachable_cidr_block,omitempty"`
+}
+
+type PrivateServiceConnectConfigObservation struct {
+
+	// (Output)
+	// Output only. The CIDR block to which the CDF instance can't route traffic to in the consumer project VPC.
+	// The size of this block is /25. The format of this field is governed by RFC 4632.
+	EffectiveUnreachableCidrBlock *string `json:"effectiveUnreachableCidrBlock,omitempty" tf:"effective_unreachable_cidr_block,omitempty"`
+
+	// Optional. The reference to the network attachment used to establish private connectivity.
+	// It will be of the form projects/{project-id}/regions/{region}/networkAttachments/{network-attachment-id}.
+	// This is required only when using connection type PRIVATE_SERVICE_CONNECT_INTERFACES.
+	NetworkAttachment *string `json:"networkAttachment,omitempty" tf:"network_attachment,omitempty"`
+
+	// Optional. Input only. The CIDR block to which the CDF instance can't route traffic to in the consumer project VPC.
+	// The size of this block should be at least /25. This range should not overlap with the primary address range of any subnetwork used by the network attachment.
+	// This range can be used for other purposes in the consumer VPC as long as there is no requirement for CDF to reach destinations using these addresses.
+	// If this value is not provided, the server chooses a non RFC 1918 address range. The format of this field is governed by RFC 4632.
+	UnreachableCidrBlock *string `json:"unreachableCidrBlock,omitempty" tf:"unreachable_cidr_block,omitempty"`
+}
+
+type PrivateServiceConnectConfigParameters struct {
+
+	// Optional. The reference to the network attachment used to establish private connectivity.
+	// It will be of the form projects/{project-id}/regions/{region}/networkAttachments/{network-attachment-id}.
+	// This is required only when using connection type PRIVATE_SERVICE_CONNECT_INTERFACES.
+	// +kubebuilder:validation:Optional
+	NetworkAttachment *string `json:"networkAttachment,omitempty" tf:"network_attachment,omitempty"`
+
+	// Optional. Input only. The CIDR block to which the CDF instance can't route traffic to in the consumer project VPC.
+	// The size of this block should be at least /25. This range should not overlap with the primary address range of any subnetwork used by the network attachment.
+	// This range can be used for other purposes in the consumer VPC as long as there is no requirement for CDF to reach destinations using these addresses.
+	// If this value is not provided, the server chooses a non RFC 1918 address range. The format of this field is governed by RFC 4632.
+	// +kubebuilder:validation:Optional
+	UnreachableCidrBlock *string `json:"unreachableCidrBlock,omitempty" tf:"unreachable_cidr_block,omitempty"`
 }
 
 // InstanceSpec defines the desired state of Instance

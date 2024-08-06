@@ -49,6 +49,27 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 
 	}
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.BuildConfig); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "ServiceAccount", "ServiceAccountList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.BuildConfig[i3].ServiceAccount),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.ForProvider.BuildConfig[i3].ServiceAccountRef,
+				Selector:     mg.Spec.ForProvider.BuildConfig[i3].ServiceAccountSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.BuildConfig[i3].ServiceAccount")
+		}
+		mg.Spec.ForProvider.BuildConfig[i3].ServiceAccount = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.BuildConfig[i3].ServiceAccountRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.BuildConfig); i3++ {
 		for i4 := 0; i4 < len(mg.Spec.ForProvider.BuildConfig[i3].Source); i4++ {
 			for i5 := 0; i5 < len(mg.Spec.ForProvider.BuildConfig[i3].Source[i4].StorageSource); i5++ {
 				{
@@ -270,6 +291,27 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 		}
 		mg.Spec.InitProvider.BuildConfig[i3].DockerRepository = reference.ToPtrValue(rsp.ResolvedValue)
 		mg.Spec.InitProvider.BuildConfig[i3].DockerRepositoryRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.BuildConfig); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "ServiceAccount", "ServiceAccountList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.BuildConfig[i3].ServiceAccount),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.InitProvider.BuildConfig[i3].ServiceAccountRef,
+				Selector:     mg.Spec.InitProvider.BuildConfig[i3].ServiceAccountSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.BuildConfig[i3].ServiceAccount")
+		}
+		mg.Spec.InitProvider.BuildConfig[i3].ServiceAccount = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.BuildConfig[i3].ServiceAccountRef = rsp.ResolvedReference
 
 	}
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.BuildConfig); i3++ {

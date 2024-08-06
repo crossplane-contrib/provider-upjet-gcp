@@ -1451,6 +1451,7 @@ type V2ServiceTemplateInitParameters struct {
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Sets the maximum number of requests that each serving instance can receive.
+	// If not specified or 0, defaults to 80 when requested CPU >= 1 and defaults to 1 when requested CPU < 1.
 	MaxInstanceRequestConcurrency *float64 `json:"maxInstanceRequestConcurrency,omitempty" tf:"max_instance_request_concurrency,omitempty"`
 
 	// The unique name for the revision. If this field is omitted, it will be automatically generated based on the Service name.
@@ -1507,6 +1508,7 @@ type V2ServiceTemplateObservation struct {
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Sets the maximum number of requests that each serving instance can receive.
+	// If not specified or 0, defaults to 80 when requested CPU >= 1 and defaults to 1 when requested CPU < 1.
 	MaxInstanceRequestConcurrency *float64 `json:"maxInstanceRequestConcurrency,omitempty" tf:"max_instance_request_concurrency,omitempty"`
 
 	// The unique name for the revision. If this field is omitted, it will be automatically generated based on the Service name.
@@ -1568,6 +1570,7 @@ type V2ServiceTemplateParameters struct {
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Sets the maximum number of requests that each serving instance can receive.
+	// If not specified or 0, defaults to 80 when requested CPU >= 1 and defaults to 1 when requested CPU < 1.
 	// +kubebuilder:validation:Optional
 	MaxInstanceRequestConcurrency *float64 `json:"maxInstanceRequestConcurrency,omitempty" tf:"max_instance_request_concurrency,omitempty"`
 

@@ -36,6 +36,9 @@ type EnvironmentInitParameters struct {
 	// Display name of the environment.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	// Optional. URI of the forward proxy to be applied to the runtime instances in this environment. Must be in the format of {scheme}://{hostname}:{port}. Note that the scheme must be one of "http" or "https", and the port must be supplied.
+	ForwardProxyURI *string `json:"forwardProxyUri,omitempty" tf:"forward_proxy_uri,omitempty"`
+
 	// NodeConfig for setting the min/max number of nodes associated with the environment.
 	// Structure is documented below.
 	NodeConfig []NodeConfigInitParameters `json:"nodeConfig,omitempty" tf:"node_config,omitempty"`
@@ -70,6 +73,9 @@ type EnvironmentObservation struct {
 
 	// Display name of the environment.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// Optional. URI of the forward proxy to be applied to the runtime instances in this environment. Must be in the format of {scheme}://{hostname}:{port}. Note that the scheme must be one of "http" or "https", and the port must be supplied.
+	ForwardProxyURI *string `json:"forwardProxyUri,omitempty" tf:"forward_proxy_uri,omitempty"`
 
 	// an identifier for the resource with format {{org_id}}/environments/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -116,6 +122,10 @@ type EnvironmentParameters struct {
 	// Display name of the environment.
 	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// Optional. URI of the forward proxy to be applied to the runtime instances in this environment. Must be in the format of {scheme}://{hostname}:{port}. Note that the scheme must be one of "http" or "https", and the port must be supplied.
+	// +kubebuilder:validation:Optional
+	ForwardProxyURI *string `json:"forwardProxyUri,omitempty" tf:"forward_proxy_uri,omitempty"`
 
 	// NodeConfig for setting the min/max number of nodes associated with the environment.
 	// Structure is documented below.

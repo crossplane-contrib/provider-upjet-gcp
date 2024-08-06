@@ -153,6 +153,17 @@ spec:
                                 type: array
                             type: object
                           type: array
+                        subjectKeyId:
+                          description: |-
+                            When specified this provides a custom SKI to be used in the certificate. This should only be used to maintain a SKI of an existing CA originally created outside CA service, which was not generated using method (1) described in RFC 5280 section 4.2.1.2..
+                            Structure is documented below.
+                          items:
+                            properties:
+                              keyId:
+                                description: The value of the KeyId in lowercase hexidecimal.
+                                type: string
+                            type: object
+                          type: array
                         x509Config:
                           description: |-
                             Describes how some of the technical X.509 fields in a certificate should be populated.
@@ -803,6 +814,17 @@ spec:
                                       type: array
                                   type: object
                                 type: array
+                            type: object
+                          type: array
+                        subjectKeyId:
+                          description: |-
+                            When specified this provides a custom SKI to be used in the certificate. This should only be used to maintain a SKI of an existing CA originally created outside CA service, which was not generated using method (1) described in RFC 5280 section 4.2.1.2..
+                            Structure is documented below.
+                          items:
+                            properties:
+                              keyId:
+                                description: The value of the KeyId in lowercase hexidecimal.
+                                type: string
                             type: object
                           type: array
                         x509Config:
@@ -1561,6 +1583,17 @@ spec:
                                       type: array
                                   type: object
                                 type: array
+                            type: object
+                          type: array
+                        subjectKeyId:
+                          description: |-
+                            When specified this provides a custom SKI to be used in the certificate. This should only be used to maintain a SKI of an existing CA originally created outside CA service, which was not generated using method (1) described in RFC 5280 section 4.2.1.2..
+                            Structure is documented below.
+                          items:
+                            properties:
+                              keyId:
+                                description: The value of the KeyId in lowercase hexidecimal.
+                                type: string
                             type: object
                           type: array
                         x509Config:
@@ -2472,6 +2505,8 @@ spec:
                         type: object
                     type: object
                   deletionProtection:
+                    description: When the field is set to false, deleting the CertificateAuthority
+                      is allowed.
                     type: boolean
                   desiredState:
                     description: Desired state of the CertificateAuthority. Set this
@@ -3092,6 +3127,8 @@ spec:
                         type: object
                     type: object
                   deletionProtection:
+                    description: When the field is set to false, deleting the CertificateAuthority
+                      is allowed.
                     type: boolean
                   desiredState:
                     description: Desired state of the CertificateAuthority. Set this
@@ -3824,6 +3861,8 @@ spec:
                       fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
                     type: string
                   deletionProtection:
+                    description: When the field is set to false, deleting the CertificateAuthority
+                      is allowed.
                     type: boolean
                   desiredState:
                     description: Desired state of the CertificateAuthority. Set this

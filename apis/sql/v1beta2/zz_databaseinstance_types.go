@@ -349,7 +349,7 @@ type DatabaseInstanceInitParameters struct {
 	// includes an up-to-date reference of supported versions.
 	DatabaseVersion *string `json:"databaseVersion,omitempty" tf:"database_version,omitempty"`
 
-	// Defaults to true.
+	// When the field is set to false, deleting the instance is allowed.
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// The full path to the encryption key used for the CMEK disk encryption.
@@ -421,7 +421,7 @@ type DatabaseInstanceObservation struct {
 	// includes an up-to-date reference of supported versions.
 	DatabaseVersion *string `json:"databaseVersion,omitempty" tf:"database_version,omitempty"`
 
-	// Defaults to true.
+	// When the field is set to false, deleting the instance is allowed.
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// The full path to the encryption key used for the CMEK disk encryption.
@@ -508,7 +508,7 @@ type DatabaseInstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	DatabaseVersion *string `json:"databaseVersion,omitempty" tf:"database_version,omitempty"`
 
-	// Defaults to true.
+	// When the field is set to false, deleting the instance is allowed.
 	// +kubebuilder:validation:Optional
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
@@ -641,7 +641,7 @@ type IPConfigurationInitParameters struct {
 	// At least ipv4_enabled must be enabled or a private_network must be configured.
 	// This setting can be updated, but it cannot be removed after it is set.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
 	PrivateNetwork *string `json:"privateNetwork,omitempty" tf:"private_network,omitempty"`
 
 	// Reference to a Network in compute to populate privateNetwork.
@@ -654,7 +654,7 @@ type IPConfigurationInitParameters struct {
 
 	PscConfig []PscConfigInitParameters `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
 
-	// Whether SSL connections over IP are enforced or not. To change this field, also set the corresponding value in ssl_mode.
+	// Whether SSL connections over IP are enforced or not. To change this field, also set the corresponding value in ssl_mode. It will be fully deprecated in a future major release. For now, please use ssl_mode with a compatible require_ssl value instead.
 	RequireSSL *bool `json:"requireSsl,omitempty" tf:"require_ssl,omitempty"`
 
 	// Specify how SSL connection should be enforced in DB connections. This field provides more SSL enforcment options compared to require_ssl. To change this field, also set the correspoding value in require_ssl.
@@ -685,7 +685,7 @@ type IPConfigurationObservation struct {
 
 	PscConfig []PscConfigObservation `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
 
-	// Whether SSL connections over IP are enforced or not. To change this field, also set the corresponding value in ssl_mode.
+	// Whether SSL connections over IP are enforced or not. To change this field, also set the corresponding value in ssl_mode. It will be fully deprecated in a future major release. For now, please use ssl_mode with a compatible require_ssl value instead.
 	RequireSSL *bool `json:"requireSsl,omitempty" tf:"require_ssl,omitempty"`
 
 	// Specify how SSL connection should be enforced in DB connections. This field provides more SSL enforcment options compared to require_ssl. To change this field, also set the correspoding value in require_ssl.
@@ -717,7 +717,7 @@ type IPConfigurationParameters struct {
 	// At least ipv4_enabled must be enabled or a private_network must be configured.
 	// This setting can be updated, but it cannot be removed after it is set.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	PrivateNetwork *string `json:"privateNetwork,omitempty" tf:"private_network,omitempty"`
 
@@ -732,7 +732,7 @@ type IPConfigurationParameters struct {
 	// +kubebuilder:validation:Optional
 	PscConfig []PscConfigParameters `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
 
-	// Whether SSL connections over IP are enforced or not. To change this field, also set the corresponding value in ssl_mode.
+	// Whether SSL connections over IP are enforced or not. To change this field, also set the corresponding value in ssl_mode. It will be fully deprecated in a future major release. For now, please use ssl_mode with a compatible require_ssl value instead.
 	// +kubebuilder:validation:Optional
 	RequireSSL *bool `json:"requireSsl,omitempty" tf:"require_ssl,omitempty"`
 
@@ -853,8 +853,7 @@ type MaintenanceWindowInitParameters struct {
 	// Hour of day (0-23), ignored if day not set
 	Hour *float64 `json:"hour,omitempty" tf:"hour,omitempty"`
 
-	// Receive updates earlier (canary) or later
-	// (stable)
+	// Receive updates after one week (canary) or after two weeks (stable) or after five weeks (week5) of notification.
 	UpdateTrack *string `json:"updateTrack,omitempty" tf:"update_track,omitempty"`
 }
 
@@ -866,8 +865,7 @@ type MaintenanceWindowObservation struct {
 	// Hour of day (0-23), ignored if day not set
 	Hour *float64 `json:"hour,omitempty" tf:"hour,omitempty"`
 
-	// Receive updates earlier (canary) or later
-	// (stable)
+	// Receive updates after one week (canary) or after two weeks (stable) or after five weeks (week5) of notification.
 	UpdateTrack *string `json:"updateTrack,omitempty" tf:"update_track,omitempty"`
 }
 
@@ -881,8 +879,7 @@ type MaintenanceWindowParameters struct {
 	// +kubebuilder:validation:Optional
 	Hour *float64 `json:"hour,omitempty" tf:"hour,omitempty"`
 
-	// Receive updates earlier (canary) or later
-	// (stable)
+	// Receive updates after one week (canary) or after two weeks (stable) or after five weeks (week5) of notification.
 	// +kubebuilder:validation:Optional
 	UpdateTrack *string `json:"updateTrack,omitempty" tf:"update_track,omitempty"`
 }

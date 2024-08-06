@@ -119,6 +119,8 @@ type FolderSinkInitParameters struct {
 	// associated with child projects are also exported; otherwise only logs relating to the provided folder are included.
 	IncludeChildren *bool `json:"includeChildren,omitempty" tf:"include_children,omitempty"`
 
+	// Whether or not to intercept logs from child projects. If true, matching logs will not
+	// match with sinks in child resources, except _Required sinks. This sink will be visible to child resources when listing sinks.
 	InterceptChildren *bool `json:"interceptChildren,omitempty" tf:"intercept_children,omitempty"`
 }
 
@@ -155,6 +157,8 @@ type FolderSinkObservation struct {
 	// associated with child projects are also exported; otherwise only logs relating to the provided folder are included.
 	IncludeChildren *bool `json:"includeChildren,omitempty" tf:"include_children,omitempty"`
 
+	// Whether or not to intercept logs from child projects. If true, matching logs will not
+	// match with sinks in child resources, except _Required sinks. This sink will be visible to child resources when listing sinks.
 	InterceptChildren *bool `json:"interceptChildren,omitempty" tf:"intercept_children,omitempty"`
 
 	// The identity associated with this sink. This identity must be granted write access to the
@@ -210,6 +214,8 @@ type FolderSinkParameters struct {
 	// +kubebuilder:validation:Optional
 	IncludeChildren *bool `json:"includeChildren,omitempty" tf:"include_children,omitempty"`
 
+	// Whether or not to intercept logs from child projects. If true, matching logs will not
+	// match with sinks in child resources, except _Required sinks. This sink will be visible to child resources when listing sinks.
 	// +kubebuilder:validation:Optional
 	InterceptChildren *bool `json:"interceptChildren,omitempty" tf:"intercept_children,omitempty"`
 }

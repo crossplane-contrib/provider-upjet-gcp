@@ -17,13 +17,13 @@ type ProjectServiceInitParameters struct {
 
 	// If true, services that are enabled
 	// and which depend on this service should also be disabled when this service is
-	// destroyed. If false or unset, an error will be generated if any enabled
-	// services depend on this service when destroying it.
+	// destroyed. If false or unset, an error will be returned if any enabled
+	// services depend on this service when attempting to destroy it.
 	DisableDependentServices *bool `json:"disableDependentServices,omitempty" tf:"disable_dependent_services,omitempty"`
 
-	// Defaults to true. May be useful in the event
-	// that a project is long-lived but the infrastructure running in that project
-	// changes frequently.
+	// Defaults to true. Most configurations should
+	// set this to false; it should generally only be true or unset in configurations
+	// that manage the google_project resource itself.
 	DisableOnDestroy *bool `json:"disableOnDestroy,omitempty" tf:"disable_on_destroy,omitempty"`
 
 	// The project ID. If not provided, the provider project
@@ -47,13 +47,13 @@ type ProjectServiceObservation struct {
 
 	// If true, services that are enabled
 	// and which depend on this service should also be disabled when this service is
-	// destroyed. If false or unset, an error will be generated if any enabled
-	// services depend on this service when destroying it.
+	// destroyed. If false or unset, an error will be returned if any enabled
+	// services depend on this service when attempting to destroy it.
 	DisableDependentServices *bool `json:"disableDependentServices,omitempty" tf:"disable_dependent_services,omitempty"`
 
-	// Defaults to true. May be useful in the event
-	// that a project is long-lived but the infrastructure running in that project
-	// changes frequently.
+	// Defaults to true. Most configurations should
+	// set this to false; it should generally only be true or unset in configurations
+	// that manage the google_project resource itself.
 	DisableOnDestroy *bool `json:"disableOnDestroy,omitempty" tf:"disable_on_destroy,omitempty"`
 
 	// an identifier for the resource with format {{project}}/{{service}}
@@ -71,14 +71,14 @@ type ProjectServiceParameters struct {
 
 	// If true, services that are enabled
 	// and which depend on this service should also be disabled when this service is
-	// destroyed. If false or unset, an error will be generated if any enabled
-	// services depend on this service when destroying it.
+	// destroyed. If false or unset, an error will be returned if any enabled
+	// services depend on this service when attempting to destroy it.
 	// +kubebuilder:validation:Optional
 	DisableDependentServices *bool `json:"disableDependentServices,omitempty" tf:"disable_dependent_services,omitempty"`
 
-	// Defaults to true. May be useful in the event
-	// that a project is long-lived but the infrastructure running in that project
-	// changes frequently.
+	// Defaults to true. Most configurations should
+	// set this to false; it should generally only be true or unset in configurations
+	// that manage the google_project resource itself.
 	// +kubebuilder:validation:Optional
 	DisableOnDestroy *bool `json:"disableOnDestroy,omitempty" tf:"disable_on_destroy,omitempty"`
 
@@ -128,7 +128,7 @@ type ProjectServiceStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// ProjectService is the Schema for the ProjectServices API. Allows management of a single API service for a Google Cloud Platform project.
+// ProjectService is the Schema for the ProjectServices API. Allows management of a single API service for a Google Cloud project.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

@@ -277,6 +277,64 @@ spec:
                       to a different credential configuration in the config will require an apply to update state.
                       Structure is documented below.
                     items:
+                      properties:
+                        authTokenSecretRef:
+                          description: |-
+                            An authorization token for a notification channel. Channel types that support this field include: slack
+                            Note: This property is sensitive and will not be displayed in the plan.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                        passwordSecretRef:
+                          description: |-
+                            An password for a notification channel. Channel types that support this field include: webhook_basicauth
+                            Note: This property is sensitive and will not be displayed in the plan.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                        serviceKeySecretRef:
+                          description: |-
+                            An servicekey token for a notification channel. Channel types that support this field include: pagerduty
+                            Note: This property is sensitive and will not be displayed in the plan.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
                       type: object
                     type: array
                   type:

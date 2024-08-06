@@ -433,6 +433,10 @@ type MetastoreServiceInitParameters struct {
 	// Structure is documented below.
 	ScalingConfig []ScalingConfigInitParameters `json:"scalingConfig,omitempty" tf:"scaling_config,omitempty"`
 
+	// The configuration of scheduled backup for the metastore service.
+	// Structure is documented below.
+	ScheduledBackup []ScheduledBackupInitParameters `json:"scheduledBackup,omitempty" tf:"scheduled_backup,omitempty"`
+
 	// The configuration specifying telemetry settings for the Dataproc Metastore service. If unspecified defaults to JSON.
 	// Structure is documented below.
 	TelemetryConfig []TelemetryConfigInitParameters `json:"telemetryConfig,omitempty" tf:"telemetry_config,omitempty"`
@@ -516,6 +520,10 @@ type MetastoreServiceObservation struct {
 	// Represents the scaling configuration of a metastore service.
 	// Structure is documented below.
 	ScalingConfig []ScalingConfigObservation `json:"scalingConfig,omitempty" tf:"scaling_config,omitempty"`
+
+	// The configuration of scheduled backup for the metastore service.
+	// Structure is documented below.
+	ScheduledBackup []ScheduledBackupObservation `json:"scheduledBackup,omitempty" tf:"scheduled_backup,omitempty"`
 
 	// The current state of the metastore service.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
@@ -613,6 +621,11 @@ type MetastoreServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	ScalingConfig []ScalingConfigParameters `json:"scalingConfig,omitempty" tf:"scaling_config,omitempty"`
 
+	// The configuration of scheduled backup for the metastore service.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ScheduledBackup []ScheduledBackupParameters `json:"scheduledBackup,omitempty" tf:"scheduled_backup,omitempty"`
+
 	// The configuration specifying telemetry settings for the Dataproc Metastore service. If unspecified defaults to JSON.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -676,6 +689,55 @@ type ScalingConfigParameters struct {
 	// Scaling factor, in increments of 0.1 for values less than 1.0, and increments of 1.0 for values greater than 1.0.
 	// +kubebuilder:validation:Optional
 	ScalingFactor *float64 `json:"scalingFactor,omitempty" tf:"scaling_factor,omitempty"`
+}
+
+type ScheduledBackupInitParameters struct {
+
+	// A Cloud Storage URI of a folder, in the format gs://<bucket_name>/<path_inside_bucket>. A sub-folder <backup_folder> containing backup files will be stored below it.
+	BackupLocation *string `json:"backupLocation,omitempty" tf:"backup_location,omitempty"`
+
+	// The scheduled interval in Cron format, see https://en.wikipedia.org/wiki/Cron The default is empty: scheduled backup is not enabled. Must be specified to enable scheduled backups.
+	CronSchedule *string `json:"cronSchedule,omitempty" tf:"cron_schedule,omitempty"`
+
+	// Defines whether the scheduled backup is enabled. The default value is false.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// Specifies the time zone to be used when interpreting cronSchedule. Must be a time zone name from the time zone database (https://en.wikipedia.org/wiki/List_of_tz_database_time_zones), e.g. America/Los_Angeles or Africa/Abidjan. If left unspecified, the default is UTC.
+	TimeZone *string `json:"timeZone,omitempty" tf:"time_zone,omitempty"`
+}
+
+type ScheduledBackupObservation struct {
+
+	// A Cloud Storage URI of a folder, in the format gs://<bucket_name>/<path_inside_bucket>. A sub-folder <backup_folder> containing backup files will be stored below it.
+	BackupLocation *string `json:"backupLocation,omitempty" tf:"backup_location,omitempty"`
+
+	// The scheduled interval in Cron format, see https://en.wikipedia.org/wiki/Cron The default is empty: scheduled backup is not enabled. Must be specified to enable scheduled backups.
+	CronSchedule *string `json:"cronSchedule,omitempty" tf:"cron_schedule,omitempty"`
+
+	// Defines whether the scheduled backup is enabled. The default value is false.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// Specifies the time zone to be used when interpreting cronSchedule. Must be a time zone name from the time zone database (https://en.wikipedia.org/wiki/List_of_tz_database_time_zones), e.g. America/Los_Angeles or Africa/Abidjan. If left unspecified, the default is UTC.
+	TimeZone *string `json:"timeZone,omitempty" tf:"time_zone,omitempty"`
+}
+
+type ScheduledBackupParameters struct {
+
+	// A Cloud Storage URI of a folder, in the format gs://<bucket_name>/<path_inside_bucket>. A sub-folder <backup_folder> containing backup files will be stored below it.
+	// +kubebuilder:validation:Optional
+	BackupLocation *string `json:"backupLocation" tf:"backup_location,omitempty"`
+
+	// The scheduled interval in Cron format, see https://en.wikipedia.org/wiki/Cron The default is empty: scheduled backup is not enabled. Must be specified to enable scheduled backups.
+	// +kubebuilder:validation:Optional
+	CronSchedule *string `json:"cronSchedule,omitempty" tf:"cron_schedule,omitempty"`
+
+	// Defines whether the scheduled backup is enabled. The default value is false.
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// Specifies the time zone to be used when interpreting cronSchedule. Must be a time zone name from the time zone database (https://en.wikipedia.org/wiki/List_of_tz_database_time_zones), e.g. America/Los_Angeles or Africa/Abidjan. If left unspecified, the default is UTC.
+	// +kubebuilder:validation:Optional
+	TimeZone *string `json:"timeZone,omitempty" tf:"time_zone,omitempty"`
 }
 
 type TelemetryConfigInitParameters struct {

@@ -3744,6 +3744,11 @@ func (in *DiskConfigInitParameters) DeepCopyInto(out *DiskConfigInitParameters) 
 		*out = new(string)
 		**out = **in
 	}
+	if in.LocalSsdInterface != nil {
+		in, out := &in.LocalSsdInterface, &out.LocalSsdInterface
+		*out = new(string)
+		**out = **in
+	}
 	if in.NumLocalSsds != nil {
 		in, out := &in.NumLocalSsds, &out.NumLocalSsds
 		*out = new(float64)
@@ -3774,6 +3779,11 @@ func (in *DiskConfigObservation) DeepCopyInto(out *DiskConfigObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.LocalSsdInterface != nil {
+		in, out := &in.LocalSsdInterface, &out.LocalSsdInterface
+		*out = new(string)
+		**out = **in
+	}
 	if in.NumLocalSsds != nil {
 		in, out := &in.NumLocalSsds, &out.NumLocalSsds
 		*out = new(float64)
@@ -3801,6 +3811,11 @@ func (in *DiskConfigParameters) DeepCopyInto(out *DiskConfigParameters) {
 	}
 	if in.BootDiskType != nil {
 		in, out := &in.BootDiskType, &out.BootDiskType
+		*out = new(string)
+		**out = **in
+	}
+	if in.LocalSsdInterface != nil {
+		in, out := &in.LocalSsdInterface, &out.LocalSsdInterface
 		*out = new(string)
 		**out = **in
 	}
@@ -8432,6 +8447,11 @@ func (in *MasterConfigDiskConfigInitParameters) DeepCopyInto(out *MasterConfigDi
 		*out = new(string)
 		**out = **in
 	}
+	if in.LocalSsdInterface != nil {
+		in, out := &in.LocalSsdInterface, &out.LocalSsdInterface
+		*out = new(string)
+		**out = **in
+	}
 	if in.NumLocalSsds != nil {
 		in, out := &in.NumLocalSsds, &out.NumLocalSsds
 		*out = new(float64)
@@ -8462,6 +8482,11 @@ func (in *MasterConfigDiskConfigObservation) DeepCopyInto(out *MasterConfigDiskC
 		*out = new(string)
 		**out = **in
 	}
+	if in.LocalSsdInterface != nil {
+		in, out := &in.LocalSsdInterface, &out.LocalSsdInterface
+		*out = new(string)
+		**out = **in
+	}
 	if in.NumLocalSsds != nil {
 		in, out := &in.NumLocalSsds, &out.NumLocalSsds
 		*out = new(float64)
@@ -8489,6 +8514,11 @@ func (in *MasterConfigDiskConfigParameters) DeepCopyInto(out *MasterConfigDiskCo
 	}
 	if in.BootDiskType != nil {
 		in, out := &in.BootDiskType, &out.BootDiskType
+		*out = new(string)
+		**out = **in
+	}
+	if in.LocalSsdInterface != nil {
+		in, out := &in.LocalSsdInterface, &out.LocalSsdInterface
 		*out = new(string)
 		**out = **in
 	}
@@ -10976,6 +11006,11 @@ func (in *PreemptibleWorkerConfigDiskConfigInitParameters) DeepCopyInto(out *Pre
 		*out = new(string)
 		**out = **in
 	}
+	if in.LocalSsdInterface != nil {
+		in, out := &in.LocalSsdInterface, &out.LocalSsdInterface
+		*out = new(string)
+		**out = **in
+	}
 	if in.NumLocalSsds != nil {
 		in, out := &in.NumLocalSsds, &out.NumLocalSsds
 		*out = new(float64)
@@ -11006,6 +11041,11 @@ func (in *PreemptibleWorkerConfigDiskConfigObservation) DeepCopyInto(out *Preemp
 		*out = new(string)
 		**out = **in
 	}
+	if in.LocalSsdInterface != nil {
+		in, out := &in.LocalSsdInterface, &out.LocalSsdInterface
+		*out = new(string)
+		**out = **in
+	}
 	if in.NumLocalSsds != nil {
 		in, out := &in.NumLocalSsds, &out.NumLocalSsds
 		*out = new(float64)
@@ -11033,6 +11073,11 @@ func (in *PreemptibleWorkerConfigDiskConfigParameters) DeepCopyInto(out *Preempt
 	}
 	if in.BootDiskType != nil {
 		in, out := &in.BootDiskType, &out.BootDiskType
+		*out = new(string)
+		**out = **in
+	}
+	if in.LocalSsdInterface != nil {
+		in, out := &in.LocalSsdInterface, &out.LocalSsdInterface
 		*out = new(string)
 		**out = **in
 	}
@@ -16349,6 +16394,11 @@ func (in *WorkerConfigDiskConfigInitParameters) DeepCopyInto(out *WorkerConfigDi
 		*out = new(string)
 		**out = **in
 	}
+	if in.LocalSsdInterface != nil {
+		in, out := &in.LocalSsdInterface, &out.LocalSsdInterface
+		*out = new(string)
+		**out = **in
+	}
 	if in.NumLocalSsds != nil {
 		in, out := &in.NumLocalSsds, &out.NumLocalSsds
 		*out = new(float64)
@@ -16379,6 +16429,11 @@ func (in *WorkerConfigDiskConfigObservation) DeepCopyInto(out *WorkerConfigDiskC
 		*out = new(string)
 		**out = **in
 	}
+	if in.LocalSsdInterface != nil {
+		in, out := &in.LocalSsdInterface, &out.LocalSsdInterface
+		*out = new(string)
+		**out = **in
+	}
 	if in.NumLocalSsds != nil {
 		in, out := &in.NumLocalSsds, &out.NumLocalSsds
 		*out = new(float64)
@@ -16406,6 +16461,11 @@ func (in *WorkerConfigDiskConfigParameters) DeepCopyInto(out *WorkerConfigDiskCo
 	}
 	if in.BootDiskType != nil {
 		in, out := &in.BootDiskType, &out.BootDiskType
+		*out = new(string)
+		**out = **in
+	}
+	if in.LocalSsdInterface != nil {
+		in, out := &in.LocalSsdInterface, &out.LocalSsdInterface
 		*out = new(string)
 		**out = **in
 	}

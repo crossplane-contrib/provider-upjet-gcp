@@ -391,10 +391,7 @@ type HTTPGetInitParameters struct {
 	// Structure is documented below.
 	HTTPHeaders []HTTPHeadersInitParameters `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
 
-	// The relative path of the file to map the key to.
-	// May not be an absolute path.
-	// May not contain the path element '..'.
-	// May not start with the string '..'.
+	// Path exported by the NFS server
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
 	// Port number to access on the container. Number must be in the range 1 to 65535.
@@ -408,10 +405,7 @@ type HTTPGetObservation struct {
 	// Structure is documented below.
 	HTTPHeaders []HTTPHeadersObservation `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
 
-	// The relative path of the file to map the key to.
-	// May not be an absolute path.
-	// May not contain the path element '..'.
-	// May not start with the string '..'.
+	// Path exported by the NFS server
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
 	// Port number to access on the container. Number must be in the range 1 to 65535.
@@ -426,10 +420,7 @@ type HTTPGetParameters struct {
 	// +kubebuilder:validation:Optional
 	HTTPHeaders []HTTPHeadersParameters `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
 
-	// The relative path of the file to map the key to.
-	// May not be an absolute path.
-	// May not contain the path element '..'.
-	// May not start with the string '..'.
+	// Path exported by the NFS server
 	// +kubebuilder:validation:Optional
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
@@ -480,10 +471,7 @@ type ItemsInitParameters struct {
 	// the result can be other mode bits set.
 	Mode *float64 `json:"mode,omitempty" tf:"mode,omitempty"`
 
-	// The relative path of the file to map the key to.
-	// May not be an absolute path.
-	// May not contain the path element '..'.
-	// May not start with the string '..'.
+	// Path exported by the NFS server
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 }
 
@@ -499,10 +487,7 @@ type ItemsObservation struct {
 	// the result can be other mode bits set.
 	Mode *float64 `json:"mode,omitempty" tf:"mode,omitempty"`
 
-	// The relative path of the file to map the key to.
-	// May not be an absolute path.
-	// May not contain the path element '..'.
-	// May not start with the string '..'.
+	// Path exported by the NFS server
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 }
 
@@ -520,10 +505,7 @@ type ItemsParameters struct {
 	// +kubebuilder:validation:Optional
 	Mode *float64 `json:"mode,omitempty" tf:"mode,omitempty"`
 
-	// The relative path of the file to map the key to.
-	// May not be an absolute path.
-	// May not contain the path element '..'.
-	// May not start with the string '..'.
+	// Path exported by the NFS server
 	// +kubebuilder:validation:Optional
 	Path *string `json:"path" tf:"path,omitempty"`
 }
@@ -983,8 +965,8 @@ type ServiceInitParameters struct {
 type ServiceMetadataInitParameters struct {
 
 	// Annotations is a key value map stored with a resource that
-	// may be set by external tools to store and retrieve arbitrary metadata. More
-	// info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
+	// may be set by external tools to store and retrieve arbitrary metadata.
+	// More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
 	// Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
 	// Annotations with run.googleapis.com/ and autoscaling.knative.dev are restricted. Use the following annotation
 	// keys to configure features on a Revision template:
@@ -1013,8 +995,8 @@ type ServiceMetadataInitParameters struct {
 type ServiceMetadataObservation struct {
 
 	// Annotations is a key value map stored with a resource that
-	// may be set by external tools to store and retrieve arbitrary metadata. More
-	// info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
+	// may be set by external tools to store and retrieve arbitrary metadata.
+	// More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
 	// Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
 	// Annotations with run.googleapis.com/ and autoscaling.knative.dev are restricted. Use the following annotation
 	// keys to configure features on a Revision template:
@@ -1067,8 +1049,8 @@ type ServiceMetadataObservation struct {
 type ServiceMetadataParameters struct {
 
 	// Annotations is a key value map stored with a resource that
-	// may be set by external tools to store and retrieve arbitrary metadata. More
-	// info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
+	// may be set by external tools to store and retrieve arbitrary metadata.
+	// More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
 	// Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
 	// Annotations with run.googleapis.com/ and autoscaling.knative.dev are restricted. Use the following annotation
 	// keys to configure features on a Revision template:
@@ -1353,10 +1335,7 @@ type StartupProbeHTTPGetInitParameters struct {
 	// Structure is documented below.
 	HTTPHeaders []HTTPGetHTTPHeadersInitParameters `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
 
-	// The relative path of the file to map the key to.
-	// May not be an absolute path.
-	// May not contain the path element '..'.
-	// May not start with the string '..'.
+	// Path exported by the NFS server
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
 	// Port number to access on the container. Number must be in the range 1 to 65535.
@@ -1370,10 +1349,7 @@ type StartupProbeHTTPGetObservation struct {
 	// Structure is documented below.
 	HTTPHeaders []HTTPGetHTTPHeadersObservation `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
 
-	// The relative path of the file to map the key to.
-	// May not be an absolute path.
-	// May not contain the path element '..'.
-	// May not start with the string '..'.
+	// Path exported by the NFS server
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
 	// Port number to access on the container. Number must be in the range 1 to 65535.
@@ -1388,10 +1364,7 @@ type StartupProbeHTTPGetParameters struct {
 	// +kubebuilder:validation:Optional
 	HTTPHeaders []HTTPGetHTTPHeadersParameters `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
 
-	// The relative path of the file to map the key to.
-	// May not be an absolute path.
-	// May not contain the path element '..'.
-	// May not start with the string '..'.
+	// Path exported by the NFS server
 	// +kubebuilder:validation:Optional
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
@@ -1574,8 +1547,8 @@ type TemplateInitParameters struct {
 type TemplateMetadataInitParameters struct {
 
 	// Annotations is a key value map stored with a resource that
-	// may be set by external tools to store and retrieve arbitrary metadata. More
-	// info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
+	// may be set by external tools to store and retrieve arbitrary metadata.
+	// More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
 	// Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
 	// Annotations with run.googleapis.com/ and autoscaling.knative.dev are restricted. Use the following annotation
 	// keys to configure features on a Revision template:
@@ -1598,8 +1571,8 @@ type TemplateMetadataInitParameters struct {
 type TemplateMetadataObservation struct {
 
 	// Annotations is a key value map stored with a resource that
-	// may be set by external tools to store and retrieve arbitrary metadata. More
-	// info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
+	// may be set by external tools to store and retrieve arbitrary metadata.
+	// More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
 	// Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
 	// Annotations with run.googleapis.com/ and autoscaling.knative.dev are restricted. Use the following annotation
 	// keys to configure features on a Revision template:
@@ -1643,8 +1616,8 @@ type TemplateMetadataObservation struct {
 type TemplateMetadataParameters struct {
 
 	// Annotations is a key value map stored with a resource that
-	// may be set by external tools to store and retrieve arbitrary metadata. More
-	// info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
+	// may be set by external tools to store and retrieve arbitrary metadata.
+	// More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
 	// Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
 	// Annotations with run.googleapis.com/ and autoscaling.knative.dev are restricted. Use the following annotation
 	// keys to configure features on a Revision template:
@@ -1707,7 +1680,8 @@ type TemplateParameters struct {
 type TemplateSpecInitParameters struct {
 
 	// ContainerConcurrency specifies the maximum allowed in-flight (concurrent)
-	// requests per container of the Revision. Values are:
+	// requests per container of the Revision. If not specified or 0, defaults to 80 when
+	// requested CPU >= 1 and defaults to 1 when requested CPU < 1.
 	ContainerConcurrency *float64 `json:"containerConcurrency,omitempty" tf:"container_concurrency,omitempty"`
 
 	// Containers defines the unit of execution for this Revision.
@@ -1733,7 +1707,8 @@ type TemplateSpecInitParameters struct {
 type TemplateSpecObservation struct {
 
 	// ContainerConcurrency specifies the maximum allowed in-flight (concurrent)
-	// requests per container of the Revision. Values are:
+	// requests per container of the Revision. If not specified or 0, defaults to 80 when
+	// requested CPU >= 1 and defaults to 1 when requested CPU < 1.
 	ContainerConcurrency *float64 `json:"containerConcurrency,omitempty" tf:"container_concurrency,omitempty"`
 
 	// Containers defines the unit of execution for this Revision.
@@ -1766,7 +1741,8 @@ type TemplateSpecObservation struct {
 type TemplateSpecParameters struct {
 
 	// ContainerConcurrency specifies the maximum allowed in-flight (concurrent)
-	// requests per container of the Revision. Values are:
+	// requests per container of the Revision. If not specified or 0, defaults to 80 when
+	// requested CPU >= 1 and defaults to 1 when requested CPU < 1.
 	// +kubebuilder:validation:Optional
 	ContainerConcurrency *float64 `json:"containerConcurrency,omitempty" tf:"container_concurrency,omitempty"`
 

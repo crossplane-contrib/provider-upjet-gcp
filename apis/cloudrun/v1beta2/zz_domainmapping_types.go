@@ -116,8 +116,8 @@ type DomainMappingParameters struct {
 type MetadataInitParameters struct {
 
 	// Annotations is a key value map stored with a resource that
-	// may be set by external tools to store and retrieve arbitrary metadata. More
-	// info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
+	// may be set by external tools to store and retrieve arbitrary metadata.
+	// More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
 	// Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
 	// Note: This field is non-authoritative, and will only manage the annotations present in your configuration.
 	// Please refer to the field effective_annotations for all of the annotations present on the resource.
@@ -150,8 +150,8 @@ type MetadataInitParameters struct {
 type MetadataObservation struct {
 
 	// Annotations is a key value map stored with a resource that
-	// may be set by external tools to store and retrieve arbitrary metadata. More
-	// info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
+	// may be set by external tools to store and retrieve arbitrary metadata.
+	// More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
 	// Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
 	// Note: This field is non-authoritative, and will only manage the annotations present in your configuration.
 	// Please refer to the field effective_annotations for all of the annotations present on the resource.
@@ -211,8 +211,8 @@ type MetadataObservation struct {
 type MetadataParameters struct {
 
 	// Annotations is a key value map stored with a resource that
-	// may be set by external tools to store and retrieve arbitrary metadata. More
-	// info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
+	// may be set by external tools to store and retrieve arbitrary metadata.
+	// More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
 	// Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
 	// Note: This field is non-authoritative, and will only manage the annotations present in your configuration.
 	// Please refer to the field effective_annotations for all of the annotations present on the resource.

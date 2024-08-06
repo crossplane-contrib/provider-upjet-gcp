@@ -277,6 +277,8 @@ spec:
                         advancedMachineFeatures:
                           items:
                             properties:
+                              enableNestedVirtualization:
+                                type: boolean
                               threadsPerCore:
                                 type: number
                             type: object
@@ -292,6 +294,36 @@ spec:
                                 description: Makes nodes obtainable through the ProvisioningRequest
                                   API exclusively.
                                 type: boolean
+                            type: object
+                          type: array
+                        containerdConfig:
+                          items:
+                            properties:
+                              privateRegistryAccessConfig:
+                                items:
+                                  properties:
+                                    certificateAuthorityDomainConfig:
+                                      items:
+                                        properties:
+                                          fqdns:
+                                            items:
+                                              type: string
+                                            type: array
+                                          gcpSecretManagerCertificateConfig:
+                                            items:
+                                              properties:
+                                                secretUri:
+                                                  type: string
+                                              type: object
+                                            type: array
+                                        type: object
+                                      type: array
+                                    enabled:
+                                      description: Makes nodes obtainable through
+                                        the ProvisioningRequest API exclusively.
+                                      type: boolean
+                                  type: object
+                                type: array
                             type: object
                           type: array
                         diskSizeGb:
@@ -469,6 +501,15 @@ spec:
                             type: string
                           type: object
                           x-kubernetes-map-type: granular
+                        secondaryBootDisks:
+                          items:
+                            properties:
+                              diskImage:
+                                type: string
+                              mode:
+                                type: string
+                            type: object
+                          type: array
                         serviceAccount:
                           type: string
                         serviceAccountRef:
@@ -647,6 +688,18 @@ spec:
                       The ID of the project in which to create the node pool. If blank,
                       the provider-configured project will be used.
                     type: string
+                  queuedProvisioning:
+                    description: |-
+                      Specifies node pool-level settings of queued provisioning.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        enabled:
+                          description: Makes nodes obtainable through the ProvisioningRequest
+                            API exclusively.
+                          type: boolean
+                      type: object
+                    type: array
                   upgradeSettings:
                     description: |-
                       Specify node upgrade settings to change how GKE upgrades nodes.
@@ -844,6 +897,8 @@ spec:
                         advancedMachineFeatures:
                           items:
                             properties:
+                              enableNestedVirtualization:
+                                type: boolean
                               threadsPerCore:
                                 type: number
                             type: object
@@ -859,6 +914,36 @@ spec:
                                 description: Makes nodes obtainable through the ProvisioningRequest
                                   API exclusively.
                                 type: boolean
+                            type: object
+                          type: array
+                        containerdConfig:
+                          items:
+                            properties:
+                              privateRegistryAccessConfig:
+                                items:
+                                  properties:
+                                    certificateAuthorityDomainConfig:
+                                      items:
+                                        properties:
+                                          fqdns:
+                                            items:
+                                              type: string
+                                            type: array
+                                          gcpSecretManagerCertificateConfig:
+                                            items:
+                                              properties:
+                                                secretUri:
+                                                  type: string
+                                              type: object
+                                            type: array
+                                        type: object
+                                      type: array
+                                    enabled:
+                                      description: Makes nodes obtainable through
+                                        the ProvisioningRequest API exclusively.
+                                      type: boolean
+                                  type: object
+                                type: array
                             type: object
                           type: array
                         diskSizeGb:
@@ -1036,6 +1121,15 @@ spec:
                             type: string
                           type: object
                           x-kubernetes-map-type: granular
+                        secondaryBootDisks:
+                          items:
+                            properties:
+                              diskImage:
+                                type: string
+                              mode:
+                                type: string
+                            type: object
+                          type: array
                         serviceAccount:
                           type: string
                         serviceAccountRef:
@@ -1214,6 +1308,18 @@ spec:
                       The ID of the project in which to create the node pool. If blank,
                       the provider-configured project will be used.
                     type: string
+                  queuedProvisioning:
+                    description: |-
+                      Specifies node pool-level settings of queued provisioning.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        enabled:
+                          description: Makes nodes obtainable through the ProvisioningRequest
+                            API exclusively.
+                          type: boolean
+                      type: object
+                    type: array
                   upgradeSettings:
                     description: |-
                       Specify node upgrade settings to change how GKE upgrades nodes.
@@ -1594,6 +1700,8 @@ spec:
                         advancedMachineFeatures:
                           items:
                             properties:
+                              enableNestedVirtualization:
+                                type: boolean
                               threadsPerCore:
                                 type: number
                             type: object
@@ -1609,6 +1717,36 @@ spec:
                                 description: Makes nodes obtainable through the ProvisioningRequest
                                   API exclusively.
                                 type: boolean
+                            type: object
+                          type: array
+                        containerdConfig:
+                          items:
+                            properties:
+                              privateRegistryAccessConfig:
+                                items:
+                                  properties:
+                                    certificateAuthorityDomainConfig:
+                                      items:
+                                        properties:
+                                          fqdns:
+                                            items:
+                                              type: string
+                                            type: array
+                                          gcpSecretManagerCertificateConfig:
+                                            items:
+                                              properties:
+                                                secretUri:
+                                                  type: string
+                                              type: object
+                                            type: array
+                                        type: object
+                                      type: array
+                                    enabled:
+                                      description: Makes nodes obtainable through
+                                        the ProvisioningRequest API exclusively.
+                                      type: boolean
+                                  type: object
+                                type: array
                             type: object
                           type: array
                         diskSizeGb:
@@ -1797,6 +1935,15 @@ spec:
                             type: string
                           type: object
                           x-kubernetes-map-type: granular
+                        secondaryBootDisks:
+                          items:
+                            properties:
+                              diskImage:
+                                type: string
+                              mode:
+                                type: string
+                            type: object
+                          type: array
                         serviceAccount:
                           type: string
                         shieldedInstanceConfig:
@@ -1901,6 +2048,18 @@ spec:
                       The ID of the project in which to create the node pool. If blank,
                       the provider-configured project will be used.
                     type: string
+                  queuedProvisioning:
+                    description: |-
+                      Specifies node pool-level settings of queued provisioning.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        enabled:
+                          description: Makes nodes obtainable through the ProvisioningRequest
+                            API exclusively.
+                          type: boolean
+                      type: object
+                    type: array
                   upgradeSettings:
                     description: |-
                       Specify node upgrade settings to change how GKE upgrades nodes.
@@ -2241,13 +2400,21 @@ spec:
                         description: Whether nodes have internal IP addresses only.
                         type: boolean
                       networkPerformanceConfig:
+                        description: Network bandwidth tier configuration. Structure
+                          is documented below.
                         properties:
                           totalEgressBandwidthTier:
+                            description: Specifies the total network bandwidth tier
+                              for the NodePool.
                             type: string
                         type: object
                       podCidrOverprovisionConfig:
+                        description: Configuration for node-pool level pod cidr overprovision.
+                          If not set, the cluster level setting will be inherited.
+                          Structure is documented below.
                         properties:
                           disabled:
+                            description: Whether pod cidr overprovision is disabled.
                             type: boolean
                         type: object
                       podIpv4CidrBlock:
@@ -2272,6 +2439,8 @@ spec:
                     properties:
                       advancedMachineFeatures:
                         properties:
+                          enableNestedVirtualization:
+                            type: boolean
                           threadsPerCore:
                             type: number
                         type: object
@@ -2285,6 +2454,30 @@ spec:
                             description: Makes nodes obtainable through the ProvisioningRequest
                               API exclusively.
                             type: boolean
+                        type: object
+                      containerdConfig:
+                        properties:
+                          privateRegistryAccessConfig:
+                            properties:
+                              certificateAuthorityDomainConfig:
+                                items:
+                                  properties:
+                                    fqdns:
+                                      items:
+                                        type: string
+                                      type: array
+                                    gcpSecretManagerCertificateConfig:
+                                      properties:
+                                        secretUri:
+                                          type: string
+                                      type: object
+                                  type: object
+                                type: array
+                              enabled:
+                                description: Makes nodes obtainable through the ProvisioningRequest
+                                  API exclusively.
+                                type: boolean
+                            type: object
                         type: object
                       diskSizeGb:
                         type: number
@@ -2413,12 +2606,21 @@ spec:
                       preemptible:
                         type: boolean
                       reservationAffinity:
+                        description: |-
+                          The configuration of the desired reservation which instances could take capacity from.
+                          Structure is documented below.
                         properties:
                           consumeReservationType:
+                            description: |-
+                              The type of reservation consumption
+                              Accepted values are:
                             type: string
                           key:
+                            description: name" as the key and specify the name of
+                              your reservation as its value.
                             type: string
                           values:
+                            description: name"
                             items:
                               type: string
                             type: array
@@ -2534,10 +2736,13 @@ spec:
                             items:
                               properties:
                                 key:
+                                  description: name" as the key and specify the name
+                                    of your reservation as its value.
                                   type: string
                                 operator:
                                   type: string
                                 values:
+                                  description: name"
                                   items:
                                     type: string
                                   type: array
@@ -2556,6 +2761,8 @@ spec:
                             effect:
                               type: string
                             key:
+                              description: name" as the key and specify the name of
+                                your reservation as its value.
                               type: string
                             value:
                               type: string
@@ -2766,13 +2973,21 @@ spec:
                         description: Whether nodes have internal IP addresses only.
                         type: boolean
                       networkPerformanceConfig:
+                        description: Network bandwidth tier configuration. Structure
+                          is documented below.
                         properties:
                           totalEgressBandwidthTier:
+                            description: Specifies the total network bandwidth tier
+                              for the NodePool.
                             type: string
                         type: object
                       podCidrOverprovisionConfig:
+                        description: Configuration for node-pool level pod cidr overprovision.
+                          If not set, the cluster level setting will be inherited.
+                          Structure is documented below.
                         properties:
                           disabled:
+                            description: Whether pod cidr overprovision is disabled.
                             type: boolean
                         type: object
                       podIpv4CidrBlock:
@@ -2797,6 +3012,8 @@ spec:
                     properties:
                       advancedMachineFeatures:
                         properties:
+                          enableNestedVirtualization:
+                            type: boolean
                           threadsPerCore:
                             type: number
                         type: object
@@ -2810,6 +3027,30 @@ spec:
                             description: Makes nodes obtainable through the ProvisioningRequest
                               API exclusively.
                             type: boolean
+                        type: object
+                      containerdConfig:
+                        properties:
+                          privateRegistryAccessConfig:
+                            properties:
+                              certificateAuthorityDomainConfig:
+                                items:
+                                  properties:
+                                    fqdns:
+                                      items:
+                                        type: string
+                                      type: array
+                                    gcpSecretManagerCertificateConfig:
+                                      properties:
+                                        secretUri:
+                                          type: string
+                                      type: object
+                                  type: object
+                                type: array
+                              enabled:
+                                description: Makes nodes obtainable through the ProvisioningRequest
+                                  API exclusively.
+                                type: boolean
+                            type: object
                         type: object
                       diskSizeGb:
                         type: number
@@ -2938,12 +3179,21 @@ spec:
                       preemptible:
                         type: boolean
                       reservationAffinity:
+                        description: |-
+                          The configuration of the desired reservation which instances could take capacity from.
+                          Structure is documented below.
                         properties:
                           consumeReservationType:
+                            description: |-
+                              The type of reservation consumption
+                              Accepted values are:
                             type: string
                           key:
+                            description: name" as the key and specify the name of
+                              your reservation as its value.
                             type: string
                           values:
+                            description: name"
                             items:
                               type: string
                             type: array
@@ -3059,10 +3309,13 @@ spec:
                             items:
                               properties:
                                 key:
+                                  description: name" as the key and specify the name
+                                    of your reservation as its value.
                                   type: string
                                 operator:
                                   type: string
                                 values:
+                                  description: name"
                                   items:
                                     type: string
                                   type: array
@@ -3081,6 +3334,8 @@ spec:
                             effect:
                               type: string
                             key:
+                              description: name" as the key and specify the name of
+                                your reservation as its value.
                               type: string
                             value:
                               type: string
@@ -3474,13 +3729,21 @@ spec:
                         description: Whether nodes have internal IP addresses only.
                         type: boolean
                       networkPerformanceConfig:
+                        description: Network bandwidth tier configuration. Structure
+                          is documented below.
                         properties:
                           totalEgressBandwidthTier:
+                            description: Specifies the total network bandwidth tier
+                              for the NodePool.
                             type: string
                         type: object
                       podCidrOverprovisionConfig:
+                        description: Configuration for node-pool level pod cidr overprovision.
+                          If not set, the cluster level setting will be inherited.
+                          Structure is documented below.
                         properties:
                           disabled:
+                            description: Whether pod cidr overprovision is disabled.
                             type: boolean
                         type: object
                       podIpv4CidrBlock:
@@ -3505,6 +3768,8 @@ spec:
                     properties:
                       advancedMachineFeatures:
                         properties:
+                          enableNestedVirtualization:
+                            type: boolean
                           threadsPerCore:
                             type: number
                         type: object
@@ -3519,6 +3784,30 @@ spec:
                               API exclusively.
                             type: boolean
                         type: object
+                      containerdConfig:
+                        properties:
+                          privateRegistryAccessConfig:
+                            properties:
+                              certificateAuthorityDomainConfig:
+                                items:
+                                  properties:
+                                    fqdns:
+                                      items:
+                                        type: string
+                                      type: array
+                                    gcpSecretManagerCertificateConfig:
+                                      properties:
+                                        secretUri:
+                                          type: string
+                                      type: object
+                                  type: object
+                                type: array
+                              enabled:
+                                description: Makes nodes obtainable through the ProvisioningRequest
+                                  API exclusively.
+                                type: boolean
+                            type: object
+                        type: object
                       diskSizeGb:
                         type: number
                       diskType:
@@ -3529,6 +3818,8 @@ spec:
                             effect:
                               type: string
                             key:
+                              description: name" as the key and specify the name of
+                                your reservation as its value.
                               type: string
                             value:
                               type: string
@@ -3657,12 +3948,21 @@ spec:
                       preemptible:
                         type: boolean
                       reservationAffinity:
+                        description: |-
+                          The configuration of the desired reservation which instances could take capacity from.
+                          Structure is documented below.
                         properties:
                           consumeReservationType:
+                            description: |-
+                              The type of reservation consumption
+                              Accepted values are:
                             type: string
                           key:
+                            description: name" as the key and specify the name of
+                              your reservation as its value.
                             type: string
                           values:
+                            description: name"
                             items:
                               type: string
                             type: array
@@ -3702,10 +4002,13 @@ spec:
                             items:
                               properties:
                                 key:
+                                  description: name" as the key and specify the name
+                                    of your reservation as its value.
                                   type: string
                                 operator:
                                   type: string
                                 values:
+                                  description: name"
                                   items:
                                     type: string
                                   type: array
@@ -3724,6 +4027,8 @@ spec:
                             effect:
                               type: string
                             key:
+                              description: name" as the key and specify the name of
+                                your reservation as its value.
                               type: string
                             value:
                               type: string

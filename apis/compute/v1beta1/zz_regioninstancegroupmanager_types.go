@@ -210,17 +210,27 @@ type RegionInstanceGroupManagerInitParameters struct {
 
 type RegionInstanceGroupManagerInstanceLifecyclePolicyInitParameters struct {
 
+	// , Default behavior for all instance or health check failures. Valid options are: REPAIR, DO_NOTHING. If DO_NOTHING then instances will not be repaired. If REPAIR (default), then failed instances will be repaired.
+	DefaultActionOnFailure *string `json:"defaultActionOnFailure,omitempty" tf:"default_action_on_failure,omitempty"`
+
 	// ), Specifies whether to apply the group's latest configuration when repairing a VM. Valid options are: YES, NO. If YES and you updated the group's instance template or per-instance configurations after the VM was created, then these changes are applied when VM is repaired. If NO (default), then updates are applied in accordance with the group's update policy type.
 	ForceUpdateOnRepair *string `json:"forceUpdateOnRepair,omitempty" tf:"force_update_on_repair,omitempty"`
 }
 
 type RegionInstanceGroupManagerInstanceLifecyclePolicyObservation struct {
 
+	// , Default behavior for all instance or health check failures. Valid options are: REPAIR, DO_NOTHING. If DO_NOTHING then instances will not be repaired. If REPAIR (default), then failed instances will be repaired.
+	DefaultActionOnFailure *string `json:"defaultActionOnFailure,omitempty" tf:"default_action_on_failure,omitempty"`
+
 	// ), Specifies whether to apply the group's latest configuration when repairing a VM. Valid options are: YES, NO. If YES and you updated the group's instance template or per-instance configurations after the VM was created, then these changes are applied when VM is repaired. If NO (default), then updates are applied in accordance with the group's update policy type.
 	ForceUpdateOnRepair *string `json:"forceUpdateOnRepair,omitempty" tf:"force_update_on_repair,omitempty"`
 }
 
 type RegionInstanceGroupManagerInstanceLifecyclePolicyParameters struct {
+
+	// , Default behavior for all instance or health check failures. Valid options are: REPAIR, DO_NOTHING. If DO_NOTHING then instances will not be repaired. If REPAIR (default), then failed instances will be repaired.
+	// +kubebuilder:validation:Optional
+	DefaultActionOnFailure *string `json:"defaultActionOnFailure,omitempty" tf:"default_action_on_failure,omitempty"`
 
 	// ), Specifies whether to apply the group's latest configuration when repairing a VM. Valid options are: YES, NO. If YES and you updated the group's instance template or per-instance configurations after the VM was created, then these changes are applied when VM is repaired. If NO (default), then updates are applied in accordance with the group's update policy type.
 	// +kubebuilder:validation:Optional
@@ -590,6 +600,10 @@ type RegionInstanceGroupManagerStatusAllInstancesConfigInitParameters struct {
 }
 
 type RegionInstanceGroupManagerStatusAllInstancesConfigObservation struct {
+
+	// Current all-instances configuration revision. This value is in RFC3339 text format.
+	CurrentRevision *string `json:"currentRevision,omitempty" tf:"current_revision,omitempty"`
+
 	Effective *bool `json:"effective,omitempty" tf:"effective,omitempty"`
 }
 

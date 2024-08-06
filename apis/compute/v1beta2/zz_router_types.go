@@ -74,6 +74,13 @@ type BGPInitParameters struct {
 	// will have the same local ASN.
 	Asn *float64 `json:"asn,omitempty" tf:"asn,omitempty"`
 
+	// Explicitly specifies a range of valid BGP Identifiers for this Router.
+	// It is provided as a link-local IPv4 range (from 169.254.0.0/16), of
+	// size at least /30, even if the BGP sessions are over IPv6. It must
+	// not overlap with any IPv4 BGP session ranges. Other vendors commonly
+	// call this router ID.
+	IdentifierRange *string `json:"identifierRange,omitempty" tf:"identifier_range,omitempty"`
+
 	// The interval in seconds between BGP keepalive messages that are sent
 	// to the peer. Hold time is three times the interval at which keepalive
 	// messages are sent, and the hold time is the maximum number of seconds
@@ -114,6 +121,13 @@ type BGPObservation struct {
 	// this router resource. All VPN tunnels that link to this router
 	// will have the same local ASN.
 	Asn *float64 `json:"asn,omitempty" tf:"asn,omitempty"`
+
+	// Explicitly specifies a range of valid BGP Identifiers for this Router.
+	// It is provided as a link-local IPv4 range (from 169.254.0.0/16), of
+	// size at least /30, even if the BGP sessions are over IPv6. It must
+	// not overlap with any IPv4 BGP session ranges. Other vendors commonly
+	// call this router ID.
+	IdentifierRange *string `json:"identifierRange,omitempty" tf:"identifier_range,omitempty"`
 
 	// The interval in seconds between BGP keepalive messages that are sent
 	// to the peer. Hold time is three times the interval at which keepalive
@@ -159,6 +173,14 @@ type BGPParameters struct {
 	// will have the same local ASN.
 	// +kubebuilder:validation:Optional
 	Asn *float64 `json:"asn" tf:"asn,omitempty"`
+
+	// Explicitly specifies a range of valid BGP Identifiers for this Router.
+	// It is provided as a link-local IPv4 range (from 169.254.0.0/16), of
+	// size at least /30, even if the BGP sessions are over IPv6. It must
+	// not overlap with any IPv4 BGP session ranges. Other vendors commonly
+	// call this router ID.
+	// +kubebuilder:validation:Optional
+	IdentifierRange *string `json:"identifierRange,omitempty" tf:"identifier_range,omitempty"`
 
 	// The interval in seconds between BGP keepalive messages that are sent
 	// to the peer. Hold time is three times the interval at which keepalive

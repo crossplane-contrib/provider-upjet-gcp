@@ -191,6 +191,10 @@ type RoutineInitParameters_2 struct {
 	// Structure is documented below.
 	Arguments []ArgumentsInitParameters `json:"arguments,omitempty" tf:"arguments,omitempty"`
 
+	// If set to DATA_MASKING, the function is validated and made available as a masking function. For more information, see https://cloud.google.com/bigquery/docs/user-defined-functions#custom-mask
+	// Possible values are: DATA_MASKING.
+	DataGovernanceType *string `json:"dataGovernanceType,omitempty" tf:"data_governance_type,omitempty"`
+
 	// The body of the routine. For functions, this is the expression in the AS clause.
 	// If language=SQL, it is the substring inside (but excluding) the parentheses.
 	DefinitionBody *string `json:"definitionBody,omitempty" tf:"definition_body,omitempty"`
@@ -253,6 +257,10 @@ type RoutineObservation_2 struct {
 	// The time when this routine was created, in milliseconds since the
 	// epoch.
 	CreationTime *float64 `json:"creationTime,omitempty" tf:"creation_time,omitempty"`
+
+	// If set to DATA_MASKING, the function is validated and made available as a masking function. For more information, see https://cloud.google.com/bigquery/docs/user-defined-functions#custom-mask
+	// Possible values are: DATA_MASKING.
+	DataGovernanceType *string `json:"dataGovernanceType,omitempty" tf:"data_governance_type,omitempty"`
 
 	// The ID of the dataset containing this routine
 	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
@@ -323,6 +331,11 @@ type RoutineParameters_2 struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Arguments []ArgumentsParameters `json:"arguments,omitempty" tf:"arguments,omitempty"`
+
+	// If set to DATA_MASKING, the function is validated and made available as a masking function. For more information, see https://cloud.google.com/bigquery/docs/user-defined-functions#custom-mask
+	// Possible values are: DATA_MASKING.
+	// +kubebuilder:validation:Optional
+	DataGovernanceType *string `json:"dataGovernanceType,omitempty" tf:"data_governance_type,omitempty"`
 
 	// The ID of the dataset containing this routine
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Dataset

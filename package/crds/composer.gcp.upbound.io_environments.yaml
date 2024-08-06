@@ -2687,7 +2687,7 @@ spec:
                     properties:
                       dataRetentionConfig:
                         description: |-
-                          Configuration setting for airflow data rentention mechanism. Structure is
+                          Configuration setting for Airflow database retention mechanism. Structure is
                           documented below.
                         properties:
                           taskLogsRetentionConfig:
@@ -3523,7 +3523,7 @@ spec:
                     properties:
                       dataRetentionConfig:
                         description: |-
-                          Configuration setting for airflow data rentention mechanism. Structure is
+                          Configuration setting for Airflow database retention mechanism. Structure is
                           documented below.
                         properties:
                           taskLogsRetentionConfig:
@@ -4526,7 +4526,7 @@ spec:
                         type: string
                       dataRetentionConfig:
                         description: |-
-                          Configuration setting for airflow data rentention mechanism. Structure is
+                          Configuration setting for Airflow database retention mechanism. Structure is
                           documented below.
                         properties:
                           taskLogsRetentionConfig:

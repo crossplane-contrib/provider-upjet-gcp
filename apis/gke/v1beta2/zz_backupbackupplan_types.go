@@ -209,6 +209,11 @@ type BackupConfigInitParameters struct {
 	// included in the scope of a Backup.
 	IncludeVolumeData *bool `json:"includeVolumeData,omitempty" tf:"include_volume_data,omitempty"`
 
+	// This flag specifies whether Backups will not fail when
+	// Backup for GKE detects Kubernetes configuration that is
+	// non-standard or requires additional setup to restore.
+	PermissiveMode *bool `json:"permissiveMode,omitempty" tf:"permissive_mode,omitempty"`
+
 	// A list of namespaced Kubernetes Resources.
 	// Structure is documented below.
 	SelectedApplications *SelectedApplicationsInitParameters `json:"selectedApplications,omitempty" tf:"selected_applications,omitempty"`
@@ -235,6 +240,11 @@ type BackupConfigObservation struct {
 	// This flag specifies whether volume data should be backed up when PVCs are
 	// included in the scope of a Backup.
 	IncludeVolumeData *bool `json:"includeVolumeData,omitempty" tf:"include_volume_data,omitempty"`
+
+	// This flag specifies whether Backups will not fail when
+	// Backup for GKE detects Kubernetes configuration that is
+	// non-standard or requires additional setup to restore.
+	PermissiveMode *bool `json:"permissiveMode,omitempty" tf:"permissive_mode,omitempty"`
 
 	// A list of namespaced Kubernetes Resources.
 	// Structure is documented below.
@@ -266,6 +276,12 @@ type BackupConfigParameters struct {
 	// included in the scope of a Backup.
 	// +kubebuilder:validation:Optional
 	IncludeVolumeData *bool `json:"includeVolumeData,omitempty" tf:"include_volume_data,omitempty"`
+
+	// This flag specifies whether Backups will not fail when
+	// Backup for GKE detects Kubernetes configuration that is
+	// non-standard or requires additional setup to restore.
+	// +kubebuilder:validation:Optional
+	PermissiveMode *bool `json:"permissiveMode,omitempty" tf:"permissive_mode,omitempty"`
 
 	// A list of namespaced Kubernetes Resources.
 	// Structure is documented below.

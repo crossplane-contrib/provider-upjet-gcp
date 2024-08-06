@@ -147,6 +147,10 @@ spec:
                     description: The human-readable display name of the Bigtable instance.
                       Defaults to the instance name.
                     type: string
+                  forceDestroy:
+                    description: Deleting a BigTable instance can be blocked if any
+                      backups are present in the instance. Defaults to false.
+                    type: boolean
                   instanceType:
                     description: |-
                       The instance type to create. One of "DEVELOPMENT" or "PRODUCTION". Defaults to "PRODUCTION".
@@ -255,6 +259,10 @@ spec:
                     description: The human-readable display name of the Bigtable instance.
                       Defaults to the instance name.
                     type: string
+                  forceDestroy:
+                    description: Deleting a BigTable instance can be blocked if any
+                      backups are present in the instance. Defaults to false.
+                    type: boolean
                   instanceType:
                     description: |-
                       The instance type to create. One of "DEVELOPMENT" or "PRODUCTION". Defaults to "PRODUCTION".
@@ -530,6 +538,10 @@ spec:
                       type: string
                     type: object
                     x-kubernetes-map-type: granular
+                  forceDestroy:
+                    description: Deleting a BigTable instance can be blocked if any
+                      backups are present in the instance. Defaults to false.
+                    type: boolean
                   id:
                     description: an identifier for the resource with format projects/{{project}}/instances/{{name}}
                     type: string
@@ -743,11 +755,17 @@ spec:
                       type: object
                     type: array
                   deletionProtection:
+                    description: When the field is set to false, deleting the instance
+                      is allowed.
                     type: boolean
                   displayName:
                     description: The human-readable display name of the Bigtable instance.
                       Defaults to the instance name.
                     type: string
+                  forceDestroy:
+                    description: Deleting a BigTable instance can be blocked if any
+                      backups are present in the instance. Defaults to false.
+                    type: boolean
                   instanceType:
                     description: |-
                       The instance type to create. One of "DEVELOPMENT" or "PRODUCTION". Defaults to "PRODUCTION".
@@ -848,11 +866,17 @@ spec:
                       type: object
                     type: array
                   deletionProtection:
+                    description: When the field is set to false, deleting the instance
+                      is allowed.
                     type: boolean
                   displayName:
                     description: The human-readable display name of the Bigtable instance.
                       Defaults to the instance name.
                     type: string
+                  forceDestroy:
+                    description: Deleting a BigTable instance can be blocked if any
+                      backups are present in the instance. Defaults to false.
+                    type: boolean
                   instanceType:
                     description: |-
                       The instance type to create. One of "DEVELOPMENT" or "PRODUCTION". Defaults to "PRODUCTION".
@@ -1115,6 +1139,8 @@ spec:
                       type: object
                     type: array
                   deletionProtection:
+                    description: When the field is set to false, deleting the instance
+                      is allowed.
                     type: boolean
                   displayName:
                     description: The human-readable display name of the Bigtable instance.
@@ -1125,6 +1151,10 @@ spec:
                       type: string
                     type: object
                     x-kubernetes-map-type: granular
+                  forceDestroy:
+                    description: Deleting a BigTable instance can be blocked if any
+                      backups are present in the instance. Defaults to false.
+                    type: boolean
                   id:
                     description: an identifier for the resource with format projects/{{project}}/instances/{{name}}
                     type: string

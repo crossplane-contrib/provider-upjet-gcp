@@ -35,7 +35,7 @@ spec:
     schema:
       openAPIV3Schema:
         description: ReservationAssignment is the Schema for the ReservationAssignments
-          API. The BigqueryReservation Assignment resource
+          API. The BigqueryReservation Assignment resource.
         properties:
           apiVersion:
             description: |-
@@ -86,7 +86,9 @@ spec:
                     description: The location for the resource
                     type: string
                   project:
-                    description: The project for the resource
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   reservation:
                     description: The reservation for the resource
@@ -194,7 +196,9 @@ spec:
                     description: The location for the resource
                     type: string
                   project:
-                    description: The project for the resource
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                 type: object
               managementPolicies:
@@ -398,16 +402,17 @@ spec:
                     description: Output only. The resource name of the assignment.
                     type: string
                   project:
-                    description: The project for the resource
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   reservation:
                     description: The reservation for the resource
                     type: string
                   state:
-                    description: 'Assignment will remain in PENDING state if no active
-                      capacity commitment is present. It will become ACTIVE when some
-                      capacity commitment becomes active. Possible values: STATE_UNSPECIFIED,
-                      PENDING, ACTIVE'
+                    description: |-
+                      Assignment will remain in PENDING state if no active capacity commitment is present. It will become ACTIVE when some capacity commitment becomes active.
+                      Possible values: STATE_UNSPECIFIED, PENDING, ACTIVE
                     type: string
                 type: object
               conditions:

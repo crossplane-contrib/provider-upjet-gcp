@@ -425,7 +425,7 @@ type PublicRepositoryInitParameters struct {
 	// Possible values are: CENTOS, CENTOS_DEBUG, CENTOS_VAULT, CENTOS_STREAM, ROCKY, EPEL.
 	RepositoryBase *string `json:"repositoryBase,omitempty" tf:"repository_base,omitempty"`
 
-	// Specific repository from the base, e.g. "centos/8-stream/BaseOS/x86_64/os"
+	// Specific repository from the base, e.g. "pub/rocky/9/BaseOS/x86_64/os"
 	RepositoryPath *string `json:"repositoryPath,omitempty" tf:"repository_path,omitempty"`
 }
 
@@ -435,7 +435,7 @@ type PublicRepositoryObservation struct {
 	// Possible values are: CENTOS, CENTOS_DEBUG, CENTOS_VAULT, CENTOS_STREAM, ROCKY, EPEL.
 	RepositoryBase *string `json:"repositoryBase,omitempty" tf:"repository_base,omitempty"`
 
-	// Specific repository from the base, e.g. "centos/8-stream/BaseOS/x86_64/os"
+	// Specific repository from the base, e.g. "pub/rocky/9/BaseOS/x86_64/os"
 	RepositoryPath *string `json:"repositoryPath,omitempty" tf:"repository_path,omitempty"`
 }
 
@@ -446,7 +446,7 @@ type PublicRepositoryParameters struct {
 	// +kubebuilder:validation:Optional
 	RepositoryBase *string `json:"repositoryBase" tf:"repository_base,omitempty"`
 
-	// Specific repository from the base, e.g. "centos/8-stream/BaseOS/x86_64/os"
+	// Specific repository from the base, e.g. "pub/rocky/9/BaseOS/x86_64/os"
 	// +kubebuilder:validation:Optional
 	RepositoryPath *string `json:"repositoryPath" tf:"repository_path,omitempty"`
 }
@@ -1053,7 +1053,7 @@ type YumRepositoryPublicRepositoryInitParameters struct {
 	// Possible values are: CENTOS, CENTOS_DEBUG, CENTOS_VAULT, CENTOS_STREAM, ROCKY, EPEL.
 	RepositoryBase *string `json:"repositoryBase,omitempty" tf:"repository_base,omitempty"`
 
-	// Specific repository from the base, e.g. "centos/8-stream/BaseOS/x86_64/os"
+	// Specific repository from the base, e.g. "pub/rocky/9/BaseOS/x86_64/os"
 	RepositoryPath *string `json:"repositoryPath,omitempty" tf:"repository_path,omitempty"`
 }
 
@@ -1063,7 +1063,7 @@ type YumRepositoryPublicRepositoryObservation struct {
 	// Possible values are: CENTOS, CENTOS_DEBUG, CENTOS_VAULT, CENTOS_STREAM, ROCKY, EPEL.
 	RepositoryBase *string `json:"repositoryBase,omitempty" tf:"repository_base,omitempty"`
 
-	// Specific repository from the base, e.g. "centos/8-stream/BaseOS/x86_64/os"
+	// Specific repository from the base, e.g. "pub/rocky/9/BaseOS/x86_64/os"
 	RepositoryPath *string `json:"repositoryPath,omitempty" tf:"repository_path,omitempty"`
 }
 
@@ -1074,7 +1074,7 @@ type YumRepositoryPublicRepositoryParameters struct {
 	// +kubebuilder:validation:Optional
 	RepositoryBase *string `json:"repositoryBase" tf:"repository_base,omitempty"`
 
-	// Specific repository from the base, e.g. "centos/8-stream/BaseOS/x86_64/os"
+	// Specific repository from the base, e.g. "pub/rocky/9/BaseOS/x86_64/os"
 	// +kubebuilder:validation:Optional
 	RepositoryPath *string `json:"repositoryPath" tf:"repository_path,omitempty"`
 }

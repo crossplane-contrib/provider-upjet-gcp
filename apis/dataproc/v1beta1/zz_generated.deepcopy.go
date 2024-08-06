@@ -3912,6 +3912,11 @@ func (in *DiskConfigInitParameters) DeepCopyInto(out *DiskConfigInitParameters) 
 		*out = new(string)
 		**out = **in
 	}
+	if in.LocalSsdInterface != nil {
+		in, out := &in.LocalSsdInterface, &out.LocalSsdInterface
+		*out = new(string)
+		**out = **in
+	}
 	if in.NumLocalSsds != nil {
 		in, out := &in.NumLocalSsds, &out.NumLocalSsds
 		*out = new(float64)
@@ -3942,6 +3947,11 @@ func (in *DiskConfigObservation) DeepCopyInto(out *DiskConfigObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.LocalSsdInterface != nil {
+		in, out := &in.LocalSsdInterface, &out.LocalSsdInterface
+		*out = new(string)
+		**out = **in
+	}
 	if in.NumLocalSsds != nil {
 		in, out := &in.NumLocalSsds, &out.NumLocalSsds
 		*out = new(float64)
@@ -3969,6 +3979,11 @@ func (in *DiskConfigParameters) DeepCopyInto(out *DiskConfigParameters) {
 	}
 	if in.BootDiskType != nil {
 		in, out := &in.BootDiskType, &out.BootDiskType
+		*out = new(string)
+		**out = **in
+	}
+	if in.LocalSsdInterface != nil {
+		in, out := &in.LocalSsdInterface, &out.LocalSsdInterface
 		*out = new(string)
 		**out = **in
 	}
@@ -8840,6 +8855,11 @@ func (in *MasterConfigDiskConfigInitParameters) DeepCopyInto(out *MasterConfigDi
 		*out = new(string)
 		**out = **in
 	}
+	if in.LocalSsdInterface != nil {
+		in, out := &in.LocalSsdInterface, &out.LocalSsdInterface
+		*out = new(string)
+		**out = **in
+	}
 	if in.NumLocalSsds != nil {
 		in, out := &in.NumLocalSsds, &out.NumLocalSsds
 		*out = new(float64)
@@ -8870,6 +8890,11 @@ func (in *MasterConfigDiskConfigObservation) DeepCopyInto(out *MasterConfigDiskC
 		*out = new(string)
 		**out = **in
 	}
+	if in.LocalSsdInterface != nil {
+		in, out := &in.LocalSsdInterface, &out.LocalSsdInterface
+		*out = new(string)
+		**out = **in
+	}
 	if in.NumLocalSsds != nil {
 		in, out := &in.NumLocalSsds, &out.NumLocalSsds
 		*out = new(float64)
@@ -8897,6 +8922,11 @@ func (in *MasterConfigDiskConfigParameters) DeepCopyInto(out *MasterConfigDiskCo
 	}
 	if in.BootDiskType != nil {
 		in, out := &in.BootDiskType, &out.BootDiskType
+		*out = new(string)
+		**out = **in
+	}
+	if in.LocalSsdInterface != nil {
+		in, out := &in.LocalSsdInterface, &out.LocalSsdInterface
 		*out = new(string)
 		**out = **in
 	}
@@ -9394,6 +9424,13 @@ func (in *MetastoreServiceInitParameters) DeepCopyInto(out *MetastoreServiceInit
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.ScheduledBackup != nil {
+		in, out := &in.ScheduledBackup, &out.ScheduledBackup
+		*out = make([]ScheduledBackupInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
 	if in.TelemetryConfig != nil {
 		in, out := &in.TelemetryConfig, &out.TelemetryConfig
 		*out = make([]TelemetryConfigInitParameters, len(*in))
@@ -9577,6 +9614,13 @@ func (in *MetastoreServiceObservation) DeepCopyInto(out *MetastoreServiceObserva
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.ScheduledBackup != nil {
+		in, out := &in.ScheduledBackup, &out.ScheduledBackup
+		*out = make([]ScheduledBackupObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
 	if in.State != nil {
 		in, out := &in.State, &out.State
 		*out = new(string)
@@ -9719,6 +9763,13 @@ func (in *MetastoreServiceParameters) DeepCopyInto(out *MetastoreServiceParamete
 	if in.ScalingConfig != nil {
 		in, out := &in.ScalingConfig, &out.ScalingConfig
 		*out = make([]ScalingConfigParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.ScheduledBackup != nil {
+		in, out := &in.ScheduledBackup, &out.ScheduledBackup
+		*out = make([]ScheduledBackupParameters, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
@@ -11477,6 +11528,11 @@ func (in *PreemptibleWorkerConfigDiskConfigInitParameters) DeepCopyInto(out *Pre
 		*out = new(string)
 		**out = **in
 	}
+	if in.LocalSsdInterface != nil {
+		in, out := &in.LocalSsdInterface, &out.LocalSsdInterface
+		*out = new(string)
+		**out = **in
+	}
 	if in.NumLocalSsds != nil {
 		in, out := &in.NumLocalSsds, &out.NumLocalSsds
 		*out = new(float64)
@@ -11507,6 +11563,11 @@ func (in *PreemptibleWorkerConfigDiskConfigObservation) DeepCopyInto(out *Preemp
 		*out = new(string)
 		**out = **in
 	}
+	if in.LocalSsdInterface != nil {
+		in, out := &in.LocalSsdInterface, &out.LocalSsdInterface
+		*out = new(string)
+		**out = **in
+	}
 	if in.NumLocalSsds != nil {
 		in, out := &in.NumLocalSsds, &out.NumLocalSsds
 		*out = new(float64)
@@ -11534,6 +11595,11 @@ func (in *PreemptibleWorkerConfigDiskConfigParameters) DeepCopyInto(out *Preempt
 	}
 	if in.BootDiskType != nil {
 		in, out := &in.BootDiskType, &out.BootDiskType
+		*out = new(string)
+		**out = **in
+	}
+	if in.LocalSsdInterface != nil {
+		in, out := &in.LocalSsdInterface, &out.LocalSsdInterface
 		*out = new(string)
 		**out = **in
 	}
@@ -13553,6 +13619,111 @@ func (in *ScalingConfigParameters) DeepCopy() *ScalingConfigParameters {
 		return nil
 	}
 	out := new(ScalingConfigParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ScheduledBackupInitParameters) DeepCopyInto(out *ScheduledBackupInitParameters) {
+	*out = *in
+	if in.BackupLocation != nil {
+		in, out := &in.BackupLocation, &out.BackupLocation
+		*out = new(string)
+		**out = **in
+	}
+	if in.CronSchedule != nil {
+		in, out := &in.CronSchedule, &out.CronSchedule
+		*out = new(string)
+		**out = **in
+	}
+	if in.Enabled != nil {
+		in, out := &in.Enabled, &out.Enabled
+		*out = new(bool)
+		**out = **in
+	}
+	if in.TimeZone != nil {
+		in, out := &in.TimeZone, &out.TimeZone
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ScheduledBackupInitParameters.
+func (in *ScheduledBackupInitParameters) DeepCopy() *ScheduledBackupInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(ScheduledBackupInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ScheduledBackupObservation) DeepCopyInto(out *ScheduledBackupObservation) {
+	*out = *in
+	if in.BackupLocation != nil {
+		in, out := &in.BackupLocation, &out.BackupLocation
+		*out = new(string)
+		**out = **in
+	}
+	if in.CronSchedule != nil {
+		in, out := &in.CronSchedule, &out.CronSchedule
+		*out = new(string)
+		**out = **in
+	}
+	if in.Enabled != nil {
+		in, out := &in.Enabled, &out.Enabled
+		*out = new(bool)
+		**out = **in
+	}
+	if in.TimeZone != nil {
+		in, out := &in.TimeZone, &out.TimeZone
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ScheduledBackupObservation.
+func (in *ScheduledBackupObservation) DeepCopy() *ScheduledBackupObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(ScheduledBackupObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ScheduledBackupParameters) DeepCopyInto(out *ScheduledBackupParameters) {
+	*out = *in
+	if in.BackupLocation != nil {
+		in, out := &in.BackupLocation, &out.BackupLocation
+		*out = new(string)
+		**out = **in
+	}
+	if in.CronSchedule != nil {
+		in, out := &in.CronSchedule, &out.CronSchedule
+		*out = new(string)
+		**out = **in
+	}
+	if in.Enabled != nil {
+		in, out := &in.Enabled, &out.Enabled
+		*out = new(bool)
+		**out = **in
+	}
+	if in.TimeZone != nil {
+		in, out := &in.TimeZone, &out.TimeZone
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ScheduledBackupParameters.
+func (in *ScheduledBackupParameters) DeepCopy() *ScheduledBackupParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(ScheduledBackupParameters)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -16853,6 +17024,11 @@ func (in *WorkerConfigDiskConfigInitParameters) DeepCopyInto(out *WorkerConfigDi
 		*out = new(string)
 		**out = **in
 	}
+	if in.LocalSsdInterface != nil {
+		in, out := &in.LocalSsdInterface, &out.LocalSsdInterface
+		*out = new(string)
+		**out = **in
+	}
 	if in.NumLocalSsds != nil {
 		in, out := &in.NumLocalSsds, &out.NumLocalSsds
 		*out = new(float64)
@@ -16883,6 +17059,11 @@ func (in *WorkerConfigDiskConfigObservation) DeepCopyInto(out *WorkerConfigDiskC
 		*out = new(string)
 		**out = **in
 	}
+	if in.LocalSsdInterface != nil {
+		in, out := &in.LocalSsdInterface, &out.LocalSsdInterface
+		*out = new(string)
+		**out = **in
+	}
 	if in.NumLocalSsds != nil {
 		in, out := &in.NumLocalSsds, &out.NumLocalSsds
 		*out = new(float64)
@@ -16910,6 +17091,11 @@ func (in *WorkerConfigDiskConfigParameters) DeepCopyInto(out *WorkerConfigDiskCo
 	}
 	if in.BootDiskType != nil {
 		in, out := &in.BootDiskType, &out.BootDiskType
+		*out = new(string)
+		**out = **in
+	}
+	if in.LocalSsdInterface != nil {
+		in, out := &in.LocalSsdInterface, &out.LocalSsdInterface
 		*out = new(string)
 		**out = **in
 	}

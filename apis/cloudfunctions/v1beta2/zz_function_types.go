@@ -88,6 +88,9 @@ type FunctionInitParameters struct {
 	// A set of key/value environment variable pairs available during build time.
 	BuildEnvironmentVariables map[string]string `json:"buildEnvironmentVariables,omitempty" tf:"build_environment_variables,omitempty"`
 
+	// If provided, the self-provided service account to use to build the function. The format of this field is projects/{project}/serviceAccounts/{serviceAccountEmail}
+	BuildServiceAccount *string `json:"buildServiceAccount,omitempty" tf:"build_service_account,omitempty"`
+
 	// Name of the Cloud Build Custom Worker Pool that should be used to build the function.
 	BuildWorkerPool *string `json:"buildWorkerPool,omitempty" tf:"build_worker_pool,omitempty"`
 
@@ -196,6 +199,9 @@ type FunctionObservation struct {
 
 	// A set of key/value environment variable pairs available during build time.
 	BuildEnvironmentVariables map[string]string `json:"buildEnvironmentVariables,omitempty" tf:"build_environment_variables,omitempty"`
+
+	// If provided, the self-provided service account to use to build the function. The format of this field is projects/{project}/serviceAccounts/{serviceAccountEmail}
+	BuildServiceAccount *string `json:"buildServiceAccount,omitempty" tf:"build_service_account,omitempty"`
 
 	// Name of the Cloud Build Custom Worker Pool that should be used to build the function.
 	BuildWorkerPool *string `json:"buildWorkerPool,omitempty" tf:"build_worker_pool,omitempty"`
@@ -306,6 +312,10 @@ type FunctionParameters struct {
 	// A set of key/value environment variable pairs available during build time.
 	// +kubebuilder:validation:Optional
 	BuildEnvironmentVariables map[string]string `json:"buildEnvironmentVariables,omitempty" tf:"build_environment_variables,omitempty"`
+
+	// If provided, the self-provided service account to use to build the function. The format of this field is projects/{project}/serviceAccounts/{serviceAccountEmail}
+	// +kubebuilder:validation:Optional
+	BuildServiceAccount *string `json:"buildServiceAccount,omitempty" tf:"build_service_account,omitempty"`
 
 	// Name of the Cloud Build Custom Worker Pool that should be used to build the function.
 	// +kubebuilder:validation:Optional

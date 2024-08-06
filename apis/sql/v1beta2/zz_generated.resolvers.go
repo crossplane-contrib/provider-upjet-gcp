@@ -35,7 +35,7 @@ func (mg *DatabaseInstance) ResolveReferences( // ResolveReferences of this Data
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Settings.IPConfiguration.PrivateNetwork),
-					Extract:      resource.ExtractResourceID(),
+					Extract:      resource.ExtractParamPath("self_link", true),
 					Reference:    mg.Spec.ForProvider.Settings.IPConfiguration.PrivateNetworkRef,
 					Selector:     mg.Spec.ForProvider.Settings.IPConfiguration.PrivateNetworkSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -58,7 +58,7 @@ func (mg *DatabaseInstance) ResolveReferences( // ResolveReferences of this Data
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Settings.IPConfiguration.PrivateNetwork),
-					Extract:      resource.ExtractResourceID(),
+					Extract:      resource.ExtractParamPath("self_link", true),
 					Reference:    mg.Spec.InitProvider.Settings.IPConfiguration.PrivateNetworkRef,
 					Selector:     mg.Spec.InitProvider.Settings.IPConfiguration.PrivateNetworkSelector,
 					To:           reference.To{List: l, Managed: m},

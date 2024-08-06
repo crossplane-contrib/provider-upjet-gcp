@@ -27,6 +27,7 @@ type DatabaseInitParameters struct {
 	Ddl []*string `json:"ddl,omitempty" tf:"ddl,omitempty"`
 
 	// Defaults to true.
+	// When the field is set to false, deleting the database is allowed.
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// Whether drop protection is enabled for this database. Defaults to false.
@@ -65,6 +66,7 @@ type DatabaseObservation struct {
 	Ddl []*string `json:"ddl,omitempty" tf:"ddl,omitempty"`
 
 	// Defaults to true.
+	// When the field is set to false, deleting the database is allowed.
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// Whether drop protection is enabled for this database. Defaults to false.
@@ -114,6 +116,7 @@ type DatabaseParameters struct {
 	Ddl []*string `json:"ddl,omitempty" tf:"ddl,omitempty"`
 
 	// Defaults to true.
+	// When the field is set to false, deleting the database is allowed.
 	// +kubebuilder:validation:Optional
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 

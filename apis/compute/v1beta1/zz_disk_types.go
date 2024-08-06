@@ -64,6 +64,17 @@ type DiskEncryptionKeyInitParameters struct {
 	// The service account used for the encryption request for the given KMS key.
 	// If absent, the Compute Engine Service Agent service account is used.
 	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+
+	// Specifies a 256-bit customer-supplied encryption key, encoded in
+	// RFC 4648 base64 to either encrypt or decrypt this resource.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+
+	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
+	// customer-supplied encryption key to either encrypt or decrypt
+	// this resource. You can provide either the rawKey or the rsaEncryptedKey.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type DiskEncryptionKeyObservation struct {
@@ -215,6 +226,10 @@ type DiskInitParameters struct {
 	// key.
 	// Structure is documented below.
 	SourceSnapshotEncryptionKey []SourceSnapshotEncryptionKeyInitParameters `json:"sourceSnapshotEncryptionKey,omitempty" tf:"source_snapshot_encryption_key,omitempty"`
+
+	// The URL of the storage pool in which the new disk is created.
+	// For example:
+	StoragePool *string `json:"storagePool,omitempty" tf:"storage_pool,omitempty"`
 
 	// URL of the disk type resource describing which disk type to use to
 	// create the disk. Provide this when creating the disk.
@@ -369,6 +384,10 @@ type DiskObservation struct {
 	// used.
 	SourceSnapshotID *string `json:"sourceSnapshotId,omitempty" tf:"source_snapshot_id,omitempty"`
 
+	// The URL of the storage pool in which the new disk is created.
+	// For example:
+	StoragePool *string `json:"storagePool,omitempty" tf:"storage_pool,omitempty"`
+
 	// The combination of labels configured directly on the resource
 	// and default labels configured on the provider.
 	// +mapType=granular
@@ -504,6 +523,11 @@ type DiskParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SourceSnapshotEncryptionKey []SourceSnapshotEncryptionKeyParameters `json:"sourceSnapshotEncryptionKey,omitempty" tf:"source_snapshot_encryption_key,omitempty"`
+
+	// The URL of the storage pool in which the new disk is created.
+	// For example:
+	// +kubebuilder:validation:Optional
+	StoragePool *string `json:"storagePool,omitempty" tf:"storage_pool,omitempty"`
 
 	// URL of the disk type resource describing which disk type to use to
 	// create the disk. Provide this when creating the disk.

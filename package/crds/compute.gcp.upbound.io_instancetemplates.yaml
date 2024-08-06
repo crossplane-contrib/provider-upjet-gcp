@@ -103,6 +103,17 @@ spec:
                       documented below
                     items:
                       properties:
+                        confidentialInstanceType:
+                          description: 'Defines the confidential computing technology
+                            the instance uses. SEV is an AMD feature. One of the following
+                            values: SEV, SEV_SNP. on_host_maintenance can be set to
+                            MIGRATE if confidential_instance_type is set to SEV and
+                            min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance
+                            has to be set to TERMINATE or this will fail to create
+                            the VM. If SEV_SNP, currently min_cpu_platform has to
+                            be set to "AMD Milan" or this will fail to create the
+                            VM.'
+                          type: string
                         enableConfidentialCompute:
                           description: Defines whether the instance should have confidential
                             compute enabled with AMD SEV. on_host_maintenance has
@@ -777,6 +788,28 @@ spec:
                                 type: number
                             type: object
                           type: array
+                        maxRunDuration:
+                          description: The duration of the instance. Instance will
+                            run and be terminated after then, the termination action
+                            could be defined in instance_termination_action. Structure
+                            is documented below.
+                          items:
+                            properties:
+                              nanos:
+                                description: |-
+                                  Span of time that's a fraction of a second at nanosecond
+                                  resolution. Durations less than one second are represented with a 0
+                                  seconds field and a positive nanos field. Must be from 0 to
+                                  999,999,999 inclusive.
+                                type: number
+                              seconds:
+                                description: |-
+                                  Span of time at a resolution of a second. Must be from 0 to
+                                  315,576,000,000 inclusive. Note: these bounds are computed from: 60
+                                  sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years.
+                                type: number
+                            type: object
+                          type: array
                         minNodeCpus:
                           type: number
                         nodeAffinities:
@@ -814,6 +847,20 @@ spec:
                             Defines the maintenance behavior for this
                             instance.
                           type: string
+                        onInstanceStopAction:
+                          description: Specifies the action to be performed when the
+                            instance is terminated using max_run_duration and STOP
+                            instance_termination_action. Only support true discard_local_ssd
+                            at this point. Structure is documented below.
+                          items:
+                            properties:
+                              discardLocalSsd:
+                                description: Whether to discard local SSDs attached
+                                  to the VM while terminating using max_run_duration.
+                                  Only supports true at this point.
+                                type: boolean
+                            type: object
+                          type: array
                         preemptible:
                           description: |-
                             Allows instance to be preempted. This defaults to
@@ -1000,6 +1047,17 @@ spec:
                       documented below
                     items:
                       properties:
+                        confidentialInstanceType:
+                          description: 'Defines the confidential computing technology
+                            the instance uses. SEV is an AMD feature. One of the following
+                            values: SEV, SEV_SNP. on_host_maintenance can be set to
+                            MIGRATE if confidential_instance_type is set to SEV and
+                            min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance
+                            has to be set to TERMINATE or this will fail to create
+                            the VM. If SEV_SNP, currently min_cpu_platform has to
+                            be set to "AMD Milan" or this will fail to create the
+                            VM.'
+                          type: string
                         enableConfidentialCompute:
                           description: Defines whether the instance should have confidential
                             compute enabled with AMD SEV. on_host_maintenance has
@@ -1674,6 +1732,28 @@ spec:
                                 type: number
                             type: object
                           type: array
+                        maxRunDuration:
+                          description: The duration of the instance. Instance will
+                            run and be terminated after then, the termination action
+                            could be defined in instance_termination_action. Structure
+                            is documented below.
+                          items:
+                            properties:
+                              nanos:
+                                description: |-
+                                  Span of time that's a fraction of a second at nanosecond
+                                  resolution. Durations less than one second are represented with a 0
+                                  seconds field and a positive nanos field. Must be from 0 to
+                                  999,999,999 inclusive.
+                                type: number
+                              seconds:
+                                description: |-
+                                  Span of time at a resolution of a second. Must be from 0 to
+                                  315,576,000,000 inclusive. Note: these bounds are computed from: 60
+                                  sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years.
+                                type: number
+                            type: object
+                          type: array
                         minNodeCpus:
                           type: number
                         nodeAffinities:
@@ -1711,6 +1791,20 @@ spec:
                             Defines the maintenance behavior for this
                             instance.
                           type: string
+                        onInstanceStopAction:
+                          description: Specifies the action to be performed when the
+                            instance is terminated using max_run_duration and STOP
+                            instance_termination_action. Only support true discard_local_ssd
+                            at this point. Structure is documented below.
+                          items:
+                            properties:
+                              discardLocalSsd:
+                                description: Whether to discard local SSDs attached
+                                  to the VM while terminating using max_run_duration.
+                                  Only supports true at this point.
+                                type: boolean
+                            type: object
+                          type: array
                         preemptible:
                           description: |-
                             Allows instance to be preempted. This defaults to
@@ -2065,6 +2159,17 @@ spec:
                       documented below
                     items:
                       properties:
+                        confidentialInstanceType:
+                          description: 'Defines the confidential computing technology
+                            the instance uses. SEV is an AMD feature. One of the following
+                            values: SEV, SEV_SNP. on_host_maintenance can be set to
+                            MIGRATE if confidential_instance_type is set to SEV and
+                            min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance
+                            has to be set to TERMINATE or this will fail to create
+                            the VM. If SEV_SNP, currently min_cpu_platform has to
+                            be set to "AMD Milan" or this will fail to create the
+                            VM.'
+                          type: string
                         enableConfidentialCompute:
                           description: Defines whether the instance should have confidential
                             compute enabled with AMD SEV. on_host_maintenance has
@@ -2540,6 +2645,28 @@ spec:
                                 type: number
                             type: object
                           type: array
+                        maxRunDuration:
+                          description: The duration of the instance. Instance will
+                            run and be terminated after then, the termination action
+                            could be defined in instance_termination_action. Structure
+                            is documented below.
+                          items:
+                            properties:
+                              nanos:
+                                description: |-
+                                  Span of time that's a fraction of a second at nanosecond
+                                  resolution. Durations less than one second are represented with a 0
+                                  seconds field and a positive nanos field. Must be from 0 to
+                                  999,999,999 inclusive.
+                                type: number
+                              seconds:
+                                description: |-
+                                  Span of time at a resolution of a second. Must be from 0 to
+                                  315,576,000,000 inclusive. Note: these bounds are computed from: 60
+                                  sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years.
+                                type: number
+                            type: object
+                          type: array
                         minNodeCpus:
                           type: number
                         nodeAffinities:
@@ -2577,6 +2704,20 @@ spec:
                             Defines the maintenance behavior for this
                             instance.
                           type: string
+                        onInstanceStopAction:
+                          description: Specifies the action to be performed when the
+                            instance is terminated using max_run_duration and STOP
+                            instance_termination_action. Only support true discard_local_ssd
+                            at this point. Structure is documented below.
+                          items:
+                            properties:
+                              discardLocalSsd:
+                                description: Whether to discard local SSDs attached
+                                  to the VM while terminating using max_run_duration.
+                                  Only supports true at this point.
+                                type: boolean
+                            type: object
+                          type: array
                         preemptible:
                           description: |-
                             Allows instance to be preempted. This defaults to
@@ -2804,10 +2945,22 @@ spec:
                     description: Enable Confidential Mode on this VM. Structure is
                       documented below
                     properties:
+                      confidentialInstanceType:
+                        description: 'Defines the confidential computing technology
+                          the instance uses. SEV is an AMD feature. One of the following
+                          values: SEV, SEV_SNP. on_host_maintenance can be set to
+                          MIGRATE if confidential_instance_type is set to SEV and
+                          min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance
+                          has to be set to TERMINATE or this will fail to create the
+                          VM. If SEV_SNP, currently min_cpu_platform has to be set
+                          to "AMD Milan" or this will fail to create the VM.'
+                        type: string
                       enableConfidentialCompute:
                         description: Defines whether the instance should have confidential
-                          compute enabled with AMD SEV. on_host_maintenance has to
-                          be set to TERMINATE or this will fail to create the VM.
+                          compute enabled with AMD SEV. If enabled, on_host_maintenance
+                          can be set to MIGRATE if min_cpu_platform is set to "AMD
+                          Milan". Otherwise, on_host_maintenance has to be set to
+                          TERMINATE or this will fail to create the VM.
                         type: boolean
                     type: object
                   description:
@@ -2858,7 +3011,7 @@ spec:
                         diskType:
                           description: |-
                             The GCE disk type. Such as "pd-ssd", "local-ssd",
-                            "pd-balanced" or "pd-standard".
+                            "pd-balanced" or "pd-standard", "hyperdisk-balanced", "hyperdisk-throughput" or "hyperdisk-extreme".
                           type: string
                         interface:
                           description: |-
@@ -3463,6 +3616,26 @@ spec:
                               type: number
                           type: object
                         type: array
+                      maxRunDuration:
+                        description: The duration of the instance. Instance will run
+                          and be terminated after then, the termination action could
+                          be defined in instance_termination_action. Structure is
+                          documented below.
+                        properties:
+                          nanos:
+                            description: |-
+                              Span of time that's a fraction of a second at nanosecond
+                              resolution. Durations less than one second are represented with a 0
+                              seconds field and a positive nanos field. Must be from 0 to
+                              999,999,999 inclusive.
+                            type: number
+                          seconds:
+                            description: |-
+                              Span of time at a resolution of a second. Must be from 0 to
+                              315,576,000,000 inclusive. Note: these bounds are computed from: 60
+                              sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years.
+                            type: number
+                        type: object
                       minNodeCpus:
                         type: number
                       nodeAffinities:
@@ -3500,6 +3673,18 @@ spec:
                           Defines the maintenance behavior for this
                           instance.
                         type: string
+                      onInstanceStopAction:
+                        description: Specifies the action to be performed when the
+                          instance is terminated using max_run_duration and STOP instance_termination_action.
+                          Only support true discard_local_ssd at this point. Structure
+                          is documented below.
+                        properties:
+                          discardLocalSsd:
+                            description: Whether to discard local SSDs attached to
+                              the VM while terminating using max_run_duration. Only
+                              supports true at this point.
+                            type: boolean
+                        type: object
                       preemptible:
                         description: |-
                           Allows instance to be preempted. This defaults to
@@ -3677,10 +3862,22 @@ spec:
                     description: Enable Confidential Mode on this VM. Structure is
                       documented below
                     properties:
+                      confidentialInstanceType:
+                        description: 'Defines the confidential computing technology
+                          the instance uses. SEV is an AMD feature. One of the following
+                          values: SEV, SEV_SNP. on_host_maintenance can be set to
+                          MIGRATE if confidential_instance_type is set to SEV and
+                          min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance
+                          has to be set to TERMINATE or this will fail to create the
+                          VM. If SEV_SNP, currently min_cpu_platform has to be set
+                          to "AMD Milan" or this will fail to create the VM.'
+                        type: string
                       enableConfidentialCompute:
                         description: Defines whether the instance should have confidential
-                          compute enabled with AMD SEV. on_host_maintenance has to
-                          be set to TERMINATE or this will fail to create the VM.
+                          compute enabled with AMD SEV. If enabled, on_host_maintenance
+                          can be set to MIGRATE if min_cpu_platform is set to "AMD
+                          Milan". Otherwise, on_host_maintenance has to be set to
+                          TERMINATE or this will fail to create the VM.
                         type: boolean
                     type: object
                   description:
@@ -3731,7 +3928,7 @@ spec:
                         diskType:
                           description: |-
                             The GCE disk type. Such as "pd-ssd", "local-ssd",
-                            "pd-balanced" or "pd-standard".
+                            "pd-balanced" or "pd-standard", "hyperdisk-balanced", "hyperdisk-throughput" or "hyperdisk-extreme".
                           type: string
                         interface:
                           description: |-
@@ -4336,6 +4533,26 @@ spec:
                               type: number
                           type: object
                         type: array
+                      maxRunDuration:
+                        description: The duration of the instance. Instance will run
+                          and be terminated after then, the termination action could
+                          be defined in instance_termination_action. Structure is
+                          documented below.
+                        properties:
+                          nanos:
+                            description: |-
+                              Span of time that's a fraction of a second at nanosecond
+                              resolution. Durations less than one second are represented with a 0
+                              seconds field and a positive nanos field. Must be from 0 to
+                              999,999,999 inclusive.
+                            type: number
+                          seconds:
+                            description: |-
+                              Span of time at a resolution of a second. Must be from 0 to
+                              315,576,000,000 inclusive. Note: these bounds are computed from: 60
+                              sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years.
+                            type: number
+                        type: object
                       minNodeCpus:
                         type: number
                       nodeAffinities:
@@ -4373,6 +4590,18 @@ spec:
                           Defines the maintenance behavior for this
                           instance.
                         type: string
+                      onInstanceStopAction:
+                        description: Specifies the action to be performed when the
+                          instance is terminated using max_run_duration and STOP instance_termination_action.
+                          Only support true discard_local_ssd at this point. Structure
+                          is documented below.
+                        properties:
+                          discardLocalSsd:
+                            description: Whether to discard local SSDs attached to
+                              the VM while terminating using max_run_duration. Only
+                              supports true at this point.
+                            type: boolean
+                        type: object
                       preemptible:
                         description: |-
                           Allows instance to be preempted. This defaults to
@@ -4718,10 +4947,22 @@ spec:
                     description: Enable Confidential Mode on this VM. Structure is
                       documented below
                     properties:
+                      confidentialInstanceType:
+                        description: 'Defines the confidential computing technology
+                          the instance uses. SEV is an AMD feature. One of the following
+                          values: SEV, SEV_SNP. on_host_maintenance can be set to
+                          MIGRATE if confidential_instance_type is set to SEV and
+                          min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance
+                          has to be set to TERMINATE or this will fail to create the
+                          VM. If SEV_SNP, currently min_cpu_platform has to be set
+                          to "AMD Milan" or this will fail to create the VM.'
+                        type: string
                       enableConfidentialCompute:
                         description: Defines whether the instance should have confidential
-                          compute enabled with AMD SEV. on_host_maintenance has to
-                          be set to TERMINATE or this will fail to create the VM.
+                          compute enabled with AMD SEV. If enabled, on_host_maintenance
+                          can be set to MIGRATE if min_cpu_platform is set to "AMD
+                          Milan". Otherwise, on_host_maintenance has to be set to
+                          TERMINATE or this will fail to create the VM.
                         type: boolean
                     type: object
                   description:
@@ -4772,7 +5013,7 @@ spec:
                         diskType:
                           description: |-
                             The GCE disk type. Such as "pd-ssd", "local-ssd",
-                            "pd-balanced" or "pd-standard".
+                            "pd-balanced" or "pd-standard", "hyperdisk-balanced", "hyperdisk-throughput" or "hyperdisk-extreme".
                           type: string
                         interface:
                           description: |-
@@ -5178,6 +5419,26 @@ spec:
                               type: number
                           type: object
                         type: array
+                      maxRunDuration:
+                        description: The duration of the instance. Instance will run
+                          and be terminated after then, the termination action could
+                          be defined in instance_termination_action. Structure is
+                          documented below.
+                        properties:
+                          nanos:
+                            description: |-
+                              Span of time that's a fraction of a second at nanosecond
+                              resolution. Durations less than one second are represented with a 0
+                              seconds field and a positive nanos field. Must be from 0 to
+                              999,999,999 inclusive.
+                            type: number
+                          seconds:
+                            description: |-
+                              Span of time at a resolution of a second. Must be from 0 to
+                              315,576,000,000 inclusive. Note: these bounds are computed from: 60
+                              sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years.
+                            type: number
+                        type: object
                       minNodeCpus:
                         type: number
                       nodeAffinities:
@@ -5215,6 +5476,18 @@ spec:
                           Defines the maintenance behavior for this
                           instance.
                         type: string
+                      onInstanceStopAction:
+                        description: Specifies the action to be performed when the
+                          instance is terminated using max_run_duration and STOP instance_termination_action.
+                          Only support true discard_local_ssd at this point. Structure
+                          is documented below.
+                        properties:
+                          discardLocalSsd:
+                            description: Whether to discard local SSDs attached to
+                              the VM while terminating using max_run_duration. Only
+                              supports true at this point.
+                            type: boolean
+                        type: object
                       preemptible:
                         description: |-
                           Allows instance to be preempted. This defaults to

@@ -149,8 +149,7 @@ type ServiceAttachmentInitParameters struct {
 	// If true, update will affect both PENDING and ACCEPTED/REJECTED PSC endpoints. For example, an ACCEPTED PSC endpoint will be moved to REJECTED if its project is added to the reject list.
 	ReconcileConnections *bool `json:"reconcileConnections,omitempty" tf:"reconcile_connections,omitempty"`
 
-	// The URL of a forwarding rule that represents the service identified by
-	// this service attachment.
+	// The URL of a service serving the endpoint identified by this service attachment.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.ForwardingRule
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	TargetService *string `json:"targetService,omitempty" tf:"target_service,omitempty"`
@@ -223,8 +222,7 @@ type ServiceAttachmentObservation struct {
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
-	// The URL of a forwarding rule that represents the service identified by
-	// this service attachment.
+	// The URL of a service serving the endpoint identified by this service attachment.
 	TargetService *string `json:"targetService,omitempty" tf:"target_service,omitempty"`
 }
 
@@ -291,8 +289,7 @@ type ServiceAttachmentParameters struct {
 	// +kubebuilder:validation:Required
 	Region *string `json:"region" tf:"region,omitempty"`
 
-	// The URL of a forwarding rule that represents the service identified by
-	// this service attachment.
+	// The URL of a service serving the endpoint identified by this service attachment.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.ForwardingRule
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional

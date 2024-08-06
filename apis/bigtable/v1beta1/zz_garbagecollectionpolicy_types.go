@@ -25,6 +25,11 @@ type GarbageCollectionPolicyInitParameters struct {
 	// Serialized JSON object to represent a more complex GC policy. Conflicts with mode, max_age and max_version. Conflicts with mode, max_age and max_version.
 	GcRules *string `json:"gcRules,omitempty" tf:"gc_rules,omitempty"`
 
+	// Boolean for whether to allow ignoring warnings when updating the gc policy.
+	// Setting this to true allows relaxing the gc policy for replicated clusters by up to 90 days, but keep in mind this may increase how long clusters are inconsistent. Make sure
+	// you understand the risks listed at https://cloud.google.com/bigtable/docs/garbage-collection#increasing before setting this option.
+	IgnoreWarnings *bool `json:"ignoreWarnings,omitempty" tf:"ignore_warnings,omitempty"`
+
 	// The name of the Bigtable instance.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigtable/v1beta1.Instance
 	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
@@ -76,6 +81,11 @@ type GarbageCollectionPolicyObservation struct {
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Boolean for whether to allow ignoring warnings when updating the gc policy.
+	// Setting this to true allows relaxing the gc policy for replicated clusters by up to 90 days, but keep in mind this may increase how long clusters are inconsistent. Make sure
+	// you understand the risks listed at https://cloud.google.com/bigtable/docs/garbage-collection#increasing before setting this option.
+	IgnoreWarnings *bool `json:"ignoreWarnings,omitempty" tf:"ignore_warnings,omitempty"`
+
 	// The name of the Bigtable instance.
 	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
 
@@ -109,6 +119,12 @@ type GarbageCollectionPolicyParameters struct {
 	// Serialized JSON object to represent a more complex GC policy. Conflicts with mode, max_age and max_version. Conflicts with mode, max_age and max_version.
 	// +kubebuilder:validation:Optional
 	GcRules *string `json:"gcRules,omitempty" tf:"gc_rules,omitempty"`
+
+	// Boolean for whether to allow ignoring warnings when updating the gc policy.
+	// Setting this to true allows relaxing the gc policy for replicated clusters by up to 90 days, but keep in mind this may increase how long clusters are inconsistent. Make sure
+	// you understand the risks listed at https://cloud.google.com/bigtable/docs/garbage-collection#increasing before setting this option.
+	// +kubebuilder:validation:Optional
+	IgnoreWarnings *bool `json:"ignoreWarnings,omitempty" tf:"ignore_warnings,omitempty"`
 
 	// The name of the Bigtable instance.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigtable/v1beta1.Instance

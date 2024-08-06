@@ -286,11 +286,69 @@ spec:
                       Structure is documented below.
                     items:
                       properties:
+                        certificatePemSecretRef:
+                          description: |-
+                            The certificate chain in PEM-encoded form.
+                            Leaf certificate comes first, followed by intermediate ones if any.
+                            Note: This property is sensitive and will not be displayed in the plan.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
                         pemCertificate:
                           description: |-
                             The certificate chain in PEM-encoded form.
                             Leaf certificate comes first, followed by intermediate ones if any.
                           type: string
+                        pemPrivateKeySecretRef:
+                          description: |-
+                            The private key of the leaf certificate in PEM-encoded form.
+                            Note: This property is sensitive and will not be displayed in the plan.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                        privateKeyPemSecretRef:
+                          description: |-
+                            The private key of the leaf certificate in PEM-encoded form.
+                            Note: This property is sensitive and will not be displayed in the plan.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
                       type: object
                     type: array
                 type: object

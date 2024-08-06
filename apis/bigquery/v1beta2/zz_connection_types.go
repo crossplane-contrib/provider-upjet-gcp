@@ -317,6 +317,10 @@ type ConnectionInitParameters struct {
 	// A descriptive name for the connection
 	FriendlyName *string `json:"friendlyName,omitempty" tf:"friendly_name,omitempty"`
 
+	// Optional. The Cloud KMS key that is used for encryption.
+	// Example: projects/[kms_project_id]/locations/[region]/keyRings/[key_region]/cryptoKeys/[key]
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+
 	// The geographic location where the connection should reside.
 	// Cloud SQL instance must be in the same location as the connection
 	// with following exceptions: Cloud SQL us-central1 maps to BigQuery US, Cloud SQL europe-west1 maps to BigQuery EU.
@@ -371,6 +375,10 @@ type ConnectionObservation struct {
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/connections/{{connection_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Optional. The Cloud KMS key that is used for encryption.
+	// Example: projects/[kms_project_id]/locations/[region]/keyRings/[key_region]/cryptoKeys/[key]
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
 	// The geographic location where the connection should reside.
 	// Cloud SQL instance must be in the same location as the connection
@@ -432,6 +440,11 @@ type ConnectionParameters struct {
 	// A descriptive name for the connection
 	// +kubebuilder:validation:Optional
 	FriendlyName *string `json:"friendlyName,omitempty" tf:"friendly_name,omitempty"`
+
+	// Optional. The Cloud KMS key that is used for encryption.
+	// Example: projects/[kms_project_id]/locations/[region]/keyRings/[key_region]/cryptoKeys/[key]
+	// +kubebuilder:validation:Optional
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
 	// The geographic location where the connection should reside.
 	// Cloud SQL instance must be in the same location as the connection

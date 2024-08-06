@@ -907,6 +907,49 @@ spec:
                       Structure is documented below.
                     items:
                       properties:
+                        awsV4Authentication:
+                          description: |-
+                            The configuration needed to generate a signature for access to private storage buckets that support AWS's Signature Version 4 for authentication.
+                            Allowed only for INTERNET_IP_PORT and INTERNET_FQDN_PORT NEG backends.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              accessKeyId:
+                                description: The identifier of an access key used
+                                  for s3 bucket authentication.
+                                type: string
+                              accessKeySecretRef:
+                                description: |-
+                                  The access key used for s3 bucket authentication.
+                                  Required for updating or creating a backend that uses AWS v4 signature authentication, but will not be returned as part of the configuration when queried with a REST API GET request.
+                                  Note: This property is sensitive and will not be displayed in the plan.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                              accessKeyVersion:
+                                description: The optional version identifier for the
+                                  access key. You can use this to keep track of different
+                                  iterations of your access key.
+                                type: string
+                              originRegion:
+                                description: |-
+                                  The name of the cloud region of your origin. This is a free-form field with the name of the region your cloud uses to host your origin.
+                                  For example, "us-east-1" for AWS or "us-ashburn-1" for OCI.
+                                type: string
+                            type: object
+                          type: array
                         clientTlsPolicy:
                           description: |-
                             ClientTlsPolicy is a resource that specifies how a client should authenticate
@@ -923,6 +966,11 @@ spec:
                           type: array
                       type: object
                     type: array
+                  serviceLbPolicy:
+                    description: |-
+                      URL to networkservices.ServiceLbPolicy resource.
+                      Can only be set if load balancing scheme is EXTERNAL, EXTERNAL_MANAGED, INTERNAL_MANAGED or INTERNAL_SELF_MANAGED and the scope is global.
+                    type: string
                   sessionAffinity:
                     description: |-
                       Type of session affinity to use. The default is NONE. Session affinity is
@@ -1760,6 +1808,49 @@ spec:
                       Structure is documented below.
                     items:
                       properties:
+                        awsV4Authentication:
+                          description: |-
+                            The configuration needed to generate a signature for access to private storage buckets that support AWS's Signature Version 4 for authentication.
+                            Allowed only for INTERNET_IP_PORT and INTERNET_FQDN_PORT NEG backends.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              accessKeyId:
+                                description: The identifier of an access key used
+                                  for s3 bucket authentication.
+                                type: string
+                              accessKeySecretRef:
+                                description: |-
+                                  The access key used for s3 bucket authentication.
+                                  Required for updating or creating a backend that uses AWS v4 signature authentication, but will not be returned as part of the configuration when queried with a REST API GET request.
+                                  Note: This property is sensitive and will not be displayed in the plan.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                              accessKeyVersion:
+                                description: The optional version identifier for the
+                                  access key. You can use this to keep track of different
+                                  iterations of your access key.
+                                type: string
+                              originRegion:
+                                description: |-
+                                  The name of the cloud region of your origin. This is a free-form field with the name of the region your cloud uses to host your origin.
+                                  For example, "us-east-1" for AWS or "us-ashburn-1" for OCI.
+                                type: string
+                            type: object
+                          type: array
                         clientTlsPolicy:
                           description: |-
                             ClientTlsPolicy is a resource that specifies how a client should authenticate
@@ -1776,6 +1867,11 @@ spec:
                           type: array
                       type: object
                     type: array
+                  serviceLbPolicy:
+                    description: |-
+                      URL to networkservices.ServiceLbPolicy resource.
+                      Can only be set if load balancing scheme is EXTERNAL, EXTERNAL_MANAGED, INTERNAL_MANAGED or INTERNAL_SELF_MANAGED and the scope is global.
+                    type: string
                   sessionAffinity:
                     description: |-
                       Type of session affinity to use. The default is NONE. Session affinity is
@@ -2632,6 +2728,29 @@ spec:
                       Structure is documented below.
                     items:
                       properties:
+                        awsV4Authentication:
+                          description: |-
+                            The configuration needed to generate a signature for access to private storage buckets that support AWS's Signature Version 4 for authentication.
+                            Allowed only for INTERNET_IP_PORT and INTERNET_FQDN_PORT NEG backends.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              accessKeyId:
+                                description: The identifier of an access key used
+                                  for s3 bucket authentication.
+                                type: string
+                              accessKeyVersion:
+                                description: The optional version identifier for the
+                                  access key. You can use this to keep track of different
+                                  iterations of your access key.
+                                type: string
+                              originRegion:
+                                description: |-
+                                  The name of the cloud region of your origin. This is a free-form field with the name of the region your cloud uses to host your origin.
+                                  For example, "us-east-1" for AWS or "us-ashburn-1" for OCI.
+                                type: string
+                            type: object
+                          type: array
                         clientTlsPolicy:
                           description: |-
                             ClientTlsPolicy is a resource that specifies how a client should authenticate
@@ -2650,6 +2769,11 @@ spec:
                     type: array
                   selfLink:
                     description: The URI of the created resource.
+                    type: string
+                  serviceLbPolicy:
+                    description: |-
+                      URL to networkservices.ServiceLbPolicy resource.
+                      Can only be set if load balancing scheme is EXTERNAL, EXTERNAL_MANAGED, INTERNAL_MANAGED or INTERNAL_SELF_MANAGED and the scope is global.
                     type: string
                   sessionAffinity:
                     description: |-
@@ -2802,6 +2926,7 @@ spec:
                             and CONNECTION (for TCP/SSL).
                             See the Backend Services Overview
                             for an explanation of load balancing modes.
+                            From version 6.0.0 default value will be UTILIZATION to match default GCP value.
                             Default value is UTILIZATION.
                             Possible values are: UTILIZATION, RATE, CONNECTION.
                           type: string
@@ -3450,6 +3575,8 @@ spec:
                       Settings controlling eviction of unhealthy hosts from the load balancing pool.
                       Applicable backend service types can be a global backend service with the
                       loadBalancingScheme set to INTERNAL_SELF_MANAGED or EXTERNAL_MANAGED.
+                      From version 6.0.
+                      Default values are enforce by GCP without providing them.
                       Structure is documented below.
                     properties:
                       baseEjectionTime:
@@ -3583,6 +3710,47 @@ spec:
                       load_balancing_scheme set to INTERNAL_SELF_MANAGED.
                       Structure is documented below.
                     properties:
+                      awsV4Authentication:
+                        description: |-
+                          The configuration needed to generate a signature for access to private storage buckets that support AWS's Signature Version 4 for authentication.
+                          Allowed only for INTERNET_IP_PORT and INTERNET_FQDN_PORT NEG backends.
+                          Structure is documented below.
+                        properties:
+                          accessKeyId:
+                            description: The identifier of an access key used for
+                              s3 bucket authentication.
+                            type: string
+                          accessKeySecretRef:
+                            description: |-
+                              The access key used for s3 bucket authentication.
+                              Required for updating or creating a backend that uses AWS v4 signature authentication, but will not be returned as part of the configuration when queried with a REST API GET request.
+                              Note: This property is sensitive and will not be displayed in the plan.
+                            properties:
+                              key:
+                                description: The key to select.
+                                type: string
+                              name:
+                                description: Name of the secret.
+                                type: string
+                              namespace:
+                                description: Namespace of the secret.
+                                type: string
+                            required:
+                            - key
+                            - name
+                            - namespace
+                            type: object
+                          accessKeyVersion:
+                            description: The optional version identifier for the access
+                              key. You can use this to keep track of different iterations
+                              of your access key.
+                            type: string
+                          originRegion:
+                            description: |-
+                              The name of the cloud region of your origin. This is a free-form field with the name of the region your cloud uses to host your origin.
+                              For example, "us-east-1" for AWS or "us-ashburn-1" for OCI.
+                            type: string
+                        type: object
                       clientTlsPolicy:
                         description: |-
                           ClientTlsPolicy is a resource that specifies how a client should authenticate
@@ -3598,6 +3766,11 @@ spec:
                           type: string
                         type: array
                     type: object
+                  serviceLbPolicy:
+                    description: |-
+                      URL to networkservices.ServiceLbPolicy resource.
+                      Can only be set if load balancing scheme is EXTERNAL, EXTERNAL_MANAGED, INTERNAL_MANAGED or INTERNAL_SELF_MANAGED and the scope is global.
+                    type: string
                   sessionAffinity:
                     description: |-
                       Type of session affinity to use. The default is NONE. Session affinity is
@@ -3606,8 +3779,10 @@ spec:
                     type: string
                   timeoutSec:
                     description: |-
-                      How many seconds to wait for the backend before considering it a
-                      failed request. Default is 30 seconds. Valid range is [1, 86400].
+                      The backend service timeout has a different meaning depending on the type of load balancer.
+                      For more information see, Backend service settings.
+                      The default is 30 seconds.
+                      The full range of timeout values allowed goes from 1 through 2,147,483,647 seconds.
                     type: number
                 type: object
               initProvider:
@@ -3645,6 +3820,7 @@ spec:
                             and CONNECTION (for TCP/SSL).
                             See the Backend Services Overview
                             for an explanation of load balancing modes.
+                            From version 6.0.0 default value will be UTILIZATION to match default GCP value.
                             Default value is UTILIZATION.
                             Possible values are: UTILIZATION, RATE, CONNECTION.
                           type: string
@@ -4295,6 +4471,8 @@ spec:
                       Settings controlling eviction of unhealthy hosts from the load balancing pool.
                       Applicable backend service types can be a global backend service with the
                       loadBalancingScheme set to INTERNAL_SELF_MANAGED or EXTERNAL_MANAGED.
+                      From version 6.0.
+                      Default values are enforce by GCP without providing them.
                       Structure is documented below.
                     properties:
                       baseEjectionTime:
@@ -4428,6 +4606,47 @@ spec:
                       load_balancing_scheme set to INTERNAL_SELF_MANAGED.
                       Structure is documented below.
                     properties:
+                      awsV4Authentication:
+                        description: |-
+                          The configuration needed to generate a signature for access to private storage buckets that support AWS's Signature Version 4 for authentication.
+                          Allowed only for INTERNET_IP_PORT and INTERNET_FQDN_PORT NEG backends.
+                          Structure is documented below.
+                        properties:
+                          accessKeyId:
+                            description: The identifier of an access key used for
+                              s3 bucket authentication.
+                            type: string
+                          accessKeySecretRef:
+                            description: |-
+                              The access key used for s3 bucket authentication.
+                              Required for updating or creating a backend that uses AWS v4 signature authentication, but will not be returned as part of the configuration when queried with a REST API GET request.
+                              Note: This property is sensitive and will not be displayed in the plan.
+                            properties:
+                              key:
+                                description: The key to select.
+                                type: string
+                              name:
+                                description: Name of the secret.
+                                type: string
+                              namespace:
+                                description: Namespace of the secret.
+                                type: string
+                            required:
+                            - key
+                            - name
+                            - namespace
+                            type: object
+                          accessKeyVersion:
+                            description: The optional version identifier for the access
+                              key. You can use this to keep track of different iterations
+                              of your access key.
+                            type: string
+                          originRegion:
+                            description: |-
+                              The name of the cloud region of your origin. This is a free-form field with the name of the region your cloud uses to host your origin.
+                              For example, "us-east-1" for AWS or "us-ashburn-1" for OCI.
+                            type: string
+                        type: object
                       clientTlsPolicy:
                         description: |-
                           ClientTlsPolicy is a resource that specifies how a client should authenticate
@@ -4443,6 +4662,11 @@ spec:
                           type: string
                         type: array
                     type: object
+                  serviceLbPolicy:
+                    description: |-
+                      URL to networkservices.ServiceLbPolicy resource.
+                      Can only be set if load balancing scheme is EXTERNAL, EXTERNAL_MANAGED, INTERNAL_MANAGED or INTERNAL_SELF_MANAGED and the scope is global.
+                    type: string
                   sessionAffinity:
                     description: |-
                       Type of session affinity to use. The default is NONE. Session affinity is
@@ -4451,8 +4675,10 @@ spec:
                     type: string
                   timeoutSec:
                     description: |-
-                      How many seconds to wait for the backend before considering it a
-                      failed request. Default is 30 seconds. Valid range is [1, 86400].
+                      The backend service timeout has a different meaning depending on the type of load balancer.
+                      For more information see, Backend service settings.
+                      The default is 30 seconds.
+                      The full range of timeout values allowed goes from 1 through 2,147,483,647 seconds.
                     type: number
                 type: object
               managementPolicies:
@@ -4649,6 +4875,7 @@ spec:
                             and CONNECTION (for TCP/SSL).
                             See the Backend Services Overview
                             for an explanation of load balancing modes.
+                            From version 6.0.0 default value will be UTILIZATION to match default GCP value.
                             Default value is UTILIZATION.
                             Possible values are: UTILIZATION, RATE, CONNECTION.
                           type: string
@@ -5138,6 +5365,8 @@ spec:
                       Settings controlling eviction of unhealthy hosts from the load balancing pool.
                       Applicable backend service types can be a global backend service with the
                       loadBalancingScheme set to INTERNAL_SELF_MANAGED or EXTERNAL_MANAGED.
+                      From version 6.0.
+                      Default values are enforce by GCP without providing them.
                       Structure is documented below.
                     properties:
                       baseEjectionTime:
@@ -5271,6 +5500,27 @@ spec:
                       load_balancing_scheme set to INTERNAL_SELF_MANAGED.
                       Structure is documented below.
                     properties:
+                      awsV4Authentication:
+                        description: |-
+                          The configuration needed to generate a signature for access to private storage buckets that support AWS's Signature Version 4 for authentication.
+                          Allowed only for INTERNET_IP_PORT and INTERNET_FQDN_PORT NEG backends.
+                          Structure is documented below.
+                        properties:
+                          accessKeyId:
+                            description: The identifier of an access key used for
+                              s3 bucket authentication.
+                            type: string
+                          accessKeyVersion:
+                            description: The optional version identifier for the access
+                              key. You can use this to keep track of different iterations
+                              of your access key.
+                            type: string
+                          originRegion:
+                            description: |-
+                              The name of the cloud region of your origin. This is a free-form field with the name of the region your cloud uses to host your origin.
+                              For example, "us-east-1" for AWS or "us-ashburn-1" for OCI.
+                            type: string
+                        type: object
                       clientTlsPolicy:
                         description: |-
                           ClientTlsPolicy is a resource that specifies how a client should authenticate
@@ -5289,6 +5539,11 @@ spec:
                   selfLink:
                     description: The URI of the created resource.
                     type: string
+                  serviceLbPolicy:
+                    description: |-
+                      URL to networkservices.ServiceLbPolicy resource.
+                      Can only be set if load balancing scheme is EXTERNAL, EXTERNAL_MANAGED, INTERNAL_MANAGED or INTERNAL_SELF_MANAGED and the scope is global.
+                    type: string
                   sessionAffinity:
                     description: |-
                       Type of session affinity to use. The default is NONE. Session affinity is
@@ -5297,8 +5552,10 @@ spec:
                     type: string
                   timeoutSec:
                     description: |-
-                      How many seconds to wait for the backend before considering it a
-                      failed request. Default is 30 seconds. Valid range is [1, 86400].
+                      The backend service timeout has a different meaning depending on the type of load balancer.
+                      For more information see, Backend service settings.
+                      The default is 30 seconds.
+                      The full range of timeout values allowed goes from 1 through 2,147,483,647 seconds.
                     type: number
                 type: object
               conditions:

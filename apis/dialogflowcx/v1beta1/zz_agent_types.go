@@ -328,6 +328,10 @@ type GitIntegrationSettingsParameters struct {
 
 type GithubSettingsInitParameters struct {
 
+	// The access token used to authenticate the access to the GitHub repository.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	AccessTokenSecretRef *v1.SecretKeySelector `json:"accessTokenSecretRef,omitempty" tf:"-"`
+
 	// A list of branches configured to be used from Dialogflow.
 	Branches []*string `json:"branches,omitempty" tf:"branches,omitempty"`
 

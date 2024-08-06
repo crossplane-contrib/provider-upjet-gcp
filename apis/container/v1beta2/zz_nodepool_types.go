@@ -13,18 +13,82 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigInitParameters struct {
+	SecretURI *string `json:"secretUri,omitempty" tf:"secret_uri,omitempty"`
+}
+
+type ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigObservation struct {
+	SecretURI *string `json:"secretUri,omitempty" tf:"secret_uri,omitempty"`
+}
+
+type ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	SecretURI *string `json:"secretUri" tf:"secret_uri,omitempty"`
+}
+
 type NetworkConfigNetworkPerformanceConfigInitParameters struct {
+
+	// Specifies the total network bandwidth tier for the NodePool.
 	TotalEgressBandwidthTier *string `json:"totalEgressBandwidthTier,omitempty" tf:"total_egress_bandwidth_tier,omitempty"`
 }
 
 type NetworkConfigNetworkPerformanceConfigObservation struct {
+
+	// Specifies the total network bandwidth tier for the NodePool.
 	TotalEgressBandwidthTier *string `json:"totalEgressBandwidthTier,omitempty" tf:"total_egress_bandwidth_tier,omitempty"`
 }
 
 type NetworkConfigNetworkPerformanceConfigParameters struct {
 
+	// Specifies the total network bandwidth tier for the NodePool.
 	// +kubebuilder:validation:Optional
 	TotalEgressBandwidthTier *string `json:"totalEgressBandwidthTier" tf:"total_egress_bandwidth_tier,omitempty"`
+}
+
+type NodeConfigContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigInitParameters struct {
+	Fqdns []*string `json:"fqdns,omitempty" tf:"fqdns,omitempty"`
+
+	GCPSecretManagerCertificateConfig *ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigInitParameters `json:"gcpSecretManagerCertificateConfig,omitempty" tf:"gcp_secret_manager_certificate_config,omitempty"`
+}
+
+type NodeConfigContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigObservation struct {
+	Fqdns []*string `json:"fqdns,omitempty" tf:"fqdns,omitempty"`
+
+	GCPSecretManagerCertificateConfig *ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigObservation `json:"gcpSecretManagerCertificateConfig,omitempty" tf:"gcp_secret_manager_certificate_config,omitempty"`
+}
+
+type NodeConfigContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Fqdns []*string `json:"fqdns" tf:"fqdns,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	GCPSecretManagerCertificateConfig *ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigParameters `json:"gcpSecretManagerCertificateConfig" tf:"gcp_secret_manager_certificate_config,omitempty"`
+}
+
+type NodeConfigContainerdConfigPrivateRegistryAccessConfigInitParameters struct {
+	CertificateAuthorityDomainConfig []NodeConfigContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigInitParameters `json:"certificateAuthorityDomainConfig,omitempty" tf:"certificate_authority_domain_config,omitempty"`
+
+	// Makes nodes obtainable through the ProvisioningRequest API exclusively.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type NodeConfigContainerdConfigPrivateRegistryAccessConfigObservation struct {
+	CertificateAuthorityDomainConfig []NodeConfigContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigObservation `json:"certificateAuthorityDomainConfig,omitempty" tf:"certificate_authority_domain_config,omitempty"`
+
+	// Makes nodes obtainable through the ProvisioningRequest API exclusively.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type NodeConfigContainerdConfigPrivateRegistryAccessConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	CertificateAuthorityDomainConfig []NodeConfigContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigParameters `json:"certificateAuthorityDomainConfig,omitempty" tf:"certificate_authority_domain_config,omitempty"`
+
+	// Makes nodes obtainable through the ProvisioningRequest API exclusively.
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 }
 
 type NodeConfigGuestAcceleratorGpuDriverInstallationConfigInitParameters struct {
@@ -74,29 +138,37 @@ type NodeConfigGuestAcceleratorGpuSharingConfigParameters struct {
 }
 
 type NodeConfigSoleTenantConfigNodeAffinityInitParameters struct {
+
+	// name" as the key and specify the name of your reservation as its value.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
 	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
 
+	// name"
 	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
 }
 
 type NodeConfigSoleTenantConfigNodeAffinityObservation struct {
+
+	// name" as the key and specify the name of your reservation as its value.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
 	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
 
+	// name"
 	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
 }
 
 type NodeConfigSoleTenantConfigNodeAffinityParameters struct {
 
+	// name" as the key and specify the name of your reservation as its value.
 	// +kubebuilder:validation:Optional
 	Key *string `json:"key" tf:"key,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Operator *string `json:"operator" tf:"operator,omitempty"`
 
+	// name"
 	// +kubebuilder:validation:Optional
 	Values []*string `json:"values" tf:"values,omitempty"`
 }
@@ -284,8 +356,10 @@ type NodePoolNetworkConfigInitParameters struct {
 	// Whether nodes have internal IP addresses only.
 	EnablePrivateNodes *bool `json:"enablePrivateNodes,omitempty" tf:"enable_private_nodes,omitempty"`
 
+	// Network bandwidth tier configuration. Structure is documented below.
 	NetworkPerformanceConfig *NetworkConfigNetworkPerformanceConfigInitParameters `json:"networkPerformanceConfig,omitempty" tf:"network_performance_config,omitempty"`
 
+	// Configuration for node-pool level pod cidr overprovision. If not set, the cluster level setting will be inherited. Structure is documented below.
 	PodCidrOverprovisionConfig *NodePoolNetworkConfigPodCidrOverprovisionConfigInitParameters `json:"podCidrOverprovisionConfig,omitempty" tf:"pod_cidr_overprovision_config,omitempty"`
 
 	// The IP address range for pod IPs in this node pool. Only applicable if createPodRange is true. Set to blank to have a range chosen with the default size. Set to /netmask (e.g. /14) to have a range chosen with a specific netmask. Set to a CIDR notation (e.g. 10.96.0.0/14) to pick a specific range to use.
@@ -303,8 +377,10 @@ type NodePoolNetworkConfigObservation struct {
 	// Whether nodes have internal IP addresses only.
 	EnablePrivateNodes *bool `json:"enablePrivateNodes,omitempty" tf:"enable_private_nodes,omitempty"`
 
+	// Network bandwidth tier configuration. Structure is documented below.
 	NetworkPerformanceConfig *NetworkConfigNetworkPerformanceConfigObservation `json:"networkPerformanceConfig,omitempty" tf:"network_performance_config,omitempty"`
 
+	// Configuration for node-pool level pod cidr overprovision. If not set, the cluster level setting will be inherited. Structure is documented below.
 	PodCidrOverprovisionConfig *NodePoolNetworkConfigPodCidrOverprovisionConfigObservation `json:"podCidrOverprovisionConfig,omitempty" tf:"pod_cidr_overprovision_config,omitempty"`
 
 	// The IP address range for pod IPs in this node pool. Only applicable if createPodRange is true. Set to blank to have a range chosen with the default size. Set to /netmask (e.g. /14) to have a range chosen with a specific netmask. Set to a CIDR notation (e.g. 10.96.0.0/14) to pick a specific range to use.
@@ -324,9 +400,11 @@ type NodePoolNetworkConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	EnablePrivateNodes *bool `json:"enablePrivateNodes,omitempty" tf:"enable_private_nodes,omitempty"`
 
+	// Network bandwidth tier configuration. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	NetworkPerformanceConfig *NetworkConfigNetworkPerformanceConfigParameters `json:"networkPerformanceConfig,omitempty" tf:"network_performance_config,omitempty"`
 
+	// Configuration for node-pool level pod cidr overprovision. If not set, the cluster level setting will be inherited. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	PodCidrOverprovisionConfig *NodePoolNetworkConfigPodCidrOverprovisionConfigParameters `json:"podCidrOverprovisionConfig,omitempty" tf:"pod_cidr_overprovision_config,omitempty"`
 
@@ -340,28 +418,40 @@ type NodePoolNetworkConfigParameters struct {
 }
 
 type NodePoolNetworkConfigPodCidrOverprovisionConfigInitParameters struct {
+
+	// Whether pod cidr overprovision is disabled.
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 }
 
 type NodePoolNetworkConfigPodCidrOverprovisionConfigObservation struct {
+
+	// Whether pod cidr overprovision is disabled.
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 }
 
 type NodePoolNetworkConfigPodCidrOverprovisionConfigParameters struct {
 
+	// Whether pod cidr overprovision is disabled.
 	// +kubebuilder:validation:Optional
 	Disabled *bool `json:"disabled" tf:"disabled,omitempty"`
 }
 
 type NodePoolNodeConfigAdvancedMachineFeaturesInitParameters struct {
+	EnableNestedVirtualization *bool `json:"enableNestedVirtualization,omitempty" tf:"enable_nested_virtualization,omitempty"`
+
 	ThreadsPerCore *float64 `json:"threadsPerCore,omitempty" tf:"threads_per_core,omitempty"`
 }
 
 type NodePoolNodeConfigAdvancedMachineFeaturesObservation struct {
+	EnableNestedVirtualization *bool `json:"enableNestedVirtualization,omitempty" tf:"enable_nested_virtualization,omitempty"`
+
 	ThreadsPerCore *float64 `json:"threadsPerCore,omitempty" tf:"threads_per_core,omitempty"`
 }
 
 type NodePoolNodeConfigAdvancedMachineFeaturesParameters struct {
+
+	// +kubebuilder:validation:Optional
+	EnableNestedVirtualization *bool `json:"enableNestedVirtualization,omitempty" tf:"enable_nested_virtualization,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	ThreadsPerCore *float64 `json:"threadsPerCore" tf:"threads_per_core,omitempty"`
@@ -386,12 +476,27 @@ type NodePoolNodeConfigConfidentialNodesParameters_2 struct {
 	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 }
 
+type NodePoolNodeConfigContainerdConfigInitParameters struct {
+	PrivateRegistryAccessConfig *NodeConfigContainerdConfigPrivateRegistryAccessConfigInitParameters `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
+}
+
+type NodePoolNodeConfigContainerdConfigObservation struct {
+	PrivateRegistryAccessConfig *NodeConfigContainerdConfigPrivateRegistryAccessConfigObservation `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
+}
+
+type NodePoolNodeConfigContainerdConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	PrivateRegistryAccessConfig *NodeConfigContainerdConfigPrivateRegistryAccessConfigParameters `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
+}
+
 type NodePoolNodeConfigEffectiveTaintsInitParameters struct {
 }
 
 type NodePoolNodeConfigEffectiveTaintsObservation struct {
 	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
 
+	// name" as the key and specify the name of your reservation as its value.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
@@ -544,6 +649,8 @@ type NodePoolNodeConfigInitParameters_2 struct {
 	// Configuration for Confidential Nodes feature. Structure is documented below.
 	ConfidentialNodes *NodePoolNodeConfigConfidentialNodesInitParameters_2 `json:"confidentialNodes,omitempty" tf:"confidential_nodes,omitempty"`
 
+	ContainerdConfig *NodePoolNodeConfigContainerdConfigInitParameters `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
+
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
 	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
@@ -593,6 +700,8 @@ type NodePoolNodeConfigInitParameters_2 struct {
 
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 
+	// The configuration of the desired reservation which instances could take capacity from.
+	// Structure is documented below.
 	ReservationAffinity *NodePoolNodeConfigReservationAffinityInitParameters `json:"reservationAffinity,omitempty" tf:"reservation_affinity,omitempty"`
 
 	// +mapType=granular
@@ -709,6 +818,8 @@ type NodePoolNodeConfigObservation_2 struct {
 	// Configuration for Confidential Nodes feature. Structure is documented below.
 	ConfidentialNodes *NodePoolNodeConfigConfidentialNodesObservation_2 `json:"confidentialNodes,omitempty" tf:"confidential_nodes,omitempty"`
 
+	ContainerdConfig *NodePoolNodeConfigContainerdConfigObservation `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
+
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
 	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
@@ -760,6 +871,8 @@ type NodePoolNodeConfigObservation_2 struct {
 
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 
+	// The configuration of the desired reservation which instances could take capacity from.
+	// Structure is documented below.
 	ReservationAffinity *NodePoolNodeConfigReservationAffinityObservation `json:"reservationAffinity,omitempty" tf:"reservation_affinity,omitempty"`
 
 	// +mapType=granular
@@ -796,6 +909,9 @@ type NodePoolNodeConfigParameters_2 struct {
 	// Configuration for Confidential Nodes feature. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ConfidentialNodes *NodePoolNodeConfigConfidentialNodesParameters_2 `json:"confidentialNodes,omitempty" tf:"confidential_nodes,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ContainerdConfig *NodePoolNodeConfigContainerdConfigParameters `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
@@ -868,6 +984,8 @@ type NodePoolNodeConfigParameters_2 struct {
 	// +kubebuilder:validation:Optional
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 
+	// The configuration of the desired reservation which instances could take capacity from.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ReservationAffinity *NodePoolNodeConfigReservationAffinityParameters `json:"reservationAffinity,omitempty" tf:"reservation_affinity,omitempty"`
 
@@ -915,31 +1033,45 @@ type NodePoolNodeConfigParameters_2 struct {
 }
 
 type NodePoolNodeConfigReservationAffinityInitParameters struct {
+
+	// The type of reservation consumption
+	// Accepted values are:
 	ConsumeReservationType *string `json:"consumeReservationType,omitempty" tf:"consume_reservation_type,omitempty"`
 
+	// name" as the key and specify the name of your reservation as its value.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
+	// name"
 	// +listType=set
 	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
 }
 
 type NodePoolNodeConfigReservationAffinityObservation struct {
+
+	// The type of reservation consumption
+	// Accepted values are:
 	ConsumeReservationType *string `json:"consumeReservationType,omitempty" tf:"consume_reservation_type,omitempty"`
 
+	// name" as the key and specify the name of your reservation as its value.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
+	// name"
 	// +listType=set
 	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
 }
 
 type NodePoolNodeConfigReservationAffinityParameters struct {
 
+	// The type of reservation consumption
+	// Accepted values are:
 	// +kubebuilder:validation:Optional
 	ConsumeReservationType *string `json:"consumeReservationType" tf:"consume_reservation_type,omitempty"`
 
+	// name" as the key and specify the name of your reservation as its value.
 	// +kubebuilder:validation:Optional
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
+	// name"
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
@@ -1004,6 +1136,7 @@ type NodePoolNodeConfigSoleTenantConfigParameters struct {
 type NodePoolNodeConfigTaintInitParameters struct {
 	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
 
+	// name" as the key and specify the name of your reservation as its value.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
@@ -1012,6 +1145,7 @@ type NodePoolNodeConfigTaintInitParameters struct {
 type NodePoolNodeConfigTaintObservation struct {
 	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
 
+	// name" as the key and specify the name of your reservation as its value.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
@@ -1022,6 +1156,7 @@ type NodePoolNodeConfigTaintParameters struct {
 	// +kubebuilder:validation:Optional
 	Effect *string `json:"effect" tf:"effect,omitempty"`
 
+	// name" as the key and specify the name of your reservation as its value.
 	// +kubebuilder:validation:Optional
 	Key *string `json:"key" tf:"key,omitempty"`
 

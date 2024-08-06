@@ -383,6 +383,11 @@ spec:
                           type: string
                       type: object
                     type: array
+                  storagePool:
+                    description: |-
+                      The URL of the storage pool in which the new disk is created.
+                      For example:
+                    type: string
                   type:
                     description: |-
                       URL of the disk type resource describing which disk type to use to
@@ -526,6 +531,47 @@ spec:
                             The service account used for the encryption request for the given KMS key.
                             If absent, the Compute Engine Service Agent service account is used.
                           type: string
+                        rawKeySecretRef:
+                          description: |-
+                            Specifies a 256-bit customer-supplied encryption key, encoded in
+                            RFC 4648 base64 to either encrypt or decrypt this resource.
+                            Note: This property is sensitive and will not be displayed in the plan.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                        rsaEncryptedKeySecretRef:
+                          description: |-
+                            Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
+                            customer-supplied encryption key to either encrypt or decrypt
+                            this resource. You can provide either the rawKey or the rsaEncryptedKey.
+                            Note: This property is sensitive and will not be displayed in the plan.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
                       type: object
                     type: array
                   enableConfidentialCompute:
@@ -675,6 +721,11 @@ spec:
                           type: string
                       type: object
                     type: array
+                  storagePool:
+                    description: |-
+                      The URL of the storage pool in which the new disk is created.
+                      For example:
+                    type: string
                   type:
                     description: |-
                       URL of the disk type resource describing which disk type to use to
@@ -1115,6 +1166,11 @@ spec:
                       that was later deleted and recreated under the same name, the source
                       snapshot ID would identify the exact version of the snapshot that was
                       used.
+                    type: string
+                  storagePool:
+                    description: |-
+                      The URL of the storage pool in which the new disk is created.
+                      For example:
                     type: string
                   terraformLabels:
                     additionalProperties:
@@ -1426,9 +1482,9 @@ spec:
                     items:
                       properties:
                         type:
-                          description: |-
-                            The type of supported feature. Read Enabling guest operating system features to see a list of available options.
-                            Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE, SEV_LIVE_MIGRATABLE_V2.
+                          description: The type of supported feature. Read Enabling
+                            guest operating system features to see a list of available
+                            options.
                           type: string
                       type: object
                     type: array
@@ -1556,6 +1612,11 @@ spec:
                           RFC 4648 base64 to either encrypt or decrypt this resource.
                         type: string
                     type: object
+                  storagePool:
+                    description: |-
+                      The URL of the storage pool in which the new disk is created.
+                      For example:
+                    type: string
                   type:
                     description: |-
                       URL of the disk type resource describing which disk type to use to
@@ -1749,9 +1810,9 @@ spec:
                     items:
                       properties:
                         type:
-                          description: |-
-                            The type of supported feature. Read Enabling guest operating system features to see a list of available options.
-                            Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE, SEV_LIVE_MIGRATABLE_V2.
+                          description: The type of supported feature. Read Enabling
+                            guest operating system features to see a list of available
+                            options.
                           type: string
                       type: object
                     type: array
@@ -1879,6 +1940,11 @@ spec:
                           RFC 4648 base64 to either encrypt or decrypt this resource.
                         type: string
                     type: object
+                  storagePool:
+                    description: |-
+                      The URL of the storage pool in which the new disk is created.
+                      For example:
+                    type: string
                   type:
                     description: |-
                       URL of the disk type resource describing which disk type to use to
@@ -2130,9 +2196,9 @@ spec:
                     items:
                       properties:
                         type:
-                          description: |-
-                            The type of supported feature. Read Enabling guest operating system features to see a list of available options.
-                            Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE, SEV_LIVE_MIGRATABLE_V2.
+                          description: The type of supported feature. Read Enabling
+                            guest operating system features to see a list of available
+                            options.
                           type: string
                       type: object
                     type: array
@@ -2311,6 +2377,11 @@ spec:
                       that was later deleted and recreated under the same name, the source
                       snapshot ID would identify the exact version of the snapshot that was
                       used.
+                    type: string
+                  storagePool:
+                    description: |-
+                      The URL of the storage pool in which the new disk is created.
+                      For example:
                     type: string
                   terraformLabels:
                     additionalProperties:

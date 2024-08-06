@@ -291,6 +291,7 @@ type RegionBackendServiceBackendInitParameters struct {
 	// Specifies the balancing mode for this backend.
 	// See the Backend Services Overview
 	// for an explanation of load balancing modes.
+	// From version 6.0.0 default value will be UTILIZATION to match default GCP value.
 	// Default value is CONNECTION.
 	// Possible values are: UTILIZATION, RATE, CONNECTION.
 	BalancingMode *string `json:"balancingMode,omitempty" tf:"balancing_mode,omitempty"`
@@ -400,6 +401,7 @@ type RegionBackendServiceBackendObservation struct {
 	// Specifies the balancing mode for this backend.
 	// See the Backend Services Overview
 	// for an explanation of load balancing modes.
+	// From version 6.0.0 default value will be UTILIZATION to match default GCP value.
 	// Default value is CONNECTION.
 	// Possible values are: UTILIZATION, RATE, CONNECTION.
 	BalancingMode *string `json:"balancingMode,omitempty" tf:"balancing_mode,omitempty"`
@@ -499,6 +501,7 @@ type RegionBackendServiceBackendParameters struct {
 	// Specifies the balancing mode for this backend.
 	// See the Backend Services Overview
 	// for an explanation of load balancing modes.
+	// From version 6.0.0 default value will be UTILIZATION to match default GCP value.
 	// Default value is CONNECTION.
 	// Possible values are: UTILIZATION, RATE, CONNECTION.
 	// +kubebuilder:validation:Optional
@@ -1094,6 +1097,7 @@ type RegionBackendServiceInitParameters struct {
 
 	// Time for which instance will be drained (not accept new
 	// connections, but still work to finish started).
+	// From version 6.0.0 ConnectionDrainingTimeoutSec default value will be 300 to match default GCP value.
 	ConnectionDrainingTimeoutSec *float64 `json:"connectionDrainingTimeoutSec,omitempty" tf:"connection_draining_timeout_sec,omitempty"`
 
 	// Consistent Hash-based load balancing can be used to provide soft session
@@ -1156,6 +1160,8 @@ type RegionBackendServiceInitParameters struct {
 	// Settings controlling eviction of unhealthy hosts from the load balancing pool.
 	// This field is applicable only when the load_balancing_scheme is set
 	// to INTERNAL_MANAGED and the protocol is set to HTTP, HTTPS, or HTTP2.
+	// From version 6.0.
+	// Default values are enforce by GCP without providing them.
 	// Structure is documented below.
 	OutlierDetection *RegionBackendServiceOutlierDetectionInitParameters `json:"outlierDetection,omitempty" tf:"outlier_detection,omitempty"`
 
@@ -1180,8 +1186,10 @@ type RegionBackendServiceInitParameters struct {
 	// Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE, CLIENT_IP_NO_DESTINATION.
 	SessionAffinity *string `json:"sessionAffinity,omitempty" tf:"session_affinity,omitempty"`
 
-	// How many seconds to wait for the backend before considering it a
-	// failed request. Default is 30 seconds. Valid range is [1, 86400].
+	// The backend service timeout has a different meaning depending on the type of load balancer.
+	// For more information see, Backend service settings.
+	// The default is 30 seconds.
+	// The full range of timeout values allowed goes from 1 through 2,147,483,647 seconds.
 	TimeoutSec *float64 `json:"timeoutSec,omitempty" tf:"timeout_sec,omitempty"`
 }
 
@@ -1248,6 +1256,7 @@ type RegionBackendServiceObservation struct {
 
 	// Time for which instance will be drained (not accept new
 	// connections, but still work to finish started).
+	// From version 6.0.0 ConnectionDrainingTimeoutSec default value will be 300 to match default GCP value.
 	ConnectionDrainingTimeoutSec *float64 `json:"connectionDrainingTimeoutSec,omitempty" tf:"connection_draining_timeout_sec,omitempty"`
 
 	// Consistent Hash-based load balancing can be used to provide soft session
@@ -1313,6 +1322,8 @@ type RegionBackendServiceObservation struct {
 	// Settings controlling eviction of unhealthy hosts from the load balancing pool.
 	// This field is applicable only when the load_balancing_scheme is set
 	// to INTERNAL_MANAGED and the protocol is set to HTTP, HTTPS, or HTTP2.
+	// From version 6.0.
+	// Default values are enforce by GCP without providing them.
 	// Structure is documented below.
 	OutlierDetection *RegionBackendServiceOutlierDetectionObservation `json:"outlierDetection,omitempty" tf:"outlier_detection,omitempty"`
 
@@ -1344,8 +1355,10 @@ type RegionBackendServiceObservation struct {
 	// Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE, CLIENT_IP_NO_DESTINATION.
 	SessionAffinity *string `json:"sessionAffinity,omitempty" tf:"session_affinity,omitempty"`
 
-	// How many seconds to wait for the backend before considering it a
-	// failed request. Default is 30 seconds. Valid range is [1, 86400].
+	// The backend service timeout has a different meaning depending on the type of load balancer.
+	// For more information see, Backend service settings.
+	// The default is 30 seconds.
+	// The full range of timeout values allowed goes from 1 through 2,147,483,647 seconds.
 	TimeoutSec *float64 `json:"timeoutSec,omitempty" tf:"timeout_sec,omitempty"`
 }
 
@@ -1581,6 +1594,7 @@ type RegionBackendServiceParameters struct {
 
 	// Time for which instance will be drained (not accept new
 	// connections, but still work to finish started).
+	// From version 6.0.0 ConnectionDrainingTimeoutSec default value will be 300 to match default GCP value.
 	// +kubebuilder:validation:Optional
 	ConnectionDrainingTimeoutSec *float64 `json:"connectionDrainingTimeoutSec,omitempty" tf:"connection_draining_timeout_sec,omitempty"`
 
@@ -1654,6 +1668,8 @@ type RegionBackendServiceParameters struct {
 	// Settings controlling eviction of unhealthy hosts from the load balancing pool.
 	// This field is applicable only when the load_balancing_scheme is set
 	// to INTERNAL_MANAGED and the protocol is set to HTTP, HTTPS, or HTTP2.
+	// From version 6.0.
+	// Default values are enforce by GCP without providing them.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	OutlierDetection *RegionBackendServiceOutlierDetectionParameters `json:"outlierDetection,omitempty" tf:"outlier_detection,omitempty"`
@@ -1688,8 +1704,10 @@ type RegionBackendServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	SessionAffinity *string `json:"sessionAffinity,omitempty" tf:"session_affinity,omitempty"`
 
-	// How many seconds to wait for the backend before considering it a
-	// failed request. Default is 30 seconds. Valid range is [1, 86400].
+	// The backend service timeout has a different meaning depending on the type of load balancer.
+	// For more information see, Backend service settings.
+	// The default is 30 seconds.
+	// The full range of timeout values allowed goes from 1 through 2,147,483,647 seconds.
 	// +kubebuilder:validation:Optional
 	TimeoutSec *float64 `json:"timeoutSec,omitempty" tf:"timeout_sec,omitempty"`
 }

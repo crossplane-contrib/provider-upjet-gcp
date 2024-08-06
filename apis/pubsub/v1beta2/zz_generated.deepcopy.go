@@ -186,6 +186,21 @@ func (in *BigqueryConfigInitParameters) DeepCopyInto(out *BigqueryConfigInitPara
 		*out = new(bool)
 		**out = **in
 	}
+	if in.ServiceAccountEmail != nil {
+		in, out := &in.ServiceAccountEmail, &out.ServiceAccountEmail
+		*out = new(string)
+		**out = **in
+	}
+	if in.ServiceAccountEmailRef != nil {
+		in, out := &in.ServiceAccountEmailRef, &out.ServiceAccountEmailRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ServiceAccountEmailSelector != nil {
+		in, out := &in.ServiceAccountEmailSelector, &out.ServiceAccountEmailSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Table != nil {
 		in, out := &in.Table, &out.Table
 		*out = new(string)
@@ -224,6 +239,11 @@ func (in *BigqueryConfigObservation) DeepCopyInto(out *BigqueryConfigObservation
 	if in.DropUnknownFields != nil {
 		in, out := &in.DropUnknownFields, &out.DropUnknownFields
 		*out = new(bool)
+		**out = **in
+	}
+	if in.ServiceAccountEmail != nil {
+		in, out := &in.ServiceAccountEmail, &out.ServiceAccountEmail
+		*out = new(string)
 		**out = **in
 	}
 	if in.Table != nil {
@@ -265,6 +285,21 @@ func (in *BigqueryConfigParameters) DeepCopyInto(out *BigqueryConfigParameters) 
 		in, out := &in.DropUnknownFields, &out.DropUnknownFields
 		*out = new(bool)
 		**out = **in
+	}
+	if in.ServiceAccountEmail != nil {
+		in, out := &in.ServiceAccountEmail, &out.ServiceAccountEmail
+		*out = new(string)
+		**out = **in
+	}
+	if in.ServiceAccountEmailRef != nil {
+		in, out := &in.ServiceAccountEmailRef, &out.ServiceAccountEmailRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ServiceAccountEmailSelector != nil {
+		in, out := &in.ServiceAccountEmailSelector, &out.ServiceAccountEmailSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Table != nil {
 		in, out := &in.Table, &out.Table
@@ -386,6 +421,11 @@ func (in *CloudStorageConfigInitParameters) DeepCopyInto(out *CloudStorageConfig
 		*out = new(string)
 		**out = **in
 	}
+	if in.FilenameDatetimeFormat != nil {
+		in, out := &in.FilenameDatetimeFormat, &out.FilenameDatetimeFormat
+		*out = new(string)
+		**out = **in
+	}
 	if in.FilenamePrefix != nil {
 		in, out := &in.FilenamePrefix, &out.FilenamePrefix
 		*out = new(string)
@@ -405,6 +445,21 @@ func (in *CloudStorageConfigInitParameters) DeepCopyInto(out *CloudStorageConfig
 		in, out := &in.MaxDuration, &out.MaxDuration
 		*out = new(string)
 		**out = **in
+	}
+	if in.ServiceAccountEmail != nil {
+		in, out := &in.ServiceAccountEmail, &out.ServiceAccountEmail
+		*out = new(string)
+		**out = **in
+	}
+	if in.ServiceAccountEmailRef != nil {
+		in, out := &in.ServiceAccountEmailRef, &out.ServiceAccountEmailRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ServiceAccountEmailSelector != nil {
+		in, out := &in.ServiceAccountEmailSelector, &out.ServiceAccountEmailSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -431,6 +486,11 @@ func (in *CloudStorageConfigObservation) DeepCopyInto(out *CloudStorageConfigObs
 		*out = new(string)
 		**out = **in
 	}
+	if in.FilenameDatetimeFormat != nil {
+		in, out := &in.FilenameDatetimeFormat, &out.FilenameDatetimeFormat
+		*out = new(string)
+		**out = **in
+	}
 	if in.FilenamePrefix != nil {
 		in, out := &in.FilenamePrefix, &out.FilenamePrefix
 		*out = new(string)
@@ -448,6 +508,11 @@ func (in *CloudStorageConfigObservation) DeepCopyInto(out *CloudStorageConfigObs
 	}
 	if in.MaxDuration != nil {
 		in, out := &in.MaxDuration, &out.MaxDuration
+		*out = new(string)
+		**out = **in
+	}
+	if in.ServiceAccountEmail != nil {
+		in, out := &in.ServiceAccountEmail, &out.ServiceAccountEmail
 		*out = new(string)
 		**out = **in
 	}
@@ -481,6 +546,11 @@ func (in *CloudStorageConfigParameters) DeepCopyInto(out *CloudStorageConfigPara
 		*out = new(string)
 		**out = **in
 	}
+	if in.FilenameDatetimeFormat != nil {
+		in, out := &in.FilenameDatetimeFormat, &out.FilenameDatetimeFormat
+		*out = new(string)
+		**out = **in
+	}
 	if in.FilenamePrefix != nil {
 		in, out := &in.FilenamePrefix, &out.FilenamePrefix
 		*out = new(string)
@@ -500,6 +570,21 @@ func (in *CloudStorageConfigParameters) DeepCopyInto(out *CloudStorageConfigPara
 		in, out := &in.MaxDuration, &out.MaxDuration
 		*out = new(string)
 		**out = **in
+	}
+	if in.ServiceAccountEmail != nil {
+		in, out := &in.ServiceAccountEmail, &out.ServiceAccountEmail
+		*out = new(string)
+		**out = **in
+	}
+	if in.ServiceAccountEmailRef != nil {
+		in, out := &in.ServiceAccountEmailRef, &out.ServiceAccountEmailRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ServiceAccountEmailSelector != nil {
+		in, out := &in.ServiceAccountEmailSelector, &out.ServiceAccountEmailSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 }
 

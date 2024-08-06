@@ -2272,6 +2272,10 @@ type DocumentationInitParameters struct {
 	// whichever is smaller.
 	Content *string `json:"content,omitempty" tf:"content,omitempty"`
 
+	// Links to content such as playbooks, repositories, and other resources. This field can contain up to 3 entries.
+	// Structure is documented below.
+	Links []LinksInitParameters `json:"links,omitempty" tf:"links,omitempty"`
+
 	// The format of the content field. Presently, only the value
 	// "text/markdown" is supported.
 	MimeType *string `json:"mimeType,omitempty" tf:"mime_type,omitempty"`
@@ -2290,6 +2294,10 @@ type DocumentationObservation struct {
 	// exceed more than 10,240 bytes when encoded in UTF-8 format,
 	// whichever is smaller.
 	Content *string `json:"content,omitempty" tf:"content,omitempty"`
+
+	// Links to content such as playbooks, repositories, and other resources. This field can contain up to 3 entries.
+	// Structure is documented below.
+	Links []LinksObservation `json:"links,omitempty" tf:"links,omitempty"`
 
 	// The format of the content field. Presently, only the value
 	// "text/markdown" is supported.
@@ -2310,6 +2318,11 @@ type DocumentationParameters struct {
 	// whichever is smaller.
 	// +kubebuilder:validation:Optional
 	Content *string `json:"content,omitempty" tf:"content,omitempty"`
+
+	// Links to content such as playbooks, repositories, and other resources. This field can contain up to 3 entries.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Links []LinksParameters `json:"links,omitempty" tf:"links,omitempty"`
 
 	// The format of the content field. Presently, only the value
 	// "text/markdown" is supported.
@@ -2356,6 +2369,35 @@ type ForecastOptionsParameters struct {
 	// then the timeseries is considered to be failing.
 	// +kubebuilder:validation:Optional
 	ForecastHorizon *string `json:"forecastHorizon" tf:"forecast_horizon,omitempty"`
+}
+
+type LinksInitParameters struct {
+
+	// A short display name for the link. The display name must not be empty or exceed 63 characters. Example: "playbook".
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// The url of a webpage. A url can be templatized by using variables in the path or the query parameters. The total length of a URL should not exceed 2083 characters before and after variable expansion. Example: "https://my_domain.com/playbook?name=${resource.name}".
+	URL *string `json:"url,omitempty" tf:"url,omitempty"`
+}
+
+type LinksObservation struct {
+
+	// A short display name for the link. The display name must not be empty or exceed 63 characters. Example: "playbook".
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// The url of a webpage. A url can be templatized by using variables in the path or the query parameters. The total length of a URL should not exceed 2083 characters before and after variable expansion. Example: "https://my_domain.com/playbook?name=${resource.name}".
+	URL *string `json:"url,omitempty" tf:"url,omitempty"`
+}
+
+type LinksParameters struct {
+
+	// A short display name for the link. The display name must not be empty or exceed 63 characters. Example: "playbook".
+	// +kubebuilder:validation:Optional
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// The url of a webpage. A url can be templatized by using variables in the path or the query parameters. The total length of a URL should not exceed 2083 characters before and after variable expansion. Example: "https://my_domain.com/playbook?name=${resource.name}".
+	// +kubebuilder:validation:Optional
+	URL *string `json:"url,omitempty" tf:"url,omitempty"`
 }
 
 type NotificationChannelStrategyInitParameters struct {

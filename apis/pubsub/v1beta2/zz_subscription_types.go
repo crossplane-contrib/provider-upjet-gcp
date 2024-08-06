@@ -45,7 +45,22 @@ type BigqueryConfigInitParameters struct {
 	// and any messages with extra fields are not written and remain in the subscription's backlog.
 	DropUnknownFields *bool `json:"dropUnknownFields,omitempty" tf:"drop_unknown_fields,omitempty"`
 
-	// The name of the table to which to write data, of the form {projectId}:{datasetId}.{tableId}
+	// The service account to use to write to BigQuery. If not specified, the Pub/Sub
+	// service agent,
+	// service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com, is used.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("email",true)
+	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+
+	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailRef *v1.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailSelector *v1.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+
+	// The name of the table to which to write data, of the form {projectId}.{datasetId}.{tableId}
 	Table *string `json:"table,omitempty" tf:"table,omitempty"`
 
 	// When true, use the BigQuery table's schema as the columns to write to in BigQuery. Messages
@@ -68,7 +83,12 @@ type BigqueryConfigObservation struct {
 	// and any messages with extra fields are not written and remain in the subscription's backlog.
 	DropUnknownFields *bool `json:"dropUnknownFields,omitempty" tf:"drop_unknown_fields,omitempty"`
 
-	// The name of the table to which to write data, of the form {projectId}:{datasetId}.{tableId}
+	// The service account to use to write to BigQuery. If not specified, the Pub/Sub
+	// service agent,
+	// service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com, is used.
+	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+
+	// The name of the table to which to write data, of the form {projectId}.{datasetId}.{tableId}
 	Table *string `json:"table,omitempty" tf:"table,omitempty"`
 
 	// When true, use the BigQuery table's schema as the columns to write to in BigQuery. Messages
@@ -92,7 +112,23 @@ type BigqueryConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	DropUnknownFields *bool `json:"dropUnknownFields,omitempty" tf:"drop_unknown_fields,omitempty"`
 
-	// The name of the table to which to write data, of the form {projectId}:{datasetId}.{tableId}
+	// The service account to use to write to BigQuery. If not specified, the Pub/Sub
+	// service agent,
+	// service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com, is used.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("email",true)
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+
+	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailRef *v1.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailSelector *v1.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+
+	// The name of the table to which to write data, of the form {projectId}.{datasetId}.{tableId}
 	// +kubebuilder:validation:Optional
 	Table *string `json:"table" tf:"table,omitempty"`
 
@@ -121,6 +157,9 @@ type CloudStorageConfigInitParameters struct {
 	// User-provided name for the Cloud Storage bucket. The bucket must be created by the user. The bucket name must be without any prefix like "gs://".
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
+	// User-provided format string specifying how to represent datetimes in Cloud Storage filenames.
+	FilenameDatetimeFormat *string `json:"filenameDatetimeFormat,omitempty" tf:"filename_datetime_format,omitempty"`
+
 	// User-provided prefix for Cloud Storage filename.
 	FilenamePrefix *string `json:"filenamePrefix,omitempty" tf:"filename_prefix,omitempty"`
 
@@ -135,6 +174,21 @@ type CloudStorageConfigInitParameters struct {
 	// May not exceed the subscription's acknowledgement deadline.
 	// A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
 	MaxDuration *string `json:"maxDuration,omitempty" tf:"max_duration,omitempty"`
+
+	// The service account to use to write to Cloud Storage. If not specified, the Pub/Sub
+	// service agent,
+	// service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com, is used.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("email",true)
+	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+
+	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailRef *v1.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailSelector *v1.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
 }
 
 type CloudStorageConfigObservation struct {
@@ -146,6 +200,9 @@ type CloudStorageConfigObservation struct {
 	// User-provided name for the Cloud Storage bucket. The bucket must be created by the user. The bucket name must be without any prefix like "gs://".
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
+	// User-provided format string specifying how to represent datetimes in Cloud Storage filenames.
+	FilenameDatetimeFormat *string `json:"filenameDatetimeFormat,omitempty" tf:"filename_datetime_format,omitempty"`
+
 	// User-provided prefix for Cloud Storage filename.
 	FilenamePrefix *string `json:"filenamePrefix,omitempty" tf:"filename_prefix,omitempty"`
 
@@ -160,6 +217,11 @@ type CloudStorageConfigObservation struct {
 	// May not exceed the subscription's acknowledgement deadline.
 	// A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
 	MaxDuration *string `json:"maxDuration,omitempty" tf:"max_duration,omitempty"`
+
+	// The service account to use to write to Cloud Storage. If not specified, the Pub/Sub
+	// service agent,
+	// service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com, is used.
+	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 
 	// (Output)
 	// An output-only field that indicates whether or not the subscription can receive messages.
@@ -177,6 +239,10 @@ type CloudStorageConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	Bucket *string `json:"bucket" tf:"bucket,omitempty"`
 
+	// User-provided format string specifying how to represent datetimes in Cloud Storage filenames.
+	// +kubebuilder:validation:Optional
+	FilenameDatetimeFormat *string `json:"filenameDatetimeFormat,omitempty" tf:"filename_datetime_format,omitempty"`
+
 	// User-provided prefix for Cloud Storage filename.
 	// +kubebuilder:validation:Optional
 	FilenamePrefix *string `json:"filenamePrefix,omitempty" tf:"filename_prefix,omitempty"`
@@ -195,6 +261,22 @@ type CloudStorageConfigParameters struct {
 	// A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
 	// +kubebuilder:validation:Optional
 	MaxDuration *string `json:"maxDuration,omitempty" tf:"max_duration,omitempty"`
+
+	// The service account to use to write to Cloud Storage. If not specified, the Pub/Sub
+	// service agent,
+	// service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com, is used.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("email",true)
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+
+	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailRef *v1.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailSelector *v1.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
 }
 
 type DeadLetterPolicyInitParameters struct {

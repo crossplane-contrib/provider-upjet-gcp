@@ -121,6 +121,11 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.MaintenanceVersion != nil {
+		in, out := &in.MaintenanceVersion, &out.MaintenanceVersion
+		*out = new(string)
+		**out = **in
+	}
 	if in.MemorySizeGb != nil {
 		in, out := &in.MemorySizeGb, &out.MemorySizeGb
 		*out = new(float64)
@@ -337,6 +342,11 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.MaintenanceVersion != nil {
+		in, out := &in.MaintenanceVersion, &out.MaintenanceVersion
+		*out = new(string)
+		**out = **in
+	}
 	if in.MemorySizeGb != nil {
 		in, out := &in.MemorySizeGb, &out.MemorySizeGb
 		*out = new(float64)
@@ -552,6 +562,11 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.MaintenanceVersion != nil {
+		in, out := &in.MaintenanceVersion, &out.MaintenanceVersion
+		*out = new(string)
+		**out = **in
 	}
 	if in.MemorySizeGb != nil {
 		in, out := &in.MemorySizeGb, &out.MemorySizeGb

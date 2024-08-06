@@ -4,11 +4,11 @@ metadata:
   annotations:
     meta.upbound.io/example-id: privateca/v1beta2/certificatetemplate
   labels:
-    testing.upbound.io/example-name: primary
-  name: primary
+    testing.upbound.io/example-name: default
+  name: default
 spec:
   forProvider:
-    description: An updated sample certificate template
+    description: A sample certificate template
     identityConstraints:
     - allowSubjectAltNamesPassthrough: true
       allowSubjectPassthrough: true
@@ -18,8 +18,9 @@ spec:
         location: any.file.anywhere
         title: Sample expression
     labels:
-      label-two: value-two
-    location: us-west1
+      label-one: value-one
+    location: us-central1
+    maximumLifetime: 86400s
     passthroughExtensions:
     - additionalExtensions:
       - objectIdPath:
@@ -66,4 +67,3 @@ spec:
       - objectIdPath:
         - 1
         - 6
-    project: my-project-name

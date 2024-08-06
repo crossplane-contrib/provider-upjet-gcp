@@ -22,7 +22,7 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// alloydb
 	//
 	// Imported by using the following format: projects/{{project}}/locations/{{location}}/clusters/{{cluster_id}}
-	"google_alloydb_cluster": config.TemplatedStringAsIdentifier("cluster_id", "projects/{{ .setup.configuration.project }}/location/{{ .parameters.location }}/clusters/{{ .external_name }}"),
+	"google_alloydb_cluster": config.TemplatedStringAsIdentifier("cluster_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/clusters/{{ .external_name }}"),
 	// Imported by using the following format: {{cluster}}//{{instance_id}}
 	"google_alloydb_instance": config.TemplatedStringAsIdentifier("instance_id", "{{ .parameters.cluster }}/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/locations/{{location}}/backups/{{backup_id}}

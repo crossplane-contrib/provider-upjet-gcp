@@ -385,6 +385,9 @@ type DatabaseInstanceInitParameters struct {
 	// block during resource creation/update will trigger the restore action after the resource is created/updated.
 	RestoreBackupContext []RestoreBackupContextInitParameters `json:"restoreBackupContext,omitempty" tf:"restore_backup_context,omitempty"`
 
+	// Initial root password. Can be updated. Required for MS SQL Server.
+	RootPasswordSecretRef *v1.SecretKeySelector `json:"rootPasswordSecretRef,omitempty" tf:"-"`
+
 	// The settings to use for the database. The
 	// configuration is detailed below. Required if clone is not set.
 	Settings []SettingsInitParameters `json:"settings,omitempty" tf:"settings,omitempty"`
@@ -1018,6 +1021,9 @@ type ReplicaConfigurationInitParameters struct {
 	// heartbeats.
 	MasterHeartbeatPeriod *float64 `json:"masterHeartbeatPeriod,omitempty" tf:"master_heartbeat_period,omitempty"`
 
+	// Password for the replication connection.
+	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+
 	// Permissible ciphers for use in SSL encryption.
 	SSLCipher *string `json:"sslCipher,omitempty" tf:"ssl_cipher,omitempty"`
 
@@ -1287,6 +1293,9 @@ type SettingsInitParameters struct {
 	// The edition of the instance, can be ENTERPRISE or ENTERPRISE_PLUS.
 	Edition *string `json:"edition,omitempty" tf:"edition,omitempty"`
 
+	// Enables Cloud SQL instances to connect to Vertex AI and pass requests for real-time predictions and insights. Defaults to false.
+	EnableGoogleMLIntegration *bool `json:"enableGoogleMlIntegration,omitempty" tf:"enable_google_ml_integration,omitempty"`
+
 	IPConfiguration []IPConfigurationInitParameters `json:"ipConfiguration,omitempty" tf:"ip_configuration,omitempty"`
 
 	InsightsConfig []InsightsConfigInitParameters `json:"insightsConfig,omitempty" tf:"insights_config,omitempty"`
@@ -1364,6 +1373,9 @@ type SettingsObservation struct {
 
 	// The edition of the instance, can be ENTERPRISE or ENTERPRISE_PLUS.
 	Edition *string `json:"edition,omitempty" tf:"edition,omitempty"`
+
+	// Enables Cloud SQL instances to connect to Vertex AI and pass requests for real-time predictions and insights. Defaults to false.
+	EnableGoogleMLIntegration *bool `json:"enableGoogleMlIntegration,omitempty" tf:"enable_google_ml_integration,omitempty"`
 
 	IPConfiguration []IPConfigurationObservation `json:"ipConfiguration,omitempty" tf:"ip_configuration,omitempty"`
 
@@ -1462,6 +1474,10 @@ type SettingsParameters struct {
 	// The edition of the instance, can be ENTERPRISE or ENTERPRISE_PLUS.
 	// +kubebuilder:validation:Optional
 	Edition *string `json:"edition,omitempty" tf:"edition,omitempty"`
+
+	// Enables Cloud SQL instances to connect to Vertex AI and pass requests for real-time predictions and insights. Defaults to false.
+	// +kubebuilder:validation:Optional
+	EnableGoogleMLIntegration *bool `json:"enableGoogleMlIntegration,omitempty" tf:"enable_google_ml_integration,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	IPConfiguration []IPConfigurationParameters `json:"ipConfiguration,omitempty" tf:"ip_configuration,omitempty"`

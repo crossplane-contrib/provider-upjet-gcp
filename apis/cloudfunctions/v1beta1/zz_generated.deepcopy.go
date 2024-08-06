@@ -566,6 +566,11 @@ func (in *FunctionInitParameters) DeepCopyInto(out *FunctionInitParameters) {
 			(*out)[key] = val
 		}
 	}
+	if in.BuildServiceAccount != nil {
+		in, out := &in.BuildServiceAccount, &out.BuildServiceAccount
+		*out = new(string)
+		**out = **in
+	}
 	if in.BuildWorkerPool != nil {
 		in, out := &in.BuildWorkerPool, &out.BuildWorkerPool
 		*out = new(string)
@@ -787,6 +792,11 @@ func (in *FunctionObservation) DeepCopyInto(out *FunctionObservation) {
 			(*out)[key] = val
 		}
 	}
+	if in.BuildServiceAccount != nil {
+		in, out := &in.BuildServiceAccount, &out.BuildServiceAccount
+		*out = new(string)
+		**out = **in
+	}
 	if in.BuildWorkerPool != nil {
 		in, out := &in.BuildWorkerPool, &out.BuildWorkerPool
 		*out = new(string)
@@ -1007,6 +1017,11 @@ func (in *FunctionParameters) DeepCopyInto(out *FunctionParameters) {
 		for key, val := range *in {
 			(*out)[key] = val
 		}
+	}
+	if in.BuildServiceAccount != nil {
+		in, out := &in.BuildServiceAccount, &out.BuildServiceAccount
+		*out = new(string)
+		**out = **in
 	}
 	if in.BuildWorkerPool != nil {
 		in, out := &in.BuildWorkerPool, &out.BuildWorkerPool

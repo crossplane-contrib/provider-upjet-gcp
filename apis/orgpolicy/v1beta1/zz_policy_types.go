@@ -71,11 +71,13 @@ type DryRunSpecInitParameters struct {
 	Reset *bool `json:"reset,omitempty" tf:"reset,omitempty"`
 
 	// In policies for boolean constraints, the following requirements apply: - There must be one and only one policy rule where condition is unset. - Boolean policy rules with conditions must set enforced to the opposite of the policy rule without a condition. - During policy evaluation, policy rules with conditions that are true for a target resource take precedence.
+	// Structure is documented below.
 	Rules []RulesInitParameters `json:"rules,omitempty" tf:"rules,omitempty"`
 }
 
 type DryRunSpecObservation struct {
 
+	// (Output)
 	// An opaque tag indicating the current version of the policy, used for concurrency control. This field is ignored if used in a CreatePolicy request. When the policyis returned from either aGetPolicyor aListPoliciesrequest, thisetagindicates the version of the current policy to use when executing a read-modify-write loop. When the policy is returned from aGetEffectivePolicyrequest, theetag` will be unset.
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
@@ -86,8 +88,10 @@ type DryRunSpecObservation struct {
 	Reset *bool `json:"reset,omitempty" tf:"reset,omitempty"`
 
 	// In policies for boolean constraints, the following requirements apply: - There must be one and only one policy rule where condition is unset. - Boolean policy rules with conditions must set enforced to the opposite of the policy rule without a condition. - During policy evaluation, policy rules with conditions that are true for a target resource take precedence.
+	// Structure is documented below.
 	Rules []RulesObservation `json:"rules,omitempty" tf:"rules,omitempty"`
 
+	// (Output)
 	// Output only. The time stamp this was previously updated. This represents the last time a call to CreatePolicy or UpdatePolicy was made for that policy.
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`
 }
@@ -103,6 +107,7 @@ type DryRunSpecParameters struct {
 	Reset *bool `json:"reset,omitempty" tf:"reset,omitempty"`
 
 	// In policies for boolean constraints, the following requirements apply: - There must be one and only one policy rule where condition is unset. - Boolean policy rules with conditions must set enforced to the opposite of the policy rule without a condition. - During policy evaluation, policy rules with conditions that are true for a target resource take precedence.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Rules []RulesParameters `json:"rules,omitempty" tf:"rules,omitempty"`
 }
@@ -110,15 +115,18 @@ type DryRunSpecParameters struct {
 type PolicyInitParameters struct {
 
 	// Dry-run policy. Audit-only policy, can be used to monitor how the policy would have impacted the existing and future resources if it's enforced.
+	// Structure is documented below.
 	DryRunSpec *DryRunSpecInitParameters `json:"dryRunSpec,omitempty" tf:"dry_run_spec,omitempty"`
 
 	// Basic information about the Organization Policy.
+	// Structure is documented below.
 	Spec *SpecInitParameters `json:"spec,omitempty" tf:"spec,omitempty"`
 }
 
 type PolicyObservation struct {
 
 	// Dry-run policy. Audit-only policy, can be used to monitor how the policy would have impacted the existing and future resources if it's enforced.
+	// Structure is documented below.
 	DryRunSpec *DryRunSpecObservation `json:"dryRunSpec,omitempty" tf:"dry_run_spec,omitempty"`
 
 	// Optional. An opaque tag indicating the current state of the policy, used for concurrency control. This 'etag' is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding.
@@ -131,12 +139,14 @@ type PolicyObservation struct {
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
 	// Basic information about the Organization Policy.
+	// Structure is documented below.
 	Spec *SpecObservation `json:"spec,omitempty" tf:"spec,omitempty"`
 }
 
 type PolicyParameters struct {
 
 	// Dry-run policy. Audit-only policy, can be used to monitor how the policy would have impacted the existing and future resources if it's enforced.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	DryRunSpec *DryRunSpecParameters `json:"dryRunSpec,omitempty" tf:"dry_run_spec,omitempty"`
 
@@ -155,6 +165,7 @@ type PolicyParameters struct {
 	ParentSelector *v1.Selector `json:"parentSelector,omitempty" tf:"-"`
 
 	// Basic information about the Organization Policy.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Spec *SpecParameters `json:"spec,omitempty" tf:"spec,omitempty"`
 }
@@ -210,59 +221,65 @@ type RulesConditionParameters struct {
 
 type RulesInitParameters struct {
 
-	// Setting this to "TRUE" means that all values are allowed. This field can be set only in policies for list constraints.
+	// Setting this to "TRUE" means that all values are allowed. This field can be set only in Policies for list constraints.
 	AllowAll *string `json:"allowAll,omitempty" tf:"allow_all,omitempty"`
 
 	// A condition which determines whether this rule is used in the evaluation of the policy. When set, the expression field in the `Expr' must include from 1 to 10 subexpressions, joined by the "||" or "&&" operators. Each subexpression must be of the form "resource.matchTag('/tag_key_short_name, 'tag_value_short_name')". or "resource.matchTagId('tagKeys/key_id', 'tagValues/value_id')". where key_name and value_name are the resource names for Label Keys and Values. These names are available from the Tag Manager Service. An example expression is: "resource.matchTag('123456789/environment, 'prod')". or "resource.matchTagId('tagKeys/123', 'tagValues/456')".
+	// Structure is documented below.
 	Condition *ConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// Setting this to "TRUE" means that all values are denied. This field can be set only in policies for list constraints.
+	// Setting this to "TRUE" means that all values are denied. This field can be set only in Policies for list constraints.
 	DenyAll *string `json:"denyAll,omitempty" tf:"deny_all,omitempty"`
 
-	// If "TRUE", then the policy is enforced. If "FALSE", then any configuration is acceptable. This field can be set only in policies for boolean constraints.
+	// If "TRUE", then the Policy is enforced. If "FALSE", then any configuration is acceptable. This field can be set only in Policies for boolean constraints.
 	Enforce *string `json:"enforce,omitempty" tf:"enforce,omitempty"`
 
-	// List of values to be used for this policy rule. This field can be set only in policies for list constraints.
+	// List of values to be used for this PolicyRule. This field can be set only in Policies for list constraints.
+	// Structure is documented below.
 	Values *ValuesInitParameters `json:"values,omitempty" tf:"values,omitempty"`
 }
 
 type RulesObservation struct {
 
-	// Setting this to "TRUE" means that all values are allowed. This field can be set only in policies for list constraints.
+	// Setting this to "TRUE" means that all values are allowed. This field can be set only in Policies for list constraints.
 	AllowAll *string `json:"allowAll,omitempty" tf:"allow_all,omitempty"`
 
 	// A condition which determines whether this rule is used in the evaluation of the policy. When set, the expression field in the `Expr' must include from 1 to 10 subexpressions, joined by the "||" or "&&" operators. Each subexpression must be of the form "resource.matchTag('/tag_key_short_name, 'tag_value_short_name')". or "resource.matchTagId('tagKeys/key_id', 'tagValues/value_id')". where key_name and value_name are the resource names for Label Keys and Values. These names are available from the Tag Manager Service. An example expression is: "resource.matchTag('123456789/environment, 'prod')". or "resource.matchTagId('tagKeys/123', 'tagValues/456')".
+	// Structure is documented below.
 	Condition *ConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// Setting this to "TRUE" means that all values are denied. This field can be set only in policies for list constraints.
+	// Setting this to "TRUE" means that all values are denied. This field can be set only in Policies for list constraints.
 	DenyAll *string `json:"denyAll,omitempty" tf:"deny_all,omitempty"`
 
-	// If "TRUE", then the policy is enforced. If "FALSE", then any configuration is acceptable. This field can be set only in policies for boolean constraints.
+	// If "TRUE", then the Policy is enforced. If "FALSE", then any configuration is acceptable. This field can be set only in Policies for boolean constraints.
 	Enforce *string `json:"enforce,omitempty" tf:"enforce,omitempty"`
 
-	// List of values to be used for this policy rule. This field can be set only in policies for list constraints.
+	// List of values to be used for this PolicyRule. This field can be set only in Policies for list constraints.
+	// Structure is documented below.
 	Values *ValuesObservation `json:"values,omitempty" tf:"values,omitempty"`
 }
 
 type RulesParameters struct {
 
-	// Setting this to "TRUE" means that all values are allowed. This field can be set only in policies for list constraints.
+	// Setting this to "TRUE" means that all values are allowed. This field can be set only in Policies for list constraints.
 	// +kubebuilder:validation:Optional
 	AllowAll *string `json:"allowAll,omitempty" tf:"allow_all,omitempty"`
 
 	// A condition which determines whether this rule is used in the evaluation of the policy. When set, the expression field in the `Expr' must include from 1 to 10 subexpressions, joined by the "||" or "&&" operators. Each subexpression must be of the form "resource.matchTag('/tag_key_short_name, 'tag_value_short_name')". or "resource.matchTagId('tagKeys/key_id', 'tagValues/value_id')". where key_name and value_name are the resource names for Label Keys and Values. These names are available from the Tag Manager Service. An example expression is: "resource.matchTag('123456789/environment, 'prod')". or "resource.matchTagId('tagKeys/123', 'tagValues/456')".
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Condition *ConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// Setting this to "TRUE" means that all values are denied. This field can be set only in policies for list constraints.
+	// Setting this to "TRUE" means that all values are denied. This field can be set only in Policies for list constraints.
 	// +kubebuilder:validation:Optional
 	DenyAll *string `json:"denyAll,omitempty" tf:"deny_all,omitempty"`
 
-	// If "TRUE", then the policy is enforced. If "FALSE", then any configuration is acceptable. This field can be set only in policies for boolean constraints.
+	// If "TRUE", then the Policy is enforced. If "FALSE", then any configuration is acceptable. This field can be set only in Policies for boolean constraints.
 	// +kubebuilder:validation:Optional
 	Enforce *string `json:"enforce,omitempty" tf:"enforce,omitempty"`
 
-	// List of values to be used for this policy rule. This field can be set only in policies for list constraints.
+	// List of values to be used for this PolicyRule. This field can be set only in Policies for list constraints.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Values *ValuesParameters `json:"values,omitempty" tf:"values,omitempty"`
 }
@@ -305,11 +322,13 @@ type SpecInitParameters struct {
 	Reset *bool `json:"reset,omitempty" tf:"reset,omitempty"`
 
 	// Up to 10 PolicyRules are allowed. In Policies for boolean constraints, the following requirements apply: - There must be one and only one PolicyRule where condition is unset. - BooleanPolicyRules with conditions must set enforced to the opposite of the PolicyRule without a condition. - During policy evaluation, PolicyRules with conditions that are true for a target resource take precedence.
+	// Structure is documented below.
 	Rules []SpecRulesInitParameters `json:"rules,omitempty" tf:"rules,omitempty"`
 }
 
 type SpecObservation struct {
 
+	// (Output)
 	// An opaque tag indicating the current version of the Policy, used for concurrency control. This field is ignored if used in a CreatePolicy request. When the Policy is returned from either a GetPolicy or a ListPolicies request, this etag indicates the version of the current Policy to use when executing a read-modify-write loop. When the Policy is returned from a GetEffectivePolicy request, the etag will be unset.
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
@@ -320,8 +339,10 @@ type SpecObservation struct {
 	Reset *bool `json:"reset,omitempty" tf:"reset,omitempty"`
 
 	// Up to 10 PolicyRules are allowed. In Policies for boolean constraints, the following requirements apply: - There must be one and only one PolicyRule where condition is unset. - BooleanPolicyRules with conditions must set enforced to the opposite of the PolicyRule without a condition. - During policy evaluation, PolicyRules with conditions that are true for a target resource take precedence.
+	// Structure is documented below.
 	Rules []SpecRulesObservation `json:"rules,omitempty" tf:"rules,omitempty"`
 
+	// (Output)
 	// Output only. The time stamp this was previously updated. This represents the last time a call to CreatePolicy or UpdatePolicy was made for that Policy.
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`
 }
@@ -337,65 +358,72 @@ type SpecParameters struct {
 	Reset *bool `json:"reset,omitempty" tf:"reset,omitempty"`
 
 	// Up to 10 PolicyRules are allowed. In Policies for boolean constraints, the following requirements apply: - There must be one and only one PolicyRule where condition is unset. - BooleanPolicyRules with conditions must set enforced to the opposite of the PolicyRule without a condition. - During policy evaluation, PolicyRules with conditions that are true for a target resource take precedence.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Rules []SpecRulesParameters `json:"rules,omitempty" tf:"rules,omitempty"`
 }
 
 type SpecRulesInitParameters struct {
 
-	// Setting this to "TRUE" means that all values are allowed. This field can be set only in policies for list constraints.
+	// Setting this to "TRUE" means that all values are allowed. This field can be set only in Policies for list constraints.
 	AllowAll *string `json:"allowAll,omitempty" tf:"allow_all,omitempty"`
 
 	// A condition which determines whether this rule is used in the evaluation of the policy. When set, the expression field in the `Expr' must include from 1 to 10 subexpressions, joined by the "||" or "&&" operators. Each subexpression must be of the form "resource.matchTag('/tag_key_short_name, 'tag_value_short_name')". or "resource.matchTagId('tagKeys/key_id', 'tagValues/value_id')". where key_name and value_name are the resource names for Label Keys and Values. These names are available from the Tag Manager Service. An example expression is: "resource.matchTag('123456789/environment, 'prod')". or "resource.matchTagId('tagKeys/123', 'tagValues/456')".
+	// Structure is documented below.
 	Condition *RulesConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// Setting this to "TRUE" means that all values are denied. This field can be set only in policies for list constraints.
+	// Setting this to "TRUE" means that all values are denied. This field can be set only in Policies for list constraints.
 	DenyAll *string `json:"denyAll,omitempty" tf:"deny_all,omitempty"`
 
-	// If "TRUE", then the policy is enforced. If "FALSE", then any configuration is acceptable. This field can be set only in policies for boolean constraints.
+	// If "TRUE", then the Policy is enforced. If "FALSE", then any configuration is acceptable. This field can be set only in Policies for boolean constraints.
 	Enforce *string `json:"enforce,omitempty" tf:"enforce,omitempty"`
 
-	// List of values to be used for this policy rule. This field can be set only in policies for list constraints.
+	// List of values to be used for this PolicyRule. This field can be set only in Policies for list constraints.
+	// Structure is documented below.
 	Values *RulesValuesInitParameters `json:"values,omitempty" tf:"values,omitempty"`
 }
 
 type SpecRulesObservation struct {
 
-	// Setting this to "TRUE" means that all values are allowed. This field can be set only in policies for list constraints.
+	// Setting this to "TRUE" means that all values are allowed. This field can be set only in Policies for list constraints.
 	AllowAll *string `json:"allowAll,omitempty" tf:"allow_all,omitempty"`
 
 	// A condition which determines whether this rule is used in the evaluation of the policy. When set, the expression field in the `Expr' must include from 1 to 10 subexpressions, joined by the "||" or "&&" operators. Each subexpression must be of the form "resource.matchTag('/tag_key_short_name, 'tag_value_short_name')". or "resource.matchTagId('tagKeys/key_id', 'tagValues/value_id')". where key_name and value_name are the resource names for Label Keys and Values. These names are available from the Tag Manager Service. An example expression is: "resource.matchTag('123456789/environment, 'prod')". or "resource.matchTagId('tagKeys/123', 'tagValues/456')".
+	// Structure is documented below.
 	Condition *RulesConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// Setting this to "TRUE" means that all values are denied. This field can be set only in policies for list constraints.
+	// Setting this to "TRUE" means that all values are denied. This field can be set only in Policies for list constraints.
 	DenyAll *string `json:"denyAll,omitempty" tf:"deny_all,omitempty"`
 
-	// If "TRUE", then the policy is enforced. If "FALSE", then any configuration is acceptable. This field can be set only in policies for boolean constraints.
+	// If "TRUE", then the Policy is enforced. If "FALSE", then any configuration is acceptable. This field can be set only in Policies for boolean constraints.
 	Enforce *string `json:"enforce,omitempty" tf:"enforce,omitempty"`
 
-	// List of values to be used for this policy rule. This field can be set only in policies for list constraints.
+	// List of values to be used for this PolicyRule. This field can be set only in Policies for list constraints.
+	// Structure is documented below.
 	Values *RulesValuesObservation `json:"values,omitempty" tf:"values,omitempty"`
 }
 
 type SpecRulesParameters struct {
 
-	// Setting this to "TRUE" means that all values are allowed. This field can be set only in policies for list constraints.
+	// Setting this to "TRUE" means that all values are allowed. This field can be set only in Policies for list constraints.
 	// +kubebuilder:validation:Optional
 	AllowAll *string `json:"allowAll,omitempty" tf:"allow_all,omitempty"`
 
 	// A condition which determines whether this rule is used in the evaluation of the policy. When set, the expression field in the `Expr' must include from 1 to 10 subexpressions, joined by the "||" or "&&" operators. Each subexpression must be of the form "resource.matchTag('/tag_key_short_name, 'tag_value_short_name')". or "resource.matchTagId('tagKeys/key_id', 'tagValues/value_id')". where key_name and value_name are the resource names for Label Keys and Values. These names are available from the Tag Manager Service. An example expression is: "resource.matchTag('123456789/environment, 'prod')". or "resource.matchTagId('tagKeys/123', 'tagValues/456')".
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Condition *RulesConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// Setting this to "TRUE" means that all values are denied. This field can be set only in policies for list constraints.
+	// Setting this to "TRUE" means that all values are denied. This field can be set only in Policies for list constraints.
 	// +kubebuilder:validation:Optional
 	DenyAll *string `json:"denyAll,omitempty" tf:"deny_all,omitempty"`
 
-	// If "TRUE", then the policy is enforced. If "FALSE", then any configuration is acceptable. This field can be set only in policies for boolean constraints.
+	// If "TRUE", then the Policy is enforced. If "FALSE", then any configuration is acceptable. This field can be set only in Policies for boolean constraints.
 	// +kubebuilder:validation:Optional
 	Enforce *string `json:"enforce,omitempty" tf:"enforce,omitempty"`
 
-	// List of values to be used for this policy rule. This field can be set only in policies for list constraints.
+	// List of values to be used for this PolicyRule. This field can be set only in Policies for list constraints.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Values *RulesValuesParameters `json:"values,omitempty" tf:"values,omitempty"`
 }
@@ -456,7 +484,7 @@ type PolicyStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// Policy is the Schema for the Policys API. An organization policy gives you programmatic control over your organization's cloud resources.  Using Organization Policies, you will be able to configure constraints across your entire resource hierarchy.
+// Policy is the Schema for the Policys API. Defines an organization policy which is used to specify constraints for configurations of Google Cloud resources.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

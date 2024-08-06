@@ -206,6 +206,12 @@ spec:
                   instanceLifecyclePolicy:
                     items:
                       properties:
+                        defaultActionOnFailure:
+                          description: ', Default behavior for all instance or health
+                            check failures. Valid options are: REPAIR, DO_NOTHING.
+                            If DO_NOTHING then instances will not be repaired. If
+                            REPAIR (default), then failed instances will be repaired.'
+                          type: string
                         forceUpdateOnRepair:
                           description: '), Specifies whether to apply the group''s
                             latest configuration when repairing a VM. Valid options
@@ -750,6 +756,12 @@ spec:
                   instanceLifecyclePolicy:
                     items:
                       properties:
+                        defaultActionOnFailure:
+                          description: ', Default behavior for all instance or health
+                            check failures. Valid options are: REPAIR, DO_NOTHING.
+                            If DO_NOTHING then instances will not be repaired. If
+                            REPAIR (default), then failed instances will be repaired.'
+                          type: string
                         forceUpdateOnRepair:
                           description: '), Specifies whether to apply the group''s
                             latest configuration when repairing a VM. Valid options
@@ -1392,6 +1404,12 @@ spec:
                   instanceLifecyclePolicy:
                     items:
                       properties:
+                        defaultActionOnFailure:
+                          description: ', Default behavior for all instance or health
+                            check failures. Valid options are: REPAIR, DO_NOTHING.
+                            If DO_NOTHING then instances will not be repaired. If
+                            REPAIR (default), then failed instances will be repaired.'
+                          type: string
                         forceUpdateOnRepair:
                           description: '), Specifies whether to apply the group''s
                             latest configuration when repairing a VM. Valid options
@@ -1511,6 +1529,10 @@ spec:
                             apply the configuration.
                           items:
                             properties:
+                              currentRevision:
+                                description: Current all-instances configuration revision.
+                                  This value is in RFC3339 text format.
+                                type: string
                               effective:
                                 type: boolean
                             type: object
@@ -2179,13 +2201,14 @@ spec:
                         type: number
                       minimalAction:
                         description: '- Minimal action to be taken on an instance.
-                          You can specify either REFRESH to update without stopping
-                          instances, RESTART to restart existing instances or REPLACE
-                          to delete and create new instances from the target template.
-                          If you specify a REFRESH, the Updater will attempt to perform
-                          that action only. However, if the Updater determines that
-                          the minimal action you specify is not enough to perform
-                          the update, it might perform a more disruptive action.'
+                          You can specify either NONE to forbid any actions, REFRESH
+                          to update without stopping instances, RESTART to restart
+                          existing instances or REPLACE to delete and create new instances
+                          from the target template. If you specify a REFRESH, the
+                          Updater will attempt to perform that action only. However,
+                          if the Updater determines that the minimal action you specify
+                          is not enough to perform the update, it might perform a
+                          more disruptive action.'
                         type: string
                       mostDisruptiveAllowedAction:
                         description: '- Most disruptive action that is allowed to
@@ -2717,13 +2740,14 @@ spec:
                         type: number
                       minimalAction:
                         description: '- Minimal action to be taken on an instance.
-                          You can specify either REFRESH to update without stopping
-                          instances, RESTART to restart existing instances or REPLACE
-                          to delete and create new instances from the target template.
-                          If you specify a REFRESH, the Updater will attempt to perform
-                          that action only. However, if the Updater determines that
-                          the minimal action you specify is not enough to perform
-                          the update, it might perform a more disruptive action.'
+                          You can specify either NONE to forbid any actions, REFRESH
+                          to update without stopping instances, RESTART to restart
+                          existing instances or REPLACE to delete and create new instances
+                          from the target template. If you specify a REFRESH, the
+                          Updater will attempt to perform that action only. However,
+                          if the Updater determines that the minimal action you specify
+                          is not enough to perform the update, it might perform a
+                          more disruptive action.'
                         type: string
                       mostDisruptiveAllowedAction:
                         description: '- Most disruptive action that is allowed to
@@ -3352,13 +3376,14 @@ spec:
                         type: number
                       minimalAction:
                         description: '- Minimal action to be taken on an instance.
-                          You can specify either REFRESH to update without stopping
-                          instances, RESTART to restart existing instances or REPLACE
-                          to delete and create new instances from the target template.
-                          If you specify a REFRESH, the Updater will attempt to perform
-                          that action only. However, if the Updater determines that
-                          the minimal action you specify is not enough to perform
-                          the update, it might perform a more disruptive action.'
+                          You can specify either NONE to forbid any actions, REFRESH
+                          to update without stopping instances, RESTART to restart
+                          existing instances or REPLACE to delete and create new instances
+                          from the target template. If you specify a REFRESH, the
+                          Updater will attempt to perform that action only. However,
+                          if the Updater determines that the minimal action you specify
+                          is not enough to perform the update, it might perform a
+                          more disruptive action.'
                         type: string
                       mostDisruptiveAllowedAction:
                         description: '- Most disruptive action that is allowed to

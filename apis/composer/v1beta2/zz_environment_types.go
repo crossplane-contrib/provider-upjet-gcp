@@ -82,7 +82,7 @@ type CidrBlocksParameters struct {
 
 type ConfigInitParameters struct {
 
-	// Configuration setting for airflow data rentention mechanism. Structure is
+	// Configuration setting for Airflow database retention mechanism. Structure is
 	// documented below.
 	DataRetentionConfig *DataRetentionConfigInitParameters `json:"dataRetentionConfig,omitempty" tf:"data_retention_config,omitempty"`
 
@@ -156,7 +156,7 @@ type ConfigObservation struct {
 	// reside in a simulated directory with this prefix.
 	DagGcsPrefix *string `json:"dagGcsPrefix,omitempty" tf:"dag_gcs_prefix,omitempty"`
 
-	// Configuration setting for airflow data rentention mechanism. Structure is
+	// Configuration setting for Airflow database retention mechanism. Structure is
 	// documented below.
 	DataRetentionConfig *DataRetentionConfigObservation `json:"dataRetentionConfig,omitempty" tf:"data_retention_config,omitempty"`
 
@@ -222,7 +222,7 @@ type ConfigObservation struct {
 
 type ConfigParameters struct {
 
-	// Configuration setting for airflow data rentention mechanism. Structure is
+	// Configuration setting for Airflow database retention mechanism. Structure is
 	// documented below.
 	// +kubebuilder:validation:Optional
 	DataRetentionConfig *DataRetentionConfigParameters `json:"dataRetentionConfig,omitempty" tf:"data_retention_config,omitempty"`

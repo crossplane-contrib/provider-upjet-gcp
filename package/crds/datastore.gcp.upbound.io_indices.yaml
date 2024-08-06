@@ -35,7 +35,7 @@ spec:
     schema:
       openAPIV3Schema:
         description: Index is the Schema for the Indexs API. Describes a composite
-          index for Cloud Datastore.
+          index for Firestore in Datastore Mode.
         properties:
           apiVersion:
             description: |-

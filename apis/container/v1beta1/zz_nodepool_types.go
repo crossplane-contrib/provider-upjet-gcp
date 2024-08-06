@@ -13,6 +13,20 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigInitParameters struct {
+	SecretURI *string `json:"secretUri,omitempty" tf:"secret_uri,omitempty"`
+}
+
+type ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigObservation struct {
+	SecretURI *string `json:"secretUri,omitempty" tf:"secret_uri,omitempty"`
+}
+
+type ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	SecretURI *string `json:"secretUri" tf:"secret_uri,omitempty"`
+}
+
 type NetworkConfigNetworkPerformanceConfigInitParameters struct {
 	TotalEgressBandwidthTier *string `json:"totalEgressBandwidthTier,omitempty" tf:"total_egress_bandwidth_tier,omitempty"`
 }
@@ -25,6 +39,51 @@ type NetworkConfigNetworkPerformanceConfigParameters struct {
 
 	// +kubebuilder:validation:Optional
 	TotalEgressBandwidthTier *string `json:"totalEgressBandwidthTier" tf:"total_egress_bandwidth_tier,omitempty"`
+}
+
+type NodeConfigContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigInitParameters struct {
+	Fqdns []*string `json:"fqdns,omitempty" tf:"fqdns,omitempty"`
+
+	GCPSecretManagerCertificateConfig []ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigInitParameters `json:"gcpSecretManagerCertificateConfig,omitempty" tf:"gcp_secret_manager_certificate_config,omitempty"`
+}
+
+type NodeConfigContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigObservation struct {
+	Fqdns []*string `json:"fqdns,omitempty" tf:"fqdns,omitempty"`
+
+	GCPSecretManagerCertificateConfig []ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigObservation `json:"gcpSecretManagerCertificateConfig,omitempty" tf:"gcp_secret_manager_certificate_config,omitempty"`
+}
+
+type NodeConfigContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Fqdns []*string `json:"fqdns" tf:"fqdns,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	GCPSecretManagerCertificateConfig []ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigParameters `json:"gcpSecretManagerCertificateConfig" tf:"gcp_secret_manager_certificate_config,omitempty"`
+}
+
+type NodeConfigContainerdConfigPrivateRegistryAccessConfigInitParameters struct {
+	CertificateAuthorityDomainConfig []NodeConfigContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigInitParameters `json:"certificateAuthorityDomainConfig,omitempty" tf:"certificate_authority_domain_config,omitempty"`
+
+	// Makes nodes obtainable through the ProvisioningRequest API exclusively.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type NodeConfigContainerdConfigPrivateRegistryAccessConfigObservation struct {
+	CertificateAuthorityDomainConfig []NodeConfigContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigObservation `json:"certificateAuthorityDomainConfig,omitempty" tf:"certificate_authority_domain_config,omitempty"`
+
+	// Makes nodes obtainable through the ProvisioningRequest API exclusively.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type NodeConfigContainerdConfigPrivateRegistryAccessConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	CertificateAuthorityDomainConfig []NodeConfigContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigParameters `json:"certificateAuthorityDomainConfig,omitempty" tf:"certificate_authority_domain_config,omitempty"`
+
+	// Makes nodes obtainable through the ProvisioningRequest API exclusively.
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 }
 
 type NodeConfigGuestAcceleratorGpuDriverInstallationConfigInitParameters struct {
@@ -235,6 +294,10 @@ type NodePoolInitParameters_2 struct {
 	// the provider-configured project will be used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// Specifies node pool-level settings of queued provisioning.
+	// Structure is documented below.
+	QueuedProvisioning []NodePoolQueuedProvisioningInitParameters `json:"queuedProvisioning,omitempty" tf:"queued_provisioning,omitempty"`
+
 	// Specify node upgrade settings to change how GKE upgrades nodes.
 	// The maximum number of nodes upgraded simultaneously is limited to 20. Structure is documented below.
 	UpgradeSettings []NodePoolUpgradeSettingsInitParameters_2 `json:"upgradeSettings,omitempty" tf:"upgrade_settings,omitempty"`
@@ -352,14 +415,21 @@ type NodePoolNetworkConfigPodCidrOverprovisionConfigParameters struct {
 }
 
 type NodePoolNodeConfigAdvancedMachineFeaturesInitParameters struct {
+	EnableNestedVirtualization *bool `json:"enableNestedVirtualization,omitempty" tf:"enable_nested_virtualization,omitempty"`
+
 	ThreadsPerCore *float64 `json:"threadsPerCore,omitempty" tf:"threads_per_core,omitempty"`
 }
 
 type NodePoolNodeConfigAdvancedMachineFeaturesObservation struct {
+	EnableNestedVirtualization *bool `json:"enableNestedVirtualization,omitempty" tf:"enable_nested_virtualization,omitempty"`
+
 	ThreadsPerCore *float64 `json:"threadsPerCore,omitempty" tf:"threads_per_core,omitempty"`
 }
 
 type NodePoolNodeConfigAdvancedMachineFeaturesParameters struct {
+
+	// +kubebuilder:validation:Optional
+	EnableNestedVirtualization *bool `json:"enableNestedVirtualization,omitempty" tf:"enable_nested_virtualization,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	ThreadsPerCore *float64 `json:"threadsPerCore" tf:"threads_per_core,omitempty"`
@@ -382,6 +452,20 @@ type NodePoolNodeConfigConfidentialNodesParameters_2 struct {
 	// Makes nodes obtainable through the ProvisioningRequest API exclusively.
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+}
+
+type NodePoolNodeConfigContainerdConfigInitParameters struct {
+	PrivateRegistryAccessConfig []NodeConfigContainerdConfigPrivateRegistryAccessConfigInitParameters `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
+}
+
+type NodePoolNodeConfigContainerdConfigObservation struct {
+	PrivateRegistryAccessConfig []NodeConfigContainerdConfigPrivateRegistryAccessConfigObservation `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
+}
+
+type NodePoolNodeConfigContainerdConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	PrivateRegistryAccessConfig []NodeConfigContainerdConfigPrivateRegistryAccessConfigParameters `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
 }
 
 type NodePoolNodeConfigEffectiveTaintsInitParameters struct {
@@ -542,6 +626,8 @@ type NodePoolNodeConfigInitParameters_2 struct {
 	// Configuration for Confidential Nodes feature. Structure is documented below.
 	ConfidentialNodes []NodePoolNodeConfigConfidentialNodesInitParameters_2 `json:"confidentialNodes,omitempty" tf:"confidential_nodes,omitempty"`
 
+	ContainerdConfig []NodePoolNodeConfigContainerdConfigInitParameters `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
+
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
 	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
@@ -602,6 +688,8 @@ type NodePoolNodeConfigInitParameters_2 struct {
 
 	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+
+	SecondaryBootDisks []NodePoolNodeConfigSecondaryBootDisksInitParameters `json:"secondaryBootDisks,omitempty" tf:"secondary_boot_disks,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("email",true)
@@ -709,6 +797,8 @@ type NodePoolNodeConfigObservation_2 struct {
 	// Configuration for Confidential Nodes feature. Structure is documented below.
 	ConfidentialNodes []NodePoolNodeConfigConfidentialNodesObservation_2 `json:"confidentialNodes,omitempty" tf:"confidential_nodes,omitempty"`
 
+	ContainerdConfig []NodePoolNodeConfigContainerdConfigObservation `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
+
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
 	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
@@ -772,6 +862,8 @@ type NodePoolNodeConfigObservation_2 struct {
 	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
+	SecondaryBootDisks []NodePoolNodeConfigSecondaryBootDisksObservation `json:"secondaryBootDisks,omitempty" tf:"secondary_boot_disks,omitempty"`
+
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
 	ShieldedInstanceConfig []NodePoolNodeConfigShieldedInstanceConfigObservation_2 `json:"shieldedInstanceConfig,omitempty" tf:"shielded_instance_config,omitempty"`
@@ -798,6 +890,9 @@ type NodePoolNodeConfigParameters_2 struct {
 	// Configuration for Confidential Nodes feature. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ConfidentialNodes []NodePoolNodeConfigConfidentialNodesParameters_2 `json:"confidentialNodes,omitempty" tf:"confidential_nodes,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ContainerdConfig []NodePoolNodeConfigContainerdConfigParameters `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
@@ -886,6 +981,9 @@ type NodePoolNodeConfigParameters_2 struct {
 	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	SecondaryBootDisks []NodePoolNodeConfigSecondaryBootDisksParameters `json:"secondaryBootDisks,omitempty" tf:"secondary_boot_disks,omitempty"`
+
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("email",true)
 	// +kubebuilder:validation:Optional
@@ -947,6 +1045,27 @@ type NodePoolNodeConfigReservationAffinityParameters struct {
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
+}
+
+type NodePoolNodeConfigSecondaryBootDisksInitParameters struct {
+	DiskImage *string `json:"diskImage,omitempty" tf:"disk_image,omitempty"`
+
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+}
+
+type NodePoolNodeConfigSecondaryBootDisksObservation struct {
+	DiskImage *string `json:"diskImage,omitempty" tf:"disk_image,omitempty"`
+
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+}
+
+type NodePoolNodeConfigSecondaryBootDisksParameters struct {
+
+	// +kubebuilder:validation:Optional
+	DiskImage *string `json:"diskImage" tf:"disk_image,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 }
 
 type NodePoolNodeConfigShieldedInstanceConfigInitParameters_2 struct {
@@ -1097,6 +1216,10 @@ type NodePoolObservation_2 struct {
 	// the provider-configured project will be used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// Specifies node pool-level settings of queued provisioning.
+	// Structure is documented below.
+	QueuedProvisioning []NodePoolQueuedProvisioningObservation `json:"queuedProvisioning,omitempty" tf:"queued_provisioning,omitempty"`
+
 	// Specify node upgrade settings to change how GKE upgrades nodes.
 	// The maximum number of nodes upgraded simultaneously is limited to 20. Structure is documented below.
 	UpgradeSettings []NodePoolUpgradeSettingsObservation_2 `json:"upgradeSettings,omitempty" tf:"upgrade_settings,omitempty"`
@@ -1189,6 +1312,11 @@ type NodePoolParameters_2 struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// Specifies node pool-level settings of queued provisioning.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	QueuedProvisioning []NodePoolQueuedProvisioningParameters `json:"queuedProvisioning,omitempty" tf:"queued_provisioning,omitempty"`
+
 	// Specify node upgrade settings to change how GKE upgrades nodes.
 	// The maximum number of nodes upgraded simultaneously is limited to 20. Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -1250,6 +1378,25 @@ type NodePoolPlacementPolicyParameters struct {
 	// physical proximity in order to reduce network latency between nodes.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type" tf:"type,omitempty"`
+}
+
+type NodePoolQueuedProvisioningInitParameters struct {
+
+	// Makes nodes obtainable through the ProvisioningRequest API exclusively.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type NodePoolQueuedProvisioningObservation struct {
+
+	// Makes nodes obtainable through the ProvisioningRequest API exclusively.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type NodePoolQueuedProvisioningParameters struct {
+
+	// Makes nodes obtainable through the ProvisioningRequest API exclusively.
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 }
 
 type NodePoolUpgradeSettingsBlueGreenSettingsInitParameters struct {
