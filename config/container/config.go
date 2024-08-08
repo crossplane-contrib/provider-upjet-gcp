@@ -134,6 +134,8 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 		r.LateInitializer = config.LateInitializer{
 			IgnoredFields: []string{
 				"version",
+				"node_count",
+				"initial_node_count",
 			},
 		}
 		r.References["cluster"] = config.Reference{
