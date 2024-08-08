@@ -156,6 +156,10 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			if qpDiff, ok := diff.Attributes["queued_provisioning.#"]; ok && qpDiff.Old == "" && qpDiff.New == "" {
 				delete(diff.Attributes, "queued_provisioning.#")
 			}
+			// Changes to actual node count can alter the value TF calculates for initial_node_count, resulting in
+			// errors as initial_node_count cannot be updated. TF docs suggest using lifecycle ignore_changes for this
+			// attribute.
+			delete(diff.Attributes, "initial_node_count")
 			return diff, nil
 		}
 	})
