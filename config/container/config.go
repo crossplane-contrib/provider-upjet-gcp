@@ -134,6 +134,8 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 		r.LateInitializer = config.LateInitializer{
 			IgnoredFields: []string{
 				"version",
+				"node_count",
+				"initial_node_count",
 			},
 		}
 		r.References["cluster"] = config.Reference{
@@ -153,6 +155,12 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			}
 			if qpDiff, ok := diff.Attributes["queued_provisioning.#"]; ok && qpDiff.Old == "" && qpDiff.New == "" {
 				delete(diff.Attributes, "queued_provisioning.#")
+			}
+			if incDiff, ok := diff.Attributes["initial_node_count"]; ok && incDiff.Old != "" {
+				// Changes to actual node count can alter the value TF calculates for initial_node_count, resulting in
+				// errors as initial_node_count cannot be updated. TF docs suggest using lifecycle ignore_changes for this
+				// attribute.
+				delete(diff.Attributes, "initial_node_count")
 			}
 			return diff, nil
 		}
