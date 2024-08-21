@@ -6,20 +6,23 @@ weight: 3
 # Building the Official Provider Family Images Locally
 
 1. Check out the provider repo, crossplane-contrib/provider-upjet-gcp, and go to the project
-directory on your local machine.
+   directory on your local machine.
 
 2. Do the necessary changes locally and please make sure you have comitted all of them.
 
 3. Run the `make load-pkg` command for family providers as follows.
 
-If you want to build any of the family resource providers (e.g., `provider-gcp-cloudplatform`, `provider-gcp-container`),  you can do:
+If you want to build any of the family resource providers (
+e.g., `provider-gcp-cloudplatform`, `provider-gcp-container`), you can do:
 
 ```shell
 make load-pkg PROVIDERS="cloudplatform container" REPO="index.docker.io/<your-dockerhub-org>"
 ```
+
 *Note: Installable images for the family config provider will be created by default.*
 
-After the command is completed, you will see the installable images for `provider-gcp-cloudplatform`, `provider-gcp-container`
+After the command is completed, you will see the installable images
+for `provider-gcp-cloudplatform`, `provider-gcp-container`
 and family config provider `provider-family-gcp`:
 
 ```shell
@@ -35,7 +38,8 @@ turkenf/provider-family-gcp-arm64          v1.1.0-rc.0.42.g42cf069b9   a6ef52d83
 
 ## Running Providers with Locally Built Images
 
-One way to install locally built images is pushing them to Dockerhub and installing from there. For example, if you want to 
+One way to install locally built images is pushing them to Dockerhub and installing from there. For example, if you want
+to
 install the `cloudplatform` package on a arm64 arch:
 
 1. Push provider images to Dockerhub:
@@ -52,18 +56,18 @@ docker push <your-dockerhub-org>/provider-gcp-cloudplatform-arm64:v1.1.0-rc.0.42
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
 metadata:
-    name: upbound-provider-gcp-config
+  name: upbound-provider-gcp-config
 spec:
-    package: index.docker.io/turkenf/provider-family-gcp-arm64:v1.1.0-rc.0.42.g42cf069b9
-    skipDependencyResolution: true
+  package: index.docker.io/turkenf/provider-family-gcp-arm64:v1.1.0-rc.0.42.g42cf069b9
+  skipDependencyResolution: true
 ---
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
 metadata:
-    name: upbound-provider-gcp-cloudplatform
+  name: upbound-provider-gcp-cloudplatform
 spec:
-    package: index.docker.io/turkenf/provider-gcp-cloudplatform-arm64:v1.1.0-rc.0.42.g42cf069b9
-    skipDependencyResolution: true
+  package: index.docker.io/turkenf/provider-gcp-cloudplatform-arm64:v1.1.0-rc.0.42.g42cf069b9
+  skipDependencyResolution: true
 ```
 
 3. Verify that providers are installed and healthy:
@@ -93,9 +97,9 @@ docker push <your-dockerhub-org>/provider-gcp-cloudplatform-arm64:v1.1.0-rc.0.42
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
 metadata:
-    name: upbound-provider-gcp-cloudplatform
+  name: upbound-provider-gcp-cloudplatform
 spec:
-    package: index.docker.io/turkenf/provider-gcp-cloudplatform-arm64:v1.1.0-rc.0.42.g42cf069b9
+  package: index.docker.io/turkenf/provider-gcp-cloudplatform-arm64:v1.1.0-rc.0.42.g42cf069b9
 ```
 
 - Verify that providers are installed and healthy:
