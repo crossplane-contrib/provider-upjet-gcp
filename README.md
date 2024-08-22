@@ -25,10 +25,10 @@ GCP API.
 ## Getting Started
 
 Follow the quick start
-guide [here](https://marketplace.upbound.io/providers/upbound/provider-family-azure/latest/docs/quickstart).
+guide [here](https://marketplace.upbound.io/providers/upbound/provider-family-gcp/latest/docs/quickstart).
 
 You can find a detailed API reference for all the managed resources with examples in
-the [Upbound Marketplace](https://marketplace.upbound.io/providers/upbound/provider-family-azure/latest/managed-resources).
+the [Upbound Marketplace](https://marketplace.upbound.io/providers/upbound/provider-family-gcp/latest/managed-resources).
 
 For more information about monitoring the Upjet runtime, please
 see [Monitoring Guide](https://github.com/crossplane/upjet/blob/main/docs/monitoring.md)
@@ -48,7 +48,7 @@ for [adding new resources](https://github.com/crossplane/upjet/blob/main/docs/ad
 ## Getting help
 
 For filing bugs, suggesting improvements, or requesting new resources or features, please
-open an [issue](https://github.com/crossplane-contrib/provider-upjet-azure/issues/new/choose).
+open an [issue](https://github.com/crossplane-contrib/provider-upjet-gcp/issues/new/choose).
 
 For general help on using the provider consider asking the Crossplane community in the
 [#upjet-provider-gcp](https://crossplane.slack.com/archives/C05E7EVM459) channel in
