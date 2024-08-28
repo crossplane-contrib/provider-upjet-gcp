@@ -14499,6 +14499,16 @@ func (in *PrivateClusterConfigObservation) DeepCopyInto(out *PrivateClusterConfi
 		*out = new(string)
 		**out = **in
 	}
+	if in.PrivateEndpointSubnetworkRef != nil {
+		in, out := &in.PrivateEndpointSubnetworkRef, &out.PrivateEndpointSubnetworkRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.PrivateEndpointSubnetworkSelector != nil {
+		in, out := &in.PrivateEndpointSubnetworkSelector, &out.PrivateEndpointSubnetworkSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.PublicEndpoint != nil {
 		in, out := &in.PublicEndpoint, &out.PublicEndpoint
 		*out = new(string)
@@ -14545,6 +14555,16 @@ func (in *PrivateClusterConfigParameters) DeepCopyInto(out *PrivateClusterConfig
 		in, out := &in.PrivateEndpointSubnetwork, &out.PrivateEndpointSubnetwork
 		*out = new(string)
 		**out = **in
+	}
+	if in.PrivateEndpointSubnetworkRef != nil {
+		in, out := &in.PrivateEndpointSubnetworkRef, &out.PrivateEndpointSubnetworkRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.PrivateEndpointSubnetworkSelector != nil {
+		in, out := &in.PrivateEndpointSubnetworkSelector, &out.PrivateEndpointSubnetworkSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 }
 
