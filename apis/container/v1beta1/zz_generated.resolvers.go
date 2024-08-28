@@ -68,6 +68,27 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 		mg.Spec.ForProvider.NodeConfig[i3].ServiceAccountRef = rsp.ResolvedReference
 
 	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.PrivateClusterConfig); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Subnetwork", "SubnetworkList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PrivateClusterConfig[i3].PrivateEndpointSubnetwork),
+				Extract:      common.SelfLinkExtractor(),
+				Reference:    mg.Spec.ForProvider.PrivateClusterConfig[i3].PrivateEndpointSubnetworkRef,
+				Selector:     mg.Spec.ForProvider.PrivateClusterConfig[i3].PrivateEndpointSubnetworkSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.PrivateClusterConfig[i3].PrivateEndpointSubnetwork")
+		}
+		mg.Spec.ForProvider.PrivateClusterConfig[i3].PrivateEndpointSubnetwork = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.PrivateClusterConfig[i3].PrivateEndpointSubnetworkRef = rsp.ResolvedReference
+
+	}
 	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Subnetwork", "SubnetworkList")
 		if err != nil {
@@ -125,6 +146,27 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 		}
 		mg.Spec.InitProvider.NodeConfig[i3].ServiceAccount = reference.ToPtrValue(rsp.ResolvedValue)
 		mg.Spec.InitProvider.NodeConfig[i3].ServiceAccountRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.PrivateClusterConfig); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Subnetwork", "SubnetworkList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PrivateClusterConfig[i3].PrivateEndpointSubnetwork),
+				Extract:      common.SelfLinkExtractor(),
+				Reference:    mg.Spec.InitProvider.PrivateClusterConfig[i3].PrivateEndpointSubnetworkRef,
+				Selector:     mg.Spec.InitProvider.PrivateClusterConfig[i3].PrivateEndpointSubnetworkSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.PrivateClusterConfig[i3].PrivateEndpointSubnetwork")
+		}
+		mg.Spec.InitProvider.PrivateClusterConfig[i3].PrivateEndpointSubnetwork = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.PrivateClusterConfig[i3].PrivateEndpointSubnetworkRef = rsp.ResolvedReference
 
 	}
 	{
