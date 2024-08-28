@@ -125,6 +125,10 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			TerraformName: "google_compute_subnetwork",
 			Extractor:     common.PathSelfLinkExtractor,
 		}
+		r.References["private_cluster_config.private_endpoint_subnetwork"] = config.Reference{
+			TerraformName: "google_compute_subnetwork",
+			Extractor:     common.PathSelfLinkExtractor,
+		}
 
 		config.MarkAsRequired(r.TerraformResource, "location")
 	})
