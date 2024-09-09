@@ -161,7 +161,7 @@ func configureNoForkGCPClient(ctx context.Context, ps *terraform.Setup, p schema
 	// only once and using a pointer argument here will cause
 	// race conditions between resources referring to different
 	// ProviderConfigs.
-	diag := p.Configure(ctx, &tfsdk.ResourceConfig{
+	diag := p.Configure(context.WithoutCancel(ctx), &tfsdk.ResourceConfig{
 		Config: ps.Configuration,
 	})
 	if diag != nil && diag.HasError() {
