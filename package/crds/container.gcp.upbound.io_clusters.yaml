@@ -7324,6 +7324,14 @@ spec:
                                 type: string
                             type: object
                         type: object
+                      autoProvisioningLocations:
+                        description: |-
+                          The list of Google Compute Engine
+                          zones in which the
+                          NodePool's nodes can be created by NAP.
+                        items:
+                          type: string
+                        type: array
                       autoscalingProfile:
                         description: |-
                           Configuration
@@ -7492,6 +7500,9 @@ spec:
                       When enabled, identities in the system, including service accounts, nodes, and controllers,
                       will have statically granted permissions beyond those provided by the RBAC configuration or IAM.
                       Defaults to false
+                    type: boolean
+                  enableMultiNetworking:
+                    description: Whether multi-networking is enabled for this cluster.
                     type: boolean
                   enableShieldedNodes:
                     description: Enable Shielded Nodes features on all nodes in this
@@ -7759,7 +7770,11 @@ spec:
                             description: Whether or not Relay is enabled.
                             type: boolean
                           relayMode:
-                            description: Mode used to make Relay available.
+                            description: Mode used to make Relay available. Deprecated
+                              in favor of enable_relay field. Remove this attribute's
+                              configuration as this field will be removed in the next
+                              major release and enable_relay will become a required
+                              field.
                             type: string
                         type: object
                       enableComponents:
@@ -9144,6 +9159,14 @@ spec:
                                 type: string
                             type: object
                         type: object
+                      autoProvisioningLocations:
+                        description: |-
+                          The list of Google Compute Engine
+                          zones in which the
+                          NodePool's nodes can be created by NAP.
+                        items:
+                          type: string
+                        type: array
                       autoscalingProfile:
                         description: |-
                           Configuration
@@ -9312,6 +9335,9 @@ spec:
                       When enabled, identities in the system, including service accounts, nodes, and controllers,
                       will have statically granted permissions beyond those provided by the RBAC configuration or IAM.
                       Defaults to false
+                    type: boolean
+                  enableMultiNetworking:
+                    description: Whether multi-networking is enabled for this cluster.
                     type: boolean
                   enableShieldedNodes:
                     description: Enable Shielded Nodes features on all nodes in this
@@ -9570,7 +9596,11 @@ spec:
                             description: Whether or not Relay is enabled.
                             type: boolean
                           relayMode:
-                            description: Mode used to make Relay available.
+                            description: Mode used to make Relay available. Deprecated
+                              in favor of enable_relay field. Remove this attribute's
+                              configuration as this field will be removed in the next
+                              major release and enable_relay will become a required
+                              field.
                             type: string
                         type: object
                       enableComponents:
@@ -11124,6 +11154,14 @@ spec:
                                 type: string
                             type: object
                         type: object
+                      autoProvisioningLocations:
+                        description: |-
+                          The list of Google Compute Engine
+                          zones in which the
+                          NodePool's nodes can be created by NAP.
+                        items:
+                          type: string
+                        type: array
                       autoscalingProfile:
                         description: |-
                           Configuration
@@ -11292,6 +11330,9 @@ spec:
                       When enabled, identities in the system, including service accounts, nodes, and controllers,
                       will have statically granted permissions beyond those provided by the RBAC configuration or IAM.
                       Defaults to false
+                    type: boolean
+                  enableMultiNetworking:
+                    description: Whether multi-networking is enabled for this cluster.
                     type: boolean
                   enableShieldedNodes:
                     description: Enable Shielded Nodes features on all nodes in this
@@ -11607,7 +11648,11 @@ spec:
                             description: Whether or not Relay is enabled.
                             type: boolean
                           relayMode:
-                            description: Mode used to make Relay available.
+                            description: Mode used to make Relay available. Deprecated
+                              in favor of enable_relay field. Remove this attribute's
+                              configuration as this field will be removed in the next
+                              major release and enable_relay will become a required
+                              field.
                             type: string
                         type: object
                       enableComponents:
@@ -12212,6 +12257,36 @@ spec:
                           type: string
                         networkConfig:
                           properties:
+                            additionalNodeNetworkConfigs:
+                              items:
+                                properties:
+                                  network:
+                                    description: |-
+                                      The name or self_link of the Google Compute Engine
+                                      network to which the cluster is connected. For Shared VPC, set this to the self link of the
+                                      shared network.
+                                    type: string
+                                  subnetwork:
+                                    description: |-
+                                      The name or self_link of the Google Compute Engine
+                                      subnetwork in which the cluster's instances are launched.
+                                    type: string
+                                type: object
+                              type: array
+                            additionalPodNetworkConfigs:
+                              items:
+                                properties:
+                                  maxPodsPerNode:
+                                    type: number
+                                  secondaryPodRange:
+                                    type: string
+                                  subnetwork:
+                                    description: |-
+                                      The name or self_link of the Google Compute Engine
+                                      subnetwork in which the cluster's instances are launched.
+                                    type: string
+                                type: object
+                              type: array
                             createPodRange:
                               type: boolean
                             enablePrivateNodes:

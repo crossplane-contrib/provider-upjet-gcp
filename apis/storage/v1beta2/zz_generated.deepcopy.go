@@ -914,6 +914,11 @@ func (in *BucketObjectObservation) DeepCopyInto(out *BucketObjectObservation) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.Generation != nil {
+		in, out := &in.Generation, &out.Generation
+		*out = new(float64)
+		**out = **in
+	}
 	if in.ID != nil {
 		in, out := &in.ID, &out.ID
 		*out = new(string)

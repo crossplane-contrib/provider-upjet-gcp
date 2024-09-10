@@ -2691,6 +2691,11 @@ func (in *SettingsInitParameters) DeepCopyInto(out *SettingsInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.EnableDataplexIntegration != nil {
+		in, out := &in.EnableDataplexIntegration, &out.EnableDataplexIntegration
+		*out = new(bool)
+		**out = **in
+	}
 	if in.EnableGoogleMLIntegration != nil {
 		in, out := &in.EnableGoogleMLIntegration, &out.EnableGoogleMLIntegration
 		*out = new(bool)
@@ -2852,6 +2857,11 @@ func (in *SettingsObservation) DeepCopyInto(out *SettingsObservation) {
 	if in.Edition != nil {
 		in, out := &in.Edition, &out.Edition
 		*out = new(string)
+		**out = **in
+	}
+	if in.EnableDataplexIntegration != nil {
+		in, out := &in.EnableDataplexIntegration, &out.EnableDataplexIntegration
+		*out = new(bool)
 		**out = **in
 	}
 	if in.EnableGoogleMLIntegration != nil {
@@ -3020,6 +3030,11 @@ func (in *SettingsParameters) DeepCopyInto(out *SettingsParameters) {
 	if in.Edition != nil {
 		in, out := &in.Edition, &out.Edition
 		*out = new(string)
+		**out = **in
+	}
+	if in.EnableDataplexIntegration != nil {
+		in, out := &in.EnableDataplexIntegration, &out.EnableDataplexIntegration
+		*out = new(bool)
 		**out = **in
 	}
 	if in.EnableGoogleMLIntegration != nil {

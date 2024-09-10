@@ -564,10 +564,10 @@ type DatabaseInstanceParameters struct {
 
 type DenyMaintenancePeriodInitParameters struct {
 
-	// "deny maintenance period" end date. If the year of the end date is empty, the year of the start date also must be empty. In this case, it means the no maintenance interval recurs every year. The date is in format yyyy-mm-dd i.e., 2020-11-01, or mm-dd, i.e., 11-01
+	// "deny maintenance period" end date. If the year of the end date is empty, the year of the start date also must be empty. In this case, it means the no maintenance interval recurs every year. The date is in format yyyy-m-dd (the month is without leading zeros)i.e., 2020-1-01, or 2020-11-01, or mm-dd, i.e., 11-01
 	EndDate *string `json:"endDate,omitempty" tf:"end_date,omitempty"`
 
-	// "deny maintenance period" start date. If the year of the start date is empty, the year of the end date also must be empty. In this case, it means the deny maintenance period recurs every year. The date is in format yyyy-mm-dd i.e., 2020-11-01, or mm-dd, i.e., 11-01
+	// "deny maintenance period" start date. If the year of the start date is empty, the year of the end date also must be empty. In this case, it means the deny maintenance period recurs every year. The date is in format yyyy-m-dd (the month is without leading zeros)i.e., 2020-1-01, or 2020-11-01, or mm-dd, i.e., 11-01
 	StartDate *string `json:"startDate,omitempty" tf:"start_date,omitempty"`
 
 	// Time in UTC when the "deny maintenance period" starts on startDate and ends on endDate. The time is in format: HH:mm:SS, i.e., 00:00:00
@@ -576,10 +576,10 @@ type DenyMaintenancePeriodInitParameters struct {
 
 type DenyMaintenancePeriodObservation struct {
 
-	// "deny maintenance period" end date. If the year of the end date is empty, the year of the start date also must be empty. In this case, it means the no maintenance interval recurs every year. The date is in format yyyy-mm-dd i.e., 2020-11-01, or mm-dd, i.e., 11-01
+	// "deny maintenance period" end date. If the year of the end date is empty, the year of the start date also must be empty. In this case, it means the no maintenance interval recurs every year. The date is in format yyyy-m-dd (the month is without leading zeros)i.e., 2020-1-01, or 2020-11-01, or mm-dd, i.e., 11-01
 	EndDate *string `json:"endDate,omitempty" tf:"end_date,omitempty"`
 
-	// "deny maintenance period" start date. If the year of the start date is empty, the year of the end date also must be empty. In this case, it means the deny maintenance period recurs every year. The date is in format yyyy-mm-dd i.e., 2020-11-01, or mm-dd, i.e., 11-01
+	// "deny maintenance period" start date. If the year of the start date is empty, the year of the end date also must be empty. In this case, it means the deny maintenance period recurs every year. The date is in format yyyy-m-dd (the month is without leading zeros)i.e., 2020-1-01, or 2020-11-01, or mm-dd, i.e., 11-01
 	StartDate *string `json:"startDate,omitempty" tf:"start_date,omitempty"`
 
 	// Time in UTC when the "deny maintenance period" starts on startDate and ends on endDate. The time is in format: HH:mm:SS, i.e., 00:00:00
@@ -588,11 +588,11 @@ type DenyMaintenancePeriodObservation struct {
 
 type DenyMaintenancePeriodParameters struct {
 
-	// "deny maintenance period" end date. If the year of the end date is empty, the year of the start date also must be empty. In this case, it means the no maintenance interval recurs every year. The date is in format yyyy-mm-dd i.e., 2020-11-01, or mm-dd, i.e., 11-01
+	// "deny maintenance period" end date. If the year of the end date is empty, the year of the start date also must be empty. In this case, it means the no maintenance interval recurs every year. The date is in format yyyy-m-dd (the month is without leading zeros)i.e., 2020-1-01, or 2020-11-01, or mm-dd, i.e., 11-01
 	// +kubebuilder:validation:Optional
 	EndDate *string `json:"endDate" tf:"end_date,omitempty"`
 
-	// "deny maintenance period" start date. If the year of the start date is empty, the year of the end date also must be empty. In this case, it means the deny maintenance period recurs every year. The date is in format yyyy-mm-dd i.e., 2020-11-01, or mm-dd, i.e., 11-01
+	// "deny maintenance period" start date. If the year of the start date is empty, the year of the end date also must be empty. In this case, it means the deny maintenance period recurs every year. The date is in format yyyy-m-dd (the month is without leading zeros)i.e., 2020-1-01, or 2020-11-01, or mm-dd, i.e., 11-01
 	// +kubebuilder:validation:Optional
 	StartDate *string `json:"startDate" tf:"start_date,omitempty"`
 
@@ -657,7 +657,7 @@ type IPConfigurationInitParameters struct {
 	// Whether SSL connections over IP are enforced or not. To change this field, also set the corresponding value in ssl_mode. It will be fully deprecated in a future major release. For now, please use ssl_mode with a compatible require_ssl value instead.
 	RequireSSL *bool `json:"requireSsl,omitempty" tf:"require_ssl,omitempty"`
 
-	// Specify how SSL connection should be enforced in DB connections. This field provides more SSL enforcment options compared to require_ssl. To change this field, also set the correspoding value in require_ssl.
+	// Specify how SSL connection should be enforced in DB connections. This field provides more SSL enforcement options compared to require_ssl. To change this field, also set the correspoding value in require_ssl.
 	SSLMode *string `json:"sslMode,omitempty" tf:"ssl_mode,omitempty"`
 }
 
@@ -688,7 +688,7 @@ type IPConfigurationObservation struct {
 	// Whether SSL connections over IP are enforced or not. To change this field, also set the corresponding value in ssl_mode. It will be fully deprecated in a future major release. For now, please use ssl_mode with a compatible require_ssl value instead.
 	RequireSSL *bool `json:"requireSsl,omitempty" tf:"require_ssl,omitempty"`
 
-	// Specify how SSL connection should be enforced in DB connections. This field provides more SSL enforcment options compared to require_ssl. To change this field, also set the correspoding value in require_ssl.
+	// Specify how SSL connection should be enforced in DB connections. This field provides more SSL enforcement options compared to require_ssl. To change this field, also set the correspoding value in require_ssl.
 	SSLMode *string `json:"sslMode,omitempty" tf:"ssl_mode,omitempty"`
 }
 
@@ -736,7 +736,7 @@ type IPConfigurationParameters struct {
 	// +kubebuilder:validation:Optional
 	RequireSSL *bool `json:"requireSsl,omitempty" tf:"require_ssl,omitempty"`
 
-	// Specify how SSL connection should be enforced in DB connections. This field provides more SSL enforcment options compared to require_ssl. To change this field, also set the correspoding value in require_ssl.
+	// Specify how SSL connection should be enforced in DB connections. This field provides more SSL enforcement options compared to require_ssl. To change this field, also set the correspoding value in require_ssl.
 	// +kubebuilder:validation:Optional
 	SSLMode *string `json:"sslMode,omitempty" tf:"ssl_mode,omitempty"`
 }
@@ -1263,7 +1263,7 @@ type SettingsInitParameters struct {
 	// The name of server instance collation.
 	Collation *string `json:"collation,omitempty" tf:"collation,omitempty"`
 
-	// Specifies if connections must use Cloud SQL connectors.
+	// Enables the enforcement of Cloud SQL Auth Proxy or Cloud SQL connectors for all the connections. If enabled, all the direct connections are rejected.
 	ConnectorEnforcement *string `json:"connectorEnforcement,omitempty" tf:"connector_enforcement,omitempty"`
 
 	DataCacheConfig *DataCacheConfigInitParameters `json:"dataCacheConfig,omitempty" tf:"data_cache_config,omitempty"`
@@ -1275,13 +1275,13 @@ type SettingsInitParameters struct {
 
 	DenyMaintenancePeriod *DenyMaintenancePeriodInitParameters `json:"denyMaintenancePeriod,omitempty" tf:"deny_maintenance_period,omitempty"`
 
-	// Enables auto-resizing of the storage size. Defaults to true.
+	// Enables auto-resizing of the storage size. Defaults to true. To avoid this, ensure that lifecycle.ignore_changes is applied to disk_size.
 	DiskAutoresize *bool `json:"diskAutoresize,omitempty" tf:"disk_autoresize,omitempty"`
 
 	// The maximum size to which storage capacity can be automatically increased. The default value is 0, which specifies that there is no limit.
 	DiskAutoresizeLimit *float64 `json:"diskAutoresizeLimit,omitempty" tf:"disk_autoresize_limit,omitempty"`
 
-	// The size of data disk, in GB. Size of a running instance cannot be reduced but can be increased. The minimum value is 10GB.
+	// The size of data disk, in GB. Size of a running instance cannot be reduced but can be increased. The minimum value is 10GB. Note that this value will override the resizing from disk_autoresize if that feature is enabled. To avoid this, set lifecycle.ignore_changes on this field.
 	DiskSize *float64 `json:"diskSize,omitempty" tf:"disk_size,omitempty"`
 
 	// The type of data disk: PD_SSD or PD_HDD. Defaults to PD_SSD.
@@ -1289,6 +1289,9 @@ type SettingsInitParameters struct {
 
 	// The edition of the instance, can be ENTERPRISE or ENTERPRISE_PLUS.
 	Edition *string `json:"edition,omitempty" tf:"edition,omitempty"`
+
+	// Enables Cloud SQL instance integration with Dataplex. MySQL, Postgres and SQL Server instances are supported for this feature. Defaults to false.
+	EnableDataplexIntegration *bool `json:"enableDataplexIntegration,omitempty" tf:"enable_dataplex_integration,omitempty"`
 
 	// Enables Cloud SQL instances to connect to Vertex AI and pass requests for real-time predictions and insights. Defaults to false.
 	EnableGoogleMLIntegration *bool `json:"enableGoogleMlIntegration,omitempty" tf:"enable_google_ml_integration,omitempty"`
@@ -1344,7 +1347,7 @@ type SettingsObservation struct {
 	// The name of server instance collation.
 	Collation *string `json:"collation,omitempty" tf:"collation,omitempty"`
 
-	// Specifies if connections must use Cloud SQL connectors.
+	// Enables the enforcement of Cloud SQL Auth Proxy or Cloud SQL connectors for all the connections. If enabled, all the direct connections are rejected.
 	ConnectorEnforcement *string `json:"connectorEnforcement,omitempty" tf:"connector_enforcement,omitempty"`
 
 	DataCacheConfig *DataCacheConfigObservation `json:"dataCacheConfig,omitempty" tf:"data_cache_config,omitempty"`
@@ -1356,13 +1359,13 @@ type SettingsObservation struct {
 
 	DenyMaintenancePeriod *DenyMaintenancePeriodObservation `json:"denyMaintenancePeriod,omitempty" tf:"deny_maintenance_period,omitempty"`
 
-	// Enables auto-resizing of the storage size. Defaults to true.
+	// Enables auto-resizing of the storage size. Defaults to true. To avoid this, ensure that lifecycle.ignore_changes is applied to disk_size.
 	DiskAutoresize *bool `json:"diskAutoresize,omitempty" tf:"disk_autoresize,omitempty"`
 
 	// The maximum size to which storage capacity can be automatically increased. The default value is 0, which specifies that there is no limit.
 	DiskAutoresizeLimit *float64 `json:"diskAutoresizeLimit,omitempty" tf:"disk_autoresize_limit,omitempty"`
 
-	// The size of data disk, in GB. Size of a running instance cannot be reduced but can be increased. The minimum value is 10GB.
+	// The size of data disk, in GB. Size of a running instance cannot be reduced but can be increased. The minimum value is 10GB. Note that this value will override the resizing from disk_autoresize if that feature is enabled. To avoid this, set lifecycle.ignore_changes on this field.
 	DiskSize *float64 `json:"diskSize,omitempty" tf:"disk_size,omitempty"`
 
 	// The type of data disk: PD_SSD or PD_HDD. Defaults to PD_SSD.
@@ -1370,6 +1373,9 @@ type SettingsObservation struct {
 
 	// The edition of the instance, can be ENTERPRISE or ENTERPRISE_PLUS.
 	Edition *string `json:"edition,omitempty" tf:"edition,omitempty"`
+
+	// Enables Cloud SQL instance integration with Dataplex. MySQL, Postgres and SQL Server instances are supported for this feature. Defaults to false.
+	EnableDataplexIntegration *bool `json:"enableDataplexIntegration,omitempty" tf:"enable_dataplex_integration,omitempty"`
 
 	// Enables Cloud SQL instances to connect to Vertex AI and pass requests for real-time predictions and insights. Defaults to false.
 	EnableGoogleMLIntegration *bool `json:"enableGoogleMlIntegration,omitempty" tf:"enable_google_ml_integration,omitempty"`
@@ -1435,7 +1441,7 @@ type SettingsParameters struct {
 	// +kubebuilder:validation:Optional
 	Collation *string `json:"collation,omitempty" tf:"collation,omitempty"`
 
-	// Specifies if connections must use Cloud SQL connectors.
+	// Enables the enforcement of Cloud SQL Auth Proxy or Cloud SQL connectors for all the connections. If enabled, all the direct connections are rejected.
 	// +kubebuilder:validation:Optional
 	ConnectorEnforcement *string `json:"connectorEnforcement,omitempty" tf:"connector_enforcement,omitempty"`
 
@@ -1452,7 +1458,7 @@ type SettingsParameters struct {
 	// +kubebuilder:validation:Optional
 	DenyMaintenancePeriod *DenyMaintenancePeriodParameters `json:"denyMaintenancePeriod,omitempty" tf:"deny_maintenance_period,omitempty"`
 
-	// Enables auto-resizing of the storage size. Defaults to true.
+	// Enables auto-resizing of the storage size. Defaults to true. To avoid this, ensure that lifecycle.ignore_changes is applied to disk_size.
 	// +kubebuilder:validation:Optional
 	DiskAutoresize *bool `json:"diskAutoresize,omitempty" tf:"disk_autoresize,omitempty"`
 
@@ -1460,7 +1466,7 @@ type SettingsParameters struct {
 	// +kubebuilder:validation:Optional
 	DiskAutoresizeLimit *float64 `json:"diskAutoresizeLimit,omitempty" tf:"disk_autoresize_limit,omitempty"`
 
-	// The size of data disk, in GB. Size of a running instance cannot be reduced but can be increased. The minimum value is 10GB.
+	// The size of data disk, in GB. Size of a running instance cannot be reduced but can be increased. The minimum value is 10GB. Note that this value will override the resizing from disk_autoresize if that feature is enabled. To avoid this, set lifecycle.ignore_changes on this field.
 	// +kubebuilder:validation:Optional
 	DiskSize *float64 `json:"diskSize,omitempty" tf:"disk_size,omitempty"`
 
@@ -1471,6 +1477,10 @@ type SettingsParameters struct {
 	// The edition of the instance, can be ENTERPRISE or ENTERPRISE_PLUS.
 	// +kubebuilder:validation:Optional
 	Edition *string `json:"edition,omitempty" tf:"edition,omitempty"`
+
+	// Enables Cloud SQL instance integration with Dataplex. MySQL, Postgres and SQL Server instances are supported for this feature. Defaults to false.
+	// +kubebuilder:validation:Optional
+	EnableDataplexIntegration *bool `json:"enableDataplexIntegration,omitempty" tf:"enable_dataplex_integration,omitempty"`
 
 	// Enables Cloud SQL instances to connect to Vertex AI and pass requests for real-time predictions and insights. Defaults to false.
 	// +kubebuilder:validation:Optional

@@ -18,6 +18,11 @@ type HaVPNGatewayInitParameters struct {
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// The IP family of the gateway IPs for the HA-VPN gateway interfaces. If not specified, IPV4 will be used.
+	// Default value is IPV4.
+	// Possible values are: IPV4, IPV6.
+	GatewayIPVersion *string `json:"gatewayIpVersion,omitempty" tf:"gateway_ip_version,omitempty"`
+
 	// The network this VPN gateway is accepting traffic for.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
@@ -38,7 +43,7 @@ type HaVPNGatewayInitParameters struct {
 	// The stack type for this VPN gateway to identify the IP protocols that are enabled.
 	// If not specified, IPV4_ONLY will be used.
 	// Default value is IPV4_ONLY.
-	// Possible values are: IPV4_ONLY, IPV4_IPV6.
+	// Possible values are: IPV4_ONLY, IPV4_IPV6, IPV6_ONLY.
 	StackType *string `json:"stackType,omitempty" tf:"stack_type,omitempty"`
 
 	// A list of interfaces on this VPN gateway.
@@ -50,6 +55,11 @@ type HaVPNGatewayObservation struct {
 
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The IP family of the gateway IPs for the HA-VPN gateway interfaces. If not specified, IPV4 will be used.
+	// Default value is IPV4.
+	// Possible values are: IPV4, IPV6.
+	GatewayIPVersion *string `json:"gatewayIpVersion,omitempty" tf:"gateway_ip_version,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/vpnGateways/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -70,7 +80,7 @@ type HaVPNGatewayObservation struct {
 	// The stack type for this VPN gateway to identify the IP protocols that are enabled.
 	// If not specified, IPV4_ONLY will be used.
 	// Default value is IPV4_ONLY.
-	// Possible values are: IPV4_ONLY, IPV4_IPV6.
+	// Possible values are: IPV4_ONLY, IPV4_IPV6, IPV6_ONLY.
 	StackType *string `json:"stackType,omitempty" tf:"stack_type,omitempty"`
 
 	// A list of interfaces on this VPN gateway.
@@ -83,6 +93,12 @@ type HaVPNGatewayParameters struct {
 	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The IP family of the gateway IPs for the HA-VPN gateway interfaces. If not specified, IPV4 will be used.
+	// Default value is IPV4.
+	// Possible values are: IPV4, IPV6.
+	// +kubebuilder:validation:Optional
+	GatewayIPVersion *string `json:"gatewayIpVersion,omitempty" tf:"gateway_ip_version,omitempty"`
 
 	// The network this VPN gateway is accepting traffic for.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
@@ -110,7 +126,7 @@ type HaVPNGatewayParameters struct {
 	// The stack type for this VPN gateway to identify the IP protocols that are enabled.
 	// If not specified, IPV4_ONLY will be used.
 	// Default value is IPV4_ONLY.
-	// Possible values are: IPV4_ONLY, IPV4_IPV6.
+	// Possible values are: IPV4_ONLY, IPV4_IPV6, IPV6_ONLY.
 	// +kubebuilder:validation:Optional
 	StackType *string `json:"stackType,omitempty" tf:"stack_type,omitempty"`
 

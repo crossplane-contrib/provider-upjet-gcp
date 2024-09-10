@@ -18052,6 +18052,11 @@ func (in *HaVPNGatewayInitParameters) DeepCopyInto(out *HaVPNGatewayInitParamete
 		*out = new(string)
 		**out = **in
 	}
+	if in.GatewayIPVersion != nil {
+		in, out := &in.GatewayIPVersion, &out.GatewayIPVersion
+		*out = new(string)
+		**out = **in
+	}
 	if in.Network != nil {
 		in, out := &in.Network, &out.Network
 		*out = new(string)
@@ -18136,6 +18141,11 @@ func (in *HaVPNGatewayObservation) DeepCopyInto(out *HaVPNGatewayObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.GatewayIPVersion != nil {
+		in, out := &in.GatewayIPVersion, &out.GatewayIPVersion
+		*out = new(string)
+		**out = **in
+	}
 	if in.ID != nil {
 		in, out := &in.ID, &out.ID
 		*out = new(string)
@@ -18190,6 +18200,11 @@ func (in *HaVPNGatewayParameters) DeepCopyInto(out *HaVPNGatewayParameters) {
 	*out = *in
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
+		*out = new(string)
+		**out = **in
+	}
+	if in.GatewayIPVersion != nil {
+		in, out := &in.GatewayIPVersion, &out.GatewayIPVersion
 		*out = new(string)
 		**out = **in
 	}

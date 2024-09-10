@@ -48,6 +48,11 @@ func (in *HubInitParameters) DeepCopyInto(out *HubInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ExportPsc != nil {
+		in, out := &in.ExportPsc, &out.ExportPsc
+		*out = new(bool)
+		**out = **in
+	}
 	if in.Labels != nil {
 		in, out := &in.Labels, &out.Labels
 		*out = make(map[string]*string, len(*in))
@@ -147,6 +152,11 @@ func (in *HubObservation) DeepCopyInto(out *HubObservation) {
 			(*out)[key] = outVal
 		}
 	}
+	if in.ExportPsc != nil {
+		in, out := &in.ExportPsc, &out.ExportPsc
+		*out = new(bool)
+		**out = **in
+	}
 	if in.ID != nil {
 		in, out := &in.ID, &out.ID
 		*out = new(string)
@@ -234,6 +244,11 @@ func (in *HubParameters) DeepCopyInto(out *HubParameters) {
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
+		**out = **in
+	}
+	if in.ExportPsc != nil {
+		in, out := &in.ExportPsc, &out.ExportPsc
+		*out = new(bool)
 		**out = **in
 	}
 	if in.Labels != nil {

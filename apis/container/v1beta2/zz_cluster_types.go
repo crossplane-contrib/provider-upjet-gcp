@@ -13,6 +13,40 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AdditionalNodeNetworkConfigsInitParameters struct {
+}
+
+type AdditionalNodeNetworkConfigsObservation struct {
+
+	// The name or self_link of the Google Compute Engine
+	// network to which the cluster is connected. For Shared VPC, set this to the self link of the
+	// shared network.
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// The name or self_link of the Google Compute Engine
+	// subnetwork in which the cluster's instances are launched.
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
+}
+
+type AdditionalNodeNetworkConfigsParameters struct {
+}
+
+type AdditionalPodNetworkConfigsInitParameters struct {
+}
+
+type AdditionalPodNetworkConfigsObservation struct {
+	MaxPodsPerNode *float64 `json:"maxPodsPerNode,omitempty" tf:"max_pods_per_node,omitempty"`
+
+	SecondaryPodRange *string `json:"secondaryPodRange,omitempty" tf:"secondary_pod_range,omitempty"`
+
+	// The name or self_link of the Google Compute Engine
+	// subnetwork in which the cluster's instances are launched.
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
+}
+
+type AdditionalPodNetworkConfigsParameters struct {
+}
+
 type AdditionalPodRangesConfigInitParameters struct {
 
 	// The names of the Pod ranges to add to the cluster.
@@ -253,7 +287,7 @@ type AdvancedDatapathObservabilityConfigInitParameters struct {
 	// Whether or not Relay is enabled.
 	EnableRelay *bool `json:"enableRelay,omitempty" tf:"enable_relay,omitempty"`
 
-	// Mode used to make Relay available.
+	// Mode used to make Relay available. Deprecated in favor of enable_relay field. Remove this attribute's configuration as this field will be removed in the next major release and enable_relay will become a required field.
 	RelayMode *string `json:"relayMode,omitempty" tf:"relay_mode,omitempty"`
 }
 
@@ -265,7 +299,7 @@ type AdvancedDatapathObservabilityConfigObservation struct {
 	// Whether or not Relay is enabled.
 	EnableRelay *bool `json:"enableRelay,omitempty" tf:"enable_relay,omitempty"`
 
-	// Mode used to make Relay available.
+	// Mode used to make Relay available. Deprecated in favor of enable_relay field. Remove this attribute's configuration as this field will be removed in the next major release and enable_relay will become a required field.
 	RelayMode *string `json:"relayMode,omitempty" tf:"relay_mode,omitempty"`
 }
 
@@ -279,7 +313,7 @@ type AdvancedDatapathObservabilityConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	EnableRelay *bool `json:"enableRelay,omitempty" tf:"enable_relay,omitempty"`
 
-	// Mode used to make Relay available.
+	// Mode used to make Relay available. Deprecated in favor of enable_relay field. Remove this attribute's configuration as this field will be removed in the next major release and enable_relay will become a required field.
 	// +kubebuilder:validation:Optional
 	RelayMode *string `json:"relayMode,omitempty" tf:"relay_mode,omitempty"`
 }
@@ -703,6 +737,11 @@ type ClusterAutoscalingInitParameters struct {
 	// Structure is documented below.
 	AutoProvisioningDefaults *AutoProvisioningDefaultsInitParameters `json:"autoProvisioningDefaults,omitempty" tf:"auto_provisioning_defaults,omitempty"`
 
+	// The list of Google Compute Engine
+	// zones in which the
+	// NodePool's nodes can be created by NAP.
+	AutoProvisioningLocations []*string `json:"autoProvisioningLocations,omitempty" tf:"auto_provisioning_locations,omitempty"`
+
 	// Configuration
 	// options for the Autoscaling profile
 	// feature, which lets you choose whether the cluster autoscaler should optimize for resource utilization or resource availability
@@ -726,6 +765,11 @@ type ClusterAutoscalingObservation struct {
 	// GKE Autopilot clusters.
 	// Structure is documented below.
 	AutoProvisioningDefaults *AutoProvisioningDefaultsObservation `json:"autoProvisioningDefaults,omitempty" tf:"auto_provisioning_defaults,omitempty"`
+
+	// The list of Google Compute Engine
+	// zones in which the
+	// NodePool's nodes can be created by NAP.
+	AutoProvisioningLocations []*string `json:"autoProvisioningLocations,omitempty" tf:"auto_provisioning_locations,omitempty"`
 
 	// Configuration
 	// options for the Autoscaling profile
@@ -751,6 +795,12 @@ type ClusterAutoscalingParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AutoProvisioningDefaults *AutoProvisioningDefaultsParameters `json:"autoProvisioningDefaults,omitempty" tf:"auto_provisioning_defaults,omitempty"`
+
+	// The list of Google Compute Engine
+	// zones in which the
+	// NodePool's nodes can be created by NAP.
+	// +kubebuilder:validation:Optional
+	AutoProvisioningLocations []*string `json:"autoProvisioningLocations,omitempty" tf:"auto_provisioning_locations,omitempty"`
 
 	// Configuration
 	// options for the Autoscaling profile
@@ -865,6 +915,9 @@ type ClusterInitParameters struct {
 	// will have statically granted permissions beyond those provided by the RBAC configuration or IAM.
 	// Defaults to false
 	EnableLegacyAbac *bool `json:"enableLegacyAbac,omitempty" tf:"enable_legacy_abac,omitempty"`
+
+	// Whether multi-networking is enabled for this cluster.
+	EnableMultiNetworking *bool `json:"enableMultiNetworking,omitempty" tf:"enable_multi_networking,omitempty"`
 
 	// Enable Shielded Nodes features on all nodes in this cluster.  Defaults to true.
 	EnableShieldedNodes *bool `json:"enableShieldedNodes,omitempty" tf:"enable_shielded_nodes,omitempty"`
@@ -1158,6 +1211,9 @@ type ClusterObservation struct {
 	// will have statically granted permissions beyond those provided by the RBAC configuration or IAM.
 	// Defaults to false
 	EnableLegacyAbac *bool `json:"enableLegacyAbac,omitempty" tf:"enable_legacy_abac,omitempty"`
+
+	// Whether multi-networking is enabled for this cluster.
+	EnableMultiNetworking *bool `json:"enableMultiNetworking,omitempty" tf:"enable_multi_networking,omitempty"`
 
 	// Enable Shielded Nodes features on all nodes in this cluster.  Defaults to true.
 	EnableShieldedNodes *bool `json:"enableShieldedNodes,omitempty" tf:"enable_shielded_nodes,omitempty"`
@@ -1499,6 +1555,10 @@ type ClusterParameters struct {
 	// Defaults to false
 	// +kubebuilder:validation:Optional
 	EnableLegacyAbac *bool `json:"enableLegacyAbac,omitempty" tf:"enable_legacy_abac,omitempty"`
+
+	// Whether multi-networking is enabled for this cluster.
+	// +kubebuilder:validation:Optional
+	EnableMultiNetworking *bool `json:"enableMultiNetworking,omitempty" tf:"enable_multi_networking,omitempty"`
 
 	// Enable Shielded Nodes features on all nodes in this cluster.  Defaults to true.
 	// +kubebuilder:validation:Optional
@@ -3063,6 +3123,10 @@ type NetworkConfigInitParameters struct {
 }
 
 type NetworkConfigObservation struct {
+	AdditionalNodeNetworkConfigs []AdditionalNodeNetworkConfigsObservation `json:"additionalNodeNetworkConfigs,omitempty" tf:"additional_node_network_configs,omitempty"`
+
+	AdditionalPodNetworkConfigs []AdditionalPodNetworkConfigsObservation `json:"additionalPodNetworkConfigs,omitempty" tf:"additional_pod_network_configs,omitempty"`
+
 	CreatePodRange *bool `json:"createPodRange,omitempty" tf:"create_pod_range,omitempty"`
 
 	// Enables the private cluster feature,
