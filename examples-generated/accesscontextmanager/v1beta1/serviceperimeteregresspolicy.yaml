@@ -1,0 +1,54 @@
+apiVersion: accesscontextmanager.gcp.upbound.io/v1beta1
+kind: ServicePerimeterEgressPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: accesscontextmanager/v1beta1/serviceperimeteregresspolicy
+  labels:
+    testing.upbound.io/example-name: egress_policy
+  name: egress-policy
+spec:
+  forProvider:
+    egressFrom:
+    - identityType: ANY_IDENTITY
+    egressTo:
+    - operations:
+      - methodSelectors:
+        - method: '*'
+        serviceName: bigquery.googleapis.com
+      resources:
+      - '*'
+    perimeter: accessPolicies/${google_access_context_manager_access_policy.access-policy.name}/servicePerimeters/restrict_storage
+
+---
+
+apiVersion: accesscontextmanager.gcp.upbound.io/v1beta1
+kind: AccessPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: accesscontextmanager/v1beta1/serviceperimeteregresspolicy
+  labels:
+    testing.upbound.io/example-name: access-policy
+  name: access-policy
+spec:
+  forProvider:
+    parent: organizations/123456789
+    title: Storage Policy
+
+---
+
+apiVersion: accesscontextmanager.gcp.upbound.io/v1beta2
+kind: ServicePerimeter
+metadata:
+  annotations:
+    meta.upbound.io/example-id: accesscontextmanager/v1beta1/serviceperimeteregresspolicy
+  labels:
+    testing.upbound.io/example-name: storage-perimeter
+  name: storage-perimeter
+spec:
+  forProvider:
+    name: accesspolicies/${google_access_context_manager_access_policy.access-policy.name}/serviceperimeters/storage-perimeter
+    parent: accesspolicies/${google_access_context_manager_access_policy.access-policy.name}
+    status:
+    - restrictedServices:
+      - storage.googleapis.com
+    title: Storage Perimeter

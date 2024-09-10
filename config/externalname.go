@@ -392,6 +392,11 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: {{perimeter_name}}/{{resource}}
 	"google_access_context_manager_service_perimeter_resource":         config.IdentifierFromProvider,
 	"google_access_context_manager_service_perimeter_dry_run_resource": config.IdentifierFromProvider,
+	// No import
+	"google_access_context_manager_service_perimeter_egress_policy":          config.IdentifierFromProvider,
+	"google_access_context_manager_service_perimeter_dry_run_egress_policy":  config.IdentifierFromProvider,
+	"google_access_context_manager_service_perimeter_ingress_policy":         config.IdentifierFromProvider,
+	"google_access_context_manager_service_perimeter_dry_run_ingress_policy": config.IdentifierFromProvider,
 
 	// datastore
 	//

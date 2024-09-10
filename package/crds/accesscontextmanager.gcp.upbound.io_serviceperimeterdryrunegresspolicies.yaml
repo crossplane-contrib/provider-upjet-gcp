@@ -1,0 +1,650 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.14.0
+  name: serviceperimeterdryrunegresspolicies.accesscontextmanager.gcp.upbound.io
+spec:
+  group: accesscontextmanager.gcp.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - gcp
+    kind: ServicePerimeterDryRunEgressPolicy
+    listKind: ServicePerimeterDryRunEgressPolicyList
+    plural: serviceperimeterdryrunegresspolicies
+    singular: serviceperimeterdryrunegresspolicy
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: ServicePerimeterDryRunEgressPolicy is the Schema for the ServicePerimeterDryRunEgressPolicys
+          API. Manage a single EgressPolicy in the spec (dry-run) configuration for
+          a service perimeter.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: ServicePerimeterDryRunEgressPolicySpec defines the desired
+              state of ServicePerimeterDryRunEgressPolicy
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  egressFrom:
+                    description: |-
+                      Defines conditions on the source of a request causing this EgressPolicy to apply.
+                      Structure is documented below.
+                    properties:
+                      identities:
+                        description: |-
+                          A list of identities that are allowed access through this EgressPolicy.
+                          Should be in the format of email address. The email address should
+                          represent individual user or service account only.
+                        items:
+                          type: string
+                        type: array
+                      identityType:
+                        description: |-
+                          Specifies the type of identities that are allowed access to outside the
+                          perimeter. If left unspecified, then members of identities field will
+                          be allowed access.
+                          Possible values are: ANY_IDENTITY, ANY_USER_ACCOUNT, ANY_SERVICE_ACCOUNT.
+                        type: string
+                      sourceRestriction:
+                        description: |-
+                          Whether to enforce traffic restrictions based on sources field. If the sources field is non-empty, then this field must be set to SOURCE_RESTRICTION_ENABLED.
+                          Possible values are: SOURCE_RESTRICTION_ENABLED, SOURCE_RESTRICTION_DISABLED.
+                        type: string
+                      sources:
+                        description: |-
+                          Sources that this EgressPolicy authorizes access from.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            accessLevel:
+                              description: An AccessLevel resource name that allows
+                                resources outside the ServicePerimeter to be accessed
+                                from the inside.
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                  egressTo:
+                    description: |-
+                      Defines the conditions on the ApiOperation and destination resources that
+                      cause this EgressPolicy to apply.
+                      Structure is documented below.
+                    properties:
+                      externalResources:
+                        description: |-
+                          A list of external resources that are allowed to be accessed. A request
+                          matches if it contains an external resource in this list (Example:
+                          s3://bucket/path). Currently '*' is not allowed.
+                        items:
+                          type: string
+                        type: array
+                      operations:
+                        description: |-
+                          A list of ApiOperations that this egress rule applies to. A request matches
+                          if it contains an operation/service in this list.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            methodSelectors:
+                              description: |-
+                                API methods or permissions to allow. Method or permission must belong
+                                to the service specified by serviceName field. A single MethodSelector
+                                entry with * specified for the method field will allow all methods
+                                AND permissions for the service specified in serviceName.
+                                Structure is documented below.
+                              items:
+                                properties:
+                                  method:
+                                    description: |-
+                                      Value for method should be a valid method name for the corresponding
+                                      serviceName in ApiOperation. If * used as value for method,
+                                      then ALL methods and permissions are allowed.
+                                    type: string
+                                  permission:
+                                    description: |-
+                                      Value for permission should be a valid Cloud IAM permission for the
+                                      corresponding serviceName in ApiOperation.
+                                    type: string
+                                type: object
+                              type: array
+                            serviceName:
+                              description: |-
+                                The name of the API whose methods or permissions the IngressPolicy or
+                                EgressPolicy want to allow. A single ApiOperation with serviceName
+                                field set to * will allow all methods AND permissions for all services.
+                              type: string
+                          type: object
+                        type: array
+                      resources:
+                        description: |-
+                          A list of resources, currently only projects in the form
+                          projects/<projectnumber>, that match this to stanza. A request matches
+                          if it contains a resource in this list. If * is specified for resources,
+                          then this EgressTo rule will authorize access to all resources outside
+                          the perimeter.
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  perimeter:
+                    description: The name of the Service Perimeter to add this resource
+                      to.
+                    type: string
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  egressFrom:
+                    description: |-
+                      Defines conditions on the source of a request causing this EgressPolicy to apply.
+                      Structure is documented below.
+                    properties:
+                      identities:
+                        description: |-
+                          A list of identities that are allowed access through this EgressPolicy.
+                          Should be in the format of email address. The email address should
+                          represent individual user or service account only.
+                        items:
+                          type: string
+                        type: array
+                      identityType:
+                        description: |-
+                          Specifies the type of identities that are allowed access to outside the
+                          perimeter. If left unspecified, then members of identities field will
+                          be allowed access.
+                          Possible values are: ANY_IDENTITY, ANY_USER_ACCOUNT, ANY_SERVICE_ACCOUNT.
+                        type: string
+                      sourceRestriction:
+                        description: |-
+                          Whether to enforce traffic restrictions based on sources field. If the sources field is non-empty, then this field must be set to SOURCE_RESTRICTION_ENABLED.
+                          Possible values are: SOURCE_RESTRICTION_ENABLED, SOURCE_RESTRICTION_DISABLED.
+                        type: string
+                      sources:
+                        description: |-
+                          Sources that this EgressPolicy authorizes access from.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            accessLevel:
+                              description: An AccessLevel resource name that allows
+                                resources outside the ServicePerimeter to be accessed
+                                from the inside.
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                  egressTo:
+                    description: |-
+                      Defines the conditions on the ApiOperation and destination resources that
+                      cause this EgressPolicy to apply.
+                      Structure is documented below.
+                    properties:
+                      externalResources:
+                        description: |-
+                          A list of external resources that are allowed to be accessed. A request
+                          matches if it contains an external resource in this list (Example:
+                          s3://bucket/path). Currently '*' is not allowed.
+                        items:
+                          type: string
+                        type: array
+                      operations:
+                        description: |-
+                          A list of ApiOperations that this egress rule applies to. A request matches
+                          if it contains an operation/service in this list.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            methodSelectors:
+                              description: |-
+                                API methods or permissions to allow. Method or permission must belong
+                                to the service specified by serviceName field. A single MethodSelector
+                                entry with * specified for the method field will allow all methods
+                                AND permissions for the service specified in serviceName.
+                                Structure is documented below.
+                              items:
+                                properties:
+                                  method:
+                                    description: |-
+                                      Value for method should be a valid method name for the corresponding
+                                      serviceName in ApiOperation. If * used as value for method,
+                                      then ALL methods and permissions are allowed.
+                                    type: string
+                                  permission:
+                                    description: |-
+                                      Value for permission should be a valid Cloud IAM permission for the
+                                      corresponding serviceName in ApiOperation.
+                                    type: string
+                                type: object
+                              type: array
+                            serviceName:
+                              description: |-
+                                The name of the API whose methods or permissions the IngressPolicy or
+                                EgressPolicy want to allow. A single ApiOperation with serviceName
+                                field set to * will allow all methods AND permissions for all services.
+                              type: string
+                          type: object
+                        type: array
+                      resources:
+                        description: |-
+                          A list of resources, currently only projects in the form
+                          projects/<projectnumber>, that match this to stanza. A request matches
+                          if it contains a resource in this list. If * is specified for resources,
+                          then this EgressTo rule will authorize access to all resources outside
+                          the perimeter.
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  perimeter:
+                    description: The name of the Service Perimeter to add this resource
+                      to.
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      type:
+                        description: |-
+                          Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.perimeter is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.perimeter)
+                || (has(self.initProvider) && has(self.initProvider.perimeter))'
+          status:
+            description: ServicePerimeterDryRunEgressPolicyStatus defines the observed
+              state of ServicePerimeterDryRunEgressPolicy.
+            properties:
+              atProvider:
+                properties:
+                  egressFrom:
+                    description: |-
+                      Defines conditions on the source of a request causing this EgressPolicy to apply.
+                      Structure is documented below.
+                    properties:
+                      identities:
+                        description: |-
+                          A list of identities that are allowed access through this EgressPolicy.
+                          Should be in the format of email address. The email address should
+                          represent individual user or service account only.
+                        items:
+                          type: string
+                        type: array
+                      identityType:
+                        description: |-
+                          Specifies the type of identities that are allowed access to outside the
+                          perimeter. If left unspecified, then members of identities field will
+                          be allowed access.
+                          Possible values are: ANY_IDENTITY, ANY_USER_ACCOUNT, ANY_SERVICE_ACCOUNT.
+                        type: string
+                      sourceRestriction:
+                        description: |-
+                          Whether to enforce traffic restrictions based on sources field. If the sources field is non-empty, then this field must be set to SOURCE_RESTRICTION_ENABLED.
+                          Possible values are: SOURCE_RESTRICTION_ENABLED, SOURCE_RESTRICTION_DISABLED.
+                        type: string
+                      sources:
+                        description: |-
+                          Sources that this EgressPolicy authorizes access from.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            accessLevel:
+                              description: An AccessLevel resource name that allows
+                                resources outside the ServicePerimeter to be accessed
+                                from the inside.
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                  egressTo:
+                    description: |-
+                      Defines the conditions on the ApiOperation and destination resources that
+                      cause this EgressPolicy to apply.
+                      Structure is documented below.
+                    properties:
+                      externalResources:
+                        description: |-
+                          A list of external resources that are allowed to be accessed. A request
+                          matches if it contains an external resource in this list (Example:
+                          s3://bucket/path). Currently '*' is not allowed.
+                        items:
+                          type: string
+                        type: array
+                      operations:
+                        description: |-
+                          A list of ApiOperations that this egress rule applies to. A request matches
+                          if it contains an operation/service in this list.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            methodSelectors:
+                              description: |-
+                                API methods or permissions to allow. Method or permission must belong
+                                to the service specified by serviceName field. A single MethodSelector
+                                entry with * specified for the method field will allow all methods
+                                AND permissions for the service specified in serviceName.
+                                Structure is documented below.
+                              items:
+                                properties:
+                                  method:
+                                    description: |-
+                                      Value for method should be a valid method name for the corresponding
+                                      serviceName in ApiOperation. If * used as value for method,
+                                      then ALL methods and permissions are allowed.
+                                    type: string
+                                  permission:
+                                    description: |-
+                                      Value for permission should be a valid Cloud IAM permission for the
+                                      corresponding serviceName in ApiOperation.
+                                    type: string
+                                type: object
+                              type: array
+                            serviceName:
+                              description: |-
+                                The name of the API whose methods or permissions the IngressPolicy or
+                                EgressPolicy want to allow. A single ApiOperation with serviceName
+                                field set to * will allow all methods AND permissions for all services.
+                              type: string
+                          type: object
+                        type: array
+                      resources:
+                        description: |-
+                          A list of resources, currently only projects in the form
+                          projects/<projectnumber>, that match this to stanza. A request matches
+                          if it contains a resource in this list. If * is specified for resources,
+                          then this EgressTo rule will authorize access to all resources outside
+                          the perimeter.
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  id:
+                    description: an identifier for the resource with format {{perimeter}}
+                    type: string
+                  perimeter:
+                    description: The name of the Service Perimeter to add this resource
+                      to.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

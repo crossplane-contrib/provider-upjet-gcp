@@ -98,7 +98,7 @@ type ServicePerimeterDryRunResourceStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// ServicePerimeterDryRunResource is the Schema for the ServicePerimeterDryRunResources API. Allows configuring a single GCP resource that should be inside of the
+// ServicePerimeterDryRunResource is the Schema for the ServicePerimeterDryRunResources API. Allows configuring a single GCP resource that should be inside of the 'spec' block of a dry run service perimeter.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

@@ -307,6 +307,126 @@ func (mg *ServicePerimeter) SetWriteConnectionSecretToReference(r *xpv1.SecretRe
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+// GetCondition of this ServicePerimeterDryRunEgressPolicy.
+func (mg *ServicePerimeterDryRunEgressPolicy) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this ServicePerimeterDryRunEgressPolicy.
+func (mg *ServicePerimeterDryRunEgressPolicy) GetDeletionPolicy() xpv1.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetManagementPolicies of this ServicePerimeterDryRunEgressPolicy.
+func (mg *ServicePerimeterDryRunEgressPolicy) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this ServicePerimeterDryRunEgressPolicy.
+func (mg *ServicePerimeterDryRunEgressPolicy) GetProviderConfigReference() *xpv1.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetPublishConnectionDetailsTo of this ServicePerimeterDryRunEgressPolicy.
+func (mg *ServicePerimeterDryRunEgressPolicy) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
+}
+
+// GetWriteConnectionSecretToReference of this ServicePerimeterDryRunEgressPolicy.
+func (mg *ServicePerimeterDryRunEgressPolicy) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this ServicePerimeterDryRunEgressPolicy.
+func (mg *ServicePerimeterDryRunEgressPolicy) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this ServicePerimeterDryRunEgressPolicy.
+func (mg *ServicePerimeterDryRunEgressPolicy) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicies of this ServicePerimeterDryRunEgressPolicy.
+func (mg *ServicePerimeterDryRunEgressPolicy) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this ServicePerimeterDryRunEgressPolicy.
+func (mg *ServicePerimeterDryRunEgressPolicy) SetProviderConfigReference(r *xpv1.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetPublishConnectionDetailsTo of this ServicePerimeterDryRunEgressPolicy.
+func (mg *ServicePerimeterDryRunEgressPolicy) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
+}
+
+// SetWriteConnectionSecretToReference of this ServicePerimeterDryRunEgressPolicy.
+func (mg *ServicePerimeterDryRunEgressPolicy) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
+// GetCondition of this ServicePerimeterDryRunIngressPolicy.
+func (mg *ServicePerimeterDryRunIngressPolicy) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this ServicePerimeterDryRunIngressPolicy.
+func (mg *ServicePerimeterDryRunIngressPolicy) GetDeletionPolicy() xpv1.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetManagementPolicies of this ServicePerimeterDryRunIngressPolicy.
+func (mg *ServicePerimeterDryRunIngressPolicy) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this ServicePerimeterDryRunIngressPolicy.
+func (mg *ServicePerimeterDryRunIngressPolicy) GetProviderConfigReference() *xpv1.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetPublishConnectionDetailsTo of this ServicePerimeterDryRunIngressPolicy.
+func (mg *ServicePerimeterDryRunIngressPolicy) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
+}
+
+// GetWriteConnectionSecretToReference of this ServicePerimeterDryRunIngressPolicy.
+func (mg *ServicePerimeterDryRunIngressPolicy) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this ServicePerimeterDryRunIngressPolicy.
+func (mg *ServicePerimeterDryRunIngressPolicy) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this ServicePerimeterDryRunIngressPolicy.
+func (mg *ServicePerimeterDryRunIngressPolicy) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicies of this ServicePerimeterDryRunIngressPolicy.
+func (mg *ServicePerimeterDryRunIngressPolicy) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this ServicePerimeterDryRunIngressPolicy.
+func (mg *ServicePerimeterDryRunIngressPolicy) SetProviderConfigReference(r *xpv1.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetPublishConnectionDetailsTo of this ServicePerimeterDryRunIngressPolicy.
+func (mg *ServicePerimeterDryRunIngressPolicy) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
+}
+
+// SetWriteConnectionSecretToReference of this ServicePerimeterDryRunIngressPolicy.
+func (mg *ServicePerimeterDryRunIngressPolicy) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
 // GetCondition of this ServicePerimeterDryRunResource.
 func (mg *ServicePerimeterDryRunResource) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -364,6 +484,126 @@ func (mg *ServicePerimeterDryRunResource) SetPublishConnectionDetailsTo(r *xpv1.
 
 // SetWriteConnectionSecretToReference of this ServicePerimeterDryRunResource.
 func (mg *ServicePerimeterDryRunResource) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
+// GetCondition of this ServicePerimeterEgressPolicy.
+func (mg *ServicePerimeterEgressPolicy) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this ServicePerimeterEgressPolicy.
+func (mg *ServicePerimeterEgressPolicy) GetDeletionPolicy() xpv1.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetManagementPolicies of this ServicePerimeterEgressPolicy.
+func (mg *ServicePerimeterEgressPolicy) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this ServicePerimeterEgressPolicy.
+func (mg *ServicePerimeterEgressPolicy) GetProviderConfigReference() *xpv1.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetPublishConnectionDetailsTo of this ServicePerimeterEgressPolicy.
+func (mg *ServicePerimeterEgressPolicy) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
+}
+
+// GetWriteConnectionSecretToReference of this ServicePerimeterEgressPolicy.
+func (mg *ServicePerimeterEgressPolicy) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this ServicePerimeterEgressPolicy.
+func (mg *ServicePerimeterEgressPolicy) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this ServicePerimeterEgressPolicy.
+func (mg *ServicePerimeterEgressPolicy) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicies of this ServicePerimeterEgressPolicy.
+func (mg *ServicePerimeterEgressPolicy) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this ServicePerimeterEgressPolicy.
+func (mg *ServicePerimeterEgressPolicy) SetProviderConfigReference(r *xpv1.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetPublishConnectionDetailsTo of this ServicePerimeterEgressPolicy.
+func (mg *ServicePerimeterEgressPolicy) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
+}
+
+// SetWriteConnectionSecretToReference of this ServicePerimeterEgressPolicy.
+func (mg *ServicePerimeterEgressPolicy) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
+// GetCondition of this ServicePerimeterIngressPolicy.
+func (mg *ServicePerimeterIngressPolicy) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this ServicePerimeterIngressPolicy.
+func (mg *ServicePerimeterIngressPolicy) GetDeletionPolicy() xpv1.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetManagementPolicies of this ServicePerimeterIngressPolicy.
+func (mg *ServicePerimeterIngressPolicy) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this ServicePerimeterIngressPolicy.
+func (mg *ServicePerimeterIngressPolicy) GetProviderConfigReference() *xpv1.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetPublishConnectionDetailsTo of this ServicePerimeterIngressPolicy.
+func (mg *ServicePerimeterIngressPolicy) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
+}
+
+// GetWriteConnectionSecretToReference of this ServicePerimeterIngressPolicy.
+func (mg *ServicePerimeterIngressPolicy) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this ServicePerimeterIngressPolicy.
+func (mg *ServicePerimeterIngressPolicy) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this ServicePerimeterIngressPolicy.
+func (mg *ServicePerimeterIngressPolicy) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicies of this ServicePerimeterIngressPolicy.
+func (mg *ServicePerimeterIngressPolicy) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this ServicePerimeterIngressPolicy.
+func (mg *ServicePerimeterIngressPolicy) SetProviderConfigReference(r *xpv1.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetPublishConnectionDetailsTo of this ServicePerimeterIngressPolicy.
+func (mg *ServicePerimeterIngressPolicy) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
+}
+
+// SetWriteConnectionSecretToReference of this ServicePerimeterIngressPolicy.
+func (mg *ServicePerimeterIngressPolicy) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 

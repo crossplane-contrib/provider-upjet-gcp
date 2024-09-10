@@ -14,7 +14,11 @@ import (
 	accesspolicy "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/accesspolicy"
 	accesspolicyiammember "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/accesspolicyiammember"
 	serviceperimeter "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/serviceperimeter"
+	serviceperimeterdryrunegresspolicy "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/serviceperimeterdryrunegresspolicy"
+	serviceperimeterdryruningresspolicy "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/serviceperimeterdryruningresspolicy"
 	serviceperimeterdryrunresource "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/serviceperimeterdryrunresource"
+	serviceperimeteregresspolicy "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/serviceperimeteregresspolicy"
+	serviceperimeteringresspolicy "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/serviceperimeteringresspolicy"
 	serviceperimeterresource "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/serviceperimeterresource"
 )
 
@@ -27,7 +31,11 @@ func Setup_accesscontextmanager(mgr ctrl.Manager, o controller.Options) error {
 		accesspolicy.Setup,
 		accesspolicyiammember.Setup,
 		serviceperimeter.Setup,
+		serviceperimeterdryrunegresspolicy.Setup,
+		serviceperimeterdryruningresspolicy.Setup,
 		serviceperimeterdryrunresource.Setup,
+		serviceperimeteregresspolicy.Setup,
+		serviceperimeteringresspolicy.Setup,
 		serviceperimeterresource.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {

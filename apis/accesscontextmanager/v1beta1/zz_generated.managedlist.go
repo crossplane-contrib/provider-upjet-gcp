@@ -43,8 +43,44 @@ func (l *AccessPolicyList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this ServicePerimeterDryRunEgressPolicyList.
+func (l *ServicePerimeterDryRunEgressPolicyList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this ServicePerimeterDryRunIngressPolicyList.
+func (l *ServicePerimeterDryRunIngressPolicyList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this ServicePerimeterDryRunResourceList.
 func (l *ServicePerimeterDryRunResourceList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this ServicePerimeterEgressPolicyList.
+func (l *ServicePerimeterEgressPolicyList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this ServicePerimeterIngressPolicyList.
+func (l *ServicePerimeterIngressPolicyList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]

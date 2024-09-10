@@ -1,0 +1,61 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: accesscontextmanager.gcp.upbound.io/v1beta1
+kind: ServicePerimeterDryRunIngressPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: accesscontextmanager/v1beta1/serviceperimeterdryruningresspolicy
+  labels:
+    testing.upbound.io/example-name: ingress_policy
+  name: ingress-policy
+spec:
+  forProvider:
+    ingressFrom:
+      - identityType: any_identity
+        sources:
+          - accessLevel: "*"
+    ingressTo:
+      - operations:
+          - methodSelectors:
+              - method: "*"
+            serviceName: bigquery.googleapis.com
+        resources:
+          - "*"
+    perimeter: accessPolicies/${google_access_context_manager_access_policy.access-policy.name}/servicePerimeters/restrict_storage
+
+---
+apiVersion: accesscontextmanager.gcp.upbound.io/v1beta1
+kind: AccessPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: accesscontextmanager/v1beta1/serviceperimeterdryruningresspolicy
+  labels:
+    testing.upbound.io/example-name: access-policy
+  name: access-policy
+spec:
+  forProvider:
+    parent: organizations/123456789
+    title: Storage Policy
+
+---
+apiVersion: accesscontextmanager.gcp.upbound.io/v1beta2
+kind: ServicePerimeter
+metadata:
+  annotations:
+    meta.upbound.io/example-id: accesscontextmanager/v1beta1/serviceperimeterdryruningresspolicy
+  labels:
+    testing.upbound.io/example-name: storage-perimeter
+  name: storage-perimeter
+spec:
+  initProvider:
+    spec:
+      - ingressPolicies: []
+  forProvider:
+    name: accesspolicies/${google_access_context_manager_access_policy.access-policy.name}/serviceperimeters/storage-perimeter
+    parent: accesspolicies/${google_access_context_manager_access_policy.access-policy.name}
+    status:
+      - restrictedServices:
+          - storage.googleapis.com
+    title: Storage Perimeter
