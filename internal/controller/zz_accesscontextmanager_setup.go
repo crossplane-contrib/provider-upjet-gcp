@@ -12,7 +12,9 @@ import (
 	accesslevel "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/accesslevel"
 	accesslevelcondition "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/accesslevelcondition"
 	accesspolicy "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/accesspolicy"
+	accesspolicyiambinding "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/accesspolicyiambinding"
 	accesspolicyiammember "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/accesspolicyiammember"
+	accesspolicyiampolicy "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/accesspolicyiampolicy"
 	serviceperimeter "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/serviceperimeter"
 	serviceperimeterdryrunegresspolicy "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/serviceperimeterdryrunegresspolicy"
 	serviceperimeterdryruningresspolicy "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/serviceperimeterdryruningresspolicy"
@@ -29,7 +31,9 @@ func Setup_accesscontextmanager(mgr ctrl.Manager, o controller.Options) error {
 		accesslevel.Setup,
 		accesslevelcondition.Setup,
 		accesspolicy.Setup,
+		accesspolicyiambinding.Setup,
 		accesspolicyiammember.Setup,
+		accesspolicyiampolicy.Setup,
 		serviceperimeter.Setup,
 		serviceperimeterdryrunegresspolicy.Setup,
 		serviceperimeterdryruningresspolicy.Setup,

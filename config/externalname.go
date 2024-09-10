@@ -385,6 +385,10 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_access_context_manager_access_level_condition": config.IdentifierFromProvider,
 	// Imported by using {{name}}, but name doesn't exist in parameters. Try using IdentifierFromProvider
 	"google_access_context_manager_access_policy": config.IdentifierFromProvider,
+	// Imported by using the following format: accessPolicies/{{access_policy}}
+	"google_access_context_manager_access_policy_iam_policy": config.IdentifierFromProvider,
+	// Imported by using the following format: "accessPolicies/{{access_policy}} roles/accesscontextmanager.policyAdmin"
+	"google_access_context_manager_access_policy_iam_binding": config.IdentifierFromProvider,
 	// Imported by using the following format: "accessPolicies/{{access_policy}} roles/accesscontextmanager.policyAdmin user:jane@example.com"
 	"google_access_context_manager_access_policy_iam_member": config.IdentifierFromProvider,
 	// Imported by using the following format: {{name}}

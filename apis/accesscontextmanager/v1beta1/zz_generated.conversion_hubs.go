@@ -10,6 +10,12 @@ package v1beta1
 func (tr *AccessPolicy) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *AccessPolicyIAMBinding) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *AccessPolicyIAMPolicy) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *ServicePerimeterDryRunEgressPolicy) Hub() {}
 
 // Hub marks this type as a conversion hub.

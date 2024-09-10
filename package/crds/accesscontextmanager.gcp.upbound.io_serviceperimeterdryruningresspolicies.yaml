@@ -35,8 +35,8 @@ spec:
     schema:
       openAPIV3Schema:
         description: ServicePerimeterDryRunIngressPolicy is the Schema for the ServicePerimeterDryRunIngressPolicys
-          API. Manage a single IngressPolicy in the spec (dry-run) configuration for
-          a service perimeter.
+          API. Manage a single IngressPolicy in the 'spec' (dry-run) configuration
+          for a service perimeter.
         properties:
           apiVersion:
             description: |-
@@ -480,6 +480,14 @@ spec:
             - forProvider
             type: object
             x-kubernetes-validations:
+            - message: spec.forProvider.ingressFrom is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.ingressFrom)
+                || (has(self.initProvider) && has(self.initProvider.ingressFrom))'
+            - message: spec.forProvider.ingressTo is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.ingressTo)
+                || (has(self.initProvider) && has(self.initProvider.ingressTo))'
             - message: spec.forProvider.perimeter is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.perimeter)

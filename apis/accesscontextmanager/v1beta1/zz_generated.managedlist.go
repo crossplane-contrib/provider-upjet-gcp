@@ -25,8 +25,26 @@ func (l *AccessLevelList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this AccessPolicyIAMBindingList.
+func (l *AccessPolicyIAMBindingList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this AccessPolicyIAMMemberList.
 func (l *AccessPolicyIAMMemberList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this AccessPolicyIAMPolicyList.
+func (l *AccessPolicyIAMPolicyList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]

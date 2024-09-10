@@ -187,6 +187,66 @@ func (mg *AccessPolicy) SetWriteConnectionSecretToReference(r *xpv1.SecretRefere
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+// GetCondition of this AccessPolicyIAMBinding.
+func (mg *AccessPolicyIAMBinding) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this AccessPolicyIAMBinding.
+func (mg *AccessPolicyIAMBinding) GetDeletionPolicy() xpv1.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetManagementPolicies of this AccessPolicyIAMBinding.
+func (mg *AccessPolicyIAMBinding) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this AccessPolicyIAMBinding.
+func (mg *AccessPolicyIAMBinding) GetProviderConfigReference() *xpv1.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetPublishConnectionDetailsTo of this AccessPolicyIAMBinding.
+func (mg *AccessPolicyIAMBinding) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
+}
+
+// GetWriteConnectionSecretToReference of this AccessPolicyIAMBinding.
+func (mg *AccessPolicyIAMBinding) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this AccessPolicyIAMBinding.
+func (mg *AccessPolicyIAMBinding) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this AccessPolicyIAMBinding.
+func (mg *AccessPolicyIAMBinding) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicies of this AccessPolicyIAMBinding.
+func (mg *AccessPolicyIAMBinding) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this AccessPolicyIAMBinding.
+func (mg *AccessPolicyIAMBinding) SetProviderConfigReference(r *xpv1.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetPublishConnectionDetailsTo of this AccessPolicyIAMBinding.
+func (mg *AccessPolicyIAMBinding) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
+}
+
+// SetWriteConnectionSecretToReference of this AccessPolicyIAMBinding.
+func (mg *AccessPolicyIAMBinding) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
 // GetCondition of this AccessPolicyIAMMember.
 func (mg *AccessPolicyIAMMember) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -244,6 +304,66 @@ func (mg *AccessPolicyIAMMember) SetPublishConnectionDetailsTo(r *xpv1.PublishCo
 
 // SetWriteConnectionSecretToReference of this AccessPolicyIAMMember.
 func (mg *AccessPolicyIAMMember) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
+// GetCondition of this AccessPolicyIAMPolicy.
+func (mg *AccessPolicyIAMPolicy) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this AccessPolicyIAMPolicy.
+func (mg *AccessPolicyIAMPolicy) GetDeletionPolicy() xpv1.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetManagementPolicies of this AccessPolicyIAMPolicy.
+func (mg *AccessPolicyIAMPolicy) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this AccessPolicyIAMPolicy.
+func (mg *AccessPolicyIAMPolicy) GetProviderConfigReference() *xpv1.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetPublishConnectionDetailsTo of this AccessPolicyIAMPolicy.
+func (mg *AccessPolicyIAMPolicy) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
+}
+
+// GetWriteConnectionSecretToReference of this AccessPolicyIAMPolicy.
+func (mg *AccessPolicyIAMPolicy) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this AccessPolicyIAMPolicy.
+func (mg *AccessPolicyIAMPolicy) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this AccessPolicyIAMPolicy.
+func (mg *AccessPolicyIAMPolicy) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicies of this AccessPolicyIAMPolicy.
+func (mg *AccessPolicyIAMPolicy) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this AccessPolicyIAMPolicy.
+func (mg *AccessPolicyIAMPolicy) SetProviderConfigReference(r *xpv1.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetPublishConnectionDetailsTo of this AccessPolicyIAMPolicy.
+func (mg *AccessPolicyIAMPolicy) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
+}
+
+// SetWriteConnectionSecretToReference of this AccessPolicyIAMPolicy.
+func (mg *AccessPolicyIAMPolicy) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 

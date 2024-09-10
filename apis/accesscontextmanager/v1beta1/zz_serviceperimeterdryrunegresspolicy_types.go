@@ -328,7 +328,7 @@ type ServicePerimeterDryRunEgressPolicyStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// ServicePerimeterDryRunEgressPolicy is the Schema for the ServicePerimeterDryRunEgressPolicys API. Manage a single EgressPolicy in the spec (dry-run) configuration for a service perimeter.
+// ServicePerimeterDryRunEgressPolicy is the Schema for the ServicePerimeterDryRunEgressPolicys API. Manage a single EgressPolicy in the 'spec' (dry-run) configuration for a service perimeter.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
@@ -337,6 +337,8 @@ type ServicePerimeterDryRunEgressPolicyStatus struct {
 type ServicePerimeterDryRunEgressPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.egressFrom) || (has(self.initProvider) && has(self.initProvider.egressFrom))",message="spec.forProvider.egressFrom is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.egressTo) || (has(self.initProvider) && has(self.initProvider.egressTo))",message="spec.forProvider.egressTo is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.perimeter) || (has(self.initProvider) && has(self.initProvider.perimeter))",message="spec.forProvider.perimeter is a required parameter"
 	Spec   ServicePerimeterDryRunEgressPolicySpec   `json:"spec"`
 	Status ServicePerimeterDryRunEgressPolicyStatus `json:"status,omitempty"`

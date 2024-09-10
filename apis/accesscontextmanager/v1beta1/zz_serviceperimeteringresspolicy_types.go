@@ -366,7 +366,7 @@ type ServicePerimeterIngressPolicyStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// ServicePerimeterIngressPolicy is the Schema for the ServicePerimeterIngressPolicys API. Manage a single IngressPolicy in the status (enforced) configuration for a service perimeter.
+// ServicePerimeterIngressPolicy is the Schema for the ServicePerimeterIngressPolicys API. Manage a single IngressPolicy in the 'status' (enforced) configuration for a service perimeter.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
@@ -375,6 +375,8 @@ type ServicePerimeterIngressPolicyStatus struct {
 type ServicePerimeterIngressPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.ingressFrom) || (has(self.initProvider) && has(self.initProvider.ingressFrom))",message="spec.forProvider.ingressFrom is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.ingressTo) || (has(self.initProvider) && has(self.initProvider.ingressTo))",message="spec.forProvider.ingressTo is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.perimeter) || (has(self.initProvider) && has(self.initProvider.perimeter))",message="spec.forProvider.perimeter is a required parameter"
 	Spec   ServicePerimeterIngressPolicySpec   `json:"spec"`
 	Status ServicePerimeterIngressPolicyStatus `json:"status,omitempty"`

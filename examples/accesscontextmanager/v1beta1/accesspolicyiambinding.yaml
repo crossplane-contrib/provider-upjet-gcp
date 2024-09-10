@@ -1,0 +1,36 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: accesscontextmanager.gcp.upbound.io/v1beta1
+kind: AccessPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: accesscontextmanager/v1beta1/accesspolicyiambinding
+    upjet.upbound.io/manual-intervention: "Requires organization level IAM permissions"
+  labels:
+    testing.upbound.io/example-name: access-policy
+  name: access-policy
+spec:
+  forProvider:
+    parent: organizations/123456789
+    title: my policy
+
+---
+apiVersion: accesscontextmanager.gcp.upbound.io/v1beta1
+kind: AccessPolicyIAMBinding
+metadata:
+  annotations:
+    meta.upbound.io/example-id: accesscontextmanager/v1beta1/accesspolicyiambinding
+    upjet.upbound.io/manual-intervention: "Requires organization level IAM permissions"
+  labels:
+    testing.upbound.io/example-name: binding
+  name: binding
+spec:
+  forProvider:
+    nameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: access-policy
+    role: "roles/accesscontextmanager.policyAdmin"
+    members:
+      - "user:jane@example.com"

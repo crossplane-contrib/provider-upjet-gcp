@@ -357,7 +357,7 @@ type ServicePerimeterDryRunIngressPolicyStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// ServicePerimeterDryRunIngressPolicy is the Schema for the ServicePerimeterDryRunIngressPolicys API. Manage a single IngressPolicy in the spec (dry-run) configuration for a service perimeter.
+// ServicePerimeterDryRunIngressPolicy is the Schema for the ServicePerimeterDryRunIngressPolicys API. Manage a single IngressPolicy in the 'spec' (dry-run) configuration for a service perimeter.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
@@ -366,6 +366,8 @@ type ServicePerimeterDryRunIngressPolicyStatus struct {
 type ServicePerimeterDryRunIngressPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.ingressFrom) || (has(self.initProvider) && has(self.initProvider.ingressFrom))",message="spec.forProvider.ingressFrom is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.ingressTo) || (has(self.initProvider) && has(self.initProvider.ingressTo))",message="spec.forProvider.ingressTo is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.perimeter) || (has(self.initProvider) && has(self.initProvider.perimeter))",message="spec.forProvider.perimeter is a required parameter"
 	Spec   ServicePerimeterDryRunIngressPolicySpec   `json:"spec"`
 	Status ServicePerimeterDryRunIngressPolicyStatus `json:"status,omitempty"`

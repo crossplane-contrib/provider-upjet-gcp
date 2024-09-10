@@ -7,6 +7,7 @@ kind: ServicePerimeterEgressPolicy
 metadata:
   annotations:
     meta.upbound.io/example-id: accesscontextmanager/v1beta1/serviceperimeteregresspolicy
+    upjet.upbound.io/manual-intervention: "Requires organization level IAM permissions"
   labels:
     testing.upbound.io/example-name: egress_policy
   name: egress-policy
@@ -29,6 +30,7 @@ kind: AccessPolicy
 metadata:
   annotations:
     meta.upbound.io/example-id: accesscontextmanager/v1beta1/serviceperimeteregresspolicy
+    upjet.upbound.io/manual-intervention: "Requires organization level IAM permissions"
   labels:
     testing.upbound.io/example-name: access-policy
   name: access-policy
@@ -43,6 +45,7 @@ kind: ServicePerimeter
 metadata:
   annotations:
     meta.upbound.io/example-id: accesscontextmanager/v1beta1/serviceperimeteregresspolicy
+    upjet.upbound.io/manual-intervention: "Requires organization level IAM permissions"
   labels:
     testing.upbound.io/example-name: storage-perimeter
   name: storage-perimeter

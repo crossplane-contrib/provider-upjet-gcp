@@ -1,0 +1,14 @@
+apiVersion: accesscontextmanager.gcp.upbound.io/v1beta1
+kind: AccessPolicyIAMPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: accesscontextmanager/v1beta1/accesspolicyiampolicy
+  labels:
+    testing.upbound.io/example-name: policy
+  name: policy
+spec:
+  forProvider:
+    nameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: access-policy
+    policyData: ${data.google_iam_policy.admin.policy_data}
