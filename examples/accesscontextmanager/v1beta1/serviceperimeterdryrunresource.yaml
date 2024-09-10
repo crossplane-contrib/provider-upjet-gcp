@@ -3,19 +3,18 @@
 # SPDX-License-Identifier: CC0-1.0
 
 apiVersion: accesscontextmanager.gcp.upbound.io/v1beta1
-kind: ServicePerimeterResource
+kind: ServicePerimeterDryRunResource
 metadata:
   annotations:
-    meta.upbound.io/example-id: accesscontextmanager/v1beta1/serviceperimeterresource
-    upjet.upbound.io/manual-intervention: "Requires organization level IAM permissions"
+    meta.upbound.io/example-id: accesscontextmanager/v1beta1/serviceperimeterdryrunresource
   labels:
-    testing.upbound.io/example-name: service-perimeter-resource
-  name: service-perimeter-resource
+    testing.upbound.io/example-name: service-perimeter-dry-run-resource
+  name: service-perimeter-dry-run-resource
 spec:
   forProvider:
     perimeterNameSelector:
       matchLabels:
-        testing.upbound.io/example-name: service-perimeter-resource
+        testing.upbound.io/example-name: service-perimeter-dry-run-resource
     resource: projects/987654321
 
 ---
@@ -23,8 +22,7 @@ apiVersion: accesscontextmanager.gcp.upbound.io/v1beta1
 kind: AccessPolicy
 metadata:
   annotations:
-    meta.upbound.io/example-id: accesscontextmanager/v1beta1/serviceperimeterresource
-    upjet.upbound.io/manual-intervention: "Requires organization level IAM permissions"
+    meta.upbound.io/example-id: accesscontextmanager/v1beta1/serviceperimeterdryrunresource
   labels:
     testing.upbound.io/example-name: access-policy
   name: access-policy
@@ -34,23 +32,23 @@ spec:
     title: my policy
 
 ---
-apiVersion: accesscontextmanager.gcp.upbound.io/v1beta1
+apiVersion: accesscontextmanager.gcp.upbound.io/v1beta2
 kind: ServicePerimeter
 metadata:
   annotations:
-    meta.upbound.io/example-id: accesscontextmanager/v1beta1/serviceperimeterresource
-    upjet.upbound.io/manual-intervention: "Requires organization level IAM permissions"
+    meta.upbound.io/example-id: accesscontextmanager/v1beta1/serviceperimeterdryrunresource
   labels:
-    testing.upbound.io/example-name: service-perimeter-resource
-  name: service-perimeter-resource
+    testing.upbound.io/example-name: service-perimeter-dry-run-resource
+  name: service-perimeter-dry-run-resource
 spec:
   initProvider:
-    status:
+    spec:
       - resources: []
   forProvider:
     name: accessPolicies/${google_access_context_manager_access_policy.access-policy.name}/servicePerimeters/restrict_all
     parent: accessPolicies/${google_access_context_manager_access_policy.access-policy.name}
-    status:
+    spec:
       - restrictedServices:
           - storage.googleapis.com
     title: restrict_all
+    useExplicitDryRunSpec: true

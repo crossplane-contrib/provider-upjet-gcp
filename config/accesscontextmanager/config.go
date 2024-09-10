@@ -26,4 +26,11 @@ func Configure(p *config.Provider) {
 		}
 		r.MetaResource.Description = "Allows configuring a single GCP resource that should be inside the 'status' block of a service perimeter."
 	})
+	p.AddResourceConfigurator("google_access_context_manager_service_perimeter_dry_run_resource", func(r *config.Resource) {
+		if s, ok := r.TerraformResource.Schema["resource"]; ok {
+			s.Optional = false
+			s.Computed = false
+		}
+		r.MetaResource.Description = "Allows configuring a single GCP resource that should be inside of the 'spec' block of a dry run service perimeter."
+	})
 }

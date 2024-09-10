@@ -1,0 +1,49 @@
+apiVersion: accesscontextmanager.gcp.upbound.io/v1beta1
+kind: ServicePerimeterDryRunResource
+metadata:
+  annotations:
+    meta.upbound.io/example-id: accesscontextmanager/v1beta1/serviceperimeterdryrunresource
+  labels:
+    testing.upbound.io/example-name: service-perimeter-dry-run-resource
+  name: service-perimeter-dry-run-resource
+spec:
+  forProvider:
+    perimeterNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: service-perimeter-dry-run-resource
+    resource: projects/987654321
+
+---
+
+apiVersion: accesscontextmanager.gcp.upbound.io/v1beta1
+kind: AccessPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: accesscontextmanager/v1beta1/serviceperimeterdryrunresource
+  labels:
+    testing.upbound.io/example-name: access-policy
+  name: access-policy
+spec:
+  forProvider:
+    parent: organizations/123456789
+    title: my policy
+
+---
+
+apiVersion: accesscontextmanager.gcp.upbound.io/v1beta2
+kind: ServicePerimeter
+metadata:
+  annotations:
+    meta.upbound.io/example-id: accesscontextmanager/v1beta1/serviceperimeterdryrunresource
+  labels:
+    testing.upbound.io/example-name: service-perimeter-dry-run-resource
+  name: service-perimeter-dry-run-resource
+spec:
+  forProvider:
+    name: accessPolicies/${google_access_context_manager_access_policy.access-policy.name}/servicePerimeters/restrict_all
+    parent: accessPolicies/${google_access_context_manager_access_policy.access-policy.name}
+    spec:
+    - restrictedServices:
+      - storage.googleapis.com
+    title: restrict_all
+    useExplicitDryRunSpec: true

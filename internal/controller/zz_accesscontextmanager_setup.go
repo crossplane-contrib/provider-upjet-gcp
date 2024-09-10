@@ -14,6 +14,7 @@ import (
 	accesspolicy "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/accesspolicy"
 	accesspolicyiammember "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/accesspolicyiammember"
 	serviceperimeter "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/serviceperimeter"
+	serviceperimeterdryrunresource "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/serviceperimeterdryrunresource"
 	serviceperimeterresource "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/serviceperimeterresource"
 )
 
@@ -26,6 +27,7 @@ func Setup_accesscontextmanager(mgr ctrl.Manager, o controller.Options) error {
 		accesspolicy.Setup,
 		accesspolicyiammember.Setup,
 		serviceperimeter.Setup,
+		serviceperimeterdryrunresource.Setup,
 		serviceperimeterresource.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {

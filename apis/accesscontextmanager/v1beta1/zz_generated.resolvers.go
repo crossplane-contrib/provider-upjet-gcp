@@ -219,6 +219,56 @@ func (mg *ServicePerimeter) ResolveReferences(ctx context.Context, c client.Read
 	return nil
 }
 
+// ResolveReferences of this ServicePerimeterDryRunResource.
+func (mg *ServicePerimeterDryRunResource) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("accesscontextmanager.gcp.upbound.io", "v1beta2", "ServicePerimeter", "ServicePerimeterList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PerimeterName),
+			Extract:      resource.ExtractParamPath("name", false),
+			Reference:    mg.Spec.ForProvider.PerimeterNameRef,
+			Selector:     mg.Spec.ForProvider.PerimeterNameSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.PerimeterName")
+	}
+	mg.Spec.ForProvider.PerimeterName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.PerimeterNameRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("accesscontextmanager.gcp.upbound.io", "v1beta2", "ServicePerimeter", "ServicePerimeterList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PerimeterName),
+			Extract:      resource.ExtractParamPath("name", false),
+			Reference:    mg.Spec.InitProvider.PerimeterNameRef,
+			Selector:     mg.Spec.InitProvider.PerimeterNameSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.PerimeterName")
+	}
+	mg.Spec.InitProvider.PerimeterName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.PerimeterNameRef = rsp.ResolvedReference
+
+	return nil
+}
+
 // ResolveReferences of this ServicePerimeterResource.
 func (mg *ServicePerimeterResource) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed

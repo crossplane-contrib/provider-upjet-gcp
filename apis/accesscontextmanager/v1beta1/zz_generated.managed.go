@@ -307,6 +307,66 @@ func (mg *ServicePerimeter) SetWriteConnectionSecretToReference(r *xpv1.SecretRe
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+// GetCondition of this ServicePerimeterDryRunResource.
+func (mg *ServicePerimeterDryRunResource) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this ServicePerimeterDryRunResource.
+func (mg *ServicePerimeterDryRunResource) GetDeletionPolicy() xpv1.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetManagementPolicies of this ServicePerimeterDryRunResource.
+func (mg *ServicePerimeterDryRunResource) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this ServicePerimeterDryRunResource.
+func (mg *ServicePerimeterDryRunResource) GetProviderConfigReference() *xpv1.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetPublishConnectionDetailsTo of this ServicePerimeterDryRunResource.
+func (mg *ServicePerimeterDryRunResource) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
+}
+
+// GetWriteConnectionSecretToReference of this ServicePerimeterDryRunResource.
+func (mg *ServicePerimeterDryRunResource) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this ServicePerimeterDryRunResource.
+func (mg *ServicePerimeterDryRunResource) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this ServicePerimeterDryRunResource.
+func (mg *ServicePerimeterDryRunResource) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicies of this ServicePerimeterDryRunResource.
+func (mg *ServicePerimeterDryRunResource) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this ServicePerimeterDryRunResource.
+func (mg *ServicePerimeterDryRunResource) SetProviderConfigReference(r *xpv1.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetPublishConnectionDetailsTo of this ServicePerimeterDryRunResource.
+func (mg *ServicePerimeterDryRunResource) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
+}
+
+// SetWriteConnectionSecretToReference of this ServicePerimeterDryRunResource.
+func (mg *ServicePerimeterDryRunResource) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
 // GetCondition of this ServicePerimeterResource.
 func (mg *ServicePerimeterResource) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
