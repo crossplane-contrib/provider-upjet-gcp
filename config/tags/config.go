@@ -19,9 +19,11 @@ func Configure(p *config.Provider) {
 			TerraformName: "google_tags_tag_value",
 			Extractor:     common.ExtractResourceIDFuncPath,
 		}
+		config.MarkAsRequired(r.TerraformResource, "parent", "tag_value")
 	})
 	p.AddResourceConfigurator("google_tags_tag_key", func(r *config.Resource) {
 		r.UseAsync = true
+		config.MarkAsRequired(r.TerraformResource, "parent", "short_name")
 	})
 	p.AddResourceConfigurator("google_tags_tag_value", func(r *config.Resource) {
 		r.UseAsync = true
@@ -29,5 +31,6 @@ func Configure(p *config.Provider) {
 			TerraformName: "google_tags_tag_key",
 			Extractor:     common.ExtractResourceIDFuncPath,
 		}
+		config.MarkAsRequired(r.TerraformResource, "parent", "short_name")
 	})
 }
