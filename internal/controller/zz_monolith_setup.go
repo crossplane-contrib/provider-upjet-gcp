@@ -327,6 +327,7 @@ import (
 	subscriptioniammember "github.com/upbound/provider-gcp/internal/controller/pubsub/subscriptioniammember"
 	topic "github.com/upbound/provider-gcp/internal/controller/pubsub/topic"
 	topiciammember "github.com/upbound/provider-gcp/internal/controller/pubsub/topiciammember"
+	clusterredis "github.com/upbound/provider-gcp/internal/controller/redis/cluster"
 	instanceredis "github.com/upbound/provider-gcp/internal/controller/redis/instance"
 	secret "github.com/upbound/provider-gcp/internal/controller/secretmanager/secret"
 	secretiammember "github.com/upbound/provider-gcp/internal/controller/secretmanager/secretiammember"
@@ -689,6 +690,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		subscriptioniammember.Setup,
 		topic.Setup,
 		topiciammember.Setup,
+		clusterredis.Setup,
 		instanceredis.Setup,
 		secret.Setup,
 		secretiammember.Setup,
