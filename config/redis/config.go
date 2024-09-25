@@ -10,6 +10,7 @@ import (
 	"github.com/crossplane/crossplane-runtime/pkg/fieldpath"
 	"github.com/crossplane/upjet/pkg/config"
 	"github.com/pkg/errors"
+
 	"github.com/upbound/provider-gcp/config/common"
 )
 
