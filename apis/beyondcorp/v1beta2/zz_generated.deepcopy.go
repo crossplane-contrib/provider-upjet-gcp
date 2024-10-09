@@ -59,6 +59,18 @@ func (in *AppConnectionInitParameters) DeepCopyInto(out *AppConnectionInitParame
 			}
 		}
 	}
+	if in.ConnectorsRefs != nil {
+		in, out := &in.ConnectorsRefs, &out.ConnectorsRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.ConnectorsSelector != nil {
+		in, out := &in.ConnectorsSelector, &out.ConnectorsSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.DisplayName != nil {
 		in, out := &in.DisplayName, &out.DisplayName
 		*out = new(string)
@@ -281,6 +293,18 @@ func (in *AppConnectionParameters) DeepCopyInto(out *AppConnectionParameters) {
 				**out = **in
 			}
 		}
+	}
+	if in.ConnectorsRefs != nil {
+		in, out := &in.ConnectorsRefs, &out.ConnectorsRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.ConnectorsSelector != nil {
+		in, out := &in.ConnectorsSelector, &out.ConnectorsSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.DisplayName != nil {
 		in, out := &in.DisplayName, &out.DisplayName

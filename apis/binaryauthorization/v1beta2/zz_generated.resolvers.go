@@ -71,3 +71,100 @@ func (mg *Attestor) ResolveReferences(ctx context.Context, c client.Reader) erro
 
 	return nil
 }
+
+// ResolveReferences of this Policy.
+func (mg *Policy) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var mrsp reference.MultiResolutionResponse
+	var err error
+
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.ClusterAdmissionRules); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("binaryauthorization.gcp.upbound.io", "v1beta2", "Attestor", "AttestorList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+				CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.ClusterAdmissionRules[i3].RequireAttestationsBy),
+				Extract:       reference.ExternalName(),
+				References:    mg.Spec.ForProvider.ClusterAdmissionRules[i3].RequireAttestationsByRefs,
+				Selector:      mg.Spec.ForProvider.ClusterAdmissionRules[i3].RequireAttestationsBySelector,
+				To:            reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.ClusterAdmissionRules[i3].RequireAttestationsBy")
+		}
+		mg.Spec.ForProvider.ClusterAdmissionRules[i3].RequireAttestationsBy = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.ForProvider.ClusterAdmissionRules[i3].RequireAttestationsByRefs = mrsp.ResolvedReferences
+
+	}
+	if mg.Spec.ForProvider.DefaultAdmissionRule != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("binaryauthorization.gcp.upbound.io", "v1beta2", "Attestor", "AttestorList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+				CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.DefaultAdmissionRule.RequireAttestationsBy),
+				Extract:       reference.ExternalName(),
+				References:    mg.Spec.ForProvider.DefaultAdmissionRule.RequireAttestationsByRefs,
+				Selector:      mg.Spec.ForProvider.DefaultAdmissionRule.RequireAttestationsBySelector,
+				To:            reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.DefaultAdmissionRule.RequireAttestationsBy")
+		}
+		mg.Spec.ForProvider.DefaultAdmissionRule.RequireAttestationsBy = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.ForProvider.DefaultAdmissionRule.RequireAttestationsByRefs = mrsp.ResolvedReferences
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.ClusterAdmissionRules); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("binaryauthorization.gcp.upbound.io", "v1beta2", "Attestor", "AttestorList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+				CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.ClusterAdmissionRules[i3].RequireAttestationsBy),
+				Extract:       reference.ExternalName(),
+				References:    mg.Spec.InitProvider.ClusterAdmissionRules[i3].RequireAttestationsByRefs,
+				Selector:      mg.Spec.InitProvider.ClusterAdmissionRules[i3].RequireAttestationsBySelector,
+				To:            reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.ClusterAdmissionRules[i3].RequireAttestationsBy")
+		}
+		mg.Spec.InitProvider.ClusterAdmissionRules[i3].RequireAttestationsBy = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.InitProvider.ClusterAdmissionRules[i3].RequireAttestationsByRefs = mrsp.ResolvedReferences
+
+	}
+	if mg.Spec.InitProvider.DefaultAdmissionRule != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("binaryauthorization.gcp.upbound.io", "v1beta2", "Attestor", "AttestorList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+				CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.DefaultAdmissionRule.RequireAttestationsBy),
+				Extract:       reference.ExternalName(),
+				References:    mg.Spec.InitProvider.DefaultAdmissionRule.RequireAttestationsByRefs,
+				Selector:      mg.Spec.InitProvider.DefaultAdmissionRule.RequireAttestationsBySelector,
+				To:            reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.DefaultAdmissionRule.RequireAttestationsBy")
+		}
+		mg.Spec.InitProvider.DefaultAdmissionRule.RequireAttestationsBy = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.InitProvider.DefaultAdmissionRule.RequireAttestationsByRefs = mrsp.ResolvedReferences
+
+	}
+
+	return nil
+}
