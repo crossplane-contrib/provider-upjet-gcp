@@ -265,6 +265,18 @@ func (in *CertificateMapEntryInitParameters) DeepCopyInto(out *CertificateMapEnt
 			}
 		}
 	}
+	if in.CertificatesRefs != nil {
+		in, out := &in.CertificatesRefs, &out.CertificatesRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.CertificatesSelector != nil {
+		in, out := &in.CertificatesSelector, &out.CertificatesSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -477,6 +489,18 @@ func (in *CertificateMapEntryParameters) DeepCopyInto(out *CertificateMapEntryPa
 				**out = **in
 			}
 		}
+	}
+	if in.CertificatesRefs != nil {
+		in, out := &in.CertificatesRefs, &out.CertificatesRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.CertificatesSelector != nil {
+		in, out := &in.CertificatesSelector, &out.CertificatesSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description

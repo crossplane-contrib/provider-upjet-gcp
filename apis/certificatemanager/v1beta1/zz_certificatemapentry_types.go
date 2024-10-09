@@ -18,7 +18,17 @@ type CertificateMapEntryInitParameters struct {
 	// A set of Certificates defines for the given hostname.
 	// There can be defined up to fifteen certificates in each Certificate Map Entry.
 	// Each certificate must match pattern projects//locations//certificates/*.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/certificatemanager/v1beta2.Certificate
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	Certificates []*string `json:"certificates,omitempty" tf:"certificates,omitempty"`
+
+	// References to Certificate in certificatemanager to populate certificates.
+	// +kubebuilder:validation:Optional
+	CertificatesRefs []v1.Reference `json:"certificatesRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Certificate in certificatemanager to populate certificates.
+	// +kubebuilder:validation:Optional
+	CertificatesSelector *v1.Selector `json:"certificatesSelector,omitempty" tf:"-"`
 
 	// A human-readable description of the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -104,8 +114,18 @@ type CertificateMapEntryParameters struct {
 	// A set of Certificates defines for the given hostname.
 	// There can be defined up to fifteen certificates in each Certificate Map Entry.
 	// Each certificate must match pattern projects//locations//certificates/*.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/certificatemanager/v1beta2.Certificate
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Certificates []*string `json:"certificates,omitempty" tf:"certificates,omitempty"`
+
+	// References to Certificate in certificatemanager to populate certificates.
+	// +kubebuilder:validation:Optional
+	CertificatesRefs []v1.Reference `json:"certificatesRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Certificate in certificatemanager to populate certificates.
+	// +kubebuilder:validation:Optional
+	CertificatesSelector *v1.Selector `json:"certificatesSelector,omitempty" tf:"-"`
 
 	// A human-readable description of the resource.
 	// +kubebuilder:validation:Optional
@@ -183,9 +203,8 @@ type CertificateMapEntryStatus struct {
 type CertificateMapEntry struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.certificates) || (has(self.initProvider) && has(self.initProvider.certificates))",message="spec.forProvider.certificates is a required parameter"
-	Spec   CertificateMapEntrySpec   `json:"spec"`
-	Status CertificateMapEntryStatus `json:"status,omitempty"`
+	Spec              CertificateMapEntrySpec   `json:"spec"`
+	Status            CertificateMapEntryStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

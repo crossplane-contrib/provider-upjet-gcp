@@ -8,8 +8,8 @@ metadata:
   name: default
 spec:
   forProvider:
-    certificates:
-    - ${google_certificate_manager_certificate.certificate.id}
+    certificatesRefs:
+    - name: certificate
     description: My acceptance test certificate map entry
     labels:
       acc-test: true
@@ -33,12 +33,12 @@ spec:
   forProvider:
     description: The default cert
     managed:
-    - dnsAuthorizations:
-      - ${google_certificate_manager_dns_authorization.instance.id}
-      - ${google_certificate_manager_dns_authorization.instance2.id}
-      domains:
-      - ${google_certificate_manager_dns_authorization.instance.domain}
-      - ${google_certificate_manager_dns_authorization.instance2.domain}
+    - dnsAuthorizationsRefs:
+      - name: instance
+      - name: instance2
+      domainsRefs:
+      - name: instance
+      - name: instance2
     scope: DEFAULT
 
 ---

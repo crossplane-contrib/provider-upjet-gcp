@@ -236,7 +236,17 @@ type InstanceTemplateDiskInitParameters struct {
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
 	// - A list (short name or id) of resource policies to attach to this disk for automatic snapshot creations. Currently a max of 1 resource policy is supported.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.ResourcePolicy
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	ResourcePolicies []*string `json:"resourcePolicies,omitempty" tf:"resource_policies,omitempty"`
+
+	// References to ResourcePolicy in compute to populate resourcePolicies.
+	// +kubebuilder:validation:Optional
+	ResourcePoliciesRefs []v1.Reference `json:"resourcePoliciesRefs,omitempty" tf:"-"`
+
+	// Selector for a list of ResourcePolicy in compute to populate resourcePolicies.
+	// +kubebuilder:validation:Optional
+	ResourcePoliciesSelector *v1.Selector `json:"resourcePoliciesSelector,omitempty" tf:"-"`
 
 	// The name (not self_link)
 	// of the disk (such as those managed by google_compute_disk) to attach.
@@ -441,8 +451,18 @@ type InstanceTemplateDiskParameters struct {
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
 	// - A list (short name or id) of resource policies to attach to this disk for automatic snapshot creations. Currently a max of 1 resource policy is supported.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.ResourcePolicy
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ResourcePolicies []*string `json:"resourcePolicies,omitempty" tf:"resource_policies,omitempty"`
+
+	// References to ResourcePolicy in compute to populate resourcePolicies.
+	// +kubebuilder:validation:Optional
+	ResourcePoliciesRefs []v1.Reference `json:"resourcePoliciesRefs,omitempty" tf:"-"`
+
+	// Selector for a list of ResourcePolicy in compute to populate resourcePolicies.
+	// +kubebuilder:validation:Optional
+	ResourcePoliciesSelector *v1.Selector `json:"resourcePoliciesSelector,omitempty" tf:"-"`
 
 	// The name (not self_link)
 	// of the disk (such as those managed by google_compute_disk) to attach.

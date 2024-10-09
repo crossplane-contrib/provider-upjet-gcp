@@ -1881,7 +1881,27 @@ func (mg *InstanceGroup) ResolveReferences(ctx context.Context, c client.Reader)
 	r := reference.NewAPIResolver(c, mg)
 
 	var rsp reference.ResolutionResponse
+	var mrsp reference.MultiResolutionResponse
 	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Instance", "InstanceList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+			CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.Instances),
+			Extract:       resource.ExtractResourceID(),
+			References:    mg.Spec.ForProvider.InstancesRefs,
+			Selector:      mg.Spec.ForProvider.InstancesSelector,
+			To:            reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Instances")
+	}
+	mg.Spec.ForProvider.Instances = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.ForProvider.InstancesRefs = mrsp.ResolvedReferences
 	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Network", "NetworkList")
 		if err != nil {
@@ -1901,6 +1921,25 @@ func (mg *InstanceGroup) ResolveReferences(ctx context.Context, c client.Reader)
 	}
 	mg.Spec.ForProvider.Network = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.NetworkRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Instance", "InstanceList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+			CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.Instances),
+			Extract:       resource.ExtractResourceID(),
+			References:    mg.Spec.InitProvider.InstancesRefs,
+			Selector:      mg.Spec.InitProvider.InstancesSelector,
+			To:            reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Instances")
+	}
+	mg.Spec.InitProvider.Instances = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.InitProvider.InstancesRefs = mrsp.ResolvedReferences
 	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Network", "NetworkList")
 		if err != nil {
@@ -2298,7 +2337,27 @@ func (mg *InterconnectAttachment) ResolveReferences(ctx context.Context, c clien
 	r := reference.NewAPIResolver(c, mg)
 
 	var rsp reference.ResolutionResponse
+	var mrsp reference.MultiResolutionResponse
 	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Address", "AddressList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+			CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.IpsecInternalAddresses),
+			Extract:       resource.ExtractParamPath("self_link", true),
+			References:    mg.Spec.ForProvider.IpsecInternalAddressesRefs,
+			Selector:      mg.Spec.ForProvider.IpsecInternalAddressesSelector,
+			To:            reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.IpsecInternalAddresses")
+	}
+	mg.Spec.ForProvider.IpsecInternalAddresses = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.ForProvider.IpsecInternalAddressesRefs = mrsp.ResolvedReferences
 	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Router", "RouterList")
 		if err != nil {
@@ -2318,6 +2377,25 @@ func (mg *InterconnectAttachment) ResolveReferences(ctx context.Context, c clien
 	}
 	mg.Spec.ForProvider.Router = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.RouterRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Address", "AddressList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+			CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.IpsecInternalAddresses),
+			Extract:       resource.ExtractParamPath("self_link", true),
+			References:    mg.Spec.InitProvider.IpsecInternalAddressesRefs,
+			Selector:      mg.Spec.InitProvider.IpsecInternalAddressesSelector,
+			To:            reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.IpsecInternalAddresses")
+	}
+	mg.Spec.InitProvider.IpsecInternalAddresses = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.InitProvider.IpsecInternalAddressesRefs = mrsp.ResolvedReferences
 	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Router", "RouterList")
 		if err != nil {

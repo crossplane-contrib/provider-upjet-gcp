@@ -72,7 +72,17 @@ type InterconnectAttachmentInitParameters struct {
 	// encryption option as IPSEC, later on when creating HA VPN gateway on this
 	// interconnect attachment, the HA VPN gateway's IP address will be
 	// allocated from regional external IP address pool.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Address
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
 	IpsecInternalAddresses []*string `json:"ipsecInternalAddresses,omitempty" tf:"ipsec_internal_addresses,omitempty"`
+
+	// References to Address in compute to populate ipsecInternalAddresses.
+	// +kubebuilder:validation:Optional
+	IpsecInternalAddressesRefs []v1.Reference `json:"ipsecInternalAddressesRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Address in compute to populate ipsecInternalAddresses.
+	// +kubebuilder:validation:Optional
+	IpsecInternalAddressesSelector *v1.Selector `json:"ipsecInternalAddressesSelector,omitempty" tf:"-"`
 
 	// Maximum Transmission Unit (MTU), in bytes, of packets passing through
 	// this interconnect attachment. Currently, only 1440 and 1500 are allowed. If not specified, the value will default to 1440.
@@ -339,8 +349,18 @@ type InterconnectAttachmentParameters struct {
 	// encryption option as IPSEC, later on when creating HA VPN gateway on this
 	// interconnect attachment, the HA VPN gateway's IP address will be
 	// allocated from regional external IP address pool.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Address
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	IpsecInternalAddresses []*string `json:"ipsecInternalAddresses,omitempty" tf:"ipsec_internal_addresses,omitempty"`
+
+	// References to Address in compute to populate ipsecInternalAddresses.
+	// +kubebuilder:validation:Optional
+	IpsecInternalAddressesRefs []v1.Reference `json:"ipsecInternalAddressesRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Address in compute to populate ipsecInternalAddresses.
+	// +kubebuilder:validation:Optional
+	IpsecInternalAddressesSelector *v1.Selector `json:"ipsecInternalAddressesSelector,omitempty" tf:"-"`
 
 	// Maximum Transmission Unit (MTU), in bytes, of packets passing through
 	// this interconnect attachment. Currently, only 1440 and 1500 are allowed. If not specified, the value will default to 1440.

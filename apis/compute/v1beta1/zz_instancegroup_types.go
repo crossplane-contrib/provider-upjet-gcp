@@ -21,8 +21,18 @@ type InstanceGroupInitParameters struct {
 
 	// The list of instances in the group, in self_link format.
 	// When adding instances they must all be in the same network and zone as the instance group.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.Instance
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +listType=set
 	Instances []*string `json:"instances,omitempty" tf:"instances,omitempty"`
+
+	// References to Instance in compute to populate instances.
+	// +kubebuilder:validation:Optional
+	InstancesRefs []v1.Reference `json:"instancesRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Instance in compute to populate instances.
+	// +kubebuilder:validation:Optional
+	InstancesSelector *v1.Selector `json:"instancesSelector,omitempty" tf:"-"`
 
 	// The named port configuration. See the section below
 	// for details on configuration. Structure is documented below.
@@ -96,9 +106,19 @@ type InstanceGroupParameters struct {
 
 	// The list of instances in the group, in self_link format.
 	// When adding instances they must all be in the same network and zone as the instance group.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.Instance
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	Instances []*string `json:"instances,omitempty" tf:"instances,omitempty"`
+
+	// References to Instance in compute to populate instances.
+	// +kubebuilder:validation:Optional
+	InstancesRefs []v1.Reference `json:"instancesRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Instance in compute to populate instances.
+	// +kubebuilder:validation:Optional
+	InstancesSelector *v1.Selector `json:"instancesSelector,omitempty" tf:"-"`
 
 	// The named port configuration. See the section below
 	// for details on configuration. Structure is documented below.
