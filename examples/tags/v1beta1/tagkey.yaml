@@ -3,6 +3,22 @@ kind: TagKey
 metadata:
   annotations:
     meta.upbound.io/example-id: tags/v1beta1/tagkey
+    upjet.upbound.io/manual-intervention: "The resource requires a real external name"
+    crossplane.io/external-name: "tagKeys/281475435132414"
+  labels:
+    testing.upbound.io/example-name: key-external
+  name: key-external
+spec:
+  managementPolicies: ["Observe"]
+  forProvider: {}
+
+---
+
+apiVersion: tags.gcp.upbound.io/v1beta1
+kind: TagKey
+metadata:
+  annotations:
+    meta.upbound.io/example-id: tags/v1beta1/tagkey
     upjet.upbound.io/manual-intervention: "The resource requires a real Project ID"
   labels:
     testing.upbound.io/example-name: key
