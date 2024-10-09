@@ -11,8 +11,8 @@ spec:
     applicationEndpoint:
     - host: foo-host
       port: 8080
-    connectors:
-    - ${google_beyondcorp_app_connector.app_connector.id}
+    connectorsRefs:
+    - name: app_connector
     name: my-app-connection
     type: TCP_PROXY
 

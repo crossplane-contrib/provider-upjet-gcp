@@ -23665,6 +23665,18 @@ func (in *InstanceGroupInitParameters) DeepCopyInto(out *InstanceGroupInitParame
 			}
 		}
 	}
+	if in.InstancesRefs != nil {
+		in, out := &in.InstancesRefs, &out.InstancesRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.InstancesSelector != nil {
+		in, out := &in.InstancesSelector, &out.InstancesSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.NamedPort != nil {
 		in, out := &in.NamedPort, &out.NamedPort
 		*out = make([]NamedPortInitParameters, len(*in))
@@ -24653,6 +24665,18 @@ func (in *InstanceGroupParameters) DeepCopyInto(out *InstanceGroupParameters) {
 				**out = **in
 			}
 		}
+	}
+	if in.InstancesRefs != nil {
+		in, out := &in.InstancesRefs, &out.InstancesRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.InstancesSelector != nil {
+		in, out := &in.InstancesSelector, &out.InstancesSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.NamedPort != nil {
 		in, out := &in.NamedPort, &out.NamedPort
@@ -29301,6 +29325,18 @@ func (in *InterconnectAttachmentInitParameters) DeepCopyInto(out *InterconnectAt
 			}
 		}
 	}
+	if in.IpsecInternalAddressesRefs != nil {
+		in, out := &in.IpsecInternalAddressesRefs, &out.IpsecInternalAddressesRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.IpsecInternalAddressesSelector != nil {
+		in, out := &in.IpsecInternalAddressesSelector, &out.IpsecInternalAddressesSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Mtu != nil {
 		in, out := &in.Mtu, &out.Mtu
 		*out = new(string)
@@ -29613,6 +29649,18 @@ func (in *InterconnectAttachmentParameters) DeepCopyInto(out *InterconnectAttach
 				**out = **in
 			}
 		}
+	}
+	if in.IpsecInternalAddressesRefs != nil {
+		in, out := &in.IpsecInternalAddressesRefs, &out.IpsecInternalAddressesRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.IpsecInternalAddressesSelector != nil {
+		in, out := &in.IpsecInternalAddressesSelector, &out.IpsecInternalAddressesSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Mtu != nil {
 		in, out := &in.Mtu, &out.Mtu
