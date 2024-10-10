@@ -20,7 +20,17 @@ type AppConnectionInitParameters struct {
 	ApplicationEndpoint *ApplicationEndpointInitParameters `json:"applicationEndpoint,omitempty" tf:"application_endpoint,omitempty"`
 
 	// List of AppConnectors that are authorised to be associated with this AppConnection
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/beyondcorp/v1beta2.AppConnector
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	Connectors []*string `json:"connectors,omitempty" tf:"connectors,omitempty"`
+
+	// References to AppConnector in beyondcorp to populate connectors.
+	// +kubebuilder:validation:Optional
+	ConnectorsRefs []v1.Reference `json:"connectorsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of AppConnector in beyondcorp to populate connectors.
+	// +kubebuilder:validation:Optional
+	ConnectorsSelector *v1.Selector `json:"connectorsSelector,omitempty" tf:"-"`
 
 	// An arbitrary user-provided name for the AppConnection.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -104,8 +114,18 @@ type AppConnectionParameters struct {
 	ApplicationEndpoint *ApplicationEndpointParameters `json:"applicationEndpoint,omitempty" tf:"application_endpoint,omitempty"`
 
 	// List of AppConnectors that are authorised to be associated with this AppConnection
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/beyondcorp/v1beta2.AppConnector
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Connectors []*string `json:"connectors,omitempty" tf:"connectors,omitempty"`
+
+	// References to AppConnector in beyondcorp to populate connectors.
+	// +kubebuilder:validation:Optional
+	ConnectorsRefs []v1.Reference `json:"connectorsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of AppConnector in beyondcorp to populate connectors.
+	// +kubebuilder:validation:Optional
+	ConnectorsSelector *v1.Selector `json:"connectorsSelector,omitempty" tf:"-"`
 
 	// An arbitrary user-provided name for the AppConnection.
 	// +kubebuilder:validation:Optional

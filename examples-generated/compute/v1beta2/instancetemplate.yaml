@@ -13,8 +13,8 @@ spec:
     disk:
     - autoDelete: true
       boot: true
-      resourcePolicies:
-      - ${google_compute_resource_policy.daily_backup.id}
+      resourcePoliciesRefs:
+      - name: daily_backup
       sourceImage: debian-cloud/debian-11
     - autoDelete: false
       boot: false
