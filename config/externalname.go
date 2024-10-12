@@ -622,6 +622,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_network_connectivity_hub": config.IdentifierFromProvider,
 	// Spoke can be imported using {{location}}/{{name}}
 	"google_network_connectivity_spoke": config.IdentifierFromProvider,
+	// ServiceConnectionPolicy can be imported using projects/{{project}}/locations/{{location}}/serviceConnectionPolicies/{{name}}
+	"google_network_connectivity_service_connection_policy": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/serviceConnectionPolicies/{{ .external_name }}"),
 
 	// mlengine
 	//
