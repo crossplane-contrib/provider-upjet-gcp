@@ -4567,6 +4567,14 @@ type PrivateClusterConfigInitParameters struct {
 
 	// Subnetwork in cluster's network where master's endpoint will be provisioned.
 	PrivateEndpointSubnetwork *string `json:"privateEndpointSubnetwork,omitempty" tf:"private_endpoint_subnetwork,omitempty"`
+
+	// Reference to a Subnetwork in compute to populate privateEndpointSubnetwork.
+	// +kubebuilder:validation:Optional
+	PrivateEndpointSubnetworkRef *v1.Reference `json:"privateEndpointSubnetworkRef,omitempty" tf:"-"`
+
+	// Selector for a Subnetwork in compute to populate privateEndpointSubnetwork.
+	// +kubebuilder:validation:Optional
+	PrivateEndpointSubnetworkSelector *v1.Selector `json:"privateEndpointSubnetworkSelector,omitempty" tf:"-"`
 }
 
 type PrivateClusterConfigObservation struct {
@@ -4643,6 +4651,14 @@ type PrivateClusterConfigParameters struct {
 	// Subnetwork in cluster's network where master's endpoint will be provisioned.
 	// +kubebuilder:validation:Optional
 	PrivateEndpointSubnetwork *string `json:"privateEndpointSubnetwork,omitempty" tf:"private_endpoint_subnetwork,omitempty"`
+
+	// Reference to a Subnetwork in compute to populate privateEndpointSubnetwork.
+	// +kubebuilder:validation:Optional
+	PrivateEndpointSubnetworkRef *v1.Reference `json:"privateEndpointSubnetworkRef,omitempty" tf:"-"`
+
+	// Selector for a Subnetwork in compute to populate privateEndpointSubnetwork.
+	// +kubebuilder:validation:Optional
+	PrivateEndpointSubnetworkSelector *v1.Selector `json:"privateEndpointSubnetworkSelector,omitempty" tf:"-"`
 }
 
 type PrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigInitParameters struct {
