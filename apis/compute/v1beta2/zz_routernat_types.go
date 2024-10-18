@@ -18,8 +18,18 @@ type ActionInitParameters struct {
 	// A list of URLs of the IP resources used for this NAT rule.
 	// These IP addresses must be valid static external IP addresses assigned to the project.
 	// This field is used for public NAT.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Address
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
 	// +listType=set
 	SourceNATActiveIps []*string `json:"sourceNatActiveIps,omitempty" tf:"source_nat_active_ips,omitempty"`
+
+	// References to Address in compute to populate sourceNatActiveIps.
+	// +kubebuilder:validation:Optional
+	SourceNATActiveIpsRefs []v1.Reference `json:"sourceNatActiveIpsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Address in compute to populate sourceNatActiveIps.
+	// +kubebuilder:validation:Optional
+	SourceNATActiveIpsSelector *v1.Selector `json:"sourceNatActiveIpsSelector,omitempty" tf:"-"`
 
 	// A list of URLs of the IP resources to be drained.
 	// These IPs must be valid static external IPs that have been assigned to the NAT.
@@ -50,9 +60,19 @@ type ActionParameters struct {
 	// A list of URLs of the IP resources used for this NAT rule.
 	// These IP addresses must be valid static external IP addresses assigned to the project.
 	// This field is used for public NAT.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Address
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	SourceNATActiveIps []*string `json:"sourceNatActiveIps,omitempty" tf:"source_nat_active_ips,omitempty"`
+
+	// References to Address in compute to populate sourceNatActiveIps.
+	// +kubebuilder:validation:Optional
+	SourceNATActiveIpsRefs []v1.Reference `json:"sourceNatActiveIpsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Address in compute to populate sourceNatActiveIps.
+	// +kubebuilder:validation:Optional
+	SourceNATActiveIpsSelector *v1.Selector `json:"sourceNatActiveIpsSelector,omitempty" tf:"-"`
 
 	// A list of URLs of the IP resources to be drained.
 	// These IPs must be valid static external IPs that have been assigned to the NAT.
@@ -116,8 +136,18 @@ type RouterNATInitParameters struct {
 
 	// Self-links of NAT IPs. Only valid if natIpAllocateOption
 	// is set to MANUAL_ONLY.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Address
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
 	// +listType=set
 	NATIps []*string `json:"natIps,omitempty" tf:"nat_ips,omitempty"`
+
+	// References to Address in compute to populate natIps.
+	// +kubebuilder:validation:Optional
+	NATIpsRefs []v1.Reference `json:"natIpsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Address in compute to populate natIps.
+	// +kubebuilder:validation:Optional
+	NATIpsSelector *v1.Selector `json:"natIpsSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -363,9 +393,19 @@ type RouterNATParameters struct {
 
 	// Self-links of NAT IPs. Only valid if natIpAllocateOption
 	// is set to MANUAL_ONLY.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Address
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	NATIps []*string `json:"natIps,omitempty" tf:"nat_ips,omitempty"`
+
+	// References to Address in compute to populate natIps.
+	// +kubebuilder:validation:Optional
+	NATIpsRefs []v1.Reference `json:"natIpsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Address in compute to populate natIps.
+	// +kubebuilder:validation:Optional
+	NATIpsSelector *v1.Selector `json:"natIpsSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.

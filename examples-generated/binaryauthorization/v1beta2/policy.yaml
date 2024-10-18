@@ -14,8 +14,8 @@ spec:
     - cluster: us-central1-a.prod-cluster
       enforcementMode: ENFORCED_BLOCK_AND_AUDIT_LOG
       evaluationMode: REQUIRE_ATTESTATION
-      requireAttestationsBy:
-      - ${google_binary_authorization_attestor.attestor.name}
+      requireAttestationsByRefs:
+      - name: attestor
     defaultAdmissionRule:
     - enforcementMode: ENFORCED_BLOCK_AND_AUDIT_LOG
       evaluationMode: ALWAYS_ALLOW
