@@ -13,8 +13,8 @@ metadata:
   name: default
 spec:
   forProvider:
-    certificates:
-    - projects/official-provider-testing/locations/global/certificates/certificate
+    certificatesRefs:
+    - name: certificate
     description: My acceptance test certificate map entry
     labels:
       acc-test: "true"
@@ -39,12 +39,12 @@ spec:
   forProvider:
     description: The default cert
     managed:
-    - dnsAuthorizations:
-      - projects/official-provider-testing/locations/global/dnsAuthorizations/instance
-      - projects/official-provider-testing/locations/global/dnsAuthorizations/instance2
-      domains:
-      - subdomain2.hashicorptest.com
-      - subdomain.hashicorptest.com
+    - dnsAuthorizationsRefs:
+      - name: instance
+      - name: instance2
+      domainsRefs:
+      - name: instance
+      - name: instance2
     scope: DEFAULT
 
 ---

@@ -401,6 +401,18 @@ func (in *ManagedInitParameters) DeepCopyInto(out *ManagedInitParameters) {
 			}
 		}
 	}
+	if in.DNSAuthorizationsRefs != nil {
+		in, out := &in.DNSAuthorizationsRefs, &out.DNSAuthorizationsRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.DNSAuthorizationsSelector != nil {
+		in, out := &in.DNSAuthorizationsSelector, &out.DNSAuthorizationsSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Domains != nil {
 		in, out := &in.Domains, &out.Domains
 		*out = make([]*string, len(*in))
@@ -411,6 +423,18 @@ func (in *ManagedInitParameters) DeepCopyInto(out *ManagedInitParameters) {
 				**out = **in
 			}
 		}
+	}
+	if in.DomainsRefs != nil {
+		in, out := &in.DomainsRefs, &out.DomainsRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.DomainsSelector != nil {
+		in, out := &in.DomainsSelector, &out.DomainsSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.IssuanceConfig != nil {
 		in, out := &in.IssuanceConfig, &out.IssuanceConfig
@@ -504,6 +528,18 @@ func (in *ManagedParameters) DeepCopyInto(out *ManagedParameters) {
 			}
 		}
 	}
+	if in.DNSAuthorizationsRefs != nil {
+		in, out := &in.DNSAuthorizationsRefs, &out.DNSAuthorizationsRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.DNSAuthorizationsSelector != nil {
+		in, out := &in.DNSAuthorizationsSelector, &out.DNSAuthorizationsSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Domains != nil {
 		in, out := &in.Domains, &out.Domains
 		*out = make([]*string, len(*in))
@@ -514,6 +550,18 @@ func (in *ManagedParameters) DeepCopyInto(out *ManagedParameters) {
 				**out = **in
 			}
 		}
+	}
+	if in.DomainsRefs != nil {
+		in, out := &in.DomainsRefs, &out.DomainsRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.DomainsSelector != nil {
+		in, out := &in.DomainsSelector, &out.DomainsSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.IssuanceConfig != nil {
 		in, out := &in.IssuanceConfig, &out.IssuanceConfig

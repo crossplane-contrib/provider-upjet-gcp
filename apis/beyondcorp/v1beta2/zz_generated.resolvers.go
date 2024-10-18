@@ -24,7 +24,27 @@ func (mg *AppConnection) ResolveReferences( // ResolveReferences of this AppConn
 	r := reference.NewAPIResolver(c, mg)
 
 	var rsp reference.ResolutionResponse
+	var mrsp reference.MultiResolutionResponse
 	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("beyondcorp.gcp.upbound.io", "v1beta2", "AppConnector", "AppConnectorList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+			CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.Connectors),
+			Extract:       resource.ExtractResourceID(),
+			References:    mg.Spec.ForProvider.ConnectorsRefs,
+			Selector:      mg.Spec.ForProvider.ConnectorsSelector,
+			To:            reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Connectors")
+	}
+	mg.Spec.ForProvider.Connectors = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.ForProvider.ConnectorsRefs = mrsp.ResolvedReferences
 
 	if mg.Spec.ForProvider.Gateway != nil {
 		{
@@ -47,6 +67,25 @@ func (mg *AppConnection) ResolveReferences( // ResolveReferences of this AppConn
 		mg.Spec.ForProvider.Gateway.AppGatewayRef = rsp.ResolvedReference
 
 	}
+	{
+		m, l, err = apisresolver.GetManagedResource("beyondcorp.gcp.upbound.io", "v1beta2", "AppConnector", "AppConnectorList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+			CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.Connectors),
+			Extract:       resource.ExtractResourceID(),
+			References:    mg.Spec.InitProvider.ConnectorsRefs,
+			Selector:      mg.Spec.InitProvider.ConnectorsSelector,
+			To:            reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Connectors")
+	}
+	mg.Spec.InitProvider.Connectors = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.InitProvider.ConnectorsRefs = mrsp.ResolvedReferences
+
 	if mg.Spec.InitProvider.Gateway != nil {
 		{
 			m, l, err = apisresolver.GetManagedResource("beyondcorp.gcp.upbound.io", "v1beta1", "AppGateway", "AppGatewayList")

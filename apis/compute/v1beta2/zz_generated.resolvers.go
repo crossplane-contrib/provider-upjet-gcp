@@ -1421,8 +1421,30 @@ func (mg *InstanceTemplate) ResolveReferences(ctx context.Context, c client.Read
 	r := reference.NewAPIResolver(c, mg)
 
 	var rsp reference.ResolutionResponse
+	var mrsp reference.MultiResolutionResponse
 	var err error
 
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Disk); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "ResourcePolicy", "ResourcePolicyList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+				CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.Disk[i3].ResourcePolicies),
+				Extract:       resource.ExtractResourceID(),
+				References:    mg.Spec.ForProvider.Disk[i3].ResourcePoliciesRefs,
+				Selector:      mg.Spec.ForProvider.Disk[i3].ResourcePoliciesSelector,
+				To:            reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.Disk[i3].ResourcePolicies")
+		}
+		mg.Spec.ForProvider.Disk[i3].ResourcePolicies = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.ForProvider.Disk[i3].ResourcePoliciesRefs = mrsp.ResolvedReferences
+
+	}
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.Disk); i3++ {
 		{
 			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Disk", "DiskList")
@@ -1505,6 +1527,27 @@ func (mg *InstanceTemplate) ResolveReferences(ctx context.Context, c client.Read
 		}
 		mg.Spec.ForProvider.ServiceAccount.Email = reference.ToPtrValue(rsp.ResolvedValue)
 		mg.Spec.ForProvider.ServiceAccount.EmailRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Disk); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "ResourcePolicy", "ResourcePolicyList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+				CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.Disk[i3].ResourcePolicies),
+				Extract:       resource.ExtractResourceID(),
+				References:    mg.Spec.InitProvider.Disk[i3].ResourcePoliciesRefs,
+				Selector:      mg.Spec.InitProvider.Disk[i3].ResourcePoliciesSelector,
+				To:            reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.Disk[i3].ResourcePolicies")
+		}
+		mg.Spec.InitProvider.Disk[i3].ResourcePolicies = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.InitProvider.Disk[i3].ResourcePoliciesRefs = mrsp.ResolvedReferences
 
 	}
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.Disk); i3++ {
@@ -3264,7 +3307,27 @@ func (mg *RouterNAT) ResolveReferences(ctx context.Context, c client.Reader) err
 	r := reference.NewAPIResolver(c, mg)
 
 	var rsp reference.ResolutionResponse
+	var mrsp reference.MultiResolutionResponse
 	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Address", "AddressList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+			CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.NATIps),
+			Extract:       resource.ExtractParamPath("self_link", true),
+			References:    mg.Spec.ForProvider.NATIpsRefs,
+			Selector:      mg.Spec.ForProvider.NATIpsSelector,
+			To:            reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.NATIps")
+	}
+	mg.Spec.ForProvider.NATIps = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.ForProvider.NATIpsRefs = mrsp.ResolvedReferences
 	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Router", "RouterList")
 		if err != nil {
@@ -3285,6 +3348,29 @@ func (mg *RouterNAT) ResolveReferences(ctx context.Context, c client.Reader) err
 	mg.Spec.ForProvider.Router = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.RouterRef = rsp.ResolvedReference
 
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Rules); i3++ {
+		if mg.Spec.ForProvider.Rules[i3].Action != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Address", "AddressList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+					CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.Rules[i3].Action.SourceNATActiveIps),
+					Extract:       resource.ExtractParamPath("self_link", true),
+					References:    mg.Spec.ForProvider.Rules[i3].Action.SourceNATActiveIpsRefs,
+					Selector:      mg.Spec.ForProvider.Rules[i3].Action.SourceNATActiveIpsSelector,
+					To:            reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.Rules[i3].Action.SourceNATActiveIps")
+			}
+			mg.Spec.ForProvider.Rules[i3].Action.SourceNATActiveIps = reference.ToPtrValues(mrsp.ResolvedValues)
+			mg.Spec.ForProvider.Rules[i3].Action.SourceNATActiveIpsRefs = mrsp.ResolvedReferences
+
+		}
+	}
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.Subnetwork); i3++ {
 		{
 			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Subnetwork", "SubnetworkList")
@@ -3305,6 +3391,48 @@ func (mg *RouterNAT) ResolveReferences(ctx context.Context, c client.Reader) err
 		mg.Spec.ForProvider.Subnetwork[i3].Name = reference.ToPtrValue(rsp.ResolvedValue)
 		mg.Spec.ForProvider.Subnetwork[i3].NameRef = rsp.ResolvedReference
 
+	}
+	{
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Address", "AddressList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+			CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.NATIps),
+			Extract:       resource.ExtractParamPath("self_link", true),
+			References:    mg.Spec.InitProvider.NATIpsRefs,
+			Selector:      mg.Spec.InitProvider.NATIpsSelector,
+			To:            reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.NATIps")
+	}
+	mg.Spec.InitProvider.NATIps = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.InitProvider.NATIpsRefs = mrsp.ResolvedReferences
+
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Rules); i3++ {
+		if mg.Spec.InitProvider.Rules[i3].Action != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Address", "AddressList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+					CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.Rules[i3].Action.SourceNATActiveIps),
+					Extract:       resource.ExtractParamPath("self_link", true),
+					References:    mg.Spec.InitProvider.Rules[i3].Action.SourceNATActiveIpsRefs,
+					Selector:      mg.Spec.InitProvider.Rules[i3].Action.SourceNATActiveIpsSelector,
+					To:            reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.Rules[i3].Action.SourceNATActiveIps")
+			}
+			mg.Spec.InitProvider.Rules[i3].Action.SourceNATActiveIps = reference.ToPtrValues(mrsp.ResolvedValues)
+			mg.Spec.InitProvider.Rules[i3].Action.SourceNATActiveIpsRefs = mrsp.ResolvedReferences
+
+		}
 	}
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.Subnetwork); i3++ {
 		{

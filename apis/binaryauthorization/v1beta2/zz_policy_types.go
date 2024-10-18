@@ -62,8 +62,17 @@ type ClusterAdmissionRulesInitParameters struct {
 	// request must be able to read the attestor resource.
 	// Note: this field must be non-empty when the evaluation_mode field
 	// specifies REQUIRE_ATTESTATION, otherwise it must be empty.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/binaryauthorization/v1beta2.Attestor
 	// +listType=set
 	RequireAttestationsBy []*string `json:"requireAttestationsBy,omitempty" tf:"require_attestations_by,omitempty"`
+
+	// References to Attestor in binaryauthorization to populate requireAttestationsBy.
+	// +kubebuilder:validation:Optional
+	RequireAttestationsByRefs []v1.Reference `json:"requireAttestationsByRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Attestor in binaryauthorization to populate requireAttestationsBy.
+	// +kubebuilder:validation:Optional
+	RequireAttestationsBySelector *v1.Selector `json:"requireAttestationsBySelector,omitempty" tf:"-"`
 }
 
 type ClusterAdmissionRulesObservation struct {
@@ -115,9 +124,18 @@ type ClusterAdmissionRulesParameters struct {
 	// request must be able to read the attestor resource.
 	// Note: this field must be non-empty when the evaluation_mode field
 	// specifies REQUIRE_ATTESTATION, otherwise it must be empty.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/binaryauthorization/v1beta2.Attestor
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	RequireAttestationsBy []*string `json:"requireAttestationsBy,omitempty" tf:"require_attestations_by,omitempty"`
+
+	// References to Attestor in binaryauthorization to populate requireAttestationsBy.
+	// +kubebuilder:validation:Optional
+	RequireAttestationsByRefs []v1.Reference `json:"requireAttestationsByRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Attestor in binaryauthorization to populate requireAttestationsBy.
+	// +kubebuilder:validation:Optional
+	RequireAttestationsBySelector *v1.Selector `json:"requireAttestationsBySelector,omitempty" tf:"-"`
 }
 
 type DefaultAdmissionRuleInitParameters struct {
@@ -138,8 +156,17 @@ type DefaultAdmissionRuleInitParameters struct {
 	// request must be able to read the attestor resource.
 	// Note: this field must be non-empty when the evaluation_mode field
 	// specifies REQUIRE_ATTESTATION, otherwise it must be empty.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/binaryauthorization/v1beta2.Attestor
 	// +listType=set
 	RequireAttestationsBy []*string `json:"requireAttestationsBy,omitempty" tf:"require_attestations_by,omitempty"`
+
+	// References to Attestor in binaryauthorization to populate requireAttestationsBy.
+	// +kubebuilder:validation:Optional
+	RequireAttestationsByRefs []v1.Reference `json:"requireAttestationsByRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Attestor in binaryauthorization to populate requireAttestationsBy.
+	// +kubebuilder:validation:Optional
+	RequireAttestationsBySelector *v1.Selector `json:"requireAttestationsBySelector,omitempty" tf:"-"`
 }
 
 type DefaultAdmissionRuleObservation struct {
@@ -184,9 +211,18 @@ type DefaultAdmissionRuleParameters struct {
 	// request must be able to read the attestor resource.
 	// Note: this field must be non-empty when the evaluation_mode field
 	// specifies REQUIRE_ATTESTATION, otherwise it must be empty.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/binaryauthorization/v1beta2.Attestor
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	RequireAttestationsBy []*string `json:"requireAttestationsBy,omitempty" tf:"require_attestations_by,omitempty"`
+
+	// References to Attestor in binaryauthorization to populate requireAttestationsBy.
+	// +kubebuilder:validation:Optional
+	RequireAttestationsByRefs []v1.Reference `json:"requireAttestationsByRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Attestor in binaryauthorization to populate requireAttestationsBy.
+	// +kubebuilder:validation:Optional
+	RequireAttestationsBySelector *v1.Selector `json:"requireAttestationsBySelector,omitempty" tf:"-"`
 }
 
 type PolicyInitParameters struct {
