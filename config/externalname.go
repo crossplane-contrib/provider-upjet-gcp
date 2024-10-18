@@ -5,6 +5,8 @@
 package config
 
 import (
+	"strings"
+
 	"github.com/crossplane/upjet/pkg/config"
 
 	"github.com/upbound/provider-gcp/config/common"
@@ -1012,17 +1014,31 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// tags
 	//
 	// Imported by using the following tagBindings/{{name}}
-	"google_tags_tag_binding": config.IdentifierFromProvider,
+	// there is an exception here because terraform SDK wait for a 'name' without tagBindings/
+	"google_tags_tag_binding": NameAsIdentifierWithTrimExternalNamePrefix("tagBindings/"),
 	// Imported by using the following tagKeys/{{name}}
-	"google_tags_tag_key": config.IdentifierFromProvider,
+	// there is an exception here because terraform SDK wait for a 'name' without tagKeys/
+	"google_tags_tag_key": NameAsIdentifierWithTrimExternalNamePrefix("tagKeys/"),
 	// Imported by using the following tagValues/{{name}}
-	"google_tags_tag_value": config.IdentifierFromProvider,
+	// there is an exception here because terraform SDK wait for a 'name' without tagValues/
+	"google_tags_tag_value": NameAsIdentifierWithTrimExternalNamePrefix("tagValues/"),
 }
 
 // cliReconciledExternalNameConfigs contains all external name configurations
 // belonging to Terraform resources to be reconciled under the CLI-based
 // architecture for this provider.
 var cliReconciledExternalNameConfigs = map[string]config.ExternalName{}
+
+// NameAsIdentifierWithTrimExternalNamePrefix uses NameAsIdentifier but
+// trimLeft "prefix" from externalName. It allow to remove prefix in externalName
+// when Terraform provider need it
+func NameAsIdentifierWithTrimExternalNamePrefix(prefix string) config.ExternalName {
+	return config.NewExternalNameFrom(config.NameAsIdentifier, config.WithSetIdentifierArgumentsFn(
+		func(fn config.SetIdentifierArgumentsFn, base map[string]any, externalName string) {
+			externalName = strings.TrimLeft(externalName, prefix)
+			fn(base, externalName)
+		}))
+}
 
 // TemplatedStringAsIdentifierWithNoName uses TemplatedStringAsIdentifier but
 // without the name initializer. This allows it to be used in cases where the ID
