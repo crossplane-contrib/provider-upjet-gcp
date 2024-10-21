@@ -12,6 +12,6 @@ import (
 // ResourceConfigurators.
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("google_network_connectivity_service_connection_policy", func(r *config.Resource) {
-		config.MarkAsRequired(r.TerraformResource, "region")
+		config.MarkAsRequired(r.TerraformResource, "location")
 	})
 }
