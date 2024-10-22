@@ -178,11 +178,31 @@ type CertificateParameters struct {
 type ManagedInitParameters struct {
 
 	// Authorizations that will be used for performing domain authorization. Either issuanceConfig or dnsAuthorizations should be specificed, but not both.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/certificatemanager/v1beta1.DNSAuthorization
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	DNSAuthorizations []*string `json:"dnsAuthorizations,omitempty" tf:"dns_authorizations,omitempty"`
+
+	// References to DNSAuthorization in certificatemanager to populate dnsAuthorizations.
+	// +kubebuilder:validation:Optional
+	DNSAuthorizationsRefs []v1.Reference `json:"dnsAuthorizationsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of DNSAuthorization in certificatemanager to populate dnsAuthorizations.
+	// +kubebuilder:validation:Optional
+	DNSAuthorizationsSelector *v1.Selector `json:"dnsAuthorizationsSelector,omitempty" tf:"-"`
 
 	// The domains for which a managed SSL certificate will be generated.
 	// Wildcard domains are only supported with DNS challenge resolution
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/certificatemanager/v1beta1.DNSAuthorization
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("domain",false)
 	Domains []*string `json:"domains,omitempty" tf:"domains,omitempty"`
+
+	// References to DNSAuthorization in certificatemanager to populate domains.
+	// +kubebuilder:validation:Optional
+	DomainsRefs []v1.Reference `json:"domainsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of DNSAuthorization in certificatemanager to populate domains.
+	// +kubebuilder:validation:Optional
+	DomainsSelector *v1.Selector `json:"domainsSelector,omitempty" tf:"-"`
 
 	// The resource name for a CertificateIssuanceConfig used to configure private PKI certificates in the format projects//locations//certificateIssuanceConfigs/*.
 	// If this field is not set, the certificates will instead be publicly signed as documented at https://cloud.google.com/load-balancing/docs/ssl-certificates/google-managed-certs#caa.
@@ -223,13 +243,33 @@ type ManagedObservation struct {
 type ManagedParameters struct {
 
 	// Authorizations that will be used for performing domain authorization. Either issuanceConfig or dnsAuthorizations should be specificed, but not both.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/certificatemanager/v1beta1.DNSAuthorization
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	DNSAuthorizations []*string `json:"dnsAuthorizations,omitempty" tf:"dns_authorizations,omitempty"`
 
+	// References to DNSAuthorization in certificatemanager to populate dnsAuthorizations.
+	// +kubebuilder:validation:Optional
+	DNSAuthorizationsRefs []v1.Reference `json:"dnsAuthorizationsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of DNSAuthorization in certificatemanager to populate dnsAuthorizations.
+	// +kubebuilder:validation:Optional
+	DNSAuthorizationsSelector *v1.Selector `json:"dnsAuthorizationsSelector,omitempty" tf:"-"`
+
 	// The domains for which a managed SSL certificate will be generated.
 	// Wildcard domains are only supported with DNS challenge resolution
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/certificatemanager/v1beta1.DNSAuthorization
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("domain",false)
 	// +kubebuilder:validation:Optional
 	Domains []*string `json:"domains,omitempty" tf:"domains,omitempty"`
+
+	// References to DNSAuthorization in certificatemanager to populate domains.
+	// +kubebuilder:validation:Optional
+	DomainsRefs []v1.Reference `json:"domainsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of DNSAuthorization in certificatemanager to populate domains.
+	// +kubebuilder:validation:Optional
+	DomainsSelector *v1.Selector `json:"domainsSelector,omitempty" tf:"-"`
 
 	// The resource name for a CertificateIssuanceConfig used to configure private PKI certificates in the format projects//locations//certificateIssuanceConfigs/*.
 	// If this field is not set, the certificates will instead be publicly signed as documented at https://cloud.google.com/load-balancing/docs/ssl-certificates/google-managed-certs#caa.
