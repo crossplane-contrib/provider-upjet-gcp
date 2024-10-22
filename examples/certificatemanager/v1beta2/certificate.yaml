@@ -18,7 +18,7 @@ spec:
     labels:
       env: test
     managed:
-    - dnsAuthorizationsRefs:
+      dnsAuthorizationsRefs:
       - name: instance
       - name: instance2
       domainsRefs:

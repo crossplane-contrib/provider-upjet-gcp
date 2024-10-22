@@ -21,7 +21,7 @@ spec:
       requireAttestationsByRefs:
       - name: attestor
     defaultAdmissionRule:
-    - enforcementMode: ENFORCED_BLOCK_AND_AUDIT_LOG
+      enforcementMode: ENFORCED_BLOCK_AND_AUDIT_LOG
       evaluationMode: ALWAYS_ALLOW
 
 ---
@@ -37,7 +37,7 @@ metadata:
 spec:
   forProvider:
     attestationAuthorityNote:
-    - noteReferenceSelector:
+      noteReferenceSelector:
         matchLabels:
           testing.upbound.io/example-name: note
 
@@ -54,5 +54,5 @@ metadata:
 spec:
   forProvider:
     attestationAuthority:
-    - hint:
-      - humanReadableName: My attestor
+      hint:
+        humanReadableName: My attestor

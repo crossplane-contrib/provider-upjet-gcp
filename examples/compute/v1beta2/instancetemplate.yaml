@@ -18,7 +18,7 @@ spec:
     - autoDelete: false
       boot: true
       resourcePoliciesRefs:
-      - name: daily_backup
+      - name: daily-backup
       sourceImage: debian-cloud/debian-11
     - autoDelete: false
       boot: false
@@ -33,14 +33,12 @@ spec:
       foo: bar
     name: appserver-template
     networkInterface:
-    - networkSelector:
-        matchLabels:
-          testing.upbound.io/example-name: example
+    - network: default
     scheduling:
-    - automaticRestart: true
+      automaticRestart: true
       onHostMaintenance: MIGRATE
     serviceAccount:
-    - emailSelector:
+      emailSelector:
         matchLabels:
           testing.upbound.io/example-name: default
       scopes:
@@ -68,7 +66,7 @@ spec:
 
 ---
 
-apiVersion: compute.gcp.upbound.io/v1beta2
+apiVersion: compute.gcp.upbound.io/v1beta1
 kind: ResourcePolicy
 metadata:
   annotations:
