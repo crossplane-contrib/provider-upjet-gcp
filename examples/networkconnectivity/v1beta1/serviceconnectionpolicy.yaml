@@ -16,7 +16,7 @@ spec:
     pscConfig:
       limit: "2"
       subnetworksRefs:
-      - name: producer_subnet
+      - name: producer-subnet
     serviceClass: gcp-memorystore-redis
 
 ---
