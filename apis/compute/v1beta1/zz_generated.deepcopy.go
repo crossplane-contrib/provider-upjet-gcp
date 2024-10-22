@@ -192,6 +192,18 @@ func (in *ActionInitParameters) DeepCopyInto(out *ActionInitParameters) {
 			}
 		}
 	}
+	if in.SourceNATActiveIpsRefs != nil {
+		in, out := &in.SourceNATActiveIpsRefs, &out.SourceNATActiveIpsRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.SourceNATActiveIpsSelector != nil {
+		in, out := &in.SourceNATActiveIpsSelector, &out.SourceNATActiveIpsSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.SourceNATDrainIps != nil {
 		in, out := &in.SourceNATDrainIps, &out.SourceNATDrainIps
 		*out = make([]*string, len(*in))
@@ -265,6 +277,18 @@ func (in *ActionParameters) DeepCopyInto(out *ActionParameters) {
 				**out = **in
 			}
 		}
+	}
+	if in.SourceNATActiveIpsRefs != nil {
+		in, out := &in.SourceNATActiveIpsRefs, &out.SourceNATActiveIpsRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.SourceNATActiveIpsSelector != nil {
+		in, out := &in.SourceNATActiveIpsSelector, &out.SourceNATActiveIpsSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceNATDrainIps != nil {
 		in, out := &in.SourceNATDrainIps, &out.SourceNATDrainIps
@@ -26520,6 +26544,18 @@ func (in *InstanceTemplateDiskInitParameters) DeepCopyInto(out *InstanceTemplate
 			}
 		}
 	}
+	if in.ResourcePoliciesRefs != nil {
+		in, out := &in.ResourcePoliciesRefs, &out.ResourcePoliciesRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.ResourcePoliciesSelector != nil {
+		in, out := &in.ResourcePoliciesSelector, &out.ResourcePoliciesSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Source != nil {
 		in, out := &in.Source, &out.Source
 		*out = new(string)
@@ -26817,6 +26853,18 @@ func (in *InstanceTemplateDiskParameters) DeepCopyInto(out *InstanceTemplateDisk
 				**out = **in
 			}
 		}
+	}
+	if in.ResourcePoliciesRefs != nil {
+		in, out := &in.ResourcePoliciesRefs, &out.ResourcePoliciesRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.ResourcePoliciesSelector != nil {
+		in, out := &in.ResourcePoliciesSelector, &out.ResourcePoliciesSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Source != nil {
 		in, out := &in.Source, &out.Source
@@ -61647,6 +61695,18 @@ func (in *RouterNATInitParameters) DeepCopyInto(out *RouterNATInitParameters) {
 			}
 		}
 	}
+	if in.NATIpsRefs != nil {
+		in, out := &in.NATIpsRefs, &out.NATIpsRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.NATIpsSelector != nil {
+		in, out := &in.NATIpsSelector, &out.NATIpsSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
 		*out = new(string)
@@ -62036,6 +62096,18 @@ func (in *RouterNATParameters) DeepCopyInto(out *RouterNATParameters) {
 				**out = **in
 			}
 		}
+	}
+	if in.NATIpsRefs != nil {
+		in, out := &in.NATIpsRefs, &out.NATIpsRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.NATIpsSelector != nil {
+		in, out := &in.NATIpsSelector, &out.NATIpsSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project

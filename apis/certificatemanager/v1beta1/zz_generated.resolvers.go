@@ -17,8 +17,105 @@ import (
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-func (mg *CertificateMapEntry) ResolveReferences( // ResolveReferences of this CertificateMapEntry.
+func (mg *Certificate) ResolveReferences( // ResolveReferences of this Certificate.
 	ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var mrsp reference.MultiResolutionResponse
+	var err error
+
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Managed); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("certificatemanager.gcp.upbound.io", "v1beta1", "DNSAuthorization", "DNSAuthorizationList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+				CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.Managed[i3].DNSAuthorizations),
+				Extract:       resource.ExtractResourceID(),
+				References:    mg.Spec.ForProvider.Managed[i3].DNSAuthorizationsRefs,
+				Selector:      mg.Spec.ForProvider.Managed[i3].DNSAuthorizationsSelector,
+				To:            reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.Managed[i3].DNSAuthorizations")
+		}
+		mg.Spec.ForProvider.Managed[i3].DNSAuthorizations = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.ForProvider.Managed[i3].DNSAuthorizationsRefs = mrsp.ResolvedReferences
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Managed); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("certificatemanager.gcp.upbound.io", "v1beta1", "DNSAuthorization", "DNSAuthorizationList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+				CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.Managed[i3].Domains),
+				Extract:       resource.ExtractParamPath("domain", false),
+				References:    mg.Spec.ForProvider.Managed[i3].DomainsRefs,
+				Selector:      mg.Spec.ForProvider.Managed[i3].DomainsSelector,
+				To:            reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.Managed[i3].Domains")
+		}
+		mg.Spec.ForProvider.Managed[i3].Domains = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.ForProvider.Managed[i3].DomainsRefs = mrsp.ResolvedReferences
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Managed); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("certificatemanager.gcp.upbound.io", "v1beta1", "DNSAuthorization", "DNSAuthorizationList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+				CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.Managed[i3].DNSAuthorizations),
+				Extract:       resource.ExtractResourceID(),
+				References:    mg.Spec.InitProvider.Managed[i3].DNSAuthorizationsRefs,
+				Selector:      mg.Spec.InitProvider.Managed[i3].DNSAuthorizationsSelector,
+				To:            reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.Managed[i3].DNSAuthorizations")
+		}
+		mg.Spec.InitProvider.Managed[i3].DNSAuthorizations = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.InitProvider.Managed[i3].DNSAuthorizationsRefs = mrsp.ResolvedReferences
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Managed); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("certificatemanager.gcp.upbound.io", "v1beta1", "DNSAuthorization", "DNSAuthorizationList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+				CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.Managed[i3].Domains),
+				Extract:       resource.ExtractParamPath("domain", false),
+				References:    mg.Spec.InitProvider.Managed[i3].DomainsRefs,
+				Selector:      mg.Spec.InitProvider.Managed[i3].DomainsSelector,
+				To:            reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.Managed[i3].Domains")
+		}
+		mg.Spec.InitProvider.Managed[i3].Domains = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.InitProvider.Managed[i3].DomainsRefs = mrsp.ResolvedReferences
+
+	}
+
+	return nil
+}
+
+// ResolveReferences of this CertificateMapEntry.
+func (mg *CertificateMapEntry) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed
 	var l xpresource.ManagedList
 	r := reference.NewAPIResolver(c, mg)

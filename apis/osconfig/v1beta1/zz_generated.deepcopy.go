@@ -9,6 +9,7 @@
 package v1beta1
 
 import (
+	"github.com/crossplane/crossplane-runtime/apis/common/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -3944,6 +3945,18 @@ func (in *PatchDeploymentInstanceFilterInitParameters) DeepCopyInto(out *PatchDe
 			}
 		}
 	}
+	if in.InstancesRefs != nil {
+		in, out := &in.InstancesRefs, &out.InstancesRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.InstancesSelector != nil {
+		in, out := &in.InstancesSelector, &out.InstancesSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Zones != nil {
 		in, out := &in.Zones, &out.Zones
 		*out = make([]*string, len(*in))
@@ -4063,6 +4076,18 @@ func (in *PatchDeploymentInstanceFilterParameters) DeepCopyInto(out *PatchDeploy
 				**out = **in
 			}
 		}
+	}
+	if in.InstancesRefs != nil {
+		in, out := &in.InstancesRefs, &out.InstancesRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.InstancesSelector != nil {
+		in, out := &in.InstancesSelector, &out.InstancesSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Zones != nil {
 		in, out := &in.Zones, &out.Zones

@@ -598,7 +598,17 @@ type PatchDeploymentInstanceFilterInitParameters struct {
 	// Targets any of the VM instances specified. Instances are specified by their URI in the form zones/{{zone}}/instances/{{instance_name}},
 	// projects/{{project_id}}/zones/{{zone}}/instances/{{instance_name}}, or
 	// https://www.googleapis.com/compute/v1/projects/{{project_id}}/zones/{{zone}}/instances/{{instance_name}}
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.Instance
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	Instances []*string `json:"instances,omitempty" tf:"instances,omitempty"`
+
+	// References to Instance in compute to populate instances.
+	// +kubebuilder:validation:Optional
+	InstancesRefs []v1.Reference `json:"instancesRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Instance in compute to populate instances.
+	// +kubebuilder:validation:Optional
+	InstancesSelector *v1.Selector `json:"instancesSelector,omitempty" tf:"-"`
 
 	// Targets VM instances in ANY of these zones. Leave empty to target VM instances in any zone.
 	Zones []*string `json:"zones,omitempty" tf:"zones,omitempty"`
@@ -645,8 +655,18 @@ type PatchDeploymentInstanceFilterParameters struct {
 	// Targets any of the VM instances specified. Instances are specified by their URI in the form zones/{{zone}}/instances/{{instance_name}},
 	// projects/{{project_id}}/zones/{{zone}}/instances/{{instance_name}}, or
 	// https://www.googleapis.com/compute/v1/projects/{{project_id}}/zones/{{zone}}/instances/{{instance_name}}
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.Instance
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Instances []*string `json:"instances,omitempty" tf:"instances,omitempty"`
+
+	// References to Instance in compute to populate instances.
+	// +kubebuilder:validation:Optional
+	InstancesRefs []v1.Reference `json:"instancesRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Instance in compute to populate instances.
+	// +kubebuilder:validation:Optional
+	InstancesSelector *v1.Selector `json:"instancesSelector,omitempty" tf:"-"`
 
 	// Targets VM instances in ANY of these zones. Leave empty to target VM instances in any zone.
 	// +kubebuilder:validation:Optional
