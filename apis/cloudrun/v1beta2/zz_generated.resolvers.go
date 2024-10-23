@@ -9,6 +9,7 @@ package v1beta2
 import (
 	"context"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
+	resource "github.com/crossplane/upjet/pkg/resource"
 	errors "github.com/pkg/errors"
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
@@ -379,6 +380,7 @@ func (mg *V2Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)
 
 	var rsp reference.ResolutionResponse
+	var mrsp reference.MultiResolutionResponse
 	var err error
 
 	if mg.Spec.ForProvider.Template != nil {
@@ -408,6 +410,33 @@ func (mg *V2Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 
 						}
 					}
+				}
+			}
+		}
+	}
+	if mg.Spec.ForProvider.Template != nil {
+		if mg.Spec.ForProvider.Template.Template != nil {
+			for i5 := 0; i5 < len(mg.Spec.ForProvider.Template.Template.Volumes); i5++ {
+				if mg.Spec.ForProvider.Template.Template.Volumes[i5].CloudSQLInstance != nil {
+					{
+						m, l, err = apisresolver.GetManagedResource("sql.gcp.upbound.io", "v1beta2", "DatabaseInstance", "DatabaseInstanceList")
+						if err != nil {
+							return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+						}
+						mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+							CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.Template.Template.Volumes[i5].CloudSQLInstance.Instances),
+							Extract:       resource.ExtractParamPath("connection_name", true),
+							References:    mg.Spec.ForProvider.Template.Template.Volumes[i5].CloudSQLInstance.InstancesRefs,
+							Selector:      mg.Spec.ForProvider.Template.Template.Volumes[i5].CloudSQLInstance.InstancesSelector,
+							To:            reference.To{List: l, Managed: m},
+						})
+					}
+					if err != nil {
+						return errors.Wrap(err, "mg.Spec.ForProvider.Template.Template.Volumes[i5].CloudSQLInstance.Instances")
+					}
+					mg.Spec.ForProvider.Template.Template.Volumes[i5].CloudSQLInstance.Instances = reference.ToPtrValues(mrsp.ResolvedValues)
+					mg.Spec.ForProvider.Template.Template.Volumes[i5].CloudSQLInstance.InstancesRefs = mrsp.ResolvedReferences
+
 				}
 			}
 		}
@@ -473,6 +502,33 @@ func (mg *V2Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 	if mg.Spec.InitProvider.Template != nil {
 		if mg.Spec.InitProvider.Template.Template != nil {
 			for i5 := 0; i5 < len(mg.Spec.InitProvider.Template.Template.Volumes); i5++ {
+				if mg.Spec.InitProvider.Template.Template.Volumes[i5].CloudSQLInstance != nil {
+					{
+						m, l, err = apisresolver.GetManagedResource("sql.gcp.upbound.io", "v1beta2", "DatabaseInstance", "DatabaseInstanceList")
+						if err != nil {
+							return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+						}
+						mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+							CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.Template.Template.Volumes[i5].CloudSQLInstance.Instances),
+							Extract:       resource.ExtractParamPath("connection_name", true),
+							References:    mg.Spec.InitProvider.Template.Template.Volumes[i5].CloudSQLInstance.InstancesRefs,
+							Selector:      mg.Spec.InitProvider.Template.Template.Volumes[i5].CloudSQLInstance.InstancesSelector,
+							To:            reference.To{List: l, Managed: m},
+						})
+					}
+					if err != nil {
+						return errors.Wrap(err, "mg.Spec.InitProvider.Template.Template.Volumes[i5].CloudSQLInstance.Instances")
+					}
+					mg.Spec.InitProvider.Template.Template.Volumes[i5].CloudSQLInstance.Instances = reference.ToPtrValues(mrsp.ResolvedValues)
+					mg.Spec.InitProvider.Template.Template.Volumes[i5].CloudSQLInstance.InstancesRefs = mrsp.ResolvedReferences
+
+				}
+			}
+		}
+	}
+	if mg.Spec.InitProvider.Template != nil {
+		if mg.Spec.InitProvider.Template.Template != nil {
+			for i5 := 0; i5 < len(mg.Spec.InitProvider.Template.Template.Volumes); i5++ {
 				if mg.Spec.InitProvider.Template.Template.Volumes[i5].Secret != nil {
 					{
 						m, l, err = apisresolver.GetManagedResource("secretmanager.gcp.upbound.io", "v1beta2", "Secret", "SecretList")
@@ -508,6 +564,7 @@ func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) err
 	r := reference.NewAPIResolver(c, mg)
 
 	var rsp reference.ResolutionResponse
+	var mrsp reference.MultiResolutionResponse
 	var err error
 
 	if mg.Spec.ForProvider.Template != nil {
@@ -536,6 +593,31 @@ func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) err
 
 					}
 				}
+			}
+		}
+	}
+	if mg.Spec.ForProvider.Template != nil {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.Template.Volumes); i4++ {
+			if mg.Spec.ForProvider.Template.Volumes[i4].CloudSQLInstance != nil {
+				{
+					m, l, err = apisresolver.GetManagedResource("sql.gcp.upbound.io", "v1beta2", "DatabaseInstance", "DatabaseInstanceList")
+					if err != nil {
+						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+					}
+					mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+						CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.Template.Volumes[i4].CloudSQLInstance.Instances),
+						Extract:       resource.ExtractParamPath("connection_name", true),
+						References:    mg.Spec.ForProvider.Template.Volumes[i4].CloudSQLInstance.InstancesRefs,
+						Selector:      mg.Spec.ForProvider.Template.Volumes[i4].CloudSQLInstance.InstancesSelector,
+						To:            reference.To{List: l, Managed: m},
+					})
+				}
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.ForProvider.Template.Volumes[i4].CloudSQLInstance.Instances")
+				}
+				mg.Spec.ForProvider.Template.Volumes[i4].CloudSQLInstance.Instances = reference.ToPtrValues(mrsp.ResolvedValues)
+				mg.Spec.ForProvider.Template.Volumes[i4].CloudSQLInstance.InstancesRefs = mrsp.ResolvedReferences
+
 			}
 		}
 	}
@@ -615,6 +697,31 @@ func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) err
 
 					}
 				}
+			}
+		}
+	}
+	if mg.Spec.InitProvider.Template != nil {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Template.Volumes); i4++ {
+			if mg.Spec.InitProvider.Template.Volumes[i4].CloudSQLInstance != nil {
+				{
+					m, l, err = apisresolver.GetManagedResource("sql.gcp.upbound.io", "v1beta2", "DatabaseInstance", "DatabaseInstanceList")
+					if err != nil {
+						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+					}
+					mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+						CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.Template.Volumes[i4].CloudSQLInstance.Instances),
+						Extract:       resource.ExtractParamPath("connection_name", true),
+						References:    mg.Spec.InitProvider.Template.Volumes[i4].CloudSQLInstance.InstancesRefs,
+						Selector:      mg.Spec.InitProvider.Template.Volumes[i4].CloudSQLInstance.InstancesSelector,
+						To:            reference.To{List: l, Managed: m},
+					})
+				}
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.InitProvider.Template.Volumes[i4].CloudSQLInstance.Instances")
+				}
+				mg.Spec.InitProvider.Template.Volumes[i4].CloudSQLInstance.Instances = reference.ToPtrValues(mrsp.ResolvedValues)
+				mg.Spec.InitProvider.Template.Volumes[i4].CloudSQLInstance.InstancesRefs = mrsp.ResolvedReferences
+
 			}
 		}
 	}

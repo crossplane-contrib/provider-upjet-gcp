@@ -1825,8 +1825,18 @@ type VPCAccessNetworkInterfacesParameters struct {
 type VolumesCloudSQLInstanceInitParameters struct {
 
 	// The Cloud SQL instance connection names, as can be found in https://console.cloud.google.com/sql/instances. Visit https://cloud.google.com/sql/docs/mysql/connect-run for more information on how to connect Cloud SQL and Cloud Run. Format: {project}:{location}:{instance}
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/sql/v1beta2.DatabaseInstance
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("connection_name",true)
 	// +listType=set
 	Instances []*string `json:"instances,omitempty" tf:"instances,omitempty"`
+
+	// References to DatabaseInstance in sql to populate instances.
+	// +kubebuilder:validation:Optional
+	InstancesRefs []v1.Reference `json:"instancesRefs,omitempty" tf:"-"`
+
+	// Selector for a list of DatabaseInstance in sql to populate instances.
+	// +kubebuilder:validation:Optional
+	InstancesSelector *v1.Selector `json:"instancesSelector,omitempty" tf:"-"`
 }
 
 type VolumesCloudSQLInstanceObservation struct {
@@ -1839,9 +1849,19 @@ type VolumesCloudSQLInstanceObservation struct {
 type VolumesCloudSQLInstanceParameters struct {
 
 	// The Cloud SQL instance connection names, as can be found in https://console.cloud.google.com/sql/instances. Visit https://cloud.google.com/sql/docs/mysql/connect-run for more information on how to connect Cloud SQL and Cloud Run. Format: {project}:{location}:{instance}
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/sql/v1beta2.DatabaseInstance
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("connection_name",true)
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	Instances []*string `json:"instances,omitempty" tf:"instances,omitempty"`
+
+	// References to DatabaseInstance in sql to populate instances.
+	// +kubebuilder:validation:Optional
+	InstancesRefs []v1.Reference `json:"instancesRefs,omitempty" tf:"-"`
+
+	// Selector for a list of DatabaseInstance in sql to populate instances.
+	// +kubebuilder:validation:Optional
+	InstancesSelector *v1.Selector `json:"instancesSelector,omitempty" tf:"-"`
 }
 
 type VolumesSecretItemsInitParameters struct {

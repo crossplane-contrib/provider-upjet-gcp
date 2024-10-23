@@ -12,12 +12,12 @@ spec:
     labels:
       env: test
     managed:
-    - dnsAuthorizations:
-      - ${google_certificate_manager_dns_authorization.instance.id}
-      - ${google_certificate_manager_dns_authorization.instance2.id}
-      domains:
-      - ${google_certificate_manager_dns_authorization.instance.domain}
-      - ${google_certificate_manager_dns_authorization.instance2.domain}
+    - dnsAuthorizationsRefs:
+      - name: instance
+      - name: instance2
+      domainsRefs:
+      - name: instance
+      - name: instance2
     scope: EDGE_CACHE
 
 ---

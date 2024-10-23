@@ -14,10 +14,10 @@ metadata:
 spec:
   forProvider:
     applicationEndpoint:
-      host: foo-host
+    - host: foo-host
       port: 8080
-    connectors:
-    - projects/${project.project_id}/locations/us-central1/appConnectors/app-connector
+    connectorsRefs:
+    - name: app_connector
     gateway:
       appGateway: app-gateway
     name: my-app-connection
@@ -37,8 +37,8 @@ metadata:
 spec:
   forProvider:
     principalInfo:
-      serviceAccount:
-        emailSelector:
+    - serviceAccount:
+      - emailSelector:
           matchLabels:
             testing.upbound.io/example-name: service_account
     region: us-central1
