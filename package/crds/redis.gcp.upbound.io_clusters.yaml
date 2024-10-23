@@ -1,0 +1,807 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.14.0
+  name: clusters.redis.gcp.upbound.io
+spec:
+  group: redis.gcp.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - gcp
+    kind: Cluster
+    listKind: ClusterList
+    plural: clusters
+    singular: cluster
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: Cluster is the Schema for the Clusters API. A Google Cloud Redis
+          Cluster instance.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: ClusterSpec defines the desired state of Cluster
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  authorizationMode:
+                    description: |-
+                      Optional. The authorization mode of the Redis cluster. If not provided, auth feature is disabled for the cluster.
+                      Default value is AUTH_MODE_DISABLED.
+                      Possible values are: AUTH_MODE_UNSPECIFIED, AUTH_MODE_IAM_AUTH, AUTH_MODE_DISABLED.
+                    type: string
+                  nodeType:
+                    description: |-
+                      The nodeType for the Redis cluster.
+                      If not provided, REDIS_HIGHMEM_MEDIUM will be used as default
+                      Possible values are: REDIS_SHARED_CORE_NANO, REDIS_HIGHMEM_MEDIUM, REDIS_HIGHMEM_XLARGE, REDIS_STANDARD_SMALL.
+                    type: string
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  pscConfigs:
+                    description: |-
+                      Required. Each PscConfig configures the consumer network where two
+                      network addresses will be designated to the cluster for client access.
+                      Currently, only one PscConfig is supported.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        network:
+                          description: |-
+                            Required. The consumer network where the network address of
+                            the discovery endpoint will be reserved, in the form of
+                            projects/{network_project_id_or_number}/global/networks/{network_id}.
+                          type: string
+                        networkRef:
+                          description: Reference to a Network in compute to populate
+                            network.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        networkSelector:
+                          description: Selector for a Network in compute to populate
+                            network.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                      type: object
+                    type: array
+                  redisConfigs:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      Configure Redis Cluster behavior using a subset of native Redis configuration parameters.
+                      Please check Memorystore documentation for the list of supported parameters:
+                      https://cloud.google.com/memorystore/docs/cluster/supported-instance-configurations
+                    type: object
+                    x-kubernetes-map-type: granular
+                  region:
+                    description: The name of the region of the Redis cluster.
+                    type: string
+                  replicaCount:
+                    description: Optional. The number of replica nodes per shard.
+                    type: number
+                  shardCount:
+                    description: Required. Number of shards for the Redis cluster.
+                    type: number
+                  transitEncryptionMode:
+                    description: |-
+                      Optional. The in-transit encryption for the Redis cluster.
+                      If not provided, encryption is disabled for the cluster.
+                      Default value is TRANSIT_ENCRYPTION_MODE_DISABLED.
+                      Possible values are: TRANSIT_ENCRYPTION_MODE_UNSPECIFIED, TRANSIT_ENCRYPTION_MODE_DISABLED, TRANSIT_ENCRYPTION_MODE_SERVER_AUTHENTICATION.
+                    type: string
+                  zoneDistributionConfig:
+                    description: |-
+                      Immutable. Zone distribution config for Memorystore Redis cluster.
+                      Structure is documented below.
+                    properties:
+                      mode:
+                        description: |-
+                          Immutable. The mode for zone distribution for Memorystore Redis cluster.
+                          If not provided, MULTI_ZONE will be used as default
+                          Possible values are: MULTI_ZONE, SINGLE_ZONE.
+                        type: string
+                      zone:
+                        description: Immutable. The zone for single zone Memorystore
+                          Redis cluster.
+                        type: string
+                    type: object
+                required:
+                - region
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  authorizationMode:
+                    description: |-
+                      Optional. The authorization mode of the Redis cluster. If not provided, auth feature is disabled for the cluster.
+                      Default value is AUTH_MODE_DISABLED.
+                      Possible values are: AUTH_MODE_UNSPECIFIED, AUTH_MODE_IAM_AUTH, AUTH_MODE_DISABLED.
+                    type: string
+                  nodeType:
+                    description: |-
+                      The nodeType for the Redis cluster.
+                      If not provided, REDIS_HIGHMEM_MEDIUM will be used as default
+                      Possible values are: REDIS_SHARED_CORE_NANO, REDIS_HIGHMEM_MEDIUM, REDIS_HIGHMEM_XLARGE, REDIS_STANDARD_SMALL.
+                    type: string
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  pscConfigs:
+                    description: |-
+                      Required. Each PscConfig configures the consumer network where two
+                      network addresses will be designated to the cluster for client access.
+                      Currently, only one PscConfig is supported.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        network:
+                          description: |-
+                            Required. The consumer network where the network address of
+                            the discovery endpoint will be reserved, in the form of
+                            projects/{network_project_id_or_number}/global/networks/{network_id}.
+                          type: string
+                        networkRef:
+                          description: Reference to a Network in compute to populate
+                            network.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        networkSelector:
+                          description: Selector for a Network in compute to populate
+                            network.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                      type: object
+                    type: array
+                  redisConfigs:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      Configure Redis Cluster behavior using a subset of native Redis configuration parameters.
+                      Please check Memorystore documentation for the list of supported parameters:
+                      https://cloud.google.com/memorystore/docs/cluster/supported-instance-configurations
+                    type: object
+                    x-kubernetes-map-type: granular
+                  replicaCount:
+                    description: Optional. The number of replica nodes per shard.
+                    type: number
+                  shardCount:
+                    description: Required. Number of shards for the Redis cluster.
+                    type: number
+                  transitEncryptionMode:
+                    description: |-
+                      Optional. The in-transit encryption for the Redis cluster.
+                      If not provided, encryption is disabled for the cluster.
+                      Default value is TRANSIT_ENCRYPTION_MODE_DISABLED.
+                      Possible values are: TRANSIT_ENCRYPTION_MODE_UNSPECIFIED, TRANSIT_ENCRYPTION_MODE_DISABLED, TRANSIT_ENCRYPTION_MODE_SERVER_AUTHENTICATION.
+                    type: string
+                  zoneDistributionConfig:
+                    description: |-
+                      Immutable. Zone distribution config for Memorystore Redis cluster.
+                      Structure is documented below.
+                    properties:
+                      mode:
+                        description: |-
+                          Immutable. The mode for zone distribution for Memorystore Redis cluster.
+                          If not provided, MULTI_ZONE will be used as default
+                          Possible values are: MULTI_ZONE, SINGLE_ZONE.
+                        type: string
+                      zone:
+                        description: Immutable. The zone for single zone Memorystore
+                          Redis cluster.
+                        type: string
+                    type: object
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      type:
+                        description: |-
+                          Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.pscConfigs is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.pscConfigs)
+                || (has(self.initProvider) && has(self.initProvider.pscConfigs))'
+            - message: spec.forProvider.shardCount is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.shardCount)
+                || (has(self.initProvider) && has(self.initProvider.shardCount))'
+          status:
+            description: ClusterStatus defines the observed state of Cluster.
+            properties:
+              atProvider:
+                properties:
+                  authorizationMode:
+                    description: |-
+                      Optional. The authorization mode of the Redis cluster. If not provided, auth feature is disabled for the cluster.
+                      Default value is AUTH_MODE_DISABLED.
+                      Possible values are: AUTH_MODE_UNSPECIFIED, AUTH_MODE_IAM_AUTH, AUTH_MODE_DISABLED.
+                    type: string
+                  createTime:
+                    description: |-
+                      The timestamp associated with the cluster creation request. A timestamp in
+                      RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional
+                      digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
+                    type: string
+                  discoveryEndpoints:
+                    description: |-
+                      Output only. Endpoints created on each given network,
+                      for Redis clients to connect to the cluster.
+                      Currently only one endpoint is supported.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        address:
+                          description: Output only. Network address of the exposed
+                            Redis endpoint used by clients to connect to the service.
+                          type: string
+                        port:
+                          description: Output only. The port number of the exposed
+                            Redis endpoint.
+                          type: number
+                        pscConfig:
+                          description: |-
+                            Output only. Customer configuration for where the endpoint
+                            is created and accessed from.
+                            Structure is documented below.
+                          properties:
+                            network:
+                              description: The consumer network where the IP address
+                                resides, in the form of projects/{projectId}/global/networks/{network_id}.
+                              type: string
+                          type: object
+                      type: object
+                    type: array
+                  id:
+                    description: an identifier for the resource with format projects/{{project}}/locations/{{region}}/clusters/{{name}}
+                    type: string
+                  nodeType:
+                    description: |-
+                      The nodeType for the Redis cluster.
+                      If not provided, REDIS_HIGHMEM_MEDIUM will be used as default
+                      Possible values are: REDIS_SHARED_CORE_NANO, REDIS_HIGHMEM_MEDIUM, REDIS_HIGHMEM_XLARGE, REDIS_STANDARD_SMALL.
+                    type: string
+                  preciseSizeGb:
+                    description: Output only. Redis memory precise size in GB for
+                      the entire cluster.
+                    type: number
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  pscConfigs:
+                    description: |-
+                      Required. Each PscConfig configures the consumer network where two
+                      network addresses will be designated to the cluster for client access.
+                      Currently, only one PscConfig is supported.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        network:
+                          description: |-
+                            Required. The consumer network where the network address of
+                            the discovery endpoint will be reserved, in the form of
+                            projects/{network_project_id_or_number}/global/networks/{network_id}.
+                          type: string
+                      type: object
+                    type: array
+                  pscConnections:
+                    description: |-
+                      Output only. PSC connections for discovery of the cluster topology and accessing the cluster.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        address:
+                          description: Output only. The IP allocated on the consumer
+                            network for the PSC forwarding rule.
+                          type: string
+                        forwardingRule:
+                          description: 'Output only. The URI of the consumer side
+                            forwarding rule. Example: projects/{projectNumOrId}/regions/us-east1/forwardingRules/{resourceId}.'
+                          type: string
+                        network:
+                          description: The consumer network where the IP address resides,
+                            in the form of projects/{projectId}/global/networks/{network_id}.
+                          type: string
+                        projectId:
+                          description: Output only. The consumer projectId where the
+                            forwarding rule is created from.
+                          type: string
+                        pscConnectionId:
+                          description: Output only. The PSC connection id of the forwarding
+                            rule connected to the service attachment.
+                          type: string
+                      type: object
+                    type: array
+                  redisConfigs:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      Configure Redis Cluster behavior using a subset of native Redis configuration parameters.
+                      Please check Memorystore documentation for the list of supported parameters:
+                      https://cloud.google.com/memorystore/docs/cluster/supported-instance-configurations
+                    type: object
+                    x-kubernetes-map-type: granular
+                  region:
+                    description: The name of the region of the Redis cluster.
+                    type: string
+                  replicaCount:
+                    description: Optional. The number of replica nodes per shard.
+                    type: number
+                  shardCount:
+                    description: Required. Number of shards for the Redis cluster.
+                    type: number
+                  sizeGb:
+                    description: Output only. Redis memory size in GB for the entire
+                      cluster.
+                    type: number
+                  state:
+                    description: The current state of this cluster. Can be CREATING,
+                      READY, UPDATING, DELETING and SUSPENDED
+                    type: string
+                  stateInfo:
+                    description: |-
+                      Output only. Additional information about the current state of the cluster.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        updateInfo:
+                          description: |-
+                            A nested object resource
+                            Structure is documented below.
+                          properties:
+                            targetReplicaCount:
+                              description: Target number of replica nodes per shard.
+                              type: number
+                            targetShardCount:
+                              description: Target number of shards for redis cluster.
+                              type: number
+                          type: object
+                      type: object
+                    type: array
+                  transitEncryptionMode:
+                    description: |-
+                      Optional. The in-transit encryption for the Redis cluster.
+                      If not provided, encryption is disabled for the cluster.
+                      Default value is TRANSIT_ENCRYPTION_MODE_DISABLED.
+                      Possible values are: TRANSIT_ENCRYPTION_MODE_UNSPECIFIED, TRANSIT_ENCRYPTION_MODE_DISABLED, TRANSIT_ENCRYPTION_MODE_SERVER_AUTHENTICATION.
+                    type: string
+                  uid:
+                    description: System assigned, unique identifier for the cluster.
+                    type: string
+                  zoneDistributionConfig:
+                    description: |-
+                      Immutable. Zone distribution config for Memorystore Redis cluster.
+                      Structure is documented below.
+                    properties:
+                      mode:
+                        description: |-
+                          Immutable. The mode for zone distribution for Memorystore Redis cluster.
+                          If not provided, MULTI_ZONE will be used as default
+                          Possible values are: MULTI_ZONE, SINGLE_ZONE.
+                        type: string
+                      zone:
+                        description: Immutable. The zone for single zone Memorystore
+                          Redis cluster.
+                        type: string
+                    type: object
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

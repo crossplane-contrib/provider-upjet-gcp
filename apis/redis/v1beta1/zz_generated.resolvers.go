@@ -15,10 +15,65 @@ import (
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 
-	// ResolveReferences of this Instance.
+	// ResolveReferences of this Cluster.
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
 )
 
+func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.PscConfigs); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Network", "NetworkList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PscConfigs[i3].Network),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.ForProvider.PscConfigs[i3].NetworkRef,
+				Selector:     mg.Spec.ForProvider.PscConfigs[i3].NetworkSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.PscConfigs[i3].Network")
+		}
+		mg.Spec.ForProvider.PscConfigs[i3].Network = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.PscConfigs[i3].NetworkRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.PscConfigs); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Network", "NetworkList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PscConfigs[i3].Network),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.InitProvider.PscConfigs[i3].NetworkRef,
+				Selector:     mg.Spec.InitProvider.PscConfigs[i3].NetworkSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.PscConfigs[i3].Network")
+		}
+		mg.Spec.InitProvider.PscConfigs[i3].Network = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.PscConfigs[i3].NetworkRef = rsp.ResolvedReference
+
+	}
+
+	return nil
+}
+
+// ResolveReferences of this Instance.
 func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed
 	var l xpresource.ManagedList

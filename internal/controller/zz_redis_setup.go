@@ -9,6 +9,7 @@ import (
 
 	"github.com/crossplane/upjet/pkg/controller"
 
+	cluster "github.com/upbound/provider-gcp/internal/controller/redis/cluster"
 	instance "github.com/upbound/provider-gcp/internal/controller/redis/instance"
 )
 
@@ -16,6 +17,7 @@ import (
 // the supplied manager.
 func Setup_redis(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		cluster.Setup,
 		instance.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {

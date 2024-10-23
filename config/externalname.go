@@ -691,6 +691,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	//
 	// Imported by using the following format: projects/{{project}}/locations/{{region}}/instances/{{name}}
 	"google_redis_instance": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/instances/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/locations/{{region}}/clusters/{{name}}
+	"google_redis_cluster": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/clusters/{{ .external_name }}"),
 
 	// resource_manager
 	//
