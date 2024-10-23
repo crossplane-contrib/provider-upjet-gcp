@@ -10,4 +10,28 @@ package v1beta1
 func (tr *EntryGroup) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *PolicyTag) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *PolicyTagIAMBinding) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *PolicyTagIAMMember) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *Tag) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *TagTemplateIAMBinding) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *TagTemplateIAMMember) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *Taxonomy) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *TaxonomyIAMBinding) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *TaxonomyIAMMember) Hub() {}

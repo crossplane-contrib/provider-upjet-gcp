@@ -376,6 +376,22 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_data_catalog_tag": config.IdentifierFromProvider,
 	// {{name}}: projects/{project_id}/locations/{location}/tagTemplates/{tagTemplateId}
 	"google_data_catalog_tag_template": config.TemplatedStringAsIdentifier("tag_template_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/tagTemplates/{{ .external_name }}"),
+	// Binding resource can be imported using the tag_template_id and role: "projects/{{project}}/locations/{{region}}/tagTemplates/{{tag_template_id}} roles/viewer"
+	"google_data_catalog_tag_template_iam_binding": config.TemplatedStringAsIdentifier("", "{{ .parameters.tag_template_id }} {{ .parameters.role }}"),
+	// Member resource can be imported using the tag_template_id, role and member identity: "projects/{{project}}/locations/{{region}}/tagTemplates/{{tag_template_id}} roles/viewer user:foo@example.com"
+	"google_data_catalog_tag_template_iam_member": config.TemplatedStringAsIdentifier("", "{{ .parameters.tag_template_id }} {{ .parameters.role }} {{ .parameters.member }}"),
+	// {{name}} projects/{project}/locations/{region}/taxonomies/{taxonomy}
+	"google_data_catalog_taxonomy": config.TemplatedStringAsIdentifier("display_name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/taxonomies/{{  .external_name }}"),
+	// Binding resource can be imported using the taxonomy_id and role: "projects/{{project}}/locations/{{region}}/taxonomies/{{taxonomy_id}} roles/viewer"
+	"google_data_catalog_taxonomy_iam_binding": config.TemplatedStringAsIdentifier("", "{{ .parameters.taxonomy_id }} {{ .parameters.role }}"),
+	// Member resource can be imported using the taxonomy_id, role and member identity: "projects/{{project}}/locations/{{region}}/taxonomies/{{taxonomy_id}} roles/viewer user:foo@example.com"
+	"google_data_catalog_taxonomy_iam_member": config.TemplatedStringAsIdentifier("", "{{ .parameters.taxonomy_id }} {{ .parameters.role }} {{ .parameters.member }}"),
+	// {{name}} projects/{project}/locations/{region}/taxonomies/{taxonomy}/policyTags/{policytag}
+	"google_data_catalog_policy_tag": config.TemplatedStringAsIdentifier("display_name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/taxonomies/{{ .parameters.taxonomy_id }}/policyTags/{{ .external_name }}"),
+	// Binding resource can be imported using the taxonomy_id and role: "projects/{{project}}/locations/{{region}}/taxonomies/{{taxonomy_id}}/policyTags/{{policy_tag_id}} roles/viewer"
+	"google_data_catalog_policy_tag_iam_binding": config.TemplatedStringAsIdentifier("", "{{ .parameters.policy_tag_id }} {{ .parameters.role }}"),
+	// Member resource can be imported using the taxonomy_id, role and member identity: "projects/{{project}}/locations/{{region}}/taxonomies/{{taxonomy_id}}/policyTags/{{policy_tag_id}} roles/viewer user:foo@example.com"
+	"google_data_catalog_policy_tag_iam_member": config.TemplatedStringAsIdentifier("", "{{ .parameters.policy_tag_id }} {{ .parameters.role }} {{ .parameters.member }}"),
 
 	// accesscontextmanager
 	//

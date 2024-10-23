@@ -68,6 +68,94 @@ func (mg *Entry) ResolveReferences(ctx context.Context, c client.Reader) error {
 	return nil
 }
 
+// ResolveReferences of this PolicyTag.
+func (mg *PolicyTag) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("datacatalog.gcp.upbound.io", "v1beta1", "PolicyTag", "PolicyTagList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ParentPolicyTag),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.ForProvider.ParentPolicyTagRef,
+			Selector:     mg.Spec.ForProvider.ParentPolicyTagSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.ParentPolicyTag")
+	}
+	mg.Spec.ForProvider.ParentPolicyTag = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ParentPolicyTagRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("datacatalog.gcp.upbound.io", "v1beta1", "Taxonomy", "TaxonomyList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Taxonomy),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.ForProvider.TaxonomyRef,
+			Selector:     mg.Spec.ForProvider.TaxonomySelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Taxonomy")
+	}
+	mg.Spec.ForProvider.Taxonomy = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.TaxonomyRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("datacatalog.gcp.upbound.io", "v1beta1", "PolicyTag", "PolicyTagList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ParentPolicyTag),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.InitProvider.ParentPolicyTagRef,
+			Selector:     mg.Spec.InitProvider.ParentPolicyTagSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ParentPolicyTag")
+	}
+	mg.Spec.InitProvider.ParentPolicyTag = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ParentPolicyTagRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("datacatalog.gcp.upbound.io", "v1beta1", "Taxonomy", "TaxonomyList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Taxonomy),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.InitProvider.TaxonomyRef,
+			Selector:     mg.Spec.InitProvider.TaxonomySelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Taxonomy")
+	}
+	mg.Spec.InitProvider.Taxonomy = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.TaxonomyRef = rsp.ResolvedReference
+
+	return nil
+}
+
 // ResolveReferences of this Tag.
 func (mg *Tag) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed

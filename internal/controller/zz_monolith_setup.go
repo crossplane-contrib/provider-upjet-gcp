@@ -209,8 +209,16 @@ import (
 	nodepoolcontainerazure "github.com/upbound/provider-gcp/internal/controller/containerazure/nodepool"
 	entry "github.com/upbound/provider-gcp/internal/controller/datacatalog/entry"
 	entrygroup "github.com/upbound/provider-gcp/internal/controller/datacatalog/entrygroup"
+	policytag "github.com/upbound/provider-gcp/internal/controller/datacatalog/policytag"
+	policytagiambinding "github.com/upbound/provider-gcp/internal/controller/datacatalog/policytagiambinding"
+	policytagiammember "github.com/upbound/provider-gcp/internal/controller/datacatalog/policytagiammember"
 	tag "github.com/upbound/provider-gcp/internal/controller/datacatalog/tag"
 	tagtemplate "github.com/upbound/provider-gcp/internal/controller/datacatalog/tagtemplate"
+	tagtemplateiambinding "github.com/upbound/provider-gcp/internal/controller/datacatalog/tagtemplateiambinding"
+	tagtemplateiammember "github.com/upbound/provider-gcp/internal/controller/datacatalog/tagtemplateiammember"
+	taxonomy "github.com/upbound/provider-gcp/internal/controller/datacatalog/taxonomy"
+	taxonomyiambinding "github.com/upbound/provider-gcp/internal/controller/datacatalog/taxonomyiambinding"
+	taxonomyiammember "github.com/upbound/provider-gcp/internal/controller/datacatalog/taxonomyiammember"
 	jobdataflow "github.com/upbound/provider-gcp/internal/controller/dataflow/job"
 	instancedatafusion "github.com/upbound/provider-gcp/internal/controller/datafusion/instance"
 	deidentifytemplate "github.com/upbound/provider-gcp/internal/controller/datalossprevention/deidentifytemplate"
@@ -570,8 +578,16 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		nodepoolcontainerazure.Setup,
 		entry.Setup,
 		entrygroup.Setup,
+		policytag.Setup,
+		policytagiambinding.Setup,
+		policytagiammember.Setup,
 		tag.Setup,
 		tagtemplate.Setup,
+		tagtemplateiambinding.Setup,
+		tagtemplateiammember.Setup,
+		taxonomy.Setup,
+		taxonomyiambinding.Setup,
+		taxonomyiammember.Setup,
 		jobdataflow.Setup,
 		instancedatafusion.Setup,
 		deidentifytemplate.Setup,

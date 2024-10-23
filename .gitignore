@@ -15,6 +15,8 @@ kubeconfig
 # ignore IDE folders
 .vscode/
 .idea/
+.devcontainer/
+.devcontainer.json
 
 # packages
 *.xpkg

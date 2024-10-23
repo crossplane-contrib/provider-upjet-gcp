@@ -75,12 +75,12 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	"google_data_catalog_entry_group_iam_member": config.IdentifierFromProvider,
 	// projects/{{project}}/locations/{{region}}/entryGroups/{{entry_group}}
 	"google_data_catalog_entry_group_iam_policy": config.IdentifierFromProvider,
-	// projects/{{project}}/locations/{{region}}/tagTemplates/{{tag_template}} roles/viewer
-	"google_data_catalog_tag_template_iam_binding": config.IdentifierFromProvider,
-	// projects/{{project}}/locations/{{region}}/tagTemplates/{{tag_template}} roles/viewer user:jane@example.com
-	"google_data_catalog_tag_template_iam_member": config.IdentifierFromProvider,
 	// projects/{{project}}/locations/{{region}}/tagTemplates/{{tag_template}}
 	"google_data_catalog_tag_template_iam_policy": config.IdentifierFromProvider,
+	// projects/{{project}}/locations/{{region}}/tagTemplates/{{tag_template}}
+	"google_data_catalog_taxonomy_iam_policy": config.IdentifierFromProvider,
+	// projects/{{project}}/locations/{{region}}/tagTemplates/{{tag_template}}
+	"google_data_catalog_policy_tag_iam_policy": config.IdentifierFromProvider,
 
 	// accessapproval
 	//
