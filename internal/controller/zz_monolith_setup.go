@@ -300,6 +300,7 @@ import (
 	slo "github.com/upbound/provider-gcp/internal/controller/monitoring/slo"
 	uptimecheckconfig "github.com/upbound/provider-gcp/internal/controller/monitoring/uptimecheckconfig"
 	hub "github.com/upbound/provider-gcp/internal/controller/networkconnectivity/hub"
+	serviceconnectionpolicy "github.com/upbound/provider-gcp/internal/controller/networkconnectivity/serviceconnectionpolicy"
 	spoke "github.com/upbound/provider-gcp/internal/controller/networkconnectivity/spoke"
 	connectivitytest "github.com/upbound/provider-gcp/internal/controller/networkmanagement/connectivitytest"
 	environmentnotebooks "github.com/upbound/provider-gcp/internal/controller/notebooks/environment"
@@ -661,6 +662,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		slo.Setup,
 		uptimecheckconfig.Setup,
 		hub.Setup,
+		serviceconnectionpolicy.Setup,
 		spoke.Setup,
 		connectivitytest.Setup,
 		environmentnotebooks.Setup,
