@@ -4572,7 +4572,17 @@ type PrivateClusterConfigInitParameters struct {
 	MasterIPv4CidrBlock *string `json:"masterIpv4CidrBlock,omitempty" tf:"master_ipv4_cidr_block,omitempty"`
 
 	// Subnetwork in cluster's network where master's endpoint will be provisioned.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	PrivateEndpointSubnetwork *string `json:"privateEndpointSubnetwork,omitempty" tf:"private_endpoint_subnetwork,omitempty"`
+
+	// Reference to a Subnetwork in compute to populate privateEndpointSubnetwork.
+	// +kubebuilder:validation:Optional
+	PrivateEndpointSubnetworkRef *v1.Reference `json:"privateEndpointSubnetworkRef,omitempty" tf:"-"`
+
+	// Selector for a Subnetwork in compute to populate privateEndpointSubnetwork.
+	// +kubebuilder:validation:Optional
+	PrivateEndpointSubnetworkSelector *v1.Selector `json:"privateEndpointSubnetworkSelector,omitempty" tf:"-"`
 }
 
 type PrivateClusterConfigObservation struct {
@@ -4647,8 +4657,18 @@ type PrivateClusterConfigParameters struct {
 	MasterIPv4CidrBlock *string `json:"masterIpv4CidrBlock,omitempty" tf:"master_ipv4_cidr_block,omitempty"`
 
 	// Subnetwork in cluster's network where master's endpoint will be provisioned.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	PrivateEndpointSubnetwork *string `json:"privateEndpointSubnetwork,omitempty" tf:"private_endpoint_subnetwork,omitempty"`
+
+	// Reference to a Subnetwork in compute to populate privateEndpointSubnetwork.
+	// +kubebuilder:validation:Optional
+	PrivateEndpointSubnetworkRef *v1.Reference `json:"privateEndpointSubnetworkRef,omitempty" tf:"-"`
+
+	// Selector for a Subnetwork in compute to populate privateEndpointSubnetwork.
+	// +kubebuilder:validation:Optional
+	PrivateEndpointSubnetworkSelector *v1.Selector `json:"privateEndpointSubnetworkSelector,omitempty" tf:"-"`
 }
 
 type PrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigInitParameters struct {
