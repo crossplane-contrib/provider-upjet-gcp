@@ -4,7 +4,11 @@
 
 package redis
 
-import "github.com/crossplane/upjet/pkg/config"
+import (
+	"fmt"
+
+	"github.com/crossplane/upjet/pkg/config"
+)
 
 // Configure configures individual resources by adding custom
 // ResourceConfigurators.
@@ -15,6 +19,29 @@ func Configure(p *config.Provider) {
 			conn := map[string][]byte{}
 			if a, ok := attr["host"].(string); ok {
 				conn["host"] = []byte(a)
+			}
+			return conn, nil
+		}
+	})
+
+	p.AddResourceConfigurator("google_redis_cluster", func(r *config.Resource) {
+		r.MarkAsRequired("region")
+		r.UseAsync = true
+		r.Sensitive.AdditionalConnectionDetailsFn = func(attr map[string]any) (map[string][]byte, error) {
+			conn := map[string][]byte{}
+			if discoveryendpoints, ok := attr["discovery_endpoints"].([]any); ok {
+				for i, de := range discoveryendpoints {
+					if discoveryendpoints, ok := de.(map[string]any); ok && len(discoveryendpoints) > 0 {
+						if address, ok := discoveryendpoints["address"].(string); ok {
+							key := fmt.Sprintf("discovery_endpoints_%d_address", i)
+							conn[key] = []byte(address)
+						}
+						if port, ok := discoveryendpoints["port"].(float64); ok {
+							key := fmt.Sprintf("discovery_endpoints_%d_port", i)
+							conn[key] = []byte(fmt.Sprintf("%g", port))
+						}
+					}
+				}
 			}
 			return conn, nil
 		}
