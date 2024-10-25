@@ -5,13 +5,9 @@
 package redis
 
 import (
-	"strconv"
+	"fmt"
 
-	"github.com/crossplane/crossplane-runtime/pkg/fieldpath"
 	"github.com/crossplane/upjet/pkg/config"
-	"github.com/pkg/errors"
-
-	"github.com/upbound/provider-gcp/config/common"
 )
 
 // Configure configures individual resources by adding custom
@@ -33,34 +29,21 @@ func Configure(p *config.Provider) {
 		r.UseAsync = true
 		r.Sensitive.AdditionalConnectionDetailsFn = func(attr map[string]any) (map[string][]byte, error) {
 			conn := map[string][]byte{}
-
-			address, err := common.GetField(attr, "discovery_endpoints[0].address")
-			if err != nil {
-				return nil, err
+			if discoveryendpoints, ok := attr["discovery_endpoints"].([]any); ok {
+				for i, de := range discoveryendpoints {
+					if discoveryendpoints, ok := de.(map[string]any); ok && len(discoveryendpoints) > 0 {
+						if address, ok := discoveryendpoints["address"].(string); ok {
+							key := fmt.Sprintf("discovery_endpoints_%d_address", i)
+							conn[key] = []byte(address)
+						}
+						if port, ok := discoveryendpoints["port"].(float64); ok {
+							key := fmt.Sprintf("discovery_endpoints_%d_port", i)
+							conn[key] = []byte(fmt.Sprintf("%g", port))
+						}
+					}
+				}
 			}
-			conn["address"] = []byte(address)
-
-			port, err := GetFloat(attr, "discovery_endpoints[0].port")
-			if err != nil {
-				return nil, err
-			}
-			conn["port"] = []byte(strconv.FormatFloat(port, 'f', -1, 64))
-
 			return conn, nil
 		}
 	})
-}
-
-// GetFloat value of the supplied field path.
-func GetFloat(from map[string]interface{}, path string) (float64, error) {
-	v, err := fieldpath.Pave(from).GetValue(path)
-	if err != nil {
-		return 0, err
-	}
-
-	f, ok := v.(float64)
-	if !ok {
-		return 0, errors.Errorf("%s: not a (float64) number", path)
-	}
-	return f, nil
 }
