@@ -3,6 +3,7 @@ kind: Cluster
 metadata:
   annotations:
     meta.upbound.io/example-id: redis/v1beta1/cluster
+    uptest.upbound.io/timeout: "1800"
   labels:
     testing.upbound.io/example-name: cluster-ha
   name: cluster-ha
