@@ -3,14 +3,12 @@
 # SPDX-License-Identifier: CC0-1.0
 
 run:
-  deadline: 10m
-
-  skip-files:
-  - "zz_\\..+\\.go$"
+  timeout: 10m
 
 output:
   # colored-line-number|line-number|json|tab|checkstyle|code-climate, default is "colored-line-number"
-  format: colored-line-number
+  formats:
+    - format: colored-line-number
 
 linters-settings:
   errcheck:
@@ -25,7 +23,8 @@ linters-settings:
     # [deprecated] comma-separated list of pairs of the form pkg:regex
     # the regex is used to ignore names within pkg. (default "fmt:.*").
     # see https://github.com/kisielk/errcheck#the-deprecated-method for details
-    ignore: fmt:.*,io/ioutil:^Read.*
+    exclude-files:
+      - fmt:.*,io/ioutil:^Read.*
 
   govet:
     # report about shadowed variables
@@ -129,6 +128,8 @@ linters:
 
 
 issues:
+  exclude-files:
+    - "zz_\\..+\\.go$"
   # Excluding configuration per-path and per-linter
   exclude-rules:
     # Exclude some linters from running on tests files.
@@ -140,7 +141,7 @@ issues:
         - gosec
         - scopelint
         - unparam
-    
+
     # Ease some gocritic warnings on test files.
     - path: _test\.go
       text: "(unnamedResult|exitAfterDefer)"
