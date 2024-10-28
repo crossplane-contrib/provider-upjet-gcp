@@ -343,6 +343,14 @@ type HealthCheckInitParameters struct {
 	// Structure is documented below.
 	SSLHealthCheck *SSLHealthCheckInitParameters `json:"sslHealthCheck,omitempty" tf:"ssl_health_check,omitempty"`
 
+	// The list of cloud regions from which health checks are performed. If
+	// any regions are specified, then exactly 3 regions should be specified.
+	// The region names must be valid names of Google Cloud regions. This can
+	// only be set for global health check. If this list is non-empty, then
+	// there are restrictions on what other health check fields are supported
+	// and what other resources can use this health check:
+	SourceRegions []*string `json:"sourceRegions,omitempty" tf:"source_regions,omitempty"`
+
 	// A nested object resource
 	// Structure is documented below.
 	TCPHealthCheck *TCPHealthCheckInitParameters `json:"tcpHealthCheck,omitempty" tf:"tcp_health_check,omitempty"`
@@ -430,6 +438,14 @@ type HealthCheckObservation struct {
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
+	// The list of cloud regions from which health checks are performed. If
+	// any regions are specified, then exactly 3 regions should be specified.
+	// The region names must be valid names of Google Cloud regions. This can
+	// only be set for global health check. If this list is non-empty, then
+	// there are restrictions on what other health check fields are supported
+	// and what other resources can use this health check:
+	SourceRegions []*string `json:"sourceRegions,omitempty" tf:"source_regions,omitempty"`
+
 	// A nested object resource
 	// Structure is documented below.
 	TCPHealthCheck *TCPHealthCheckObservation `json:"tcpHealthCheck,omitempty" tf:"tcp_health_check,omitempty"`
@@ -498,6 +514,15 @@ type HealthCheckParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SSLHealthCheck *SSLHealthCheckParameters `json:"sslHealthCheck,omitempty" tf:"ssl_health_check,omitempty"`
+
+	// The list of cloud regions from which health checks are performed. If
+	// any regions are specified, then exactly 3 regions should be specified.
+	// The region names must be valid names of Google Cloud regions. This can
+	// only be set for global health check. If this list is non-empty, then
+	// there are restrictions on what other health check fields are supported
+	// and what other resources can use this health check:
+	// +kubebuilder:validation:Optional
+	SourceRegions []*string `json:"sourceRegions,omitempty" tf:"source_regions,omitempty"`
 
 	// A nested object resource
 	// Structure is documented below.

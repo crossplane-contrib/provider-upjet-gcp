@@ -1460,6 +1460,10 @@ spec:
                       false). After being released (set to false), such objects will
                       be subject to bucket-level retention (if any).
                     type: boolean
+                  generation:
+                    description: (Computed) The content generation of this object.
+                      Used for object versioning and soft delete.
+                    type: number
                   id:
                     type: string
                   kmsKeyName:

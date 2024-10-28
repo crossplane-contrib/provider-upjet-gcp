@@ -256,6 +256,9 @@ type ForwardingRuleObservation struct {
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
 
+	// The unique identifier number for the resource. This identifier is defined by the server.
+	ForwardingRuleID *float64 `json:"forwardingRuleId,omitempty" tf:"forwarding_rule_id,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/forwardingRules/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 

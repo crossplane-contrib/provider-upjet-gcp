@@ -188,7 +188,7 @@ type HealthCheckedTargetsInternalLoadBalancersParameters struct {
 
 	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb", "regionalL7ilb", "globalL7ilb"]
 	// +kubebuilder:validation:Optional
-	LoadBalancerType *string `json:"loadBalancerType" tf:"load_balancer_type,omitempty"`
+	LoadBalancerType *string `json:"loadBalancerType,omitempty" tf:"load_balancer_type,omitempty"`
 
 	// The fully qualified url of the network in which the load balancer belongs. This should be formatted like projects/{project}/global/networks/{network} or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}.
 	// +kubebuilder:validation:Optional
@@ -285,7 +285,7 @@ type InternalLoadBalancersParameters struct {
 
 	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb", "regionalL7ilb", "globalL7ilb"]
 	// +kubebuilder:validation:Optional
-	LoadBalancerType *string `json:"loadBalancerType" tf:"load_balancer_type,omitempty"`
+	LoadBalancerType *string `json:"loadBalancerType,omitempty" tf:"load_balancer_type,omitempty"`
 
 	// The fully qualified url of the network in which the load balancer belongs. This should be formatted like projects/{project}/global/networks/{network} or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}.
 	// +kubebuilder:validation:Optional
@@ -479,7 +479,7 @@ type PrimaryInternalLoadBalancersParameters struct {
 
 	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb", "regionalL7ilb", "globalL7ilb"]
 	// +kubebuilder:validation:Optional
-	LoadBalancerType *string `json:"loadBalancerType" tf:"load_balancer_type,omitempty"`
+	LoadBalancerType *string `json:"loadBalancerType,omitempty" tf:"load_balancer_type,omitempty"`
 
 	// The fully qualified url of the network in which the load balancer belongs. This should be formatted like projects/{project}/global/networks/{network} or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
@@ -786,7 +786,7 @@ type WrrHealthCheckedTargetsInternalLoadBalancersParameters struct {
 
 	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb", "regionalL7ilb", "globalL7ilb"]
 	// +kubebuilder:validation:Optional
-	LoadBalancerType *string `json:"loadBalancerType" tf:"load_balancer_type,omitempty"`
+	LoadBalancerType *string `json:"loadBalancerType,omitempty" tf:"load_balancer_type,omitempty"`
 
 	// The fully qualified url of the network in which the load balancer belongs. This should be formatted like projects/{project}/global/networks/{network} or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}.
 	// +kubebuilder:validation:Optional

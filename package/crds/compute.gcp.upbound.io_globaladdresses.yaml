@@ -529,6 +529,11 @@ spec:
                       The IP Version that will be used by this address. The default value is IPV4.
                       Possible values are: IPV4, IPV6.
                     type: string
+                  labelFingerprint:
+                    description: |-
+                      The fingerprint used for optimistic locking of this resource.  Used
+                      internally during updates.
+                    type: string
                   labels:
                     additionalProperties:
                       type: string

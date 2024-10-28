@@ -16,11 +16,11 @@ import (
 type AccessPolicyInitParameters struct {
 
 	// The parent of this AccessPolicy in the Cloud Resource Hierarchy.
-	// Format: organizations/{organization_id}
+	// Format: 'organizations/{{organization_id}}'
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
 	// Folder or project on which this policy is applicable.
-	// Format: folders/{{folder_id}} or projects/{{project_id}}
+	// Format: 'folders/{{folder_id}}' or 'projects/{{project_number}}'
 	Scopes []*string `json:"scopes,omitempty" tf:"scopes,omitempty"`
 
 	// Human readable title. Does not affect behavior.
@@ -35,15 +35,15 @@ type AccessPolicyObservation struct {
 	// an identifier for the resource with format {{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// Resource name of the AccessPolicy. Format: {policy_id}
+	// Resource name of the AccessPolicy. Format: '{{policy_id}}'
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The parent of this AccessPolicy in the Cloud Resource Hierarchy.
-	// Format: organizations/{organization_id}
+	// Format: 'organizations/{{organization_id}}'
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
 	// Folder or project on which this policy is applicable.
-	// Format: folders/{{folder_id}} or projects/{{project_id}}
+	// Format: 'folders/{{folder_id}}' or 'projects/{{project_number}}'
 	Scopes []*string `json:"scopes,omitempty" tf:"scopes,omitempty"`
 
 	// Human readable title. Does not affect behavior.
@@ -56,12 +56,12 @@ type AccessPolicyObservation struct {
 type AccessPolicyParameters struct {
 
 	// The parent of this AccessPolicy in the Cloud Resource Hierarchy.
-	// Format: organizations/{organization_id}
+	// Format: 'organizations/{{organization_id}}'
 	// +kubebuilder:validation:Optional
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
 	// Folder or project on which this policy is applicable.
-	// Format: folders/{{folder_id}} or projects/{{project_id}}
+	// Format: 'folders/{{folder_id}}' or 'projects/{{project_number}}'
 	// +kubebuilder:validation:Optional
 	Scopes []*string `json:"scopes,omitempty" tf:"scopes,omitempty"`
 

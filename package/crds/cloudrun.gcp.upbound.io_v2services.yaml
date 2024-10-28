@@ -3334,6 +3334,10 @@ spec:
                           this justification. If useDefault is False, then it must
                           be empty. For more information on breakglass, see https://cloud.google.com/binary-authorization/docs/using-breakglass
                         type: string
+                      policy:
+                        description: 'The path to a binary authorization policy. Format:
+                          projects/{project}/platforms/cloudRun/{policy-name}'
+                        type: string
                       useDefault:
                         description: If True, indicates to use the default project's
                           binary authorization policy. If False, binary authorization
@@ -3409,15 +3413,9 @@ spec:
                         items:
                           properties:
                             args:
-                              description: 'Arguments to the entrypoint. The docker
-                                image''s CMD is used if this is not provided. Variable
-                                references $(VAR_NAME) are expanded using the container''s
-                                environment. If a variable cannot be resolved, the
-                                reference in the input string will be unchanged. The
-                                $(VAR_NAME) syntax can be escaped with a double $$,
-                                ie: $$(VAR_NAME). Escaped references will never be
-                                expanded, regardless of whether the variable exists
-                                or not. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell'
+                              description: Arguments to the entrypoint. The docker
+                                image's CMD is used if this is not provided. Variable
+                                references are not supported in Cloud Run.
                               items:
                                 type: string
                               type: array
@@ -4308,6 +4306,10 @@ spec:
                           this justification. If useDefault is False, then it must
                           be empty. For more information on breakglass, see https://cloud.google.com/binary-authorization/docs/using-breakglass
                         type: string
+                      policy:
+                        description: 'The path to a binary authorization policy. Format:
+                          projects/{project}/platforms/cloudRun/{policy-name}'
+                        type: string
                       useDefault:
                         description: If True, indicates to use the default project's
                           binary authorization policy. If False, binary authorization
@@ -4380,15 +4382,9 @@ spec:
                         items:
                           properties:
                             args:
-                              description: 'Arguments to the entrypoint. The docker
-                                image''s CMD is used if this is not provided. Variable
-                                references $(VAR_NAME) are expanded using the container''s
-                                environment. If a variable cannot be resolved, the
-                                reference in the input string will be unchanged. The
-                                $(VAR_NAME) syntax can be escaped with a double $$,
-                                ie: $$(VAR_NAME). Escaped references will never be
-                                expanded, regardless of whether the variable exists
-                                or not. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell'
+                              description: Arguments to the entrypoint. The docker
+                                image's CMD is used if this is not provided. Variable
+                                references are not supported in Cloud Run.
                               items:
                                 type: string
                               type: array
@@ -5441,6 +5437,10 @@ spec:
                           this justification. If useDefault is False, then it must
                           be empty. For more information on breakglass, see https://cloud.google.com/binary-authorization/docs/using-breakglass
                         type: string
+                      policy:
+                        description: 'The path to a binary authorization policy. Format:
+                          projects/{project}/platforms/cloudRun/{policy-name}'
+                        type: string
                       useDefault:
                         description: If True, indicates to use the default project's
                           binary authorization policy. If False, binary authorization
@@ -5629,15 +5629,9 @@ spec:
                         items:
                           properties:
                             args:
-                              description: 'Arguments to the entrypoint. The docker
-                                image''s CMD is used if this is not provided. Variable
-                                references $(VAR_NAME) are expanded using the container''s
-                                environment. If a variable cannot be resolved, the
-                                reference in the input string will be unchanged. The
-                                $(VAR_NAME) syntax can be escaped with a double $$,
-                                ie: $$(VAR_NAME). Escaped references will never be
-                                expanded, regardless of whether the variable exists
-                                or not. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell'
+                              description: Arguments to the entrypoint. The docker
+                                image's CMD is used if this is not provided. Variable
+                                references are not supported in Cloud Run.
                               items:
                                 type: string
                               type: array

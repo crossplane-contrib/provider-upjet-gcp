@@ -21,6 +21,11 @@ func (in *BinaryAuthorizationInitParameters) DeepCopyInto(out *BinaryAuthorizati
 		*out = new(string)
 		**out = **in
 	}
+	if in.Policy != nil {
+		in, out := &in.Policy, &out.Policy
+		*out = new(string)
+		**out = **in
+	}
 	if in.UseDefault != nil {
 		in, out := &in.UseDefault, &out.UseDefault
 		*out = new(bool)
@@ -46,6 +51,11 @@ func (in *BinaryAuthorizationObservation) DeepCopyInto(out *BinaryAuthorizationO
 		*out = new(string)
 		**out = **in
 	}
+	if in.Policy != nil {
+		in, out := &in.Policy, &out.Policy
+		*out = new(string)
+		**out = **in
+	}
 	if in.UseDefault != nil {
 		in, out := &in.UseDefault, &out.UseDefault
 		*out = new(bool)
@@ -68,6 +78,11 @@ func (in *BinaryAuthorizationParameters) DeepCopyInto(out *BinaryAuthorizationPa
 	*out = *in
 	if in.BreakglassJustification != nil {
 		in, out := &in.BreakglassJustification, &out.BreakglassJustification
+		*out = new(string)
+		**out = **in
+	}
+	if in.Policy != nil {
+		in, out := &in.Policy, &out.Policy
 		*out = new(string)
 		**out = **in
 	}
@@ -8574,6 +8589,11 @@ func (in *V2ServiceBinaryAuthorizationInitParameters) DeepCopyInto(out *V2Servic
 		*out = new(string)
 		**out = **in
 	}
+	if in.Policy != nil {
+		in, out := &in.Policy, &out.Policy
+		*out = new(string)
+		**out = **in
+	}
 	if in.UseDefault != nil {
 		in, out := &in.UseDefault, &out.UseDefault
 		*out = new(bool)
@@ -8599,6 +8619,11 @@ func (in *V2ServiceBinaryAuthorizationObservation) DeepCopyInto(out *V2ServiceBi
 		*out = new(string)
 		**out = **in
 	}
+	if in.Policy != nil {
+		in, out := &in.Policy, &out.Policy
+		*out = new(string)
+		**out = **in
+	}
 	if in.UseDefault != nil {
 		in, out := &in.UseDefault, &out.UseDefault
 		*out = new(bool)
@@ -8621,6 +8646,11 @@ func (in *V2ServiceBinaryAuthorizationParameters) DeepCopyInto(out *V2ServiceBin
 	*out = *in
 	if in.BreakglassJustification != nil {
 		in, out := &in.BreakglassJustification, &out.BreakglassJustification
+		*out = new(string)
+		**out = **in
+	}
+	if in.Policy != nil {
+		in, out := &in.Policy, &out.Policy
 		*out = new(string)
 		**out = **in
 	}

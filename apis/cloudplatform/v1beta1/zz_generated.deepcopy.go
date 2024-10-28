@@ -2553,6 +2553,11 @@ func (in *ProjectInitParameters) DeepCopyInto(out *ProjectInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.FolderID != nil {
 		in, out := &in.FolderID, &out.FolderID
 		*out = new(string)
@@ -2661,6 +2666,11 @@ func (in *ProjectObservation) DeepCopyInto(out *ProjectObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.EffectiveLabels != nil {
 		in, out := &in.EffectiveLabels, &out.EffectiveLabels
 		*out = make(map[string]*string, len(*in))
@@ -2766,6 +2776,11 @@ func (in *ProjectParameters) DeepCopyInto(out *ProjectParameters) {
 	}
 	if in.BillingAccount != nil {
 		in, out := &in.BillingAccount, &out.BillingAccount
+		*out = new(string)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
 		*out = new(string)
 		**out = **in
 	}
