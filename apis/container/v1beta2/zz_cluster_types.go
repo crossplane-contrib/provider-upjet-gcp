@@ -13,6 +13,40 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AdditionalNodeNetworkConfigsInitParameters struct {
+}
+
+type AdditionalNodeNetworkConfigsObservation struct {
+
+	// The name or self_link of the Google Compute Engine
+	// network to which the cluster is connected. For Shared VPC, set this to the self link of the
+	// shared network.
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// The name or self_link of the Google Compute Engine
+	// subnetwork in which the cluster's instances are launched.
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
+}
+
+type AdditionalNodeNetworkConfigsParameters struct {
+}
+
+type AdditionalPodNetworkConfigsInitParameters struct {
+}
+
+type AdditionalPodNetworkConfigsObservation struct {
+	MaxPodsPerNode *float64 `json:"maxPodsPerNode,omitempty" tf:"max_pods_per_node,omitempty"`
+
+	SecondaryPodRange *string `json:"secondaryPodRange,omitempty" tf:"secondary_pod_range,omitempty"`
+
+	// The name or self_link of the Google Compute Engine
+	// subnetwork in which the cluster's instances are launched.
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
+}
+
+type AdditionalPodNetworkConfigsParameters struct {
+}
+
 type AdditionalPodRangesConfigInitParameters struct {
 
 	// The names of the Pod ranges to add to the cluster.
@@ -253,7 +287,7 @@ type AdvancedDatapathObservabilityConfigInitParameters struct {
 	// Whether or not Relay is enabled.
 	EnableRelay *bool `json:"enableRelay,omitempty" tf:"enable_relay,omitempty"`
 
-	// Mode used to make Relay available.
+	// Mode used to make Relay available. Deprecated in favor of enable_relay field. Remove this attribute's configuration as this field will be removed in the next major release and enable_relay will become a required field.
 	RelayMode *string `json:"relayMode,omitempty" tf:"relay_mode,omitempty"`
 }
 
@@ -265,7 +299,7 @@ type AdvancedDatapathObservabilityConfigObservation struct {
 	// Whether or not Relay is enabled.
 	EnableRelay *bool `json:"enableRelay,omitempty" tf:"enable_relay,omitempty"`
 
-	// Mode used to make Relay available.
+	// Mode used to make Relay available. Deprecated in favor of enable_relay field. Remove this attribute's configuration as this field will be removed in the next major release and enable_relay will become a required field.
 	RelayMode *string `json:"relayMode,omitempty" tf:"relay_mode,omitempty"`
 }
 
@@ -279,7 +313,7 @@ type AdvancedDatapathObservabilityConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	EnableRelay *bool `json:"enableRelay,omitempty" tf:"enable_relay,omitempty"`
 
-	// Mode used to make Relay available.
+	// Mode used to make Relay available. Deprecated in favor of enable_relay field. Remove this attribute's configuration as this field will be removed in the next major release and enable_relay will become a required field.
 	// +kubebuilder:validation:Optional
 	RelayMode *string `json:"relayMode,omitempty" tf:"relay_mode,omitempty"`
 }
@@ -703,6 +737,11 @@ type ClusterAutoscalingInitParameters struct {
 	// Structure is documented below.
 	AutoProvisioningDefaults *AutoProvisioningDefaultsInitParameters `json:"autoProvisioningDefaults,omitempty" tf:"auto_provisioning_defaults,omitempty"`
 
+	// The list of Google Compute Engine
+	// zones in which the
+	// NodePool's nodes can be created by NAP.
+	AutoProvisioningLocations []*string `json:"autoProvisioningLocations,omitempty" tf:"auto_provisioning_locations,omitempty"`
+
 	// Configuration
 	// options for the Autoscaling profile
 	// feature, which lets you choose whether the cluster autoscaler should optimize for resource utilization or resource availability
@@ -726,6 +765,11 @@ type ClusterAutoscalingObservation struct {
 	// GKE Autopilot clusters.
 	// Structure is documented below.
 	AutoProvisioningDefaults *AutoProvisioningDefaultsObservation `json:"autoProvisioningDefaults,omitempty" tf:"auto_provisioning_defaults,omitempty"`
+
+	// The list of Google Compute Engine
+	// zones in which the
+	// NodePool's nodes can be created by NAP.
+	AutoProvisioningLocations []*string `json:"autoProvisioningLocations,omitempty" tf:"auto_provisioning_locations,omitempty"`
 
 	// Configuration
 	// options for the Autoscaling profile
@@ -751,6 +795,12 @@ type ClusterAutoscalingParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AutoProvisioningDefaults *AutoProvisioningDefaultsParameters `json:"autoProvisioningDefaults,omitempty" tf:"auto_provisioning_defaults,omitempty"`
+
+	// The list of Google Compute Engine
+	// zones in which the
+	// NodePool's nodes can be created by NAP.
+	// +kubebuilder:validation:Optional
+	AutoProvisioningLocations []*string `json:"autoProvisioningLocations,omitempty" tf:"auto_provisioning_locations,omitempty"`
 
 	// Configuration
 	// options for the Autoscaling profile
@@ -865,6 +915,9 @@ type ClusterInitParameters struct {
 	// will have statically granted permissions beyond those provided by the RBAC configuration or IAM.
 	// Defaults to false
 	EnableLegacyAbac *bool `json:"enableLegacyAbac,omitempty" tf:"enable_legacy_abac,omitempty"`
+
+	// Whether multi-networking is enabled for this cluster.
+	EnableMultiNetworking *bool `json:"enableMultiNetworking,omitempty" tf:"enable_multi_networking,omitempty"`
 
 	// Enable Shielded Nodes features on all nodes in this cluster.  Defaults to true.
 	EnableShieldedNodes *bool `json:"enableShieldedNodes,omitempty" tf:"enable_shielded_nodes,omitempty"`
@@ -1158,6 +1211,9 @@ type ClusterObservation struct {
 	// will have statically granted permissions beyond those provided by the RBAC configuration or IAM.
 	// Defaults to false
 	EnableLegacyAbac *bool `json:"enableLegacyAbac,omitempty" tf:"enable_legacy_abac,omitempty"`
+
+	// Whether multi-networking is enabled for this cluster.
+	EnableMultiNetworking *bool `json:"enableMultiNetworking,omitempty" tf:"enable_multi_networking,omitempty"`
 
 	// Enable Shielded Nodes features on all nodes in this cluster.  Defaults to true.
 	EnableShieldedNodes *bool `json:"enableShieldedNodes,omitempty" tf:"enable_shielded_nodes,omitempty"`
@@ -1500,6 +1556,10 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	EnableLegacyAbac *bool `json:"enableLegacyAbac,omitempty" tf:"enable_legacy_abac,omitempty"`
 
+	// Whether multi-networking is enabled for this cluster.
+	// +kubebuilder:validation:Optional
+	EnableMultiNetworking *bool `json:"enableMultiNetworking,omitempty" tf:"enable_multi_networking,omitempty"`
+
 	// Enable Shielded Nodes features on all nodes in this cluster.  Defaults to true.
 	// +kubebuilder:validation:Optional
 	EnableShieldedNodes *bool `json:"enableShieldedNodes,omitempty" tf:"enable_shielded_nodes,omitempty"`
@@ -1747,21 +1807,21 @@ type ClusterParameters struct {
 
 type ConfidentialNodesInitParameters struct {
 
-	// Enable Confidential GKE Nodes for this cluster, to
+	// Enable Confidential GKE Nodes for this node pool, to
 	// enforce encryption of data in-use.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
 
 type ConfidentialNodesObservation struct {
 
-	// Enable Confidential GKE Nodes for this cluster, to
+	// Enable Confidential GKE Nodes for this node pool, to
 	// enforce encryption of data in-use.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
 
 type ConfidentialNodesParameters struct {
 
-	// Enable Confidential GKE Nodes for this cluster, to
+	// Enable Confidential GKE Nodes for this node pool, to
 	// enforce encryption of data in-use.
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
@@ -2645,6 +2705,9 @@ type KubeletConfigInitParameters struct {
 	// One of "none" or "static". Defaults to none when kubelet_config is unset.
 	CPUManagerPolicy *string `json:"cpuManagerPolicy,omitempty" tf:"cpu_manager_policy,omitempty"`
 
+	// Controls whether the kubelet read-only port is enabled. It is strongly recommended to set this to FALSE. Possible values: TRUE, FALSE.
+	InsecureKubeletReadonlyPortEnabled *string `json:"insecureKubeletReadonlyPortEnabled,omitempty" tf:"insecure_kubelet_readonly_port_enabled,omitempty"`
+
 	// Controls the maximum number of processes allowed to run in a pod. The value must be greater than or equal to 1024 and less than 4194304.
 	PodPidsLimit *float64 `json:"podPidsLimit,omitempty" tf:"pod_pids_limit,omitempty"`
 }
@@ -2665,6 +2728,9 @@ type KubeletConfigObservation struct {
 	// K8S CPU Management Policies.
 	// One of "none" or "static". Defaults to none when kubelet_config is unset.
 	CPUManagerPolicy *string `json:"cpuManagerPolicy,omitempty" tf:"cpu_manager_policy,omitempty"`
+
+	// Controls whether the kubelet read-only port is enabled. It is strongly recommended to set this to FALSE. Possible values: TRUE, FALSE.
+	InsecureKubeletReadonlyPortEnabled *string `json:"insecureKubeletReadonlyPortEnabled,omitempty" tf:"insecure_kubelet_readonly_port_enabled,omitempty"`
 
 	// Controls the maximum number of processes allowed to run in a pod. The value must be greater than or equal to 1024 and less than 4194304.
 	PodPidsLimit *float64 `json:"podPidsLimit,omitempty" tf:"pod_pids_limit,omitempty"`
@@ -2689,6 +2755,10 @@ type KubeletConfigParameters struct {
 	// One of "none" or "static". Defaults to none when kubelet_config is unset.
 	// +kubebuilder:validation:Optional
 	CPUManagerPolicy *string `json:"cpuManagerPolicy" tf:"cpu_manager_policy,omitempty"`
+
+	// Controls whether the kubelet read-only port is enabled. It is strongly recommended to set this to FALSE. Possible values: TRUE, FALSE.
+	// +kubebuilder:validation:Optional
+	InsecureKubeletReadonlyPortEnabled *string `json:"insecureKubeletReadonlyPortEnabled,omitempty" tf:"insecure_kubelet_readonly_port_enabled,omitempty"`
 
 	// Controls the maximum number of processes allowed to run in a pod. The value must be greater than or equal to 1024 and less than 4194304.
 	// +kubebuilder:validation:Optional
@@ -3063,6 +3133,10 @@ type NetworkConfigInitParameters struct {
 }
 
 type NetworkConfigObservation struct {
+	AdditionalNodeNetworkConfigs []AdditionalNodeNetworkConfigsObservation `json:"additionalNodeNetworkConfigs,omitempty" tf:"additional_node_network_configs,omitempty"`
+
+	AdditionalPodNetworkConfigs []AdditionalPodNetworkConfigsObservation `json:"additionalPodNetworkConfigs,omitempty" tf:"additional_pod_network_configs,omitempty"`
+
 	CreatePodRange *bool `json:"createPodRange,omitempty" tf:"create_pod_range,omitempty"`
 
 	// Enables the private cluster feature,
@@ -3317,6 +3391,9 @@ type NodeConfigDefaultsInitParameters struct {
 	// Parameters to customize containerd runtime. Structure is documented below.
 	ContainerdConfig *NodeConfigDefaultsContainerdConfigInitParameters `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
 
+	// only port is enabled for newly created node pools in the cluster. It is strongly recommended to set this to FALSE. Possible values: TRUE, FALSE.
+	InsecureKubeletReadonlyPortEnabled *string `json:"insecureKubeletReadonlyPortEnabled,omitempty" tf:"insecure_kubelet_readonly_port_enabled,omitempty"`
+
 	// The type of logging agent that is deployed by default for newly created node pools in the cluster. Valid values include DEFAULT and MAX_THROUGHPUT. See Increasing logging agent throughput for more information.
 	LoggingVariant *string `json:"loggingVariant,omitempty" tf:"logging_variant,omitempty"`
 }
@@ -3325,6 +3402,9 @@ type NodeConfigDefaultsObservation struct {
 
 	// Parameters to customize containerd runtime. Structure is documented below.
 	ContainerdConfig *NodeConfigDefaultsContainerdConfigObservation `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
+
+	// only port is enabled for newly created node pools in the cluster. It is strongly recommended to set this to FALSE. Possible values: TRUE, FALSE.
+	InsecureKubeletReadonlyPortEnabled *string `json:"insecureKubeletReadonlyPortEnabled,omitempty" tf:"insecure_kubelet_readonly_port_enabled,omitempty"`
 
 	// The type of logging agent that is deployed by default for newly created node pools in the cluster. Valid values include DEFAULT and MAX_THROUGHPUT. See Increasing logging agent throughput for more information.
 	LoggingVariant *string `json:"loggingVariant,omitempty" tf:"logging_variant,omitempty"`
@@ -3335,6 +3415,10 @@ type NodeConfigDefaultsParameters struct {
 	// Parameters to customize containerd runtime. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ContainerdConfig *NodeConfigDefaultsContainerdConfigParameters `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
+
+	// only port is enabled for newly created node pools in the cluster. It is strongly recommended to set this to FALSE. Possible values: TRUE, FALSE.
+	// +kubebuilder:validation:Optional
+	InsecureKubeletReadonlyPortEnabled *string `json:"insecureKubeletReadonlyPortEnabled,omitempty" tf:"insecure_kubelet_readonly_port_enabled,omitempty"`
 
 	// The type of logging agent that is deployed by default for newly created node pools in the cluster. Valid values include DEFAULT and MAX_THROUGHPUT. See Increasing logging agent throughput for more information.
 	// +kubebuilder:validation:Optional
@@ -3451,7 +3535,7 @@ type NodeConfigInitParameters struct {
 	// The Customer Managed Encryption Key used to encrypt the boot disk attached to each node in the node pool. This should be of the form projects/[KEY_PROJECT_ID]/locations/[LOCATION]/keyRings/[RING_NAME]/cryptoKeys/[KEY_NAME]. For more information about protecting resources with Cloud KMS Keys please see: https://cloud.google.com/compute/docs/disks/customer-managed-encryption
 	BootDiskKMSKey *string `json:"bootDiskKmsKey,omitempty" tf:"boot_disk_kms_key,omitempty"`
 
-	// Configuration for Confidential Nodes feature. Structure is documented below documented below.
+	// Configuration for Confidential Nodes feature. Structure is documented below.
 	ConfidentialNodes *NodeConfigConfidentialNodesInitParameters `json:"confidentialNodes,omitempty" tf:"confidential_nodes,omitempty"`
 
 	// Parameters to customize containerd runtime. Structure is documented below.
@@ -3633,6 +3717,9 @@ type NodeConfigKubeletConfigObservation struct {
 	// One of "none" or "static". Defaults to none when kubelet_config is unset.
 	CPUManagerPolicy *string `json:"cpuManagerPolicy,omitempty" tf:"cpu_manager_policy,omitempty"`
 
+	// Controls whether the kubelet read-only port is enabled. It is strongly recommended to set this to FALSE. Possible values: TRUE, FALSE.
+	InsecureKubeletReadonlyPortEnabled *string `json:"insecureKubeletReadonlyPortEnabled,omitempty" tf:"insecure_kubelet_readonly_port_enabled,omitempty"`
+
 	// Controls the maximum number of processes allowed to run in a pod. The value must be greater than or equal to 1024 and less than 4194304.
 	PodPidsLimit *float64 `json:"podPidsLimit,omitempty" tf:"pod_pids_limit,omitempty"`
 }
@@ -3682,7 +3769,7 @@ type NodeConfigObservation struct {
 	// The Customer Managed Encryption Key used to encrypt the boot disk attached to each node in the node pool. This should be of the form projects/[KEY_PROJECT_ID]/locations/[LOCATION]/keyRings/[RING_NAME]/cryptoKeys/[KEY_NAME]. For more information about protecting resources with Cloud KMS Keys please see: https://cloud.google.com/compute/docs/disks/customer-managed-encryption
 	BootDiskKMSKey *string `json:"bootDiskKmsKey,omitempty" tf:"boot_disk_kms_key,omitempty"`
 
-	// Configuration for Confidential Nodes feature. Structure is documented below documented below.
+	// Configuration for Confidential Nodes feature. Structure is documented below.
 	ConfidentialNodes *NodeConfigConfidentialNodesObservation `json:"confidentialNodes,omitempty" tf:"confidential_nodes,omitempty"`
 
 	// Parameters to customize containerd runtime. Structure is documented below.
@@ -3848,7 +3935,7 @@ type NodeConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	BootDiskKMSKey *string `json:"bootDiskKmsKey,omitempty" tf:"boot_disk_kms_key,omitempty"`
 
-	// Configuration for Confidential Nodes feature. Structure is documented below documented below.
+	// Configuration for Confidential Nodes feature. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ConfidentialNodes *NodeConfigConfidentialNodesParameters `json:"confidentialNodes,omitempty" tf:"confidential_nodes,omitempty"`
 
@@ -4151,10 +4238,33 @@ type NodeConfigWorkloadMetadataConfigObservation struct {
 type NodeConfigWorkloadMetadataConfigParameters struct {
 }
 
+type NodeKubeletConfigInitParameters struct {
+
+	// Controls whether the kubelet read-only port is enabled. It is strongly recommended to set this to FALSE. Possible values: TRUE, FALSE.
+	InsecureKubeletReadonlyPortEnabled *string `json:"insecureKubeletReadonlyPortEnabled,omitempty" tf:"insecure_kubelet_readonly_port_enabled,omitempty"`
+}
+
+type NodeKubeletConfigObservation struct {
+
+	// Controls whether the kubelet read-only port is enabled. It is strongly recommended to set this to FALSE. Possible values: TRUE, FALSE.
+	InsecureKubeletReadonlyPortEnabled *string `json:"insecureKubeletReadonlyPortEnabled,omitempty" tf:"insecure_kubelet_readonly_port_enabled,omitempty"`
+}
+
+type NodeKubeletConfigParameters struct {
+
+	// Controls whether the kubelet read-only port is enabled. It is strongly recommended to set this to FALSE. Possible values: TRUE, FALSE.
+	// +kubebuilder:validation:Optional
+	InsecureKubeletReadonlyPortEnabled *string `json:"insecureKubeletReadonlyPortEnabled,omitempty" tf:"insecure_kubelet_readonly_port_enabled,omitempty"`
+}
+
 type NodePoolAutoConfigInitParameters struct {
 
-	// The network tag config for the cluster's automatically provisioned node pools.
+	// The network tag config for the cluster's automatically provisioned node pools. Structure is documented below.
 	NetworkTags *NetworkTagsInitParameters `json:"networkTags,omitempty" tf:"network_tags,omitempty"`
+
+	// Kubelet configuration for Autopilot clusters. Currently, only insecure_kubelet_readonly_port_enabled is supported here.
+	// Structure is documented below.
+	NodeKubeletConfig *NodeKubeletConfigInitParameters `json:"nodeKubeletConfig,omitempty" tf:"node_kubelet_config,omitempty"`
 
 	// A map of resource manager tag keys and values to be attached to the nodes for managing Compute Engine firewalls using Network Firewall Policies. Tags must be according to specifications found here. A maximum of 5 tag key-value pairs can be specified. Existing tags will be replaced with new values. Tags must be in one of the following formats ([KEY]=[VALUE]) 1. tagKeys/{tag_key_id}=tagValues/{tag_value_id} 2. {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
 	// +mapType=granular
@@ -4163,8 +4273,12 @@ type NodePoolAutoConfigInitParameters struct {
 
 type NodePoolAutoConfigObservation struct {
 
-	// The network tag config for the cluster's automatically provisioned node pools.
+	// The network tag config for the cluster's automatically provisioned node pools. Structure is documented below.
 	NetworkTags *NetworkTagsObservation `json:"networkTags,omitempty" tf:"network_tags,omitempty"`
+
+	// Kubelet configuration for Autopilot clusters. Currently, only insecure_kubelet_readonly_port_enabled is supported here.
+	// Structure is documented below.
+	NodeKubeletConfig *NodeKubeletConfigObservation `json:"nodeKubeletConfig,omitempty" tf:"node_kubelet_config,omitempty"`
 
 	// A map of resource manager tag keys and values to be attached to the nodes for managing Compute Engine firewalls using Network Firewall Policies. Tags must be according to specifications found here. A maximum of 5 tag key-value pairs can be specified. Existing tags will be replaced with new values. Tags must be in one of the following formats ([KEY]=[VALUE]) 1. tagKeys/{tag_key_id}=tagValues/{tag_value_id} 2. {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
 	// +mapType=granular
@@ -4173,9 +4287,14 @@ type NodePoolAutoConfigObservation struct {
 
 type NodePoolAutoConfigParameters struct {
 
-	// The network tag config for the cluster's automatically provisioned node pools.
+	// The network tag config for the cluster's automatically provisioned node pools. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	NetworkTags *NetworkTagsParameters `json:"networkTags,omitempty" tf:"network_tags,omitempty"`
+
+	// Kubelet configuration for Autopilot clusters. Currently, only insecure_kubelet_readonly_port_enabled is supported here.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	NodeKubeletConfig *NodeKubeletConfigParameters `json:"nodeKubeletConfig,omitempty" tf:"node_kubelet_config,omitempty"`
 
 	// A map of resource manager tag keys and values to be attached to the nodes for managing Compute Engine firewalls using Network Firewall Policies. Tags must be according to specifications found here. A maximum of 5 tag key-value pairs can be specified. Existing tags will be replaced with new values. Tags must be in one of the following formats ([KEY]=[VALUE]) 1. tagKeys/{tag_key_id}=tagValues/{tag_value_id} 2. {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
 	// +kubebuilder:validation:Optional
@@ -4244,7 +4363,7 @@ type NodePoolNodeConfigObservation struct {
 	// The Customer Managed Encryption Key used to encrypt the boot disk attached to each node in the node pool. This should be of the form projects/[KEY_PROJECT_ID]/locations/[LOCATION]/keyRings/[RING_NAME]/cryptoKeys/[KEY_NAME]. For more information about protecting resources with Cloud KMS Keys please see: https://cloud.google.com/compute/docs/disks/customer-managed-encryption
 	BootDiskKMSKey *string `json:"bootDiskKmsKey,omitempty" tf:"boot_disk_kms_key,omitempty"`
 
-	// Configuration for Confidential Nodes feature. Structure is documented below documented below.
+	// Configuration for Confidential Nodes feature. Structure is documented below.
 	ConfidentialNodes *NodePoolNodeConfigConfidentialNodesObservation `json:"confidentialNodes,omitempty" tf:"confidential_nodes,omitempty"`
 
 	// Parameters to customize containerd runtime. Structure is documented below.

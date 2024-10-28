@@ -1313,6 +1313,11 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  accessMode:
+                    description: |-
+                      The accessMode of the disk.
+                      For example:
+                    type: string
                   asyncPrimaryDisk:
                     description: |-
                       A nested object resource
@@ -1641,6 +1646,11 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  accessMode:
+                    description: |-
+                      The accessMode of the disk.
+                      For example:
+                    type: string
                   asyncPrimaryDisk:
                     description: |-
                       A nested object resource
@@ -2123,6 +2133,11 @@ spec:
             properties:
               atProvider:
                 properties:
+                  accessMode:
+                    description: |-
+                      The accessMode of the disk.
+                      For example:
+                    type: string
                   asyncPrimaryDisk:
                     description: |-
                       A nested object resource

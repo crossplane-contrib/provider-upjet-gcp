@@ -28,6 +28,10 @@ type ProjectInitParameters struct {
 	// for more details.
 	BillingAccount *string `json:"billingAccount,omitempty" tf:"billing_account,omitempty"`
 
+	// The deletion policy for the Project. Setting ABANDON allows the resource
+	// to be abandoned rather than deleted, i.e. Possible values are: "PREVENT", "ABANDON", "DELETE". Default value is DELETE.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The numeric ID of the folder this project should be
 	// created under. Only one of org_id or folder_id may be
 	// specified. If the folder_id is specified, then the project is
@@ -66,6 +70,10 @@ type ProjectInitParameters struct {
 	// The project ID. Changing this forces a new project to be created.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// skip_delete is deprecated and will be
+	// removed in 6.0.0. Please use deletion_policy instead. A skip_delete value of false
+	// can be changed to a deletion_policy value of DELETE and a skip_delete value of true
+	// to a deletion_policy value of ABANDON for equivalent behavior.
 	SkipDelete *bool `json:"skipDelete,omitempty" tf:"skip_delete,omitempty"`
 }
 
@@ -83,6 +91,10 @@ type ProjectObservation struct {
 	// See Google Cloud Billing API Access Control
 	// for more details.
 	BillingAccount *string `json:"billingAccount,omitempty" tf:"billing_account,omitempty"`
+
+	// The deletion policy for the Project. Setting ABANDON allows the resource
+	// to be abandoned rather than deleted, i.e. Possible values are: "PREVENT", "ABANDON", "DELETE". Default value is DELETE.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
@@ -121,6 +133,10 @@ type ProjectObservation struct {
 	// The project ID. Changing this forces a new project to be created.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// skip_delete is deprecated and will be
+	// removed in 6.0.0. Please use deletion_policy instead. A skip_delete value of false
+	// can be changed to a deletion_policy value of DELETE and a skip_delete value of true
+	// to a deletion_policy value of ABANDON for equivalent behavior.
 	SkipDelete *bool `json:"skipDelete,omitempty" tf:"skip_delete,omitempty"`
 
 	// The combination of labels configured directly on the resource and default labels configured on the provider.
@@ -144,6 +160,11 @@ type ProjectParameters struct {
 	// for more details.
 	// +kubebuilder:validation:Optional
 	BillingAccount *string `json:"billingAccount,omitempty" tf:"billing_account,omitempty"`
+
+	// The deletion policy for the Project. Setting ABANDON allows the resource
+	// to be abandoned rather than deleted, i.e. Possible values are: "PREVENT", "ABANDON", "DELETE". Default value is DELETE.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The numeric ID of the folder this project should be
 	// created under. Only one of org_id or folder_id may be
@@ -188,6 +209,10 @@ type ProjectParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// skip_delete is deprecated and will be
+	// removed in 6.0.0. Please use deletion_policy instead. A skip_delete value of false
+	// can be changed to a deletion_policy value of DELETE and a skip_delete value of true
+	// to a deletion_policy value of ABANDON for equivalent behavior.
 	// +kubebuilder:validation:Optional
 	SkipDelete *bool `json:"skipDelete,omitempty" tf:"skip_delete,omitempty"`
 }

@@ -1592,7 +1592,9 @@ spec:
                                 set, setting this to true is strongly recommended.
                                 When unset and other conditions are set to zero values,
                                 this can result in a rule that applies your action
-                                to all files in the bucket.
+                                to all files in the bucket. no_age is deprecated and
+                                will be removed in a future major release. Use send_age_if_zero
+                                instead.
                               type: boolean
                             noncurrentTimeBefore:
                               description: Relevant only for versioned objects. The
@@ -1608,6 +1610,15 @@ spec:
                                 state will treat it as though you supplied no num_newer_versions
                                 condition.
                               type: number
+                            sendAgeIfZero:
+                              description: While set true, age value will be sent
+                                in the request even for zero value of the field. This
+                                field is only useful and required for setting 0 value
+                                to the age field. It can be used alone or together
+                                with age attribute. NOTE age attibute with 0 value
+                                will be ommitted from the API request if send_age_if_zero
+                                field is having false value.
+                              type: boolean
                             sendDaysSinceCustomTimeIfZero:
                               description: While set true, days_since_custom_time
                                 value will be sent in the request even for zero value
@@ -1932,7 +1943,9 @@ spec:
                                 set, setting this to true is strongly recommended.
                                 When unset and other conditions are set to zero values,
                                 this can result in a rule that applies your action
-                                to all files in the bucket.
+                                to all files in the bucket. no_age is deprecated and
+                                will be removed in a future major release. Use send_age_if_zero
+                                instead.
                               type: boolean
                             noncurrentTimeBefore:
                               description: Relevant only for versioned objects. The
@@ -1948,6 +1961,15 @@ spec:
                                 state will treat it as though you supplied no num_newer_versions
                                 condition.
                               type: number
+                            sendAgeIfZero:
+                              description: While set true, age value will be sent
+                                in the request even for zero value of the field. This
+                                field is only useful and required for setting 0 value
+                                to the age field. It can be used alone or together
+                                with age attribute. NOTE age attibute with 0 value
+                                will be ommitted from the API request if send_age_if_zero
+                                field is having false value.
+                              type: boolean
                             sendDaysSinceCustomTimeIfZero:
                               description: While set true, days_since_custom_time
                                 value will be sent in the request even for zero value
@@ -2444,7 +2466,9 @@ spec:
                                 set, setting this to true is strongly recommended.
                                 When unset and other conditions are set to zero values,
                                 this can result in a rule that applies your action
-                                to all files in the bucket.
+                                to all files in the bucket. no_age is deprecated and
+                                will be removed in a future major release. Use send_age_if_zero
+                                instead.
                               type: boolean
                             noncurrentTimeBefore:
                               description: Relevant only for versioned objects. The
@@ -2460,6 +2484,15 @@ spec:
                                 state will treat it as though you supplied no num_newer_versions
                                 condition.
                               type: number
+                            sendAgeIfZero:
+                              description: While set true, age value will be sent
+                                in the request even for zero value of the field. This
+                                field is only useful and required for setting 0 value
+                                to the age field. It can be used alone or together
+                                with age attribute. NOTE age attibute with 0 value
+                                will be ommitted from the API request if send_age_if_zero
+                                field is having false value.
+                              type: boolean
                             sendDaysSinceCustomTimeIfZero:
                               description: While set true, days_since_custom_time
                                 value will be sent in the request even for zero value

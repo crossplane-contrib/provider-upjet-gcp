@@ -78,12 +78,12 @@ spec:
                   parent:
                     description: |-
                       The parent of this AccessPolicy in the Cloud Resource Hierarchy.
-                      Format: organizations/{organization_id}
+                      Format: 'organizations/{{organization_id}}'
                     type: string
                   scopes:
                     description: |-
                       Folder or project on which this policy is applicable.
-                      Format: folders/{{folder_id}} or projects/{{project_id}}
+                      Format: 'folders/{{folder_id}}' or 'projects/{{project_number}}'
                     items:
                       type: string
                     type: array
@@ -107,12 +107,12 @@ spec:
                   parent:
                     description: |-
                       The parent of this AccessPolicy in the Cloud Resource Hierarchy.
-                      Format: organizations/{organization_id}
+                      Format: 'organizations/{{organization_id}}'
                     type: string
                   scopes:
                     description: |-
                       Folder or project on which this policy is applicable.
-                      Format: folders/{{folder_id}} or projects/{{project_id}}
+                      Format: 'folders/{{folder_id}}' or 'projects/{{project_number}}'
                     items:
                       type: string
                     type: array
@@ -308,17 +308,17 @@ spec:
                     description: an identifier for the resource with format {{name}}
                     type: string
                   name:
-                    description: 'Resource name of the AccessPolicy. Format: {policy_id}'
+                    description: 'Resource name of the AccessPolicy. Format: ''{{policy_id}}'''
                     type: string
                   parent:
                     description: |-
                       The parent of this AccessPolicy in the Cloud Resource Hierarchy.
-                      Format: organizations/{organization_id}
+                      Format: 'organizations/{{organization_id}}'
                     type: string
                   scopes:
                     description: |-
                       Folder or project on which this policy is applicable.
-                      Format: folders/{{folder_id}} or projects/{{project_id}}
+                      Format: 'folders/{{folder_id}}' or 'projects/{{project_number}}'
                     items:
                       type: string
                     type: array

@@ -91,6 +91,10 @@ type GlobalAddressObservation struct {
 	// Possible values are: IPV4, IPV6.
 	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
 
+	// The fingerprint used for optimistic locking of this resource.  Used
+	// internally during updates.
+	LabelFingerprint *string `json:"labelFingerprint,omitempty" tf:"label_fingerprint,omitempty"`
+
 	// Labels to apply to this address.  A list of key->value pairs.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`

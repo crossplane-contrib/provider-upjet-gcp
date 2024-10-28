@@ -27,6 +27,86 @@ type ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfig
 	SecretURI *string `json:"secretUri" tf:"secret_uri,omitempty"`
 }
 
+type NetworkConfigAdditionalNodeNetworkConfigsInitParameters struct {
+
+	// Name of the VPC where the additional interface belongs.
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Name of the subnetwork where the additional pod network belongs.
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
+}
+
+type NetworkConfigAdditionalNodeNetworkConfigsObservation struct {
+
+	// Name of the VPC where the additional interface belongs.
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Name of the subnetwork where the additional pod network belongs.
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
+}
+
+type NetworkConfigAdditionalNodeNetworkConfigsParameters struct {
+
+	// Name of the VPC where the additional interface belongs.
+	// +kubebuilder:validation:Optional
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Name of the subnetwork where the additional pod network belongs.
+	// +kubebuilder:validation:Optional
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
+}
+
+type NetworkConfigAdditionalPodNetworkConfigsInitParameters struct {
+
+	// The maximum number of pods per node in this node pool.
+	// Note that this does not work on node pools which are "route-based" - that is, node
+	// pools belonging to clusters that do not have IP Aliasing enabled.
+	// See the official documentation
+	// for more information.
+	MaxPodsPerNode *float64 `json:"maxPodsPerNode,omitempty" tf:"max_pods_per_node,omitempty"`
+
+	// The name of the secondary range on the subnet which provides IP address for this pod range.
+	SecondaryPodRange *string `json:"secondaryPodRange,omitempty" tf:"secondary_pod_range,omitempty"`
+
+	// Name of the subnetwork where the additional pod network belongs.
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
+}
+
+type NetworkConfigAdditionalPodNetworkConfigsObservation struct {
+
+	// The maximum number of pods per node in this node pool.
+	// Note that this does not work on node pools which are "route-based" - that is, node
+	// pools belonging to clusters that do not have IP Aliasing enabled.
+	// See the official documentation
+	// for more information.
+	MaxPodsPerNode *float64 `json:"maxPodsPerNode,omitempty" tf:"max_pods_per_node,omitempty"`
+
+	// The name of the secondary range on the subnet which provides IP address for this pod range.
+	SecondaryPodRange *string `json:"secondaryPodRange,omitempty" tf:"secondary_pod_range,omitempty"`
+
+	// Name of the subnetwork where the additional pod network belongs.
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
+}
+
+type NetworkConfigAdditionalPodNetworkConfigsParameters struct {
+
+	// The maximum number of pods per node in this node pool.
+	// Note that this does not work on node pools which are "route-based" - that is, node
+	// pools belonging to clusters that do not have IP Aliasing enabled.
+	// See the official documentation
+	// for more information.
+	// +kubebuilder:validation:Optional
+	MaxPodsPerNode *float64 `json:"maxPodsPerNode,omitempty" tf:"max_pods_per_node,omitempty"`
+
+	// The name of the secondary range on the subnet which provides IP address for this pod range.
+	// +kubebuilder:validation:Optional
+	SecondaryPodRange *string `json:"secondaryPodRange,omitempty" tf:"secondary_pod_range,omitempty"`
+
+	// Name of the subnetwork where the additional pod network belongs.
+	// +kubebuilder:validation:Optional
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
+}
+
 type NetworkConfigNetworkPerformanceConfigInitParameters struct {
 
 	// Specifies the total network bandwidth tier for the NodePool.
@@ -350,6 +430,14 @@ type NodePoolManagementParameters_2 struct {
 
 type NodePoolNetworkConfigInitParameters struct {
 
+	// We specify the additional node networks for this node pool using this list. Each node network corresponds to an additional interface.
+	// Structure is documented below
+	AdditionalNodeNetworkConfigs []NetworkConfigAdditionalNodeNetworkConfigsInitParameters `json:"additionalNodeNetworkConfigs,omitempty" tf:"additional_node_network_configs,omitempty"`
+
+	// We specify the additional pod networks for this node pool using this list. Each pod network corresponds to an additional alias IP range for the node.
+	// Structure is documented below
+	AdditionalPodNetworkConfigs []NetworkConfigAdditionalPodNetworkConfigsInitParameters `json:"additionalPodNetworkConfigs,omitempty" tf:"additional_pod_network_configs,omitempty"`
+
 	// Whether to create a new range for pod IPs in this node pool. Defaults are provided for pod_range and pod_ipv4_cidr_block if they are not specified.
 	CreatePodRange *bool `json:"createPodRange,omitempty" tf:"create_pod_range,omitempty"`
 
@@ -371,6 +459,14 @@ type NodePoolNetworkConfigInitParameters struct {
 
 type NodePoolNetworkConfigObservation struct {
 
+	// We specify the additional node networks for this node pool using this list. Each node network corresponds to an additional interface.
+	// Structure is documented below
+	AdditionalNodeNetworkConfigs []NetworkConfigAdditionalNodeNetworkConfigsObservation `json:"additionalNodeNetworkConfigs,omitempty" tf:"additional_node_network_configs,omitempty"`
+
+	// We specify the additional pod networks for this node pool using this list. Each pod network corresponds to an additional alias IP range for the node.
+	// Structure is documented below
+	AdditionalPodNetworkConfigs []NetworkConfigAdditionalPodNetworkConfigsObservation `json:"additionalPodNetworkConfigs,omitempty" tf:"additional_pod_network_configs,omitempty"`
+
 	// Whether to create a new range for pod IPs in this node pool. Defaults are provided for pod_range and pod_ipv4_cidr_block if they are not specified.
 	CreatePodRange *bool `json:"createPodRange,omitempty" tf:"create_pod_range,omitempty"`
 
@@ -391,6 +487,16 @@ type NodePoolNetworkConfigObservation struct {
 }
 
 type NodePoolNetworkConfigParameters struct {
+
+	// We specify the additional node networks for this node pool using this list. Each node network corresponds to an additional interface.
+	// Structure is documented below
+	// +kubebuilder:validation:Optional
+	AdditionalNodeNetworkConfigs []NetworkConfigAdditionalNodeNetworkConfigsParameters `json:"additionalNodeNetworkConfigs,omitempty" tf:"additional_node_network_configs,omitempty"`
+
+	// We specify the additional pod networks for this node pool using this list. Each pod network corresponds to an additional alias IP range for the node.
+	// Structure is documented below
+	// +kubebuilder:validation:Optional
+	AdditionalPodNetworkConfigs []NetworkConfigAdditionalPodNetworkConfigsParameters `json:"additionalPodNetworkConfigs,omitempty" tf:"additional_pod_network_configs,omitempty"`
 
 	// Whether to create a new range for pod IPs in this node pool. Defaults are provided for pod_range and pod_ipv4_cidr_block if they are not specified.
 	// +kubebuilder:validation:Optional
@@ -646,7 +752,6 @@ type NodePoolNodeConfigInitParameters_2 struct {
 
 	BootDiskKMSKey *string `json:"bootDiskKmsKey,omitempty" tf:"boot_disk_kms_key,omitempty"`
 
-	// Configuration for Confidential Nodes feature. Structure is documented below.
 	ConfidentialNodes *NodePoolNodeConfigConfidentialNodesInitParameters_2 `json:"confidentialNodes,omitempty" tf:"confidential_nodes,omitempty"`
 
 	ContainerdConfig *NodePoolNodeConfigContainerdConfigInitParameters `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
@@ -744,6 +849,8 @@ type NodePoolNodeConfigKubeletConfigInitParameters struct {
 
 	CPUManagerPolicy *string `json:"cpuManagerPolicy,omitempty" tf:"cpu_manager_policy,omitempty"`
 
+	InsecureKubeletReadonlyPortEnabled *string `json:"insecureKubeletReadonlyPortEnabled,omitempty" tf:"insecure_kubelet_readonly_port_enabled,omitempty"`
+
 	PodPidsLimit *float64 `json:"podPidsLimit,omitempty" tf:"pod_pids_limit,omitempty"`
 }
 
@@ -753,6 +860,8 @@ type NodePoolNodeConfigKubeletConfigObservation struct {
 	CPUCfsQuotaPeriod *string `json:"cpuCfsQuotaPeriod,omitempty" tf:"cpu_cfs_quota_period,omitempty"`
 
 	CPUManagerPolicy *string `json:"cpuManagerPolicy,omitempty" tf:"cpu_manager_policy,omitempty"`
+
+	InsecureKubeletReadonlyPortEnabled *string `json:"insecureKubeletReadonlyPortEnabled,omitempty" tf:"insecure_kubelet_readonly_port_enabled,omitempty"`
 
 	PodPidsLimit *float64 `json:"podPidsLimit,omitempty" tf:"pod_pids_limit,omitempty"`
 }
@@ -767,6 +876,9 @@ type NodePoolNodeConfigKubeletConfigParameters struct {
 
 	// +kubebuilder:validation:Optional
 	CPUManagerPolicy *string `json:"cpuManagerPolicy" tf:"cpu_manager_policy,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	InsecureKubeletReadonlyPortEnabled *string `json:"insecureKubeletReadonlyPortEnabled,omitempty" tf:"insecure_kubelet_readonly_port_enabled,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	PodPidsLimit *float64 `json:"podPidsLimit,omitempty" tf:"pod_pids_limit,omitempty"`
@@ -815,7 +927,6 @@ type NodePoolNodeConfigObservation_2 struct {
 
 	BootDiskKMSKey *string `json:"bootDiskKmsKey,omitempty" tf:"boot_disk_kms_key,omitempty"`
 
-	// Configuration for Confidential Nodes feature. Structure is documented below.
 	ConfidentialNodes *NodePoolNodeConfigConfidentialNodesObservation_2 `json:"confidentialNodes,omitempty" tf:"confidential_nodes,omitempty"`
 
 	ContainerdConfig *NodePoolNodeConfigContainerdConfigObservation `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
@@ -906,7 +1017,6 @@ type NodePoolNodeConfigParameters_2 struct {
 	// +kubebuilder:validation:Optional
 	BootDiskKMSKey *string `json:"bootDiskKmsKey,omitempty" tf:"boot_disk_kms_key,omitempty"`
 
-	// Configuration for Confidential Nodes feature. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ConfidentialNodes *NodePoolNodeConfigConfidentialNodesParameters_2 `json:"confidentialNodes,omitempty" tf:"confidential_nodes,omitempty"`
 
@@ -1476,7 +1586,7 @@ type NodePoolUpgradeSettingsInitParameters_2 struct {
 	// parallel. Can be set to 0 or greater.
 	MaxUnavailable *float64 `json:"maxUnavailable,omitempty" tf:"max_unavailable,omitempty"`
 
-	// (Default SURGE) The upgrade stragey to be used for upgrading the nodes.
+	// (Default SURGE) The upgrade strategy to be used for upgrading the nodes.
 	Strategy *string `json:"strategy,omitempty" tf:"strategy,omitempty"`
 }
 
@@ -1496,7 +1606,7 @@ type NodePoolUpgradeSettingsObservation_2 struct {
 	// parallel. Can be set to 0 or greater.
 	MaxUnavailable *float64 `json:"maxUnavailable,omitempty" tf:"max_unavailable,omitempty"`
 
-	// (Default SURGE) The upgrade stragey to be used for upgrading the nodes.
+	// (Default SURGE) The upgrade strategy to be used for upgrading the nodes.
 	Strategy *string `json:"strategy,omitempty" tf:"strategy,omitempty"`
 }
 
@@ -1519,7 +1629,7 @@ type NodePoolUpgradeSettingsParameters_2 struct {
 	// +kubebuilder:validation:Optional
 	MaxUnavailable *float64 `json:"maxUnavailable,omitempty" tf:"max_unavailable,omitempty"`
 
-	// (Default SURGE) The upgrade stragey to be used for upgrading the nodes.
+	// (Default SURGE) The upgrade strategy to be used for upgrading the nodes.
 	// +kubebuilder:validation:Optional
 	Strategy *string `json:"strategy,omitempty" tf:"strategy,omitempty"`
 }

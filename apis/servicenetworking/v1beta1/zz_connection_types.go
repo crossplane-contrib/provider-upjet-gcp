@@ -49,6 +49,9 @@ type ConnectionInitParameters struct {
 	// service provider organization. For Google services that support this functionality it is
 	// 'servicenetworking.googleapis.com'.
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+
+	// When set to true, enforce an update of the reserved peering ranges on the existing service networking connection in case of a new connection creation failure.
+	UpdateOnCreationFail *bool `json:"updateOnCreationFail,omitempty" tf:"update_on_creation_fail,omitempty"`
 }
 
 type ConnectionObservation struct {
@@ -73,6 +76,9 @@ type ConnectionObservation struct {
 	// service provider organization. For Google services that support this functionality it is
 	// 'servicenetworking.googleapis.com'.
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+
+	// When set to true, enforce an update of the reserved peering ranges on the existing service networking connection in case of a new connection creation failure.
+	UpdateOnCreationFail *bool `json:"updateOnCreationFail,omitempty" tf:"update_on_creation_fail,omitempty"`
 }
 
 type ConnectionParameters struct {
@@ -115,6 +121,10 @@ type ConnectionParameters struct {
 	// 'servicenetworking.googleapis.com'.
 	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+
+	// When set to true, enforce an update of the reserved peering ranges on the existing service networking connection in case of a new connection creation failure.
+	// +kubebuilder:validation:Optional
+	UpdateOnCreationFail *bool `json:"updateOnCreationFail,omitempty" tf:"update_on_creation_fail,omitempty"`
 }
 
 // ConnectionSpec defines the desired state of Connection

@@ -2391,6 +2391,46 @@ spec:
                       configuration for Adding Pod IP address ranges) to the node pool. Or enabling private nodes. Structure is
                       documented below
                     properties:
+                      additionalNodeNetworkConfigs:
+                        description: |-
+                          We specify the additional node networks for this node pool using this list. Each node network corresponds to an additional interface.
+                          Structure is documented below
+                        items:
+                          properties:
+                            network:
+                              description: Name of the VPC where the additional interface
+                                belongs.
+                              type: string
+                            subnetwork:
+                              description: Name of the subnetwork where the additional
+                                pod network belongs.
+                              type: string
+                          type: object
+                        type: array
+                      additionalPodNetworkConfigs:
+                        description: |-
+                          We specify the additional pod networks for this node pool using this list. Each pod network corresponds to an additional alias IP range for the node.
+                          Structure is documented below
+                        items:
+                          properties:
+                            maxPodsPerNode:
+                              description: |-
+                                The maximum number of pods per node in this node pool.
+                                Note that this does not work on node pools which are "route-based" - that is, node
+                                pools belonging to clusters that do not have IP Aliasing enabled.
+                                See the official documentation
+                                for more information.
+                              type: number
+                            secondaryPodRange:
+                              description: The name of the secondary range on the
+                                subnet which provides IP address for this pod range.
+                              type: string
+                            subnetwork:
+                              description: Name of the subnetwork where the additional
+                                pod network belongs.
+                              type: string
+                          type: object
+                        type: array
                       createPodRange:
                         description: Whether to create a new range for pod IPs in
                           this node pool. Defaults are provided for pod_range and
@@ -2447,8 +2487,6 @@ spec:
                       bootDiskKmsKey:
                         type: string
                       confidentialNodes:
-                        description: Configuration for Confidential Nodes feature.
-                          Structure is documented below.
                         properties:
                           enabled:
                             description: Makes nodes obtainable through the ProvisioningRequest
@@ -2556,6 +2594,8 @@ spec:
                           cpuCfsQuotaPeriod:
                             type: string
                           cpuManagerPolicy:
+                            type: string
+                          insecureKubeletReadonlyPortEnabled:
                             type: string
                           podPidsLimit:
                             type: number
@@ -2871,7 +2911,7 @@ spec:
                           parallel. Can be set to 0 or greater.
                         type: number
                       strategy:
-                        description: (Default SURGE) The upgrade stragey to be used
+                        description: (Default SURGE) The upgrade strategy to be used
                           for upgrading the nodes.
                         type: string
                     type: object
@@ -2964,6 +3004,46 @@ spec:
                       configuration for Adding Pod IP address ranges) to the node pool. Or enabling private nodes. Structure is
                       documented below
                     properties:
+                      additionalNodeNetworkConfigs:
+                        description: |-
+                          We specify the additional node networks for this node pool using this list. Each node network corresponds to an additional interface.
+                          Structure is documented below
+                        items:
+                          properties:
+                            network:
+                              description: Name of the VPC where the additional interface
+                                belongs.
+                              type: string
+                            subnetwork:
+                              description: Name of the subnetwork where the additional
+                                pod network belongs.
+                              type: string
+                          type: object
+                        type: array
+                      additionalPodNetworkConfigs:
+                        description: |-
+                          We specify the additional pod networks for this node pool using this list. Each pod network corresponds to an additional alias IP range for the node.
+                          Structure is documented below
+                        items:
+                          properties:
+                            maxPodsPerNode:
+                              description: |-
+                                The maximum number of pods per node in this node pool.
+                                Note that this does not work on node pools which are "route-based" - that is, node
+                                pools belonging to clusters that do not have IP Aliasing enabled.
+                                See the official documentation
+                                for more information.
+                              type: number
+                            secondaryPodRange:
+                              description: The name of the secondary range on the
+                                subnet which provides IP address for this pod range.
+                              type: string
+                            subnetwork:
+                              description: Name of the subnetwork where the additional
+                                pod network belongs.
+                              type: string
+                          type: object
+                        type: array
                       createPodRange:
                         description: Whether to create a new range for pod IPs in
                           this node pool. Defaults are provided for pod_range and
@@ -3020,8 +3100,6 @@ spec:
                       bootDiskKmsKey:
                         type: string
                       confidentialNodes:
-                        description: Configuration for Confidential Nodes feature.
-                          Structure is documented below.
                         properties:
                           enabled:
                             description: Makes nodes obtainable through the ProvisioningRequest
@@ -3129,6 +3207,8 @@ spec:
                           cpuCfsQuotaPeriod:
                             type: string
                           cpuManagerPolicy:
+                            type: string
+                          insecureKubeletReadonlyPortEnabled:
                             type: string
                           podPidsLimit:
                             type: number
@@ -3444,7 +3524,7 @@ spec:
                           parallel. Can be set to 0 or greater.
                         type: number
                       strategy:
-                        description: (Default SURGE) The upgrade stragey to be used
+                        description: (Default SURGE) The upgrade strategy to be used
                           for upgrading the nodes.
                         type: string
                     type: object
@@ -3720,6 +3800,46 @@ spec:
                       configuration for Adding Pod IP address ranges) to the node pool. Or enabling private nodes. Structure is
                       documented below
                     properties:
+                      additionalNodeNetworkConfigs:
+                        description: |-
+                          We specify the additional node networks for this node pool using this list. Each node network corresponds to an additional interface.
+                          Structure is documented below
+                        items:
+                          properties:
+                            network:
+                              description: Name of the VPC where the additional interface
+                                belongs.
+                              type: string
+                            subnetwork:
+                              description: Name of the subnetwork where the additional
+                                pod network belongs.
+                              type: string
+                          type: object
+                        type: array
+                      additionalPodNetworkConfigs:
+                        description: |-
+                          We specify the additional pod networks for this node pool using this list. Each pod network corresponds to an additional alias IP range for the node.
+                          Structure is documented below
+                        items:
+                          properties:
+                            maxPodsPerNode:
+                              description: |-
+                                The maximum number of pods per node in this node pool.
+                                Note that this does not work on node pools which are "route-based" - that is, node
+                                pools belonging to clusters that do not have IP Aliasing enabled.
+                                See the official documentation
+                                for more information.
+                              type: number
+                            secondaryPodRange:
+                              description: The name of the secondary range on the
+                                subnet which provides IP address for this pod range.
+                              type: string
+                            subnetwork:
+                              description: Name of the subnetwork where the additional
+                                pod network belongs.
+                              type: string
+                          type: object
+                        type: array
                       createPodRange:
                         description: Whether to create a new range for pod IPs in
                           this node pool. Defaults are provided for pod_range and
@@ -3776,8 +3896,6 @@ spec:
                       bootDiskKmsKey:
                         type: string
                       confidentialNodes:
-                        description: Configuration for Confidential Nodes feature.
-                          Structure is documented below.
                         properties:
                           enabled:
                             description: Makes nodes obtainable through the ProvisioningRequest
@@ -3898,6 +4016,8 @@ spec:
                           cpuCfsQuotaPeriod:
                             type: string
                           cpuManagerPolicy:
+                            type: string
+                          insecureKubeletReadonlyPortEnabled:
                             type: string
                           podPidsLimit:
                             type: number
@@ -4139,7 +4259,7 @@ spec:
                           parallel. Can be set to 0 or greater.
                         type: number
                       strategy:
-                        description: (Default SURGE) The upgrade stragey to be used
+                        description: (Default SURGE) The upgrade strategy to be used
                           for upgrading the nodes.
                         type: string
                     type: object

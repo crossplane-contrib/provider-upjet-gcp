@@ -18,6 +18,9 @@ type HubInitParameters struct {
 	// An optional description of the hub.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Whether Private Service Connect transitivity is enabled for the hub. If true, Private Service Connect endpoints in VPC spokes attached to the hub are made accessible to other VPC spokes attached to the hub. The default value is false.
+	ExportPsc *bool `json:"exportPsc,omitempty" tf:"export_psc,omitempty"`
+
 	// Optional labels in key:value format. For more information about labels, see Requirements for labels.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
 	// Please refer to the field effective_labels for all of the labels present on the resource.
@@ -42,6 +45,9 @@ type HubObservation struct {
 
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
+	// Whether Private Service Connect transitivity is enabled for the hub. If true, Private Service Connect endpoints in VPC spokes attached to the hub are made accessible to other VPC spokes attached to the hub. The default value is false.
+	ExportPsc *bool `json:"exportPsc,omitempty" tf:"export_psc,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/locations/global/hubs/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -83,6 +89,10 @@ type HubParameters struct {
 	// An optional description of the hub.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Whether Private Service Connect transitivity is enabled for the hub. If true, Private Service Connect endpoints in VPC spokes attached to the hub are made accessible to other VPC spokes attached to the hub. The default value is false.
+	// +kubebuilder:validation:Optional
+	ExportPsc *bool `json:"exportPsc,omitempty" tf:"export_psc,omitempty"`
 
 	// Optional labels in key:value format. For more information about labels, see Requirements for labels.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
