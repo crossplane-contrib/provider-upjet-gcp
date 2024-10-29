@@ -192,6 +192,18 @@ func (in *ActionInitParameters) DeepCopyInto(out *ActionInitParameters) {
 			}
 		}
 	}
+	if in.SourceNATActiveIpsRefs != nil {
+		in, out := &in.SourceNATActiveIpsRefs, &out.SourceNATActiveIpsRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.SourceNATActiveIpsSelector != nil {
+		in, out := &in.SourceNATActiveIpsSelector, &out.SourceNATActiveIpsSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.SourceNATDrainIps != nil {
 		in, out := &in.SourceNATDrainIps, &out.SourceNATDrainIps
 		*out = make([]*string, len(*in))
@@ -265,6 +277,18 @@ func (in *ActionParameters) DeepCopyInto(out *ActionParameters) {
 				**out = **in
 			}
 		}
+	}
+	if in.SourceNATActiveIpsRefs != nil {
+		in, out := &in.SourceNATActiveIpsRefs, &out.SourceNATActiveIpsRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.SourceNATActiveIpsSelector != nil {
+		in, out := &in.SourceNATActiveIpsSelector, &out.SourceNATActiveIpsSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceNATDrainIps != nil {
 		in, out := &in.SourceNATDrainIps, &out.SourceNATDrainIps
@@ -23665,6 +23689,18 @@ func (in *InstanceGroupInitParameters) DeepCopyInto(out *InstanceGroupInitParame
 			}
 		}
 	}
+	if in.InstancesRefs != nil {
+		in, out := &in.InstancesRefs, &out.InstancesRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.InstancesSelector != nil {
+		in, out := &in.InstancesSelector, &out.InstancesSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.NamedPort != nil {
 		in, out := &in.NamedPort, &out.NamedPort
 		*out = make([]NamedPortInitParameters, len(*in))
@@ -24653,6 +24689,18 @@ func (in *InstanceGroupParameters) DeepCopyInto(out *InstanceGroupParameters) {
 				**out = **in
 			}
 		}
+	}
+	if in.InstancesRefs != nil {
+		in, out := &in.InstancesRefs, &out.InstancesRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.InstancesSelector != nil {
+		in, out := &in.InstancesSelector, &out.InstancesSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.NamedPort != nil {
 		in, out := &in.NamedPort, &out.NamedPort
@@ -26496,6 +26544,18 @@ func (in *InstanceTemplateDiskInitParameters) DeepCopyInto(out *InstanceTemplate
 			}
 		}
 	}
+	if in.ResourcePoliciesRefs != nil {
+		in, out := &in.ResourcePoliciesRefs, &out.ResourcePoliciesRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.ResourcePoliciesSelector != nil {
+		in, out := &in.ResourcePoliciesSelector, &out.ResourcePoliciesSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Source != nil {
 		in, out := &in.Source, &out.Source
 		*out = new(string)
@@ -26793,6 +26853,18 @@ func (in *InstanceTemplateDiskParameters) DeepCopyInto(out *InstanceTemplateDisk
 				**out = **in
 			}
 		}
+	}
+	if in.ResourcePoliciesRefs != nil {
+		in, out := &in.ResourcePoliciesRefs, &out.ResourcePoliciesRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.ResourcePoliciesSelector != nil {
+		in, out := &in.ResourcePoliciesSelector, &out.ResourcePoliciesSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Source != nil {
 		in, out := &in.Source, &out.Source
@@ -29301,6 +29373,18 @@ func (in *InterconnectAttachmentInitParameters) DeepCopyInto(out *InterconnectAt
 			}
 		}
 	}
+	if in.IpsecInternalAddressesRefs != nil {
+		in, out := &in.IpsecInternalAddressesRefs, &out.IpsecInternalAddressesRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.IpsecInternalAddressesSelector != nil {
+		in, out := &in.IpsecInternalAddressesSelector, &out.IpsecInternalAddressesSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Mtu != nil {
 		in, out := &in.Mtu, &out.Mtu
 		*out = new(string)
@@ -29613,6 +29697,18 @@ func (in *InterconnectAttachmentParameters) DeepCopyInto(out *InterconnectAttach
 				**out = **in
 			}
 		}
+	}
+	if in.IpsecInternalAddressesRefs != nil {
+		in, out := &in.IpsecInternalAddressesRefs, &out.IpsecInternalAddressesRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.IpsecInternalAddressesSelector != nil {
+		in, out := &in.IpsecInternalAddressesSelector, &out.IpsecInternalAddressesSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Mtu != nil {
 		in, out := &in.Mtu, &out.Mtu
@@ -61599,6 +61695,18 @@ func (in *RouterNATInitParameters) DeepCopyInto(out *RouterNATInitParameters) {
 			}
 		}
 	}
+	if in.NATIpsRefs != nil {
+		in, out := &in.NATIpsRefs, &out.NATIpsRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.NATIpsSelector != nil {
+		in, out := &in.NATIpsSelector, &out.NATIpsSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
 		*out = new(string)
@@ -61988,6 +62096,18 @@ func (in *RouterNATParameters) DeepCopyInto(out *RouterNATParameters) {
 				**out = **in
 			}
 		}
+	}
+	if in.NATIpsRefs != nil {
+		in, out := &in.NATIpsRefs, &out.NATIpsRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.NATIpsSelector != nil {
+		in, out := &in.NATIpsSelector, &out.NATIpsSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project

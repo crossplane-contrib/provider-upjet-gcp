@@ -624,6 +624,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_network_connectivity_hub": config.IdentifierFromProvider,
 	// Spoke can be imported using {{location}}/{{name}}
 	"google_network_connectivity_spoke": config.IdentifierFromProvider,
+	// ServiceConnectionPolicy can be imported using projects/{{project}}/locations/{{location}}/serviceConnectionPolicies/{{name}}
+	"google_network_connectivity_service_connection_policy": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/serviceConnectionPolicies/{{ .external_name }}"),
 
 	// mlengine
 	//
@@ -691,6 +693,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	//
 	// Imported by using the following format: projects/{{project}}/locations/{{region}}/instances/{{name}}
 	"google_redis_instance": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/instances/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/locations/{{region}}/clusters/{{name}}
+	"google_redis_cluster": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/clusters/{{ .external_name }}"),
 
 	// resource_manager
 	//
