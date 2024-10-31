@@ -209,8 +209,10 @@ import (
 	nodepoolcontainerazure "github.com/upbound/provider-gcp/internal/controller/containerazure/nodepool"
 	entry "github.com/upbound/provider-gcp/internal/controller/datacatalog/entry"
 	entrygroup "github.com/upbound/provider-gcp/internal/controller/datacatalog/entrygroup"
+	policytag "github.com/upbound/provider-gcp/internal/controller/datacatalog/policytag"
 	tag "github.com/upbound/provider-gcp/internal/controller/datacatalog/tag"
 	tagtemplate "github.com/upbound/provider-gcp/internal/controller/datacatalog/tagtemplate"
+	taxonomy "github.com/upbound/provider-gcp/internal/controller/datacatalog/taxonomy"
 	jobdataflow "github.com/upbound/provider-gcp/internal/controller/dataflow/job"
 	instancedatafusion "github.com/upbound/provider-gcp/internal/controller/datafusion/instance"
 	deidentifytemplate "github.com/upbound/provider-gcp/internal/controller/datalossprevention/deidentifytemplate"
@@ -573,8 +575,10 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		nodepoolcontainerazure.Setup,
 		entry.Setup,
 		entrygroup.Setup,
+		policytag.Setup,
 		tag.Setup,
 		tagtemplate.Setup,
+		taxonomy.Setup,
 		jobdataflow.Setup,
 		instancedatafusion.Setup,
 		deidentifytemplate.Setup,

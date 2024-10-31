@@ -81,6 +81,18 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	"google_data_catalog_tag_template_iam_member": config.IdentifierFromProvider,
 	// projects/{{project}}/locations/{{region}}/tagTemplates/{{tag_template}}
 	"google_data_catalog_tag_template_iam_policy": config.IdentifierFromProvider,
+	// projects/{{project}}/locations/{{region}}/taxonomies/{{taxonomy}} roles/viewer
+	"google_data_catalog_taxonomy_iam_binding": config.IdentifierFromProvider,
+	// projects/{{project}}/locations/{{region}}/taxonomies/{{taxonomy}} roles/viewer user:jane@example.com
+	"google_data_catalog_taxonomy_iam_member": config.IdentifierFromProvider,
+	// projects/{{project}}/locations/{{region}}/taxonomies/{{taxonomy}}/policyTags/{{policy_tag}}
+	"google_data_catalog_taxonomy_iam_policy": config.IdentifierFromProvider,
+	// projects/{{project}}/locations/{{region}}/taxonomies/{{taxonomy}}/policyTags/{{policy_tag}} roles/viewer
+	"google_data_catalog_policy_tag_iam_binding": config.IdentifierFromProvider,
+	// projects/{{project}}/locations/{{region}}/taxonomies/{{taxonomy}}/policyTags/{{policy_tag}} roles/viewer user:jane@example.com
+	"google_data_catalog_policy_tag_iam_member": config.IdentifierFromProvider,
+	// projects/{{project}}/locations/{{region}}/taxonomies/{{taxonomy}}/policyTags/{{policy_tag}}
+	"google_data_catalog_policy_tag_iam_policy": config.IdentifierFromProvider,
 
 	// accessapproval
 	//
