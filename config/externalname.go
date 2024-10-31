@@ -380,7 +380,7 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_data_catalog_taxonomy": config.IdentifierFromProvider,
 	// {{name}} projects/{project}/locations/{region}/taxonomies/{taxonomy}/policyTags/{policytag}
 	"google_data_catalog_policy_tag": config.IdentifierFromProvider,
-	
+
 	// accesscontextmanager
 	//
 	// Imported by using the following format: {{name}}: accessPolicies/{policy_id}/accessLevels/{short_name}
