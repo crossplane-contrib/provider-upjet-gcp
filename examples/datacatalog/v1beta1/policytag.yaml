@@ -1,0 +1,33 @@
+apiVersion: datacatalog.gcp.upbound.io/v1beta1
+kind: PolicyTag
+metadata:
+  annotations:
+    meta.upbound.io/example-id: datacatalog/v1beta1/policytag
+  labels:
+    testing.upbound.io/example-name: basic_policy_tag
+  name: basic-policy-tag
+spec:
+  forProvider:
+    description: A policy tag normally associated with low security items
+    displayName: Low security
+    taxonomySelector:
+      matchLabels:
+        testing.upbound.io/example-name: my_taxonomy
+
+---
+
+apiVersion: datacatalog.gcp.upbound.io/v1beta1
+kind: Taxonomy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: datacatalog/v1beta1/policytag
+  labels:
+    testing.upbound.io/example-name: my_taxonomy
+  name: my-taxonomy
+spec:
+  forProvider:
+    region: eu
+    activatedPolicyTypes:
+    - FINE_GRAINED_ACCESS_CONTROL
+    description: A collection of policy tags
+    displayName: taxonomy_display_name

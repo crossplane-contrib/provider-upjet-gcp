@@ -11,8 +11,10 @@ import (
 
 	entry "github.com/upbound/provider-gcp/internal/controller/datacatalog/entry"
 	entrygroup "github.com/upbound/provider-gcp/internal/controller/datacatalog/entrygroup"
+	policytag "github.com/upbound/provider-gcp/internal/controller/datacatalog/policytag"
 	tag "github.com/upbound/provider-gcp/internal/controller/datacatalog/tag"
 	tagtemplate "github.com/upbound/provider-gcp/internal/controller/datacatalog/tagtemplate"
+	taxonomy "github.com/upbound/provider-gcp/internal/controller/datacatalog/taxonomy"
 )
 
 // Setup_datacatalog creates all controllers with the supplied logger and adds them to
@@ -21,8 +23,10 @@ func Setup_datacatalog(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		entry.Setup,
 		entrygroup.Setup,
+		policytag.Setup,
 		tag.Setup,
 		tagtemplate.Setup,
+		taxonomy.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err
