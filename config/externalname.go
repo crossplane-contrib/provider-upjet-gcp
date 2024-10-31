@@ -376,7 +376,11 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_data_catalog_tag": config.IdentifierFromProvider,
 	// {{name}}: projects/{project_id}/locations/{location}/tagTemplates/{tagTemplateId}
 	"google_data_catalog_tag_template": config.TemplatedStringAsIdentifier("tag_template_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/tagTemplates/{{ .external_name }}"),
-
+	// {{name}} projects/{project}/locations/{region}/taxonomies/{taxonomy}
+	"google_data_catalog_taxonomy": config.IdentifierFromProvider,
+	// {{name}} projects/{project}/locations/{region}/taxonomies/{taxonomy}/policyTags/{policytag}
+	"google_data_catalog_policy_tag": config.IdentifierFromProvider,
+	
 	// accesscontextmanager
 	//
 	// Imported by using the following format: {{name}}: accessPolicies/{policy_id}/accessLevels/{short_name}
