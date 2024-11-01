@@ -263,6 +263,15 @@ spec:
                                   The number of newer versions of an object to satisfy
                                   this condition.
                                 type: number
+                              sendAgeIfZero:
+                                description: While set true, age value will be sent
+                                  in the request even for zero value of the field.
+                                  This field is only useful and required for setting
+                                  0 value to the age field. It can be used alone or
+                                  together with age attribute. NOTE age attibute with
+                                  0 value will be ommitted from the API request if
+                                  send_age_if_zero field is having false value.
+                                type: boolean
                               sendDaysSinceCustomTimeIfZero:
                                 description: While set true, days_since_custom_time
                                   value will be sent in the request even for zero
@@ -612,6 +621,15 @@ spec:
                                   The number of newer versions of an object to satisfy
                                   this condition.
                                 type: number
+                              sendAgeIfZero:
+                                description: While set true, age value will be sent
+                                  in the request even for zero value of the field.
+                                  This field is only useful and required for setting
+                                  0 value to the age field. It can be used alone or
+                                  together with age attribute. NOTE age attibute with
+                                  0 value will be ommitted from the API request if
+                                  send_age_if_zero field is having false value.
+                                type: boolean
                               sendDaysSinceCustomTimeIfZero:
                                 description: While set true, days_since_custom_time
                                   value will be sent in the request even for zero
@@ -1133,6 +1151,15 @@ spec:
                                   The number of newer versions of an object to satisfy
                                   this condition.
                                 type: number
+                              sendAgeIfZero:
+                                description: While set true, age value will be sent
+                                  in the request even for zero value of the field.
+                                  This field is only useful and required for setting
+                                  0 value to the age field. It can be used alone or
+                                  together with age attribute. NOTE age attibute with
+                                  0 value will be ommitted from the API request if
+                                  send_age_if_zero field is having false value.
+                                type: boolean
                               sendDaysSinceCustomTimeIfZero:
                                 description: While set true, days_since_custom_time
                                   value will be sent in the request even for zero
