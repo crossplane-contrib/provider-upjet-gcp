@@ -659,6 +659,9 @@ type IPConfigurationInitParameters struct {
 
 	// Specify how SSL connection should be enforced in DB connections. This field provides more SSL enforcment options compared to require_ssl. To change this field, also set the correspoding value in require_ssl.
 	SSLMode *string `json:"sslMode,omitempty" tf:"ssl_mode,omitempty"`
+
+	// Specify how the server certificate's Certificate Authority is hosted. Supported value is GOOGLE_MANAGED_INTERNAL_CA.
+	ServerCAMode *string `json:"serverCaMode,omitempty" tf:"server_ca_mode,omitempty"`
 }
 
 type IPConfigurationObservation struct {
@@ -690,6 +693,9 @@ type IPConfigurationObservation struct {
 
 	// Specify how SSL connection should be enforced in DB connections. This field provides more SSL enforcment options compared to require_ssl. To change this field, also set the correspoding value in require_ssl.
 	SSLMode *string `json:"sslMode,omitempty" tf:"ssl_mode,omitempty"`
+
+	// Specify how the server certificate's Certificate Authority is hosted. Supported value is GOOGLE_MANAGED_INTERNAL_CA.
+	ServerCAMode *string `json:"serverCaMode,omitempty" tf:"server_ca_mode,omitempty"`
 }
 
 type IPConfigurationParameters struct {
@@ -739,6 +745,10 @@ type IPConfigurationParameters struct {
 	// Specify how SSL connection should be enforced in DB connections. This field provides more SSL enforcment options compared to require_ssl. To change this field, also set the correspoding value in require_ssl.
 	// +kubebuilder:validation:Optional
 	SSLMode *string `json:"sslMode,omitempty" tf:"ssl_mode,omitempty"`
+
+	// Specify how the server certificate's Certificate Authority is hosted. Supported value is GOOGLE_MANAGED_INTERNAL_CA.
+	// +kubebuilder:validation:Optional
+	ServerCAMode *string `json:"serverCaMode,omitempty" tf:"server_ca_mode,omitempty"`
 }
 
 type InsightsConfigInitParameters struct {
@@ -1293,6 +1303,9 @@ type SettingsInitParameters struct {
 	// The edition of the instance, can be ENTERPRISE or ENTERPRISE_PLUS.
 	Edition *string `json:"edition,omitempty" tf:"edition,omitempty"`
 
+	// Enables Cloud SQL instance integration with Dataplex. MySQL, Postgres and SQL Server instances are supported for this feature. Defaults to false.
+	EnableDataplexIntegration *bool `json:"enableDataplexIntegration,omitempty" tf:"enable_dataplex_integration,omitempty"`
+
 	// Enables Cloud SQL instances to connect to Vertex AI and pass requests for real-time predictions and insights. Defaults to false.
 	EnableGoogleMLIntegration *bool `json:"enableGoogleMlIntegration,omitempty" tf:"enable_google_ml_integration,omitempty"`
 
@@ -1373,6 +1386,9 @@ type SettingsObservation struct {
 
 	// The edition of the instance, can be ENTERPRISE or ENTERPRISE_PLUS.
 	Edition *string `json:"edition,omitempty" tf:"edition,omitempty"`
+
+	// Enables Cloud SQL instance integration with Dataplex. MySQL, Postgres and SQL Server instances are supported for this feature. Defaults to false.
+	EnableDataplexIntegration *bool `json:"enableDataplexIntegration,omitempty" tf:"enable_dataplex_integration,omitempty"`
 
 	// Enables Cloud SQL instances to connect to Vertex AI and pass requests for real-time predictions and insights. Defaults to false.
 	EnableGoogleMLIntegration *bool `json:"enableGoogleMlIntegration,omitempty" tf:"enable_google_ml_integration,omitempty"`
@@ -1474,6 +1490,10 @@ type SettingsParameters struct {
 	// The edition of the instance, can be ENTERPRISE or ENTERPRISE_PLUS.
 	// +kubebuilder:validation:Optional
 	Edition *string `json:"edition,omitempty" tf:"edition,omitempty"`
+
+	// Enables Cloud SQL instance integration with Dataplex. MySQL, Postgres and SQL Server instances are supported for this feature. Defaults to false.
+	// +kubebuilder:validation:Optional
+	EnableDataplexIntegration *bool `json:"enableDataplexIntegration,omitempty" tf:"enable_dataplex_integration,omitempty"`
 
 	// Enables Cloud SQL instances to connect to Vertex AI and pass requests for real-time predictions and insights. Defaults to false.
 	// +kubebuilder:validation:Optional

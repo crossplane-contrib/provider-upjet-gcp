@@ -142,6 +142,14 @@ type SubnetworkInitParameters_2 struct {
 	// Structure is documented below.
 	SecondaryIPRange []SecondaryIPRangeInitParameters `json:"secondaryIpRange,omitempty" tf:"secondary_ip_range,omitempty"`
 
+	// Controls the removal behavior of secondary_ip_range.
+	// When false, removing secondary_ip_range from config will not produce a diff as
+	// the provider will default to the API's value.
+	// When true, the provider will treat removing secondary_ip_range as sending an
+	// empty list of secondary IP ranges to the API.
+	// Defaults to false.
+	SendSecondaryIPRangeIfEmpty *bool `json:"sendSecondaryIpRangeIfEmpty,omitempty" tf:"send_secondary_ip_range_if_empty,omitempty"`
+
 	// The stack type for this subnet to identify whether the IPv6 feature is enabled or not.
 	// If not specified IPV4_ONLY will be used.
 	// Possible values are: IPV4_ONLY, IPV4_IPV6.
@@ -355,6 +363,14 @@ type SubnetworkObservation_2 struct {
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
+	// Controls the removal behavior of secondary_ip_range.
+	// When false, removing secondary_ip_range from config will not produce a diff as
+	// the provider will default to the API's value.
+	// When true, the provider will treat removing secondary_ip_range as sending an
+	// empty list of secondary IP ranges to the API.
+	// Defaults to false.
+	SendSecondaryIPRangeIfEmpty *bool `json:"sendSecondaryIpRangeIfEmpty,omitempty" tf:"send_secondary_ip_range_if_empty,omitempty"`
+
 	// The stack type for this subnet to identify whether the IPv6 feature is enabled or not.
 	// If not specified IPV4_ONLY will be used.
 	// Possible values are: IPV4_ONLY, IPV4_IPV6.
@@ -458,6 +474,15 @@ type SubnetworkParameters_2 struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SecondaryIPRange []SecondaryIPRangeParameters `json:"secondaryIpRange,omitempty" tf:"secondary_ip_range,omitempty"`
+
+	// Controls the removal behavior of secondary_ip_range.
+	// When false, removing secondary_ip_range from config will not produce a diff as
+	// the provider will default to the API's value.
+	// When true, the provider will treat removing secondary_ip_range as sending an
+	// empty list of secondary IP ranges to the API.
+	// Defaults to false.
+	// +kubebuilder:validation:Optional
+	SendSecondaryIPRangeIfEmpty *bool `json:"sendSecondaryIpRangeIfEmpty,omitempty" tf:"send_secondary_ip_range_if_empty,omitempty"`
 
 	// The stack type for this subnet to identify whether the IPv6 feature is enabled or not.
 	// If not specified IPV4_ONLY will be used.

@@ -119,6 +119,9 @@ type BucketObjectObservation struct {
 	// Whether an object is under event-based hold. Event-based hold is a way to retain objects until an event occurs, which is signified by the hold's release (i.e. this value is set to false). After being released (set to false), such objects will be subject to bucket-level retention (if any).
 	EventBasedHold *bool `json:"eventBasedHold,omitempty" tf:"event_based_hold,omitempty"`
 
+	// (Computed) The content generation of this object. Used for object versioning and soft delete.
+	Generation *float64 `json:"generation,omitempty" tf:"generation,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The resource name of the Cloud KMS key that will be used to encrypt the object.
