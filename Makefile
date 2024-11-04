@@ -397,6 +397,26 @@ kustomize-crds: output.init $(KUSTOMIZE) $(YQ)
 
 .PHONY: kustomize-crds
 
+ifeq ($(RUN_BUILDTAGGER),true)
+lint.init: build-lint-cache
+lint.done: delete-build-tags
+
+build-lint-cache: $(GOLANGCILINT)
+	@$(INFO) Running golangci-lint with the analysis cache building phase.
+	@# we run the initial analysis cache build phase using the relatively
+	@# smaller API group "account", to keep the memory requirements at a
+	@# minimum.
+	@(BUILDTAGGER_DOWNLOAD_URL=$(BUILDTAGGER_DOWNLOAD_URL) ./scripts/tag.sh && \
+	(([[ "${SKIP_LINTER_ANALYSIS}" == "true" ]] && $(OK) "Skipping analysis cache build phase because it's already been populated") && \
+	[[ "${SKIP_LINTER_ANALYSIS}" == "true" ]] || $(GOLANGCILINT) run -v --build-tags account,configregistry,configprovider,linter_run -v --disable-all --exclude '.*')) || $(FAIL)
+	@$(OK) Running golangci-lint with the analysis cache building phase.
+
+delete-build-tags:
+	@$(INFO) Untagging source files.
+	@EXTRA_BUILDTAGGER_ARGS="--delete" RESTORE_DEEPCOPY_TAGS="true" ./scripts/tag.sh || $(FAIL)
+	@$(OK) Untagging source files.
+endif
+
 # TODO(negz): Update CI to use these targets.
 vendor: modules.download
 vendor.check: modules.check
