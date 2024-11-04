@@ -55,6 +55,10 @@ type RegionTargetHTTPSProxyInitParameters struct {
 	// INTERNAL_SELF_MANAGED and which with EXTERNAL, EXTERNAL_MANAGED
 	// loadBalancingScheme consult ServerTlsPolicy documentation.
 	// If left blank, communications are not encrypted.
+	// If you remove this field from your configuration at the same time as
+	// deleting or recreating a referenced ServerTlsPolicy resource, you will
+	// receive a resourceInUseByAnotherResource error. Use lifecycle.create_before_destroy
+	// within the ServerTlsPolicy resource to avoid this.
 	ServerTLSPolicy *string `json:"serverTlsPolicy,omitempty" tf:"server_tls_policy,omitempty"`
 
 	// A reference to the RegionUrlMap resource that defines the mapping from URL
@@ -121,6 +125,10 @@ type RegionTargetHTTPSProxyObservation struct {
 	// INTERNAL_SELF_MANAGED and which with EXTERNAL, EXTERNAL_MANAGED
 	// loadBalancingScheme consult ServerTlsPolicy documentation.
 	// If left blank, communications are not encrypted.
+	// If you remove this field from your configuration at the same time as
+	// deleting or recreating a referenced ServerTlsPolicy resource, you will
+	// receive a resourceInUseByAnotherResource error. Use lifecycle.create_before_destroy
+	// within the ServerTlsPolicy resource to avoid this.
 	ServerTLSPolicy *string `json:"serverTlsPolicy,omitempty" tf:"server_tls_policy,omitempty"`
 
 	// A reference to the RegionUrlMap resource that defines the mapping from URL
@@ -180,6 +188,10 @@ type RegionTargetHTTPSProxyParameters struct {
 	// INTERNAL_SELF_MANAGED and which with EXTERNAL, EXTERNAL_MANAGED
 	// loadBalancingScheme consult ServerTlsPolicy documentation.
 	// If left blank, communications are not encrypted.
+	// If you remove this field from your configuration at the same time as
+	// deleting or recreating a referenced ServerTlsPolicy resource, you will
+	// receive a resourceInUseByAnotherResource error. Use lifecycle.create_before_destroy
+	// within the ServerTlsPolicy resource to avoid this.
 	// +kubebuilder:validation:Optional
 	ServerTLSPolicy *string `json:"serverTlsPolicy,omitempty" tf:"server_tls_policy,omitempty"`
 

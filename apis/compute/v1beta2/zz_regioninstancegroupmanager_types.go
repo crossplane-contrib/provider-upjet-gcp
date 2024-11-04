@@ -638,16 +638,16 @@ type RegionInstanceGroupManagerUpdatePolicyInitParameters struct {
 	// - The instance redistribution policy for regional managed instance groups. Valid values are: "PROACTIVE", "NONE". If PROACTIVE (default), the group attempts to maintain an even distribution of VM instances across zones in the region. If NONE, proactive redistribution is disabled.
 	InstanceRedistributionType *string `json:"instanceRedistributionType,omitempty" tf:"instance_redistribution_type,omitempty"`
 
-	// , The maximum number of instances that can be created above the specified targetSize during the update process. Conflicts with max_surge_percent. It has to be either 0 or at least equal to the number of zones.  If fixed values are used, at least one of max_unavailable_fixed or max_surge_fixed must be greater than 0.
+	// , Specifies a fixed number of VM instances. This must be a positive integer. Conflicts with max_surge_percent. Both cannot be 0.
 	MaxSurgeFixed *float64 `json:"maxSurgeFixed,omitempty" tf:"max_surge_fixed,omitempty"`
 
-	// , The maximum number of instances(calculated as percentage) that can be created above the specified targetSize during the update process. Conflicts with max_surge_fixed. Percent value is only allowed for regional managed instance groups with size at least 10.
+	// , Specifies a percentage of instances between 0 to 100%, inclusive. For example, specify 80 for 80%. Conflicts with max_surge_fixed.
 	MaxSurgePercent *float64 `json:"maxSurgePercent,omitempty" tf:"max_surge_percent,omitempty"`
 
-	// , The maximum number of instances that can be unavailable during the update process. Conflicts with max_unavailable_percent. It has to be either 0 or at least equal to the number of zones. If fixed values are used, at least one of max_unavailable_fixed or max_surge_fixed must be greater than 0.
+	// , Specifies a fixed number of VM instances. This must be a positive integer.
 	MaxUnavailableFixed *float64 `json:"maxUnavailableFixed,omitempty" tf:"max_unavailable_fixed,omitempty"`
 
-	// , The maximum number of instances(calculated as percentage) that can be unavailable during the update process. Conflicts with max_unavailable_fixed. Percent value is only allowed for regional managed instance groups with size at least 10.
+	// , Specifies a percentage of instances between 0 to 100%, inclusive. For example, specify 80 for 80%..
 	MaxUnavailablePercent *float64 `json:"maxUnavailablePercent,omitempty" tf:"max_unavailable_percent,omitempty"`
 
 	// - Minimal action to be taken on an instance. You can specify either NONE to forbid any actions, REFRESH to update without stopping instances, RESTART to restart existing instances or REPLACE to delete and create new instances from the target template. If you specify a REFRESH, the Updater will attempt to perform that action only. However, if the Updater determines that the minimal action you specify is not enough to perform the update, it might perform a more disruptive action.
@@ -668,16 +668,16 @@ type RegionInstanceGroupManagerUpdatePolicyObservation struct {
 	// - The instance redistribution policy for regional managed instance groups. Valid values are: "PROACTIVE", "NONE". If PROACTIVE (default), the group attempts to maintain an even distribution of VM instances across zones in the region. If NONE, proactive redistribution is disabled.
 	InstanceRedistributionType *string `json:"instanceRedistributionType,omitempty" tf:"instance_redistribution_type,omitempty"`
 
-	// , The maximum number of instances that can be created above the specified targetSize during the update process. Conflicts with max_surge_percent. It has to be either 0 or at least equal to the number of zones.  If fixed values are used, at least one of max_unavailable_fixed or max_surge_fixed must be greater than 0.
+	// , Specifies a fixed number of VM instances. This must be a positive integer. Conflicts with max_surge_percent. Both cannot be 0.
 	MaxSurgeFixed *float64 `json:"maxSurgeFixed,omitempty" tf:"max_surge_fixed,omitempty"`
 
-	// , The maximum number of instances(calculated as percentage) that can be created above the specified targetSize during the update process. Conflicts with max_surge_fixed. Percent value is only allowed for regional managed instance groups with size at least 10.
+	// , Specifies a percentage of instances between 0 to 100%, inclusive. For example, specify 80 for 80%. Conflicts with max_surge_fixed.
 	MaxSurgePercent *float64 `json:"maxSurgePercent,omitempty" tf:"max_surge_percent,omitempty"`
 
-	// , The maximum number of instances that can be unavailable during the update process. Conflicts with max_unavailable_percent. It has to be either 0 or at least equal to the number of zones. If fixed values are used, at least one of max_unavailable_fixed or max_surge_fixed must be greater than 0.
+	// , Specifies a fixed number of VM instances. This must be a positive integer.
 	MaxUnavailableFixed *float64 `json:"maxUnavailableFixed,omitempty" tf:"max_unavailable_fixed,omitempty"`
 
-	// , The maximum number of instances(calculated as percentage) that can be unavailable during the update process. Conflicts with max_unavailable_fixed. Percent value is only allowed for regional managed instance groups with size at least 10.
+	// , Specifies a percentage of instances between 0 to 100%, inclusive. For example, specify 80 for 80%..
 	MaxUnavailablePercent *float64 `json:"maxUnavailablePercent,omitempty" tf:"max_unavailable_percent,omitempty"`
 
 	// - Minimal action to be taken on an instance. You can specify either NONE to forbid any actions, REFRESH to update without stopping instances, RESTART to restart existing instances or REPLACE to delete and create new instances from the target template. If you specify a REFRESH, the Updater will attempt to perform that action only. However, if the Updater determines that the minimal action you specify is not enough to perform the update, it might perform a more disruptive action.
@@ -699,19 +699,19 @@ type RegionInstanceGroupManagerUpdatePolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	InstanceRedistributionType *string `json:"instanceRedistributionType,omitempty" tf:"instance_redistribution_type,omitempty"`
 
-	// , The maximum number of instances that can be created above the specified targetSize during the update process. Conflicts with max_surge_percent. It has to be either 0 or at least equal to the number of zones.  If fixed values are used, at least one of max_unavailable_fixed or max_surge_fixed must be greater than 0.
+	// , Specifies a fixed number of VM instances. This must be a positive integer. Conflicts with max_surge_percent. Both cannot be 0.
 	// +kubebuilder:validation:Optional
 	MaxSurgeFixed *float64 `json:"maxSurgeFixed,omitempty" tf:"max_surge_fixed,omitempty"`
 
-	// , The maximum number of instances(calculated as percentage) that can be created above the specified targetSize during the update process. Conflicts with max_surge_fixed. Percent value is only allowed for regional managed instance groups with size at least 10.
+	// , Specifies a percentage of instances between 0 to 100%, inclusive. For example, specify 80 for 80%. Conflicts with max_surge_fixed.
 	// +kubebuilder:validation:Optional
 	MaxSurgePercent *float64 `json:"maxSurgePercent,omitempty" tf:"max_surge_percent,omitempty"`
 
-	// , The maximum number of instances that can be unavailable during the update process. Conflicts with max_unavailable_percent. It has to be either 0 or at least equal to the number of zones. If fixed values are used, at least one of max_unavailable_fixed or max_surge_fixed must be greater than 0.
+	// , Specifies a fixed number of VM instances. This must be a positive integer.
 	// +kubebuilder:validation:Optional
 	MaxUnavailableFixed *float64 `json:"maxUnavailableFixed,omitempty" tf:"max_unavailable_fixed,omitempty"`
 
-	// , The maximum number of instances(calculated as percentage) that can be unavailable during the update process. Conflicts with max_unavailable_fixed. Percent value is only allowed for regional managed instance groups with size at least 10.
+	// , Specifies a percentage of instances between 0 to 100%, inclusive. For example, specify 80 for 80%..
 	// +kubebuilder:validation:Optional
 	MaxUnavailablePercent *float64 `json:"maxUnavailablePercent,omitempty" tf:"max_unavailable_percent,omitempty"`
 

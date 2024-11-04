@@ -293,6 +293,15 @@ spec:
                           type: string
                       type: object
                     type: array
+                  sendSecondaryIpRangeIfEmpty:
+                    description: |-
+                      Controls the removal behavior of secondary_ip_range.
+                      When false, removing secondary_ip_range from config will not produce a diff as
+                      the provider will default to the API's value.
+                      When true, the provider will treat removing secondary_ip_range as sending an
+                      empty list of secondary IP ranges to the API.
+                      Defaults to false.
+                    type: boolean
                   stackType:
                     description: |-
                       The stack type for this subnet to identify whether the IPv6 feature is enabled or not.
@@ -531,6 +540,15 @@ spec:
                           type: string
                       type: object
                     type: array
+                  sendSecondaryIpRangeIfEmpty:
+                    description: |-
+                      Controls the removal behavior of secondary_ip_range.
+                      When false, removing secondary_ip_range from config will not produce a diff as
+                      the provider will default to the API's value.
+                      When true, the provider will treat removing secondary_ip_range as sending an
+                      empty list of secondary IP ranges to the API.
+                      Defaults to false.
+                    type: boolean
                   stackType:
                     description: |-
                       The stack type for this subnet to identify whether the IPv6 feature is enabled or not.
@@ -884,6 +902,15 @@ spec:
                   selfLink:
                     description: The URI of the created resource.
                     type: string
+                  sendSecondaryIpRangeIfEmpty:
+                    description: |-
+                      Controls the removal behavior of secondary_ip_range.
+                      When false, removing secondary_ip_range from config will not produce a diff as
+                      the provider will default to the API's value.
+                      When true, the provider will treat removing secondary_ip_range as sending an
+                      empty list of secondary IP ranges to the API.
+                      Defaults to false.
+                    type: boolean
                   stackType:
                     description: |-
                       The stack type for this subnet to identify whether the IPv6 feature is enabled or not.
@@ -1202,10 +1229,8 @@ spec:
                       to the primary ipCidrRange of the subnetwork. The alias IPs may belong
                       to either primary or secondary ranges.
                       Note: This field uses attr-as-block mode to avoid
-                      breaking users during the 0.12 upgrade. To explicitly send a list
-                      of zero objects you must use the following syntax:
-                      example=[]
-                      For more details about this behavior, see this section.
+                      breaking users during the 0.12 upgrade. To explicitly send a list of zero objects,
+                      set send_secondary_ip_range_if_empty = true
                       Structure is documented below.
                     items:
                       properties:
@@ -1225,6 +1250,15 @@ spec:
                           type: string
                       type: object
                     type: array
+                  sendSecondaryIpRangeIfEmpty:
+                    description: |-
+                      Controls the removal behavior of secondary_ip_range.
+                      When false, removing secondary_ip_range from config will not produce a diff as
+                      the provider will default to the API's value.
+                      When true, the provider will treat removing secondary_ip_range as sending an
+                      empty list of secondary IP ranges to the API.
+                      Defaults to false.
+                    type: boolean
                   stackType:
                     description: |-
                       The stack type for this subnet to identify whether the IPv6 feature is enabled or not.
@@ -1438,10 +1472,8 @@ spec:
                       to the primary ipCidrRange of the subnetwork. The alias IPs may belong
                       to either primary or secondary ranges.
                       Note: This field uses attr-as-block mode to avoid
-                      breaking users during the 0.12 upgrade. To explicitly send a list
-                      of zero objects you must use the following syntax:
-                      example=[]
-                      For more details about this behavior, see this section.
+                      breaking users during the 0.12 upgrade. To explicitly send a list of zero objects,
+                      set send_secondary_ip_range_if_empty = true
                       Structure is documented below.
                     items:
                       properties:
@@ -1461,6 +1493,15 @@ spec:
                           type: string
                       type: object
                     type: array
+                  sendSecondaryIpRangeIfEmpty:
+                    description: |-
+                      Controls the removal behavior of secondary_ip_range.
+                      When false, removing secondary_ip_range from config will not produce a diff as
+                      the provider will default to the API's value.
+                      When true, the provider will treat removing secondary_ip_range as sending an
+                      empty list of secondary IP ranges to the API.
+                      Defaults to false.
+                    type: boolean
                   stackType:
                     description: |-
                       The stack type for this subnet to identify whether the IPv6 feature is enabled or not.
@@ -1786,10 +1827,8 @@ spec:
                       to the primary ipCidrRange of the subnetwork. The alias IPs may belong
                       to either primary or secondary ranges.
                       Note: This field uses attr-as-block mode to avoid
-                      breaking users during the 0.12 upgrade. To explicitly send a list
-                      of zero objects you must use the following syntax:
-                      example=[]
-                      For more details about this behavior, see this section.
+                      breaking users during the 0.12 upgrade. To explicitly send a list of zero objects,
+                      set send_secondary_ip_range_if_empty = true
                       Structure is documented below.
                     items:
                       properties:
@@ -1812,6 +1851,15 @@ spec:
                   selfLink:
                     description: The URI of the created resource.
                     type: string
+                  sendSecondaryIpRangeIfEmpty:
+                    description: |-
+                      Controls the removal behavior of secondary_ip_range.
+                      When false, removing secondary_ip_range from config will not produce a diff as
+                      the provider will default to the API's value.
+                      When true, the provider will treat removing secondary_ip_range as sending an
+                      empty list of secondary IP ranges to the API.
+                      Defaults to false.
+                    type: boolean
                   stackType:
                     description: |-
                       The stack type for this subnet to identify whether the IPv6 feature is enabled or not.

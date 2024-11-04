@@ -249,6 +249,11 @@ spec:
                       service provider organization. For Google services that support this functionality it is
                       'servicenetworking.googleapis.com'.
                     type: string
+                  updateOnCreationFail:
+                    description: When set to true, enforce an update of the reserved
+                      peering ranges on the existing service networking connection
+                      in case of a new connection creation failure.
+                    type: boolean
                 type: object
               initProvider:
                 description: |-
@@ -439,6 +444,11 @@ spec:
                       service provider organization. For Google services that support this functionality it is
                       'servicenetworking.googleapis.com'.
                     type: string
+                  updateOnCreationFail:
+                    description: When set to true, enforce an update of the reserved
+                      peering ranges on the existing service networking connection
+                      in case of a new connection creation failure.
+                    type: boolean
                 type: object
               managementPolicies:
                 default:
@@ -646,6 +656,11 @@ spec:
                       service provider organization. For Google services that support this functionality it is
                       'servicenetworking.googleapis.com'.
                     type: string
+                  updateOnCreationFail:
+                    description: When set to true, enforce an update of the reserved
+                      peering ranges on the existing service networking connection
+                      in case of a new connection creation failure.
+                    type: boolean
                 type: object
               conditions:
                 description: Conditions of the resource.

@@ -1462,6 +1462,10 @@ spec:
                     description: for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
+                  forwardingRuleId:
+                    description: The unique identifier number for the resource. This
+                      identifier is defined by the server.
+                    type: number
                   id:
                     description: an identifier for the resource with format projects/{{project}}/regions/{{region}}/forwardingRules/{{name}}
                     type: string
@@ -3166,6 +3170,10 @@ spec:
                     description: for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
+                  forwardingRuleId:
+                    description: The unique identifier number for the resource. This
+                      identifier is defined by the server.
+                    type: number
                   id:
                     description: an identifier for the resource with format projects/{{project}}/regions/{{region}}/forwardingRules/{{name}}
                     type: string

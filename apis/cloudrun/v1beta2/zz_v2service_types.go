@@ -949,6 +949,9 @@ type V2ServiceBinaryAuthorizationInitParameters struct {
 	// If present, indicates to use Breakglass using this justification. If useDefault is False, then it must be empty. For more information on breakglass, see https://cloud.google.com/binary-authorization/docs/using-breakglass
 	BreakglassJustification *string `json:"breakglassJustification,omitempty" tf:"breakglass_justification,omitempty"`
 
+	// The path to a binary authorization policy. Format: projects/{project}/platforms/cloudRun/{policy-name}
+	Policy *string `json:"policy,omitempty" tf:"policy,omitempty"`
+
 	// If True, indicates to use the default project's binary authorization policy. If False, binary authorization will be disabled.
 	UseDefault *bool `json:"useDefault,omitempty" tf:"use_default,omitempty"`
 }
@@ -957,6 +960,9 @@ type V2ServiceBinaryAuthorizationObservation struct {
 
 	// If present, indicates to use Breakglass using this justification. If useDefault is False, then it must be empty. For more information on breakglass, see https://cloud.google.com/binary-authorization/docs/using-breakglass
 	BreakglassJustification *string `json:"breakglassJustification,omitempty" tf:"breakglass_justification,omitempty"`
+
+	// The path to a binary authorization policy. Format: projects/{project}/platforms/cloudRun/{policy-name}
+	Policy *string `json:"policy,omitempty" tf:"policy,omitempty"`
 
 	// If True, indicates to use the default project's binary authorization policy. If False, binary authorization will be disabled.
 	UseDefault *bool `json:"useDefault,omitempty" tf:"use_default,omitempty"`
@@ -967,6 +973,10 @@ type V2ServiceBinaryAuthorizationParameters struct {
 	// If present, indicates to use Breakglass using this justification. If useDefault is False, then it must be empty. For more information on breakglass, see https://cloud.google.com/binary-authorization/docs/using-breakglass
 	// +kubebuilder:validation:Optional
 	BreakglassJustification *string `json:"breakglassJustification,omitempty" tf:"breakglass_justification,omitempty"`
+
+	// The path to a binary authorization policy. Format: projects/{project}/platforms/cloudRun/{policy-name}
+	// +kubebuilder:validation:Optional
+	Policy *string `json:"policy,omitempty" tf:"policy,omitempty"`
 
 	// If True, indicates to use the default project's binary authorization policy. If False, binary authorization will be disabled.
 	// +kubebuilder:validation:Optional
@@ -1275,7 +1285,7 @@ type V2ServiceParameters struct {
 
 type V2ServiceTemplateContainersInitParameters struct {
 
-	// Arguments to the entrypoint. The docker image's CMD is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. The $(VAR_NAME) syntax can be escaped with a double $$, ie: $$(VAR_NAME). Escaped references will never be expanded, regardless of whether the variable exists or not. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell
+	// Arguments to the entrypoint. The docker image's CMD is used if this is not provided. Variable references are not supported in Cloud Run.
 	Args []*string `json:"args,omitempty" tf:"args,omitempty"`
 
 	// Entrypoint array. Not executed within a shell. The docker image's ENTRYPOINT is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. The $(VAR_NAME) syntax can be escaped with a double $$, ie: $$(VAR_NAME). Escaped references will never be expanded, regardless of whether the variable exists or not. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell
@@ -1321,7 +1331,7 @@ type V2ServiceTemplateContainersInitParameters struct {
 
 type V2ServiceTemplateContainersObservation struct {
 
-	// Arguments to the entrypoint. The docker image's CMD is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. The $(VAR_NAME) syntax can be escaped with a double $$, ie: $$(VAR_NAME). Escaped references will never be expanded, regardless of whether the variable exists or not. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell
+	// Arguments to the entrypoint. The docker image's CMD is used if this is not provided. Variable references are not supported in Cloud Run.
 	Args []*string `json:"args,omitempty" tf:"args,omitempty"`
 
 	// Entrypoint array. Not executed within a shell. The docker image's ENTRYPOINT is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. The $(VAR_NAME) syntax can be escaped with a double $$, ie: $$(VAR_NAME). Escaped references will never be expanded, regardless of whether the variable exists or not. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell
@@ -1367,7 +1377,7 @@ type V2ServiceTemplateContainersObservation struct {
 
 type V2ServiceTemplateContainersParameters struct {
 
-	// Arguments to the entrypoint. The docker image's CMD is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. The $(VAR_NAME) syntax can be escaped with a double $$, ie: $$(VAR_NAME). Escaped references will never be expanded, regardless of whether the variable exists or not. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell
+	// Arguments to the entrypoint. The docker image's CMD is used if this is not provided. Variable references are not supported in Cloud Run.
 	// +kubebuilder:validation:Optional
 	Args []*string `json:"args,omitempty" tf:"args,omitempty"`
 
