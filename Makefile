@@ -53,6 +53,15 @@ GO_REQUIRED_VERSION ?= 1.21
 # Uncomment below if you need to override the version.
 # GOLANGCILINT_VERSION ?= 1.54.0
 
+RUN_BUILDTAGGER ?= false
+# if RUN_BUILDTAGGER is set to "true", we will use build constraints
+# and use the buildtagger tool to generate the build tags.
+ifeq ($(RUN_BUILDTAGGER),true)
+GO_LINT_ARGS ?= -v --build-tags all
+BUILDTAGGER_VERSION ?= v0.12.0-rc.0.28.gdc5d6f3
+BUILDTAGGER_DOWNLOAD_URL ?= https://s3.us-west-2.amazonaws.com/upbound.official-providers-ci.releases/main/$(BUILDTAGGER_VERSION)/bin/$(SAFEHOST_PLATFORM)/buildtagger
+endif
+
 # SUBPACKAGES ?= $(shell find cmd/provider -type d -maxdepth 1 -mindepth 1 | cut -d/ -f3)
 SUBPACKAGES ?= monolith
 GO_STATIC_PACKAGES ?= $(GO_PROJECT)/cmd/generator ${SUBPACKAGES:%=$(GO_PROJECT)/cmd/provider/%}
