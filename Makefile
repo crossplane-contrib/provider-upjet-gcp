@@ -390,7 +390,7 @@ go.lint.analysiskey-interval:
 go.lint.analysiskey:
 	@echo $$(make go.lint.analysiskey-interval)$$(sha1sum go.sum | cut -d' ' -f1)
 
-.PHONY: cobertura reviewable submodules fallthrough go.mod.cachedir go.cachedir run crds.clean $(TERRAFORM_PROVIDER_SCHEMA) load-pkg
+.PHONY: cobertura reviewable submodules fallthrough go.mod.cachedir go.lint.analysiskey-interval go.lint.analysiskey go.cachedir run crds.clean $(TERRAFORM_PROVIDER_SCHEMA) load-pkg
 
 build.init: kustomize-crds
 
@@ -417,7 +417,7 @@ build-lint-cache: $(GOLANGCILINT)
 	@# minimum.
 	@(BUILDTAGGER_DOWNLOAD_URL=$(BUILDTAGGER_DOWNLOAD_URL) ./scripts/tag.sh && \
 	(([[ "${SKIP_LINTER_ANALYSIS}" == "true" ]] && $(OK) "Skipping analysis cache build phase because it's already been populated") && \
-	[[ "${SKIP_LINTER_ANALYSIS}" == "true" ]] || $(GOLANGCILINT) run -v --build-tags account,configregistry,configprovider,linter_run -v --disable-all --exclude '.*')) || $(FAIL)
+	[[ "${SKIP_LINTER_ANALYSIS}" == "true" ]] || $(GOLANGCILINT) run -v --build-tags activedirectory,configregistry,configprovider,linter_run -v --disable-all --exclude '.*')) || $(FAIL)
 	@$(OK) Running golangci-lint with the analysis cache building phase.
 
 delete-build-tags:
