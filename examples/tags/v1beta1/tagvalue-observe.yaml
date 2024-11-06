@@ -1,0 +1,13 @@
+apiVersion: tags.gcp.upbound.io/v1beta1
+kind: TagValue
+metadata:
+  annotations:
+    meta.upbound.io/example-id: tags/v1beta1/tagvalue
+    upjet.upbound.io/manual-intervention: "The resource requires a real external name"
+    crossplane.io/external-name: "&{tagValueID}"
+  labels:
+    testing.upbound.io/example-name: value-external
+  name: value-external
+spec:
+  managementPolicies: ["Observe"]
+  forProvider: {}
