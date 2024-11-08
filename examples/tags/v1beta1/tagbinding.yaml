@@ -11,7 +11,7 @@ spec:
     parent: //cloudresourcemanager.googleapis.com/projects/${data.cloudplatform_project.projectId}
     tagValueSelector:
       matchLabels:
-        testing.upbound.io/example-name: value
+        testing.upbound.io/example-name: binding-value
 
 ---
 
@@ -21,8 +21,8 @@ metadata:
   annotations:
     meta.upbound.io/example-id: tags/v1beta1/tagbinding
   labels:
-    testing.upbound.io/example-name: key
-  name: key
+    testing.upbound.io/example-name: binding-key
+  name: binding-key
 spec:
   forProvider:
     description: For keyname resources.
@@ -37,12 +37,12 @@ metadata:
   annotations:
     meta.upbound.io/example-id: tags/v1beta1/tagbinding
   labels:
-    testing.upbound.io/example-name: value
-  name: value
+    testing.upbound.io/example-name: binding-value
+  name: binding-value
 spec:
   forProvider:
     description: For valuename resources.
     parentSelector:
       matchLabels:
-        testing.upbound.io/example-name: key
+        testing.upbound.io/example-name: binding-key
     shortName: valuename

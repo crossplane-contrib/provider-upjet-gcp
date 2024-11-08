@@ -2,11 +2,11 @@ apiVersion: tags.gcp.upbound.io/v1beta1
 kind: TagBinding
 metadata:
   annotations:
-    meta.upbound.io/example-id: tags/v1beta1/tagbinding
+    meta.upbound.io/example-id: tags/v1beta1/tagbinding-observe
     upjet.upbound.io/manual-intervention: "The resource requires a real external name"
     crossplane.io/external-name: "&{tagBindingID}"
   labels:
-    testing.upbound.io/example-name: binding
+    testing.upbound.io/example-name: binding-external
   name: binding-external
 spec:
   managementPolicies: ["Observe"]

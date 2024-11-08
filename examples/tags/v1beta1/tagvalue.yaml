@@ -11,7 +11,7 @@ spec:
     description: For valuename resources.
     parentSelector:
       matchLabels:
-        testing.upbound.io/example-name: key
+        testing.upbound.io/example-name: value-key
     shortName: valuename
 
 ---
@@ -22,8 +22,8 @@ metadata:
   annotations:
     meta.upbound.io/example-id: tags/v1beta1/tagvalue
   labels:
-    testing.upbound.io/example-name: key
-  name: key
+    testing.upbound.io/example-name: value-key
+  name: value-key
 spec:
   forProvider:
     description: For keyname resources.
