@@ -115,7 +115,8 @@ type ClusterInitParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The Kubernetes distribution of the underlying attached cluster. Supported values:
-	// "eks", "aks".
+	// "eks", "aks", "generic". The generic distribution provides the ability to register
+	// or migrate any CNCF conformant cluster.
 	Distribution *string `json:"distribution,omitempty" tf:"distribution,omitempty"`
 
 	// Fleet configuration.
@@ -188,7 +189,8 @@ type ClusterObservation struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The Kubernetes distribution of the underlying attached cluster. Supported values:
-	// "eks", "aks".
+	// "eks", "aks", "generic". The generic distribution provides the ability to register
+	// or migrate any CNCF conformant cluster.
 	Distribution *string `json:"distribution,omitempty" tf:"distribution,omitempty"`
 
 	// +mapType=granular
@@ -292,7 +294,8 @@ type ClusterParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The Kubernetes distribution of the underlying attached cluster. Supported values:
-	// "eks", "aks".
+	// "eks", "aks", "generic". The generic distribution provides the ability to register
+	// or migrate any CNCF conformant cluster.
 	// +kubebuilder:validation:Optional
 	Distribution *string `json:"distribution,omitempty" tf:"distribution,omitempty"`
 

@@ -76,6 +76,12 @@ spec:
                   description:
                     description: An optional description of the hub.
                     type: string
+                  exportPsc:
+                    description: Whether Private Service Connect transitivity is enabled
+                      for the hub. If true, Private Service Connect endpoints in VPC
+                      spokes attached to the hub are made accessible to other VPC
+                      spokes attached to the hub. The default value is false.
+                    type: boolean
                   labels:
                     additionalProperties:
                       type: string
@@ -111,6 +117,12 @@ spec:
                   description:
                     description: An optional description of the hub.
                     type: string
+                  exportPsc:
+                    description: Whether Private Service Connect transitivity is enabled
+                      for the hub. If true, Private Service Connect endpoints in VPC
+                      spokes attached to the hub are made accessible to other VPC
+                      spokes attached to the hub. The default value is false.
+                    type: boolean
                   labels:
                     additionalProperties:
                       type: string
@@ -313,6 +325,12 @@ spec:
                       type: string
                     type: object
                     x-kubernetes-map-type: granular
+                  exportPsc:
+                    description: Whether Private Service Connect transitivity is enabled
+                      for the hub. If true, Private Service Connect endpoints in VPC
+                      spokes attached to the hub are made accessible to other VPC
+                      spokes attached to the hub. The default value is false.
+                    type: boolean
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/global/hubs/{{name}}
                     type: string

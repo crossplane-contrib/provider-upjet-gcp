@@ -10,5 +10,5 @@ spec:
   forProvider:
     config:
     - softwareConfig:
-      - imageVersion: composer-1-airflow-2
+      - imageVersion: composer-3-airflow-2
     region: us-central1

@@ -1403,6 +1403,11 @@ func (in *BucketObjectObservation) DeepCopyInto(out *BucketObjectObservation) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.Generation != nil {
+		in, out := &in.Generation, &out.Generation
+		*out = new(float64)
+		**out = **in
+	}
 	if in.ID != nil {
 		in, out := &in.ID, &out.ID
 		*out = new(string)
@@ -2113,6 +2118,11 @@ func (in *ConditionInitParameters) DeepCopyInto(out *ConditionInitParameters) {
 		*out = new(float64)
 		**out = **in
 	}
+	if in.SendAgeIfZero != nil {
+		in, out := &in.SendAgeIfZero, &out.SendAgeIfZero
+		*out = new(bool)
+		**out = **in
+	}
 	if in.SendDaysSinceCustomTimeIfZero != nil {
 		in, out := &in.SendDaysSinceCustomTimeIfZero, &out.SendDaysSinceCustomTimeIfZero
 		*out = new(bool)
@@ -2221,6 +2231,11 @@ func (in *ConditionObservation) DeepCopyInto(out *ConditionObservation) {
 		*out = new(float64)
 		**out = **in
 	}
+	if in.SendAgeIfZero != nil {
+		in, out := &in.SendAgeIfZero, &out.SendAgeIfZero
+		*out = new(bool)
+		**out = **in
+	}
 	if in.SendDaysSinceCustomTimeIfZero != nil {
 		in, out := &in.SendDaysSinceCustomTimeIfZero, &out.SendDaysSinceCustomTimeIfZero
 		*out = new(bool)
@@ -2327,6 +2342,11 @@ func (in *ConditionParameters) DeepCopyInto(out *ConditionParameters) {
 	if in.NumNewerVersions != nil {
 		in, out := &in.NumNewerVersions, &out.NumNewerVersions
 		*out = new(float64)
+		**out = **in
+	}
+	if in.SendAgeIfZero != nil {
+		in, out := &in.SendAgeIfZero, &out.SendAgeIfZero
+		*out = new(bool)
 		**out = **in
 	}
 	if in.SendDaysSinceCustomTimeIfZero != nil {

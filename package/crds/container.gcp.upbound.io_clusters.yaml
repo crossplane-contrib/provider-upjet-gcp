@@ -467,6 +467,14 @@ spec:
                                 type: array
                             type: object
                           type: array
+                        autoProvisioningLocations:
+                          description: |-
+                            The list of Google Compute Engine
+                            zones in which the
+                            NodePool's nodes can be created by NAP.
+                          items:
+                            type: string
+                          type: array
                         autoscalingProfile:
                           description: |-
                             Configuration
@@ -651,6 +659,9 @@ spec:
                       When enabled, identities in the system, including service accounts, nodes, and controllers,
                       will have statically granted permissions beyond those provided by the RBAC configuration or IAM.
                       Defaults to false
+                    type: boolean
+                  enableMultiNetworking:
+                    description: Whether multi-networking is enabled for this cluster.
                     type: boolean
                   enableShieldedNodes:
                     description: Enable Shielded Nodes features on all nodes in this
@@ -1329,6 +1340,11 @@ spec:
                                   K8S CPU Management Policies.
                                   One of "none" or "static". Defaults to none when kubelet_config is unset.
                                 type: string
+                              insecureKubeletReadonlyPortEnabled:
+                                description: 'Controls whether the kubelet read-only
+                                  port is enabled. It is strongly recommended to set
+                                  this to FALSE. Possible values: TRUE, FALSE.'
+                                type: string
                               podPidsLimit:
                                 description: Controls the maximum number of processes
                                   allowed to run in a pod. The value must be greater
@@ -1695,6 +1711,19 @@ spec:
                                 type: array
                             type: object
                           type: array
+                        nodeKubeletConfig:
+                          description: |-
+                            Kubelet configuration for Autopilot clusters. Currently, only insecure_kubelet_readonly_port_enabled is supported here.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              insecureKubeletReadonlyPortEnabled:
+                                description: 'Controls whether the kubelet read-only
+                                  port is enabled. It is strongly recommended to set
+                                  this to FALSE. Possible values: TRUE, FALSE.'
+                                type: string
+                            type: object
+                          type: array
                         resourceManagerTags:
                           additionalProperties:
                             type: string
@@ -1758,6 +1787,11 @@ spec:
                                       type: array
                                   type: object
                                 type: array
+                              insecureKubeletReadonlyPortEnabled:
+                                description: 'only port is enabled for newly created
+                                  node pools in the cluster. It is strongly recommended
+                                  to set this to FALSE. Possible values: TRUE, FALSE.'
+                                type: string
                               loggingVariant:
                                 description: The type of logging agent that is deployed
                                   by default for newly created node pools in the cluster.
@@ -2559,6 +2593,14 @@ spec:
                                 type: array
                             type: object
                           type: array
+                        autoProvisioningLocations:
+                          description: |-
+                            The list of Google Compute Engine
+                            zones in which the
+                            NodePool's nodes can be created by NAP.
+                          items:
+                            type: string
+                          type: array
                         autoscalingProfile:
                           description: |-
                             Configuration
@@ -2743,6 +2785,9 @@ spec:
                       When enabled, identities in the system, including service accounts, nodes, and controllers,
                       will have statically granted permissions beyond those provided by the RBAC configuration or IAM.
                       Defaults to false
+                    type: boolean
+                  enableMultiNetworking:
+                    description: Whether multi-networking is enabled for this cluster.
                     type: boolean
                   enableShieldedNodes:
                     description: Enable Shielded Nodes features on all nodes in this
@@ -3412,6 +3457,11 @@ spec:
                                   K8S CPU Management Policies.
                                   One of "none" or "static". Defaults to none when kubelet_config is unset.
                                 type: string
+                              insecureKubeletReadonlyPortEnabled:
+                                description: 'Controls whether the kubelet read-only
+                                  port is enabled. It is strongly recommended to set
+                                  this to FALSE. Possible values: TRUE, FALSE.'
+                                type: string
                               podPidsLimit:
                                 description: Controls the maximum number of processes
                                   allowed to run in a pod. The value must be greater
@@ -3778,6 +3828,19 @@ spec:
                                 type: array
                             type: object
                           type: array
+                        nodeKubeletConfig:
+                          description: |-
+                            Kubelet configuration for Autopilot clusters. Currently, only insecure_kubelet_readonly_port_enabled is supported here.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              insecureKubeletReadonlyPortEnabled:
+                                description: 'Controls whether the kubelet read-only
+                                  port is enabled. It is strongly recommended to set
+                                  this to FALSE. Possible values: TRUE, FALSE.'
+                                type: string
+                            type: object
+                          type: array
                         resourceManagerTags:
                           additionalProperties:
                             type: string
@@ -3841,6 +3904,11 @@ spec:
                                       type: array
                                   type: object
                                 type: array
+                              insecureKubeletReadonlyPortEnabled:
+                                description: 'only port is enabled for newly created
+                                  node pools in the cluster. It is strongly recommended
+                                  to set this to FALSE. Possible values: TRUE, FALSE.'
+                                type: string
                               loggingVariant:
                                 description: The type of logging agent that is deployed
                                   by default for newly created node pools in the cluster.
@@ -4811,6 +4879,14 @@ spec:
                                 type: array
                             type: object
                           type: array
+                        autoProvisioningLocations:
+                          description: |-
+                            The list of Google Compute Engine
+                            zones in which the
+                            NodePool's nodes can be created by NAP.
+                          items:
+                            type: string
+                          type: array
                         autoscalingProfile:
                           description: |-
                             Configuration
@@ -4995,6 +5071,9 @@ spec:
                       When enabled, identities in the system, including service accounts, nodes, and controllers,
                       will have statically granted permissions beyond those provided by the RBAC configuration or IAM.
                       Defaults to false
+                    type: boolean
+                  enableMultiNetworking:
+                    description: Whether multi-networking is enabled for this cluster.
                     type: boolean
                   enableShieldedNodes:
                     description: Enable Shielded Nodes features on all nodes in this
@@ -5664,6 +5743,11 @@ spec:
                                   K8S CPU Management Policies.
                                   One of "none" or "static". Defaults to none when kubelet_config is unset.
                                 type: string
+                              insecureKubeletReadonlyPortEnabled:
+                                description: 'Controls whether the kubelet read-only
+                                  port is enabled. It is strongly recommended to set
+                                  this to FALSE. Possible values: TRUE, FALSE.'
+                                type: string
                               podPidsLimit:
                                 description: Controls the maximum number of processes
                                   allowed to run in a pod. The value must be greater
@@ -6008,6 +6092,36 @@ spec:
                         networkConfig:
                           items:
                             properties:
+                              additionalNodeNetworkConfigs:
+                                items:
+                                  properties:
+                                    network:
+                                      description: |-
+                                        The name or self_link of the Google Compute Engine
+                                        network to which the cluster is connected. For Shared VPC, set this to the self link of the
+                                        shared network.
+                                      type: string
+                                    subnetwork:
+                                      description: |-
+                                        The name or self_link of the Google Compute Engine
+                                        subnetwork in which the cluster's instances are launched.
+                                      type: string
+                                  type: object
+                                type: array
+                              additionalPodNetworkConfigs:
+                                items:
+                                  properties:
+                                    maxPodsPerNode:
+                                      type: number
+                                    secondaryPodRange:
+                                      type: string
+                                    subnetwork:
+                                      description: |-
+                                        The name or self_link of the Google Compute Engine
+                                        subnetwork in which the cluster's instances are launched.
+                                      type: string
+                                  type: object
+                                type: array
                               createPodRange:
                                 type: boolean
                               enablePrivateNodes:
@@ -6297,6 +6411,12 @@ spec:
                                         The CPU management policy on the node. See
                                         K8S CPU Management Policies.
                                         One of "none" or "static". Defaults to none when kubelet_config is unset.
+                                      type: string
+                                    insecureKubeletReadonlyPortEnabled:
+                                      description: 'Controls whether the kubelet read-only
+                                        port is enabled. It is strongly recommended
+                                        to set this to FALSE. Possible values: TRUE,
+                                        FALSE.'
                                       type: string
                                     podPidsLimit:
                                       description: Controls the maximum number of
@@ -6685,6 +6805,19 @@ spec:
                                 type: array
                             type: object
                           type: array
+                        nodeKubeletConfig:
+                          description: |-
+                            Kubelet configuration for Autopilot clusters. Currently, only insecure_kubelet_readonly_port_enabled is supported here.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              insecureKubeletReadonlyPortEnabled:
+                                description: 'Controls whether the kubelet read-only
+                                  port is enabled. It is strongly recommended to set
+                                  this to FALSE. Possible values: TRUE, FALSE.'
+                                type: string
+                            type: object
+                          type: array
                         resourceManagerTags:
                           additionalProperties:
                             type: string
@@ -6748,6 +6881,11 @@ spec:
                                       type: array
                                   type: object
                                 type: array
+                              insecureKubeletReadonlyPortEnabled:
+                                description: 'only port is enabled for newly created
+                                  node pools in the cluster. It is strongly recommended
+                                  to set this to FALSE. Possible values: TRUE, FALSE.'
+                                type: string
                               loggingVariant:
                                 description: The type of logging agent that is deployed
                                   by default for newly created node pools in the cluster.
@@ -7476,6 +7614,14 @@ spec:
                                 type: string
                             type: object
                         type: object
+                      autoProvisioningLocations:
+                        description: |-
+                          The list of Google Compute Engine
+                          zones in which the
+                          NodePool's nodes can be created by NAP.
+                        items:
+                          type: string
+                        type: array
                       autoscalingProfile:
                         description: |-
                           Configuration
@@ -7524,7 +7670,7 @@ spec:
                     properties:
                       enabled:
                         description: |-
-                          Enable Confidential GKE Nodes for this cluster, to
+                          Enable Confidential GKE Nodes for this node pool, to
                           enforce encryption of data in-use.
                         type: boolean
                     type: object
@@ -7644,6 +7790,9 @@ spec:
                       When enabled, identities in the system, including service accounts, nodes, and controllers,
                       will have statically granted permissions beyond those provided by the RBAC configuration or IAM.
                       Defaults to false
+                    type: boolean
+                  enableMultiNetworking:
+                    description: Whether multi-networking is enabled for this cluster.
                     type: boolean
                   enableShieldedNodes:
                     description: Enable Shielded Nodes features on all nodes in this
@@ -7911,7 +8060,11 @@ spec:
                             description: Whether or not Relay is enabled.
                             type: boolean
                           relayMode:
-                            description: Mode used to make Relay available.
+                            description: Mode used to make Relay available. Deprecated
+                              in favor of enable_relay field. Remove this attribute's
+                              configuration as this field will be removed in the next
+                              major release and enable_relay will become a required
+                              field.
                             type: string
                         type: object
                       enableComponents:
@@ -8072,7 +8225,7 @@ spec:
                         type: string
                       confidentialNodes:
                         description: Configuration for Confidential Nodes feature.
-                          Structure is documented below documented below.
+                          Structure is documented below.
                         properties:
                           enabled:
                             description: Enables vertical pod autoscaling
@@ -8251,6 +8404,11 @@ spec:
                               The CPU management policy on the node. See
                               K8S CPU Management Policies.
                               One of "none" or "static". Defaults to none when kubelet_config is unset.
+                            type: string
+                          insecureKubeletReadonlyPortEnabled:
+                            description: 'Controls whether the kubelet read-only port
+                              is enabled. It is strongly recommended to set this to
+                              FALSE. Possible values: TRUE, FALSE.'
                             type: string
                           podPidsLimit:
                             description: Controls the maximum number of processes
@@ -8588,7 +8746,7 @@ spec:
                     properties:
                       networkTags:
                         description: The network tag config for the cluster's automatically
-                          provisioned node pools.
+                          provisioned node pools. Structure is documented below.
                         properties:
                           tags:
                             description: |-
@@ -8597,6 +8755,17 @@ spec:
                             items:
                               type: string
                             type: array
+                        type: object
+                      nodeKubeletConfig:
+                        description: |-
+                          Kubelet configuration for Autopilot clusters. Currently, only insecure_kubelet_readonly_port_enabled is supported here.
+                          Structure is documented below.
+                        properties:
+                          insecureKubeletReadonlyPortEnabled:
+                            description: 'Controls whether the kubelet read-only port
+                              is enabled. It is strongly recommended to set this to
+                              FALSE. Possible values: TRUE, FALSE.'
+                            type: string
                         type: object
                       resourceManagerTags:
                         additionalProperties:
@@ -8652,6 +8821,11 @@ spec:
                                     type: boolean
                                 type: object
                             type: object
+                          insecureKubeletReadonlyPortEnabled:
+                            description: 'only port is enabled for newly created node
+                              pools in the cluster. It is strongly recommended to
+                              set this to FALSE. Possible values: TRUE, FALSE.'
+                            type: string
                           loggingVariant:
                             description: The type of logging agent that is deployed
                               by default for newly created node pools in the cluster.
@@ -9372,6 +9546,14 @@ spec:
                                 type: string
                             type: object
                         type: object
+                      autoProvisioningLocations:
+                        description: |-
+                          The list of Google Compute Engine
+                          zones in which the
+                          NodePool's nodes can be created by NAP.
+                        items:
+                          type: string
+                        type: array
                       autoscalingProfile:
                         description: |-
                           Configuration
@@ -9420,7 +9602,7 @@ spec:
                     properties:
                       enabled:
                         description: |-
-                          Enable Confidential GKE Nodes for this cluster, to
+                          Enable Confidential GKE Nodes for this node pool, to
                           enforce encryption of data in-use.
                         type: boolean
                     type: object
@@ -9540,6 +9722,9 @@ spec:
                       When enabled, identities in the system, including service accounts, nodes, and controllers,
                       will have statically granted permissions beyond those provided by the RBAC configuration or IAM.
                       Defaults to false
+                    type: boolean
+                  enableMultiNetworking:
+                    description: Whether multi-networking is enabled for this cluster.
                     type: boolean
                   enableShieldedNodes:
                     description: Enable Shielded Nodes features on all nodes in this
@@ -9798,7 +9983,11 @@ spec:
                             description: Whether or not Relay is enabled.
                             type: boolean
                           relayMode:
-                            description: Mode used to make Relay available.
+                            description: Mode used to make Relay available. Deprecated
+                              in favor of enable_relay field. Remove this attribute's
+                              configuration as this field will be removed in the next
+                              major release and enable_relay will become a required
+                              field.
                             type: string
                         type: object
                       enableComponents:
@@ -9959,7 +10148,7 @@ spec:
                         type: string
                       confidentialNodes:
                         description: Configuration for Confidential Nodes feature.
-                          Structure is documented below documented below.
+                          Structure is documented below.
                         properties:
                           enabled:
                             description: Enables vertical pod autoscaling
@@ -10138,6 +10327,11 @@ spec:
                               The CPU management policy on the node. See
                               K8S CPU Management Policies.
                               One of "none" or "static". Defaults to none when kubelet_config is unset.
+                            type: string
+                          insecureKubeletReadonlyPortEnabled:
+                            description: 'Controls whether the kubelet read-only port
+                              is enabled. It is strongly recommended to set this to
+                              FALSE. Possible values: TRUE, FALSE.'
                             type: string
                           podPidsLimit:
                             description: Controls the maximum number of processes
@@ -10475,7 +10669,7 @@ spec:
                     properties:
                       networkTags:
                         description: The network tag config for the cluster's automatically
-                          provisioned node pools.
+                          provisioned node pools. Structure is documented below.
                         properties:
                           tags:
                             description: |-
@@ -10484,6 +10678,17 @@ spec:
                             items:
                               type: string
                             type: array
+                        type: object
+                      nodeKubeletConfig:
+                        description: |-
+                          Kubelet configuration for Autopilot clusters. Currently, only insecure_kubelet_readonly_port_enabled is supported here.
+                          Structure is documented below.
+                        properties:
+                          insecureKubeletReadonlyPortEnabled:
+                            description: 'Controls whether the kubelet read-only port
+                              is enabled. It is strongly recommended to set this to
+                              FALSE. Possible values: TRUE, FALSE.'
+                            type: string
                         type: object
                       resourceManagerTags:
                         additionalProperties:
@@ -10539,6 +10744,11 @@ spec:
                                     type: boolean
                                 type: object
                             type: object
+                          insecureKubeletReadonlyPortEnabled:
+                            description: 'only port is enabled for newly created node
+                              pools in the cluster. It is strongly recommended to
+                              set this to FALSE. Possible values: TRUE, FALSE.'
+                            type: string
                           loggingVariant:
                             description: The type of logging agent that is deployed
                               by default for newly created node pools in the cluster.
@@ -11428,6 +11638,14 @@ spec:
                                 type: string
                             type: object
                         type: object
+                      autoProvisioningLocations:
+                        description: |-
+                          The list of Google Compute Engine
+                          zones in which the
+                          NodePool's nodes can be created by NAP.
+                        items:
+                          type: string
+                        type: array
                       autoscalingProfile:
                         description: |-
                           Configuration
@@ -11476,7 +11694,7 @@ spec:
                     properties:
                       enabled:
                         description: |-
-                          Enable Confidential GKE Nodes for this cluster, to
+                          Enable Confidential GKE Nodes for this node pool, to
                           enforce encryption of data in-use.
                         type: boolean
                     type: object
@@ -11596,6 +11814,9 @@ spec:
                       When enabled, identities in the system, including service accounts, nodes, and controllers,
                       will have statically granted permissions beyond those provided by the RBAC configuration or IAM.
                       Defaults to false
+                    type: boolean
+                  enableMultiNetworking:
+                    description: Whether multi-networking is enabled for this cluster.
                     type: boolean
                   enableShieldedNodes:
                     description: Enable Shielded Nodes features on all nodes in this
@@ -11911,7 +12132,11 @@ spec:
                             description: Whether or not Relay is enabled.
                             type: boolean
                           relayMode:
-                            description: Mode used to make Relay available.
+                            description: Mode used to make Relay available. Deprecated
+                              in favor of enable_relay field. Remove this attribute's
+                              configuration as this field will be removed in the next
+                              major release and enable_relay will become a required
+                              field.
                             type: string
                         type: object
                       enableComponents:
@@ -11998,7 +12223,7 @@ spec:
                         type: string
                       confidentialNodes:
                         description: Configuration for Confidential Nodes feature.
-                          Structure is documented below documented below.
+                          Structure is documented below.
                         properties:
                           enabled:
                             description: Enables vertical pod autoscaling
@@ -12194,6 +12419,11 @@ spec:
                               The CPU management policy on the node. See
                               K8S CPU Management Policies.
                               One of "none" or "static". Defaults to none when kubelet_config is unset.
+                            type: string
+                          insecureKubeletReadonlyPortEnabled:
+                            description: 'Controls whether the kubelet read-only port
+                              is enabled. It is strongly recommended to set this to
+                              FALSE. Possible values: TRUE, FALSE.'
                             type: string
                           podPidsLimit:
                             description: Controls the maximum number of processes
@@ -12516,6 +12746,36 @@ spec:
                           type: string
                         networkConfig:
                           properties:
+                            additionalNodeNetworkConfigs:
+                              items:
+                                properties:
+                                  network:
+                                    description: |-
+                                      The name or self_link of the Google Compute Engine
+                                      network to which the cluster is connected. For Shared VPC, set this to the self link of the
+                                      shared network.
+                                    type: string
+                                  subnetwork:
+                                    description: |-
+                                      The name or self_link of the Google Compute Engine
+                                      subnetwork in which the cluster's instances are launched.
+                                    type: string
+                                type: object
+                              type: array
+                            additionalPodNetworkConfigs:
+                              items:
+                                properties:
+                                  maxPodsPerNode:
+                                    type: number
+                                  secondaryPodRange:
+                                    type: string
+                                  subnetwork:
+                                    description: |-
+                                      The name or self_link of the Google Compute Engine
+                                      subnetwork in which the cluster's instances are launched.
+                                    type: string
+                                type: object
+                              type: array
                             createPodRange:
                               type: boolean
                             enablePrivateNodes:
@@ -12574,7 +12834,7 @@ spec:
                               type: string
                             confidentialNodes:
                               description: Configuration for Confidential Nodes feature.
-                                Structure is documented below documented below.
+                                Structure is documented below.
                               properties:
                                 enabled:
                                   description: Enables vertical pod autoscaling
@@ -12769,6 +13029,11 @@ spec:
                                     The CPU management policy on the node. See
                                     K8S CPU Management Policies.
                                     One of "none" or "static". Defaults to none when kubelet_config is unset.
+                                  type: string
+                                insecureKubeletReadonlyPortEnabled:
+                                  description: 'Controls whether the kubelet read-only
+                                    port is enabled. It is strongly recommended to
+                                    set this to FALSE. Possible values: TRUE, FALSE.'
                                   type: string
                                 podPidsLimit:
                                   description: Controls the maximum number of processes
@@ -13118,7 +13383,7 @@ spec:
                     properties:
                       networkTags:
                         description: The network tag config for the cluster's automatically
-                          provisioned node pools.
+                          provisioned node pools. Structure is documented below.
                         properties:
                           tags:
                             description: |-
@@ -13127,6 +13392,17 @@ spec:
                             items:
                               type: string
                             type: array
+                        type: object
+                      nodeKubeletConfig:
+                        description: |-
+                          Kubelet configuration for Autopilot clusters. Currently, only insecure_kubelet_readonly_port_enabled is supported here.
+                          Structure is documented below.
+                        properties:
+                          insecureKubeletReadonlyPortEnabled:
+                            description: 'Controls whether the kubelet read-only port
+                              is enabled. It is strongly recommended to set this to
+                              FALSE. Possible values: TRUE, FALSE.'
+                            type: string
                         type: object
                       resourceManagerTags:
                         additionalProperties:
@@ -13182,6 +13458,11 @@ spec:
                                     type: boolean
                                 type: object
                             type: object
+                          insecureKubeletReadonlyPortEnabled:
+                            description: 'only port is enabled for newly created node
+                              pools in the cluster. It is strongly recommended to
+                              set this to FALSE. Possible values: TRUE, FALSE.'
+                            type: string
                           loggingVariant:
                             description: The type of logging agent that is deployed
                               by default for newly created node pools in the cluster.

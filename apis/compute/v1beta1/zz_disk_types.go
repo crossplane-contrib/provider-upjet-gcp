@@ -127,6 +127,10 @@ type DiskEncryptionKeyParameters struct {
 
 type DiskInitParameters struct {
 
+	// The accessMode of the disk.
+	// For example:
+	AccessMode *string `json:"accessMode,omitempty" tf:"access_mode,omitempty"`
+
 	// A nested object resource
 	// Structure is documented below.
 	AsyncPrimaryDisk []AsyncPrimaryDiskInitParameters `json:"asyncPrimaryDisk,omitempty" tf:"async_primary_disk,omitempty"`
@@ -237,6 +241,10 @@ type DiskInitParameters struct {
 }
 
 type DiskObservation struct {
+
+	// The accessMode of the disk.
+	// For example:
+	AccessMode *string `json:"accessMode,omitempty" tf:"access_mode,omitempty"`
 
 	// A nested object resource
 	// Structure is documented below.
@@ -406,6 +414,11 @@ type DiskObservation struct {
 }
 
 type DiskParameters struct {
+
+	// The accessMode of the disk.
+	// For example:
+	// +kubebuilder:validation:Optional
+	AccessMode *string `json:"accessMode,omitempty" tf:"access_mode,omitempty"`
 
 	// A nested object resource
 	// Structure is documented below.
