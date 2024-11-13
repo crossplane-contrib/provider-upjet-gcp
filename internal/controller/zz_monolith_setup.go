@@ -243,6 +243,7 @@ import (
 	managedzoneiammember "github.com/upbound/provider-gcp/internal/controller/dns/managedzoneiammember"
 	policydns "github.com/upbound/provider-gcp/internal/controller/dns/policy"
 	recordset "github.com/upbound/provider-gcp/internal/controller/dns/recordset"
+	responsepolicy "github.com/upbound/provider-gcp/internal/controller/dns/responsepolicy"
 	processor "github.com/upbound/provider-gcp/internal/controller/documentai/processor"
 	contact "github.com/upbound/provider-gcp/internal/controller/essentialcontacts/contact"
 	channel "github.com/upbound/provider-gcp/internal/controller/eventarc/channel"
@@ -609,6 +610,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		managedzoneiammember.Setup,
 		policydns.Setup,
 		recordset.Setup,
+		responsepolicy.Setup,
 		processor.Setup,
 		contact.Setup,
 		channel.Setup,
