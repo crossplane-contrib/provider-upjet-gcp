@@ -441,8 +441,10 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_dns_record_set": config.IdentifierFromProvider,
 	// Imported by using the following projects/{{project}}/managedZones/{{managed_zone}} roles/viewer user:jane@example.com
 	"google_dns_managed_zone_iam_member": config.IdentifierFromProvider,
-	// Imported by using the following projects/{{project}}/responsePolicies/{{response_policy_name}}
+	// Imported by using the following format: projects/{{project}}/responsePolicies/{{response_policy_name}}
 	"google_dns_response_policy": config.TemplatedStringAsIdentifier("response_policy_name", "projects/{{ .setup.configuration.project }}/responsePolicies/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/responsePolicies/{{response_policy}}/rules/{{rule_name}}
+	"google_dns_response_policy_rule": config.TemplatedStringAsIdentifier("rule_name", "projects/{{ .setup.configuration.project }}/responsePolicies/{{ .parameters.response_policy }}/rules/{{ .external_name }}"),
 
 	// endpoints
 	//
