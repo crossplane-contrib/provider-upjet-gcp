@@ -490,3 +490,131 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 
 	return nil
 }
+
+// ResolveReferences of this ResponsePolicy.
+func (mg *ResponsePolicy) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.GkeClusters); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("container.gcp.upbound.io", "v1beta2", "Cluster", "ClusterList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.GkeClusters[i3].GkeClusterName),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.ForProvider.GkeClusters[i3].GkeClusterNameRef,
+				Selector:     mg.Spec.ForProvider.GkeClusters[i3].GkeClusterNameSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.GkeClusters[i3].GkeClusterName")
+		}
+		mg.Spec.ForProvider.GkeClusters[i3].GkeClusterName = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.GkeClusters[i3].GkeClusterNameRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Networks); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Network", "NetworkList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Networks[i3].NetworkURL),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.ForProvider.Networks[i3].NetworkURLRef,
+				Selector:     mg.Spec.ForProvider.Networks[i3].NetworkURLSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.Networks[i3].NetworkURL")
+		}
+		mg.Spec.ForProvider.Networks[i3].NetworkURL = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.Networks[i3].NetworkURLRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.GkeClusters); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("container.gcp.upbound.io", "v1beta2", "Cluster", "ClusterList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.GkeClusters[i3].GkeClusterName),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.InitProvider.GkeClusters[i3].GkeClusterNameRef,
+				Selector:     mg.Spec.InitProvider.GkeClusters[i3].GkeClusterNameSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.GkeClusters[i3].GkeClusterName")
+		}
+		mg.Spec.InitProvider.GkeClusters[i3].GkeClusterName = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.GkeClusters[i3].GkeClusterNameRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Networks); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Network", "NetworkList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Networks[i3].NetworkURL),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.InitProvider.Networks[i3].NetworkURLRef,
+				Selector:     mg.Spec.InitProvider.Networks[i3].NetworkURLSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.Networks[i3].NetworkURL")
+		}
+		mg.Spec.InitProvider.Networks[i3].NetworkURL = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Networks[i3].NetworkURLRef = rsp.ResolvedReference
+
+	}
+
+	return nil
+}
+
+// ResolveReferences of this ResponsePolicyRule.
+func (mg *ResponsePolicyRule) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("dns.gcp.upbound.io", "v1beta1", "ResponsePolicy", "ResponsePolicyList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ResponsePolicy),
+			Extract:      reference.ExternalName(),
+			Reference:    mg.Spec.ForProvider.ResponsePolicyRef,
+			Selector:     mg.Spec.ForProvider.ResponsePolicySelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.ResponsePolicy")
+	}
+	mg.Spec.ForProvider.ResponsePolicy = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ResponsePolicyRef = rsp.ResolvedReference
+
+	return nil
+}

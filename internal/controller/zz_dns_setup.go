@@ -13,6 +13,8 @@ import (
 	managedzoneiammember "github.com/upbound/provider-gcp/internal/controller/dns/managedzoneiammember"
 	policy "github.com/upbound/provider-gcp/internal/controller/dns/policy"
 	recordset "github.com/upbound/provider-gcp/internal/controller/dns/recordset"
+	responsepolicy "github.com/upbound/provider-gcp/internal/controller/dns/responsepolicy"
+	responsepolicyrule "github.com/upbound/provider-gcp/internal/controller/dns/responsepolicyrule"
 )
 
 // Setup_dns creates all controllers with the supplied logger and adds them to
@@ -23,6 +25,8 @@ func Setup_dns(mgr ctrl.Manager, o controller.Options) error {
 		managedzoneiammember.Setup,
 		policy.Setup,
 		recordset.Setup,
+		responsepolicy.Setup,
+		responsepolicyrule.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err
