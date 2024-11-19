@@ -74,6 +74,7 @@ import (
 	certificatemap "github.com/upbound/provider-gcp/internal/controller/certificatemanager/certificatemap"
 	certificatemapentry "github.com/upbound/provider-gcp/internal/controller/certificatemanager/certificatemapentry"
 	dnsauthorization "github.com/upbound/provider-gcp/internal/controller/certificatemanager/dnsauthorization"
+	trustconfig "github.com/upbound/provider-gcp/internal/controller/certificatemanager/trustconfig"
 	idsendpoint "github.com/upbound/provider-gcp/internal/controller/cloud/idsendpoint"
 	trigger "github.com/upbound/provider-gcp/internal/controller/cloudbuild/trigger"
 	workerpool "github.com/upbound/provider-gcp/internal/controller/cloudbuild/workerpool"
@@ -442,6 +443,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		certificatemap.Setup,
 		certificatemapentry.Setup,
 		dnsauthorization.Setup,
+		trustconfig.Setup,
 		idsendpoint.Setup,
 		trigger.Setup,
 		workerpool.Setup,

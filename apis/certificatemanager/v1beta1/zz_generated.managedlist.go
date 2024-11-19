@@ -42,3 +42,12 @@ func (l *DNSAuthorizationList) GetItems() []resource.Managed {
 	}
 	return items
 }
+
+// GetItems of this TrustConfigList.
+func (l *TrustConfigList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
