@@ -13,6 +13,7 @@ import (
 	certificatemap "github.com/upbound/provider-gcp/internal/controller/certificatemanager/certificatemap"
 	certificatemapentry "github.com/upbound/provider-gcp/internal/controller/certificatemanager/certificatemapentry"
 	dnsauthorization "github.com/upbound/provider-gcp/internal/controller/certificatemanager/dnsauthorization"
+	trustconfig "github.com/upbound/provider-gcp/internal/controller/certificatemanager/trustconfig"
 )
 
 // Setup_certificatemanager creates all controllers with the supplied logger and adds them to
@@ -23,6 +24,7 @@ func Setup_certificatemanager(mgr ctrl.Manager, o controller.Options) error {
 		certificatemap.Setup,
 		certificatemapentry.Setup,
 		dnsauthorization.Setup,
+		trustconfig.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err
