@@ -14,3 +14,6 @@ func (tr *CertificateMapEntry) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *DNSAuthorization) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *TrustConfig) Hub() {}
