@@ -151,7 +151,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	"google_dataplex_aspect_type_iam_binding": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/aspectTypes/{{ .external_name }} {{ .parameters.role }}"),
 	// Imported by using the following format: projects/{{project}}/locations/{{location}}/aspectTypes/{{aspect_type_id}}
 	"google_dataplex_aspect_type_iam_member": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/aspectTypes/{{ .external_name }} {{ .parameters.role }} {{ .parameters.member }}"),
-	
 
 	// dataproc
 	//
