@@ -1395,6 +1395,11 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.DefaultBackupScheduleType != nil {
+		in, out := &in.DefaultBackupScheduleType, &out.DefaultBackupScheduleType
+		*out = new(string)
+		**out = **in
+	}
 	if in.DisplayName != nil {
 		in, out := &in.DisplayName, &out.DisplayName
 		*out = new(string)
@@ -1492,6 +1497,11 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 	}
 	if in.Config != nil {
 		in, out := &in.Config, &out.Config
+		*out = new(string)
+		**out = **in
+	}
+	if in.DefaultBackupScheduleType != nil {
+		in, out := &in.DefaultBackupScheduleType, &out.DefaultBackupScheduleType
 		*out = new(string)
 		**out = **in
 	}
@@ -1602,6 +1612,11 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 	}
 	if in.Config != nil {
 		in, out := &in.Config, &out.Config
+		*out = new(string)
+		**out = **in
+	}
+	if in.DefaultBackupScheduleType != nil {
+		in, out := &in.DefaultBackupScheduleType, &out.DefaultBackupScheduleType
 		*out = new(string)
 		**out = **in
 	}
