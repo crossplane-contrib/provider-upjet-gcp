@@ -9,6 +9,7 @@ metadata:
 spec:
   forProvider:
     config: regional-us-central1
+    defaultBackupScheduleType: AUTOMATIC
     displayName: Test Spanner Instance
     labels:
       foo: bar

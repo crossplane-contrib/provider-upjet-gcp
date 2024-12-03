@@ -790,6 +790,13 @@ spec:
                       In order to obtain a valid list please consult the
                       Configuration section of the docs.
                     type: string
+                  defaultBackupScheduleType:
+                    description: |-
+                      Controls the default backup behavior for new databases within the instance.
+                      Note that AUTOMATIC is not permitted for free instances, as backups and backup schedules are not allowed for free instances.
+                      if unset or NONE, no default backup schedule will be created for new databases within the instance.
+                      Possible values are: NONE, AUTOMATIC.
+                    type: string
                   displayName:
                     description: |-
                       The descriptive name for this instance as it appears in UIs. Must be
@@ -902,6 +909,13 @@ spec:
                       is stored. Values are typically of the form regional-europe-west1 , us-central etc.
                       In order to obtain a valid list please consult the
                       Configuration section of the docs.
+                    type: string
+                  defaultBackupScheduleType:
+                    description: |-
+                      Controls the default backup behavior for new databases within the instance.
+                      Note that AUTOMATIC is not permitted for free instances, as backups and backup schedules are not allowed for free instances.
+                      if unset or NONE, no default backup schedule will be created for new databases within the instance.
+                      Possible values are: NONE, AUTOMATIC.
                     type: string
                   displayName:
                     description: |-
@@ -1183,6 +1197,13 @@ spec:
                       is stored. Values are typically of the form regional-europe-west1 , us-central etc.
                       In order to obtain a valid list please consult the
                       Configuration section of the docs.
+                    type: string
+                  defaultBackupScheduleType:
+                    description: |-
+                      Controls the default backup behavior for new databases within the instance.
+                      Note that AUTOMATIC is not permitted for free instances, as backups and backup schedules are not allowed for free instances.
+                      if unset or NONE, no default backup schedule will be created for new databases within the instance.
+                      Possible values are: NONE, AUTOMATIC.
                     type: string
                   displayName:
                     description: |-
