@@ -73,9 +73,6 @@ spec:
                 type: string
               forProvider:
                 properties:
-                  aspectTypeId:
-                    description: The aspect type id of the aspect type.
-                    type: string
                   description:
                     description: Description of the AspectType.
                     type: string
@@ -113,9 +110,6 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
-                  aspectTypeId:
-                    description: The aspect type id of the aspect type.
-                    type: string
                   description:
                     description: Description of the AspectType.
                     type: string
@@ -128,9 +122,6 @@ spec:
                     description: User-defined labels for the AspectType.
                     type: object
                     x-kubernetes-map-type: granular
-                  location:
-                    description: The location where aspect type will be created in.
-                    type: string
                   metadataTemplate:
                     description: MetadataTemplate of the Aspect.
                     type: string
@@ -312,9 +303,6 @@ spec:
             properties:
               atProvider:
                 properties:
-                  aspectTypeId:
-                    description: The aspect type id of the aspect type.
-                    type: string
                   createTime:
                     description: The time when the AspectType was created.
                     type: string

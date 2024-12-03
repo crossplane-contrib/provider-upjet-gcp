@@ -15,9 +15,6 @@ import (
 
 type AspectTypeInitParameters struct {
 
-	// The aspect type id of the aspect type.
-	AspectTypeID *string `json:"aspectTypeId,omitempty" tf:"aspect_type_id,omitempty"`
-
 	// Description of the AspectType.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -28,9 +25,6 @@ type AspectTypeInitParameters struct {
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
-	// The location where aspect type will be created in.
-	Location *string `json:"location,omitempty" tf:"location,omitempty"`
-
 	// MetadataTemplate of the Aspect.
 	MetadataTemplate *string `json:"metadataTemplate,omitempty" tf:"metadata_template,omitempty"`
 
@@ -40,9 +34,6 @@ type AspectTypeInitParameters struct {
 }
 
 type AspectTypeObservation struct {
-
-	// The aspect type id of the aspect type.
-	AspectTypeID *string `json:"aspectTypeId,omitempty" tf:"aspect_type_id,omitempty"`
 
 	// The time when the AspectType was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
@@ -94,10 +85,6 @@ type AspectTypeObservation struct {
 }
 
 type AspectTypeParameters struct {
-
-	// The aspect type id of the aspect type.
-	// +kubebuilder:validation:Optional
-	AspectTypeID *string `json:"aspectTypeId,omitempty" tf:"aspect_type_id,omitempty"`
 
 	// Description of the AspectType.
 	// +kubebuilder:validation:Optional

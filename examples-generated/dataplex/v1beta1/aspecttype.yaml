@@ -8,7 +8,6 @@ metadata:
   name: test-aspect-type-basic
 spec:
   forProvider:
-    aspectTypeId: aspect-type-basic
     location: us-central1
     metadataTemplate: |
       {
