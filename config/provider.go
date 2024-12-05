@@ -23,6 +23,7 @@ import (
 	"github.com/upbound/provider-gcp/config/containeraws"
 	"github.com/upbound/provider-gcp/config/containerazure"
 	"github.com/upbound/provider-gcp/config/dataflow"
+	"github.com/upbound/provider-gcp/config/dataplex"
 	"github.com/upbound/provider-gcp/config/dataproc"
 	"github.com/upbound/provider-gcp/config/dns"
 	"github.com/upbound/provider-gcp/config/endpoints"
@@ -70,6 +71,7 @@ func init() {
 	ProviderConfiguration.AddConfig(compute.Configure)
 	ProviderConfiguration.AddConfig(container.Configure)
 	ProviderConfiguration.AddConfig(dataflow.Configure)
+	ProviderConfiguration.AddConfig(dataplex.Configure)
 	ProviderConfiguration.AddConfig(dataproc.Configure)
 	ProviderConfiguration.AddConfig(dns.Configure)
 	ProviderConfiguration.AddConfig(endpoints.Configure)

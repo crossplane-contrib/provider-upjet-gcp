@@ -12,6 +12,10 @@ import (
 // ResourceConfigurators.
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("google_dataplex_aspect_type", func(r *config.Resource) {
+		r.References["project"] = config.Reference{
+			TerraformName: "google_project",
+		}
+		r.MarkAsRequired("aspect_type_id")
 		r.MarkAsRequired("location")
 	})
 }

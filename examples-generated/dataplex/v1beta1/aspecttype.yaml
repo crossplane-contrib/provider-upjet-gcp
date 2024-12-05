@@ -34,4 +34,6 @@ spec:
           }
         ]
       }
-    project: my-project-name
+    projectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
