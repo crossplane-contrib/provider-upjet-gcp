@@ -145,6 +145,12 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	//
 	// Imported by using the following format: projects/{{project}}/locations/{{location}}/lakes/{{name}}
 	"google_dataplex_lake": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/lakes/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/aspectTypes/{{aspect_type_id}}
+	"google_dataplex_aspect_type_iam_binding": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/aspectTypes/{{ .external_name }} {{ .parameters.role }}"),
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/aspectTypes/{{aspect_type_id}}
+	"google_dataplex_aspect_type_iam_member": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/aspectTypes/{{ .external_name }} {{ .parameters.role }} {{ .parameters.member }}"),
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/aspectTypes/{{aspect_type_id}}
+	"google_dataplex_aspect_type_iam_policy": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/aspectTypes/{{ .external_name }}"),
 
 	// dataproc
 	//

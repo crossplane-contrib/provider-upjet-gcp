@@ -430,6 +430,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_dataplex_asset": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/lakes/{{ .parameters.lake }}/zones/{{ .parameters.dataplex_zone }}/assets/{{ .external_name }}"),
 	// Imported by using the following projects/{{project}}/locations/{{location}}/lakes/{{lake}}/zones/{{name}}
 	"google_dataplex_zone": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/lakes/{{ .parameters.lake }}/zones/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/aspectTypes/{{aspect_type_id}}
+	"google_dataplex_aspect_type": config.TemplatedStringAsIdentifier("aspect_type_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/aspectTypes/{{ .external_name }}"),
 
 	// dns
 	//
