@@ -15,7 +15,6 @@ func Configure(p *config.Provider) {
 		r.References["project"] = config.Reference{
 			TerraformName: "google_project",
 		}
-		r.MarkAsRequired("aspect_type_id")
 		r.MarkAsRequired("location")
 	})
 }
