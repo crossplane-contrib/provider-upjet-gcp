@@ -380,6 +380,98 @@ func (mg *DataTransferConfig) ResolveReferences(ctx context.Context, c client.Re
 	return nil
 }
 
+// ResolveReferences of this DatapolicyDataPolicy.
+func (mg *DatapolicyDataPolicy) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	if mg.Spec.ForProvider.DataMaskingPolicy != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta2", "Routine", "RoutineList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DataMaskingPolicy.Routine),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.ForProvider.DataMaskingPolicy.RoutineRef,
+				Selector:     mg.Spec.ForProvider.DataMaskingPolicy.RoutineSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.DataMaskingPolicy.Routine")
+		}
+		mg.Spec.ForProvider.DataMaskingPolicy.Routine = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.DataMaskingPolicy.RoutineRef = rsp.ResolvedReference
+
+	}
+	{
+		m, l, err = apisresolver.GetManagedResource("datacatalog.gcp.upbound.io", "v1beta1", "PolicyTag", "PolicyTagList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PolicyTag),
+			Extract:      resource.ExtractParamPath("name", true),
+			Reference:    mg.Spec.ForProvider.PolicyTagRef,
+			Selector:     mg.Spec.ForProvider.PolicyTagSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.PolicyTag")
+	}
+	mg.Spec.ForProvider.PolicyTag = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.PolicyTagRef = rsp.ResolvedReference
+
+	if mg.Spec.InitProvider.DataMaskingPolicy != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta2", "Routine", "RoutineList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DataMaskingPolicy.Routine),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.InitProvider.DataMaskingPolicy.RoutineRef,
+				Selector:     mg.Spec.InitProvider.DataMaskingPolicy.RoutineSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.DataMaskingPolicy.Routine")
+		}
+		mg.Spec.InitProvider.DataMaskingPolicy.Routine = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.DataMaskingPolicy.RoutineRef = rsp.ResolvedReference
+
+	}
+	{
+		m, l, err = apisresolver.GetManagedResource("datacatalog.gcp.upbound.io", "v1beta1", "PolicyTag", "PolicyTagList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PolicyTag),
+			Extract:      resource.ExtractParamPath("name", true),
+			Reference:    mg.Spec.InitProvider.PolicyTagRef,
+			Selector:     mg.Spec.InitProvider.PolicyTagSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.PolicyTag")
+	}
+	mg.Spec.InitProvider.PolicyTag = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.PolicyTagRef = rsp.ResolvedReference
+
+	return nil
+}
+
 // ResolveReferences of this Dataset.
 func (mg *Dataset) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed

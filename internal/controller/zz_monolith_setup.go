@@ -44,6 +44,8 @@ import (
 	analyticshubdataexchangeiammember "github.com/upbound/provider-gcp/internal/controller/bigquery/analyticshubdataexchangeiammember"
 	analyticshublisting "github.com/upbound/provider-gcp/internal/controller/bigquery/analyticshublisting"
 	connection "github.com/upbound/provider-gcp/internal/controller/bigquery/connection"
+	datapolicydatapolicy "github.com/upbound/provider-gcp/internal/controller/bigquery/datapolicydatapolicy"
+	datapolicydatapolicyiambinding "github.com/upbound/provider-gcp/internal/controller/bigquery/datapolicydatapolicyiambinding"
 	dataset "github.com/upbound/provider-gcp/internal/controller/bigquery/dataset"
 	datasetaccess "github.com/upbound/provider-gcp/internal/controller/bigquery/datasetaccess"
 	datasetiambinding "github.com/upbound/provider-gcp/internal/controller/bigquery/datasetiambinding"
@@ -412,6 +414,8 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		analyticshubdataexchangeiammember.Setup,
 		analyticshublisting.Setup,
 		connection.Setup,
+		datapolicydatapolicy.Setup,
+		datapolicydatapolicyiambinding.Setup,
 		dataset.Setup,
 		datasetaccess.Setup,
 		datasetiambinding.Setup,

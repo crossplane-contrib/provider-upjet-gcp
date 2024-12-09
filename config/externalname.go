@@ -825,6 +825,10 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_bigquery_table_iam_member": config.TemplatedStringAsIdentifier("", "projects/{{ .parameters.project }}/datasets/{{ .parameters.dataset_id }}/tables/{{ .parameters.table_id }} {{ .parameters.member }}"),
 	// IAM policy imports use the identifier of the resource: projects/{{project}}/datasets/{{dataset_id}}/tables/{{table_id}}
 	"google_bigquery_table_iam_policy": config.IdentifierFromProvider,
+	// Imported with the following format: projects/{{project}}/locations/{{location}}/dataPolicies/{{data_policy_id}}
+	"google_bigquery_datapolicy_data_policy": config.TemplatedStringAsIdentifier("data_policy_id", "projects/{{ .parameters.project }}/locations/{{ .parameters.location }}/dataPolicies/{{ .external_name }}"),
+	// Binding resource can be imported using the data_policy_id and role: "projects/your-project-id/dataPolicies/data-policy-id roles/viewer"
+	"google_bigquery_datapolicy_data_policy_iam_binding": config.TemplatedStringAsIdentifier("", "{{ .parameters.data_policy_id }} {{ .parameters.role }}"),
 
 	// dataflow
 	//

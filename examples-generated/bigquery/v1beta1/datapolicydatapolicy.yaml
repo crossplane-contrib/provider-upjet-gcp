@@ -1,0 +1,51 @@
+apiVersion: bigquery.gcp.upbound.io/v1beta1
+kind: DatapolicyDataPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: bigquery/v1beta1/datapolicydatapolicy
+  labels:
+    testing.upbound.io/example-name: data_policy
+  name: data-policy
+spec:
+  forProvider:
+    dataPolicyType: COLUMN_LEVEL_SECURITY_POLICY
+    location: us-central1
+    policyTagSelector:
+      matchLabels:
+        testing.upbound.io/example-name: policy_tag
+
+---
+
+apiVersion: datacatalog.gcp.upbound.io/v1beta1
+kind: PolicyTag
+metadata:
+  annotations:
+    meta.upbound.io/example-id: bigquery/v1beta1/datapolicydatapolicy
+  labels:
+    testing.upbound.io/example-name: policy_tag
+  name: policy-tag
+spec:
+  forProvider:
+    description: A policy tag normally associated with low security items
+    displayName: Low security
+    taxonomySelector:
+      matchLabels:
+        testing.upbound.io/example-name: taxonomy
+
+---
+
+apiVersion: datacatalog.gcp.upbound.io/v1beta1
+kind: Taxonomy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: bigquery/v1beta1/datapolicydatapolicy
+  labels:
+    testing.upbound.io/example-name: taxonomy
+  name: taxonomy
+spec:
+  forProvider:
+    activatedPolicyTypes:
+    - FINE_GRAINED_ACCESS_CONTROL
+    description: A collection of policy tags
+    displayName: taxonomy
+    region: us-central1

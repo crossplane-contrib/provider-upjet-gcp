@@ -269,6 +269,14 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	// Imported by using the following projects/{{project}}/locations/{{region}}/appGateways/{{name}}
 	"google_beyondcorp_app_gateway": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/appGateways/{{ .external_name }}"),
 
+	// bigquerydatapolicy
+	//
+	// IAM policy imports use the identifier of the resource in question
+	// projects/{{project}}/locations/{{location}}/dataPolicies/{{data_policy_id}}
+	"google_bigquery_datapolicy_data_policy_iam_policy": config.TemplatedStringAsIdentifier("data_policy_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/dataPolicies/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/dataPolicies/{{data_policy_id}} roles/viewer user:jane@example.com
+	"google_bigquery_datapolicy_data_policy_iam_member": config.TemplatedStringAsIdentifier("data_policy_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/dataPolicies/{{ .external_name }} {{ .parameters.role }} {{ .parameters.member }}"),
+
 	// bigqueryanalyticshub
 	//
 	// Imported by using the following projects/{{project}}/locations/{{location}}/dataExchanges/{{data_exchange_id}}/listings/{{listing_id}} roles/viewer user:jane@example.com
