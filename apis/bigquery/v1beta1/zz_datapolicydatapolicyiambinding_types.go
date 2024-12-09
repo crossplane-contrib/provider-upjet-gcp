@@ -76,8 +76,17 @@ type DatapolicyDataPolicyIAMBindingParameters struct {
 	// +kubebuilder:validation:Optional
 	Condition *DatapolicyDataPolicyIAMBindingConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +kubebuilder:validation:Required
-	DataPolicyID *string `json:"dataPolicyId" tf:"data_policy_id,omitempty"`
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.DatapolicyDataPolicy
+	// +kubebuilder:validation:Optional
+	DataPolicyID *string `json:"dataPolicyId,omitempty" tf:"data_policy_id,omitempty"`
+
+	// Reference to a DatapolicyDataPolicy in bigquery to populate dataPolicyId.
+	// +kubebuilder:validation:Optional
+	DataPolicyIDRef *v1.Reference `json:"dataPolicyIdRef,omitempty" tf:"-"`
+
+	// Selector for a DatapolicyDataPolicy in bigquery to populate dataPolicyId.
+	// +kubebuilder:validation:Optional
+	DataPolicyIDSelector *v1.Selector `json:"dataPolicyIdSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`

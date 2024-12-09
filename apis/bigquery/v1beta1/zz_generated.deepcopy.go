@@ -4294,6 +4294,16 @@ func (in *DatapolicyDataPolicyIAMBindingParameters) DeepCopyInto(out *Datapolicy
 		*out = new(string)
 		**out = **in
 	}
+	if in.DataPolicyIDRef != nil {
+		in, out := &in.DataPolicyIDRef, &out.DataPolicyIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.DataPolicyIDSelector != nil {
+		in, out := &in.DataPolicyIDSelector, &out.DataPolicyIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Location != nil {
 		in, out := &in.Location, &out.Location
 		*out = new(string)

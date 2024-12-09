@@ -90,4 +90,9 @@ func Configure(p *config.Provider) {
 			TerraformName: "google_bigquery_analytics_hub_data_exchange",
 		}
 	})
+	p.AddResourceConfigurator("google_bigquery_datapolicy_data_policy_iam_binding", func(r *config.Resource) {
+		r.References["data_policy_id"] = config.Reference{
+			TerraformName: "google_bigquery_datapolicy_data_policy",
+		}
+	})
 }
