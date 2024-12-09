@@ -188,6 +188,12 @@ type InstanceInitParameters struct {
 	// Configuration section of the docs.
 	Config *string `json:"config,omitempty" tf:"config,omitempty"`
 
+	// Controls the default backup behavior for new databases within the instance.
+	// Note that AUTOMATIC is not permitted for free instances, as backups and backup schedules are not allowed for free instances.
+	// if unset or NONE, no default backup schedule will be created for new databases within the instance.
+	// Possible values are: NONE, AUTOMATIC.
+	DefaultBackupScheduleType *string `json:"defaultBackupScheduleType,omitempty" tf:"default_backup_schedule_type,omitempty"`
+
 	// The descriptive name for this instance as it appears in UIs. Must be
 	// unique per project and between 4 and 30 characters in length.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -228,6 +234,12 @@ type InstanceObservation struct {
 	// In order to obtain a valid list please consult the
 	// Configuration section of the docs.
 	Config *string `json:"config,omitempty" tf:"config,omitempty"`
+
+	// Controls the default backup behavior for new databases within the instance.
+	// Note that AUTOMATIC is not permitted for free instances, as backups and backup schedules are not allowed for free instances.
+	// if unset or NONE, no default backup schedule will be created for new databases within the instance.
+	// Possible values are: NONE, AUTOMATIC.
+	DefaultBackupScheduleType *string `json:"defaultBackupScheduleType,omitempty" tf:"default_backup_schedule_type,omitempty"`
 
 	// The descriptive name for this instance as it appears in UIs. Must be
 	// unique per project and between 4 and 30 characters in length.
@@ -286,6 +298,13 @@ type InstanceParameters struct {
 	// Configuration section of the docs.
 	// +kubebuilder:validation:Optional
 	Config *string `json:"config,omitempty" tf:"config,omitempty"`
+
+	// Controls the default backup behavior for new databases within the instance.
+	// Note that AUTOMATIC is not permitted for free instances, as backups and backup schedules are not allowed for free instances.
+	// if unset or NONE, no default backup schedule will be created for new databases within the instance.
+	// Possible values are: NONE, AUTOMATIC.
+	// +kubebuilder:validation:Optional
+	DefaultBackupScheduleType *string `json:"defaultBackupScheduleType,omitempty" tf:"default_backup_schedule_type,omitempty"`
 
 	// The descriptive name for this instance as it appears in UIs. Must be
 	// unique per project and between 4 and 30 characters in length.

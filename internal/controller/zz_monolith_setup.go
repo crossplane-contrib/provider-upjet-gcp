@@ -222,6 +222,7 @@ import (
 	inspecttemplate "github.com/upbound/provider-gcp/internal/controller/datalossprevention/inspecttemplate"
 	jobtrigger "github.com/upbound/provider-gcp/internal/controller/datalossprevention/jobtrigger"
 	storedinfotype "github.com/upbound/provider-gcp/internal/controller/datalossprevention/storedinfotype"
+	aspecttype "github.com/upbound/provider-gcp/internal/controller/dataplex/aspecttype"
 	asset "github.com/upbound/provider-gcp/internal/controller/dataplex/asset"
 	lake "github.com/upbound/provider-gcp/internal/controller/dataplex/lake"
 	zone "github.com/upbound/provider-gcp/internal/controller/dataplex/zone"
@@ -592,6 +593,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		inspecttemplate.Setup,
 		jobtrigger.Setup,
 		storedinfotype.Setup,
+		aspecttype.Setup,
 		asset.Setup,
 		lake.Setup,
 		zone.Setup,
