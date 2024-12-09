@@ -52,6 +52,24 @@ func (l *DataTransferConfigList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this DatapolicyDataPolicyIAMBindingList.
+func (l *DatapolicyDataPolicyIAMBindingList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this DatapolicyDataPolicyList.
+func (l *DatapolicyDataPolicyList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this DatasetAccessList.
 func (l *DatasetAccessList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
