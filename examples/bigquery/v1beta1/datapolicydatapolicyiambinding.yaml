@@ -9,7 +9,8 @@ metadata:
   name: policy
 spec:
   forProvider:
-    role: roles/datacatalog.categoryFineGrainedReader
+    location: eu
+    role: roles/bigquerydatapolicy.maskedReader
     members:
     - user:jane@example.com
     dataPolicyIdSelector:
@@ -27,7 +28,9 @@ metadata:
   name: basicdatapolicy
 spec:
   forProvider:
-    dataPolicyType: COLUMN_LEVEL_SECURITY_POLICY
+    dataPolicyType: DATA_MASKING_POLICY
+    dataMaskingPolicy:
+      predefinedExpression: ALWAYS_NULL
     location: eu
     policyTagSelector:
       matchLabels:

@@ -94,5 +94,6 @@ func Configure(p *config.Provider) {
 		r.References["data_policy_id"] = config.Reference{
 			TerraformName: "google_bigquery_datapolicy_data_policy",
 		}
+		r.MarkAsRequired("location")
 	})
 }
