@@ -1,0 +1,63 @@
+apiVersion: tags.gcp.upbound.io/v1beta1
+kind: LocationTagBinding
+metadata:
+  annotations:
+    meta.upbound.io/example-id: tags/v1beta1/locationtagbinding
+  labels:
+    testing.upbound.io/example-name: binding
+  name: binding
+spec:
+  forProvider:
+    location: us-central1
+    parent: //run.googleapis.com/projects/${data.google_project.project.number}/locations/${google_cloud_run_service.default.location}/services/${google_cloud_run_service.default.name}
+    tagValue: tagValues/${google_tags_tag_value.value.name}
+
+---
+
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: tags/v1beta1/locationtagbinding
+  labels:
+    testing.upbound.io/example-name: project
+  name: project
+spec:
+  forProvider:
+    name: project_id
+    orgId: "123456789"
+    projectId: project_id
+
+---
+
+apiVersion: tags.gcp.upbound.io/v1beta1
+kind: TagKey
+metadata:
+  annotations:
+    meta.upbound.io/example-id: tags/v1beta1/locationtagbinding
+  labels:
+    testing.upbound.io/example-name: key
+  name: key
+spec:
+  forProvider:
+    description: For keyname resources.
+    parent: organizations/123456789
+    shortName: keyname
+
+---
+
+apiVersion: tags.gcp.upbound.io/v1beta1
+kind: TagValue
+metadata:
+  annotations:
+    meta.upbound.io/example-id: tags/v1beta1/locationtagbinding
+  labels:
+    testing.upbound.io/example-name: value
+  name: value
+spec:
+  forProvider:
+    description: For valuename resources.
+    parentSelector:
+      matchLabels:
+        testing.upbound.io/example-name: key
+    shortName: valuename
