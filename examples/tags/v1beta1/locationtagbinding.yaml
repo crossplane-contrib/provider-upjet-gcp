@@ -9,24 +9,28 @@ metadata:
 spec:
   forProvider:
     location: us-central1
-    parent: //run.googleapis.com/projects/${data.google_project.project.number}/locations/${google_cloud_run_service.default.location}/services/${google_cloud_run_service.default.name}
-    tagValue: tagValues/${google_tags_tag_value.value.name}
+    parent: //run.googleapis.com/projects/1234567890/locations/us-central1/services/default
+    tagValueSelector:
+      matchLabels:
+        testing.upbound.io/example-name: value
 
 ---
 
-apiVersion: cloudplatform.gcp.upbound.io/v1beta1
-kind: Project
+apiVersion: cloudrun.gcp.upbound.io/v1beta1
+kind: V2Service
 metadata:
   annotations:
     meta.upbound.io/example-id: tags/v1beta1/locationtagbinding
   labels:
-    testing.upbound.io/example-name: project
-  name: project
+    testing.upbound.io/example-name: default
+  name: default
 spec:
   forProvider:
-    name: project_id
-    orgId: "123456789"
-    projectId: project_id
+    ingress: "INGRESS_TRAFFIC_ALL"
+    location: us-central1
+    template:
+    - containers:
+      - image: us-docker.pkg.dev/cloudrun/container/hello
 
 ---
 
