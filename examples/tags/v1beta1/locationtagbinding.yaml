@@ -45,7 +45,7 @@ metadata:
 spec:
   forProvider:
     description: For keyname resources.
-    parent: organizations/123456789
+    parent: projects/1234567890
     shortName: keyname
 
 ---
