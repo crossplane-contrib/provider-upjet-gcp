@@ -22,7 +22,17 @@ type LocationTagBindingInitParameters struct {
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
 	// The TagValue of the TagBinding. Must be of the form tagValues/456.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/tags/v1beta1.TagValue
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	TagValue *string `json:"tagValue,omitempty" tf:"tag_value,omitempty"`
+
+	// Reference to a TagValue in tags to populate tagValue.
+	// +kubebuilder:validation:Optional
+	TagValueRef *v1.Reference `json:"tagValueRef,omitempty" tf:"-"`
+
+	// Selector for a TagValue in tags to populate tagValue.
+	// +kubebuilder:validation:Optional
+	TagValueSelector *v1.Selector `json:"tagValueSelector,omitempty" tf:"-"`
 }
 
 type LocationTagBindingObservation struct {
@@ -54,8 +64,18 @@ type LocationTagBindingParameters struct {
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
 	// The TagValue of the TagBinding. Must be of the form tagValues/456.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/tags/v1beta1.TagValue
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	TagValue *string `json:"tagValue,omitempty" tf:"tag_value,omitempty"`
+
+	// Reference to a TagValue in tags to populate tagValue.
+	// +kubebuilder:validation:Optional
+	TagValueRef *v1.Reference `json:"tagValueRef,omitempty" tf:"-"`
+
+	// Selector for a TagValue in tags to populate tagValue.
+	// +kubebuilder:validation:Optional
+	TagValueSelector *v1.Selector `json:"tagValueSelector,omitempty" tf:"-"`
 }
 
 // LocationTagBindingSpec defines the desired state of LocationTagBinding
@@ -95,7 +115,6 @@ type LocationTagBinding struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.parent) || (has(self.initProvider) && has(self.initProvider.parent))",message="spec.forProvider.parent is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.tagValue) || (has(self.initProvider) && has(self.initProvider.tagValue))",message="spec.forProvider.tagValue is a required parameter"
 	Spec   LocationTagBindingSpec   `json:"spec"`
 	Status LocationTagBindingStatus `json:"status,omitempty"`
 }
