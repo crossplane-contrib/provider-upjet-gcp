@@ -9,7 +9,7 @@ metadata:
 spec:
   forProvider:
     location: us-central1
-    parent: //run.googleapis.com/projects/1234567890/locations/us-central1/services/default
+    parent: //run.googleapis.com/projects/&{project_number}/locations/us-central1/services/default
     tagValueSelector:
       matchLabels:
         testing.upbound.io/example-name: value
@@ -45,7 +45,7 @@ metadata:
 spec:
   forProvider:
     description: For keyname resources.
-    parent: projects/1234567890
+    parent: projects/&{project_id}
     shortName: keyname
 
 ---
