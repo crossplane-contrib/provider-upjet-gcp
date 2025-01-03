@@ -9,6 +9,7 @@ import (
 
 	"github.com/crossplane/upjet/pkg/controller"
 
+	locationtagbinding "github.com/upbound/provider-gcp/internal/controller/tags/locationtagbinding"
 	tagbinding "github.com/upbound/provider-gcp/internal/controller/tags/tagbinding"
 	tagkey "github.com/upbound/provider-gcp/internal/controller/tags/tagkey"
 	tagvalue "github.com/upbound/provider-gcp/internal/controller/tags/tagvalue"
@@ -18,6 +19,7 @@ import (
 // the supplied manager.
 func Setup_tags(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		locationtagbinding.Setup,
 		tagbinding.Setup,
 		tagkey.Setup,
 		tagvalue.Setup,
