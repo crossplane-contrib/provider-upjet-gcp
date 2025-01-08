@@ -1,0 +1,32 @@
+apiVersion: dataplex.gcp.upbound.io/v1beta1
+kind: Lake
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dataplex/v1beta1/lake
+  labels:
+    testing.upbound.io/example-name: my-lake
+  name: my-lake
+spec:
+  forProvider:
+    description: my Lake for DCL
+    displayName: my Lake for DCL
+    labels:
+      my-lake: exists
+    location: us-central1
+---
+apiVersion: dataplex.gcp.upbound.io/v1beta1
+kind: LakeIAMBinding
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dataplex/v1beta1/lakeiambinding
+    upjet.upbound.io/manual-intervention: "Dependent resource skipped: Policy data refers to an existing user account. Note: One can only use Predefined Dataplex roles or Basic roles for LakeIAMBinding policyData."
+  labels:
+    testing.upbound.io/example-name: binding
+  name: binding
+spec:
+  forProvider:
+    role: roles/dataplex.editor
+    members:
+    - user:jane@example.com
+    lake: my-lake
+    location: us-central1

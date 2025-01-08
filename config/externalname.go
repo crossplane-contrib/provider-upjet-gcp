@@ -426,6 +426,12 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	//
 	// Imported by using the following format: projects/{{project}}/locations/{{location}}/lakes/{{name}}
 	"google_dataplex_lake": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/lakes/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/lakes/{{lake}} roles/viewer
+	"google_dataplex_lake_iam_binding": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/lakes/{{lake}} roles/viewer user:jane@example.com
+    "google_dataplex_lake_iam_member": config.IdentifierFromProvider,
+    // Imported by using the following format: projects/{{project}}/locations/{{location}}/lakes/{{lake}}
+    "google_dataplex_lake_iam_policy":  config.TemplatedStringAsIdentifier("", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/lakes/{{ .external_name }}"),
 	// Imported by using the following projects/{{project}}/locations/{{location}}/lakes/{{lake}}/zones/{{dataplex_zone}}/assets/{{name}}
 	"google_dataplex_asset": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/lakes/{{ .parameters.lake }}/zones/{{ .parameters.dataplex_zone }}/assets/{{ .external_name }}"),
 	// Imported by using the following projects/{{project}}/locations/{{location}}/lakes/{{lake}}/zones/{{name}}
