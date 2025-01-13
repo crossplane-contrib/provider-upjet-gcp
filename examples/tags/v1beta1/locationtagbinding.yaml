@@ -3,6 +3,7 @@ kind: LocationTagBinding
 metadata:
   annotations:
     meta.upbound.io/example-id: tags/v1beta1/locationtagbinding
+    upjet.upbound.io/manual-intervention: "The resource requires a real Project number"
   labels:
     testing.upbound.io/example-name: binding
   name: binding
@@ -21,6 +22,7 @@ kind: V2Service
 metadata:
   annotations:
     meta.upbound.io/example-id: tags/v1beta1/locationtagbinding
+    upjet.upbound.io/manual-intervention: "Skipped in automatic testing, because LocationTagBinding will be skipped too"
   labels:
     testing.upbound.io/example-name: default
   name: default
@@ -39,6 +41,7 @@ kind: TagKey
 metadata:
   annotations:
     meta.upbound.io/example-id: tags/v1beta1/locationtagbinding
+    upjet.upbound.io/manual-intervention: "The resource requires a real Project number or ID"
   labels:
     testing.upbound.io/example-name: key
   name: key
@@ -55,6 +58,7 @@ kind: TagValue
 metadata:
   annotations:
     meta.upbound.io/example-id: tags/v1beta1/locationtagbinding
+    upjet.upbound.io/manual-intervention: "This resource is skipped because the LocationTagKey resource is skipped"
   labels:
     testing.upbound.io/example-name: value
   name: value
