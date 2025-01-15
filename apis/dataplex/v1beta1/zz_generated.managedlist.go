@@ -25,24 +25,6 @@ func (l *AssetList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this LakeIAMBindingList.
-func (l *LakeIAMBindingList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
-// GetItems of this LakeIAMMemberList.
-func (l *LakeIAMMemberList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
 // GetItems of this LakeIAMPolicyList.
 func (l *LakeIAMPolicyList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))

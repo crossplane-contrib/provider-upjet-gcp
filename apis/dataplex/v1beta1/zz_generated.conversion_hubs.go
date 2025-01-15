@@ -10,10 +10,4 @@ package v1beta1
 func (tr *AspectType) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *LakeIAMBinding) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *LakeIAMMember) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *LakeIAMPolicy) Hub() {}

@@ -223,8 +223,6 @@ import (
 	aspecttype "github.com/upbound/provider-gcp/internal/controller/dataplex/aspecttype"
 	asset "github.com/upbound/provider-gcp/internal/controller/dataplex/asset"
 	lake "github.com/upbound/provider-gcp/internal/controller/dataplex/lake"
-	lakeiambinding "github.com/upbound/provider-gcp/internal/controller/dataplex/lakeiambinding"
-	lakeiammember "github.com/upbound/provider-gcp/internal/controller/dataplex/lakeiammember"
 	lakeiampolicy "github.com/upbound/provider-gcp/internal/controller/dataplex/lakeiampolicy"
 	zone "github.com/upbound/provider-gcp/internal/controller/dataplex/zone"
 	autoscalingpolicy "github.com/upbound/provider-gcp/internal/controller/dataproc/autoscalingpolicy"
@@ -595,8 +593,6 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		aspecttype.Setup,
 		asset.Setup,
 		lake.Setup,
-		lakeiambinding.Setup,
-		lakeiammember.Setup,
 		lakeiampolicy.Setup,
 		zone.Setup,
 		autoscalingpolicy.Setup,
