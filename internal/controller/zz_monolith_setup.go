@@ -362,6 +362,7 @@ import (
 	objectaccesscontrol "github.com/upbound/provider-gcp/internal/controller/storage/objectaccesscontrol"
 	objectacl "github.com/upbound/provider-gcp/internal/controller/storage/objectacl"
 	agentpool "github.com/upbound/provider-gcp/internal/controller/storagetransfer/agentpool"
+	locationtagbinding "github.com/upbound/provider-gcp/internal/controller/tags/locationtagbinding"
 	tagbinding "github.com/upbound/provider-gcp/internal/controller/tags/tagbinding"
 	tagkey "github.com/upbound/provider-gcp/internal/controller/tags/tagkey"
 	tagvalue "github.com/upbound/provider-gcp/internal/controller/tags/tagvalue"
@@ -731,6 +732,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		objectaccesscontrol.Setup,
 		objectacl.Setup,
 		agentpool.Setup,
+		locationtagbinding.Setup,
 		tagbinding.Setup,
 		tagkey.Setup,
 		tagvalue.Setup,
