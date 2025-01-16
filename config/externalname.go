@@ -1029,6 +1029,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 
 	// tags
 	//
+	// Imported by using the following {{location}}/{{name}}
+	"google_tags_location_tag_binding": config.IdentifierFromProvider,
 	// Imported by using the following tagBindings/{{name}}
 	"google_tags_tag_binding": config.IdentifierFromProvider,
 	// Imported by using the following tagKeys/{{name}}

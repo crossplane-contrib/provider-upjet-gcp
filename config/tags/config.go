@@ -13,6 +13,13 @@ import (
 // Configure configures individual resources by adding custom
 // ResourceConfigurators.
 func Configure(p *config.Provider) {
+	p.AddResourceConfigurator("google_tags_location_tag_binding", func(r *config.Resource) {
+		r.UseAsync = true
+		r.References["tag_value"] = config.Reference{
+			TerraformName: "google_tags_tag_value",
+			Extractor:     common.ExtractResourceIDFuncPath,
+		}
+	})
 	p.AddResourceConfigurator("google_tags_tag_binding", func(r *config.Resource) {
 		r.UseAsync = true
 		r.References["tag_value"] = config.Reference{
