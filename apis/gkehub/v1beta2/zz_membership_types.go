@@ -16,21 +16,21 @@ import (
 type AuthorityInitParameters struct {
 
 	// A JSON Web Token (JWT) issuer URI. issuer must start with https:// and // be a valid
-	// with length <2000 characters. For example: https://container.googleapis.com/v1/projects/my-project/locations/us-west1/clusters/my-cluster (must be locations rather than zones).googleapis.com/v1/${google_container_cluster.my-cluster.id}".
+	// with length <2000 characters. For example: https://container.googleapis.com/v1/projects/my-project/locations/us-west1/clusters/my-cluster.googleapis.com/v1/${google_container_cluster.my-cluster.id}".
 	Issuer *string `json:"issuer,omitempty" tf:"issuer,omitempty"`
 }
 
 type AuthorityObservation struct {
 
 	// A JSON Web Token (JWT) issuer URI. issuer must start with https:// and // be a valid
-	// with length <2000 characters. For example: https://container.googleapis.com/v1/projects/my-project/locations/us-west1/clusters/my-cluster (must be locations rather than zones).googleapis.com/v1/${google_container_cluster.my-cluster.id}".
+	// with length <2000 characters. For example: https://container.googleapis.com/v1/projects/my-project/locations/us-west1/clusters/my-cluster.googleapis.com/v1/${google_container_cluster.my-cluster.id}".
 	Issuer *string `json:"issuer,omitempty" tf:"issuer,omitempty"`
 }
 
 type AuthorityParameters struct {
 
 	// A JSON Web Token (JWT) issuer URI. issuer must start with https:// and // be a valid
-	// with length <2000 characters. For example: https://container.googleapis.com/v1/projects/my-project/locations/us-west1/clusters/my-cluster (must be locations rather than zones).googleapis.com/v1/${google_container_cluster.my-cluster.id}".
+	// with length <2000 characters. For example: https://container.googleapis.com/v1/projects/my-project/locations/us-west1/clusters/my-cluster.googleapis.com/v1/${google_container_cluster.my-cluster.id}".
 	// +kubebuilder:validation:Optional
 	Issuer *string `json:"issuer" tf:"issuer,omitempty"`
 }
@@ -60,7 +60,7 @@ type EndpointParameters struct {
 type GkeClusterInitParameters struct {
 
 	// Self-link of the GCP resource for the GKE cluster.
-	// For example: //container.googleapis.com/projects/my-project/zones/us-west1-a/clusters/my-cluster.
+	// For example: //container.googleapis.com/projects/my-project/locations/us-west1-a/clusters/my-cluster.
 	// It can be at the most 1000 characters in length.googleapis.com/${google_container_cluster.my-cluster.id}" or
 	// google_container_cluster.my-cluster.id.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/container/v1beta2.Cluster
@@ -79,7 +79,7 @@ type GkeClusterInitParameters struct {
 type GkeClusterObservation struct {
 
 	// Self-link of the GCP resource for the GKE cluster.
-	// For example: //container.googleapis.com/projects/my-project/zones/us-west1-a/clusters/my-cluster.
+	// For example: //container.googleapis.com/projects/my-project/locations/us-west1-a/clusters/my-cluster.
 	// It can be at the most 1000 characters in length.googleapis.com/${google_container_cluster.my-cluster.id}" or
 	// google_container_cluster.my-cluster.id.
 	ResourceLink *string `json:"resourceLink,omitempty" tf:"resource_link,omitempty"`
@@ -88,7 +88,7 @@ type GkeClusterObservation struct {
 type GkeClusterParameters struct {
 
 	// Self-link of the GCP resource for the GKE cluster.
-	// For example: //container.googleapis.com/projects/my-project/zones/us-west1-a/clusters/my-cluster.
+	// For example: //container.googleapis.com/projects/my-project/locations/us-west1-a/clusters/my-cluster.
 	// It can be at the most 1000 characters in length.googleapis.com/${google_container_cluster.my-cluster.id}" or
 	// google_container_cluster.my-cluster.id.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/container/v1beta2.Cluster

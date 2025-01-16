@@ -292,6 +292,14 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  propagatedConnectionLimit:
+                    description: |-
+                      The number of consumer spokes that connected Private Service Connect endpoints can be propagated to through Network Connectivity Center.
+                      This limit lets the service producer limit how many propagated Private Service Connect connections can be established to this service attachment from a single consumer.
+                      If the connection preference of the service attachment is ACCEPT_MANUAL, the limit applies to each project or network that is listed in the consumer accept list.
+                      If the connection preference of the service attachment is ACCEPT_AUTOMATIC, the limit applies to each project that contains a connected endpoint.
+                      If unspecified, the default propagated connection limit is 250.
+                    type: number
                   reconcileConnections:
                     description: |-
                       This flag determines whether a consumer accept/reject list change can reconcile the statuses of existing ACCEPTED or REJECTED PSC endpoints.
@@ -616,6 +624,14 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  propagatedConnectionLimit:
+                    description: |-
+                      The number of consumer spokes that connected Private Service Connect endpoints can be propagated to through Network Connectivity Center.
+                      This limit lets the service producer limit how many propagated Private Service Connect connections can be established to this service attachment from a single consumer.
+                      If the connection preference of the service attachment is ACCEPT_MANUAL, the limit applies to each project or network that is listed in the consumer accept list.
+                      If the connection preference of the service attachment is ACCEPT_AUTOMATIC, the limit applies to each project that contains a connected endpoint.
+                      If unspecified, the default propagated connection limit is 250.
+                    type: number
                   reconcileConnections:
                     description: |-
                       This flag determines whether a consumer accept/reject list change can reconcile the statuses of existing ACCEPTED or REJECTED PSC endpoints.
@@ -891,10 +907,25 @@ spec:
                       Structure is documented below.
                     items:
                       properties:
+                        consumerNetwork:
+                          description: |-
+                            (Output)
+                            The url of the consumer network.
+                          type: string
                         endpoint:
                           description: |-
                             (Output)
                             The URL of the consumer forwarding rule.
+                          type: string
+                        propagatedConnectionCount:
+                          description: |-
+                            (Output)
+                            The number of consumer Network Connectivity Center spokes that the connected Private Service Connect endpoint has propagated to.
+                          type: number
+                        pscConnectionId:
+                          description: |-
+                            (Output)
+                            The PSC connection id of the connected endpoint.
                           type: string
                         status:
                           description: |-
@@ -977,6 +1008,14 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  propagatedConnectionLimit:
+                    description: |-
+                      The number of consumer spokes that connected Private Service Connect endpoints can be propagated to through Network Connectivity Center.
+                      This limit lets the service producer limit how many propagated Private Service Connect connections can be established to this service attachment from a single consumer.
+                      If the connection preference of the service attachment is ACCEPT_MANUAL, the limit applies to each project or network that is listed in the consumer accept list.
+                      If the connection preference of the service attachment is ACCEPT_AUTOMATIC, the limit applies to each project that contains a connected endpoint.
+                      If unspecified, the default propagated connection limit is 250.
+                    type: number
                   reconcileConnections:
                     description: |-
                       This flag determines whether a consumer accept/reject list change can reconcile the statuses of existing ACCEPTED or REJECTED PSC endpoints.

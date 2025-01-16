@@ -13,6 +13,15 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AvroFormatInitParameters struct {
+}
+
+type AvroFormatObservation struct {
+}
+
+type AvroFormatParameters struct {
+}
+
 type AwsKinesisInitParameters struct {
 
 	// AWS role ARN to be used for Federated Identity authentication with
@@ -83,11 +92,128 @@ type AwsKinesisParameters struct {
 	StreamArn *string `json:"streamArn" tf:"stream_arn,omitempty"`
 }
 
+type CloudStorageInitParameters struct {
+
+	// Configuration for reading Cloud Storage data in Avro binary format. The
+	// bytes of each object will be set to the data field of a Pub/Sub message.
+	AvroFormat *AvroFormatInitParameters `json:"avroFormat,omitempty" tf:"avro_format,omitempty"`
+
+	// Cloud Storage bucket. The bucket name must be without any
+	// prefix like "gs://". See the bucket naming requirements:
+	// https://cloud.google.com/storage/docs/buckets#naming.
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// Glob pattern used to match objects that will be ingested. If unset, all
+	// objects will be ingested. See the supported patterns:
+	// https://cloud.google.com/storage/docs/json_api/v1/objects/list#list-objects-and-prefixes-using-glob
+	MatchGlob *string `json:"matchGlob,omitempty" tf:"match_glob,omitempty"`
+
+	// The timestamp set in RFC3339 text format. If set, only objects with a
+	// larger or equal timestamp will be ingested. Unset by default, meaning
+	// all objects will be ingested.
+	MinimumObjectCreateTime *string `json:"minimumObjectCreateTime,omitempty" tf:"minimum_object_create_time,omitempty"`
+
+	// Configuration for reading Cloud Storage data written via Cloud Storage
+	// subscriptions(See https://cloud.google.com/pubsub/docs/cloudstorage). The
+	// data and attributes fields of the originally exported Pub/Sub message
+	// will be restored when publishing.
+	PubsubAvroFormat *PubsubAvroFormatInitParameters `json:"pubsubAvroFormat,omitempty" tf:"pubsub_avro_format,omitempty"`
+
+	// Configuration for reading Cloud Storage data in text format. Each line of
+	// text as specified by the delimiter will be set to the data field of a
+	// Pub/Sub message.
+	// Structure is documented below.
+	TextFormat *TextFormatInitParameters `json:"textFormat,omitempty" tf:"text_format,omitempty"`
+}
+
+type CloudStorageObservation struct {
+
+	// Configuration for reading Cloud Storage data in Avro binary format. The
+	// bytes of each object will be set to the data field of a Pub/Sub message.
+	AvroFormat *AvroFormatParameters `json:"avroFormat,omitempty" tf:"avro_format,omitempty"`
+
+	// Cloud Storage bucket. The bucket name must be without any
+	// prefix like "gs://". See the bucket naming requirements:
+	// https://cloud.google.com/storage/docs/buckets#naming.
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// Glob pattern used to match objects that will be ingested. If unset, all
+	// objects will be ingested. See the supported patterns:
+	// https://cloud.google.com/storage/docs/json_api/v1/objects/list#list-objects-and-prefixes-using-glob
+	MatchGlob *string `json:"matchGlob,omitempty" tf:"match_glob,omitempty"`
+
+	// The timestamp set in RFC3339 text format. If set, only objects with a
+	// larger or equal timestamp will be ingested. Unset by default, meaning
+	// all objects will be ingested.
+	MinimumObjectCreateTime *string `json:"minimumObjectCreateTime,omitempty" tf:"minimum_object_create_time,omitempty"`
+
+	// Configuration for reading Cloud Storage data written via Cloud Storage
+	// subscriptions(See https://cloud.google.com/pubsub/docs/cloudstorage). The
+	// data and attributes fields of the originally exported Pub/Sub message
+	// will be restored when publishing.
+	PubsubAvroFormat *PubsubAvroFormatParameters `json:"pubsubAvroFormat,omitempty" tf:"pubsub_avro_format,omitempty"`
+
+	// Configuration for reading Cloud Storage data in text format. Each line of
+	// text as specified by the delimiter will be set to the data field of a
+	// Pub/Sub message.
+	// Structure is documented below.
+	TextFormat *TextFormatObservation `json:"textFormat,omitempty" tf:"text_format,omitempty"`
+}
+
+type CloudStorageParameters struct {
+
+	// Configuration for reading Cloud Storage data in Avro binary format. The
+	// bytes of each object will be set to the data field of a Pub/Sub message.
+	// +kubebuilder:validation:Optional
+	AvroFormat *AvroFormatParameters `json:"avroFormat,omitempty" tf:"avro_format,omitempty"`
+
+	// Cloud Storage bucket. The bucket name must be without any
+	// prefix like "gs://". See the bucket naming requirements:
+	// https://cloud.google.com/storage/docs/buckets#naming.
+	// +kubebuilder:validation:Optional
+	Bucket *string `json:"bucket" tf:"bucket,omitempty"`
+
+	// Glob pattern used to match objects that will be ingested. If unset, all
+	// objects will be ingested. See the supported patterns:
+	// https://cloud.google.com/storage/docs/json_api/v1/objects/list#list-objects-and-prefixes-using-glob
+	// +kubebuilder:validation:Optional
+	MatchGlob *string `json:"matchGlob,omitempty" tf:"match_glob,omitempty"`
+
+	// The timestamp set in RFC3339 text format. If set, only objects with a
+	// larger or equal timestamp will be ingested. Unset by default, meaning
+	// all objects will be ingested.
+	// +kubebuilder:validation:Optional
+	MinimumObjectCreateTime *string `json:"minimumObjectCreateTime,omitempty" tf:"minimum_object_create_time,omitempty"`
+
+	// Configuration for reading Cloud Storage data written via Cloud Storage
+	// subscriptions(See https://cloud.google.com/pubsub/docs/cloudstorage). The
+	// data and attributes fields of the originally exported Pub/Sub message
+	// will be restored when publishing.
+	// +kubebuilder:validation:Optional
+	PubsubAvroFormat *PubsubAvroFormatParameters `json:"pubsubAvroFormat,omitempty" tf:"pubsub_avro_format,omitempty"`
+
+	// Configuration for reading Cloud Storage data in text format. Each line of
+	// text as specified by the delimiter will be set to the data field of a
+	// Pub/Sub message.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	TextFormat *TextFormatParameters `json:"textFormat,omitempty" tf:"text_format,omitempty"`
+}
+
 type IngestionDataSourceSettingsInitParameters struct {
 
 	// Settings for ingestion from Amazon Kinesis Data Streams.
 	// Structure is documented below.
 	AwsKinesis *AwsKinesisInitParameters `json:"awsKinesis,omitempty" tf:"aws_kinesis,omitempty"`
+
+	// Settings for ingestion from Cloud Storage.
+	// Structure is documented below.
+	CloudStorage *CloudStorageInitParameters `json:"cloudStorage,omitempty" tf:"cloud_storage,omitempty"`
+
+	// Settings for Platform Logs regarding ingestion to Pub/Sub. If unset,
+	// no Platform Logs will be generated.'
+	// Structure is documented below.
+	PlatformLogsSettings *PlatformLogsSettingsInitParameters `json:"platformLogsSettings,omitempty" tf:"platform_logs_settings,omitempty"`
 }
 
 type IngestionDataSourceSettingsObservation struct {
@@ -95,6 +221,15 @@ type IngestionDataSourceSettingsObservation struct {
 	// Settings for ingestion from Amazon Kinesis Data Streams.
 	// Structure is documented below.
 	AwsKinesis *AwsKinesisObservation `json:"awsKinesis,omitempty" tf:"aws_kinesis,omitempty"`
+
+	// Settings for ingestion from Cloud Storage.
+	// Structure is documented below.
+	CloudStorage *CloudStorageObservation `json:"cloudStorage,omitempty" tf:"cloud_storage,omitempty"`
+
+	// Settings for Platform Logs regarding ingestion to Pub/Sub. If unset,
+	// no Platform Logs will be generated.'
+	// Structure is documented below.
+	PlatformLogsSettings *PlatformLogsSettingsObservation `json:"platformLogsSettings,omitempty" tf:"platform_logs_settings,omitempty"`
 }
 
 type IngestionDataSourceSettingsParameters struct {
@@ -103,6 +238,17 @@ type IngestionDataSourceSettingsParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AwsKinesis *AwsKinesisParameters `json:"awsKinesis,omitempty" tf:"aws_kinesis,omitempty"`
+
+	// Settings for ingestion from Cloud Storage.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CloudStorage *CloudStorageParameters `json:"cloudStorage,omitempty" tf:"cloud_storage,omitempty"`
+
+	// Settings for Platform Logs regarding ingestion to Pub/Sub. If unset,
+	// no Platform Logs will be generated.'
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PlatformLogsSettings *PlatformLogsSettingsParameters `json:"platformLogsSettings,omitempty" tf:"platform_logs_settings,omitempty"`
 }
 
 type MessageStoragePolicyInitParameters struct {
@@ -137,6 +283,43 @@ type MessageStoragePolicyParameters struct {
 	// and is not a valid configuration.
 	// +kubebuilder:validation:Optional
 	AllowedPersistenceRegions []*string `json:"allowedPersistenceRegions" tf:"allowed_persistence_regions,omitempty"`
+}
+
+type PlatformLogsSettingsInitParameters struct {
+
+	// The minimum severity level of Platform Logs that will be written. If unspecified,
+	// no Platform Logs will be written.
+	// Default value is SEVERITY_UNSPECIFIED.
+	// Possible values are: SEVERITY_UNSPECIFIED, DISABLED, DEBUG, INFO, WARNING, ERROR.
+	Severity *string `json:"severity,omitempty" tf:"severity,omitempty"`
+}
+
+type PlatformLogsSettingsObservation struct {
+
+	// The minimum severity level of Platform Logs that will be written. If unspecified,
+	// no Platform Logs will be written.
+	// Default value is SEVERITY_UNSPECIFIED.
+	// Possible values are: SEVERITY_UNSPECIFIED, DISABLED, DEBUG, INFO, WARNING, ERROR.
+	Severity *string `json:"severity,omitempty" tf:"severity,omitempty"`
+}
+
+type PlatformLogsSettingsParameters struct {
+
+	// The minimum severity level of Platform Logs that will be written. If unspecified,
+	// no Platform Logs will be written.
+	// Default value is SEVERITY_UNSPECIFIED.
+	// Possible values are: SEVERITY_UNSPECIFIED, DISABLED, DEBUG, INFO, WARNING, ERROR.
+	// +kubebuilder:validation:Optional
+	Severity *string `json:"severity,omitempty" tf:"severity,omitempty"`
+}
+
+type PubsubAvroFormatInitParameters struct {
+}
+
+type PubsubAvroFormatObservation struct {
+}
+
+type PubsubAvroFormatParameters struct {
 }
 
 type SchemaSettingsInitParameters struct {
@@ -181,6 +364,31 @@ type SchemaSettingsParameters struct {
 	// if the schema has been deleted.
 	// +kubebuilder:validation:Optional
 	Schema *string `json:"schema" tf:"schema,omitempty"`
+}
+
+type TextFormatInitParameters struct {
+
+	// The delimiter to use when using the 'text' format. Each line of text as
+	// specified by the delimiter will be set to the 'data' field of a Pub/Sub
+	// message. When unset, '\n' is used.
+	Delimiter *string `json:"delimiter,omitempty" tf:"delimiter,omitempty"`
+}
+
+type TextFormatObservation struct {
+
+	// The delimiter to use when using the 'text' format. Each line of text as
+	// specified by the delimiter will be set to the 'data' field of a Pub/Sub
+	// message. When unset, '\n' is used.
+	Delimiter *string `json:"delimiter,omitempty" tf:"delimiter,omitempty"`
+}
+
+type TextFormatParameters struct {
+
+	// The delimiter to use when using the 'text' format. Each line of text as
+	// specified by the delimiter will be set to the 'data' field of a Pub/Sub
+	// message. When unset, '\n' is used.
+	// +kubebuilder:validation:Optional
+	Delimiter *string `json:"delimiter,omitempty" tf:"delimiter,omitempty"`
 }
 
 type TopicInitParameters struct {

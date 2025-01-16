@@ -38,6 +38,67 @@ type AvroOptionsParameters struct {
 	UseAvroLogicalTypes *bool `json:"useAvroLogicalTypes" tf:"use_avro_logical_types,omitempty"`
 }
 
+type BiglakeConfigurationInitParameters struct {
+
+	// The connection specifying the credentials to be used to
+	// read and write to external storage, such as Cloud Storage. The connection_id can
+	// have the form "<project_id>.<location_id>.<connection_id>" or
+	// projects/<project_id>/locations/<location_id>/connections/<connection_id>".
+	ConnectionID *string `json:"connectionId,omitempty" tf:"connection_id,omitempty"`
+
+	// The file format the table data is stored in.
+	FileFormat *string `json:"fileFormat,omitempty" tf:"file_format,omitempty"`
+
+	// The fully qualified location prefix of the external folder where table data
+	// is stored. The '*' wildcard character is not allowed. The URI should be in the format "gs://bucket/path_to_table/"
+	StorageURI *string `json:"storageUri,omitempty" tf:"storage_uri,omitempty"`
+
+	// The table format the metadata only snapshots are stored in.
+	TableFormat *string `json:"tableFormat,omitempty" tf:"table_format,omitempty"`
+}
+
+type BiglakeConfigurationObservation struct {
+
+	// The connection specifying the credentials to be used to
+	// read and write to external storage, such as Cloud Storage. The connection_id can
+	// have the form "<project_id>.<location_id>.<connection_id>" or
+	// projects/<project_id>/locations/<location_id>/connections/<connection_id>".
+	ConnectionID *string `json:"connectionId,omitempty" tf:"connection_id,omitempty"`
+
+	// The file format the table data is stored in.
+	FileFormat *string `json:"fileFormat,omitempty" tf:"file_format,omitempty"`
+
+	// The fully qualified location prefix of the external folder where table data
+	// is stored. The '*' wildcard character is not allowed. The URI should be in the format "gs://bucket/path_to_table/"
+	StorageURI *string `json:"storageUri,omitempty" tf:"storage_uri,omitempty"`
+
+	// The table format the metadata only snapshots are stored in.
+	TableFormat *string `json:"tableFormat,omitempty" tf:"table_format,omitempty"`
+}
+
+type BiglakeConfigurationParameters struct {
+
+	// The connection specifying the credentials to be used to
+	// read and write to external storage, such as Cloud Storage. The connection_id can
+	// have the form "<project_id>.<location_id>.<connection_id>" or
+	// projects/<project_id>/locations/<location_id>/connections/<connection_id>".
+	// +kubebuilder:validation:Optional
+	ConnectionID *string `json:"connectionId" tf:"connection_id,omitempty"`
+
+	// The file format the table data is stored in.
+	// +kubebuilder:validation:Optional
+	FileFormat *string `json:"fileFormat" tf:"file_format,omitempty"`
+
+	// The fully qualified location prefix of the external folder where table data
+	// is stored. The '*' wildcard character is not allowed. The URI should be in the format "gs://bucket/path_to_table/"
+	// +kubebuilder:validation:Optional
+	StorageURI *string `json:"storageUri" tf:"storage_uri,omitempty"`
+
+	// The table format the metadata only snapshots are stored in.
+	// +kubebuilder:validation:Optional
+	TableFormat *string `json:"tableFormat" tf:"table_format,omitempty"`
+}
+
 type BigtableOptionsInitParameters struct {
 
 	// A list of column families to expose in the table schema along with their types. This list restricts the column families that can be referenced in queries and specifies their value types. You can use this list to do type conversions - see the 'type' field for more details. If you leave this list empty, all column families are present in the table schema and their values are read as BYTES. During a query only the column families referenced in that query are read from Bigtable.  Structure is documented below.
@@ -217,32 +278,32 @@ type ColumnParameters struct {
 
 type ColumnReferencesInitParameters struct {
 
-	// :  The column in the primary key that are
+	// The column in the primary key that are
 	// referenced by the referencingColumn
 	ReferencedColumn *string `json:"referencedColumn,omitempty" tf:"referenced_column,omitempty"`
 
-	// :  The column that composes the foreign key.
+	// The column that composes the foreign key.
 	ReferencingColumn *string `json:"referencingColumn,omitempty" tf:"referencing_column,omitempty"`
 }
 
 type ColumnReferencesObservation struct {
 
-	// :  The column in the primary key that are
+	// The column in the primary key that are
 	// referenced by the referencingColumn
 	ReferencedColumn *string `json:"referencedColumn,omitempty" tf:"referenced_column,omitempty"`
 
-	// :  The column that composes the foreign key.
+	// The column that composes the foreign key.
 	ReferencingColumn *string `json:"referencingColumn,omitempty" tf:"referencing_column,omitempty"`
 }
 
 type ColumnReferencesParameters struct {
 
-	// :  The column in the primary key that are
+	// The column in the primary key that are
 	// referenced by the referencingColumn
 	// +kubebuilder:validation:Optional
 	ReferencedColumn *string `json:"referencedColumn" tf:"referenced_column,omitempty"`
 
-	// :  The column that composes the foreign key.
+	// The column that composes the foreign key.
 	// +kubebuilder:validation:Optional
 	ReferencingColumn *string `json:"referencingColumn" tf:"referencing_column,omitempty"`
 }
@@ -340,43 +401,9 @@ type CsvOptionsParameters struct {
 	SkipLeadingRows *float64 `json:"skipLeadingRows,omitempty" tf:"skip_leading_rows,omitempty"`
 }
 
-type EncryptionConfigurationInitParameters struct {
-
-	// The self link or full name of a key which should be used to
-	// encrypt this table.  Note that the default bigquery service account will need to have
-	// encrypt/decrypt permissions on this key - you may want to see the
-	// google_bigquery_default_service_account datasource and the
-	// google_kms_crypto_key_iam_binding resource.
-	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
-}
-
-type EncryptionConfigurationObservation struct {
-
-	// The self link or full name of a key which should be used to
-	// encrypt this table.  Note that the default bigquery service account will need to have
-	// encrypt/decrypt permissions on this key - you may want to see the
-	// google_bigquery_default_service_account datasource and the
-	// google_kms_crypto_key_iam_binding resource.
-	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
-
-	// The self link or full name of the kms key version used to encrypt this table.
-	KMSKeyVersion *string `json:"kmsKeyVersion,omitempty" tf:"kms_key_version,omitempty"`
-}
-
-type EncryptionConfigurationParameters struct {
-
-	// The self link or full name of a key which should be used to
-	// encrypt this table.  Note that the default bigquery service account will need to have
-	// encrypt/decrypt permissions on this key - you may want to see the
-	// google_bigquery_default_service_account datasource and the
-	// google_kms_crypto_key_iam_binding resource.
-	// +kubebuilder:validation:Optional
-	KMSKeyName *string `json:"kmsKeyName" tf:"kms_key_name,omitempty"`
-}
-
 type ExternalDataConfigurationInitParameters struct {
 
-	// - Let BigQuery try to autodetect the schema
+	// Let BigQuery try to autodetect the schema
 	// and format of the table.
 	Autodetect *bool `json:"autodetect,omitempty" tf:"autodetect,omitempty"`
 
@@ -476,7 +503,7 @@ type ExternalDataConfigurationInitParameters struct {
 
 type ExternalDataConfigurationObservation struct {
 
-	// - Let BigQuery try to autodetect the schema
+	// Let BigQuery try to autodetect the schema
 	// and format of the table.
 	Autodetect *bool `json:"autodetect,omitempty" tf:"autodetect,omitempty"`
 
@@ -576,7 +603,7 @@ type ExternalDataConfigurationObservation struct {
 
 type ExternalDataConfigurationParameters struct {
 
-	// - Let BigQuery try to autodetect the schema
+	// Let BigQuery try to autodetect the schema
 	// and format of the table.
 	// +kubebuilder:validation:Optional
 	Autodetect *bool `json:"autodetect" tf:"autodetect,omitempty"`
@@ -725,14 +752,16 @@ type ExternalDataConfigurationParquetOptionsParameters struct {
 
 type ForeignKeysInitParameters struct {
 
-	// :  The pair of the foreign key column and primary key column.
+	// The pair of the foreign key column and primary key column.
 	// Structure is documented below.
 	ColumnReferences *ColumnReferencesInitParameters `json:"columnReferences,omitempty" tf:"column_references,omitempty"`
 
-	// :  Set only if the foreign key constraint is named.
+	// )
+	// Name of the SerDe.
+	// The maximum length is 256 characters.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// :  The table that holds the primary key
+	// The table that holds the primary key
 	// and is referenced by this foreign key.
 	// Structure is documented below.
 	ReferencedTable *ReferencedTableInitParameters `json:"referencedTable,omitempty" tf:"referenced_table,omitempty"`
@@ -740,14 +769,16 @@ type ForeignKeysInitParameters struct {
 
 type ForeignKeysObservation struct {
 
-	// :  The pair of the foreign key column and primary key column.
+	// The pair of the foreign key column and primary key column.
 	// Structure is documented below.
 	ColumnReferences *ColumnReferencesObservation `json:"columnReferences,omitempty" tf:"column_references,omitempty"`
 
-	// :  Set only if the foreign key constraint is named.
+	// )
+	// Name of the SerDe.
+	// The maximum length is 256 characters.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// :  The table that holds the primary key
+	// The table that holds the primary key
 	// and is referenced by this foreign key.
 	// Structure is documented below.
 	ReferencedTable *ReferencedTableObservation `json:"referencedTable,omitempty" tf:"referenced_table,omitempty"`
@@ -755,16 +786,18 @@ type ForeignKeysObservation struct {
 
 type ForeignKeysParameters struct {
 
-	// :  The pair of the foreign key column and primary key column.
+	// The pair of the foreign key column and primary key column.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ColumnReferences *ColumnReferencesParameters `json:"columnReferences" tf:"column_references,omitempty"`
 
-	// :  Set only if the foreign key constraint is named.
+	// )
+	// Name of the SerDe.
+	// The maximum length is 256 characters.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// :  The table that holds the primary key
+	// The table that holds the primary key
 	// and is referenced by this foreign key.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -960,19 +993,19 @@ type MaterializedViewParameters struct {
 
 type PrimaryKeyInitParameters struct {
 
-	// :  The columns that are composed of the primary key constraint.
+	// The columns that are composed of the primary key constraint.
 	Columns []*string `json:"columns,omitempty" tf:"columns,omitempty"`
 }
 
 type PrimaryKeyObservation struct {
 
-	// :  The columns that are composed of the primary key constraint.
+	// The columns that are composed of the primary key constraint.
 	Columns []*string `json:"columns,omitempty" tf:"columns,omitempty"`
 }
 
 type PrimaryKeyParameters struct {
 
-	// :  The columns that are composed of the primary key constraint.
+	// The columns that are composed of the primary key constraint.
 	// +kubebuilder:validation:Optional
 	Columns []*string `json:"columns" tf:"columns,omitempty"`
 }
@@ -1053,7 +1086,7 @@ type RangePartitioningParameters struct {
 
 type ReferencedTableInitParameters struct {
 
-	// :  The ID of the project containing this table.
+	// The ID of the project containing this table.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// A unique ID for the resource.
@@ -1063,10 +1096,10 @@ type ReferencedTableInitParameters struct {
 
 type ReferencedTableObservation struct {
 
-	// :  The ID of the dataset containing this table.
+	// The ID of the dataset containing this table.
 	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
 
-	// :  The ID of the project containing this table.
+	// The ID of the project containing this table.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// A unique ID for the resource.
@@ -1076,11 +1109,11 @@ type ReferencedTableObservation struct {
 
 type ReferencedTableParameters struct {
 
-	// :  The ID of the dataset containing this table.
+	// The ID of the dataset containing this table.
 	// +kubebuilder:validation:Required
 	DatasetID *string `json:"datasetId" tf:"dataset_id,omitempty"`
 
-	// :  The ID of the project containing this table.
+	// The ID of the project containing this table.
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
 
@@ -1134,12 +1167,44 @@ type TableConstraintsParameters struct {
 	PrimaryKey *PrimaryKeyParameters `json:"primaryKey,omitempty" tf:"primary_key,omitempty"`
 }
 
+type TableEncryptionConfigurationInitParameters struct {
+
+	// The self link or full name of a key which should be used to
+	// encrypt this table.  Note that the default bigquery service account will need to have
+	// encrypt/decrypt permissions on this key - you may want to see the
+	// google_bigquery_default_service_account datasource and the
+	// google_kms_crypto_key_iam_binding resource.
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+}
+
+type TableEncryptionConfigurationObservation struct {
+
+	// The self link or full name of a key which should be used to
+	// encrypt this table.  Note that the default bigquery service account will need to have
+	// encrypt/decrypt permissions on this key - you may want to see the
+	// google_bigquery_default_service_account datasource and the
+	// google_kms_crypto_key_iam_binding resource.
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+
+	// The self link or full name of the kms key version used to encrypt this table.
+	KMSKeyVersion *string `json:"kmsKeyVersion,omitempty" tf:"kms_key_version,omitempty"`
+}
+
+type TableEncryptionConfigurationParameters struct {
+
+	// The self link or full name of a key which should be used to
+	// encrypt this table.  Note that the default bigquery service account will need to have
+	// encrypt/decrypt permissions on this key - you may want to see the
+	// google_bigquery_default_service_account datasource and the
+	// google_kms_crypto_key_iam_binding resource.
+	// +kubebuilder:validation:Optional
+	KMSKeyName *string `json:"kmsKeyName" tf:"kms_key_name,omitempty"`
+}
+
 type TableInitParameters struct {
 
-	// If set to true, it allows table
-	// deletion when there are still resource tags attached. The default value is
-	// false.
-	AllowResourceTagsOnDeletion *bool `json:"allowResourceTagsOnDeletion,omitempty" tf:"allow_resource_tags_on_deletion,omitempty"`
+	// Specifies the configuration of a BigLake managed table. Structure is documented below
+	BiglakeConfiguration *BiglakeConfigurationInitParameters `json:"biglakeConfiguration,omitempty" tf:"biglake_configuration,omitempty"`
 
 	// Specifies column names to use for data clustering.
 	// Up to four top-level columns are allowed, and should be specified in
@@ -1155,7 +1220,7 @@ type TableInitParameters struct {
 	// Specifies how the table should be encrypted.
 	// If left blank, the table will be encrypted with a Google-managed key; that process
 	// is transparent to the user.  Structure is documented below.
-	EncryptionConfiguration *EncryptionConfigurationInitParameters `json:"encryptionConfiguration,omitempty" tf:"encryption_configuration,omitempty"`
+	EncryptionConfiguration *TableEncryptionConfigurationInitParameters `json:"encryptionConfiguration,omitempty" tf:"encryption_configuration,omitempty"`
 
 	// The time when this table expires, in
 	// milliseconds since the epoch. If not present, the table will persist
@@ -1180,7 +1245,7 @@ type TableInitParameters struct {
 	// Structure is documented below.
 	MaterializedView *MaterializedViewInitParameters `json:"materializedView,omitempty" tf:"materialized_view,omitempty"`
 
-	// :  The maximum staleness of data that could be
+	// The maximum staleness of data that could be
 	// returned when the table (or stale MV) is queried. Staleness encoded as a
 	// string encoding of SQL IntervalValue
 	// type.
@@ -1227,10 +1292,8 @@ type TableInitParameters struct {
 
 type TableObservation struct {
 
-	// If set to true, it allows table
-	// deletion when there are still resource tags attached. The default value is
-	// false.
-	AllowResourceTagsOnDeletion *bool `json:"allowResourceTagsOnDeletion,omitempty" tf:"allow_resource_tags_on_deletion,omitempty"`
+	// Specifies the configuration of a BigLake managed table. Structure is documented below
+	BiglakeConfiguration *BiglakeConfigurationObservation `json:"biglakeConfiguration,omitempty" tf:"biglake_configuration,omitempty"`
 
 	// Specifies column names to use for data clustering.
 	// Up to four top-level columns are allowed, and should be specified in
@@ -1256,7 +1319,7 @@ type TableObservation struct {
 	// Specifies how the table should be encrypted.
 	// If left blank, the table will be encrypted with a Google-managed key; that process
 	// is transparent to the user.  Structure is documented below.
-	EncryptionConfiguration *EncryptionConfigurationObservation `json:"encryptionConfiguration,omitempty" tf:"encryption_configuration,omitempty"`
+	EncryptionConfiguration *TableEncryptionConfigurationObservation `json:"encryptionConfiguration,omitempty" tf:"encryption_configuration,omitempty"`
 
 	// A hash of the resource.
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
@@ -1276,7 +1339,7 @@ type TableObservation struct {
 	// A descriptive name for the table.
 	FriendlyName *string `json:"friendlyName,omitempty" tf:"friendly_name,omitempty"`
 
-	// an identifier for the resource with format projects/{{project}}/datasets/{{dataset}}/tables/{{name}}
+	// An identifier for the resource with format projects/{{project}}/datasets/{{dataset}}/tables/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// A mapping of labels to assign to the resource.
@@ -1293,7 +1356,7 @@ type TableObservation struct {
 	// Structure is documented below.
 	MaterializedView *MaterializedViewObservation `json:"materializedView,omitempty" tf:"materialized_view,omitempty"`
 
-	// :  The maximum staleness of data that could be
+	// The maximum staleness of data that could be
 	// returned when the table (or stale MV) is queried. Staleness encoded as a
 	// string encoding of SQL IntervalValue
 	// type.
@@ -1363,11 +1426,9 @@ type TableObservation struct {
 
 type TableParameters struct {
 
-	// If set to true, it allows table
-	// deletion when there are still resource tags attached. The default value is
-	// false.
+	// Specifies the configuration of a BigLake managed table. Structure is documented below
 	// +kubebuilder:validation:Optional
-	AllowResourceTagsOnDeletion *bool `json:"allowResourceTagsOnDeletion,omitempty" tf:"allow_resource_tags_on_deletion,omitempty"`
+	BiglakeConfiguration *BiglakeConfigurationParameters `json:"biglakeConfiguration,omitempty" tf:"biglake_configuration,omitempty"`
 
 	// Specifies column names to use for data clustering.
 	// Up to four top-level columns are allowed, and should be specified in
@@ -1401,7 +1462,7 @@ type TableParameters struct {
 	// If left blank, the table will be encrypted with a Google-managed key; that process
 	// is transparent to the user.  Structure is documented below.
 	// +kubebuilder:validation:Optional
-	EncryptionConfiguration *EncryptionConfigurationParameters `json:"encryptionConfiguration,omitempty" tf:"encryption_configuration,omitempty"`
+	EncryptionConfiguration *TableEncryptionConfigurationParameters `json:"encryptionConfiguration,omitempty" tf:"encryption_configuration,omitempty"`
 
 	// The time when this table expires, in
 	// milliseconds since the epoch. If not present, the table will persist
@@ -1431,7 +1492,7 @@ type TableParameters struct {
 	// +kubebuilder:validation:Optional
 	MaterializedView *MaterializedViewParameters `json:"materializedView,omitempty" tf:"materialized_view,omitempty"`
 
-	// :  The maximum staleness of data that could be
+	// The maximum staleness of data that could be
 	// returned when the table (or stale MV) is queried. Staleness encoded as a
 	// string encoding of SQL IntervalValue
 	// type.

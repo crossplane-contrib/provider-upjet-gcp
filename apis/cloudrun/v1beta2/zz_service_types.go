@@ -231,6 +231,77 @@ type ContainersParameters struct {
 	WorkingDir *string `json:"workingDir,omitempty" tf:"working_dir,omitempty"`
 }
 
+type CsiInitParameters struct {
+
+	// Unique name representing the type of file system to be created. Cloud Run supports the following values:
+	Driver *string `json:"driver,omitempty" tf:"driver,omitempty"`
+
+	// If true, mount the NFS volume as read only in all mounts. Defaults to false.
+	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
+
+	// Driver-specific attributes. The following options are supported for available drivers:
+	// +mapType=granular
+	VolumeAttributes map[string]*string `json:"volumeAttributes,omitempty" tf:"volume_attributes,omitempty"`
+}
+
+type CsiObservation struct {
+
+	// Unique name representing the type of file system to be created. Cloud Run supports the following values:
+	Driver *string `json:"driver,omitempty" tf:"driver,omitempty"`
+
+	// If true, mount the NFS volume as read only in all mounts. Defaults to false.
+	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
+
+	// Driver-specific attributes. The following options are supported for available drivers:
+	// +mapType=granular
+	VolumeAttributes map[string]*string `json:"volumeAttributes,omitempty" tf:"volume_attributes,omitempty"`
+}
+
+type CsiParameters struct {
+
+	// Unique name representing the type of file system to be created. Cloud Run supports the following values:
+	// +kubebuilder:validation:Optional
+	Driver *string `json:"driver" tf:"driver,omitempty"`
+
+	// If true, mount the NFS volume as read only in all mounts. Defaults to false.
+	// +kubebuilder:validation:Optional
+	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
+
+	// Driver-specific attributes. The following options are supported for available drivers:
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	VolumeAttributes map[string]*string `json:"volumeAttributes,omitempty" tf:"volume_attributes,omitempty"`
+}
+
+type EmptyDirInitParameters struct {
+
+	// The medium on which the data is stored. The default is "" which means to use the node's default medium. Must be an empty string (default) or Memory.
+	Medium *string `json:"medium,omitempty" tf:"medium,omitempty"`
+
+	// Limit on the storage usable by this EmptyDir volume. The size limit is also applicable for memory medium. The maximum usage on memory medium EmptyDir would be the minimum value between the SizeLimit specified here and the sum of memory limits of all containers in a pod. This field's values are of the 'Quantity' k8s type: https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/. The default is nil which means that the limit is undefined. More info: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir.
+	SizeLimit *string `json:"sizeLimit,omitempty" tf:"size_limit,omitempty"`
+}
+
+type EmptyDirObservation struct {
+
+	// The medium on which the data is stored. The default is "" which means to use the node's default medium. Must be an empty string (default) or Memory.
+	Medium *string `json:"medium,omitempty" tf:"medium,omitempty"`
+
+	// Limit on the storage usable by this EmptyDir volume. The size limit is also applicable for memory medium. The maximum usage on memory medium EmptyDir would be the minimum value between the SizeLimit specified here and the sum of memory limits of all containers in a pod. This field's values are of the 'Quantity' k8s type: https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/. The default is nil which means that the limit is undefined. More info: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir.
+	SizeLimit *string `json:"sizeLimit,omitempty" tf:"size_limit,omitempty"`
+}
+
+type EmptyDirParameters struct {
+
+	// The medium on which the data is stored. The default is "" which means to use the node's default medium. Must be an empty string (default) or Memory.
+	// +kubebuilder:validation:Optional
+	Medium *string `json:"medium,omitempty" tf:"medium,omitempty"`
+
+	// Limit on the storage usable by this EmptyDir volume. The size limit is also applicable for memory medium. The maximum usage on memory medium EmptyDir would be the minimum value between the SizeLimit specified here and the sum of memory limits of all containers in a pod. This field's values are of the 'Quantity' k8s type: https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/. The default is nil which means that the limit is undefined. More info: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir.
+	// +kubebuilder:validation:Optional
+	SizeLimit *string `json:"sizeLimit,omitempty" tf:"size_limit,omitempty"`
+}
+
 type EnvFromInitParameters struct {
 
 	// The ConfigMap to select from.
@@ -620,6 +691,45 @@ type LocalObjectReferenceParameters struct {
 	// Volume's name.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name" tf:"name,omitempty"`
+}
+
+type NFSInitParameters struct {
+
+	// Path exported by the NFS server
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// If true, mount the NFS volume as read only in all mounts. Defaults to false.
+	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
+
+	// IP address or hostname of the NFS server
+	Server *string `json:"server,omitempty" tf:"server,omitempty"`
+}
+
+type NFSObservation struct {
+
+	// Path exported by the NFS server
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// If true, mount the NFS volume as read only in all mounts. Defaults to false.
+	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
+
+	// IP address or hostname of the NFS server
+	Server *string `json:"server,omitempty" tf:"server,omitempty"`
+}
+
+type NFSParameters struct {
+
+	// Path exported by the NFS server
+	// +kubebuilder:validation:Optional
+	Path *string `json:"path" tf:"path,omitempty"`
+
+	// If true, mount the NFS volume as read only in all mounts. Defaults to false.
+	// +kubebuilder:validation:Optional
+	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
+
+	// IP address or hostname of the NFS server
+	// +kubebuilder:validation:Optional
+	Server *string `json:"server" tf:"server,omitempty"`
 }
 
 type PortsInitParameters struct {
@@ -1856,6 +1966,19 @@ type VolumeMountsParameters struct {
 
 type VolumesInitParameters struct {
 
+	// A filesystem specified by the Container Storage Interface (CSI).
+	// Structure is documented below.
+	Csi *CsiInitParameters `json:"csi,omitempty" tf:"csi,omitempty"`
+
+	// Ephemeral storage which can be backed by real disks (HD, SSD), network storage or memory (i.e. tmpfs). For now only in memory (tmpfs) is supported. It is ephemeral in the sense that when the sandbox is taken down, the data is destroyed with it (it does not persist across sandbox runs).
+	// Structure is documented below.
+	EmptyDir *EmptyDirInitParameters `json:"emptyDir,omitempty" tf:"empty_dir,omitempty"`
+
+	// A filesystem backed by a Network File System share. This filesystem requires the
+	// run.googleapis.com/execution-environment annotation to be unset or set to "gen2"
+	// Structure is documented below.
+	NFS *NFSInitParameters `json:"nfs,omitempty" tf:"nfs,omitempty"`
+
 	// Volume's name.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
@@ -1868,6 +1991,19 @@ type VolumesInitParameters struct {
 
 type VolumesObservation struct {
 
+	// A filesystem specified by the Container Storage Interface (CSI).
+	// Structure is documented below.
+	Csi *CsiObservation `json:"csi,omitempty" tf:"csi,omitempty"`
+
+	// Ephemeral storage which can be backed by real disks (HD, SSD), network storage or memory (i.e. tmpfs). For now only in memory (tmpfs) is supported. It is ephemeral in the sense that when the sandbox is taken down, the data is destroyed with it (it does not persist across sandbox runs).
+	// Structure is documented below.
+	EmptyDir *EmptyDirObservation `json:"emptyDir,omitempty" tf:"empty_dir,omitempty"`
+
+	// A filesystem backed by a Network File System share. This filesystem requires the
+	// run.googleapis.com/execution-environment annotation to be unset or set to "gen2"
+	// Structure is documented below.
+	NFS *NFSObservation `json:"nfs,omitempty" tf:"nfs,omitempty"`
+
 	// Volume's name.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
@@ -1879,6 +2015,22 @@ type VolumesObservation struct {
 }
 
 type VolumesParameters struct {
+
+	// A filesystem specified by the Container Storage Interface (CSI).
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Csi *CsiParameters `json:"csi,omitempty" tf:"csi,omitempty"`
+
+	// Ephemeral storage which can be backed by real disks (HD, SSD), network storage or memory (i.e. tmpfs). For now only in memory (tmpfs) is supported. It is ephemeral in the sense that when the sandbox is taken down, the data is destroyed with it (it does not persist across sandbox runs).
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	EmptyDir *EmptyDirParameters `json:"emptyDir,omitempty" tf:"empty_dir,omitempty"`
+
+	// A filesystem backed by a Network File System share. This filesystem requires the
+	// run.googleapis.com/execution-environment annotation to be unset or set to "gen2"
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	NFS *NFSParameters `json:"nfs,omitempty" tf:"nfs,omitempty"`
 
 	// Volume's name.
 	// +kubebuilder:validation:Optional

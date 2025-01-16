@@ -378,10 +378,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 
 	// identityplatform
 	//
-	// Imported by using the following projects/{{project}}/config
-	"google_identity_platform_config": config.TemplatedStringAsIdentifier("", "projects/{{ .setup.configuration.project }}/config"),
-	// Imported by using the following projects/{{project}}/config/{{name}}
-	"google_identity_platform_project_default_config": config.IdentifierFromProvider,
 
 	// kms
 	//

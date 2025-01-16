@@ -411,7 +411,7 @@ type MetricParameters struct {
 
 type ScaleInControlInitParameters struct {
 
-	// A nested object resource
+	// A nested object resource.
 	// Structure is documented below.
 	MaxScaledInReplicas *MaxScaledInReplicasInitParameters `json:"maxScaledInReplicas,omitempty" tf:"max_scaled_in_replicas,omitempty"`
 
@@ -422,7 +422,7 @@ type ScaleInControlInitParameters struct {
 
 type ScaleInControlObservation struct {
 
-	// A nested object resource
+	// A nested object resource.
 	// Structure is documented below.
 	MaxScaledInReplicas *MaxScaledInReplicasObservation `json:"maxScaledInReplicas,omitempty" tf:"max_scaled_in_replicas,omitempty"`
 
@@ -433,7 +433,7 @@ type ScaleInControlObservation struct {
 
 type ScaleInControlParameters struct {
 
-	// A nested object resource
+	// A nested object resource.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	MaxScaledInReplicas *MaxScaledInReplicasParameters `json:"maxScaledInReplicas,omitempty" tf:"max_scaled_in_replicas,omitempty"`

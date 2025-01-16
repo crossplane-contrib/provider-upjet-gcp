@@ -25,7 +25,7 @@ metadata:
 spec:
   forProvider:
     databaseVersion: MYSQL_8_0
-    deletionProtection: "true"
+    deletionProtection: true
     region: us-central1
     settings:
     - tier: db-f1-micro

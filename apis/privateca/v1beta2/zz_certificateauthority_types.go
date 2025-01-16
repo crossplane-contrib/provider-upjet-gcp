@@ -82,19 +82,19 @@ type CertificateAuthorityConfigParameters struct {
 
 type CertificateAuthorityConfigSubjectKeyIDInitParameters struct {
 
-	// The value of the KeyId in lowercase hexidecimal.
+	// The value of the KeyId in lowercase hexadecimal.
 	KeyID *string `json:"keyId,omitempty" tf:"key_id,omitempty"`
 }
 
 type CertificateAuthorityConfigSubjectKeyIDObservation struct {
 
-	// The value of the KeyId in lowercase hexidecimal.
+	// The value of the KeyId in lowercase hexadecimal.
 	KeyID *string `json:"keyId,omitempty" tf:"key_id,omitempty"`
 }
 
 type CertificateAuthorityConfigSubjectKeyIDParameters struct {
 
-	// The value of the KeyId in lowercase hexidecimal.
+	// The value of the KeyId in lowercase hexadecimal.
 	// +kubebuilder:validation:Optional
 	KeyID *string `json:"keyId,omitempty" tf:"key_id,omitempty"`
 }
@@ -109,6 +109,7 @@ type CertificateAuthorityInitParameters struct {
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// Desired state of the CertificateAuthority. Set this field to STAGED to create a STAGED root CA.
+	// Possible values: ENABLED, DISABLED, STAGED.
 	DesiredState *string `json:"desiredState,omitempty" tf:"desired_state,omitempty"`
 
 	// The name of a Cloud Storage bucket where this CertificateAuthority will publish content,
@@ -184,6 +185,7 @@ type CertificateAuthorityObservation struct {
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// Desired state of the CertificateAuthority. Set this field to STAGED to create a STAGED root CA.
+	// Possible values: ENABLED, DISABLED, STAGED.
 	DesiredState *string `json:"desiredState,omitempty" tf:"desired_state,omitempty"`
 
 	// +mapType=granular
@@ -288,6 +290,7 @@ type CertificateAuthorityParameters struct {
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// Desired state of the CertificateAuthority. Set this field to STAGED to create a STAGED root CA.
+	// Possible values: ENABLED, DISABLED, STAGED.
 	// +kubebuilder:validation:Optional
 	DesiredState *string `json:"desiredState,omitempty" tf:"desired_state,omitempty"`
 

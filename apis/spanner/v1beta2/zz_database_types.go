@@ -164,6 +164,10 @@ type EncryptionConfigInitParameters struct {
 	// Fully qualified name of the KMS key to use to encrypt this database. This key must exist
 	// in the same location as the Spanner Database.
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+
+	// Fully qualified name of the KMS keys to use to encrypt this database. The keys must exist
+	// in the same locations as the Spanner Database.
+	KMSKeyNames []*string `json:"kmsKeyNames,omitempty" tf:"kms_key_names,omitempty"`
 }
 
 type EncryptionConfigObservation struct {
@@ -171,6 +175,10 @@ type EncryptionConfigObservation struct {
 	// Fully qualified name of the KMS key to use to encrypt this database. This key must exist
 	// in the same location as the Spanner Database.
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+
+	// Fully qualified name of the KMS keys to use to encrypt this database. The keys must exist
+	// in the same locations as the Spanner Database.
+	KMSKeyNames []*string `json:"kmsKeyNames,omitempty" tf:"kms_key_names,omitempty"`
 }
 
 type EncryptionConfigParameters struct {
@@ -178,7 +186,12 @@ type EncryptionConfigParameters struct {
 	// Fully qualified name of the KMS key to use to encrypt this database. This key must exist
 	// in the same location as the Spanner Database.
 	// +kubebuilder:validation:Optional
-	KMSKeyName *string `json:"kmsKeyName" tf:"kms_key_name,omitempty"`
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+
+	// Fully qualified name of the KMS keys to use to encrypt this database. The keys must exist
+	// in the same locations as the Spanner Database.
+	// +kubebuilder:validation:Optional
+	KMSKeyNames []*string `json:"kmsKeyNames,omitempty" tf:"kms_key_names,omitempty"`
 }
 
 // DatabaseSpec defines the desired state of Database
