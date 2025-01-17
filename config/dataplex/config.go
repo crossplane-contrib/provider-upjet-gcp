@@ -19,9 +19,6 @@ func Configure(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("google_dataplex_lake_iam_policy", func(r *config.Resource) {
-		r.References["project"] = config.Reference{
-			TerraformName: "google_project",
-		}
 		r.MarkAsRequired("location")
 	})
 }

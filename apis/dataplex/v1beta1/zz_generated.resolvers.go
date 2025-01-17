@@ -164,14 +164,14 @@ func (mg *LakeIAMPolicy) ResolveReferences(ctx context.Context, c client.Reader)
 	mg.Spec.ForProvider.Location = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.LocationRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "Project", "ProjectList")
+		m, l, err = apisresolver.GetManagedResource("dataplex.gcp.upbound.io", "v1beta2", "Lake", "LakeList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
-			Extract:      reference.ExternalName(),
+			Extract:      resource.ExtractParamPath("project", false),
 			Reference:    mg.Spec.ForProvider.ProjectRef,
 			Selector:     mg.Spec.ForProvider.ProjectSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -183,14 +183,14 @@ func (mg *LakeIAMPolicy) ResolveReferences(ctx context.Context, c client.Reader)
 	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "Project", "ProjectList")
+		m, l, err = apisresolver.GetManagedResource("dataplex.gcp.upbound.io", "v1beta2", "Lake", "LakeList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Project),
-			Extract:      reference.ExternalName(),
+			Extract:      resource.ExtractParamPath("project", false),
 			Reference:    mg.Spec.InitProvider.ProjectRef,
 			Selector:     mg.Spec.InitProvider.ProjectSelector,
 			To:           reference.To{List: l, Managed: m},

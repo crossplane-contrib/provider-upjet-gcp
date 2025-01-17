@@ -238,8 +238,7 @@ spec:
                       If it is not provided, the project will be parsed from the identifier of the parent resource. If no project is provided in the parent identifier and no project is specified, the provider project is used.
                     type: string
                   projectRef:
-                    description: Reference to a Project in cloudplatform to populate
-                      project.
+                    description: Reference to a Lake in dataplex to populate project.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -273,8 +272,7 @@ spec:
                     - name
                     type: object
                   projectSelector:
-                    description: Selector for a Project in cloudplatform to populate
-                      project.
+                    description: Selector for a Lake in dataplex to populate project.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -340,8 +338,7 @@ spec:
                       If it is not provided, the project will be parsed from the identifier of the parent resource. If no project is provided in the parent identifier and no project is specified, the provider project is used.
                     type: string
                   projectRef:
-                    description: Reference to a Project in cloudplatform to populate
-                      project.
+                    description: Reference to a Lake in dataplex to populate project.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -375,8 +372,7 @@ spec:
                     - name
                     type: object
                   projectSelector:
-                    description: Selector for a Project in cloudplatform to populate
-                      project.
+                    description: Selector for a Lake in dataplex to populate project.
                     properties:
                       matchControllerRef:
                         description: |-

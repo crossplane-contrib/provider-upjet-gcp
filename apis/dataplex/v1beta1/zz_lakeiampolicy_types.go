@@ -21,14 +21,15 @@ type LakeIAMPolicyInitParameters struct {
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the project will be parsed from the identifier of the parent resource. If no project is provided in the parent identifier and no project is specified, the provider project is used.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/dataplex/v1beta2.Lake
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("project",false)
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// Reference to a Project in cloudplatform to populate project.
+	// Reference to a Lake in dataplex to populate project.
 	// +kubebuilder:validation:Optional
 	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
 
-	// Selector for a Project in cloudplatform to populate project.
+	// Selector for a Lake in dataplex to populate project.
 	// +kubebuilder:validation:Optional
 	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
 }
@@ -89,15 +90,16 @@ type LakeIAMPolicyParameters struct {
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the project will be parsed from the identifier of the parent resource. If no project is provided in the parent identifier and no project is specified, the provider project is used.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/dataplex/v1beta2.Lake
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("project",false)
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// Reference to a Project in cloudplatform to populate project.
+	// Reference to a Lake in dataplex to populate project.
 	// +kubebuilder:validation:Optional
 	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
 
-	// Selector for a Project in cloudplatform to populate project.
+	// Selector for a Lake in dataplex to populate project.
 	// +kubebuilder:validation:Optional
 	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
 }
