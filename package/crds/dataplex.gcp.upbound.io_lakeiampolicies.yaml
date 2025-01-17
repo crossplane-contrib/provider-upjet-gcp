@@ -238,7 +238,8 @@ spec:
                       If it is not provided, the project will be parsed from the identifier of the parent resource. If no project is provided in the parent identifier and no project is specified, the provider project is used.
                     type: string
                   projectRef:
-                    description: Reference to a Lake in dataplex to populate project.
+                    description: Reference to a Project in cloudplatform to populate
+                      project.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -272,7 +273,8 @@ spec:
                     - name
                     type: object
                   projectSelector:
-                    description: Selector for a Lake in dataplex to populate project.
+                    description: Selector for a Project in cloudplatform to populate
+                      project.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -311,6 +313,8 @@ spec:
                             type: string
                         type: object
                     type: object
+                required:
+                - location
                 type: object
               initProvider:
                 description: |-
@@ -325,84 +329,6 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
-                  lake:
-                    description: Used to find the parent resource to bind the IAM
-                      policy to
-                    type: string
-                  lakeRef:
-                    description: Reference to a Lake in dataplex to populate lake.
-                    properties:
-                      name:
-                        description: Name of the referenced object.
-                        type: string
-                      policy:
-                        description: Policies for referencing.
-                        properties:
-                          resolution:
-                            default: Required
-                            description: |-
-                              Resolution specifies whether resolution of this reference is required.
-                              The default is 'Required', which means the reconcile will fail if the
-                              reference cannot be resolved. 'Optional' means this reference will be
-                              a no-op if it cannot be resolved.
-                            enum:
-                            - Required
-                            - Optional
-                            type: string
-                          resolve:
-                            description: |-
-                              Resolve specifies when this reference should be resolved. The default
-                              is 'IfNotPresent', which will attempt to resolve the reference only when
-                              the corresponding field is not present. Use 'Always' to resolve the
-                              reference on every reconcile.
-                            enum:
-                            - Always
-                            - IfNotPresent
-                            type: string
-                        type: object
-                    required:
-                    - name
-                    type: object
-                  lakeSelector:
-                    description: Selector for a Lake in dataplex to populate lake.
-                    properties:
-                      matchControllerRef:
-                        description: |-
-                          MatchControllerRef ensures an object with the same controller reference
-                          as the selecting object is selected.
-                        type: boolean
-                      matchLabels:
-                        additionalProperties:
-                          type: string
-                        description: MatchLabels ensures an object with matching labels
-                          is selected.
-                        type: object
-                      policy:
-                        description: Policies for selection.
-                        properties:
-                          resolution:
-                            default: Required
-                            description: |-
-                              Resolution specifies whether resolution of this reference is required.
-                              The default is 'Required', which means the reconcile will fail if the
-                              reference cannot be resolved. 'Optional' means this reference will be
-                              a no-op if it cannot be resolved.
-                            enum:
-                            - Required
-                            - Optional
-                            type: string
-                          resolve:
-                            description: |-
-                              Resolve specifies when this reference should be resolved. The default
-                              is 'IfNotPresent', which will attempt to resolve the reference only when
-                              the corresponding field is not present. Use 'Always' to resolve the
-                              reference on every reconcile.
-                            enum:
-                            - Always
-                            - IfNotPresent
-                            type: string
-                        type: object
-                    type: object
                   policyData:
                     description: |-
                       The policy data generated by
@@ -414,7 +340,8 @@ spec:
                       If it is not provided, the project will be parsed from the identifier of the parent resource. If no project is provided in the parent identifier and no project is specified, the provider project is used.
                     type: string
                   projectRef:
-                    description: Reference to a Lake in dataplex to populate project.
+                    description: Reference to a Project in cloudplatform to populate
+                      project.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -448,7 +375,8 @@ spec:
                     - name
                     type: object
                   projectSelector:
-                    description: Selector for a Lake in dataplex to populate project.
+                    description: Selector for a Project in cloudplatform to populate
+                      project.
                     properties:
                       matchControllerRef:
                         description: |-
