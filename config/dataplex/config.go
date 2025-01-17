@@ -17,4 +17,8 @@ func Configure(p *config.Provider) {
 		}
 		r.MarkAsRequired("location")
 	})
+
+	p.AddResourceConfigurator("google_dataplex_lake_iam_policy", func(r *config.Resource) {
+		r.MarkAsRequired("location")
+	})
 }
