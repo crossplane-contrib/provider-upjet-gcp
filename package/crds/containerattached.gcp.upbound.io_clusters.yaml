@@ -1051,7 +1051,8 @@ spec:
                         type: string
                     type: object
                   deletionPolicy:
-                    description: Policy to determine what flags to send on delete.
+                    description: 'Policy to determine what flags to send on delete.
+                      Possible values: DELETE, DELETE_IGNORE_ERRORS'
                     type: string
                   description:
                     description: |-
@@ -1159,6 +1160,17 @@ spec:
                             type: string
                         type: object
                     type: object
+                  securityPostureConfig:
+                    description: |-
+                      Enable/Disable Security Posture API features for the cluster.
+                      Structure is documented below.
+                    properties:
+                      vulnerabilityMode:
+                        description: |-
+                          Sets the mode of the Kubernetes security posture API's workload vulnerability scanning.
+                          Possible values are: VULNERABILITY_DISABLED, VULNERABILITY_ENTERPRISE.
+                        type: string
+                    type: object
                 required:
                 - location
                 type: object
@@ -1225,7 +1237,8 @@ spec:
                         type: string
                     type: object
                   deletionPolicy:
-                    description: Policy to determine what flags to send on delete.
+                    description: 'Policy to determine what flags to send on delete.
+                      Possible values: DELETE, DELETE_IGNORE_ERRORS'
                     type: string
                   description:
                     description: |-
@@ -1329,6 +1342,17 @@ spec:
                               the proxy config.
                             type: string
                         type: object
+                    type: object
+                  securityPostureConfig:
+                    description: |-
+                      Enable/Disable Security Posture API features for the cluster.
+                      Structure is documented below.
+                    properties:
+                      vulnerabilityMode:
+                        description: |-
+                          Sets the mode of the Kubernetes security posture API's workload vulnerability scanning.
+                          Possible values are: VULNERABILITY_DISABLED, VULNERABILITY_ENTERPRISE.
+                        type: string
                     type: object
                 type: object
               managementPolicies:
@@ -1579,7 +1603,8 @@ spec:
                     description: Output only. The time at which this cluster was created.
                     type: string
                   deletionPolicy:
-                    description: Policy to determine what flags to send on delete.
+                    description: 'Policy to determine what flags to send on delete.
+                      Possible values: DELETE, DELETE_IGNORE_ERRORS'
                     type: string
                   description:
                     description: |-
@@ -1720,6 +1745,17 @@ spec:
                     description: If set, there are currently changes in flight to
                       the cluster.
                     type: boolean
+                  securityPostureConfig:
+                    description: |-
+                      Enable/Disable Security Posture API features for the cluster.
+                      Structure is documented below.
+                    properties:
+                      vulnerabilityMode:
+                        description: |-
+                          Sets the mode of the Kubernetes security posture API's workload vulnerability scanning.
+                          Possible values are: VULNERABILITY_DISABLED, VULNERABILITY_ENTERPRISE.
+                        type: string
+                    type: object
                   state:
                     description: |-
                       The current state of the cluster. Possible values:
