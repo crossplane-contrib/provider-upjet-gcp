@@ -67,6 +67,7 @@ metadata:
   name: instance-group-named-port
 spec:
   forProvider:
+    deletionProtection: false
     initialNodeCount: 1
     ipAllocationPolicy:
     - clusterIpv4CidrBlock: /19

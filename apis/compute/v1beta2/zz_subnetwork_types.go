@@ -19,13 +19,18 @@ type SecondaryIPRangeInitParameters struct {
 	// range. Provide this property when you create the subnetwork.
 	// Ranges must be unique and non-overlapping with all primary and
 	// secondary IP ranges within a network. Only IPv4 is supported.
-	IPCidrRange *string `json:"ipCidrRange,omitempty" tf:"ip_cidr_range"`
+	// Field is optional when reserved_internal_range is defined, otherwise required.
+	IPCidrRange *string `json:"ipCidrRange,omitempty" tf:"ip_cidr_range,omitempty"`
 
 	// The name associated with this subnetwork secondary range, used
 	// when adding an alias IP range to a VM instance. The name must
 	// be 1-63 characters long, and comply with RFC1035. The name
 	// must be unique within the subnetwork.
-	RangeName *string `json:"rangeName,omitempty" tf:"range_name"`
+	RangeName *string `json:"rangeName,omitempty" tf:"range_name,omitempty"`
+
+	// The ID of the reserved internal range. Must be prefixed with networkconnectivity.googleapis.com
+	// E.g. networkconnectivity.googleapis.com/projects/{project}/locations/global/internalRanges/{rangeId}
+	ReservedInternalRange *string `json:"reservedInternalRange,omitempty" tf:"reserved_internal_range,omitempty"`
 }
 
 type SecondaryIPRangeObservation struct {
@@ -34,6 +39,7 @@ type SecondaryIPRangeObservation struct {
 	// range. Provide this property when you create the subnetwork.
 	// Ranges must be unique and non-overlapping with all primary and
 	// secondary IP ranges within a network. Only IPv4 is supported.
+	// Field is optional when reserved_internal_range is defined, otherwise required.
 	IPCidrRange *string `json:"ipCidrRange,omitempty" tf:"ip_cidr_range,omitempty"`
 
 	// The name associated with this subnetwork secondary range, used
@@ -41,6 +47,10 @@ type SecondaryIPRangeObservation struct {
 	// be 1-63 characters long, and comply with RFC1035. The name
 	// must be unique within the subnetwork.
 	RangeName *string `json:"rangeName,omitempty" tf:"range_name,omitempty"`
+
+	// The ID of the reserved internal range. Must be prefixed with networkconnectivity.googleapis.com
+	// E.g. networkconnectivity.googleapis.com/projects/{project}/locations/global/internalRanges/{rangeId}
+	ReservedInternalRange *string `json:"reservedInternalRange,omitempty" tf:"reserved_internal_range,omitempty"`
 }
 
 type SecondaryIPRangeParameters struct {
@@ -49,15 +59,21 @@ type SecondaryIPRangeParameters struct {
 	// range. Provide this property when you create the subnetwork.
 	// Ranges must be unique and non-overlapping with all primary and
 	// secondary IP ranges within a network. Only IPv4 is supported.
+	// Field is optional when reserved_internal_range is defined, otherwise required.
 	// +kubebuilder:validation:Optional
-	IPCidrRange *string `json:"ipCidrRange,omitempty" tf:"ip_cidr_range"`
+	IPCidrRange *string `json:"ipCidrRange,omitempty" tf:"ip_cidr_range,omitempty"`
 
 	// The name associated with this subnetwork secondary range, used
 	// when adding an alias IP range to a VM instance. The name must
 	// be 1-63 characters long, and comply with RFC1035. The name
 	// must be unique within the subnetwork.
 	// +kubebuilder:validation:Optional
-	RangeName *string `json:"rangeName,omitempty" tf:"range_name"`
+	RangeName *string `json:"rangeName" tf:"range_name,omitempty"`
+
+	// The ID of the reserved internal range. Must be prefixed with networkconnectivity.googleapis.com
+	// E.g. networkconnectivity.googleapis.com/projects/{project}/locations/global/internalRanges/{rangeId}
+	// +kubebuilder:validation:Optional
+	ReservedInternalRange *string `json:"reservedInternalRange,omitempty" tf:"reserved_internal_range,omitempty"`
 }
 
 type SubnetworkInitParameters_2 struct {
@@ -74,6 +90,7 @@ type SubnetworkInitParameters_2 struct {
 	// Provide this property when you create the subnetwork. For example,
 	// 10.0.0.0/8 or 192.168.0.0/16. Ranges must be unique and
 	// non-overlapping within a network. Only IPv4 is supported.
+	// Field is optional when reserved_internal_range is defined, otherwise required.
 	IPCidrRange *string `json:"ipCidrRange,omitempty" tf:"ip_cidr_range,omitempty"`
 
 	// The access type of IPv6 address this subnet holds. It's immutable and can only be specified during creation
@@ -113,14 +130,18 @@ type SubnetworkInitParameters_2 struct {
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// The purpose of the resource. This field can be either PRIVATE_RFC_1918, REGIONAL_MANAGED_PROXY, GLOBAL_MANAGED_PROXY, PRIVATE_SERVICE_CONNECT or PRIVATE_NAT(Beta).
+	// The purpose of the resource. This field can be either PRIVATE, REGIONAL_MANAGED_PROXY, GLOBAL_MANAGED_PROXY, PRIVATE_SERVICE_CONNECT or PRIVATE_NAT(Beta).
 	// A subnet with purpose set to REGIONAL_MANAGED_PROXY is a user-created subnetwork that is reserved for regional Envoy-based load balancers.
 	// A subnetwork in a given region with purpose set to GLOBAL_MANAGED_PROXY is a proxy-only subnet and is shared between all the cross-regional Envoy-based load balancers.
 	// A subnetwork with purpose set to PRIVATE_SERVICE_CONNECT reserves the subnet for hosting a Private Service Connect published service.
 	// A subnetwork with purpose set to PRIVATE_NAT is used as source range for Private NAT gateways.
 	// Note that REGIONAL_MANAGED_PROXY is the preferred setting for all regional Envoy load balancers.
-	// If unspecified, the purpose defaults to PRIVATE_RFC_1918.
+	// If unspecified, the purpose defaults to PRIVATE.
 	Purpose *string `json:"purpose,omitempty" tf:"purpose,omitempty"`
+
+	// The ID of the reserved internal range. Must be prefixed with networkconnectivity.googleapis.com
+	// E.g. networkconnectivity.googleapis.com/projects/{project}/locations/global/internalRanges/{rangeId}
+	ReservedInternalRange *string `json:"reservedInternalRange,omitempty" tf:"reserved_internal_range,omitempty"`
 
 	// The role of subnetwork.
 	// Currently, this field is only used when purpose is REGIONAL_MANAGED_PROXY.
@@ -290,6 +311,7 @@ type SubnetworkObservation_2 struct {
 	// Provide this property when you create the subnetwork. For example,
 	// 10.0.0.0/8 or 192.168.0.0/16. Ranges must be unique and
 	// non-overlapping within a network. Only IPv4 is supported.
+	// Field is optional when reserved_internal_range is defined, otherwise required.
 	IPCidrRange *string `json:"ipCidrRange,omitempty" tf:"ip_cidr_range,omitempty"`
 
 	// The access type of IPv6 address this subnet holds. It's immutable and can only be specified during creation
@@ -326,17 +348,21 @@ type SubnetworkObservation_2 struct {
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// The purpose of the resource. This field can be either PRIVATE_RFC_1918, REGIONAL_MANAGED_PROXY, GLOBAL_MANAGED_PROXY, PRIVATE_SERVICE_CONNECT or PRIVATE_NAT(Beta).
+	// The purpose of the resource. This field can be either PRIVATE, REGIONAL_MANAGED_PROXY, GLOBAL_MANAGED_PROXY, PRIVATE_SERVICE_CONNECT or PRIVATE_NAT(Beta).
 	// A subnet with purpose set to REGIONAL_MANAGED_PROXY is a user-created subnetwork that is reserved for regional Envoy-based load balancers.
 	// A subnetwork in a given region with purpose set to GLOBAL_MANAGED_PROXY is a proxy-only subnet and is shared between all the cross-regional Envoy-based load balancers.
 	// A subnetwork with purpose set to PRIVATE_SERVICE_CONNECT reserves the subnet for hosting a Private Service Connect published service.
 	// A subnetwork with purpose set to PRIVATE_NAT is used as source range for Private NAT gateways.
 	// Note that REGIONAL_MANAGED_PROXY is the preferred setting for all regional Envoy load balancers.
-	// If unspecified, the purpose defaults to PRIVATE_RFC_1918.
+	// If unspecified, the purpose defaults to PRIVATE.
 	Purpose *string `json:"purpose,omitempty" tf:"purpose,omitempty"`
 
 	// The GCP region for this subnetwork.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// The ID of the reserved internal range. Must be prefixed with networkconnectivity.googleapis.com
+	// E.g. networkconnectivity.googleapis.com/projects/{project}/locations/global/internalRanges/{rangeId}
+	ReservedInternalRange *string `json:"reservedInternalRange,omitempty" tf:"reserved_internal_range,omitempty"`
 
 	// The role of subnetwork.
 	// Currently, this field is only used when purpose is REGIONAL_MANAGED_PROXY.
@@ -371,6 +397,9 @@ type SubnetworkObservation_2 struct {
 	// If not specified IPV4_ONLY will be used.
 	// Possible values are: IPV4_ONLY, IPV4_IPV6.
 	StackType *string `json:"stackType,omitempty" tf:"stack_type,omitempty"`
+
+	// The unique identifier number for the resource. This identifier is defined by the server.
+	SubnetworkID *float64 `json:"subnetworkId,omitempty" tf:"subnetwork_id,omitempty"`
 }
 
 type SubnetworkParameters_2 struct {
@@ -389,6 +418,7 @@ type SubnetworkParameters_2 struct {
 	// Provide this property when you create the subnetwork. For example,
 	// 10.0.0.0/8 or 192.168.0.0/16. Ranges must be unique and
 	// non-overlapping within a network. Only IPv4 is supported.
+	// Field is optional when reserved_internal_range is defined, otherwise required.
 	// +kubebuilder:validation:Optional
 	IPCidrRange *string `json:"ipCidrRange,omitempty" tf:"ip_cidr_range,omitempty"`
 
@@ -435,19 +465,24 @@ type SubnetworkParameters_2 struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// The purpose of the resource. This field can be either PRIVATE_RFC_1918, REGIONAL_MANAGED_PROXY, GLOBAL_MANAGED_PROXY, PRIVATE_SERVICE_CONNECT or PRIVATE_NAT(Beta).
+	// The purpose of the resource. This field can be either PRIVATE, REGIONAL_MANAGED_PROXY, GLOBAL_MANAGED_PROXY, PRIVATE_SERVICE_CONNECT or PRIVATE_NAT(Beta).
 	// A subnet with purpose set to REGIONAL_MANAGED_PROXY is a user-created subnetwork that is reserved for regional Envoy-based load balancers.
 	// A subnetwork in a given region with purpose set to GLOBAL_MANAGED_PROXY is a proxy-only subnet and is shared between all the cross-regional Envoy-based load balancers.
 	// A subnetwork with purpose set to PRIVATE_SERVICE_CONNECT reserves the subnet for hosting a Private Service Connect published service.
 	// A subnetwork with purpose set to PRIVATE_NAT is used as source range for Private NAT gateways.
 	// Note that REGIONAL_MANAGED_PROXY is the preferred setting for all regional Envoy load balancers.
-	// If unspecified, the purpose defaults to PRIVATE_RFC_1918.
+	// If unspecified, the purpose defaults to PRIVATE.
 	// +kubebuilder:validation:Optional
 	Purpose *string `json:"purpose,omitempty" tf:"purpose,omitempty"`
 
 	// The GCP region for this subnetwork.
 	// +kubebuilder:validation:Required
 	Region *string `json:"region" tf:"region,omitempty"`
+
+	// The ID of the reserved internal range. Must be prefixed with networkconnectivity.googleapis.com
+	// E.g. networkconnectivity.googleapis.com/projects/{project}/locations/global/internalRanges/{rangeId}
+	// +kubebuilder:validation:Optional
+	ReservedInternalRange *string `json:"reservedInternalRange,omitempty" tf:"reserved_internal_range,omitempty"`
 
 	// The role of subnetwork.
 	// Currently, this field is only used when purpose is REGIONAL_MANAGED_PROXY.
@@ -520,9 +555,8 @@ type SubnetworkStatus struct {
 type Subnetwork struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.ipCidrRange) || (has(self.initProvider) && has(self.initProvider.ipCidrRange))",message="spec.forProvider.ipCidrRange is a required parameter"
-	Spec   SubnetworkSpec   `json:"spec"`
-	Status SubnetworkStatus `json:"status,omitempty"`
+	Spec              SubnetworkSpec   `json:"spec"`
+	Status            SubnetworkStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
