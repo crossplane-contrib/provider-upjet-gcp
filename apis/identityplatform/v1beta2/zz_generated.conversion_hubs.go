@@ -10,7 +10,4 @@ package v1beta2
 func (tr *InboundSAMLConfig) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *ProjectDefaultConfig) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *TenantInboundSAMLConfig) Hub() {}
