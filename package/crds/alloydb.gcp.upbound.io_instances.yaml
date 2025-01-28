@@ -1467,6 +1467,9 @@ spec:
                               type: string
                           type: object
                         type: array
+                      enableOutboundPublicIp:
+                        description: Enabling outbound public ip for the instance.
+                        type: boolean
                       enablePublicIp:
                         description: |-
                           Enabling public ip for the instance. If a user wishes to disable this,
@@ -1717,6 +1720,9 @@ spec:
                               type: string
                           type: object
                         type: array
+                      enableOutboundPublicIp:
+                        description: Enabling outbound public ip for the instance.
+                        type: boolean
                       enablePublicIp:
                         description: |-
                           Enabling public ip for the instance. If a user wishes to disable this,
@@ -2080,6 +2086,9 @@ spec:
                               type: string
                           type: object
                         type: array
+                      enableOutboundPublicIp:
+                        description: Enabling outbound public ip for the instance.
+                        type: boolean
                       enablePublicIp:
                         description: |-
                           Enabling public ip for the instance. If a user wishes to disable this,
@@ -2087,6 +2096,14 @@ spec:
                           the same instance.
                         type: boolean
                     type: object
+                  outboundPublicIpAddresses:
+                    description: |-
+                      The outbound public IP addresses for the instance. This is available ONLY when
+                      networkConfig.enableOutboundPublicIp is set to true. These IP addresses are used
+                      for outbound connections.
+                    items:
+                      type: string
+                    type: array
                   pscInstanceConfig:
                     description: |-
                       Configuration for Private Service Connect (PSC) for the instance.
