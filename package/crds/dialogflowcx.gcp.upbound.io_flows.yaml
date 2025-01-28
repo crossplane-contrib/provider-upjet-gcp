@@ -2159,6 +2159,50 @@ spec:
                             description: Max length of DTMF digits.
                             type: number
                         type: object
+                      loggingSettings:
+                        description: 'Settings for logging. Settings for Dialogflow
+                          History, Contact Center messages, StackDriver logs, and
+                          speech logging. Exposed at the following levels:'
+                        properties:
+                          enableConsentBasedRedaction:
+                            description: Enables consent-based end-user input redaction,
+                              if true, a pre-defined session parameter $session.params.conversation-redaction
+                              will be used to determine if the utterance should be
+                              redacted.
+                            type: boolean
+                          enableInteractionLogging:
+                            description: Enables DF Interaction logging.
+                            type: boolean
+                          enableStackdriverLogging:
+                            description: Enables Google Cloud Logging.
+                            type: boolean
+                        type: object
+                      speechSettings:
+                        description: 'Settings for speech to text detection. Exposed
+                          at the following levels:'
+                        properties:
+                          endpointerSensitivity:
+                            description: Sensitivity of the speech model that detects
+                              the end of speech. Scale from 0 to 100.
+                            type: number
+                          models:
+                            additionalProperties:
+                              type: string
+                            description: |-
+                              Mapping from language to Speech-to-Text model. The mapped Speech-to-Text model will be selected for requests from its corresponding language. For more information, see Speech models.
+                              An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+                            type: object
+                            x-kubernetes-map-type: granular
+                          noSpeechTimeout:
+                            description: |-
+                              Timeout before detecting no speech.
+                              A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
+                            type: string
+                          useTimeoutBasedEndpointing:
+                            description: Use timeout based endpointing, interpreting
+                              endpointer sensitivity as seconds of timeout value.
+                            type: boolean
+                        type: object
                     type: object
                   description:
                     description: The description of the flow. The maximum length is
@@ -2746,6 +2790,50 @@ spec:
                           maxDigits:
                             description: Max length of DTMF digits.
                             type: number
+                        type: object
+                      loggingSettings:
+                        description: 'Settings for logging. Settings for Dialogflow
+                          History, Contact Center messages, StackDriver logs, and
+                          speech logging. Exposed at the following levels:'
+                        properties:
+                          enableConsentBasedRedaction:
+                            description: Enables consent-based end-user input redaction,
+                              if true, a pre-defined session parameter $session.params.conversation-redaction
+                              will be used to determine if the utterance should be
+                              redacted.
+                            type: boolean
+                          enableInteractionLogging:
+                            description: Enables DF Interaction logging.
+                            type: boolean
+                          enableStackdriverLogging:
+                            description: Enables Google Cloud Logging.
+                            type: boolean
+                        type: object
+                      speechSettings:
+                        description: 'Settings for speech to text detection. Exposed
+                          at the following levels:'
+                        properties:
+                          endpointerSensitivity:
+                            description: Sensitivity of the speech model that detects
+                              the end of speech. Scale from 0 to 100.
+                            type: number
+                          models:
+                            additionalProperties:
+                              type: string
+                            description: |-
+                              Mapping from language to Speech-to-Text model. The mapped Speech-to-Text model will be selected for requests from its corresponding language. For more information, see Speech models.
+                              An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+                            type: object
+                            x-kubernetes-map-type: granular
+                          noSpeechTimeout:
+                            description: |-
+                              Timeout before detecting no speech.
+                              A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
+                            type: string
+                          useTimeoutBasedEndpointing:
+                            description: Use timeout based endpointing, interpreting
+                              endpointer sensitivity as seconds of timeout value.
+                            type: boolean
                         type: object
                     type: object
                   description:
@@ -3498,6 +3586,50 @@ spec:
                           maxDigits:
                             description: Max length of DTMF digits.
                             type: number
+                        type: object
+                      loggingSettings:
+                        description: 'Settings for logging. Settings for Dialogflow
+                          History, Contact Center messages, StackDriver logs, and
+                          speech logging. Exposed at the following levels:'
+                        properties:
+                          enableConsentBasedRedaction:
+                            description: Enables consent-based end-user input redaction,
+                              if true, a pre-defined session parameter $session.params.conversation-redaction
+                              will be used to determine if the utterance should be
+                              redacted.
+                            type: boolean
+                          enableInteractionLogging:
+                            description: Enables DF Interaction logging.
+                            type: boolean
+                          enableStackdriverLogging:
+                            description: Enables Google Cloud Logging.
+                            type: boolean
+                        type: object
+                      speechSettings:
+                        description: 'Settings for speech to text detection. Exposed
+                          at the following levels:'
+                        properties:
+                          endpointerSensitivity:
+                            description: Sensitivity of the speech model that detects
+                              the end of speech. Scale from 0 to 100.
+                            type: number
+                          models:
+                            additionalProperties:
+                              type: string
+                            description: |-
+                              Mapping from language to Speech-to-Text model. The mapped Speech-to-Text model will be selected for requests from its corresponding language. For more information, see Speech models.
+                              An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+                            type: object
+                            x-kubernetes-map-type: granular
+                          noSpeechTimeout:
+                            description: |-
+                              Timeout before detecting no speech.
+                              A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
+                            type: string
+                          useTimeoutBasedEndpointing:
+                            description: Use timeout based endpointing, interpreting
+                              endpointer sensitivity as seconds of timeout value.
+                            type: boolean
                         type: object
                     type: object
                   description:
