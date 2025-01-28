@@ -32,6 +32,28 @@ type AwsParameters struct {
 	AccountID *string `json:"accountId" tf:"account_id,omitempty"`
 }
 
+type IntermediateCasInitParameters struct {
+
+	// PEM certificate of the PKI used for validation. Must only contain one
+	// ca certificate(either root or intermediate cert).
+	PemCertificate *string `json:"pemCertificate,omitempty" tf:"pem_certificate,omitempty"`
+}
+
+type IntermediateCasObservation struct {
+
+	// PEM certificate of the PKI used for validation. Must only contain one
+	// ca certificate(either root or intermediate cert).
+	PemCertificate *string `json:"pemCertificate,omitempty" tf:"pem_certificate,omitempty"`
+}
+
+type IntermediateCasParameters struct {
+
+	// PEM certificate of the PKI used for validation. Must only contain one
+	// ca certificate(either root or intermediate cert).
+	// +kubebuilder:validation:Optional
+	PemCertificate *string `json:"pemCertificate,omitempty" tf:"pem_certificate,omitempty"`
+}
+
 type OidcInitParameters struct {
 
 	// Acceptable values for the aud field (audience) in the OIDC token. Token exchange
@@ -123,6 +145,75 @@ type SAMLParameters struct {
 	IdPMetadataXML *string `json:"idpMetadataXml" tf:"idp_metadata_xml,omitempty"`
 }
 
+type TrustAnchorsInitParameters struct {
+
+	// PEM certificate of the PKI used for validation. Must only contain one
+	// ca certificate(either root or intermediate cert).
+	PemCertificate *string `json:"pemCertificate,omitempty" tf:"pem_certificate,omitempty"`
+}
+
+type TrustAnchorsObservation struct {
+
+	// PEM certificate of the PKI used for validation. Must only contain one
+	// ca certificate(either root or intermediate cert).
+	PemCertificate *string `json:"pemCertificate,omitempty" tf:"pem_certificate,omitempty"`
+}
+
+type TrustAnchorsParameters struct {
+
+	// PEM certificate of the PKI used for validation. Must only contain one
+	// ca certificate(either root or intermediate cert).
+	// +kubebuilder:validation:Optional
+	PemCertificate *string `json:"pemCertificate,omitempty" tf:"pem_certificate,omitempty"`
+}
+
+type TrustStoreInitParameters struct {
+
+	// Set of intermediate CA certificates used for building the trust chain to
+	// trust anchor.
+	// IMPORTANT: Intermediate CAs are only supported when configuring x509 federation.
+	// Structure is documented below.
+	IntermediateCas []IntermediateCasInitParameters `json:"intermediateCas,omitempty" tf:"intermediate_cas,omitempty"`
+
+	// List of Trust Anchors to be used while performing validation
+	// against a given TrustStore. The incoming end entity's certificate
+	// must be chained up to one of the trust anchors here.
+	// Structure is documented below.
+	TrustAnchors []TrustAnchorsInitParameters `json:"trustAnchors,omitempty" tf:"trust_anchors,omitempty"`
+}
+
+type TrustStoreObservation struct {
+
+	// Set of intermediate CA certificates used for building the trust chain to
+	// trust anchor.
+	// IMPORTANT: Intermediate CAs are only supported when configuring x509 federation.
+	// Structure is documented below.
+	IntermediateCas []IntermediateCasObservation `json:"intermediateCas,omitempty" tf:"intermediate_cas,omitempty"`
+
+	// List of Trust Anchors to be used while performing validation
+	// against a given TrustStore. The incoming end entity's certificate
+	// must be chained up to one of the trust anchors here.
+	// Structure is documented below.
+	TrustAnchors []TrustAnchorsObservation `json:"trustAnchors,omitempty" tf:"trust_anchors,omitempty"`
+}
+
+type TrustStoreParameters struct {
+
+	// Set of intermediate CA certificates used for building the trust chain to
+	// trust anchor.
+	// IMPORTANT: Intermediate CAs are only supported when configuring x509 federation.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	IntermediateCas []IntermediateCasParameters `json:"intermediateCas,omitempty" tf:"intermediate_cas,omitempty"`
+
+	// List of Trust Anchors to be used while performing validation
+	// against a given TrustStore. The incoming end entity's certificate
+	// must be chained up to one of the trust anchors here.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	TrustAnchors []TrustAnchorsParameters `json:"trustAnchors" tf:"trust_anchors,omitempty"`
+}
+
 type WorkloadIdentityPoolProviderInitParameters struct {
 
 	// A Common Expression Language expression, in
@@ -164,6 +255,11 @@ type WorkloadIdentityPoolProviderInitParameters struct {
 	// An SAML 2.0 identity provider. Not compatible with the property oidc or aws.
 	// Structure is documented below.
 	SAML *SAMLInitParameters `json:"saml,omitempty" tf:"saml,omitempty"`
+
+	// An X.509-type identity provider represents a CA. It is trusted to assert a
+	// client identity if the client has a certificate that chains up to this CA.
+	// Structure is documented below.
+	X509 *X509InitParameters `json:"x509,omitempty" tf:"x509,omitempty"`
 }
 
 type WorkloadIdentityPoolProviderObservation struct {
@@ -222,6 +318,11 @@ type WorkloadIdentityPoolProviderObservation struct {
 	// value should be 4-32 characters, and may contain the characters [a-z0-9-]. The prefix
 	// gcp- is reserved for use by Google, and may not be specified.
 	WorkloadIdentityPoolID *string `json:"workloadIdentityPoolId,omitempty" tf:"workload_identity_pool_id,omitempty"`
+
+	// An X.509-type identity provider represents a CA. It is trusted to assert a
+	// client identity if the client has a certificate that chains up to this CA.
+	// Structure is documented below.
+	X509 *X509Observation `json:"x509,omitempty" tf:"x509,omitempty"`
 }
 
 type WorkloadIdentityPoolProviderParameters struct {
@@ -289,6 +390,46 @@ type WorkloadIdentityPoolProviderParameters struct {
 	// Selector for a WorkloadIdentityPool in iam to populate workloadIdentityPoolId.
 	// +kubebuilder:validation:Optional
 	WorkloadIdentityPoolIDSelector *v1.Selector `json:"workloadIdentityPoolIdSelector,omitempty" tf:"-"`
+
+	// An X.509-type identity provider represents a CA. It is trusted to assert a
+	// client identity if the client has a certificate that chains up to this CA.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	X509 *X509Parameters `json:"x509,omitempty" tf:"x509,omitempty"`
+}
+
+type X509InitParameters struct {
+
+	// A Trust store, use this trust store as a wrapper to config the trust
+	// anchor and optional intermediate cas to help build the trust chain for
+	// the incoming end entity certificate. Follow the x509 guidelines to
+	// define those PEM encoded certs. Only 1 trust store is currently
+	// supported.
+	// Structure is documented below.
+	TrustStore *TrustStoreInitParameters `json:"trustStore,omitempty" tf:"trust_store,omitempty"`
+}
+
+type X509Observation struct {
+
+	// A Trust store, use this trust store as a wrapper to config the trust
+	// anchor and optional intermediate cas to help build the trust chain for
+	// the incoming end entity certificate. Follow the x509 guidelines to
+	// define those PEM encoded certs. Only 1 trust store is currently
+	// supported.
+	// Structure is documented below.
+	TrustStore *TrustStoreObservation `json:"trustStore,omitempty" tf:"trust_store,omitempty"`
+}
+
+type X509Parameters struct {
+
+	// A Trust store, use this trust store as a wrapper to config the trust
+	// anchor and optional intermediate cas to help build the trust chain for
+	// the incoming end entity certificate. Follow the x509 guidelines to
+	// define those PEM encoded certs. Only 1 trust store is currently
+	// supported.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	TrustStore *TrustStoreParameters `json:"trustStore" tf:"trust_store,omitempty"`
 }
 
 // WorkloadIdentityPoolProviderSpec defines the desired state of WorkloadIdentityPoolProvider
