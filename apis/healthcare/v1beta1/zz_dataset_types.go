@@ -15,7 +15,7 @@ import (
 
 type DatasetInitParameters struct {
 
-	// A nested object resource
+	// A nested object resource.
 	// Structure is documented below.
 	EncryptionSpec *EncryptionSpecInitParameters `json:"encryptionSpec,omitempty" tf:"encryption_spec,omitempty"`
 
@@ -37,7 +37,7 @@ type DatasetInitParameters struct {
 
 type DatasetObservation struct {
 
-	// A nested object resource
+	// A nested object resource.
 	// Structure is documented below.
 	EncryptionSpec *EncryptionSpecObservation `json:"encryptionSpec,omitempty" tf:"encryption_spec,omitempty"`
 
@@ -65,7 +65,7 @@ type DatasetObservation struct {
 
 type DatasetParameters struct {
 
-	// A nested object resource
+	// A nested object resource.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	EncryptionSpec *EncryptionSpecParameters `json:"encryptionSpec,omitempty" tf:"encryption_spec,omitempty"`
