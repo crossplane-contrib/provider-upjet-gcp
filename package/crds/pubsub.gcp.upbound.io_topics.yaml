@@ -911,6 +911,70 @@ spec:
                             description: The Kinesis stream ARN to ingest data from.
                             type: string
                         type: object
+                      cloudStorage:
+                        description: |-
+                          Settings for ingestion from Cloud Storage.
+                          Structure is documented below.
+                        properties:
+                          avroFormat:
+                            description: |-
+                              Configuration for reading Cloud Storage data in Avro binary format. The
+                              bytes of each object will be set to the data field of a Pub/Sub message.
+                            type: object
+                          bucket:
+                            description: |-
+                              Cloud Storage bucket. The bucket name must be without any
+                              prefix like "gs://". See the bucket naming requirements:
+                              https://cloud.google.com/storage/docs/buckets#naming.
+                            type: string
+                          matchGlob:
+                            description: |-
+                              Glob pattern used to match objects that will be ingested. If unset, all
+                              objects will be ingested. See the supported patterns:
+                              https://cloud.google.com/storage/docs/json_api/v1/objects/list#list-objects-and-prefixes-using-glob
+                            type: string
+                          minimumObjectCreateTime:
+                            description: |-
+                              The timestamp set in RFC3339 text format. If set, only objects with a
+                              larger or equal timestamp will be ingested. Unset by default, meaning
+                              all objects will be ingested.
+                            type: string
+                          pubsubAvroFormat:
+                            description: |-
+                              Configuration for reading Cloud Storage data written via Cloud Storage
+                              subscriptions(See https://cloud.google.com/pubsub/docs/cloudstorage). The
+                              data and attributes fields of the originally exported Pub/Sub message
+                              will be restored when publishing.
+                            type: object
+                          textFormat:
+                            description: |-
+                              Configuration for reading Cloud Storage data in text format. Each line of
+                              text as specified by the delimiter will be set to the data field of a
+                              Pub/Sub message.
+                              Structure is documented below.
+                            properties:
+                              delimiter:
+                                description: |-
+                                  The delimiter to use when using the 'text' format. Each line of text as
+                                  specified by the delimiter will be set to the 'data' field of a Pub/Sub
+                                  message. When unset, '\n' is used.
+                                type: string
+                            type: object
+                        type: object
+                      platformLogsSettings:
+                        description: |-
+                          Settings for Platform Logs regarding ingestion to Pub/Sub. If unset,
+                          no Platform Logs will be generated.'
+                          Structure is documented below.
+                        properties:
+                          severity:
+                            description: |-
+                              The minimum severity level of Platform Logs that will be written. If unspecified,
+                              no Platform Logs will be written.
+                              Default value is SEVERITY_UNSPECIFIED.
+                              Possible values are: SEVERITY_UNSPECIFIED, DISABLED, DEBUG, INFO, WARNING, ERROR.
+                            type: string
+                        type: object
                     type: object
                   kmsKeyName:
                     description: |-
@@ -1100,6 +1164,70 @@ spec:
                             type: string
                           streamArn:
                             description: The Kinesis stream ARN to ingest data from.
+                            type: string
+                        type: object
+                      cloudStorage:
+                        description: |-
+                          Settings for ingestion from Cloud Storage.
+                          Structure is documented below.
+                        properties:
+                          avroFormat:
+                            description: |-
+                              Configuration for reading Cloud Storage data in Avro binary format. The
+                              bytes of each object will be set to the data field of a Pub/Sub message.
+                            type: object
+                          bucket:
+                            description: |-
+                              Cloud Storage bucket. The bucket name must be without any
+                              prefix like "gs://". See the bucket naming requirements:
+                              https://cloud.google.com/storage/docs/buckets#naming.
+                            type: string
+                          matchGlob:
+                            description: |-
+                              Glob pattern used to match objects that will be ingested. If unset, all
+                              objects will be ingested. See the supported patterns:
+                              https://cloud.google.com/storage/docs/json_api/v1/objects/list#list-objects-and-prefixes-using-glob
+                            type: string
+                          minimumObjectCreateTime:
+                            description: |-
+                              The timestamp set in RFC3339 text format. If set, only objects with a
+                              larger or equal timestamp will be ingested. Unset by default, meaning
+                              all objects will be ingested.
+                            type: string
+                          pubsubAvroFormat:
+                            description: |-
+                              Configuration for reading Cloud Storage data written via Cloud Storage
+                              subscriptions(See https://cloud.google.com/pubsub/docs/cloudstorage). The
+                              data and attributes fields of the originally exported Pub/Sub message
+                              will be restored when publishing.
+                            type: object
+                          textFormat:
+                            description: |-
+                              Configuration for reading Cloud Storage data in text format. Each line of
+                              text as specified by the delimiter will be set to the data field of a
+                              Pub/Sub message.
+                              Structure is documented below.
+                            properties:
+                              delimiter:
+                                description: |-
+                                  The delimiter to use when using the 'text' format. Each line of text as
+                                  specified by the delimiter will be set to the 'data' field of a Pub/Sub
+                                  message. When unset, '\n' is used.
+                                type: string
+                            type: object
+                        type: object
+                      platformLogsSettings:
+                        description: |-
+                          Settings for Platform Logs regarding ingestion to Pub/Sub. If unset,
+                          no Platform Logs will be generated.'
+                          Structure is documented below.
+                        properties:
+                          severity:
+                            description: |-
+                              The minimum severity level of Platform Logs that will be written. If unspecified,
+                              no Platform Logs will be written.
+                              Default value is SEVERITY_UNSPECIFIED.
+                              Possible values are: SEVERITY_UNSPECIFIED, DISABLED, DEBUG, INFO, WARNING, ERROR.
                             type: string
                         type: object
                     type: object
@@ -1459,6 +1587,70 @@ spec:
                             type: string
                           streamArn:
                             description: The Kinesis stream ARN to ingest data from.
+                            type: string
+                        type: object
+                      cloudStorage:
+                        description: |-
+                          Settings for ingestion from Cloud Storage.
+                          Structure is documented below.
+                        properties:
+                          avroFormat:
+                            description: |-
+                              Configuration for reading Cloud Storage data in Avro binary format. The
+                              bytes of each object will be set to the data field of a Pub/Sub message.
+                            type: object
+                          bucket:
+                            description: |-
+                              Cloud Storage bucket. The bucket name must be without any
+                              prefix like "gs://". See the bucket naming requirements:
+                              https://cloud.google.com/storage/docs/buckets#naming.
+                            type: string
+                          matchGlob:
+                            description: |-
+                              Glob pattern used to match objects that will be ingested. If unset, all
+                              objects will be ingested. See the supported patterns:
+                              https://cloud.google.com/storage/docs/json_api/v1/objects/list#list-objects-and-prefixes-using-glob
+                            type: string
+                          minimumObjectCreateTime:
+                            description: |-
+                              The timestamp set in RFC3339 text format. If set, only objects with a
+                              larger or equal timestamp will be ingested. Unset by default, meaning
+                              all objects will be ingested.
+                            type: string
+                          pubsubAvroFormat:
+                            description: |-
+                              Configuration for reading Cloud Storage data written via Cloud Storage
+                              subscriptions(See https://cloud.google.com/pubsub/docs/cloudstorage). The
+                              data and attributes fields of the originally exported Pub/Sub message
+                              will be restored when publishing.
+                            type: object
+                          textFormat:
+                            description: |-
+                              Configuration for reading Cloud Storage data in text format. Each line of
+                              text as specified by the delimiter will be set to the data field of a
+                              Pub/Sub message.
+                              Structure is documented below.
+                            properties:
+                              delimiter:
+                                description: |-
+                                  The delimiter to use when using the 'text' format. Each line of text as
+                                  specified by the delimiter will be set to the 'data' field of a Pub/Sub
+                                  message. When unset, '\n' is used.
+                                type: string
+                            type: object
+                        type: object
+                      platformLogsSettings:
+                        description: |-
+                          Settings for Platform Logs regarding ingestion to Pub/Sub. If unset,
+                          no Platform Logs will be generated.'
+                          Structure is documented below.
+                        properties:
+                          severity:
+                            description: |-
+                              The minimum severity level of Platform Logs that will be written. If unspecified,
+                              no Platform Logs will be written.
+                              Default value is SEVERITY_UNSPECIFIED.
+                              Possible values are: SEVERITY_UNSPECIFIED, DISABLED, DEBUG, INFO, WARNING, ERROR.
                             type: string
                         type: object
                     type: object
