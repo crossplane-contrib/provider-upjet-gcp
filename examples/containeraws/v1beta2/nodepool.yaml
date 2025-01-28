@@ -37,6 +37,11 @@ spec:
         volumeType: GP3
       tags:
         tag-one: value-one
+    kubeletConfig:
+    - cpuCfsQuota: true
+      cpuCfsQuotaPeriod: 100ms
+      cpuManagerPolicy: none
+      podPidsLimit: 1024
     location: us-west1
     maxPodsConstraint:
       maxPodsPerNode: 110
