@@ -35,7 +35,8 @@ spec:
     schema:
       openAPIV3Schema:
         description: FirewallPolicyAssociation is the Schema for the FirewallPolicyAssociations
-          API. Applies a hierarchical firewall policy to a target resource
+          API. Allows associating hierarchical firewall policies with the target where
+          they are applied.
         properties:
           apiVersion:
             description: |-
@@ -154,7 +155,7 @@ spec:
                         type: object
                     type: object
                   firewallPolicy:
-                    description: The firewall policy ID of the association.
+                    description: The firewall policy of the resource.
                     type: string
                   firewallPolicyRef:
                     description: Reference to a FirewallPolicy in compute to populate
@@ -329,7 +330,7 @@ spec:
                         type: object
                     type: object
                   firewallPolicy:
-                    description: The firewall policy ID of the association.
+                    description: The firewall policy of the resource.
                     type: string
                   firewallPolicyRef:
                     description: Reference to a FirewallPolicy in compute to populate
@@ -593,7 +594,7 @@ spec:
                     description: The target that the firewall policy is attached to.
                     type: string
                   firewallPolicy:
-                    description: The firewall policy ID of the association.
+                    description: The firewall policy of the resource.
                     type: string
                   id:
                     description: an identifier for the resource with format locations/global/firewallPolicies/{{firewall_policy}}/associations/{{name}}

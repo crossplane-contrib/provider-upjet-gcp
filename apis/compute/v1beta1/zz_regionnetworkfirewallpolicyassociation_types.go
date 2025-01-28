@@ -28,7 +28,8 @@ type RegionNetworkFirewallPolicyAssociationInitParameters struct {
 	// +kubebuilder:validation:Optional
 	AttachmentTargetSelector *v1.Selector `json:"attachmentTargetSelector,omitempty" tf:"-"`
 
-	// The project for the resource
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
@@ -37,13 +38,14 @@ type RegionNetworkFirewallPolicyAssociationObservation struct {
 	// The target that the firewall policy is attached to.
 	AttachmentTarget *string `json:"attachmentTarget,omitempty" tf:"attachment_target,omitempty"`
 
-	// The firewall policy ID of the association.
+	// The firewall policy of the resource.
 	FirewallPolicy *string `json:"firewallPolicy,omitempty" tf:"firewall_policy,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/firewallPolicies/{{firewall_policy}}/associations/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The project for the resource
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The location of this resource.
@@ -69,8 +71,9 @@ type RegionNetworkFirewallPolicyAssociationParameters struct {
 	// +kubebuilder:validation:Optional
 	AttachmentTargetSelector *v1.Selector `json:"attachmentTargetSelector,omitempty" tf:"-"`
 
-	// The firewall policy ID of the association.
+	// The firewall policy of the resource.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.RegionNetworkFirewallPolicy
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	FirewallPolicy *string `json:"firewallPolicy,omitempty" tf:"firewall_policy,omitempty"`
 
@@ -82,7 +85,8 @@ type RegionNetworkFirewallPolicyAssociationParameters struct {
 	// +kubebuilder:validation:Optional
 	FirewallPolicySelector *v1.Selector `json:"firewallPolicySelector,omitempty" tf:"-"`
 
-	// The project for the resource
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 

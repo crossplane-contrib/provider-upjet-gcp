@@ -117,6 +117,11 @@ type RouterNATInitParameters struct {
 	// Timeout (in seconds) for ICMP connections. Defaults to 30s if not set.
 	IcmpIdleTimeoutSec *float64 `json:"icmpIdleTimeoutSec,omitempty" tf:"icmp_idle_timeout_sec,omitempty"`
 
+	// Self-links of NAT IPs to be used as initial value for creation alongside a RouterNatAddress resource.
+	// Conflicts with natIps and drainNatIps. Only valid if natIpAllocateOption is set to MANUAL_ONLY.
+	// +listType=set
+	InitialNATIps []*string `json:"initialNatIps,omitempty" tf:"initial_nat_ips,omitempty"`
+
 	// Configuration for logging on NAT
 	// Structure is documented below.
 	LogConfig *RouterNATLogConfigInitParameters `json:"logConfig,omitempty" tf:"log_config,omitempty"`
@@ -136,6 +141,9 @@ type RouterNATInitParameters struct {
 
 	// Self-links of NAT IPs. Only valid if natIpAllocateOption
 	// is set to MANUAL_ONLY.
+	// If this field is used alongside with a count created list of address resources google_compute_address.foobar.*.self_link,
+	// the access level resource for the address resource must have a lifecycle block with create_before_destroy = true so
+	// the number of resources can be increased/decreased without triggering the resourceInUseByAnotherResource error.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Address
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
 	// +listType=set
@@ -260,6 +268,11 @@ type RouterNATObservation struct {
 	// Timeout (in seconds) for ICMP connections. Defaults to 30s if not set.
 	IcmpIdleTimeoutSec *float64 `json:"icmpIdleTimeoutSec,omitempty" tf:"icmp_idle_timeout_sec,omitempty"`
 
+	// Self-links of NAT IPs to be used as initial value for creation alongside a RouterNatAddress resource.
+	// Conflicts with natIps and drainNatIps. Only valid if natIpAllocateOption is set to MANUAL_ONLY.
+	// +listType=set
+	InitialNATIps []*string `json:"initialNatIps,omitempty" tf:"initial_nat_ips,omitempty"`
+
 	// Configuration for logging on NAT
 	// Structure is documented below.
 	LogConfig *RouterNATLogConfigObservation `json:"logConfig,omitempty" tf:"log_config,omitempty"`
@@ -279,6 +292,9 @@ type RouterNATObservation struct {
 
 	// Self-links of NAT IPs. Only valid if natIpAllocateOption
 	// is set to MANUAL_ONLY.
+	// If this field is used alongside with a count created list of address resources google_compute_address.foobar.*.self_link,
+	// the access level resource for the address resource must have a lifecycle block with create_before_destroy = true so
+	// the number of resources can be increased/decreased without triggering the resourceInUseByAnotherResource error.
 	// +listType=set
 	NATIps []*string `json:"natIps,omitempty" tf:"nat_ips,omitempty"`
 
@@ -370,6 +386,12 @@ type RouterNATParameters struct {
 	// +kubebuilder:validation:Optional
 	IcmpIdleTimeoutSec *float64 `json:"icmpIdleTimeoutSec,omitempty" tf:"icmp_idle_timeout_sec,omitempty"`
 
+	// Self-links of NAT IPs to be used as initial value for creation alongside a RouterNatAddress resource.
+	// Conflicts with natIps and drainNatIps. Only valid if natIpAllocateOption is set to MANUAL_ONLY.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	InitialNATIps []*string `json:"initialNatIps,omitempty" tf:"initial_nat_ips,omitempty"`
+
 	// Configuration for logging on NAT
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -393,6 +415,9 @@ type RouterNATParameters struct {
 
 	// Self-links of NAT IPs. Only valid if natIpAllocateOption
 	// is set to MANUAL_ONLY.
+	// If this field is used alongside with a count created list of address resources google_compute_address.foobar.*.self_link,
+	// the access level resource for the address resource must have a lifecycle block with create_before_destroy = true so
+	// the number of resources can be increased/decreased without triggering the resourceInUseByAnotherResource error.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Address
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional

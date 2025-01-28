@@ -74,7 +74,6 @@ type BackendInitParameters struct {
 	// and CONNECTION (for TCP/SSL).
 	// See the Backend Services Overview
 	// for an explanation of load balancing modes.
-	// From version 6.0.0 default value will be UTILIZATION to match default GCP value.
 	// Default value is UTILIZATION.
 	// Possible values are: UTILIZATION, RATE, CONNECTION.
 	BalancingMode *string `json:"balancingMode,omitempty" tf:"balancing_mode,omitempty"`
@@ -172,7 +171,6 @@ type BackendObservation struct {
 	// and CONNECTION (for TCP/SSL).
 	// See the Backend Services Overview
 	// for an explanation of load balancing modes.
-	// From version 6.0.0 default value will be UTILIZATION to match default GCP value.
 	// Default value is UTILIZATION.
 	// Possible values are: UTILIZATION, RATE, CONNECTION.
 	BalancingMode *string `json:"balancingMode,omitempty" tf:"balancing_mode,omitempty"`
@@ -260,7 +258,6 @@ type BackendParameters struct {
 	// and CONNECTION (for TCP/SSL).
 	// See the Backend Services Overview
 	// for an explanation of load balancing modes.
-	// From version 6.0.0 default value will be UTILIZATION to match default GCP value.
 	// Default value is UTILIZATION.
 	// Possible values are: UTILIZATION, RATE, CONNECTION.
 	// +kubebuilder:validation:Optional
@@ -597,6 +594,10 @@ type BackendServiceInitParameters struct {
 	// +kubebuilder:validation:Optional
 	HealthChecksSelector *v1.Selector `json:"healthChecksSelector,omitempty" tf:"-"`
 
+	// Specifies preference of traffic to the backend (from the proxy and from the client for proxyless gRPC).
+	// Possible values are: IPV4_ONLY, PREFER_IPV6, IPV6_ONLY.
+	IPAddressSelectionPolicy *string `json:"ipAddressSelectionPolicy,omitempty" tf:"ip_address_selection_policy,omitempty"`
+
 	// Settings for enabling Cloud Identity Aware Proxy
 	// Structure is documented below.
 	Iap *IapInitParameters `json:"iap,omitempty" tf:"iap,omitempty"`
@@ -630,8 +631,6 @@ type BackendServiceInitParameters struct {
 	// Settings controlling eviction of unhealthy hosts from the load balancing pool.
 	// Applicable backend service types can be a global backend service with the
 	// loadBalancingScheme set to INTERNAL_SELF_MANAGED or EXTERNAL_MANAGED.
-	// From version 6.0.
-	// Default values are enforce by GCP without providing them.
 	// Structure is documented below.
 	OutlierDetection *OutlierDetectionInitParameters `json:"outlierDetection,omitempty" tf:"outlier_detection,omitempty"`
 
@@ -668,8 +667,12 @@ type BackendServiceInitParameters struct {
 
 	// Type of session affinity to use. The default is NONE. Session affinity is
 	// not applicable if the protocol is UDP.
-	// Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE.
+	// Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE, STRONG_COOKIE_AFFINITY.
 	SessionAffinity *string `json:"sessionAffinity,omitempty" tf:"session_affinity,omitempty"`
+
+	// Describes the HTTP cookie used for stateful session affinity. This field is applicable and required if the sessionAffinity is set to STRONG_COOKIE_AFFINITY.
+	// Structure is documented below.
+	StrongSessionAffinityCookie *StrongSessionAffinityCookieInitParameters `json:"strongSessionAffinityCookie,omitempty" tf:"strong_session_affinity_cookie,omitempty"`
 
 	// The backend service timeout has a different meaning depending on the type of load balancer.
 	// For more information see, Backend service settings.
@@ -760,6 +763,10 @@ type BackendServiceObservation struct {
 	// an identifier for the resource with format projects/{{project}}/global/backendServices/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Specifies preference of traffic to the backend (from the proxy and from the client for proxyless gRPC).
+	// Possible values are: IPV4_ONLY, PREFER_IPV6, IPV6_ONLY.
+	IPAddressSelectionPolicy *string `json:"ipAddressSelectionPolicy,omitempty" tf:"ip_address_selection_policy,omitempty"`
+
 	// Settings for enabling Cloud Identity Aware Proxy
 	// Structure is documented below.
 	Iap *IapObservation `json:"iap,omitempty" tf:"iap,omitempty"`
@@ -793,8 +800,6 @@ type BackendServiceObservation struct {
 	// Settings controlling eviction of unhealthy hosts from the load balancing pool.
 	// Applicable backend service types can be a global backend service with the
 	// loadBalancingScheme set to INTERNAL_SELF_MANAGED or EXTERNAL_MANAGED.
-	// From version 6.0.
-	// Default values are enforce by GCP without providing them.
 	// Structure is documented below.
 	OutlierDetection *OutlierDetectionObservation `json:"outlierDetection,omitempty" tf:"outlier_detection,omitempty"`
 
@@ -834,8 +839,12 @@ type BackendServiceObservation struct {
 
 	// Type of session affinity to use. The default is NONE. Session affinity is
 	// not applicable if the protocol is UDP.
-	// Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE.
+	// Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE, STRONG_COOKIE_AFFINITY.
 	SessionAffinity *string `json:"sessionAffinity,omitempty" tf:"session_affinity,omitempty"`
+
+	// Describes the HTTP cookie used for stateful session affinity. This field is applicable and required if the sessionAffinity is set to STRONG_COOKIE_AFFINITY.
+	// Structure is documented below.
+	StrongSessionAffinityCookie *StrongSessionAffinityCookieObservation `json:"strongSessionAffinityCookie,omitempty" tf:"strong_session_affinity_cookie,omitempty"`
 
 	// The backend service timeout has a different meaning depending on the type of load balancer.
 	// For more information see, Backend service settings.
@@ -936,6 +945,11 @@ type BackendServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	HealthChecksSelector *v1.Selector `json:"healthChecksSelector,omitempty" tf:"-"`
 
+	// Specifies preference of traffic to the backend (from the proxy and from the client for proxyless gRPC).
+	// Possible values are: IPV4_ONLY, PREFER_IPV6, IPV6_ONLY.
+	// +kubebuilder:validation:Optional
+	IPAddressSelectionPolicy *string `json:"ipAddressSelectionPolicy,omitempty" tf:"ip_address_selection_policy,omitempty"`
+
 	// Settings for enabling Cloud Identity Aware Proxy
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -974,8 +988,6 @@ type BackendServiceParameters struct {
 	// Settings controlling eviction of unhealthy hosts from the load balancing pool.
 	// Applicable backend service types can be a global backend service with the
 	// loadBalancingScheme set to INTERNAL_SELF_MANAGED or EXTERNAL_MANAGED.
-	// From version 6.0.
-	// Default values are enforce by GCP without providing them.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	OutlierDetection *OutlierDetectionParameters `json:"outlierDetection,omitempty" tf:"outlier_detection,omitempty"`
@@ -1019,9 +1031,14 @@ type BackendServiceParameters struct {
 
 	// Type of session affinity to use. The default is NONE. Session affinity is
 	// not applicable if the protocol is UDP.
-	// Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE.
+	// Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE, STRONG_COOKIE_AFFINITY.
 	// +kubebuilder:validation:Optional
 	SessionAffinity *string `json:"sessionAffinity,omitempty" tf:"session_affinity,omitempty"`
+
+	// Describes the HTTP cookie used for stateful session affinity. This field is applicable and required if the sessionAffinity is set to STRONG_COOKIE_AFFINITY.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	StrongSessionAffinityCookie *StrongSessionAffinityCookieParameters `json:"strongSessionAffinityCookie,omitempty" tf:"strong_session_affinity_cookie,omitempty"`
 
 	// The backend service timeout has a different meaning depending on the type of load balancer.
 	// For more information see, Backend service settings.
@@ -1224,8 +1241,8 @@ type CdnPolicyNegativeCachingPolicyInitParameters struct {
 	// can be specified as values, and you cannot specify a status code more than once.
 	Code *float64 `json:"code,omitempty" tf:"code,omitempty"`
 
-	// The TTL (in seconds) for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
-	// (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
+	// Lifetime of the cookie.
+	// Structure is documented below.
 	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
 
@@ -1235,8 +1252,8 @@ type CdnPolicyNegativeCachingPolicyObservation struct {
 	// can be specified as values, and you cannot specify a status code more than once.
 	Code *float64 `json:"code,omitempty" tf:"code,omitempty"`
 
-	// The TTL (in seconds) for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
-	// (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
+	// Lifetime of the cookie.
+	// Structure is documented below.
 	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
 
@@ -1247,8 +1264,8 @@ type CdnPolicyNegativeCachingPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	Code *float64 `json:"code,omitempty" tf:"code,omitempty"`
 
-	// The TTL (in seconds) for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
-	// (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
+	// Lifetime of the cookie.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
@@ -1408,14 +1425,7 @@ type CustomPolicyInitParameters struct {
 	// by a locally installed custom policy implementation.
 	Data *string `json:"data,omitempty" tf:"data,omitempty"`
 
-	// The name of a locality load balancer policy to be used. The value
-	// should be one of the predefined ones as supported by localityLbPolicy,
-	// although at the moment only ROUND_ROBIN is supported.
-	// This field should only be populated when the customPolicy field is not
-	// used.
-	// Note that specifying the same policy more than once for a backend is
-	// not a valid configuration and will be rejected.
-	// The possible values are:
+	// Name of the cookie.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
@@ -1425,14 +1435,7 @@ type CustomPolicyObservation struct {
 	// by a locally installed custom policy implementation.
 	Data *string `json:"data,omitempty" tf:"data,omitempty"`
 
-	// The name of a locality load balancer policy to be used. The value
-	// should be one of the predefined ones as supported by localityLbPolicy,
-	// although at the moment only ROUND_ROBIN is supported.
-	// This field should only be populated when the customPolicy field is not
-	// used.
-	// Note that specifying the same policy more than once for a backend is
-	// not a valid configuration and will be rejected.
-	// The possible values are:
+	// Name of the cookie.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
@@ -1443,68 +1446,40 @@ type CustomPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	Data *string `json:"data,omitempty" tf:"data,omitempty"`
 
-	// The name of a locality load balancer policy to be used. The value
-	// should be one of the predefined ones as supported by localityLbPolicy,
-	// although at the moment only ROUND_ROBIN is supported.
-	// This field should only be populated when the customPolicy field is not
-	// used.
-	// Note that specifying the same policy more than once for a backend is
-	// not a valid configuration and will be rejected.
-	// The possible values are:
+	// Name of the cookie.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name" tf:"name,omitempty"`
 }
 
 type HTTPCookieInitParameters struct {
 
-	// The name of a locality load balancer policy to be used. The value
-	// should be one of the predefined ones as supported by localityLbPolicy,
-	// although at the moment only ROUND_ROBIN is supported.
-	// This field should only be populated when the customPolicy field is not
-	// used.
-	// Note that specifying the same policy more than once for a backend is
-	// not a valid configuration and will be rejected.
-	// The possible values are:
+	// Name of the cookie.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Path to set for the cookie.
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
-	// The TTL (in seconds) for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
-	// (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
+	// Lifetime of the cookie.
+	// Structure is documented below.
 	TTL *TTLInitParameters `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
 
 type HTTPCookieObservation struct {
 
-	// The name of a locality load balancer policy to be used. The value
-	// should be one of the predefined ones as supported by localityLbPolicy,
-	// although at the moment only ROUND_ROBIN is supported.
-	// This field should only be populated when the customPolicy field is not
-	// used.
-	// Note that specifying the same policy more than once for a backend is
-	// not a valid configuration and will be rejected.
-	// The possible values are:
+	// Name of the cookie.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Path to set for the cookie.
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
-	// The TTL (in seconds) for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
-	// (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
+	// Lifetime of the cookie.
+	// Structure is documented below.
 	TTL *TTLObservation `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
 
 type HTTPCookieParameters struct {
 
-	// The name of a locality load balancer policy to be used. The value
-	// should be one of the predefined ones as supported by localityLbPolicy,
-	// although at the moment only ROUND_ROBIN is supported.
-	// This field should only be populated when the customPolicy field is not
-	// used.
-	// Note that specifying the same policy more than once for a backend is
-	// not a valid configuration and will be rejected.
-	// The possible values are:
+	// Name of the cookie.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
@@ -1512,23 +1487,29 @@ type HTTPCookieParameters struct {
 	// +kubebuilder:validation:Optional
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
-	// The TTL (in seconds) for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
-	// (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
+	// Lifetime of the cookie.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	TTL *TTLParameters `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
 
 type IapInitParameters struct {
 
+	// Whether the serving infrastructure will authenticate and authorize all incoming requests.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
 	// OAuth2 Client ID for IAP
 	Oauth2ClientID *string `json:"oauth2ClientId,omitempty" tf:"oauth2_client_id,omitempty"`
 
 	// OAuth2 Client Secret for IAP
 	// Note: This property is sensitive and will not be displayed in the plan.
-	Oauth2ClientSecretSecretRef v1.SecretKeySelector `json:"oauth2ClientSecretSecretRef" tf:"-"`
+	Oauth2ClientSecretSecretRef *v1.SecretKeySelector `json:"oauth2ClientSecretSecretRef,omitempty" tf:"-"`
 }
 
 type IapObservation struct {
+
+	// Whether the serving infrastructure will authenticate and authorize all incoming requests.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
 	// OAuth2 Client ID for IAP
 	Oauth2ClientID *string `json:"oauth2ClientId,omitempty" tf:"oauth2_client_id,omitempty"`
@@ -1536,14 +1517,18 @@ type IapObservation struct {
 
 type IapParameters struct {
 
+	// Whether the serving infrastructure will authenticate and authorize all incoming requests.
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+
 	// OAuth2 Client ID for IAP
 	// +kubebuilder:validation:Optional
-	Oauth2ClientID *string `json:"oauth2ClientId" tf:"oauth2_client_id,omitempty"`
+	Oauth2ClientID *string `json:"oauth2ClientId,omitempty" tf:"oauth2_client_id,omitempty"`
 
 	// OAuth2 Client Secret for IAP
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	Oauth2ClientSecretSecretRef v1.SecretKeySelector `json:"oauth2ClientSecretSecretRef" tf:"-"`
+	Oauth2ClientSecretSecretRef *v1.SecretKeySelector `json:"oauth2ClientSecretSecretRef,omitempty" tf:"-"`
 }
 
 type IntervalInitParameters struct {
@@ -1868,40 +1853,19 @@ type OutlierDetectionParameters struct {
 
 type PolicyInitParameters struct {
 
-	// The name of a locality load balancer policy to be used. The value
-	// should be one of the predefined ones as supported by localityLbPolicy,
-	// although at the moment only ROUND_ROBIN is supported.
-	// This field should only be populated when the customPolicy field is not
-	// used.
-	// Note that specifying the same policy more than once for a backend is
-	// not a valid configuration and will be rejected.
-	// The possible values are:
+	// Name of the cookie.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type PolicyObservation struct {
 
-	// The name of a locality load balancer policy to be used. The value
-	// should be one of the predefined ones as supported by localityLbPolicy,
-	// although at the moment only ROUND_ROBIN is supported.
-	// This field should only be populated when the customPolicy field is not
-	// used.
-	// Note that specifying the same policy more than once for a backend is
-	// not a valid configuration and will be rejected.
-	// The possible values are:
+	// Name of the cookie.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type PolicyParameters struct {
 
-	// The name of a locality load balancer policy to be used. The value
-	// should be one of the predefined ones as supported by localityLbPolicy,
-	// although at the moment only ROUND_ROBIN is supported.
-	// This field should only be populated when the customPolicy field is not
-	// used.
-	// Note that specifying the same policy more than once for a backend is
-	// not a valid configuration and will be rejected.
-	// The possible values are:
+	// Name of the cookie.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name" tf:"name,omitempty"`
 }
@@ -1961,6 +1925,89 @@ type SecuritySettingsParameters struct {
 	// alt name matches one of the specified values.
 	// +kubebuilder:validation:Optional
 	SubjectAltNames []*string `json:"subjectAltNames,omitempty" tf:"subject_alt_names,omitempty"`
+}
+
+type StrongSessionAffinityCookieInitParameters struct {
+
+	// Name of the cookie.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Path to set for the cookie.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// Lifetime of the cookie.
+	// Structure is documented below.
+	TTL *StrongSessionAffinityCookieTTLInitParameters `json:"ttl,omitempty" tf:"ttl,omitempty"`
+}
+
+type StrongSessionAffinityCookieObservation struct {
+
+	// Name of the cookie.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Path to set for the cookie.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// Lifetime of the cookie.
+	// Structure is documented below.
+	TTL *StrongSessionAffinityCookieTTLObservation `json:"ttl,omitempty" tf:"ttl,omitempty"`
+}
+
+type StrongSessionAffinityCookieParameters struct {
+
+	// Name of the cookie.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Path to set for the cookie.
+	// +kubebuilder:validation:Optional
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// Lifetime of the cookie.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	TTL *StrongSessionAffinityCookieTTLParameters `json:"ttl,omitempty" tf:"ttl,omitempty"`
+}
+
+type StrongSessionAffinityCookieTTLInitParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond
+	// resolution. Durations less than one second are represented
+	// with a 0 seconds field and a positive nanos field. Must
+	// be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second.
+	// Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type StrongSessionAffinityCookieTTLObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond
+	// resolution. Durations less than one second are represented
+	// with a 0 seconds field and a positive nanos field. Must
+	// be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second.
+	// Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type StrongSessionAffinityCookieTTLParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond
+	// resolution. Durations less than one second are represented
+	// with a 0 seconds field and a positive nanos field. Must
+	// be from 0 to 999,999,999 inclusive.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second.
+	// Must be from 0 to 315,576,000,000 inclusive.
+	// +kubebuilder:validation:Optional
+	Seconds *float64 `json:"seconds" tf:"seconds,omitempty"`
 }
 
 type TTLInitParameters struct {

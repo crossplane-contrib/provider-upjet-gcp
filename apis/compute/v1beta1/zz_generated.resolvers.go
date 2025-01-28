@@ -2673,7 +2673,7 @@ func (mg *NetworkFirewallPolicyAssociation) ResolveReferences(ctx context.Contex
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.FirewallPolicy),
-			Extract:      reference.ExternalName(),
+			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.FirewallPolicyRef,
 			Selector:     mg.Spec.ForProvider.FirewallPolicySelector,
 			To:           reference.To{List: l, Managed: m},
@@ -4209,7 +4209,7 @@ func (mg *RegionNetworkFirewallPolicyAssociation) ResolveReferences(ctx context.
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.FirewallPolicy),
-			Extract:      reference.ExternalName(),
+			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.FirewallPolicyRef,
 			Selector:     mg.Spec.ForProvider.FirewallPolicySelector,
 			To:           reference.To{List: l, Managed: m},

@@ -2015,6 +2015,30 @@ spec:
                       The ID of the project in which the resource belongs. If it
                       is not provided, the provider project is used.
                     type: string
+                  standbyPolicy:
+                    description: The standby policy for stopped and suspended instances.
+                      Structure is documented below. For more information, see the
+                      official documentation.
+                    properties:
+                      initialDelaySec:
+                        description: '- Specifies the number of seconds that the MIG
+                          should wait to suspend or stop a VM after that VM was created.
+                          The initial delay gives the initialization script the time
+                          to prepare your VM for a quick scale out. The value of initial
+                          delay must be between 0 and 3600 seconds. The default value
+                          is 0.'
+                        type: number
+                      mode:
+                        description: '- Defines how a MIG resumes or starts VMs from
+                          a standby pool when the group scales out. Valid options
+                          are: MANUAL, SCALE_OUT_POOL. If MANUAL(default), you have
+                          full control over which VMs are stopped and suspended in
+                          the MIG. If SCALE_OUT_POOL, the MIG uses the VMs from the
+                          standby pools to accelerate the scale out by resuming or
+                          starting them and then automatically replenishes the standby
+                          pool with new VMs to maintain the target sizes.'
+                        type: string
+                    type: object
                   statefulDisk:
                     description: Disks created on the instances that will be preserved
                       on instance delete, update, etc. Structure is documented below.
@@ -2172,6 +2196,14 @@ spec:
                       instance group. This value will fight with autoscaler settings when set, and generally shouldn't be set
                       when using one. If a value is required, such as to specify a creation-time target size for the MIG,
                       lifecycle. Defaults to 0.
+                    type: number
+                  targetStoppedSize:
+                    description: The target number of stopped instances for this managed
+                      instance group.
+                    type: number
+                  targetSuspendedSize:
+                    description: The target number of suspended instances for this
+                      managed instance group.
                     type: number
                   updatePolicy:
                     description: The update policy for this managed instance group.
@@ -2551,6 +2583,30 @@ spec:
                       The ID of the project in which the resource belongs. If it
                       is not provided, the provider project is used.
                     type: string
+                  standbyPolicy:
+                    description: The standby policy for stopped and suspended instances.
+                      Structure is documented below. For more information, see the
+                      official documentation.
+                    properties:
+                      initialDelaySec:
+                        description: '- Specifies the number of seconds that the MIG
+                          should wait to suspend or stop a VM after that VM was created.
+                          The initial delay gives the initialization script the time
+                          to prepare your VM for a quick scale out. The value of initial
+                          delay must be between 0 and 3600 seconds. The default value
+                          is 0.'
+                        type: number
+                      mode:
+                        description: '- Defines how a MIG resumes or starts VMs from
+                          a standby pool when the group scales out. Valid options
+                          are: MANUAL, SCALE_OUT_POOL. If MANUAL(default), you have
+                          full control over which VMs are stopped and suspended in
+                          the MIG. If SCALE_OUT_POOL, the MIG uses the VMs from the
+                          standby pools to accelerate the scale out by resuming or
+                          starting them and then automatically replenishes the standby
+                          pool with new VMs to maintain the target sizes.'
+                        type: string
+                    type: object
                   statefulDisk:
                     description: Disks created on the instances that will be preserved
                       on instance delete, update, etc. Structure is documented below.
@@ -2708,6 +2764,14 @@ spec:
                       instance group. This value will fight with autoscaler settings when set, and generally shouldn't be set
                       when using one. If a value is required, such as to specify a creation-time target size for the MIG,
                       lifecycle. Defaults to 0.
+                    type: number
+                  targetStoppedSize:
+                    description: The target number of stopped instances for this managed
+                      instance group.
+                    type: number
+                  targetSuspendedSize:
+                    description: The target number of suspended instances for this
+                      managed instance group.
                     type: number
                   updatePolicy:
                     description: The update policy for this managed instance group.
@@ -3140,6 +3204,9 @@ spec:
                     description: The full URL of the instance group created by the
                       manager.
                     type: string
+                  instanceGroupManagerId:
+                    description: an identifier for the resource with format projects/{{project}}/zones/{{zone}}/instanceGroupManagers/{{name}}
+                    type: number
                   instanceLifecyclePolicy:
                     properties:
                       defaultActionOnFailure:
@@ -3191,6 +3258,30 @@ spec:
                   selfLink:
                     description: The URL of the created resource.
                     type: string
+                  standbyPolicy:
+                    description: The standby policy for stopped and suspended instances.
+                      Structure is documented below. For more information, see the
+                      official documentation.
+                    properties:
+                      initialDelaySec:
+                        description: '- Specifies the number of seconds that the MIG
+                          should wait to suspend or stop a VM after that VM was created.
+                          The initial delay gives the initialization script the time
+                          to prepare your VM for a quick scale out. The value of initial
+                          delay must be between 0 and 3600 seconds. The default value
+                          is 0.'
+                        type: number
+                      mode:
+                        description: '- Defines how a MIG resumes or starts VMs from
+                          a standby pool when the group scales out. Valid options
+                          are: MANUAL, SCALE_OUT_POOL. If MANUAL(default), you have
+                          full control over which VMs are stopped and suspended in
+                          the MIG. If SCALE_OUT_POOL, the MIG uses the VMs from the
+                          standby pools to accelerate the scale out by resuming or
+                          starting them and then automatically replenishes the standby
+                          pool with new VMs to maintain the target sizes.'
+                        type: string
+                    type: object
                   statefulDisk:
                     description: Disks created on the instances that will be preserved
                       on instance delete, update, etc. Structure is documented below.
@@ -3341,6 +3432,14 @@ spec:
                       instance group. This value will fight with autoscaler settings when set, and generally shouldn't be set
                       when using one. If a value is required, such as to specify a creation-time target size for the MIG,
                       lifecycle. Defaults to 0.
+                    type: number
+                  targetStoppedSize:
+                    description: The target number of stopped instances for this managed
+                      instance group.
+                    type: number
+                  targetSuspendedSize:
+                    description: The target number of suspended instances for this
+                      managed instance group.
                     type: number
                   updatePolicy:
                     description: The update policy for this managed instance group.

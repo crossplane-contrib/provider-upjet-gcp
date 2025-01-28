@@ -111,7 +111,7 @@ type RegionDiskGuestOsFeaturesParameters struct {
 
 type RegionDiskInitParameters struct {
 
-	// A nested object resource
+	// A nested object resource.
 	// Structure is documented below.
 	AsyncPrimaryDisk *RegionDiskAsyncPrimaryDiskInitParameters `json:"asyncPrimaryDisk,omitempty" tf:"async_primary_disk,omitempty"`
 
@@ -198,7 +198,7 @@ type RegionDiskInitParameters struct {
 
 type RegionDiskObservation struct {
 
-	// A nested object resource
+	// A nested object resource.
 	// Structure is documented below.
 	AsyncPrimaryDisk *RegionDiskAsyncPrimaryDiskObservation `json:"asyncPrimaryDisk,omitempty" tf:"async_primary_disk,omitempty"`
 
@@ -323,7 +323,7 @@ type RegionDiskObservation struct {
 
 type RegionDiskParameters struct {
 
-	// A nested object resource
+	// A nested object resource.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AsyncPrimaryDisk *RegionDiskAsyncPrimaryDiskParameters `json:"asyncPrimaryDisk,omitempty" tf:"async_primary_disk,omitempty"`

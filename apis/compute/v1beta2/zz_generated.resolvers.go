@@ -903,6 +903,56 @@ func (mg *GlobalForwardingRule) ResolveReferences(ctx context.Context, c client.
 	return nil
 }
 
+// ResolveReferences of this Image.
+func (mg *Image) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Disk", "DiskList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SourceDisk),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.ForProvider.SourceDiskRef,
+			Selector:     mg.Spec.ForProvider.SourceDiskSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.SourceDisk")
+	}
+	mg.Spec.ForProvider.SourceDisk = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.SourceDiskRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Disk", "DiskList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SourceDisk),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.InitProvider.SourceDiskRef,
+			Selector:     mg.Spec.InitProvider.SourceDiskSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.SourceDisk")
+	}
+	mg.Spec.InitProvider.SourceDisk = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.SourceDiskRef = rsp.ResolvedReference
+
+	return nil
+}
+
 // ResolveReferences of this ImageIAMMember.
 func (mg *ImageIAMMember) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed

@@ -114,6 +114,10 @@ type NetworkObservation struct {
 	NetworkFirewallPolicyEnforcementOrder *string `json:"networkFirewallPolicyEnforcementOrder,omitempty" tf:"network_firewall_policy_enforcement_order,omitempty"`
 
 	// The unique identifier for the resource. This identifier is defined by the server.
+	NetworkID *string `json:"networkId,omitempty" tf:"network_id,omitempty"`
+
+	// (Deprecated)
+	// The unique identifier for the resource. This identifier is defined by the server.
 	NumericID *string `json:"numericId,omitempty" tf:"numeric_id,omitempty"`
 
 	// The ID of the project in which the resource belongs.

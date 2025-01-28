@@ -4,8 +4,8 @@ metadata:
   annotations:
     meta.upbound.io/example-id: compute/v1beta2/firewallpolicyrule
   labels:
-    testing.upbound.io/example-name: primary
-  name: primary
+    testing.upbound.io/example-name: policy_rule
+  name: policy-rule
 spec:
   forProvider:
     action: allow
@@ -66,7 +66,8 @@ metadata:
   name: folder
 spec:
   forProvider:
-    displayName: policy
+    deletionProtection: false
+    displayName: folder
     parentSelector:
       matchLabels:
         testing.upbound.io/example-name: example

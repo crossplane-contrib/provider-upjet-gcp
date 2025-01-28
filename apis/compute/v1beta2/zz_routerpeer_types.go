@@ -109,21 +109,21 @@ type BfdParameters struct {
 
 type CustomLearnedIPRangesInitParameters struct {
 
-	// The IP range to advertise. The value must be a
+	// The IP range to learn. The value must be a
 	// CIDR-formatted string.
 	Range *string `json:"range,omitempty" tf:"range,omitempty"`
 }
 
 type CustomLearnedIPRangesObservation struct {
 
-	// The IP range to advertise. The value must be a
+	// The IP range to learn. The value must be a
 	// CIDR-formatted string.
 	Range *string `json:"range,omitempty" tf:"range,omitempty"`
 }
 
 type CustomLearnedIPRangesParameters struct {
 
-	// The IP range to advertise. The value must be a
+	// The IP range to learn. The value must be a
 	// CIDR-formatted string.
 	// +kubebuilder:validation:Optional
 	Range *string `json:"range" tf:"range,omitempty"`
@@ -216,8 +216,16 @@ type RouterPeerInitParameters struct {
 	// Structure is documented below.
 	Bfd *BfdInitParameters `json:"bfd,omitempty" tf:"bfd,omitempty"`
 
+	// The custom learned route IP address range. Must be a valid CIDR-formatted prefix.
+	// If an IP address is provided without a subnet mask, it is interpreted as, for IPv4,
+	// a /32 singular IP address range, and, for IPv6, /128.
+	// Structure is documented below.
 	CustomLearnedIPRanges []CustomLearnedIPRangesInitParameters `json:"customLearnedIpRanges,omitempty" tf:"custom_learned_ip_ranges,omitempty"`
 
+	// The user-defined custom learned route priority for a BGP session.
+	// This value is applied to all custom learned route ranges for the session.
+	// You can choose a value from 0 to 65335. If you don't provide a value,
+	// Google Cloud assigns a priority of 100 to the ranges.
 	CustomLearnedRoutePriority *float64 `json:"customLearnedRoutePriority,omitempty" tf:"custom_learned_route_priority,omitempty"`
 
 	// The status of the BGP peer connection. If set to false, any active session
@@ -353,8 +361,16 @@ type RouterPeerObservation struct {
 	// Structure is documented below.
 	Bfd *BfdObservation `json:"bfd,omitempty" tf:"bfd,omitempty"`
 
+	// The custom learned route IP address range. Must be a valid CIDR-formatted prefix.
+	// If an IP address is provided without a subnet mask, it is interpreted as, for IPv4,
+	// a /32 singular IP address range, and, for IPv6, /128.
+	// Structure is documented below.
 	CustomLearnedIPRanges []CustomLearnedIPRangesObservation `json:"customLearnedIpRanges,omitempty" tf:"custom_learned_ip_ranges,omitempty"`
 
+	// The user-defined custom learned route priority for a BGP session.
+	// This value is applied to all custom learned route ranges for the session.
+	// You can choose a value from 0 to 65335. If you don't provide a value,
+	// Google Cloud assigns a priority of 100 to the ranges.
 	CustomLearnedRoutePriority *float64 `json:"customLearnedRoutePriority,omitempty" tf:"custom_learned_route_priority,omitempty"`
 
 	// The status of the BGP peer connection. If set to false, any active session
@@ -464,9 +480,17 @@ type RouterPeerParameters struct {
 	// +kubebuilder:validation:Optional
 	Bfd *BfdParameters `json:"bfd,omitempty" tf:"bfd,omitempty"`
 
+	// The custom learned route IP address range. Must be a valid CIDR-formatted prefix.
+	// If an IP address is provided without a subnet mask, it is interpreted as, for IPv4,
+	// a /32 singular IP address range, and, for IPv6, /128.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	CustomLearnedIPRanges []CustomLearnedIPRangesParameters `json:"customLearnedIpRanges,omitempty" tf:"custom_learned_ip_ranges,omitempty"`
 
+	// The user-defined custom learned route priority for a BGP session.
+	// This value is applied to all custom learned route ranges for the session.
+	// You can choose a value from 0 to 65335. If you don't provide a value,
+	// Google Cloud assigns a priority of 100 to the ranges.
 	// +kubebuilder:validation:Optional
 	CustomLearnedRoutePriority *float64 `json:"customLearnedRoutePriority,omitempty" tf:"custom_learned_route_priority,omitempty"`
 

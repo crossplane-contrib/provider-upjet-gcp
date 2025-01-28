@@ -498,9 +498,6 @@ spec:
                 type: string
               forProvider:
                 properties:
-                  certificateId:
-                    description: The unique identifier for the resource.
-                    type: number
                   description:
                     description: An optional description of this resource.
                     type: string
@@ -544,9 +541,6 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
-                  certificateId:
-                    description: The unique identifier for the resource.
-                    type: number
                   description:
                     description: An optional description of this resource.
                     type: string

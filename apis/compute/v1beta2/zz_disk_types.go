@@ -131,7 +131,7 @@ type DiskInitParameters struct {
 	// For example:
 	AccessMode *string `json:"accessMode,omitempty" tf:"access_mode,omitempty"`
 
-	// A nested object resource
+	// A nested object resource.
 	// Structure is documented below.
 	AsyncPrimaryDisk *AsyncPrimaryDiskInitParameters `json:"asyncPrimaryDisk,omitempty" tf:"async_primary_disk,omitempty"`
 
@@ -231,7 +231,7 @@ type DiskInitParameters struct {
 	// Structure is documented below.
 	SourceSnapshotEncryptionKey *SourceSnapshotEncryptionKeyInitParameters `json:"sourceSnapshotEncryptionKey,omitempty" tf:"source_snapshot_encryption_key,omitempty"`
 
-	// The URL of the storage pool in which the new disk is created.
+	// The URL or the name of the storage pool in which the new disk is created.
 	// For example:
 	StoragePool *string `json:"storagePool,omitempty" tf:"storage_pool,omitempty"`
 
@@ -246,7 +246,7 @@ type DiskObservation struct {
 	// For example:
 	AccessMode *string `json:"accessMode,omitempty" tf:"access_mode,omitempty"`
 
-	// A nested object resource
+	// A nested object resource.
 	// Structure is documented below.
 	AsyncPrimaryDisk *AsyncPrimaryDiskObservation `json:"asyncPrimaryDisk,omitempty" tf:"async_primary_disk,omitempty"`
 
@@ -392,7 +392,7 @@ type DiskObservation struct {
 	// used.
 	SourceSnapshotID *string `json:"sourceSnapshotId,omitempty" tf:"source_snapshot_id,omitempty"`
 
-	// The URL of the storage pool in which the new disk is created.
+	// The URL or the name of the storage pool in which the new disk is created.
 	// For example:
 	StoragePool *string `json:"storagePool,omitempty" tf:"storage_pool,omitempty"`
 
@@ -420,7 +420,7 @@ type DiskParameters struct {
 	// +kubebuilder:validation:Optional
 	AccessMode *string `json:"accessMode,omitempty" tf:"access_mode,omitempty"`
 
-	// A nested object resource
+	// A nested object resource.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AsyncPrimaryDisk *AsyncPrimaryDiskParameters `json:"asyncPrimaryDisk,omitempty" tf:"async_primary_disk,omitempty"`
@@ -537,7 +537,7 @@ type DiskParameters struct {
 	// +kubebuilder:validation:Optional
 	SourceSnapshotEncryptionKey *SourceSnapshotEncryptionKeyParameters `json:"sourceSnapshotEncryptionKey,omitempty" tf:"source_snapshot_encryption_key,omitempty"`
 
-	// The URL of the storage pool in which the new disk is created.
+	// The URL or the name of the storage pool in which the new disk is created.
 	// For example:
 	// +kubebuilder:validation:Optional
 	StoragePool *string `json:"storagePool,omitempty" tf:"storage_pool,omitempty"`

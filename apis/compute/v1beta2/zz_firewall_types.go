@@ -19,7 +19,7 @@ type AllowInitParameters struct {
 	// is only applicable for UDP or TCP protocol. Each entry must be
 	// either an integer or a range. If not specified, this rule
 	// applies to connections through any port.
-	// Example inputs include: ["22"], ["80","443"], and
+	// Example inputs include: [22], [80, 443], and
 	// ["12345-12349"].
 	Ports []*string `json:"ports,omitempty" tf:"ports,omitempty"`
 
@@ -36,7 +36,7 @@ type AllowObservation struct {
 	// is only applicable for UDP or TCP protocol. Each entry must be
 	// either an integer or a range. If not specified, this rule
 	// applies to connections through any port.
-	// Example inputs include: ["22"], ["80","443"], and
+	// Example inputs include: [22], [80, 443], and
 	// ["12345-12349"].
 	Ports []*string `json:"ports,omitempty" tf:"ports,omitempty"`
 
@@ -53,7 +53,7 @@ type AllowParameters struct {
 	// is only applicable for UDP or TCP protocol. Each entry must be
 	// either an integer or a range. If not specified, this rule
 	// applies to connections through any port.
-	// Example inputs include: ["22"], ["80","443"], and
+	// Example inputs include: [22], [80, 443], and
 	// ["12345-12349"].
 	// +kubebuilder:validation:Optional
 	Ports []*string `json:"ports,omitempty" tf:"ports,omitempty"`
@@ -72,7 +72,7 @@ type DenyInitParameters struct {
 	// is only applicable for UDP or TCP protocol. Each entry must be
 	// either an integer or a range. If not specified, this rule
 	// applies to connections through any port.
-	// Example inputs include: ["22"], ["80","443"], and
+	// Example inputs include: [22], [80, 443], and
 	// ["12345-12349"].
 	Ports []*string `json:"ports,omitempty" tf:"ports,omitempty"`
 
@@ -89,7 +89,7 @@ type DenyObservation struct {
 	// is only applicable for UDP or TCP protocol. Each entry must be
 	// either an integer or a range. If not specified, this rule
 	// applies to connections through any port.
-	// Example inputs include: ["22"], ["80","443"], and
+	// Example inputs include: [22], [80, 443], and
 	// ["12345-12349"].
 	Ports []*string `json:"ports,omitempty" tf:"ports,omitempty"`
 
@@ -106,7 +106,7 @@ type DenyParameters struct {
 	// is only applicable for UDP or TCP protocol. Each entry must be
 	// either an integer or a range. If not specified, this rule
 	// applies to connections through any port.
-	// Example inputs include: ["22"], ["80","443"], and
+	// Example inputs include: [22], [80, 443], and
 	// ["12345-12349"].
 	// +kubebuilder:validation:Optional
 	Ports []*string `json:"ports,omitempty" tf:"ports,omitempty"`

@@ -1602,6 +1602,14 @@ spec:
                     description: Timeout (in seconds) for ICMP connections. Defaults
                       to 30s if not set.
                     type: number
+                  initialNatIps:
+                    description: |-
+                      Self-links of NAT IPs to be used as initial value for creation alongside a RouterNatAddress resource.
+                      Conflicts with natIps and drainNatIps. Only valid if natIpAllocateOption is set to MANUAL_ONLY.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
                   logConfig:
                     description: |-
                       Configuration for logging on NAT
@@ -1637,6 +1645,9 @@ spec:
                     description: |-
                       Self-links of NAT IPs. Only valid if natIpAllocateOption
                       is set to MANUAL_ONLY.
+                      If this field is used alongside with a count created list of address resources google_compute_address.foobar.*.self_link,
+                      the access level resource for the address resource must have a lifecycle block with create_before_destroy = true so
+                      the number of resources can be increased/decreased without triggering the resourceInUseByAnotherResource error.
                     items:
                       type: string
                     type: array
@@ -2134,6 +2145,14 @@ spec:
                     description: Timeout (in seconds) for ICMP connections. Defaults
                       to 30s if not set.
                     type: number
+                  initialNatIps:
+                    description: |-
+                      Self-links of NAT IPs to be used as initial value for creation alongside a RouterNatAddress resource.
+                      Conflicts with natIps and drainNatIps. Only valid if natIpAllocateOption is set to MANUAL_ONLY.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
                   logConfig:
                     description: |-
                       Configuration for logging on NAT
@@ -2169,6 +2188,9 @@ spec:
                     description: |-
                       Self-links of NAT IPs. Only valid if natIpAllocateOption
                       is set to MANUAL_ONLY.
+                      If this field is used alongside with a count created list of address resources google_compute_address.foobar.*.self_link,
+                      the access level resource for the address resource must have a lifecycle block with create_before_destroy = true so
+                      the number of resources can be increased/decreased without triggering the resourceInUseByAnotherResource error.
                     items:
                       type: string
                     type: array
@@ -2751,6 +2773,14 @@ spec:
                   id:
                     description: an identifier for the resource with format {{project}}/{{region}}/{{router}}/{{name}}
                     type: string
+                  initialNatIps:
+                    description: |-
+                      Self-links of NAT IPs to be used as initial value for creation alongside a RouterNatAddress resource.
+                      Conflicts with natIps and drainNatIps. Only valid if natIpAllocateOption is set to MANUAL_ONLY.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
                   logConfig:
                     description: |-
                       Configuration for logging on NAT
@@ -2786,6 +2816,9 @@ spec:
                     description: |-
                       Self-links of NAT IPs. Only valid if natIpAllocateOption
                       is set to MANUAL_ONLY.
+                      If this field is used alongside with a count created list of address resources google_compute_address.foobar.*.self_link,
+                      the access level resource for the address resource must have a lifecycle block with create_before_destroy = true so
+                      the number of resources can be increased/decreased without triggering the resourceInUseByAnotherResource error.
                     items:
                       type: string
                     type: array

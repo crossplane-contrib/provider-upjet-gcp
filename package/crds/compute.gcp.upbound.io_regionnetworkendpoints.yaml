@@ -484,6 +484,10 @@ spec:
                       IPv4 address external endpoint.
                       This can only be specified when network_endpoint_type of the NEG is INTERNET_IP_PORT.
                     type: string
+                  networkEndpointId:
+                    description: The unique identifier number for the resource. This
+                      identifier is defined by the server.
+                    type: number
                   port:
                     description: Port number of network endpoint.
                     type: number

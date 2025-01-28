@@ -51,6 +51,9 @@ type AttachedDiskInitParameters struct {
 	// +kubebuilder:validation:Optional
 	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
 
+	// The disk interface used for attaching this disk.
+	Interface *string `json:"interface,omitempty" tf:"interface,omitempty"`
+
 	// The mode in which to attach this disk, either READ_WRITE or
 	// READ_ONLY. If not specified, the default is to attach the disk in
 	// READ_WRITE mode.
@@ -85,6 +88,9 @@ type AttachedDiskObservation struct {
 	// self link. If only the name is used then zone and project must be defined
 	// as properties on the resource or provider.
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
+
+	// The disk interface used for attaching this disk.
+	Interface *string `json:"interface,omitempty" tf:"interface,omitempty"`
 
 	// The mode in which to attach this disk, either READ_WRITE or
 	// READ_ONLY. If not specified, the default is to attach the disk in
@@ -140,6 +146,10 @@ type AttachedDiskParameters struct {
 	// Selector for a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
 	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
+
+	// The disk interface used for attaching this disk.
+	// +kubebuilder:validation:Optional
+	Interface *string `json:"interface,omitempty" tf:"interface,omitempty"`
 
 	// The mode in which to attach this disk, either READ_WRITE or
 	// READ_ONLY. If not specified, the default is to attach the disk in

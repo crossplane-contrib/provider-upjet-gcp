@@ -63,8 +63,17 @@ type AdvancedMachineFeaturesInitParameters struct {
 	// Defines whether the instance should have nested virtualization  enabled. Defaults to false.
 	EnableNestedVirtualization *bool `json:"enableNestedVirtualization,omitempty" tf:"enable_nested_virtualization,omitempty"`
 
-	// he number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1.
+	// Whether to enable UEFI networking for instance creation.
+	EnableUefiNetworking *bool `json:"enableUefiNetworking,omitempty" tf:"enable_uefi_networking,omitempty"`
+
+	// The PMU is a hardware component within the CPU core that monitors how the processor runs code. Valid values for the level of PMU are STANDARD, ENHANCED, and ARCHITECTURAL.
+	PerformanceMonitoringUnit *string `json:"performanceMonitoringUnit,omitempty" tf:"performance_monitoring_unit,omitempty"`
+
+	// The number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1.
 	ThreadsPerCore *float64 `json:"threadsPerCore,omitempty" tf:"threads_per_core,omitempty"`
+
+	// Turbo frequency mode to use for the instance. Supported modes are currently either ALL_CORE_MAX or unset (default).
+	TurboMode *string `json:"turboMode,omitempty" tf:"turbo_mode,omitempty"`
 
 	// The number of physical cores to expose to an instance. visible cores info (VC).
 	VisibleCoreCount *float64 `json:"visibleCoreCount,omitempty" tf:"visible_core_count,omitempty"`
@@ -75,8 +84,17 @@ type AdvancedMachineFeaturesObservation struct {
 	// Defines whether the instance should have nested virtualization  enabled. Defaults to false.
 	EnableNestedVirtualization *bool `json:"enableNestedVirtualization,omitempty" tf:"enable_nested_virtualization,omitempty"`
 
-	// he number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1.
+	// Whether to enable UEFI networking for instance creation.
+	EnableUefiNetworking *bool `json:"enableUefiNetworking,omitempty" tf:"enable_uefi_networking,omitempty"`
+
+	// The PMU is a hardware component within the CPU core that monitors how the processor runs code. Valid values for the level of PMU are STANDARD, ENHANCED, and ARCHITECTURAL.
+	PerformanceMonitoringUnit *string `json:"performanceMonitoringUnit,omitempty" tf:"performance_monitoring_unit,omitempty"`
+
+	// The number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1.
 	ThreadsPerCore *float64 `json:"threadsPerCore,omitempty" tf:"threads_per_core,omitempty"`
+
+	// Turbo frequency mode to use for the instance. Supported modes are currently either ALL_CORE_MAX or unset (default).
+	TurboMode *string `json:"turboMode,omitempty" tf:"turbo_mode,omitempty"`
 
 	// The number of physical cores to expose to an instance. visible cores info (VC).
 	VisibleCoreCount *float64 `json:"visibleCoreCount,omitempty" tf:"visible_core_count,omitempty"`
@@ -88,9 +106,21 @@ type AdvancedMachineFeaturesParameters struct {
 	// +kubebuilder:validation:Optional
 	EnableNestedVirtualization *bool `json:"enableNestedVirtualization,omitempty" tf:"enable_nested_virtualization,omitempty"`
 
-	// he number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1.
+	// Whether to enable UEFI networking for instance creation.
+	// +kubebuilder:validation:Optional
+	EnableUefiNetworking *bool `json:"enableUefiNetworking,omitempty" tf:"enable_uefi_networking,omitempty"`
+
+	// The PMU is a hardware component within the CPU core that monitors how the processor runs code. Valid values for the level of PMU are STANDARD, ENHANCED, and ARCHITECTURAL.
+	// +kubebuilder:validation:Optional
+	PerformanceMonitoringUnit *string `json:"performanceMonitoringUnit,omitempty" tf:"performance_monitoring_unit,omitempty"`
+
+	// The number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1.
 	// +kubebuilder:validation:Optional
 	ThreadsPerCore *float64 `json:"threadsPerCore,omitempty" tf:"threads_per_core,omitempty"`
+
+	// Turbo frequency mode to use for the instance. Supported modes are currently either ALL_CORE_MAX or unset (default).
+	// +kubebuilder:validation:Optional
+	TurboMode *string `json:"turboMode,omitempty" tf:"turbo_mode,omitempty"`
 
 	// The number of physical cores to expose to an instance. visible cores info (VC).
 	// +kubebuilder:validation:Optional
@@ -248,6 +278,9 @@ type BootDiskInitParameters struct {
 	// Structure is documented below.
 	InitializeParams *InitializeParamsInitParameters `json:"initializeParams,omitempty" tf:"initialize_params,omitempty"`
 
+	// The disk interface to use for attaching this disk; either SCSI or NVME.
+	Interface *string `json:"interface,omitempty" tf:"interface,omitempty"`
+
 	// The self_link of the encryption key that is
 	// stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link
 	// and disk_encryption_key_raw may be set.
@@ -282,6 +315,9 @@ type BootDiskObservation struct {
 	// alongside the new instance. Either initialize_params or source must be set.
 	// Structure is documented below.
 	InitializeParams *InitializeParamsObservation `json:"initializeParams,omitempty" tf:"initialize_params,omitempty"`
+
+	// The disk interface to use for attaching this disk; either SCSI or NVME.
+	Interface *string `json:"interface,omitempty" tf:"interface,omitempty"`
 
 	// The self_link of the encryption key that is
 	// stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link
@@ -324,6 +360,10 @@ type BootDiskParameters struct {
 	// +kubebuilder:validation:Optional
 	InitializeParams *InitializeParamsParameters `json:"initializeParams,omitempty" tf:"initialize_params,omitempty"`
 
+	// The disk interface to use for attaching this disk; either SCSI or NVME.
+	// +kubebuilder:validation:Optional
+	Interface *string `json:"interface,omitempty" tf:"interface,omitempty"`
+
 	// The self_link of the encryption key that is
 	// stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link
 	// and disk_encryption_key_raw may be set.
@@ -344,7 +384,7 @@ type BootDiskParameters struct {
 
 type ConfidentialInstanceConfigInitParameters struct {
 
-	// Defines the confidential computing technology the instance uses. SEV is an AMD feature. TDX is an Intel feature. One of the following values is required: SEV, SEV_SNP, TDX. on_host_maintenance can be set to MIGRATE if confidential_instance_type is set to SEV and min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM. If SEV_SNP, currently min_cpu_platform has to be set to "AMD Milan" or this will fail to create the VM. TDX is only available in beta.
+	// Defines the confidential computing technology the instance uses. SEV is an AMD feature. TDX is an Intel feature. One of the following values is required: SEV, SEV_SNP, TDX. on_host_maintenance can be set to MIGRATE if confidential_instance_type is set to SEV and min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM. If SEV_SNP, currently min_cpu_platform has to be set to "AMD Milan" or this will fail to create the VM.
 	ConfidentialInstanceType *string `json:"confidentialInstanceType,omitempty" tf:"confidential_instance_type,omitempty"`
 
 	// Defines whether the instance should have confidential compute enabled with AMD SEV. If enabled, on_host_maintenance can be set to MIGRATE if min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
@@ -353,7 +393,7 @@ type ConfidentialInstanceConfigInitParameters struct {
 
 type ConfidentialInstanceConfigObservation struct {
 
-	// Defines the confidential computing technology the instance uses. SEV is an AMD feature. TDX is an Intel feature. One of the following values is required: SEV, SEV_SNP, TDX. on_host_maintenance can be set to MIGRATE if confidential_instance_type is set to SEV and min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM. If SEV_SNP, currently min_cpu_platform has to be set to "AMD Milan" or this will fail to create the VM. TDX is only available in beta.
+	// Defines the confidential computing technology the instance uses. SEV is an AMD feature. TDX is an Intel feature. One of the following values is required: SEV, SEV_SNP, TDX. on_host_maintenance can be set to MIGRATE if confidential_instance_type is set to SEV and min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM. If SEV_SNP, currently min_cpu_platform has to be set to "AMD Milan" or this will fail to create the VM.
 	ConfidentialInstanceType *string `json:"confidentialInstanceType,omitempty" tf:"confidential_instance_type,omitempty"`
 
 	// Defines whether the instance should have confidential compute enabled with AMD SEV. If enabled, on_host_maintenance can be set to MIGRATE if min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
@@ -362,7 +402,7 @@ type ConfidentialInstanceConfigObservation struct {
 
 type ConfidentialInstanceConfigParameters struct {
 
-	// Defines the confidential computing technology the instance uses. SEV is an AMD feature. TDX is an Intel feature. One of the following values is required: SEV, SEV_SNP, TDX. on_host_maintenance can be set to MIGRATE if confidential_instance_type is set to SEV and min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM. If SEV_SNP, currently min_cpu_platform has to be set to "AMD Milan" or this will fail to create the VM. TDX is only available in beta.
+	// Defines the confidential computing technology the instance uses. SEV is an AMD feature. TDX is an Intel feature. One of the following values is required: SEV, SEV_SNP, TDX. on_host_maintenance can be set to MIGRATE if confidential_instance_type is set to SEV and min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM. If SEV_SNP, currently min_cpu_platform has to be set to "AMD Milan" or this will fail to create the VM.
 	// +kubebuilder:validation:Optional
 	ConfidentialInstanceType *string `json:"confidentialInstanceType,omitempty" tf:"confidential_instance_type,omitempty"`
 
@@ -374,10 +414,10 @@ type ConfidentialInstanceConfigParameters struct {
 type GuestAcceleratorInitParameters struct {
 
 	// The number of the guest accelerator cards exposed to this instance.
-	Count *float64 `json:"count,omitempty" tf:"count"`
+	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
 
 	// The accelerator type resource to expose to this instance. E.g. nvidia-tesla-k80.
-	Type *string `json:"type,omitempty" tf:"type"`
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type GuestAcceleratorObservation struct {
@@ -393,11 +433,11 @@ type GuestAcceleratorParameters struct {
 
 	// The number of the guest accelerator cards exposed to this instance.
 	// +kubebuilder:validation:Optional
-	Count *float64 `json:"count,omitempty" tf:"count"`
+	Count *float64 `json:"count" tf:"count,omitempty"`
 
 	// The accelerator type resource to expose to this instance. E.g. nvidia-tesla-k80.
 	// +kubebuilder:validation:Optional
-	Type *string `json:"type,omitempty" tf:"type"`
+	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 type IPv6AccessConfigInitParameters struct {
@@ -530,11 +570,14 @@ type InitializeParamsInitParameters struct {
 	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
+	// - A list of self_links of resource policies to attach to the instance. Modifying this list will cause the instance to recreate. Currently a max of 1 resource policy is supported.
+	ResourcePolicies []*string `json:"resourcePolicies,omitempty" tf:"resource_policies,omitempty"`
+
 	// The size of the image in gigabytes. If not specified, it
 	// will inherit the size of its base image.
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 
-	// The URL of the storage pool in which the new disk is created.
+	// The URL or the name of the storage pool in which the new disk is created.
 	// For example:
 	StoragePool *string `json:"storagePool,omitempty" tf:"storage_pool,omitempty"`
 
@@ -586,11 +629,14 @@ type InitializeParamsObservation struct {
 	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
+	// - A list of self_links of resource policies to attach to the instance. Modifying this list will cause the instance to recreate. Currently a max of 1 resource policy is supported.
+	ResourcePolicies []*string `json:"resourcePolicies,omitempty" tf:"resource_policies,omitempty"`
+
 	// The size of the image in gigabytes. If not specified, it
 	// will inherit the size of its base image.
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 
-	// The URL of the storage pool in which the new disk is created.
+	// The URL or the name of the storage pool in which the new disk is created.
 	// For example:
 	StoragePool *string `json:"storagePool,omitempty" tf:"storage_pool,omitempty"`
 
@@ -657,12 +703,16 @@ type InitializeParamsParameters struct {
 	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
+	// - A list of self_links of resource policies to attach to the instance. Modifying this list will cause the instance to recreate. Currently a max of 1 resource policy is supported.
+	// +kubebuilder:validation:Optional
+	ResourcePolicies []*string `json:"resourcePolicies,omitempty" tf:"resource_policies,omitempty"`
+
 	// The size of the image in gigabytes. If not specified, it
 	// will inherit the size of its base image.
 	// +kubebuilder:validation:Optional
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 
-	// The URL of the storage pool in which the new disk is created.
+	// The URL or the name of the storage pool in which the new disk is created.
 	// For example:
 	// +kubebuilder:validation:Optional
 	StoragePool *string `json:"storagePool,omitempty" tf:"storage_pool,omitempty"`
@@ -703,7 +753,7 @@ type InstanceInitParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Desired status of the instance. Either
-	// "RUNNING" or "TERMINATED".
+	// "RUNNING", "SUSPENDED" or "TERMINATED".
 	DesiredStatus *string `json:"desiredStatus,omitempty" tf:"desired_status,omitempty"`
 
 	// Enable Virtual Displays on this instance.
@@ -712,17 +762,19 @@ type InstanceInitParameters struct {
 
 	// List of the type and count of accelerator cards attached to the instance. Structure documented below.
 	// Note: GPU accelerators can only be used with on_host_maintenance option set to TERMINATE.
-	// Note: This field uses attr-as-block mode to avoid
-	// breaking users during the 0.12 upgrade. To explicitly send a list
-	// of zero objects you must use the following syntax:
-	// example=[]
-	// For more details about this behavior, see this section.
+	// Note: As of 6.0.0, argument syntax
+	// is no longer supported for this field in favor of block syntax.
+	// To dynamically set a list of guest accelerators, use dynamic blocks.
+	// To set an empty list, use a single guest_accelerator block with count = 0.
 	GuestAccelerator []GuestAcceleratorInitParameters `json:"guestAccelerator,omitempty" tf:"guest_accelerator,omitempty"`
 
 	// A custom hostname for the instance. Must be a fully qualified DNS name and RFC-1035-valid.
 	// Valid format is a series of labels 1-63 characters long matching the regular expression [a-z]([-a-z0-9]*[a-z0-9]), concatenated with periods.
 	// The entire hostname must not exceed 253 characters. Changing this forces a new resource to be created.
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
+
+	// Action to be taken when a customer's encryption key is revoked. Supports STOP and NONE, with NONE being the default.
+	KeyRevocationActionType *string `json:"keyRevocationActionType,omitempty" tf:"key_revocation_action_type,omitempty"`
 
 	// A map of key/value label pairs to assign to the instance.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
@@ -828,7 +880,10 @@ type InstanceObservation struct {
 	// Enable Confidential Mode on this VM. Structure is documented below
 	ConfidentialInstanceConfig *ConfidentialInstanceConfigObservation `json:"confidentialInstanceConfig,omitempty" tf:"confidential_instance_config,omitempty"`
 
-	// The current status of the instance. This could be one of the following values: PROVISIONING, STAGING, RUNNING, STOPPING, SUSPENDING, SUSPENDED, REPAIRING, and TERMINATED. For more information about the status of the instance, see Instance life cycle.`,
+	// Creation timestamp in RFC3339 text format.
+	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
+	// The current status of the instance. This could be one of the following values: PROVISIONING, STAGING, RUNNING, STOPPING, SUSPENDING, SUSPENDED, REPAIRING, and TERMINATED. For more information about the status of the instance, see Instance life cycle.
 	CurrentStatus *string `json:"currentStatus,omitempty" tf:"current_status,omitempty"`
 
 	// Enable deletion protection on this instance. Defaults to false.
@@ -839,7 +894,7 @@ type InstanceObservation struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Desired status of the instance. Either
-	// "RUNNING" or "TERMINATED".
+	// "RUNNING", "SUSPENDED" or "TERMINATED".
 	DesiredStatus *string `json:"desiredStatus,omitempty" tf:"desired_status,omitempty"`
 
 	// +mapType=granular
@@ -851,11 +906,10 @@ type InstanceObservation struct {
 
 	// List of the type and count of accelerator cards attached to the instance. Structure documented below.
 	// Note: GPU accelerators can only be used with on_host_maintenance option set to TERMINATE.
-	// Note: This field uses attr-as-block mode to avoid
-	// breaking users during the 0.12 upgrade. To explicitly send a list
-	// of zero objects you must use the following syntax:
-	// example=[]
-	// For more details about this behavior, see this section.
+	// Note: As of 6.0.0, argument syntax
+	// is no longer supported for this field in favor of block syntax.
+	// To dynamically set a list of guest accelerators, use dynamic blocks.
+	// To set an empty list, use a single guest_accelerator block with count = 0.
 	GuestAccelerator []GuestAcceleratorObservation `json:"guestAccelerator,omitempty" tf:"guest_accelerator,omitempty"`
 
 	// A custom hostname for the instance. Must be a fully qualified DNS name and RFC-1035-valid.
@@ -868,6 +922,9 @@ type InstanceObservation struct {
 
 	// The server-assigned unique identifier of this instance.
 	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
+
+	// Action to be taken when a customer's encryption key is revoked. Supports STOP and NONE, with NONE being the default.
+	KeyRevocationActionType *string `json:"keyRevocationActionType,omitempty" tf:"key_revocation_action_type,omitempty"`
 
 	// The unique fingerprint of the labels.
 	LabelFingerprint *string `json:"labelFingerprint,omitempty" tf:"label_fingerprint,omitempty"`
@@ -1005,7 +1062,7 @@ type InstanceParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Desired status of the instance. Either
-	// "RUNNING" or "TERMINATED".
+	// "RUNNING", "SUSPENDED" or "TERMINATED".
 	// +kubebuilder:validation:Optional
 	DesiredStatus *string `json:"desiredStatus,omitempty" tf:"desired_status,omitempty"`
 
@@ -1016,11 +1073,10 @@ type InstanceParameters struct {
 
 	// List of the type and count of accelerator cards attached to the instance. Structure documented below.
 	// Note: GPU accelerators can only be used with on_host_maintenance option set to TERMINATE.
-	// Note: This field uses attr-as-block mode to avoid
-	// breaking users during the 0.12 upgrade. To explicitly send a list
-	// of zero objects you must use the following syntax:
-	// example=[]
-	// For more details about this behavior, see this section.
+	// Note: As of 6.0.0, argument syntax
+	// is no longer supported for this field in favor of block syntax.
+	// To dynamically set a list of guest accelerators, use dynamic blocks.
+	// To set an empty list, use a single guest_accelerator block with count = 0.
 	// +kubebuilder:validation:Optional
 	GuestAccelerator []GuestAcceleratorParameters `json:"guestAccelerator,omitempty" tf:"guest_accelerator,omitempty"`
 
@@ -1029,6 +1085,10 @@ type InstanceParameters struct {
 	// The entire hostname must not exceed 253 characters. Changing this forces a new resource to be created.
 	// +kubebuilder:validation:Optional
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
+
+	// Action to be taken when a customer's encryption key is revoked. Supports STOP and NONE, with NONE being the default.
+	// +kubebuilder:validation:Optional
+	KeyRevocationActionType *string `json:"keyRevocationActionType,omitempty" tf:"key_revocation_action_type,omitempty"`
 
 	// A map of key/value label pairs to assign to the instance.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
@@ -1222,7 +1282,7 @@ type NetworkInterfaceInitParameters struct {
 	// instance can be accessed via the Internet. Omit to ensure that the instance
 	// is not accessible from the Internet.g. via
 	// tunnel or because it is running on another cloud instance on that network).
-	// This block can be repeated multiple times. Structure documented below.
+	// This block can be specified once per network_interface. Structure documented below.
 	AccessConfig []AccessConfigInitParameters `json:"accessConfig,omitempty" tf:"access_config,omitempty"`
 
 	// An
@@ -1258,7 +1318,7 @@ type NetworkInterfaceInitParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
-	// The type of vNIC to be used on this interface. Possible values: GVNIC, VIRTIO_NET.
+	// The type of vNIC to be used on this interface. Possible values: GVNIC, VIRTIO_NET, IDPF. In the beta provider the additional values of MRDMA and IRDMA are supported.
 	NicType *string `json:"nicType,omitempty" tf:"nic_type,omitempty"`
 
 	// The networking queue count that's specified by users for the network interface. Both Rx and Tx queues will be set to this number. It will be empty if not specified.
@@ -1279,7 +1339,7 @@ type NetworkInterfaceInitParameters struct {
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
 	// The project in which the subnetwork belongs.
-	// If the subnetwork is a self_link, this field is ignored in favor of the project
+	// If the subnetwork is a self_link, this field is set to the project
 	// defined in the subnetwork self_link. If the subnetwork is a name and this
 	// field is not provided, the provider project is used.
 	SubnetworkProject *string `json:"subnetworkProject,omitempty" tf:"subnetwork_project,omitempty"`
@@ -1299,7 +1359,7 @@ type NetworkInterfaceObservation struct {
 	// instance can be accessed via the Internet. Omit to ensure that the instance
 	// is not accessible from the Internet.g. via
 	// tunnel or because it is running on another cloud instance on that network).
-	// This block can be repeated multiple times. Structure documented below.
+	// This block can be specified once per network_interface. Structure documented below.
 	AccessConfig []AccessConfigObservation `json:"accessConfig,omitempty" tf:"access_config,omitempty"`
 
 	// An
@@ -1333,7 +1393,7 @@ type NetworkInterfaceObservation struct {
 	// empty, the address will be automatically assigned.
 	NetworkIP *string `json:"networkIp,omitempty" tf:"network_ip,omitempty"`
 
-	// The type of vNIC to be used on this interface. Possible values: GVNIC, VIRTIO_NET.
+	// The type of vNIC to be used on this interface. Possible values: GVNIC, VIRTIO_NET, IDPF. In the beta provider the additional values of MRDMA and IRDMA are supported.
 	NicType *string `json:"nicType,omitempty" tf:"nic_type,omitempty"`
 
 	// The networking queue count that's specified by users for the network interface. Both Rx and Tx queues will be set to this number. It will be empty if not specified.
@@ -1352,7 +1412,7 @@ type NetworkInterfaceObservation struct {
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
 	// The project in which the subnetwork belongs.
-	// If the subnetwork is a self_link, this field is ignored in favor of the project
+	// If the subnetwork is a self_link, this field is set to the project
 	// defined in the subnetwork self_link. If the subnetwork is a name and this
 	// field is not provided, the provider project is used.
 	SubnetworkProject *string `json:"subnetworkProject,omitempty" tf:"subnetwork_project,omitempty"`
@@ -1364,7 +1424,7 @@ type NetworkInterfaceParameters struct {
 	// instance can be accessed via the Internet. Omit to ensure that the instance
 	// is not accessible from the Internet.g. via
 	// tunnel or because it is running on another cloud instance on that network).
-	// This block can be repeated multiple times. Structure documented below.
+	// This block can be specified once per network_interface. Structure documented below.
 	// +kubebuilder:validation:Optional
 	AccessConfig []AccessConfigParameters `json:"accessConfig,omitempty" tf:"access_config,omitempty"`
 
@@ -1407,7 +1467,7 @@ type NetworkInterfaceParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
-	// The type of vNIC to be used on this interface. Possible values: GVNIC, VIRTIO_NET.
+	// The type of vNIC to be used on this interface. Possible values: GVNIC, VIRTIO_NET, IDPF. In the beta provider the additional values of MRDMA and IRDMA are supported.
 	// +kubebuilder:validation:Optional
 	NicType *string `json:"nicType,omitempty" tf:"nic_type,omitempty"`
 
@@ -1432,7 +1492,7 @@ type NetworkInterfaceParameters struct {
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
 	// The project in which the subnetwork belongs.
-	// If the subnetwork is a self_link, this field is ignored in favor of the project
+	// If the subnetwork is a self_link, this field is set to the project
 	// defined in the subnetwork self_link. If the subnetwork is a name and this
 	// field is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
@@ -1594,6 +1654,9 @@ type SchedulingInitParameters struct {
 	// Defaults to true.
 	AutomaticRestart *bool `json:"automaticRestart,omitempty" tf:"automatic_restart,omitempty"`
 
+	// Specifies the availability domain to place the instance in. The value must be a number between 1 and the number of availability domains specified in the spread placement policy attached to the instance.
+	AvailabilityDomain *float64 `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
+
 	// Describe the type of termination action for VM. Can be STOP or DELETE.  Read more on here
 	InstanceTerminationAction *string `json:"instanceTerminationAction,omitempty" tf:"instance_termination_action,omitempty"`
 
@@ -1640,6 +1703,9 @@ type SchedulingObservation struct {
 	// restarted if it was terminated by Compute Engine (not a user).
 	// Defaults to true.
 	AutomaticRestart *bool `json:"automaticRestart,omitempty" tf:"automatic_restart,omitempty"`
+
+	// Specifies the availability domain to place the instance in. The value must be a number between 1 and the number of availability domains specified in the spread placement policy attached to the instance.
+	AvailabilityDomain *float64 `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
 
 	// Describe the type of termination action for VM. Can be STOP or DELETE.  Read more on here
 	InstanceTerminationAction *string `json:"instanceTerminationAction,omitempty" tf:"instance_termination_action,omitempty"`
@@ -1688,6 +1754,10 @@ type SchedulingParameters struct {
 	// Defaults to true.
 	// +kubebuilder:validation:Optional
 	AutomaticRestart *bool `json:"automaticRestart,omitempty" tf:"automatic_restart,omitempty"`
+
+	// Specifies the availability domain to place the instance in. The value must be a number between 1 and the number of availability domains specified in the spread placement policy attached to the instance.
+	// +kubebuilder:validation:Optional
+	AvailabilityDomain *float64 `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
 
 	// Describe the type of termination action for VM. Can be STOP or DELETE.  Read more on here
 	// +kubebuilder:validation:Optional

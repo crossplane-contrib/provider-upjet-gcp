@@ -1168,7 +1168,7 @@ spec:
                 properties:
                   asyncPrimaryDisk:
                     description: |-
-                      A nested object resource
+                      A nested object resource.
                       Structure is documented below.
                     properties:
                       disk:
@@ -1473,7 +1473,7 @@ spec:
                 properties:
                   asyncPrimaryDisk:
                     description: |-
-                      A nested object resource
+                      A nested object resource.
                       Structure is documented below.
                     properties:
                       disk:
@@ -1937,7 +1937,7 @@ spec:
                 properties:
                   asyncPrimaryDisk:
                     description: |-
-                      A nested object resource
+                      A nested object resource.
                       Structure is documented below.
                     properties:
                       disk:
