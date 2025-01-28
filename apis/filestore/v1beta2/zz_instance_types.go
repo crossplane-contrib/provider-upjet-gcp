@@ -74,7 +74,35 @@ type FileSharesParameters struct {
 	SourceBackup *string `json:"sourceBackup,omitempty" tf:"source_backup,omitempty"`
 }
 
+type FixedIopsInitParameters struct {
+
+	// The number of IOPS to provision for the instance.
+	// max_iops must be in multiple of 1000.
+	MaxIops *float64 `json:"maxIops,omitempty" tf:"max_iops,omitempty"`
+}
+
+type FixedIopsObservation struct {
+
+	// The number of IOPS to provision for the instance.
+	// max_iops must be in multiple of 1000.
+	MaxIops *float64 `json:"maxIops,omitempty" tf:"max_iops,omitempty"`
+}
+
+type FixedIopsParameters struct {
+
+	// The number of IOPS to provision for the instance.
+	// max_iops must be in multiple of 1000.
+	// +kubebuilder:validation:Optional
+	MaxIops *float64 `json:"maxIops,omitempty" tf:"max_iops,omitempty"`
+}
+
 type InstanceInitParameters struct {
+
+	// Indicates whether the instance is protected against deletion.
+	DeletionProtectionEnabled *bool `json:"deletionProtectionEnabled,omitempty" tf:"deletion_protection_enabled,omitempty"`
+
+	// The reason for enabling deletion protection.
+	DeletionProtectionReason *string `json:"deletionProtectionReason,omitempty" tf:"deletion_protection_reason,omitempty"`
 
 	// A description of the instance.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -106,9 +134,22 @@ type InstanceInitParameters struct {
 	// Structure is documented below.
 	Networks []NetworksInitParameters `json:"networks,omitempty" tf:"networks,omitempty"`
 
+	// Performance configuration for the instance. If not provided,
+	// the default performance settings will be used.
+	// Structure is documented below.
+	PerformanceConfig *PerformanceConfigInitParameters `json:"performanceConfig,omitempty" tf:"performance_config,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Either NFSv3, for using NFS version 3 as file sharing protocol,
+	// or NFSv4.1, for using NFS version 4.1 as file sharing protocol.
+	// NFSv4.1 can be used with HIGH_SCALE_SSD, ZONAL, REGIONAL and ENTERPRISE.
+	// The default is NFSv3.
+	// Default value is NFS_V3.
+	// Possible values are: NFS_V3, NFS_V4_1.
+	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
 	// The service tier of the instance.
 	// Possible values include: STANDARD, PREMIUM, BASIC_HDD, BASIC_SSD, HIGH_SCALE_SSD, ZONAL, REGIONAL and ENTERPRISE
@@ -122,6 +163,12 @@ type InstanceObservation struct {
 
 	// Creation timestamp in RFC3339 text format.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Indicates whether the instance is protected against deletion.
+	DeletionProtectionEnabled *bool `json:"deletionProtectionEnabled,omitempty" tf:"deletion_protection_enabled,omitempty"`
+
+	// The reason for enabling deletion protection.
+	DeletionProtectionReason *string `json:"deletionProtectionReason,omitempty" tf:"deletion_protection_reason,omitempty"`
 
 	// A description of the instance.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -156,9 +203,22 @@ type InstanceObservation struct {
 	// Structure is documented below.
 	Networks []NetworksObservation `json:"networks,omitempty" tf:"networks,omitempty"`
 
+	// Performance configuration for the instance. If not provided,
+	// the default performance settings will be used.
+	// Structure is documented below.
+	PerformanceConfig *PerformanceConfigObservation `json:"performanceConfig,omitempty" tf:"performance_config,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Either NFSv3, for using NFS version 3 as file sharing protocol,
+	// or NFSv4.1, for using NFS version 4.1 as file sharing protocol.
+	// NFSv4.1 can be used with HIGH_SCALE_SSD, ZONAL, REGIONAL and ENTERPRISE.
+	// The default is NFSv3.
+	// Default value is NFS_V3.
+	// Possible values are: NFS_V3, NFS_V4_1.
+	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
 	// The combination of labels configured directly on the resource
 	// and default labels configured on the provider.
@@ -174,6 +234,14 @@ type InstanceObservation struct {
 }
 
 type InstanceParameters struct {
+
+	// Indicates whether the instance is protected against deletion.
+	// +kubebuilder:validation:Optional
+	DeletionProtectionEnabled *bool `json:"deletionProtectionEnabled,omitempty" tf:"deletion_protection_enabled,omitempty"`
+
+	// The reason for enabling deletion protection.
+	// +kubebuilder:validation:Optional
+	DeletionProtectionReason *string `json:"deletionProtectionReason,omitempty" tf:"deletion_protection_reason,omitempty"`
 
 	// A description of the instance.
 	// +kubebuilder:validation:Optional
@@ -214,10 +282,25 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	Networks []NetworksParameters `json:"networks,omitempty" tf:"networks,omitempty"`
 
+	// Performance configuration for the instance. If not provided,
+	// the default performance settings will be used.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PerformanceConfig *PerformanceConfigParameters `json:"performanceConfig,omitempty" tf:"performance_config,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Either NFSv3, for using NFS version 3 as file sharing protocol,
+	// or NFSv4.1, for using NFS version 4.1 as file sharing protocol.
+	// NFSv4.1 can be used with HIGH_SCALE_SSD, ZONAL, REGIONAL and ENTERPRISE.
+	// The default is NFSv3.
+	// Default value is NFS_V3.
+	// Possible values are: NFS_V3, NFS_V4_1.
+	// +kubebuilder:validation:Optional
+	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
 	// The service tier of the instance.
 	// Possible values include: STANDARD, PREMIUM, BASIC_HDD, BASIC_SSD, HIGH_SCALE_SSD, ZONAL, REGIONAL and ENTERPRISE
@@ -227,6 +310,37 @@ type InstanceParameters struct {
 	// The name of the Filestore zone of the instance.
 	// +kubebuilder:validation:Optional
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
+}
+
+type IopsPerTbInitParameters struct {
+
+	// The instance max IOPS will be calculated by multiplying
+	// the capacity of the instance (TB) by max_iops_per_tb,
+	// and rounding to the nearest 1000. The instance max IOPS
+	// will be changed dynamically based on the instance
+	// capacity.
+	MaxIopsPerTb *float64 `json:"maxIopsPerTb,omitempty" tf:"max_iops_per_tb,omitempty"`
+}
+
+type IopsPerTbObservation struct {
+
+	// The instance max IOPS will be calculated by multiplying
+	// the capacity of the instance (TB) by max_iops_per_tb,
+	// and rounding to the nearest 1000. The instance max IOPS
+	// will be changed dynamically based on the instance
+	// capacity.
+	MaxIopsPerTb *float64 `json:"maxIopsPerTb,omitempty" tf:"max_iops_per_tb,omitempty"`
+}
+
+type IopsPerTbParameters struct {
+
+	// The instance max IOPS will be calculated by multiplying
+	// the capacity of the instance (TB) by max_iops_per_tb,
+	// and rounding to the nearest 1000. The instance max IOPS
+	// will be changed dynamically based on the instance
+	// capacity.
+	// +kubebuilder:validation:Optional
+	MaxIopsPerTb *float64 `json:"maxIopsPerTb,omitempty" tf:"max_iops_per_tb,omitempty"`
 }
 
 type NFSExportOptionsInitParameters struct {
@@ -399,6 +513,50 @@ type NetworksParameters struct {
 	// addresses reserved for this instance.
 	// +kubebuilder:validation:Optional
 	ReservedIPRange *string `json:"reservedIpRange,omitempty" tf:"reserved_ip_range,omitempty"`
+}
+
+type PerformanceConfigInitParameters struct {
+
+	// The instance will have a fixed provisioned IOPS value,
+	// which will remain constant regardless of instance
+	// capacity.
+	// Structure is documented below.
+	FixedIops *FixedIopsInitParameters `json:"fixedIops,omitempty" tf:"fixed_iops,omitempty"`
+
+	// The instance provisioned IOPS will change dynamically
+	// based on the capacity of the instance.
+	// Structure is documented below.
+	IopsPerTb *IopsPerTbInitParameters `json:"iopsPerTb,omitempty" tf:"iops_per_tb,omitempty"`
+}
+
+type PerformanceConfigObservation struct {
+
+	// The instance will have a fixed provisioned IOPS value,
+	// which will remain constant regardless of instance
+	// capacity.
+	// Structure is documented below.
+	FixedIops *FixedIopsObservation `json:"fixedIops,omitempty" tf:"fixed_iops,omitempty"`
+
+	// The instance provisioned IOPS will change dynamically
+	// based on the capacity of the instance.
+	// Structure is documented below.
+	IopsPerTb *IopsPerTbObservation `json:"iopsPerTb,omitempty" tf:"iops_per_tb,omitempty"`
+}
+
+type PerformanceConfigParameters struct {
+
+	// The instance will have a fixed provisioned IOPS value,
+	// which will remain constant regardless of instance
+	// capacity.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	FixedIops *FixedIopsParameters `json:"fixedIops,omitempty" tf:"fixed_iops,omitempty"`
+
+	// The instance provisioned IOPS will change dynamically
+	// based on the capacity of the instance.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	IopsPerTb *IopsPerTbParameters `json:"iopsPerTb,omitempty" tf:"iops_per_tb,omitempty"`
 }
 
 // InstanceSpec defines the desired state of Instance
