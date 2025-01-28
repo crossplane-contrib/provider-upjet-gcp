@@ -12,6 +12,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    deletionProtection: false
     binaryAuthorization:
       breakglassJustification: Some justification
       useDefault: true
