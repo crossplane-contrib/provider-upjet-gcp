@@ -559,7 +559,7 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 
 	// identityplatform
 	//
-  // Imported by using the following projects/{{project}}/config
+	// Imported by using the following projects/{{project}}/config
 	"google_identity_platform_config": config.TemplatedStringAsIdentifier("", "projects/{{ .setup.configuration.project }}/config"),
 	// Imported by using the following format: projects/{{project}}/defaultSupportedIdpConfigs/{{idp_id}}
 	"google_identity_platform_default_supported_idp_config": config.IdentifierFromProvider,

@@ -375,7 +375,7 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	"google_iam_workload_identity_pool_provider": config.TemplatedStringAsIdentifier("workload_identity_pool_provider_id", "projects/{{ .setup.configuration.project }}/locations/global/workloadIdentityPools/{{ .parameters.workload_identity_pool_id }}/providers/{{ .external_name }}"),
 
 	// identityplatform
-  //
+	//
 
 	// kms
 	//
