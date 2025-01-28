@@ -8,6 +8,7 @@ metadata:
   name: ad-domain
 spec:
   forProvider:
+    deletionProtection: false
     domainName: tfgen.org.com
     locations:
     - us-central1

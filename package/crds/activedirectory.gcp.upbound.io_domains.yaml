@@ -86,6 +86,11 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  deletionProtection:
+                    description: |-
+                      Defaults to true.
+                      When the field is set to false, deleting the domain is allowed.
+                    type: boolean
                   domainName:
                     description: |-
                       The fully qualified domain name. e.g. mydomain.myorganization.com, with the restrictions
@@ -144,6 +149,11 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  deletionProtection:
+                    description: |-
+                      Defaults to true.
+                      When the field is set to false, deleting the domain is allowed.
+                    type: boolean
                   domainName:
                     description: |-
                       The fully qualified domain name. e.g. mydomain.myorganization.com, with the restrictions
@@ -374,6 +384,11 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  deletionProtection:
+                    description: |-
+                      Defaults to true.
+                      When the field is set to false, deleting the domain is allowed.
+                    type: boolean
                   domainName:
                     description: |-
                       The fully qualified domain name. e.g. mydomain.myorganization.com, with the restrictions
