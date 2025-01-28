@@ -555,11 +555,6 @@ spec:
                       The geographic location where the transfer config should reside.
                       Examples: US, EU, asia-northeast1. The default value is US.
                     type: string
-                  multiRegionAuxiliary:
-                    description: |-
-                      Applicable only for reservations located within one of the BigQuery multi-regions (US or EU).
-                      If set to true, this reservation is placed in the organization's secondary region which is designated for disaster recovery purposes. If false, this reservation is placed in the organization's default region.
-                    type: boolean
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -609,11 +604,6 @@ spec:
                       If false, any query using this reservation will use idle slots from other reservations within
                       the same admin project. If true, a query using this reservation will execute with the slot
                       capacity specified above at most.
-                    type: boolean
-                  multiRegionAuxiliary:
-                    description: |-
-                      Applicable only for reservations located within one of the BigQuery multi-regions (US or EU).
-                      If set to true, this reservation is placed in the organization's secondary region which is designated for disaster recovery purposes. If false, this reservation is placed in the organization's default region.
                     type: boolean
                   slotCapacity:
                     description: |-
@@ -837,11 +827,6 @@ spec:
                       The geographic location where the transfer config should reside.
                       Examples: US, EU, asia-northeast1. The default value is US.
                     type: string
-                  multiRegionAuxiliary:
-                    description: |-
-                      Applicable only for reservations located within one of the BigQuery multi-regions (US or EU).
-                      If set to true, this reservation is placed in the organization's secondary region which is designated for disaster recovery purposes. If false, this reservation is placed in the organization's default region.
-                    type: boolean
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.

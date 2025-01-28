@@ -13,6 +13,64 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type DatasetAccessConditionInitParameters struct {
+
+	// Description of the expression. This is a longer text which describes the expression,
+	// e.g. when hovered over it in a UI.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Textual representation of an expression in Common Expression Language syntax.
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	// String indicating the location of the expression for error reporting, e.g. a file
+	// name and a position in the file.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// Title for the expression, i.e. a short string describing its purpose.
+	// This can be used e.g. in UIs which allow to enter the expression.
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
+}
+
+type DatasetAccessConditionObservation struct {
+
+	// Description of the expression. This is a longer text which describes the expression,
+	// e.g. when hovered over it in a UI.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Textual representation of an expression in Common Expression Language syntax.
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	// String indicating the location of the expression for error reporting, e.g. a file
+	// name and a position in the file.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// Title for the expression, i.e. a short string describing its purpose.
+	// This can be used e.g. in UIs which allow to enter the expression.
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
+}
+
+type DatasetAccessConditionParameters struct {
+
+	// Description of the expression. This is a longer text which describes the expression,
+	// e.g. when hovered over it in a UI.
+	// +kubebuilder:validation:Optional
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Textual representation of an expression in Common Expression Language syntax.
+	// +kubebuilder:validation:Optional
+	Expression *string `json:"expression" tf:"expression,omitempty"`
+
+	// String indicating the location of the expression for error reporting, e.g. a file
+	// name and a position in the file.
+	// +kubebuilder:validation:Optional
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// Title for the expression, i.e. a short string describing its purpose.
+	// This can be used e.g. in UIs which allow to enter the expression.
+	// +kubebuilder:validation:Optional
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
+}
+
 type DatasetAccessDatasetDatasetInitParameters struct {
 
 	// The ID of the dataset containing this table.
@@ -97,6 +155,11 @@ type DatasetAccessDatasetParameters struct {
 
 type DatasetAccessInitParameters struct {
 
+	// Condition for the binding. If CEL expression in this field is true, this
+	// access binding will be considered.
+	// Structure is documented below.
+	Condition *DatasetAccessConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
+
 	// Grants all resources of particular types in a particular dataset read access to the current dataset.
 	// Structure is documented below.
 	Dataset *DatasetAccessDatasetInitParameters `json:"dataset,omitempty" tf:"dataset,omitempty"`
@@ -175,6 +238,11 @@ type DatasetAccessInitParameters struct {
 type DatasetAccessObservation struct {
 	APIUpdatedMember *bool `json:"apiUpdatedMember,omitempty" tf:"api_updated_member,omitempty"`
 
+	// Condition for the binding. If CEL expression in this field is true, this
+	// access binding will be considered.
+	// Structure is documented below.
+	Condition *DatasetAccessConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
+
 	// Grants all resources of particular types in a particular dataset read access to the current dataset.
 	// Structure is documented below.
 	Dataset *DatasetAccessDatasetObservation `json:"dataset,omitempty" tf:"dataset,omitempty"`
@@ -235,6 +303,12 @@ type DatasetAccessObservation struct {
 }
 
 type DatasetAccessParameters struct {
+
+	// Condition for the binding. If CEL expression in this field is true, this
+	// access binding will be considered.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Condition *DatasetAccessConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	// Grants all resources of particular types in a particular dataset read access to the current dataset.
 	// Structure is documented below.

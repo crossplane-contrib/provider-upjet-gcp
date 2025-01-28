@@ -38,7 +38,7 @@ type AnalyticsHubListingInitParameters struct {
 	// Base64 encoded image representing the listing.
 	Icon *string `json:"icon,omitempty" tf:"icon,omitempty"`
 
-	// Email or URL of the listing publisher.
+	// Email or URL of the primary point of contact of the listing.
 	PrimaryContact *string `json:"primaryContact,omitempty" tf:"primary_contact,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -94,7 +94,7 @@ type AnalyticsHubListingObservation struct {
 	// The resource name of the listing. e.g. "projects/myproject/locations/US/dataExchanges/123/listings/456"
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// Email or URL of the listing publisher.
+	// Email or URL of the primary point of contact of the listing.
 	PrimaryContact *string `json:"primaryContact,omitempty" tf:"primary_contact,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -163,7 +163,7 @@ type AnalyticsHubListingParameters struct {
 	// +kubebuilder:validation:Required
 	Location *string `json:"location" tf:"location,omitempty"`
 
-	// Email or URL of the listing publisher.
+	// Email or URL of the primary point of contact of the listing.
 	// +kubebuilder:validation:Optional
 	PrimaryContact *string `json:"primaryContact,omitempty" tf:"primary_contact,omitempty"`
 
@@ -201,12 +201,20 @@ type BigqueryDatasetInitParameters struct {
 	// Selector for a Dataset in bigquery to populate dataset.
 	// +kubebuilder:validation:Optional
 	DatasetSelector *v1.Selector `json:"datasetSelector,omitempty" tf:"-"`
+
+	// Resource in this dataset that is selectively shared. This field is required for data clean room exchanges.
+	// Structure is documented below.
+	SelectedResources []SelectedResourcesInitParameters `json:"selectedResources,omitempty" tf:"selected_resources,omitempty"`
 }
 
 type BigqueryDatasetObservation struct {
 
 	// Resource name of the dataset source for this listing. e.g. projects/myproject/datasets/123
 	Dataset *string `json:"dataset,omitempty" tf:"dataset,omitempty"`
+
+	// Resource in this dataset that is selectively shared. This field is required for data clean room exchanges.
+	// Structure is documented below.
+	SelectedResources []SelectedResourcesObservation `json:"selectedResources,omitempty" tf:"selected_resources,omitempty"`
 }
 
 type BigqueryDatasetParameters struct {
@@ -224,6 +232,11 @@ type BigqueryDatasetParameters struct {
 	// Selector for a Dataset in bigquery to populate dataset.
 	// +kubebuilder:validation:Optional
 	DatasetSelector *v1.Selector `json:"datasetSelector,omitempty" tf:"-"`
+
+	// Resource in this dataset that is selectively shared. This field is required for data clean room exchanges.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SelectedResources []SelectedResourcesParameters `json:"selectedResources,omitempty" tf:"selected_resources,omitempty"`
 }
 
 type DataProviderInitParameters struct {
@@ -298,6 +311,10 @@ type RestrictedExportConfigObservation struct {
 	// If true, enable restricted export.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
+	// (Output)
+	// If true, restrict direct table access(read api/tabledata.list) on linked table.
+	RestrictDirectTableAccess *bool `json:"restrictDirectTableAccess,omitempty" tf:"restrict_direct_table_access,omitempty"`
+
 	// If true, restrict export of query result derived from restricted linked dataset table.
 	RestrictQueryResult *bool `json:"restrictQueryResult,omitempty" tf:"restrict_query_result,omitempty"`
 }
@@ -311,6 +328,45 @@ type RestrictedExportConfigParameters struct {
 	// If true, restrict export of query result derived from restricted linked dataset table.
 	// +kubebuilder:validation:Optional
 	RestrictQueryResult *bool `json:"restrictQueryResult,omitempty" tf:"restrict_query_result,omitempty"`
+}
+
+type SelectedResourcesInitParameters struct {
+
+	// Format: For table: projects/{projectId}/datasets/{datasetId}/tables/{tableId} Example:"projects/test_project/datasets/test_dataset/tables/test_table"
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta2.Table
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	Table *string `json:"table,omitempty" tf:"table,omitempty"`
+
+	// Reference to a Table in bigquery to populate table.
+	// +kubebuilder:validation:Optional
+	TableRef *v1.Reference `json:"tableRef,omitempty" tf:"-"`
+
+	// Selector for a Table in bigquery to populate table.
+	// +kubebuilder:validation:Optional
+	TableSelector *v1.Selector `json:"tableSelector,omitempty" tf:"-"`
+}
+
+type SelectedResourcesObservation struct {
+
+	// Format: For table: projects/{projectId}/datasets/{datasetId}/tables/{tableId} Example:"projects/test_project/datasets/test_dataset/tables/test_table"
+	Table *string `json:"table,omitempty" tf:"table,omitempty"`
+}
+
+type SelectedResourcesParameters struct {
+
+	// Format: For table: projects/{projectId}/datasets/{datasetId}/tables/{tableId} Example:"projects/test_project/datasets/test_dataset/tables/test_table"
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta2.Table
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	Table *string `json:"table,omitempty" tf:"table,omitempty"`
+
+	// Reference to a Table in bigquery to populate table.
+	// +kubebuilder:validation:Optional
+	TableRef *v1.Reference `json:"tableRef,omitempty" tf:"-"`
+
+	// Selector for a Table in bigquery to populate table.
+	// +kubebuilder:validation:Optional
+	TableSelector *v1.Selector `json:"tableSelector,omitempty" tf:"-"`
 }
 
 // AnalyticsHubListingSpec defines the desired state of AnalyticsHubListing

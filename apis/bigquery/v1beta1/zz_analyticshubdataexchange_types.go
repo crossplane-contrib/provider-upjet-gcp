@@ -39,6 +39,11 @@ type AnalyticsHubDataExchangeInitParameters struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Configurable data sharing environment option for a data exchange.
+	// This field is required for data clean room exchanges.
+	// Structure is documented below.
+	SharingEnvironmentConfig *SharingEnvironmentConfigInitParameters `json:"sharingEnvironmentConfig,omitempty" tf:"sharing_environment_config,omitempty"`
 }
 
 type AnalyticsHubDataExchangeObservation struct {
@@ -77,6 +82,11 @@ type AnalyticsHubDataExchangeObservation struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Configurable data sharing environment option for a data exchange.
+	// This field is required for data clean room exchanges.
+	// Structure is documented below.
+	SharingEnvironmentConfig *SharingEnvironmentConfigObservation `json:"sharingEnvironmentConfig,omitempty" tf:"sharing_environment_config,omitempty"`
 }
 
 type AnalyticsHubDataExchangeParameters struct {
@@ -113,6 +123,59 @@ type AnalyticsHubDataExchangeParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Configurable data sharing environment option for a data exchange.
+	// This field is required for data clean room exchanges.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SharingEnvironmentConfig *SharingEnvironmentConfigParameters `json:"sharingEnvironmentConfig,omitempty" tf:"sharing_environment_config,omitempty"`
+}
+
+type DcrExchangeConfigInitParameters struct {
+}
+
+type DcrExchangeConfigObservation struct {
+}
+
+type DcrExchangeConfigParameters struct {
+}
+
+type DefaultExchangeConfigInitParameters struct {
+}
+
+type DefaultExchangeConfigObservation struct {
+}
+
+type DefaultExchangeConfigParameters struct {
+}
+
+type SharingEnvironmentConfigInitParameters struct {
+
+	// Data Clean Room (DCR), used for privacy-safe and secured data sharing.
+	DcrExchangeConfig *DcrExchangeConfigInitParameters `json:"dcrExchangeConfig,omitempty" tf:"dcr_exchange_config,omitempty"`
+
+	// Default Analytics Hub data exchange, used for secured data sharing.
+	DefaultExchangeConfig *DefaultExchangeConfigInitParameters `json:"defaultExchangeConfig,omitempty" tf:"default_exchange_config,omitempty"`
+}
+
+type SharingEnvironmentConfigObservation struct {
+
+	// Data Clean Room (DCR), used for privacy-safe and secured data sharing.
+	DcrExchangeConfig *DcrExchangeConfigParameters `json:"dcrExchangeConfig,omitempty" tf:"dcr_exchange_config,omitempty"`
+
+	// Default Analytics Hub data exchange, used for secured data sharing.
+	DefaultExchangeConfig *DefaultExchangeConfigParameters `json:"defaultExchangeConfig,omitempty" tf:"default_exchange_config,omitempty"`
+}
+
+type SharingEnvironmentConfigParameters struct {
+
+	// Data Clean Room (DCR), used for privacy-safe and secured data sharing.
+	// +kubebuilder:validation:Optional
+	DcrExchangeConfig *DcrExchangeConfigParameters `json:"dcrExchangeConfig,omitempty" tf:"dcr_exchange_config,omitempty"`
+
+	// Default Analytics Hub data exchange, used for secured data sharing.
+	// +kubebuilder:validation:Optional
+	DefaultExchangeConfig *DefaultExchangeConfigParameters `json:"defaultExchangeConfig,omitempty" tf:"default_exchange_config,omitempty"`
 }
 
 // AnalyticsHubDataExchangeSpec defines the desired state of AnalyticsHubDataExchange
