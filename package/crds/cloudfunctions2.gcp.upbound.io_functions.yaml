@@ -3400,7 +3400,7 @@ spec:
                                   NOT match the revision regex.
                                 type: boolean
                               projectId:
-                                description: Project identifier (preferrably project
+                                description: Project identifier (preferably project
                                   number but can also be the project ID) of the project
                                   that contains the secret. If not set, it will be
                                   populated with the function's project assuming that
@@ -4033,7 +4033,7 @@ spec:
                               description: Name of the environment variable.
                               type: string
                             projectId:
-                              description: Project identifier (preferrably project
+                              description: Project identifier (preferably project
                                 number but can also be the project ID) of the project
                                 that contains the secret. If not set, it will be populated
                                 with the function's project assuming that the secret
@@ -4142,7 +4142,7 @@ spec:
                                 any other secrets. Recommended mount path: /etc/secrets'
                               type: string
                             projectId:
-                              description: Project identifier (preferrably project
+                              description: Project identifier (preferably project
                                 number but can also be the project ID) of the project
                                 that contains the secret. If not set, it will be populated
                                 with the function's project assuming that the secret
@@ -4588,7 +4588,7 @@ spec:
                                   NOT match the revision regex.
                                 type: boolean
                               projectId:
-                                description: Project identifier (preferrably project
+                                description: Project identifier (preferably project
                                   number but can also be the project ID) of the project
                                   that contains the secret. If not set, it will be
                                   populated with the function's project assuming that
@@ -5218,7 +5218,7 @@ spec:
                               description: Name of the environment variable.
                               type: string
                             projectId:
-                              description: Project identifier (preferrably project
+                              description: Project identifier (preferably project
                                 number but can also be the project ID) of the project
                                 that contains the secret. If not set, it will be populated
                                 with the function's project assuming that the secret
@@ -5327,7 +5327,7 @@ spec:
                                 any other secrets. Recommended mount path: /etc/secrets'
                               type: string
                             projectId:
-                              description: Project identifier (preferrably project
+                              description: Project identifier (preferably project
                                 number but can also be the project ID) of the project
                                 that contains the secret. If not set, it will be populated
                                 with the function's project assuming that the secret
@@ -5790,7 +5790,7 @@ spec:
                                   NOT match the revision regex.
                                 type: boolean
                               projectId:
-                                description: Project identifier (preferrably project
+                                description: Project identifier (preferably project
                                   number but can also be the project ID) of the project
                                   that contains the secret. If not set, it will be
                                   populated with the function's project assuming that
@@ -5991,7 +5991,7 @@ spec:
                               description: Name of the environment variable.
                               type: string
                             projectId:
-                              description: Project identifier (preferrably project
+                              description: Project identifier (preferably project
                                 number but can also be the project ID) of the project
                                 that contains the secret. If not set, it will be populated
                                 with the function's project assuming that the secret
@@ -6024,7 +6024,7 @@ spec:
                                 any other secrets. Recommended mount path: /etc/secrets'
                               type: string
                             projectId:
-                              description: Project identifier (preferrably project
+                              description: Project identifier (preferably project
                                 number but can also be the project ID) of the project
                                 that contains the secret. If not set, it will be populated
                                 with the function's project assuming that the secret
