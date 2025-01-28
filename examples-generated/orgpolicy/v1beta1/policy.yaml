@@ -27,6 +27,7 @@ metadata:
   name: basic
 spec:
   forProvider:
+    deletionPolicy: DELETE
     name: id
     orgId: "123456789"
     projectId: id
