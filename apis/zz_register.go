@@ -71,7 +71,6 @@ import (
 	v1beta2dataplex "github.com/upbound/provider-gcp/apis/dataplex/v1beta2"
 	v1beta1dataproc "github.com/upbound/provider-gcp/apis/dataproc/v1beta1"
 	v1beta2dataproc "github.com/upbound/provider-gcp/apis/dataproc/v1beta2"
-	v1beta1datastore "github.com/upbound/provider-gcp/apis/datastore/v1beta1"
 	v1beta1datastream "github.com/upbound/provider-gcp/apis/datastream/v1beta1"
 	v1beta2datastream "github.com/upbound/provider-gcp/apis/datastream/v1beta2"
 	v1beta1dialogflowcx "github.com/upbound/provider-gcp/apis/dialogflowcx/v1beta1"
@@ -214,7 +213,6 @@ func init() {
 		v1beta2dataplex.SchemeBuilder.AddToScheme,
 		v1beta1dataproc.SchemeBuilder.AddToScheme,
 		v1beta2dataproc.SchemeBuilder.AddToScheme,
-		v1beta1datastore.SchemeBuilder.AddToScheme,
 		v1beta1datastream.SchemeBuilder.AddToScheme,
 		v1beta2datastream.SchemeBuilder.AddToScheme,
 		v1beta1dialogflowcx.SchemeBuilder.AddToScheme,
