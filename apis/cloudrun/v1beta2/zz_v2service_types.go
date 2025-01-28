@@ -350,53 +350,6 @@ type EnvValueSourceSecretKeyRefParameters struct {
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
-type GcsInitParameters struct {
-
-	// GCS Bucket name
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/storage/v1beta2.Bucket
-	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
-
-	// Reference to a Bucket in storage to populate bucket.
-	// +kubebuilder:validation:Optional
-	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
-
-	// Selector for a Bucket in storage to populate bucket.
-	// +kubebuilder:validation:Optional
-	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
-
-	// If true, mount the NFS volume as read only
-	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
-}
-
-type GcsObservation struct {
-
-	// GCS Bucket name
-	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
-
-	// If true, mount the NFS volume as read only
-	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
-}
-
-type GcsParameters struct {
-
-	// GCS Bucket name
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/storage/v1beta2.Bucket
-	// +kubebuilder:validation:Optional
-	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
-
-	// Reference to a Bucket in storage to populate bucket.
-	// +kubebuilder:validation:Optional
-	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
-
-	// Selector for a Bucket in storage to populate bucket.
-	// +kubebuilder:validation:Optional
-	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
-
-	// If true, mount the NFS volume as read only
-	// +kubebuilder:validation:Optional
-	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
-}
-
 type LivenessProbeGRPCInitParameters struct {
 
 	// Port number to access on the container. Must be in the range 1 to 65535.
@@ -540,70 +493,21 @@ type LivenessProbeTCPSocketParameters struct {
 	Port *float64 `json:"port" tf:"port,omitempty"`
 }
 
-type NFSInitParameters struct {
-
-	// Path that is exported by the NFS server.
-	Path *string `json:"path,omitempty" tf:"path,omitempty"`
-
-	// If true, mount the NFS volume as read only
-	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
-
-	// Hostname or IP address of the NFS server
-	Server *string `json:"server,omitempty" tf:"server,omitempty"`
-}
-
-type NFSObservation struct {
-
-	// Path that is exported by the NFS server.
-	Path *string `json:"path,omitempty" tf:"path,omitempty"`
-
-	// If true, mount the NFS volume as read only
-	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
-
-	// Hostname or IP address of the NFS server
-	Server *string `json:"server,omitempty" tf:"server,omitempty"`
-}
-
-type NFSParameters struct {
-
-	// Path that is exported by the NFS server.
-	// +kubebuilder:validation:Optional
-	Path *string `json:"path" tf:"path,omitempty"`
-
-	// If true, mount the NFS volume as read only
-	// +kubebuilder:validation:Optional
-	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
-
-	// Hostname or IP address of the NFS server
-	// +kubebuilder:validation:Optional
-	Server *string `json:"server" tf:"server,omitempty"`
-}
-
 type ScalingInitParameters struct {
 
-	// Maximum number of serving instances that this resource should have.
-	MaxInstanceCount *float64 `json:"maxInstanceCount,omitempty" tf:"max_instance_count,omitempty"`
-
-	// Minimum number of serving instances that this resource should have.
+	// Minimum number of serving instances that this resource should have. Defaults to 0. Must not be greater than maximum instance count.
 	MinInstanceCount *float64 `json:"minInstanceCount,omitempty" tf:"min_instance_count,omitempty"`
 }
 
 type ScalingObservation struct {
 
-	// Maximum number of serving instances that this resource should have.
-	MaxInstanceCount *float64 `json:"maxInstanceCount,omitempty" tf:"max_instance_count,omitempty"`
-
-	// Minimum number of serving instances that this resource should have.
+	// Minimum number of serving instances that this resource should have. Defaults to 0. Must not be greater than maximum instance count.
 	MinInstanceCount *float64 `json:"minInstanceCount,omitempty" tf:"min_instance_count,omitempty"`
 }
 
 type ScalingParameters struct {
 
-	// Maximum number of serving instances that this resource should have.
-	// +kubebuilder:validation:Optional
-	MaxInstanceCount *float64 `json:"maxInstanceCount,omitempty" tf:"max_instance_count,omitempty"`
-
-	// Minimum number of serving instances that this resource should have.
+	// Minimum number of serving instances that this resource should have. Defaults to 0. Must not be greater than maximum instance count.
 	// +kubebuilder:validation:Optional
 	MinInstanceCount *float64 `json:"minInstanceCount,omitempty" tf:"min_instance_count,omitempty"`
 }
@@ -739,7 +643,7 @@ type TemplateContainersResourcesInitParameters struct {
 	// resources is set, this field must be explicitly set to true to preserve the default behavior.
 	CPUIdle *bool `json:"cpuIdle,omitempty" tf:"cpu_idle,omitempty"`
 
-	// Only memory and CPU are supported. Use key cpu for CPU limit and memory for memory limit. Note: The only supported values for CPU are '1', '2', '4', and '8'. Setting 4 CPU requires at least 2Gi of memory. The values of the map is string form of the 'quantity' k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go
+	// Only memory, CPU, and nvidia.com/gpu are supported. Use key cpu for CPU limit, memory for memory limit, nvidia.com/gpu for gpu limit. Note: The only supported values for CPU are '1', '2', '4', and '8'. Setting 4 CPU requires at least 2Gi of memory. The values of the map is string form of the 'quantity' k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go
 	// +mapType=granular
 	Limits map[string]*string `json:"limits,omitempty" tf:"limits,omitempty"`
 
@@ -753,7 +657,7 @@ type TemplateContainersResourcesObservation struct {
 	// resources is set, this field must be explicitly set to true to preserve the default behavior.
 	CPUIdle *bool `json:"cpuIdle,omitempty" tf:"cpu_idle,omitempty"`
 
-	// Only memory and CPU are supported. Use key cpu for CPU limit and memory for memory limit. Note: The only supported values for CPU are '1', '2', '4', and '8'. Setting 4 CPU requires at least 2Gi of memory. The values of the map is string form of the 'quantity' k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go
+	// Only memory, CPU, and nvidia.com/gpu are supported. Use key cpu for CPU limit, memory for memory limit, nvidia.com/gpu for gpu limit. Note: The only supported values for CPU are '1', '2', '4', and '8'. Setting 4 CPU requires at least 2Gi of memory. The values of the map is string form of the 'quantity' k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go
 	// +mapType=granular
 	Limits map[string]*string `json:"limits,omitempty" tf:"limits,omitempty"`
 
@@ -768,7 +672,7 @@ type TemplateContainersResourcesParameters struct {
 	// +kubebuilder:validation:Optional
 	CPUIdle *bool `json:"cpuIdle,omitempty" tf:"cpu_idle,omitempty"`
 
-	// Only memory and CPU are supported. Use key cpu for CPU limit and memory for memory limit. Note: The only supported values for CPU are '1', '2', '4', and '8'. Setting 4 CPU requires at least 2Gi of memory. The values of the map is string form of the 'quantity' k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go
+	// Only memory, CPU, and nvidia.com/gpu are supported. Use key cpu for CPU limit, memory for memory limit, nvidia.com/gpu for gpu limit. Note: The only supported values for CPU are '1', '2', '4', and '8'. Setting 4 CPU requires at least 2Gi of memory. The values of the map is string form of the 'quantity' k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Limits map[string]*string `json:"limits,omitempty" tf:"limits,omitempty"`
@@ -805,6 +709,38 @@ type TemplateContainersVolumeMountsParameters struct {
 	// Volume's name.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name" tf:"name,omitempty"`
+}
+
+type TemplateScalingInitParameters struct {
+
+	// Maximum number of serving instances that this resource should have. Must not be less than minimum instance count. If absent, Cloud Run will calculate
+	// a default value based on the project's available container instances quota in the region and specified instance size.
+	MaxInstanceCount *float64 `json:"maxInstanceCount,omitempty" tf:"max_instance_count,omitempty"`
+
+	// Minimum number of serving instances that this resource should have. Defaults to 0. Must not be greater than maximum instance count.
+	MinInstanceCount *float64 `json:"minInstanceCount,omitempty" tf:"min_instance_count,omitempty"`
+}
+
+type TemplateScalingObservation struct {
+
+	// Maximum number of serving instances that this resource should have. Must not be less than minimum instance count. If absent, Cloud Run will calculate
+	// a default value based on the project's available container instances quota in the region and specified instance size.
+	MaxInstanceCount *float64 `json:"maxInstanceCount,omitempty" tf:"max_instance_count,omitempty"`
+
+	// Minimum number of serving instances that this resource should have. Defaults to 0. Must not be greater than maximum instance count.
+	MinInstanceCount *float64 `json:"minInstanceCount,omitempty" tf:"min_instance_count,omitempty"`
+}
+
+type TemplateScalingParameters struct {
+
+	// Maximum number of serving instances that this resource should have. Must not be less than minimum instance count. If absent, Cloud Run will calculate
+	// a default value based on the project's available container instances quota in the region and specified instance size.
+	// +kubebuilder:validation:Optional
+	MaxInstanceCount *float64 `json:"maxInstanceCount,omitempty" tf:"max_instance_count,omitempty"`
+
+	// Minimum number of serving instances that this resource should have. Defaults to 0. Must not be greater than maximum instance count.
+	// +kubebuilder:validation:Optional
+	MinInstanceCount *float64 `json:"minInstanceCount,omitempty" tf:"min_instance_count,omitempty"`
 }
 
 type TemplateVPCAccessInitParameters struct {
@@ -850,6 +786,80 @@ type TemplateVPCAccessParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	NetworkInterfaces []VPCAccessNetworkInterfacesParameters `json:"networkInterfaces,omitempty" tf:"network_interfaces,omitempty"`
+}
+
+type TemplateVolumesEmptyDirInitParameters struct {
+
+	// The different types of medium supported for EmptyDir.
+	// Default value is MEMORY.
+	// Possible values are: MEMORY.
+	Medium *string `json:"medium,omitempty" tf:"medium,omitempty"`
+
+	// Limit on the storage usable by this EmptyDir volume. The size limit is also applicable for memory medium. The maximum usage on memory medium EmptyDir would be the minimum value between the SizeLimit specified here and the sum of memory limits of all containers in a pod. This field's values are of the 'Quantity' k8s type: https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/. The default is nil which means that the limit is undefined. More info: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir.
+	SizeLimit *string `json:"sizeLimit,omitempty" tf:"size_limit,omitempty"`
+}
+
+type TemplateVolumesEmptyDirObservation struct {
+
+	// The different types of medium supported for EmptyDir.
+	// Default value is MEMORY.
+	// Possible values are: MEMORY.
+	Medium *string `json:"medium,omitempty" tf:"medium,omitempty"`
+
+	// Limit on the storage usable by this EmptyDir volume. The size limit is also applicable for memory medium. The maximum usage on memory medium EmptyDir would be the minimum value between the SizeLimit specified here and the sum of memory limits of all containers in a pod. This field's values are of the 'Quantity' k8s type: https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/. The default is nil which means that the limit is undefined. More info: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir.
+	SizeLimit *string `json:"sizeLimit,omitempty" tf:"size_limit,omitempty"`
+}
+
+type TemplateVolumesEmptyDirParameters struct {
+
+	// The different types of medium supported for EmptyDir.
+	// Default value is MEMORY.
+	// Possible values are: MEMORY.
+	// +kubebuilder:validation:Optional
+	Medium *string `json:"medium,omitempty" tf:"medium,omitempty"`
+
+	// Limit on the storage usable by this EmptyDir volume. The size limit is also applicable for memory medium. The maximum usage on memory medium EmptyDir would be the minimum value between the SizeLimit specified here and the sum of memory limits of all containers in a pod. This field's values are of the 'Quantity' k8s type: https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/. The default is nil which means that the limit is undefined. More info: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir.
+	// +kubebuilder:validation:Optional
+	SizeLimit *string `json:"sizeLimit,omitempty" tf:"size_limit,omitempty"`
+}
+
+type TemplateVolumesNFSInitParameters struct {
+
+	// Path that is exported by the NFS server.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// If true, mount the NFS volume as read only
+	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
+
+	// Hostname or IP address of the NFS server
+	Server *string `json:"server,omitempty" tf:"server,omitempty"`
+}
+
+type TemplateVolumesNFSObservation struct {
+
+	// Path that is exported by the NFS server.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// If true, mount the NFS volume as read only
+	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
+
+	// Hostname or IP address of the NFS server
+	Server *string `json:"server,omitempty" tf:"server,omitempty"`
+}
+
+type TemplateVolumesNFSParameters struct {
+
+	// Path that is exported by the NFS server.
+	// +kubebuilder:validation:Optional
+	Path *string `json:"path" tf:"path,omitempty"`
+
+	// If true, mount the NFS volume as read only
+	// +kubebuilder:validation:Optional
+	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
+
+	// Hostname or IP address of the NFS server
+	// +kubebuilder:validation:Optional
+	Server *string `json:"server" tf:"server,omitempty"`
 }
 
 type TemplateVolumesSecretInitParameters struct {
@@ -1048,12 +1058,19 @@ type V2ServiceInitParameters struct {
 	// For more information, see https://cloud.google.com/run/docs/configuring/custom-audiences.
 	CustomAudiences []*string `json:"customAudiences,omitempty" tf:"custom_audiences,omitempty"`
 
+	// Defaults to true.
+	// When the field is set to false, deleting the service is allowed.
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
+
 	// User-provided description of the Service. This field currently has a 512-character limit.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Provides the ingress settings for this Service. On output, returns the currently observed ingress settings, or INGRESS_TRAFFIC_UNSPECIFIED if no revision is active.
 	// Possible values are: INGRESS_TRAFFIC_ALL, INGRESS_TRAFFIC_INTERNAL_ONLY, INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER.
 	Ingress *string `json:"ingress,omitempty" tf:"ingress,omitempty"`
+
+	// Disables IAM permission check for run.routes.invoke for callers of this service. This feature is available by invitation only. For more information, visit https://cloud.google.com/run/docs/securing/managing-access#invoker_check.
+	InvokerIAMDisabled *bool `json:"invokerIamDisabled,omitempty" tf:"invoker_iam_disabled,omitempty"`
 
 	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component, environment, state, etc.
 	// For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
@@ -1071,6 +1088,10 @@ type V2ServiceInitParameters struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Scaling settings for this Revision.
+	// Structure is documented below.
+	Scaling *ScalingInitParameters `json:"scaling,omitempty" tf:"scaling,omitempty"`
 
 	// The template used to create revisions for this Service.
 	// Structure is documented below.
@@ -1117,6 +1138,10 @@ type V2ServiceObservation struct {
 	// The deletion time.
 	DeleteTime *string `json:"deleteTime,omitempty" tf:"delete_time,omitempty"`
 
+	// Defaults to true.
+	// When the field is set to false, deleting the service is allowed.
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
+
 	// User-provided description of the Service. This field currently has a 512-character limit.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -1129,7 +1154,7 @@ type V2ServiceObservation struct {
 	// A system-generated fingerprint for this version of the resource. May be used to detect modification conflict during updates.
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
-	// For a deleted resource, the time after which it will be permamently deleted.
+	// For a deleted resource, the time after which it will be permanently deleted.
 	ExpireTime *string `json:"expireTime,omitempty" tf:"expire_time,omitempty"`
 
 	// A number that monotonically increases every time the user modifies the desired state. Please note that unlike v1, this is an int64 value. As with most Google APIs, its JSON representation will be a string instead of an integer.
@@ -1141,6 +1166,9 @@ type V2ServiceObservation struct {
 	// Provides the ingress settings for this Service. On output, returns the currently observed ingress settings, or INGRESS_TRAFFIC_UNSPECIFIED if no revision is active.
 	// Possible values are: INGRESS_TRAFFIC_ALL, INGRESS_TRAFFIC_INTERNAL_ONLY, INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER.
 	Ingress *string `json:"ingress,omitempty" tf:"ingress,omitempty"`
+
+	// Disables IAM permission check for run.routes.invoke for callers of this service. This feature is available by invitation only. For more information, visit https://cloud.google.com/run/docs/securing/managing-access#invoker_check.
+	InvokerIAMDisabled *bool `json:"invokerIamDisabled,omitempty" tf:"invoker_iam_disabled,omitempty"`
 
 	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component, environment, state, etc.
 	// For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
@@ -1180,6 +1208,10 @@ type V2ServiceObservation struct {
 	// If reconciliation failed, trafficStatuses, observedGeneration, and latestReadyRevision will have the state of the last serving revision, or empty for newly created Services. Additional information on the failure can be found in terminalCondition and conditions.
 	Reconciling *bool `json:"reconciling,omitempty" tf:"reconciling,omitempty"`
 
+	// Scaling settings for this Revision.
+	// Structure is documented below.
+	Scaling *ScalingObservation `json:"scaling,omitempty" tf:"scaling,omitempty"`
+
 	// The template used to create revisions for this Service.
 	// Structure is documented below.
 	Template *V2ServiceTemplateObservation `json:"template,omitempty" tf:"template,omitempty"`
@@ -1209,6 +1241,9 @@ type V2ServiceObservation struct {
 
 	// The last-modified time.
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`
+
+	// All URLs serving traffic for this Service.
+	Urls []*string `json:"urls,omitempty" tf:"urls,omitempty"`
 }
 
 type V2ServiceParameters struct {
@@ -1239,6 +1274,11 @@ type V2ServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	CustomAudiences []*string `json:"customAudiences,omitempty" tf:"custom_audiences,omitempty"`
 
+	// Defaults to true.
+	// When the field is set to false, deleting the service is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
+
 	// User-provided description of the Service. This field currently has a 512-character limit.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -1247,6 +1287,10 @@ type V2ServiceParameters struct {
 	// Possible values are: INGRESS_TRAFFIC_ALL, INGRESS_TRAFFIC_INTERNAL_ONLY, INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER.
 	// +kubebuilder:validation:Optional
 	Ingress *string `json:"ingress,omitempty" tf:"ingress,omitempty"`
+
+	// Disables IAM permission check for run.routes.invoke for callers of this service. This feature is available by invitation only. For more information, visit https://cloud.google.com/run/docs/securing/managing-access#invoker_check.
+	// +kubebuilder:validation:Optional
+	InvokerIAMDisabled *bool `json:"invokerIamDisabled,omitempty" tf:"invoker_iam_disabled,omitempty"`
 
 	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component, environment, state, etc.
 	// For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
@@ -1271,6 +1315,11 @@ type V2ServiceParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Scaling settings for this Revision.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Scaling *ScalingParameters `json:"scaling,omitempty" tf:"scaling,omitempty"`
 
 	// The template used to create revisions for this Service.
 	// Structure is documented below.
@@ -1469,7 +1518,7 @@ type V2ServiceTemplateInitParameters struct {
 
 	// Scaling settings for this Revision.
 	// Structure is documented below.
-	Scaling *ScalingInitParameters `json:"scaling,omitempty" tf:"scaling,omitempty"`
+	Scaling *TemplateScalingInitParameters `json:"scaling,omitempty" tf:"scaling,omitempty"`
 
 	// Email address of the IAM service account associated with the revision of the service. The service account represents the identity of the running revision, and determines what permissions the revision has. If not provided, the revision will use the project's default service account.
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
@@ -1526,7 +1575,7 @@ type V2ServiceTemplateObservation struct {
 
 	// Scaling settings for this Revision.
 	// Structure is documented below.
-	Scaling *ScalingObservation `json:"scaling,omitempty" tf:"scaling,omitempty"`
+	Scaling *TemplateScalingObservation `json:"scaling,omitempty" tf:"scaling,omitempty"`
 
 	// Email address of the IAM service account associated with the revision of the service. The service account represents the identity of the running revision, and determines what permissions the revision has. If not provided, the revision will use the project's default service account.
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
@@ -1591,7 +1640,7 @@ type V2ServiceTemplateParameters struct {
 	// Scaling settings for this Revision.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Scaling *ScalingParameters `json:"scaling,omitempty" tf:"scaling,omitempty"`
+	Scaling *TemplateScalingParameters `json:"scaling,omitempty" tf:"scaling,omitempty"`
 
 	// Email address of the IAM service account associated with the revision of the service. The service account represents the identity of the running revision, and determines what permissions the revision has. If not provided, the revision will use the project's default service account.
 	// +kubebuilder:validation:Optional
@@ -1623,13 +1672,17 @@ type V2ServiceTemplateVolumesInitParameters struct {
 	// Structure is documented below.
 	CloudSQLInstance *VolumesCloudSQLInstanceInitParameters `json:"cloudSqlInstance,omitempty" tf:"cloud_sql_instance,omitempty"`
 
-	// Cloud Storage bucket mounted as a volume using GCSFuse. This feature is only supported in the gen2 execution environment and requires launch-stage to be set to ALPHA or BETA.
+	// Ephemeral storage used as a shared volume.
 	// Structure is documented below.
-	Gcs *GcsInitParameters `json:"gcs,omitempty" tf:"gcs,omitempty"`
+	EmptyDir *TemplateVolumesEmptyDirInitParameters `json:"emptyDir,omitempty" tf:"empty_dir,omitempty"`
+
+	// Cloud Storage bucket mounted as a volume using GCSFuse. This feature is only supported in the gen2 execution environment.
+	// Structure is documented below.
+	Gcs *VolumesGcsInitParameters `json:"gcs,omitempty" tf:"gcs,omitempty"`
 
 	// Represents an NFS mount.
 	// Structure is documented below.
-	NFS *NFSInitParameters `json:"nfs,omitempty" tf:"nfs,omitempty"`
+	NFS *TemplateVolumesNFSInitParameters `json:"nfs,omitempty" tf:"nfs,omitempty"`
 
 	// Volume's name.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -1645,13 +1698,17 @@ type V2ServiceTemplateVolumesObservation struct {
 	// Structure is documented below.
 	CloudSQLInstance *VolumesCloudSQLInstanceObservation `json:"cloudSqlInstance,omitempty" tf:"cloud_sql_instance,omitempty"`
 
-	// Cloud Storage bucket mounted as a volume using GCSFuse. This feature is only supported in the gen2 execution environment and requires launch-stage to be set to ALPHA or BETA.
+	// Ephemeral storage used as a shared volume.
 	// Structure is documented below.
-	Gcs *GcsObservation `json:"gcs,omitempty" tf:"gcs,omitempty"`
+	EmptyDir *TemplateVolumesEmptyDirObservation `json:"emptyDir,omitempty" tf:"empty_dir,omitempty"`
+
+	// Cloud Storage bucket mounted as a volume using GCSFuse. This feature is only supported in the gen2 execution environment.
+	// Structure is documented below.
+	Gcs *VolumesGcsObservation `json:"gcs,omitempty" tf:"gcs,omitempty"`
 
 	// Represents an NFS mount.
 	// Structure is documented below.
-	NFS *NFSObservation `json:"nfs,omitempty" tf:"nfs,omitempty"`
+	NFS *TemplateVolumesNFSObservation `json:"nfs,omitempty" tf:"nfs,omitempty"`
 
 	// Volume's name.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -1668,15 +1725,20 @@ type V2ServiceTemplateVolumesParameters struct {
 	// +kubebuilder:validation:Optional
 	CloudSQLInstance *VolumesCloudSQLInstanceParameters `json:"cloudSqlInstance,omitempty" tf:"cloud_sql_instance,omitempty"`
 
-	// Cloud Storage bucket mounted as a volume using GCSFuse. This feature is only supported in the gen2 execution environment and requires launch-stage to be set to ALPHA or BETA.
+	// Ephemeral storage used as a shared volume.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Gcs *GcsParameters `json:"gcs,omitempty" tf:"gcs,omitempty"`
+	EmptyDir *TemplateVolumesEmptyDirParameters `json:"emptyDir,omitempty" tf:"empty_dir,omitempty"`
+
+	// Cloud Storage bucket mounted as a volume using GCSFuse. This feature is only supported in the gen2 execution environment.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Gcs *VolumesGcsParameters `json:"gcs,omitempty" tf:"gcs,omitempty"`
 
 	// Represents an NFS mount.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	NFS *NFSParameters `json:"nfs,omitempty" tf:"nfs,omitempty"`
+	NFS *TemplateVolumesNFSParameters `json:"nfs,omitempty" tf:"nfs,omitempty"`
 
 	// Volume's name.
 	// +kubebuilder:validation:Optional
@@ -1872,6 +1934,53 @@ type VolumesCloudSQLInstanceParameters struct {
 	// Selector for a list of DatabaseInstance in sql to populate instances.
 	// +kubebuilder:validation:Optional
 	InstancesSelector *v1.Selector `json:"instancesSelector,omitempty" tf:"-"`
+}
+
+type VolumesGcsInitParameters struct {
+
+	// GCS Bucket name
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/storage/v1beta2.Bucket
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// Reference to a Bucket in storage to populate bucket.
+	// +kubebuilder:validation:Optional
+	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
+
+	// Selector for a Bucket in storage to populate bucket.
+	// +kubebuilder:validation:Optional
+	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+
+	// If true, mount the NFS volume as read only
+	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
+}
+
+type VolumesGcsObservation struct {
+
+	// GCS Bucket name
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// If true, mount the NFS volume as read only
+	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
+}
+
+type VolumesGcsParameters struct {
+
+	// GCS Bucket name
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/storage/v1beta2.Bucket
+	// +kubebuilder:validation:Optional
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// Reference to a Bucket in storage to populate bucket.
+	// +kubebuilder:validation:Optional
+	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
+
+	// Selector for a Bucket in storage to populate bucket.
+	// +kubebuilder:validation:Optional
+	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+
+	// If true, mount the NFS volume as read only
+	// +kubebuilder:validation:Optional
+	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
 }
 
 type VolumesSecretItemsInitParameters struct {
