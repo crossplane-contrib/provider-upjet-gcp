@@ -53,10 +53,6 @@ type ReservationInitParameters struct {
 	// capacity specified above at most.
 	IgnoreIdleSlots *bool `json:"ignoreIdleSlots,omitempty" tf:"ignore_idle_slots,omitempty"`
 
-	// Applicable only for reservations located within one of the BigQuery multi-regions (US or EU).
-	// If set to true, this reservation is placed in the organization's secondary region which is designated for disaster recovery purposes. If false, this reservation is placed in the organization's default region.
-	MultiRegionAuxiliary *bool `json:"multiRegionAuxiliary,omitempty" tf:"multi_region_auxiliary,omitempty"`
-
 	// Minimum slots available to this reservation. A slot is a unit of computational power in BigQuery, and serves as the
 	// unit of parallelism. Queries using this reservation might use more slots during runtime if ignoreIdleSlots is set to false.
 	SlotCapacity *float64 `json:"slotCapacity,omitempty" tf:"slot_capacity,omitempty"`
@@ -85,10 +81,6 @@ type ReservationObservation struct {
 	// The geographic location where the transfer config should reside.
 	// Examples: US, EU, asia-northeast1. The default value is US.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
-
-	// Applicable only for reservations located within one of the BigQuery multi-regions (US or EU).
-	// If set to true, this reservation is placed in the organization's secondary region which is designated for disaster recovery purposes. If false, this reservation is placed in the organization's default region.
-	MultiRegionAuxiliary *bool `json:"multiRegionAuxiliary,omitempty" tf:"multi_region_auxiliary,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -124,11 +116,6 @@ type ReservationParameters struct {
 	// Examples: US, EU, asia-northeast1. The default value is US.
 	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
-
-	// Applicable only for reservations located within one of the BigQuery multi-regions (US or EU).
-	// If set to true, this reservation is placed in the organization's secondary region which is designated for disaster recovery purposes. If false, this reservation is placed in the organization's default region.
-	// +kubebuilder:validation:Optional
-	MultiRegionAuxiliary *bool `json:"multiRegionAuxiliary,omitempty" tf:"multi_region_auxiliary,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
