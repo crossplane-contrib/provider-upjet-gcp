@@ -497,6 +497,10 @@ type AlertStrategyInitParameters struct {
 	// Structure is documented below.
 	NotificationChannelStrategy []NotificationChannelStrategyInitParameters `json:"notificationChannelStrategy,omitempty" tf:"notification_channel_strategy,omitempty"`
 
+	// Control when notifications will be sent out.
+	// Each value may be one of: NOTIFICATION_PROMPT_UNSPECIFIED, OPENED, CLOSED.
+	NotificationPrompts []*string `json:"notificationPrompts,omitempty" tf:"notification_prompts,omitempty"`
+
 	// Required for alert policies with a LogMatch condition.
 	// This limit is not implemented for alert policies that are not log-based.
 	// Structure is documented below.
@@ -512,6 +516,10 @@ type AlertStrategyObservation struct {
 	// are notified when this alert fires, on a per-channel basis.
 	// Structure is documented below.
 	NotificationChannelStrategy []NotificationChannelStrategyObservation `json:"notificationChannelStrategy,omitempty" tf:"notification_channel_strategy,omitempty"`
+
+	// Control when notifications will be sent out.
+	// Each value may be one of: NOTIFICATION_PROMPT_UNSPECIFIED, OPENED, CLOSED.
+	NotificationPrompts []*string `json:"notificationPrompts,omitempty" tf:"notification_prompts,omitempty"`
 
 	// Required for alert policies with a LogMatch condition.
 	// This limit is not implemented for alert policies that are not log-based.
@@ -530,6 +538,11 @@ type AlertStrategyParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	NotificationChannelStrategy []NotificationChannelStrategyParameters `json:"notificationChannelStrategy,omitempty" tf:"notification_channel_strategy,omitempty"`
+
+	// Control when notifications will be sent out.
+	// Each value may be one of: NOTIFICATION_PROMPT_UNSPECIFIED, OPENED, CLOSED.
+	// +kubebuilder:validation:Optional
+	NotificationPrompts []*string `json:"notificationPrompts,omitempty" tf:"notification_prompts,omitempty"`
 
 	// Required for alert policies with a LogMatch condition.
 	// This limit is not implemented for alert policies that are not log-based.
@@ -992,6 +1005,11 @@ type ConditionPrometheusQueryLanguageInitParameters struct {
 	// valid Prometheus label name.
 	AlertRule *string `json:"alertRule,omitempty" tf:"alert_rule,omitempty"`
 
+	// Whether to disable metric existence validation for this condition.
+	// Users with the monitoring.alertPolicyViewer role are able to see the
+	// name of the non-existent metric in the alerting policy condition.
+	DisableMetricValidation *bool `json:"disableMetricValidation,omitempty" tf:"disable_metric_validation,omitempty"`
+
 	// The amount of time that a time series must
 	// violate the threshold to be considered
 	// failing. Currently, only values that are a
@@ -1052,6 +1070,11 @@ type ConditionPrometheusQueryLanguageObservation struct {
 	// This field is optional. If this field is not empty, then it must be a
 	// valid Prometheus label name.
 	AlertRule *string `json:"alertRule,omitempty" tf:"alert_rule,omitempty"`
+
+	// Whether to disable metric existence validation for this condition.
+	// Users with the monitoring.alertPolicyViewer role are able to see the
+	// name of the non-existent metric in the alerting policy condition.
+	DisableMetricValidation *bool `json:"disableMetricValidation,omitempty" tf:"disable_metric_validation,omitempty"`
 
 	// The amount of time that a time series must
 	// violate the threshold to be considered
@@ -1114,6 +1137,12 @@ type ConditionPrometheusQueryLanguageParameters struct {
 	// valid Prometheus label name.
 	// +kubebuilder:validation:Optional
 	AlertRule *string `json:"alertRule,omitempty" tf:"alert_rule,omitempty"`
+
+	// Whether to disable metric existence validation for this condition.
+	// Users with the monitoring.alertPolicyViewer role are able to see the
+	// name of the non-existent metric in the alerting policy condition.
+	// +kubebuilder:validation:Optional
+	DisableMetricValidation *bool `json:"disableMetricValidation,omitempty" tf:"disable_metric_validation,omitempty"`
 
 	// The amount of time that a time series must
 	// violate the threshold to be considered
