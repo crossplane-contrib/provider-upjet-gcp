@@ -96,6 +96,9 @@ spec:
                         family:
                           description: The name of the column family.
                           type: string
+                        type:
+                          description: The type of the column family.
+                          type: string
                       type: object
                     type: array
                   deletionProtection:
@@ -228,6 +231,9 @@ spec:
                       properties:
                         family:
                           description: The name of the column family.
+                          type: string
+                        type:
+                          description: The type of the column family.
                           type: string
                       type: object
                     type: array
@@ -443,6 +449,9 @@ spec:
                       properties:
                         family:
                           description: The name of the column family.
+                          type: string
+                        type:
+                          description: The type of the column family.
                           type: string
                       type: object
                     type: array

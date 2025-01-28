@@ -38,12 +38,18 @@ type ColumnFamilyInitParameters struct {
 
 	// The name of the column family.
 	Family *string `json:"family,omitempty" tf:"family,omitempty"`
+
+	// The type of the column family.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type ColumnFamilyObservation struct {
 
 	// The name of the column family.
 	Family *string `json:"family,omitempty" tf:"family,omitempty"`
+
+	// The type of the column family.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type ColumnFamilyParameters struct {
@@ -51,6 +57,10 @@ type ColumnFamilyParameters struct {
 	// The name of the column family.
 	// +kubebuilder:validation:Optional
 	Family *string `json:"family" tf:"family,omitempty"`
+
+	// The type of the column family.
+	// +kubebuilder:validation:Optional
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type TableInitParameters struct {
