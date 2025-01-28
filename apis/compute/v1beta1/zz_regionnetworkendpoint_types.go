@@ -59,6 +59,9 @@ type RegionNetworkEndpointObservation struct {
 	// This can only be specified when network_endpoint_type of the NEG is INTERNET_IP_PORT.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
+	// The unique identifier number for the resource. This identifier is defined by the server.
+	NetworkEndpointID *float64 `json:"networkEndpointId,omitempty" tf:"network_endpoint_id,omitempty"`
+
 	// Port number of network endpoint.
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 

@@ -423,15 +423,15 @@ type RegionHealthCheckInitParameters struct {
 	// you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// A nested object resource
+	// A nested object resource.
 	// Structure is documented below.
 	GRPCHealthCheck *RegionHealthCheckGRPCHealthCheckInitParameters `json:"grpcHealthCheck,omitempty" tf:"grpc_health_check,omitempty"`
 
-	// A nested object resource
+	// A nested object resource.
 	// Structure is documented below.
 	HTTPHealthCheck *RegionHealthCheckHTTPHealthCheckInitParameters `json:"httpHealthCheck,omitempty" tf:"http_health_check,omitempty"`
 
-	// A nested object resource
+	// A nested object resource.
 	// Structure is documented below.
 	HTTPSHealthCheck *RegionHealthCheckHTTPSHealthCheckInitParameters `json:"httpsHealthCheck,omitempty" tf:"https_health_check,omitempty"`
 
@@ -439,7 +439,7 @@ type RegionHealthCheckInitParameters struct {
 	// consecutive successes. The default value is 2.
 	HealthyThreshold *float64 `json:"healthyThreshold,omitempty" tf:"healthy_threshold,omitempty"`
 
-	// A nested object resource
+	// A nested object resource.
 	// Structure is documented below.
 	Http2HealthCheck *RegionHealthCheckHttp2HealthCheckInitParameters `json:"http2HealthCheck,omitempty" tf:"http2_health_check,omitempty"`
 
@@ -451,11 +451,11 @@ type RegionHealthCheckInitParameters struct {
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// A nested object resource
+	// A nested object resource.
 	// Structure is documented below.
 	SSLHealthCheck *RegionHealthCheckSSLHealthCheckInitParameters `json:"sslHealthCheck,omitempty" tf:"ssl_health_check,omitempty"`
 
-	// A nested object resource
+	// A nested object resource.
 	// Structure is documented below.
 	TCPHealthCheck *RegionHealthCheckTCPHealthCheckInitParameters `json:"tcpHealthCheck,omitempty" tf:"tcp_health_check,omitempty"`
 
@@ -504,23 +504,26 @@ type RegionHealthCheckObservation struct {
 	// you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// A nested object resource
+	// A nested object resource.
 	// Structure is documented below.
 	GRPCHealthCheck *RegionHealthCheckGRPCHealthCheckObservation `json:"grpcHealthCheck,omitempty" tf:"grpc_health_check,omitempty"`
 
-	// A nested object resource
+	// A nested object resource.
 	// Structure is documented below.
 	HTTPHealthCheck *RegionHealthCheckHTTPHealthCheckObservation `json:"httpHealthCheck,omitempty" tf:"http_health_check,omitempty"`
 
-	// A nested object resource
+	// A nested object resource.
 	// Structure is documented below.
 	HTTPSHealthCheck *RegionHealthCheckHTTPSHealthCheckObservation `json:"httpsHealthCheck,omitempty" tf:"https_health_check,omitempty"`
+
+	// The unique identifier number for the resource. This identifier is defined by the server.
+	HealthCheckID *float64 `json:"healthCheckId,omitempty" tf:"health_check_id,omitempty"`
 
 	// A so-far unhealthy instance will be marked healthy after this many
 	// consecutive successes. The default value is 2.
 	HealthyThreshold *float64 `json:"healthyThreshold,omitempty" tf:"healthy_threshold,omitempty"`
 
-	// A nested object resource
+	// A nested object resource.
 	// Structure is documented below.
 	Http2HealthCheck *RegionHealthCheckHttp2HealthCheckObservation `json:"http2HealthCheck,omitempty" tf:"http2_health_check,omitempty"`
 
@@ -539,14 +542,14 @@ type RegionHealthCheckObservation struct {
 	// If it is not provided, the provider region is used.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
-	// A nested object resource
+	// A nested object resource.
 	// Structure is documented below.
 	SSLHealthCheck *RegionHealthCheckSSLHealthCheckObservation `json:"sslHealthCheck,omitempty" tf:"ssl_health_check,omitempty"`
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
-	// A nested object resource
+	// A nested object resource.
 	// Structure is documented below.
 	TCPHealthCheck *RegionHealthCheckTCPHealthCheckObservation `json:"tcpHealthCheck,omitempty" tf:"tcp_health_check,omitempty"`
 
@@ -575,17 +578,17 @@ type RegionHealthCheckParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// A nested object resource
+	// A nested object resource.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	GRPCHealthCheck *RegionHealthCheckGRPCHealthCheckParameters `json:"grpcHealthCheck,omitempty" tf:"grpc_health_check,omitempty"`
 
-	// A nested object resource
+	// A nested object resource.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	HTTPHealthCheck *RegionHealthCheckHTTPHealthCheckParameters `json:"httpHealthCheck,omitempty" tf:"http_health_check,omitempty"`
 
-	// A nested object resource
+	// A nested object resource.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	HTTPSHealthCheck *RegionHealthCheckHTTPSHealthCheckParameters `json:"httpsHealthCheck,omitempty" tf:"https_health_check,omitempty"`
@@ -595,7 +598,7 @@ type RegionHealthCheckParameters struct {
 	// +kubebuilder:validation:Optional
 	HealthyThreshold *float64 `json:"healthyThreshold,omitempty" tf:"healthy_threshold,omitempty"`
 
-	// A nested object resource
+	// A nested object resource.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Http2HealthCheck *RegionHealthCheckHttp2HealthCheckParameters `json:"http2HealthCheck,omitempty" tf:"http2_health_check,omitempty"`
@@ -615,12 +618,12 @@ type RegionHealthCheckParameters struct {
 	// +kubebuilder:validation:Required
 	Region *string `json:"region" tf:"region,omitempty"`
 
-	// A nested object resource
+	// A nested object resource.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SSLHealthCheck *RegionHealthCheckSSLHealthCheckParameters `json:"sslHealthCheck,omitempty" tf:"ssl_health_check,omitempty"`
 
-	// A nested object resource
+	// A nested object resource.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	TCPHealthCheck *RegionHealthCheckTCPHealthCheckParameters `json:"tcpHealthCheck,omitempty" tf:"tcp_health_check,omitempty"`

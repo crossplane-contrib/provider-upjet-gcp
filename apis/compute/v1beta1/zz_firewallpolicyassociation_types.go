@@ -28,7 +28,7 @@ type FirewallPolicyAssociationInitParameters struct {
 	// +kubebuilder:validation:Optional
 	AttachmentTargetSelector *v1.Selector `json:"attachmentTargetSelector,omitempty" tf:"-"`
 
-	// The firewall policy ID of the association.
+	// The firewall policy of the resource.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.FirewallPolicy
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	FirewallPolicy *string `json:"firewallPolicy,omitempty" tf:"firewall_policy,omitempty"`
@@ -50,7 +50,7 @@ type FirewallPolicyAssociationObservation struct {
 	// The target that the firewall policy is attached to.
 	AttachmentTarget *string `json:"attachmentTarget,omitempty" tf:"attachment_target,omitempty"`
 
-	// The firewall policy ID of the association.
+	// The firewall policy of the resource.
 	FirewallPolicy *string `json:"firewallPolicy,omitempty" tf:"firewall_policy,omitempty"`
 
 	// an identifier for the resource with format locations/global/firewallPolicies/{{firewall_policy}}/associations/{{name}}
@@ -79,7 +79,7 @@ type FirewallPolicyAssociationParameters struct {
 	// +kubebuilder:validation:Optional
 	AttachmentTargetSelector *v1.Selector `json:"attachmentTargetSelector,omitempty" tf:"-"`
 
-	// The firewall policy ID of the association.
+	// The firewall policy of the resource.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.FirewallPolicy
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -125,7 +125,7 @@ type FirewallPolicyAssociationStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// FirewallPolicyAssociation is the Schema for the FirewallPolicyAssociations API. Applies a hierarchical firewall policy to a target resource
+// FirewallPolicyAssociation is the Schema for the FirewallPolicyAssociations API. Allows associating hierarchical firewall policies with the target where they are applied.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
