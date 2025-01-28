@@ -653,6 +653,13 @@ spec:
                           Fully qualified name of the KMS key to use to encrypt this database. This key must exist
                           in the same location as the Spanner Database.
                         type: string
+                      kmsKeyNames:
+                        description: |-
+                          Fully qualified name of the KMS keys to use to encrypt this database. The keys must exist
+                          in the same locations as the Spanner Database.
+                        items:
+                          type: string
+                        type: array
                     type: object
                   instance:
                     description: The instance to create the database on.
@@ -795,6 +802,13 @@ spec:
                           Fully qualified name of the KMS key to use to encrypt this database. This key must exist
                           in the same location as the Spanner Database.
                         type: string
+                      kmsKeyNames:
+                        description: |-
+                          Fully qualified name of the KMS keys to use to encrypt this database. The keys must exist
+                          in the same locations as the Spanner Database.
+                        items:
+                          type: string
+                        type: array
                     type: object
                   project:
                     description: |-
@@ -1019,6 +1033,13 @@ spec:
                           Fully qualified name of the KMS key to use to encrypt this database. This key must exist
                           in the same location as the Spanner Database.
                         type: string
+                      kmsKeyNames:
+                        description: |-
+                          Fully qualified name of the KMS keys to use to encrypt this database. The keys must exist
+                          in the same locations as the Spanner Database.
+                        items:
+                          type: string
+                        type: array
                     type: object
                   id:
                     description: an identifier for the resource with format {{instance}}/{{name}}

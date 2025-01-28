@@ -11,6 +11,7 @@ spec:
     config: regional-us-central1
     defaultBackupScheduleType: AUTOMATIC
     displayName: Test Spanner Instance
+    edition: STANDARD
     labels:
       foo: bar
     numNodes: 2

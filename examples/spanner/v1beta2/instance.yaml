@@ -14,6 +14,7 @@ spec:
   forProvider:
     config: regional-us-central1
     displayName: Test Spanner Instance
+    edition: STANDARD
     labels:
       foo: bar
     numNodes: 2
