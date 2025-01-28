@@ -15,9 +15,11 @@ import (
 
 type EgressFromInitParameters struct {
 
-	// A list of identities that are allowed access through this ingress policy.
-	// Should be in the format of email address. The email address should represent
-	// individual user or service account only.
+	// Identities can be an individual user, service account, Google group,
+	// or third-party identity. For third-party identity, only single identities
+	// are supported and other identity types are not supported.The v1 identities
+	// that have the prefix user, group and serviceAccount in
+	// https://cloud.google.com/iam/docs/principal-identifiers#v1 are supported.
 	// +listType=set
 	Identities []*string `json:"identities,omitempty" tf:"identities,omitempty"`
 
@@ -38,9 +40,11 @@ type EgressFromInitParameters struct {
 
 type EgressFromObservation struct {
 
-	// A list of identities that are allowed access through this ingress policy.
-	// Should be in the format of email address. The email address should represent
-	// individual user or service account only.
+	// Identities can be an individual user, service account, Google group,
+	// or third-party identity. For third-party identity, only single identities
+	// are supported and other identity types are not supported.The v1 identities
+	// that have the prefix user, group and serviceAccount in
+	// https://cloud.google.com/iam/docs/principal-identifiers#v1 are supported.
 	// +listType=set
 	Identities []*string `json:"identities,omitempty" tf:"identities,omitempty"`
 
@@ -61,9 +65,11 @@ type EgressFromObservation struct {
 
 type EgressFromParameters struct {
 
-	// A list of identities that are allowed access through this ingress policy.
-	// Should be in the format of email address. The email address should represent
-	// individual user or service account only.
+	// Identities can be an individual user, service account, Google group,
+	// or third-party identity. For third-party identity, only single identities
+	// are supported and other identity types are not supported.The v1 identities
+	// that have the prefix user, group and serviceAccount in
+	// https://cloud.google.com/iam/docs/principal-identifiers#v1 are supported.
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	Identities []*string `json:"identities,omitempty" tf:"identities,omitempty"`
@@ -128,9 +134,11 @@ type EgressFromSourcesParameters struct {
 
 type EgressPoliciesEgressFromInitParameters struct {
 
-	// A list of identities that are allowed access through this ingress policy.
-	// Should be in the format of email address. The email address should represent
-	// individual user or service account only.
+	// Identities can be an individual user, service account, Google group,
+	// or third-party identity. For third-party identity, only single identities
+	// are supported and other identity types are not supported.The v1 identities
+	// that have the prefix user, group and serviceAccount in
+	// https://cloud.google.com/iam/docs/principal-identifiers#v1 are supported.
 	// +listType=set
 	Identities []*string `json:"identities,omitempty" tf:"identities,omitempty"`
 
@@ -151,9 +159,11 @@ type EgressPoliciesEgressFromInitParameters struct {
 
 type EgressPoliciesEgressFromObservation struct {
 
-	// A list of identities that are allowed access through this ingress policy.
-	// Should be in the format of email address. The email address should represent
-	// individual user or service account only.
+	// Identities can be an individual user, service account, Google group,
+	// or third-party identity. For third-party identity, only single identities
+	// are supported and other identity types are not supported.The v1 identities
+	// that have the prefix user, group and serviceAccount in
+	// https://cloud.google.com/iam/docs/principal-identifiers#v1 are supported.
 	// +listType=set
 	Identities []*string `json:"identities,omitempty" tf:"identities,omitempty"`
 
@@ -174,9 +184,11 @@ type EgressPoliciesEgressFromObservation struct {
 
 type EgressPoliciesEgressFromParameters struct {
 
-	// A list of identities that are allowed access through this ingress policy.
-	// Should be in the format of email address. The email address should represent
-	// individual user or service account only.
+	// Identities can be an individual user, service account, Google group,
+	// or third-party identity. For third-party identity, only single identities
+	// are supported and other identity types are not supported.The v1 identities
+	// that have the prefix user, group and serviceAccount in
+	// https://cloud.google.com/iam/docs/principal-identifiers#v1 are supported.
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	Identities []*string `json:"identities,omitempty" tf:"identities,omitempty"`
@@ -450,9 +462,11 @@ type EgressToParameters struct {
 
 type IngressFromInitParameters struct {
 
-	// A list of identities that are allowed access through this ingress policy.
-	// Should be in the format of email address. The email address should represent
-	// individual user or service account only.
+	// Identities can be an individual user, service account, Google group,
+	// or third-party identity. For third-party identity, only single identities
+	// are supported and other identity types are not supported.The v1 identities
+	// that have the prefix user, group and serviceAccount in
+	// https://cloud.google.com/iam/docs/principal-identifiers#v1 are supported.
 	// +listType=set
 	Identities []*string `json:"identities,omitempty" tf:"identities,omitempty"`
 
@@ -469,9 +483,11 @@ type IngressFromInitParameters struct {
 
 type IngressFromObservation struct {
 
-	// A list of identities that are allowed access through this ingress policy.
-	// Should be in the format of email address. The email address should represent
-	// individual user or service account only.
+	// Identities can be an individual user, service account, Google group,
+	// or third-party identity. For third-party identity, only single identities
+	// are supported and other identity types are not supported.The v1 identities
+	// that have the prefix user, group and serviceAccount in
+	// https://cloud.google.com/iam/docs/principal-identifiers#v1 are supported.
 	// +listType=set
 	Identities []*string `json:"identities,omitempty" tf:"identities,omitempty"`
 
@@ -488,9 +504,11 @@ type IngressFromObservation struct {
 
 type IngressFromParameters struct {
 
-	// A list of identities that are allowed access through this ingress policy.
-	// Should be in the format of email address. The email address should represent
-	// individual user or service account only.
+	// Identities can be an individual user, service account, Google group,
+	// or third-party identity. For third-party identity, only single identities
+	// are supported and other identity types are not supported.The v1 identities
+	// that have the prefix user, group and serviceAccount in
+	// https://cloud.google.com/iam/docs/principal-identifiers#v1 are supported.
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	Identities []*string `json:"identities,omitempty" tf:"identities,omitempty"`
@@ -584,9 +602,11 @@ type IngressFromSourcesParameters struct {
 
 type IngressPoliciesIngressFromInitParameters struct {
 
-	// A list of identities that are allowed access through this ingress policy.
-	// Should be in the format of email address. The email address should represent
-	// individual user or service account only.
+	// Identities can be an individual user, service account, Google group,
+	// or third-party identity. For third-party identity, only single identities
+	// are supported and other identity types are not supported.The v1 identities
+	// that have the prefix user, group and serviceAccount in
+	// https://cloud.google.com/iam/docs/principal-identifiers#v1 are supported.
 	// +listType=set
 	Identities []*string `json:"identities,omitempty" tf:"identities,omitempty"`
 
@@ -603,9 +623,11 @@ type IngressPoliciesIngressFromInitParameters struct {
 
 type IngressPoliciesIngressFromObservation struct {
 
-	// A list of identities that are allowed access through this ingress policy.
-	// Should be in the format of email address. The email address should represent
-	// individual user or service account only.
+	// Identities can be an individual user, service account, Google group,
+	// or third-party identity. For third-party identity, only single identities
+	// are supported and other identity types are not supported.The v1 identities
+	// that have the prefix user, group and serviceAccount in
+	// https://cloud.google.com/iam/docs/principal-identifiers#v1 are supported.
 	// +listType=set
 	Identities []*string `json:"identities,omitempty" tf:"identities,omitempty"`
 
@@ -622,9 +644,11 @@ type IngressPoliciesIngressFromObservation struct {
 
 type IngressPoliciesIngressFromParameters struct {
 
-	// A list of identities that are allowed access through this ingress policy.
-	// Should be in the format of email address. The email address should represent
-	// individual user or service account only.
+	// Identities can be an individual user, service account, Google group,
+	// or third-party identity. For third-party identity, only single identities
+	// are supported and other identity types are not supported.The v1 identities
+	// that have the prefix user, group and serviceAccount in
+	// https://cloud.google.com/iam/docs/principal-identifiers#v1 are supported.
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	Identities []*string `json:"identities,omitempty" tf:"identities,omitempty"`

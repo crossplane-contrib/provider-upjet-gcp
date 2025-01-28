@@ -555,7 +555,7 @@ type VPCSubnetworkInitParameters struct {
 	// Required. Network name to be allowed by this Access Level. Networks of foreign organizations requires compute.network.get permission to be granted to caller.
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
-	// CIDR block IP subnetwork specification. Must be IPv4.
+	// A list of CIDR block IP subnetwork specification. Must be IPv4.
 	VPCIPSubnetworks []*string `json:"vpcIpSubnetworks,omitempty" tf:"vpc_ip_subnetworks,omitempty"`
 }
 
@@ -564,7 +564,7 @@ type VPCSubnetworkObservation struct {
 	// Required. Network name to be allowed by this Access Level. Networks of foreign organizations requires compute.network.get permission to be granted to caller.
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
-	// CIDR block IP subnetwork specification. Must be IPv4.
+	// A list of CIDR block IP subnetwork specification. Must be IPv4.
 	VPCIPSubnetworks []*string `json:"vpcIpSubnetworks,omitempty" tf:"vpc_ip_subnetworks,omitempty"`
 }
 
@@ -574,7 +574,7 @@ type VPCSubnetworkParameters struct {
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network" tf:"network,omitempty"`
 
-	// CIDR block IP subnetwork specification. Must be IPv4.
+	// A list of CIDR block IP subnetwork specification. Must be IPv4.
 	// +kubebuilder:validation:Optional
 	VPCIPSubnetworks []*string `json:"vpcIpSubnetworks,omitempty" tf:"vpc_ip_subnetworks,omitempty"`
 }
