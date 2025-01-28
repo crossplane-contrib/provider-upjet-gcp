@@ -13,6 +13,79 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AccessConditionInitParameters struct {
+
+	// A user-friendly description of the dataset
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Textual representation of an expression in Common Expression Language syntax.
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	// The geographic location where the dataset should reside.
+	// See official docs.
+	// There are two types of locations, regional or multi-regional. A regional
+	// location is a specific geographic place, such as Tokyo, and a multi-regional
+	// location is a large geographic area, such as the United States, that
+	// contains at least two geographic places.
+	// The default value is multi-regional location US.
+	// Changing this forces a new resource to be created.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// Title for the expression, i.e. a short string describing its purpose.
+	// This can be used e.g. in UIs which allow to enter the expression.
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
+}
+
+type AccessConditionObservation struct {
+
+	// A user-friendly description of the dataset
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Textual representation of an expression in Common Expression Language syntax.
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	// The geographic location where the dataset should reside.
+	// See official docs.
+	// There are two types of locations, regional or multi-regional. A regional
+	// location is a specific geographic place, such as Tokyo, and a multi-regional
+	// location is a large geographic area, such as the United States, that
+	// contains at least two geographic places.
+	// The default value is multi-regional location US.
+	// Changing this forces a new resource to be created.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// Title for the expression, i.e. a short string describing its purpose.
+	// This can be used e.g. in UIs which allow to enter the expression.
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
+}
+
+type AccessConditionParameters struct {
+
+	// A user-friendly description of the dataset
+	// +kubebuilder:validation:Optional
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Textual representation of an expression in Common Expression Language syntax.
+	// +kubebuilder:validation:Optional
+	Expression *string `json:"expression" tf:"expression,omitempty"`
+
+	// The geographic location where the dataset should reside.
+	// See official docs.
+	// There are two types of locations, regional or multi-regional. A regional
+	// location is a specific geographic place, such as Tokyo, and a multi-regional
+	// location is a large geographic area, such as the United States, that
+	// contains at least two geographic places.
+	// The default value is multi-regional location US.
+	// Changing this forces a new resource to be created.
+	// +kubebuilder:validation:Optional
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// Title for the expression, i.e. a short string describing its purpose.
+	// This can be used e.g. in UIs which allow to enter the expression.
+	// +kubebuilder:validation:Optional
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
+}
+
 type AccessDatasetInitParameters struct {
 
 	// The dataset this entry applies to
@@ -49,6 +122,11 @@ type AccessDatasetParameters struct {
 }
 
 type AccessInitParameters struct {
+
+	// Condition for the binding. If CEL expression in this field is true, this
+	// access binding will be considered.
+	// Structure is documented below.
+	Condition *AccessConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	// Grants all resources of particular types in a particular dataset read access to the current dataset.
 	// Structure is documented below.
@@ -108,6 +186,11 @@ type AccessInitParameters struct {
 
 type AccessObservation struct {
 
+	// Condition for the binding. If CEL expression in this field is true, this
+	// access binding will be considered.
+	// Structure is documented below.
+	Condition *AccessConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
+
 	// Grants all resources of particular types in a particular dataset read access to the current dataset.
 	// Structure is documented below.
 	Dataset *AccessDatasetObservation `json:"dataset,omitempty" tf:"dataset,omitempty"`
@@ -155,6 +238,12 @@ type AccessObservation struct {
 }
 
 type AccessParameters struct {
+
+	// Condition for the binding. If CEL expression in this field is true, this
+	// access binding will be considered.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Condition *AccessConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	// Grants all resources of particular types in a particular dataset read access to the current dataset.
 	// Structure is documented below.
