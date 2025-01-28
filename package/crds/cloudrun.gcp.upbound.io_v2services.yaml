@@ -3369,6 +3369,11 @@ spec:
                     items:
                       type: string
                     type: array
+                  deletionProtection:
+                    description: |-
+                      Defaults to true.
+                      When the field is set to false, deleting the service is allowed.
+                    type: boolean
                   description:
                     description: User-provided description of the Service. This field
                       currently has a 512-character limit.
@@ -3378,6 +3383,11 @@ spec:
                       Provides the ingress settings for this Service. On output, returns the currently observed ingress settings, or INGRESS_TRAFFIC_UNSPECIFIED if no revision is active.
                       Possible values are: INGRESS_TRAFFIC_ALL, INGRESS_TRAFFIC_INTERNAL_ONLY, INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER.
                     type: string
+                  invokerIamDisabled:
+                    description: Disables IAM permission check for run.routes.invoke
+                      for callers of this service. This feature is available by invitation
+                      only. For more information, visit https://cloud.google.com/run/docs/securing/managing-access#invoker_check.
+                    type: boolean
                   labels:
                     additionalProperties:
                       type: string
@@ -3403,6 +3413,17 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  scaling:
+                    description: |-
+                      Scaling settings for this Revision.
+                      Structure is documented below.
+                    properties:
+                      minInstanceCount:
+                        description: Minimum number of serving instances that this
+                          resource should have. Defaults to 0. Must not be greater
+                          than maximum instance count.
+                        type: number
+                    type: object
                   template:
                     description: |-
                       The template used to create revisions for this Service.
@@ -3693,13 +3714,13 @@ spec:
                                 limits:
                                   additionalProperties:
                                     type: string
-                                  description: 'Only memory and CPU are supported.
-                                    Use key cpu for CPU limit and memory for memory
-                                    limit. Note: The only supported values for CPU
-                                    are ''1'', ''2'', ''4'', and ''8''. Setting 4
-                                    CPU requires at least 2Gi of memory. The values
-                                    of the map is string form of the ''quantity''
-                                    k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
+                                  description: 'Only memory, CPU, and nvidia.com/gpu
+                                    are supported. Use key cpu for CPU limit, memory
+                                    for memory limit, nvidia.com/gpu for gpu limit.
+                                    Note: The only supported values for CPU are ''1'',
+                                    ''2'', ''4'', and ''8''. Setting 4 CPU requires
+                                    at least 2Gi of memory. The values of the map
+                                    is string form of the ''quantity'' k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
                                   type: object
                                   x-kubernetes-map-type: granular
                                 startupCpuBoost:
@@ -3863,12 +3884,14 @@ spec:
                           Structure is documented below.
                         properties:
                           maxInstanceCount:
-                            description: Maximum number of serving instances that
-                              this resource should have.
+                            description: |-
+                              Maximum number of serving instances that this resource should have. Must not be less than minimum instance count. If absent, Cloud Run will calculate
+                              a default value based on the project's available container instances quota in the region and specified instance size.
                             type: number
                           minInstanceCount:
                             description: Minimum number of serving instances that
-                              this resource should have.
+                              this resource should have. Defaults to 0. Must not be
+                              greater than maximum instance count.
                             type: number
                         type: object
                       serviceAccount:
@@ -3988,9 +4011,32 @@ spec:
                                       type: object
                                   type: object
                               type: object
+                            emptyDir:
+                              description: |-
+                                Ephemeral storage used as a shared volume.
+                                Structure is documented below.
+                              properties:
+                                medium:
+                                  description: |-
+                                    The different types of medium supported for EmptyDir.
+                                    Default value is MEMORY.
+                                    Possible values are: MEMORY.
+                                  type: string
+                                sizeLimit:
+                                  description: 'Limit on the storage usable by this
+                                    EmptyDir volume. The size limit is also applicable
+                                    for memory medium. The maximum usage on memory
+                                    medium EmptyDir would be the minimum value between
+                                    the SizeLimit specified here and the sum of memory
+                                    limits of all containers in a pod. This field''s
+                                    values are of the ''Quantity'' k8s type: https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/.
+                                    The default is nil which means that the limit
+                                    is undefined. More info: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir.'
+                                  type: string
+                              type: object
                             gcs:
                               description: |-
-                                Cloud Storage bucket mounted as a volume using GCSFuse. This feature is only supported in the gen2 execution environment and requires launch-stage to be set to ALPHA or BETA.
+                                Cloud Storage bucket mounted as a volume using GCSFuse. This feature is only supported in the gen2 execution environment.
                                 Structure is documented below.
                               properties:
                                 bucket:
@@ -4341,6 +4387,11 @@ spec:
                     items:
                       type: string
                     type: array
+                  deletionProtection:
+                    description: |-
+                      Defaults to true.
+                      When the field is set to false, deleting the service is allowed.
+                    type: boolean
                   description:
                     description: User-provided description of the Service. This field
                       currently has a 512-character limit.
@@ -4350,6 +4401,11 @@ spec:
                       Provides the ingress settings for this Service. On output, returns the currently observed ingress settings, or INGRESS_TRAFFIC_UNSPECIFIED if no revision is active.
                       Possible values are: INGRESS_TRAFFIC_ALL, INGRESS_TRAFFIC_INTERNAL_ONLY, INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER.
                     type: string
+                  invokerIamDisabled:
+                    description: Disables IAM permission check for run.routes.invoke
+                      for callers of this service. This feature is available by invitation
+                      only. For more information, visit https://cloud.google.com/run/docs/securing/managing-access#invoker_check.
+                    type: boolean
                   labels:
                     additionalProperties:
                       type: string
@@ -4372,6 +4428,17 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  scaling:
+                    description: |-
+                      Scaling settings for this Revision.
+                      Structure is documented below.
+                    properties:
+                      minInstanceCount:
+                        description: Minimum number of serving instances that this
+                          resource should have. Defaults to 0. Must not be greater
+                          than maximum instance count.
+                        type: number
+                    type: object
                   template:
                     description: |-
                       The template used to create revisions for this Service.
@@ -4662,13 +4729,13 @@ spec:
                                 limits:
                                   additionalProperties:
                                     type: string
-                                  description: 'Only memory and CPU are supported.
-                                    Use key cpu for CPU limit and memory for memory
-                                    limit. Note: The only supported values for CPU
-                                    are ''1'', ''2'', ''4'', and ''8''. Setting 4
-                                    CPU requires at least 2Gi of memory. The values
-                                    of the map is string form of the ''quantity''
-                                    k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
+                                  description: 'Only memory, CPU, and nvidia.com/gpu
+                                    are supported. Use key cpu for CPU limit, memory
+                                    for memory limit, nvidia.com/gpu for gpu limit.
+                                    Note: The only supported values for CPU are ''1'',
+                                    ''2'', ''4'', and ''8''. Setting 4 CPU requires
+                                    at least 2Gi of memory. The values of the map
+                                    is string form of the ''quantity'' k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
                                   type: object
                                   x-kubernetes-map-type: granular
                                 startupCpuBoost:
@@ -4832,12 +4899,14 @@ spec:
                           Structure is documented below.
                         properties:
                           maxInstanceCount:
-                            description: Maximum number of serving instances that
-                              this resource should have.
+                            description: |-
+                              Maximum number of serving instances that this resource should have. Must not be less than minimum instance count. If absent, Cloud Run will calculate
+                              a default value based on the project's available container instances quota in the region and specified instance size.
                             type: number
                           minInstanceCount:
                             description: Minimum number of serving instances that
-                              this resource should have.
+                              this resource should have. Defaults to 0. Must not be
+                              greater than maximum instance count.
                             type: number
                         type: object
                       serviceAccount:
@@ -4957,9 +5026,32 @@ spec:
                                       type: object
                                   type: object
                               type: object
+                            emptyDir:
+                              description: |-
+                                Ephemeral storage used as a shared volume.
+                                Structure is documented below.
+                              properties:
+                                medium:
+                                  description: |-
+                                    The different types of medium supported for EmptyDir.
+                                    Default value is MEMORY.
+                                    Possible values are: MEMORY.
+                                  type: string
+                                sizeLimit:
+                                  description: 'Limit on the storage usable by this
+                                    EmptyDir volume. The size limit is also applicable
+                                    for memory medium. The maximum usage on memory
+                                    medium EmptyDir would be the minimum value between
+                                    the SizeLimit specified here and the sum of memory
+                                    limits of all containers in a pod. This field''s
+                                    values are of the ''Quantity'' k8s type: https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/.
+                                    The default is nil which means that the limit
+                                    is undefined. More info: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir.'
+                                  type: string
+                              type: object
                             gcs:
                               description: |-
-                                Cloud Storage bucket mounted as a volume using GCSFuse. This feature is only supported in the gen2 execution environment and requires launch-stage to be set to ALPHA or BETA.
+                                Cloud Storage bucket mounted as a volume using GCSFuse. This feature is only supported in the gen2 execution environment.
                                 Structure is documented below.
                               properties:
                                 bucket:
@@ -5530,6 +5622,11 @@ spec:
                   deleteTime:
                     description: The deletion time.
                     type: string
+                  deletionProtection:
+                    description: |-
+                      Defaults to true.
+                      When the field is set to false, deleting the service is allowed.
+                    type: boolean
                   description:
                     description: User-provided description of the Service. This field
                       currently has a 512-character limit.
@@ -5551,7 +5648,7 @@ spec:
                     type: string
                   expireTime:
                     description: For a deleted resource, the time after which it will
-                      be permamently deleted.
+                      be permanently deleted.
                     type: string
                   generation:
                     description: A number that monotonically increases every time
@@ -5567,6 +5664,11 @@ spec:
                       Provides the ingress settings for this Service. On output, returns the currently observed ingress settings, or INGRESS_TRAFFIC_UNSPECIFIED if no revision is active.
                       Possible values are: INGRESS_TRAFFIC_ALL, INGRESS_TRAFFIC_INTERNAL_ONLY, INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER.
                     type: string
+                  invokerIamDisabled:
+                    description: Disables IAM permission check for run.routes.invoke
+                      for callers of this service. This feature is available by invitation
+                      only. For more information, visit https://cloud.google.com/run/docs/securing/managing-access#invoker_check.
+                    type: boolean
                   labels:
                     additionalProperties:
                       type: string
@@ -5619,6 +5721,17 @@ spec:
                       If reconciliation succeeded, the following fields will match: traffic and trafficStatuses, observedGeneration and generation, latestReadyRevision and latestCreatedRevision.
                       If reconciliation failed, trafficStatuses, observedGeneration, and latestReadyRevision will have the state of the last serving revision, or empty for newly created Services. Additional information on the failure can be found in terminalCondition and conditions.
                     type: boolean
+                  scaling:
+                    description: |-
+                      Scaling settings for this Revision.
+                      Structure is documented below.
+                    properties:
+                      minInstanceCount:
+                        description: Minimum number of serving instances that this
+                          resource should have. Defaults to 0. Must not be greater
+                          than maximum instance count.
+                        type: number
+                    type: object
                   template:
                     description: |-
                       The template used to create revisions for this Service.
@@ -5832,13 +5945,13 @@ spec:
                                 limits:
                                   additionalProperties:
                                     type: string
-                                  description: 'Only memory and CPU are supported.
-                                    Use key cpu for CPU limit and memory for memory
-                                    limit. Note: The only supported values for CPU
-                                    are ''1'', ''2'', ''4'', and ''8''. Setting 4
-                                    CPU requires at least 2Gi of memory. The values
-                                    of the map is string form of the ''quantity''
-                                    k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
+                                  description: 'Only memory, CPU, and nvidia.com/gpu
+                                    are supported. Use key cpu for CPU limit, memory
+                                    for memory limit, nvidia.com/gpu for gpu limit.
+                                    Note: The only supported values for CPU are ''1'',
+                                    ''2'', ''4'', and ''8''. Setting 4 CPU requires
+                                    at least 2Gi of memory. The values of the map
+                                    is string form of the ''quantity'' k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
                                   type: object
                                   x-kubernetes-map-type: granular
                                 startupCpuBoost:
@@ -6002,12 +6115,14 @@ spec:
                           Structure is documented below.
                         properties:
                           maxInstanceCount:
-                            description: Maximum number of serving instances that
-                              this resource should have.
+                            description: |-
+                              Maximum number of serving instances that this resource should have. Must not be less than minimum instance count. If absent, Cloud Run will calculate
+                              a default value based on the project's available container instances quota in the region and specified instance size.
                             type: number
                           minInstanceCount:
                             description: Minimum number of serving instances that
-                              this resource should have.
+                              this resource should have. Defaults to 0. Must not be
+                              greater than maximum instance count.
                             type: number
                         type: object
                       serviceAccount:
@@ -6048,9 +6163,32 @@ spec:
                                   type: array
                                   x-kubernetes-list-type: set
                               type: object
+                            emptyDir:
+                              description: |-
+                                Ephemeral storage used as a shared volume.
+                                Structure is documented below.
+                              properties:
+                                medium:
+                                  description: |-
+                                    The different types of medium supported for EmptyDir.
+                                    Default value is MEMORY.
+                                    Possible values are: MEMORY.
+                                  type: string
+                                sizeLimit:
+                                  description: 'Limit on the storage usable by this
+                                    EmptyDir volume. The size limit is also applicable
+                                    for memory medium. The maximum usage on memory
+                                    medium EmptyDir would be the minimum value between
+                                    the SizeLimit specified here and the sum of memory
+                                    limits of all containers in a pod. This field''s
+                                    values are of the ''Quantity'' k8s type: https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/.
+                                    The default is nil which means that the limit
+                                    is undefined. More info: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir.'
+                                  type: string
+                              type: object
                             gcs:
                               description: |-
-                                Cloud Storage bucket mounted as a volume using GCSFuse. This feature is only supported in the gen2 execution environment and requires launch-stage to be set to ALPHA or BETA.
+                                Cloud Storage bucket mounted as a volume using GCSFuse. This feature is only supported in the gen2 execution environment.
                                 Structure is documented below.
                               properties:
                                 bucket:
@@ -6290,6 +6428,11 @@ spec:
                   uri:
                     description: The main URI in which this Service is serving traffic.
                     type: string
+                  urls:
+                    description: All URLs serving traffic for this Service.
+                    items:
+                      type: string
+                    type: array
                 type: object
               conditions:
                 description: Conditions of the resource.

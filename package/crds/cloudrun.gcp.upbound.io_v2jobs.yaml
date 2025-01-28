@@ -2367,6 +2367,11 @@ spec:
                   clientVersion:
                     description: Arbitrary version identifier for the API client.
                     type: string
+                  deletionProtection:
+                    description: |-
+                      Defaults to true.
+                      When the field is set to false, deleting the job is allowed.
+                    type: boolean
                   labels:
                     additionalProperties:
                       type: string
@@ -2783,9 +2788,66 @@ spec:
                                           type: object
                                       type: object
                                   type: object
+                                emptyDir:
+                                  description: |-
+                                    Ephemeral storage used as a shared volume.
+                                    Structure is documented below.
+                                  properties:
+                                    medium:
+                                      description: |-
+                                        The different types of medium supported for EmptyDir.
+                                        Default value is MEMORY.
+                                        Possible values are: MEMORY.
+                                      type: string
+                                    sizeLimit:
+                                      description: 'Limit on the storage usable by
+                                        this EmptyDir volume. The size limit is also
+                                        applicable for memory medium. The maximum
+                                        usage on memory medium EmptyDir would be the
+                                        minimum value between the SizeLimit specified
+                                        here and the sum of memory limits of all containers
+                                        in a pod. This field''s values are of the
+                                        ''Quantity'' k8s type: https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/.
+                                        The default is nil which means that the limit
+                                        is undefined. More info: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir.'
+                                      type: string
+                                  type: object
+                                gcs:
+                                  description: |-
+                                    Cloud Storage bucket mounted as a volume using GCSFuse.
+                                    Structure is documented below.
+                                  properties:
+                                    bucket:
+                                      description: Name of the cloud storage bucket
+                                        to back the volume. The resource service account
+                                        must have permission to access the bucket.
+                                      type: string
+                                    readOnly:
+                                      description: If true, mount this volume as read-only
+                                        in all mounts.
+                                      type: boolean
+                                  type: object
                                 name:
                                   description: Volume's name.
                                   type: string
+                                nfs:
+                                  description: |-
+                                    NFS share mounted as a volume.
+                                    Structure is documented below.
+                                  properties:
+                                    path:
+                                      description: Path that is exported by the NFS
+                                        server.
+                                      type: string
+                                    readOnly:
+                                      description: If true, mount this volume as read-only
+                                        in all mounts.
+                                      type: boolean
+                                    server:
+                                      description: Hostname or IP address of the NFS
+                                        server.
+                                      type: string
+                                  type: object
                                 secret:
                                   description: |-
                                     Secret represents a secret that should populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
@@ -3001,6 +3063,11 @@ spec:
                   clientVersion:
                     description: Arbitrary version identifier for the API client.
                     type: string
+                  deletionProtection:
+                    description: |-
+                      Defaults to true.
+                      When the field is set to false, deleting the job is allowed.
+                    type: boolean
                   labels:
                     additionalProperties:
                       type: string
@@ -3414,9 +3481,66 @@ spec:
                                           type: object
                                       type: object
                                   type: object
+                                emptyDir:
+                                  description: |-
+                                    Ephemeral storage used as a shared volume.
+                                    Structure is documented below.
+                                  properties:
+                                    medium:
+                                      description: |-
+                                        The different types of medium supported for EmptyDir.
+                                        Default value is MEMORY.
+                                        Possible values are: MEMORY.
+                                      type: string
+                                    sizeLimit:
+                                      description: 'Limit on the storage usable by
+                                        this EmptyDir volume. The size limit is also
+                                        applicable for memory medium. The maximum
+                                        usage on memory medium EmptyDir would be the
+                                        minimum value between the SizeLimit specified
+                                        here and the sum of memory limits of all containers
+                                        in a pod. This field''s values are of the
+                                        ''Quantity'' k8s type: https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/.
+                                        The default is nil which means that the limit
+                                        is undefined. More info: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir.'
+                                      type: string
+                                  type: object
+                                gcs:
+                                  description: |-
+                                    Cloud Storage bucket mounted as a volume using GCSFuse.
+                                    Structure is documented below.
+                                  properties:
+                                    bucket:
+                                      description: Name of the cloud storage bucket
+                                        to back the volume. The resource service account
+                                        must have permission to access the bucket.
+                                      type: string
+                                    readOnly:
+                                      description: If true, mount this volume as read-only
+                                        in all mounts.
+                                      type: boolean
+                                  type: object
                                 name:
                                   description: Volume's name.
                                   type: string
+                                nfs:
+                                  description: |-
+                                    NFS share mounted as a volume.
+                                    Structure is documented below.
+                                  properties:
+                                    path:
+                                      description: Path that is exported by the NFS
+                                        server.
+                                      type: string
+                                    readOnly:
+                                      description: If true, mount this volume as read-only
+                                        in all mounts.
+                                      type: boolean
+                                    server:
+                                      description: Hostname or IP address of the NFS
+                                        server.
+                                      type: string
+                                  type: object
                                 secret:
                                   description: |-
                                     Secret represents a secret that should populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
@@ -3852,6 +3976,11 @@ spec:
                   deleteTime:
                     description: The deletion time.
                     type: string
+                  deletionProtection:
+                    description: |-
+                      Defaults to true.
+                      When the field is set to false, deleting the job is allowed.
+                    type: boolean
                   effectiveAnnotations:
                     additionalProperties:
                       type: string
@@ -3872,7 +4001,7 @@ spec:
                     type: number
                   expireTime:
                     description: For a deleted resource, the time after which it will
-                      be permamently deleted.
+                      be permanently deleted.
                     type: string
                   generation:
                     description: A number that monotonically increases every time
@@ -4180,9 +4309,66 @@ spec:
                                         type: string
                                       type: array
                                   type: object
+                                emptyDir:
+                                  description: |-
+                                    Ephemeral storage used as a shared volume.
+                                    Structure is documented below.
+                                  properties:
+                                    medium:
+                                      description: |-
+                                        The different types of medium supported for EmptyDir.
+                                        Default value is MEMORY.
+                                        Possible values are: MEMORY.
+                                      type: string
+                                    sizeLimit:
+                                      description: 'Limit on the storage usable by
+                                        this EmptyDir volume. The size limit is also
+                                        applicable for memory medium. The maximum
+                                        usage on memory medium EmptyDir would be the
+                                        minimum value between the SizeLimit specified
+                                        here and the sum of memory limits of all containers
+                                        in a pod. This field''s values are of the
+                                        ''Quantity'' k8s type: https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/.
+                                        The default is nil which means that the limit
+                                        is undefined. More info: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir.'
+                                      type: string
+                                  type: object
+                                gcs:
+                                  description: |-
+                                    Cloud Storage bucket mounted as a volume using GCSFuse.
+                                    Structure is documented below.
+                                  properties:
+                                    bucket:
+                                      description: Name of the cloud storage bucket
+                                        to back the volume. The resource service account
+                                        must have permission to access the bucket.
+                                      type: string
+                                    readOnly:
+                                      description: If true, mount this volume as read-only
+                                        in all mounts.
+                                      type: boolean
+                                  type: object
                                 name:
                                   description: Volume's name.
                                   type: string
+                                nfs:
+                                  description: |-
+                                    NFS share mounted as a volume.
+                                    Structure is documented below.
+                                  properties:
+                                    path:
+                                      description: Path that is exported by the NFS
+                                        server.
+                                      type: string
+                                    readOnly:
+                                      description: If true, mount this volume as read-only
+                                        in all mounts.
+                                      type: boolean
+                                    server:
+                                      description: Hostname or IP address of the NFS
+                                        server.
+                                      type: string
+                                  type: object
                                 secret:
                                   description: |-
                                     Secret represents a secret that should populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
