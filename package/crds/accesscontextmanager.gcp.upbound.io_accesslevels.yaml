@@ -1216,8 +1216,8 @@ spec:
                                           permission to be granted to caller.
                                         type: string
                                       vpcIpSubnetworks:
-                                        description: CIDR block IP subnetwork specification.
-                                          Must be IPv4.
+                                        description: A list of CIDR block IP subnetwork
+                                          specification. Must be IPv4.
                                         items:
                                           type: string
                                         type: array
@@ -1442,8 +1442,8 @@ spec:
                                           permission to be granted to caller.
                                         type: string
                                       vpcIpSubnetworks:
-                                        description: CIDR block IP subnetwork specification.
-                                          Must be IPv4.
+                                        description: A list of CIDR block IP subnetwork
+                                          specification. Must be IPv4.
                                         items:
                                           type: string
                                         type: array
@@ -1840,8 +1840,8 @@ spec:
                                           permission to be granted to caller.
                                         type: string
                                       vpcIpSubnetworks:
-                                        description: CIDR block IP subnetwork specification.
-                                          Must be IPv4.
+                                        description: A list of CIDR block IP subnetwork
+                                          specification. Must be IPv4.
                                         items:
                                           type: string
                                         type: array

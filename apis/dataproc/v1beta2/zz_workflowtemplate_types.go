@@ -111,7 +111,7 @@ type ConfigGceClusterConfigInitParameters struct {
 	// If true, all instances in the cluster will only have internal IP addresses. By default, clusters are not restricted to internal IP addresses, and will have ephemeral external IP addresses assigned to each instance. This internal_ip_only restriction can only be enabled for subnetwork enabled networks, and all off-cluster dependencies must be configured to be accessible without external IP addresses.
 	InternalIPOnly *bool `json:"internalIpOnly,omitempty" tf:"internal_ip_only,omitempty"`
 
-	// The Compute Engine metadata entries to add to all instances (see (https://cloud.google.com/compute/docs/storing-retrieving-metadata#project_and_instance_metadata)).
+	// The Compute Engine metadata entries to add to all instances (see About VM metadata).
 	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
@@ -139,7 +139,7 @@ type ConfigGceClusterConfigInitParameters struct {
 	// The Compute Engine subnetwork to be used for machine communications. Cannot be specified with network_uri. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects//regions/us-east1/subnetworks/sub0 * sub0
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
-	// The Compute Engine tags to add to all instances (see (https://cloud.google.com/compute/docs/label-or-tag-resources#tags)).
+	// The Compute Engine tags to add to all instances (see Manage tags for resources).
 	// +listType=set
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
@@ -152,7 +152,7 @@ type ConfigGceClusterConfigObservation struct {
 	// If true, all instances in the cluster will only have internal IP addresses. By default, clusters are not restricted to internal IP addresses, and will have ephemeral external IP addresses assigned to each instance. This internal_ip_only restriction can only be enabled for subnetwork enabled networks, and all off-cluster dependencies must be configured to be accessible without external IP addresses.
 	InternalIPOnly *bool `json:"internalIpOnly,omitempty" tf:"internal_ip_only,omitempty"`
 
-	// The Compute Engine metadata entries to add to all instances (see (https://cloud.google.com/compute/docs/storing-retrieving-metadata#project_and_instance_metadata)).
+	// The Compute Engine metadata entries to add to all instances (see About VM metadata).
 	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
@@ -180,7 +180,7 @@ type ConfigGceClusterConfigObservation struct {
 	// The Compute Engine subnetwork to be used for machine communications. Cannot be specified with network_uri. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects//regions/us-east1/subnetworks/sub0 * sub0
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
-	// The Compute Engine tags to add to all instances (see (https://cloud.google.com/compute/docs/label-or-tag-resources#tags)).
+	// The Compute Engine tags to add to all instances (see Manage tags for resources).
 	// +listType=set
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
@@ -194,7 +194,7 @@ type ConfigGceClusterConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	InternalIPOnly *bool `json:"internalIpOnly,omitempty" tf:"internal_ip_only,omitempty"`
 
-	// The Compute Engine metadata entries to add to all instances (see (https://cloud.google.com/compute/docs/storing-retrieving-metadata#project_and_instance_metadata)).
+	// The Compute Engine metadata entries to add to all instances (see About VM metadata).
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
@@ -231,7 +231,7 @@ type ConfigGceClusterConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
-	// The Compute Engine tags to add to all instances (see (https://cloud.google.com/compute/docs/label-or-tag-resources#tags)).
+	// The Compute Engine tags to add to all instances (see Manage tags for resources).
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
@@ -243,42 +243,42 @@ type ConfigGceClusterConfigParameters struct {
 
 type ConfigLifecycleConfigInitParameters struct {
 
-	// The lifetime duration of cluster. The cluster will be auto-deleted at the end of this period. Minimum value is 10 minutes; maximum value is 14 days (see JSON representation of (https://developers.google.com/protocol-buffers/docs/proto3#json)).
+	// The lifetime duration of cluster. The cluster will be auto-deleted at the end of this period. Minimum value is 10 minutes; maximum value is 14 days (see JSON representation of JSON Mapping - Language Guide (proto 3)).
 	AutoDeleteTTL *string `json:"autoDeleteTtl,omitempty" tf:"auto_delete_ttl,omitempty"`
 
-	// The time when cluster will be auto-deleted (see JSON representation of (https://developers.google.com/protocol-buffers/docs/proto3#json)).
+	// The time when cluster will be auto-deleted (see JSON representation of JSON Mapping - Language Guide (proto 3)).
 	AutoDeleteTime *string `json:"autoDeleteTime,omitempty" tf:"auto_delete_time,omitempty"`
 
-	// The duration to keep the cluster alive while idling (when no jobs are running). Passing this threshold will cause the cluster to be deleted. Minimum value is 5 minutes; maximum value is 14 days (see JSON representation of (https://developers.google.com/protocol-buffers/docs/proto3#json).
+	// The duration to keep the cluster alive while idling (when no jobs are running). Passing this threshold will cause the cluster to be deleted. Minimum value is 5 minutes; maximum value is 14 days (see JSON representation of JSON Mapping - Language Guide (proto 3).
 	IdleDeleteTTL *string `json:"idleDeleteTtl,omitempty" tf:"idle_delete_ttl,omitempty"`
 }
 
 type ConfigLifecycleConfigObservation struct {
 
-	// The lifetime duration of cluster. The cluster will be auto-deleted at the end of this period. Minimum value is 10 minutes; maximum value is 14 days (see JSON representation of (https://developers.google.com/protocol-buffers/docs/proto3#json)).
+	// The lifetime duration of cluster. The cluster will be auto-deleted at the end of this period. Minimum value is 10 minutes; maximum value is 14 days (see JSON representation of JSON Mapping - Language Guide (proto 3)).
 	AutoDeleteTTL *string `json:"autoDeleteTtl,omitempty" tf:"auto_delete_ttl,omitempty"`
 
-	// The time when cluster will be auto-deleted (see JSON representation of (https://developers.google.com/protocol-buffers/docs/proto3#json)).
+	// The time when cluster will be auto-deleted (see JSON representation of JSON Mapping - Language Guide (proto 3)).
 	AutoDeleteTime *string `json:"autoDeleteTime,omitempty" tf:"auto_delete_time,omitempty"`
 
-	// The duration to keep the cluster alive while idling (when no jobs are running). Passing this threshold will cause the cluster to be deleted. Minimum value is 5 minutes; maximum value is 14 days (see JSON representation of (https://developers.google.com/protocol-buffers/docs/proto3#json).
+	// The duration to keep the cluster alive while idling (when no jobs are running). Passing this threshold will cause the cluster to be deleted. Minimum value is 5 minutes; maximum value is 14 days (see JSON representation of JSON Mapping - Language Guide (proto 3).
 	IdleDeleteTTL *string `json:"idleDeleteTtl,omitempty" tf:"idle_delete_ttl,omitempty"`
 
-	// Output only. The time when cluster became idle (most recent job finished) and became eligible for deletion due to idleness (see JSON representation of (https://developers.google.com/protocol-buffers/docs/proto3#json)).
+	// Output only. The time when cluster became idle (most recent job finished) and became eligible for deletion due to idleness (see JSON representation of JSON Mapping - Language Guide (proto 3)).
 	IdleStartTime *string `json:"idleStartTime,omitempty" tf:"idle_start_time,omitempty"`
 }
 
 type ConfigLifecycleConfigParameters struct {
 
-	// The lifetime duration of cluster. The cluster will be auto-deleted at the end of this period. Minimum value is 10 minutes; maximum value is 14 days (see JSON representation of (https://developers.google.com/protocol-buffers/docs/proto3#json)).
+	// The lifetime duration of cluster. The cluster will be auto-deleted at the end of this period. Minimum value is 10 minutes; maximum value is 14 days (see JSON representation of JSON Mapping - Language Guide (proto 3)).
 	// +kubebuilder:validation:Optional
 	AutoDeleteTTL *string `json:"autoDeleteTtl,omitempty" tf:"auto_delete_ttl,omitempty"`
 
-	// The time when cluster will be auto-deleted (see JSON representation of (https://developers.google.com/protocol-buffers/docs/proto3#json)).
+	// The time when cluster will be auto-deleted (see JSON representation of JSON Mapping - Language Guide (proto 3)).
 	// +kubebuilder:validation:Optional
 	AutoDeleteTime *string `json:"autoDeleteTime,omitempty" tf:"auto_delete_time,omitempty"`
 
-	// The duration to keep the cluster alive while idling (when no jobs are running). Passing this threshold will cause the cluster to be deleted. Minimum value is 5 minutes; maximum value is 14 days (see JSON representation of (https://developers.google.com/protocol-buffers/docs/proto3#json).
+	// The duration to keep the cluster alive while idling (when no jobs are running). Passing this threshold will cause the cluster to be deleted. Minimum value is 5 minutes; maximum value is 14 days (see JSON representation of JSON Mapping - Language Guide (proto 3).
 	// +kubebuilder:validation:Optional
 	IdleDeleteTTL *string `json:"idleDeleteTtl,omitempty" tf:"idle_delete_ttl,omitempty"`
 }
@@ -365,7 +365,7 @@ type ConfigMasterConfigInitParameters struct {
 	// The Compute Engine machine type used for cluster instances. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the machine type resource, for example, n1-standard-2`.
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
-	// Specifies the minimum cpu platform for the Instance Group. See (https://cloud.google.com/dataproc/docs/concepts/compute/dataproc-min-cpu).
+	// Specifies the minimum cpu platform for the Instance Group. See Minimum CPU platform.
 	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
 
 	// The number of VM instances in the instance group. For master instance groups, must be set to 1.
@@ -398,7 +398,7 @@ type ConfigMasterConfigObservation struct {
 	// Output only. The config for Compute Engine Instance Group Manager that manages this group. This is only used for preemptible instance groups.
 	ManagedGroupConfig []ManagedGroupConfigObservation `json:"managedGroupConfig,omitempty" tf:"managed_group_config,omitempty"`
 
-	// Specifies the minimum cpu platform for the Instance Group. See (https://cloud.google.com/dataproc/docs/concepts/compute/dataproc-min-cpu).
+	// Specifies the minimum cpu platform for the Instance Group. See Minimum CPU platform.
 	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
 
 	// The number of VM instances in the instance group. For master instance groups, must be set to 1.
@@ -426,7 +426,7 @@ type ConfigMasterConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
-	// Specifies the minimum cpu platform for the Instance Group. See (https://cloud.google.com/dataproc/docs/concepts/compute/dataproc-min-cpu).
+	// Specifies the minimum cpu platform for the Instance Group. See Minimum CPU platform.
 	// +kubebuilder:validation:Optional
 	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
 
@@ -453,7 +453,7 @@ type ConfigSecondaryWorkerConfigInitParameters struct {
 	// The Compute Engine machine type used for cluster instances. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the machine type resource, for example, n1-standard-2`.
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
-	// Specifies the minimum cpu platform for the Instance Group. See (https://cloud.google.com/dataproc/docs/concepts/compute/dataproc-min-cpu).
+	// Specifies the minimum cpu platform for the Instance Group. See Minimum CPU platform.
 	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
 
 	// The number of VM instances in the instance group. For master instance groups, must be set to 1.
@@ -486,7 +486,7 @@ type ConfigSecondaryWorkerConfigObservation struct {
 	// Output only. The config for Compute Engine Instance Group Manager that manages this group. This is only used for preemptible instance groups.
 	ManagedGroupConfig []SecondaryWorkerConfigManagedGroupConfigObservation `json:"managedGroupConfig,omitempty" tf:"managed_group_config,omitempty"`
 
-	// Specifies the minimum cpu platform for the Instance Group. See (https://cloud.google.com/dataproc/docs/concepts/compute/dataproc-min-cpu).
+	// Specifies the minimum cpu platform for the Instance Group. See Minimum CPU platform.
 	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
 
 	// The number of VM instances in the instance group. For master instance groups, must be set to 1.
@@ -514,7 +514,7 @@ type ConfigSecondaryWorkerConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
-	// Specifies the minimum cpu platform for the Instance Group. See (https://cloud.google.com/dataproc/docs/concepts/compute/dataproc-min-cpu).
+	// Specifies the minimum cpu platform for the Instance Group. See Minimum CPU platform.
 	// +kubebuilder:validation:Optional
 	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
 
@@ -670,7 +670,7 @@ type ConfigWorkerConfigInitParameters struct {
 	// The Compute Engine machine type used for cluster instances. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the machine type resource, for example, n1-standard-2`.
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
-	// Specifies the minimum cpu platform for the Instance Group. See (https://cloud.google.com/dataproc/docs/concepts/compute/dataproc-min-cpu).
+	// Specifies the minimum cpu platform for the Instance Group. See Minimum CPU platform.
 	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
 
 	// The number of VM instances in the instance group. For master instance groups, must be set to 1.
@@ -703,7 +703,7 @@ type ConfigWorkerConfigObservation struct {
 	// Output only. The config for Compute Engine Instance Group Manager that manages this group. This is only used for preemptible instance groups.
 	ManagedGroupConfig []WorkerConfigManagedGroupConfigObservation `json:"managedGroupConfig,omitempty" tf:"managed_group_config,omitempty"`
 
-	// Specifies the minimum cpu platform for the Instance Group. See (https://cloud.google.com/dataproc/docs/concepts/compute/dataproc-min-cpu).
+	// Specifies the minimum cpu platform for the Instance Group. See Minimum CPU platform.
 	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
 
 	// The number of VM instances in the instance group. For master instance groups, must be set to 1.
@@ -731,7 +731,7 @@ type ConfigWorkerConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
-	// Specifies the minimum cpu platform for the Instance Group. See (https://cloud.google.com/dataproc/docs/concepts/compute/dataproc-min-cpu).
+	// Specifies the minimum cpu platform for the Instance Group. See Minimum CPU platform.
 	// +kubebuilder:validation:Optional
 	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
 
@@ -1035,7 +1035,7 @@ type InitializationActionsInitParameters struct {
 	// Required. Cloud Storage URI of executable file.
 	ExecutableFile *string `json:"executableFile,omitempty" tf:"executable_file,omitempty"`
 
-	// Amount of time executable has to complete. Default is 10 minutes (see JSON representation of (https://developers.google.com/protocol-buffers/docs/proto3#json)). Cluster creation fails with an explanatory error message (the name of the executable that caused the error and the exceeded timeout period) if the executable is not completed at end of the timeout period.
+	// Amount of time executable has to complete. Default is 10 minutes (see JSON representation of JSON Mapping - Language Guide (proto 3)). Cluster creation fails with an explanatory error message (the name of the executable that caused the error and the exceeded timeout period) if the executable is not completed at end of the timeout period.
 	ExecutionTimeout *string `json:"executionTimeout,omitempty" tf:"execution_timeout,omitempty"`
 }
 
@@ -1044,7 +1044,7 @@ type InitializationActionsObservation struct {
 	// Required. Cloud Storage URI of executable file.
 	ExecutableFile *string `json:"executableFile,omitempty" tf:"executable_file,omitempty"`
 
-	// Amount of time executable has to complete. Default is 10 minutes (see JSON representation of (https://developers.google.com/protocol-buffers/docs/proto3#json)). Cluster creation fails with an explanatory error message (the name of the executable that caused the error and the exceeded timeout period) if the executable is not completed at end of the timeout period.
+	// Amount of time executable has to complete. Default is 10 minutes (see JSON representation of JSON Mapping - Language Guide (proto 3)). Cluster creation fails with an explanatory error message (the name of the executable that caused the error and the exceeded timeout period) if the executable is not completed at end of the timeout period.
 	ExecutionTimeout *string `json:"executionTimeout,omitempty" tf:"execution_timeout,omitempty"`
 }
 
@@ -1054,7 +1054,7 @@ type InitializationActionsParameters struct {
 	// +kubebuilder:validation:Optional
 	ExecutableFile *string `json:"executableFile,omitempty" tf:"executable_file,omitempty"`
 
-	// Amount of time executable has to complete. Default is 10 minutes (see JSON representation of (https://developers.google.com/protocol-buffers/docs/proto3#json)). Cluster creation fails with an explanatory error message (the name of the executable that caused the error and the exceeded timeout period) if the executable is not completed at end of the timeout period.
+	// Amount of time executable has to complete. Default is 10 minutes (see JSON representation of JSON Mapping - Language Guide (proto 3)). Cluster creation fails with an explanatory error message (the name of the executable that caused the error and the exceeded timeout period) if the executable is not completed at end of the timeout period.
 	// +kubebuilder:validation:Optional
 	ExecutionTimeout *string `json:"executionTimeout,omitempty" tf:"execution_timeout,omitempty"`
 }
@@ -1252,7 +1252,7 @@ type ManagedClusterConfigInitParameters struct {
 	// The config settings for software inside the cluster.
 	SoftwareConfig *ConfigSoftwareConfigInitParameters `json:"softwareConfig,omitempty" tf:"software_config,omitempty"`
 
-	// A Cloud Storage bucket used to stage job dependencies, config files, and job driver console output. If you do not specify a staging bucket, Cloud Dataproc will determine a Cloud Storage location (US, ASIA, or EU) for your cluster's staging bucket according to the Compute Engine zone where your cluster is deployed, and then create and manage this project-level, per-location bucket (see (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/staging-bucket)).
+	// A Cloud Storage bucket used to stage job dependencies, config files, and job driver console output. If you do not specify a staging bucket, Cloud Dataproc will determine a Cloud Storage location (US, ASIA, or EU) for your cluster's staging bucket according to the Compute Engine zone where your cluster is deployed, and then create and manage this project-level, per-location bucket (see Dataproc staging and temp buckets).
 	StagingBucket *string `json:"stagingBucket,omitempty" tf:"staging_bucket,omitempty"`
 
 	// A Cloud Storage bucket used to store ephemeral cluster and jobs data, such as Spark and MapReduce history files. If you do not specify a temp bucket, Dataproc will determine a Cloud Storage location (US, ASIA, or EU) for your cluster's temp bucket according to the Compute Engine zone where your cluster is deployed, and then create and manage this project-level, per-location bucket. The default bucket has a TTL of 90 days, but you can use any TTL (or none) if you specify a bucket.
@@ -1294,7 +1294,7 @@ type ManagedClusterConfigObservation struct {
 	// The config settings for software inside the cluster.
 	SoftwareConfig *ConfigSoftwareConfigObservation `json:"softwareConfig,omitempty" tf:"software_config,omitempty"`
 
-	// A Cloud Storage bucket used to stage job dependencies, config files, and job driver console output. If you do not specify a staging bucket, Cloud Dataproc will determine a Cloud Storage location (US, ASIA, or EU) for your cluster's staging bucket according to the Compute Engine zone where your cluster is deployed, and then create and manage this project-level, per-location bucket (see (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/staging-bucket)).
+	// A Cloud Storage bucket used to stage job dependencies, config files, and job driver console output. If you do not specify a staging bucket, Cloud Dataproc will determine a Cloud Storage location (US, ASIA, or EU) for your cluster's staging bucket according to the Compute Engine zone where your cluster is deployed, and then create and manage this project-level, per-location bucket (see Dataproc staging and temp buckets).
 	StagingBucket *string `json:"stagingBucket,omitempty" tf:"staging_bucket,omitempty"`
 
 	// A Cloud Storage bucket used to store ephemeral cluster and jobs data, such as Spark and MapReduce history files. If you do not specify a temp bucket, Dataproc will determine a Cloud Storage location (US, ASIA, or EU) for your cluster's temp bucket according to the Compute Engine zone where your cluster is deployed, and then create and manage this project-level, per-location bucket. The default bucket has a TTL of 90 days, but you can use any TTL (or none) if you specify a bucket.
@@ -1346,7 +1346,7 @@ type ManagedClusterConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	SoftwareConfig *ConfigSoftwareConfigParameters `json:"softwareConfig,omitempty" tf:"software_config,omitempty"`
 
-	// A Cloud Storage bucket used to stage job dependencies, config files, and job driver console output. If you do not specify a staging bucket, Cloud Dataproc will determine a Cloud Storage location (US, ASIA, or EU) for your cluster's staging bucket according to the Compute Engine zone where your cluster is deployed, and then create and manage this project-level, per-location bucket (see (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/staging-bucket)).
+	// A Cloud Storage bucket used to stage job dependencies, config files, and job driver console output. If you do not specify a staging bucket, Cloud Dataproc will determine a Cloud Storage location (US, ASIA, or EU) for your cluster's staging bucket according to the Compute Engine zone where your cluster is deployed, and then create and manage this project-level, per-location bucket (see Dataproc staging and temp buckets).
 	// +kubebuilder:validation:Optional
 	StagingBucket *string `json:"stagingBucket,omitempty" tf:"staging_bucket,omitempty"`
 
