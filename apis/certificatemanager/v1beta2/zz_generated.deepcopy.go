@@ -253,6 +253,17 @@ func (in *CertificateObservation) DeepCopyInto(out *CertificateObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.SanDnsnames != nil {
+		in, out := &in.SanDnsnames, &out.SanDnsnames
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
 	if in.Scope != nil {
 		in, out := &in.Scope, &out.Scope
 		*out = new(string)

@@ -1981,6 +1981,12 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  sanDnsnames:
+                    description: The list of Subject Alternative Names of dnsName
+                      type defined in the certificate (see RFC 5280 4.2.1.6)
+                    items:
+                      type: string
+                    type: array
                   scope:
                     description: |-
                       The scope of the certificate.
