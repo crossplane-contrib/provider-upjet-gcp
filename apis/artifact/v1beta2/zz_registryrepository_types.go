@@ -96,6 +96,45 @@ type CleanupPoliciesParameters struct {
 	MostRecentVersions *MostRecentVersionsParameters `json:"mostRecentVersions,omitempty" tf:"most_recent_versions,omitempty"`
 }
 
+type CommonRepositoryInitParameters struct {
+
+	// Specific uri to the registry, e.g. "https://registry-1.docker.io"
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/artifact/v1beta2.RegistryRepository
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+
+	// Reference to a RegistryRepository in artifact to populate uri.
+	// +kubebuilder:validation:Optional
+	URIRef *v1.Reference `json:"uriRef,omitempty" tf:"-"`
+
+	// Selector for a RegistryRepository in artifact to populate uri.
+	// +kubebuilder:validation:Optional
+	URISelector *v1.Selector `json:"uriSelector,omitempty" tf:"-"`
+}
+
+type CommonRepositoryObservation struct {
+
+	// Specific uri to the registry, e.g. "https://registry-1.docker.io"
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+}
+
+type CommonRepositoryParameters struct {
+
+	// Specific uri to the registry, e.g. "https://registry-1.docker.io"
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/artifact/v1beta2.RegistryRepository
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+
+	// Reference to a RegistryRepository in artifact to populate uri.
+	// +kubebuilder:validation:Optional
+	URIRef *v1.Reference `json:"uriRef,omitempty" tf:"-"`
+
+	// Selector for a RegistryRepository in artifact to populate uri.
+	// +kubebuilder:validation:Optional
+	URISelector *v1.Selector `json:"uriSelector,omitempty" tf:"-"`
+}
+
 type ConditionInitParameters struct {
 
 	// Match versions newer than a duration.
@@ -211,7 +250,7 @@ type DockerConfigParameters struct {
 
 type DockerRepositoryInitParameters struct {
 
-	// Settings for a remote repository with a custom uri.
+	// [Deprecated, please use commonRepository instead] Settings for a remote repository with a custom uri.
 	// Structure is documented below.
 	CustomRepository *CustomRepositoryInitParameters `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
 
@@ -222,7 +261,7 @@ type DockerRepositoryInitParameters struct {
 
 type DockerRepositoryObservation struct {
 
-	// Settings for a remote repository with a custom uri.
+	// [Deprecated, please use commonRepository instead] Settings for a remote repository with a custom uri.
 	// Structure is documented below.
 	CustomRepository *CustomRepositoryObservation `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
 
@@ -233,7 +272,7 @@ type DockerRepositoryObservation struct {
 
 type DockerRepositoryParameters struct {
 
-	// Settings for a remote repository with a custom uri.
+	// [Deprecated, please use commonRepository instead] Settings for a remote repository with a custom uri.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	CustomRepository *CustomRepositoryParameters `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
@@ -303,7 +342,7 @@ type MavenRepositoryCustomRepositoryParameters struct {
 
 type MavenRepositoryInitParameters struct {
 
-	// Settings for a remote repository with a custom uri.
+	// [Deprecated, please use commonRepository instead] Settings for a remote repository with a custom uri.
 	// Structure is documented below.
 	CustomRepository *MavenRepositoryCustomRepositoryInitParameters `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
 
@@ -314,7 +353,7 @@ type MavenRepositoryInitParameters struct {
 
 type MavenRepositoryObservation struct {
 
-	// Settings for a remote repository with a custom uri.
+	// [Deprecated, please use commonRepository instead] Settings for a remote repository with a custom uri.
 	// Structure is documented below.
 	CustomRepository *MavenRepositoryCustomRepositoryObservation `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
 
@@ -325,7 +364,7 @@ type MavenRepositoryObservation struct {
 
 type MavenRepositoryParameters struct {
 
-	// Settings for a remote repository with a custom uri.
+	// [Deprecated, please use commonRepository instead] Settings for a remote repository with a custom uri.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	CustomRepository *MavenRepositoryCustomRepositoryParameters `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
@@ -386,7 +425,7 @@ type NpmRepositoryCustomRepositoryParameters struct {
 
 type NpmRepositoryInitParameters struct {
 
-	// Settings for a remote repository with a custom uri.
+	// [Deprecated, please use commonRepository instead] Settings for a remote repository with a custom uri.
 	// Structure is documented below.
 	CustomRepository *NpmRepositoryCustomRepositoryInitParameters `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
 
@@ -397,7 +436,7 @@ type NpmRepositoryInitParameters struct {
 
 type NpmRepositoryObservation struct {
 
-	// Settings for a remote repository with a custom uri.
+	// [Deprecated, please use commonRepository instead] Settings for a remote repository with a custom uri.
 	// Structure is documented below.
 	CustomRepository *NpmRepositoryCustomRepositoryObservation `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
 
@@ -408,7 +447,7 @@ type NpmRepositoryObservation struct {
 
 type NpmRepositoryParameters struct {
 
-	// Settings for a remote repository with a custom uri.
+	// [Deprecated, please use commonRepository instead] Settings for a remote repository with a custom uri.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	CustomRepository *NpmRepositoryCustomRepositoryParameters `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
@@ -472,7 +511,7 @@ type PythonRepositoryCustomRepositoryParameters struct {
 
 type PythonRepositoryInitParameters struct {
 
-	// Settings for a remote repository with a custom uri.
+	// [Deprecated, please use commonRepository instead] Settings for a remote repository with a custom uri.
 	// Structure is documented below.
 	CustomRepository *PythonRepositoryCustomRepositoryInitParameters `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
 
@@ -483,7 +522,7 @@ type PythonRepositoryInitParameters struct {
 
 type PythonRepositoryObservation struct {
 
-	// Settings for a remote repository with a custom uri.
+	// [Deprecated, please use commonRepository instead] Settings for a remote repository with a custom uri.
 	// Structure is documented below.
 	CustomRepository *PythonRepositoryCustomRepositoryObservation `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
 
@@ -494,7 +533,7 @@ type PythonRepositoryObservation struct {
 
 type PythonRepositoryParameters struct {
 
-	// Settings for a remote repository with a custom uri.
+	// [Deprecated, please use commonRepository instead] Settings for a remote repository with a custom uri.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	CustomRepository *PythonRepositoryCustomRepositoryParameters `json:"customRepository,omitempty" tf:"custom_repository,omitempty"`
@@ -567,6 +606,10 @@ type RegistryRepositoryInitParameters struct {
 	// Configuration specific for a Virtual Repository.
 	// Structure is documented below.
 	VirtualRepositoryConfig *VirtualRepositoryConfigInitParameters `json:"virtualRepositoryConfig,omitempty" tf:"virtual_repository_config,omitempty"`
+
+	// Configuration for vulnerability scanning of artifacts stored in this repository.
+	// Structure is documented below.
+	VulnerabilityScanningConfig *VulnerabilityScanningConfigInitParameters `json:"vulnerabilityScanningConfig,omitempty" tf:"vulnerability_scanning_config,omitempty"`
 }
 
 type RegistryRepositoryObservation struct {
@@ -619,7 +662,12 @@ type RegistryRepositoryObservation struct {
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
-	// The name of the location this repository is located in.
+	// The name of the repository's location. In addition to specific regions,
+	// special values for multi-region locations are asia, europe, and us.
+	// See here,
+	// or use the
+	// google_artifact_registry_locations
+	// data source for possible values.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// MavenRepositoryConfig is maven related repository details.
@@ -656,6 +704,10 @@ type RegistryRepositoryObservation struct {
 	// Configuration specific for a Virtual Repository.
 	// Structure is documented below.
 	VirtualRepositoryConfig *VirtualRepositoryConfigObservation `json:"virtualRepositoryConfig,omitempty" tf:"virtual_repository_config,omitempty"`
+
+	// Configuration for vulnerability scanning of artifacts stored in this repository.
+	// Structure is documented below.
+	VulnerabilityScanningConfig *VulnerabilityScanningConfigObservation `json:"vulnerabilityScanningConfig,omitempty" tf:"vulnerability_scanning_config,omitempty"`
 }
 
 type RegistryRepositoryParameters struct {
@@ -705,7 +757,12 @@ type RegistryRepositoryParameters struct {
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
-	// The name of the location this repository is located in.
+	// The name of the repository's location. In addition to specific regions,
+	// special values for multi-region locations are asia, europe, and us.
+	// See here,
+	// or use the
+	// google_artifact_registry_locations
+	// data source for possible values.
 	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
@@ -736,6 +793,11 @@ type RegistryRepositoryParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	VirtualRepositoryConfig *VirtualRepositoryConfigParameters `json:"virtualRepositoryConfig,omitempty" tf:"virtual_repository_config,omitempty"`
+
+	// Configuration for vulnerability scanning of artifacts stored in this repository.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	VulnerabilityScanningConfig *VulnerabilityScanningConfigParameters `json:"vulnerabilityScanningConfig,omitempty" tf:"vulnerability_scanning_config,omitempty"`
 }
 
 type RemoteRepositoryConfigInitParameters struct {
@@ -743,6 +805,10 @@ type RemoteRepositoryConfigInitParameters struct {
 	// Specific settings for an Apt remote repository.
 	// Structure is documented below.
 	AptRepository *AptRepositoryInitParameters `json:"aptRepository,omitempty" tf:"apt_repository,omitempty"`
+
+	// Specific settings for an Artifact Registory remote repository.
+	// Structure is documented below.
+	CommonRepository *CommonRepositoryInitParameters `json:"commonRepository,omitempty" tf:"common_repository,omitempty"`
 
 	// The description of the remote source.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -782,6 +848,10 @@ type RemoteRepositoryConfigObservation struct {
 	// Structure is documented below.
 	AptRepository *AptRepositoryObservation `json:"aptRepository,omitempty" tf:"apt_repository,omitempty"`
 
+	// Specific settings for an Artifact Registory remote repository.
+	// Structure is documented below.
+	CommonRepository *CommonRepositoryObservation `json:"commonRepository,omitempty" tf:"common_repository,omitempty"`
+
 	// The description of the remote source.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -820,6 +890,11 @@ type RemoteRepositoryConfigParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AptRepository *AptRepositoryParameters `json:"aptRepository,omitempty" tf:"apt_repository,omitempty"`
+
+	// Specific settings for an Artifact Registory remote repository.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CommonRepository *CommonRepositoryParameters `json:"commonRepository,omitempty" tf:"common_repository,omitempty"`
 
 	// The description of the remote source.
 	// +kubebuilder:validation:Optional
@@ -1023,6 +1098,36 @@ type VirtualRepositoryConfigParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	UpstreamPolicies []UpstreamPoliciesParameters `json:"upstreamPolicies,omitempty" tf:"upstream_policies,omitempty"`
+}
+
+type VulnerabilityScanningConfigInitParameters struct {
+
+	// This configures whether vulnerability scanning is automatically performed for artifacts pushed to this repository.
+	// Possible values are: INHERITED, DISABLED.
+	EnablementConfig *string `json:"enablementConfig,omitempty" tf:"enablement_config,omitempty"`
+}
+
+type VulnerabilityScanningConfigObservation struct {
+
+	// This configures whether vulnerability scanning is automatically performed for artifacts pushed to this repository.
+	// Possible values are: INHERITED, DISABLED.
+	EnablementConfig *string `json:"enablementConfig,omitempty" tf:"enablement_config,omitempty"`
+
+	// (Output)
+	// This field returns whether scanning is active for this repository.
+	EnablementState *string `json:"enablementState,omitempty" tf:"enablement_state,omitempty"`
+
+	// (Output)
+	// This provides an explanation for the state of scanning on this repository.
+	EnablementStateReason *string `json:"enablementStateReason,omitempty" tf:"enablement_state_reason,omitempty"`
+}
+
+type VulnerabilityScanningConfigParameters struct {
+
+	// This configures whether vulnerability scanning is automatically performed for artifacts pushed to this repository.
+	// Possible values are: INHERITED, DISABLED.
+	// +kubebuilder:validation:Optional
+	EnablementConfig *string `json:"enablementConfig,omitempty" tf:"enablement_config,omitempty"`
 }
 
 type YumRepositoryInitParameters struct {

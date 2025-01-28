@@ -176,7 +176,7 @@ type NodeConfigGuestAcceleratorGpuDriverInstallationConfigInitParameters struct 
 	// The Kubernetes version for the nodes in this pool. Note that if this field
 	// and auto_upgrade are both specified, they will fight each other for what the node version should
 	// be, so setting both is highly discouraged.
-	GpuDriverVersion *string `json:"gpuDriverVersion,omitempty" tf:"gpu_driver_version"`
+	GpuDriverVersion *string `json:"gpuDriverVersion,omitempty" tf:"gpu_driver_version,omitempty"`
 }
 
 type NodeConfigGuestAcceleratorGpuDriverInstallationConfigObservation struct {
@@ -193,13 +193,13 @@ type NodeConfigGuestAcceleratorGpuDriverInstallationConfigParameters struct {
 	// and auto_upgrade are both specified, they will fight each other for what the node version should
 	// be, so setting both is highly discouraged.
 	// +kubebuilder:validation:Optional
-	GpuDriverVersion *string `json:"gpuDriverVersion,omitempty" tf:"gpu_driver_version"`
+	GpuDriverVersion *string `json:"gpuDriverVersion" tf:"gpu_driver_version,omitempty"`
 }
 
 type NodeConfigGuestAcceleratorGpuSharingConfigInitParameters struct {
-	GpuSharingStrategy *string `json:"gpuSharingStrategy,omitempty" tf:"gpu_sharing_strategy"`
+	GpuSharingStrategy *string `json:"gpuSharingStrategy,omitempty" tf:"gpu_sharing_strategy,omitempty"`
 
-	MaxSharedClientsPerGpu *float64 `json:"maxSharedClientsPerGpu,omitempty" tf:"max_shared_clients_per_gpu"`
+	MaxSharedClientsPerGpu *float64 `json:"maxSharedClientsPerGpu,omitempty" tf:"max_shared_clients_per_gpu,omitempty"`
 }
 
 type NodeConfigGuestAcceleratorGpuSharingConfigObservation struct {
@@ -211,10 +211,31 @@ type NodeConfigGuestAcceleratorGpuSharingConfigObservation struct {
 type NodeConfigGuestAcceleratorGpuSharingConfigParameters struct {
 
 	// +kubebuilder:validation:Optional
-	GpuSharingStrategy *string `json:"gpuSharingStrategy,omitempty" tf:"gpu_sharing_strategy"`
+	GpuSharingStrategy *string `json:"gpuSharingStrategy" tf:"gpu_sharing_strategy,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	MaxSharedClientsPerGpu *float64 `json:"maxSharedClientsPerGpu,omitempty" tf:"max_shared_clients_per_gpu"`
+	MaxSharedClientsPerGpu *float64 `json:"maxSharedClientsPerGpu" tf:"max_shared_clients_per_gpu,omitempty"`
+}
+
+type NodeConfigLinuxNodeConfigHugepagesConfigInitParameters struct {
+	HugepageSize1G *float64 `json:"hugepageSize1G,omitempty" tf:"hugepage_size_1g,omitempty"`
+
+	HugepageSize2M *float64 `json:"hugepageSize2M,omitempty" tf:"hugepage_size_2m,omitempty"`
+}
+
+type NodeConfigLinuxNodeConfigHugepagesConfigObservation struct {
+	HugepageSize1G *float64 `json:"hugepageSize1G,omitempty" tf:"hugepage_size_1g,omitempty"`
+
+	HugepageSize2M *float64 `json:"hugepageSize2M,omitempty" tf:"hugepage_size_2m,omitempty"`
+}
+
+type NodeConfigLinuxNodeConfigHugepagesConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	HugepageSize1G *float64 `json:"hugepageSize1G,omitempty" tf:"hugepage_size_1g,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	HugepageSize2M *float64 `json:"hugepageSize2M,omitempty" tf:"hugepage_size_2m,omitempty"`
 }
 
 type NodeConfigSoleTenantConfigNodeAffinityInitParameters struct {
@@ -664,18 +685,18 @@ type NodePoolNodeConfigGcfsConfigParameters struct {
 }
 
 type NodePoolNodeConfigGuestAcceleratorInitParameters struct {
-	Count *float64 `json:"count,omitempty" tf:"count"`
+	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
 
-	GpuDriverInstallationConfig *NodeConfigGuestAcceleratorGpuDriverInstallationConfigInitParameters `json:"gpuDriverInstallationConfig,omitempty" tf:"gpu_driver_installation_config"`
+	GpuDriverInstallationConfig *NodeConfigGuestAcceleratorGpuDriverInstallationConfigInitParameters `json:"gpuDriverInstallationConfig,omitempty" tf:"gpu_driver_installation_config,omitempty"`
 
-	GpuPartitionSize *string `json:"gpuPartitionSize,omitempty" tf:"gpu_partition_size"`
+	GpuPartitionSize *string `json:"gpuPartitionSize,omitempty" tf:"gpu_partition_size,omitempty"`
 
-	GpuSharingConfig *NodeConfigGuestAcceleratorGpuSharingConfigInitParameters `json:"gpuSharingConfig,omitempty" tf:"gpu_sharing_config"`
+	GpuSharingConfig *NodeConfigGuestAcceleratorGpuSharingConfigInitParameters `json:"gpuSharingConfig,omitempty" tf:"gpu_sharing_config,omitempty"`
 
 	// The type of the policy. Supports a single value: COMPACT.
 	// Specifying COMPACT placement policy type places node pool's nodes in a closer
 	// physical proximity in order to reduce network latency between nodes.
-	Type *string `json:"type,omitempty" tf:"type"`
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type NodePoolNodeConfigGuestAcceleratorObservation struct {
@@ -696,22 +717,22 @@ type NodePoolNodeConfigGuestAcceleratorObservation struct {
 type NodePoolNodeConfigGuestAcceleratorParameters struct {
 
 	// +kubebuilder:validation:Optional
-	Count *float64 `json:"count,omitempty" tf:"count"`
+	Count *float64 `json:"count" tf:"count,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	GpuDriverInstallationConfig *NodeConfigGuestAcceleratorGpuDriverInstallationConfigParameters `json:"gpuDriverInstallationConfig,omitempty" tf:"gpu_driver_installation_config"`
+	GpuDriverInstallationConfig *NodeConfigGuestAcceleratorGpuDriverInstallationConfigParameters `json:"gpuDriverInstallationConfig,omitempty" tf:"gpu_driver_installation_config,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	GpuPartitionSize *string `json:"gpuPartitionSize,omitempty" tf:"gpu_partition_size"`
+	GpuPartitionSize *string `json:"gpuPartitionSize,omitempty" tf:"gpu_partition_size,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	GpuSharingConfig *NodeConfigGuestAcceleratorGpuSharingConfigParameters `json:"gpuSharingConfig,omitempty" tf:"gpu_sharing_config"`
+	GpuSharingConfig *NodeConfigGuestAcceleratorGpuSharingConfigParameters `json:"gpuSharingConfig,omitempty" tf:"gpu_sharing_config,omitempty"`
 
 	// The type of the policy. Supports a single value: COMPACT.
 	// Specifying COMPACT placement policy type places node pool's nodes in a closer
 	// physical proximity in order to reduce network latency between nodes.
 	// +kubebuilder:validation:Optional
-	Type *string `json:"type,omitempty" tf:"type"`
+	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 type NodePoolNodeConfigGvnicInitParameters struct {
@@ -789,6 +810,10 @@ type NodePoolNodeConfigInitParameters_2 struct {
 
 	LocalSsdCount *float64 `json:"localSsdCount,omitempty" tf:"local_ssd_count,omitempty"`
 
+	// Possible Local SSD encryption modes:
+	// Accepted values are:
+	LocalSsdEncryptionMode *string `json:"localSsdEncryptionMode,omitempty" tf:"local_ssd_encryption_mode,omitempty"`
+
 	LoggingVariant *string `json:"loggingVariant,omitempty" tf:"logging_variant,omitempty"`
 
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
@@ -835,6 +860,8 @@ type NodePoolNodeConfigInitParameters_2 struct {
 
 	Spot *bool `json:"spot,omitempty" tf:"spot,omitempty"`
 
+	StoragePools []*string `json:"storagePools,omitempty" tf:"storage_pools,omitempty"`
+
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	Taint []NodePoolNodeConfigTaintInitParameters `json:"taint,omitempty" tf:"taint,omitempty"`
@@ -875,7 +902,7 @@ type NodePoolNodeConfigKubeletConfigParameters struct {
 	CPUCfsQuotaPeriod *string `json:"cpuCfsQuotaPeriod,omitempty" tf:"cpu_cfs_quota_period,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	CPUManagerPolicy *string `json:"cpuManagerPolicy" tf:"cpu_manager_policy,omitempty"`
+	CPUManagerPolicy *string `json:"cpuManagerPolicy,omitempty" tf:"cpu_manager_policy,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	InsecureKubeletReadonlyPortEnabled *string `json:"insecureKubeletReadonlyPortEnabled,omitempty" tf:"insecure_kubelet_readonly_port_enabled,omitempty"`
@@ -887,12 +914,16 @@ type NodePoolNodeConfigKubeletConfigParameters struct {
 type NodePoolNodeConfigLinuxNodeConfigInitParameters struct {
 	CgroupMode *string `json:"cgroupMode,omitempty" tf:"cgroup_mode,omitempty"`
 
+	HugepagesConfig *NodeConfigLinuxNodeConfigHugepagesConfigInitParameters `json:"hugepagesConfig,omitempty" tf:"hugepages_config,omitempty"`
+
 	// +mapType=granular
 	Sysctls map[string]*string `json:"sysctls,omitempty" tf:"sysctls,omitempty"`
 }
 
 type NodePoolNodeConfigLinuxNodeConfigObservation struct {
 	CgroupMode *string `json:"cgroupMode,omitempty" tf:"cgroup_mode,omitempty"`
+
+	HugepagesConfig *NodeConfigLinuxNodeConfigHugepagesConfigObservation `json:"hugepagesConfig,omitempty" tf:"hugepages_config,omitempty"`
 
 	// +mapType=granular
 	Sysctls map[string]*string `json:"sysctls,omitempty" tf:"sysctls,omitempty"`
@@ -902,6 +933,9 @@ type NodePoolNodeConfigLinuxNodeConfigParameters struct {
 
 	// +kubebuilder:validation:Optional
 	CgroupMode *string `json:"cgroupMode,omitempty" tf:"cgroup_mode,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	HugepagesConfig *NodeConfigLinuxNodeConfigHugepagesConfigParameters `json:"hugepagesConfig,omitempty" tf:"hugepages_config,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
@@ -966,6 +1000,10 @@ type NodePoolNodeConfigObservation_2 struct {
 
 	LocalSsdCount *float64 `json:"localSsdCount,omitempty" tf:"local_ssd_count,omitempty"`
 
+	// Possible Local SSD encryption modes:
+	// Accepted values are:
+	LocalSsdEncryptionMode *string `json:"localSsdEncryptionMode,omitempty" tf:"local_ssd_encryption_mode,omitempty"`
+
 	LoggingVariant *string `json:"loggingVariant,omitempty" tf:"logging_variant,omitempty"`
 
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
@@ -1001,6 +1039,8 @@ type NodePoolNodeConfigObservation_2 struct {
 	SoleTenantConfig *NodePoolNodeConfigSoleTenantConfigObservation `json:"soleTenantConfig,omitempty" tf:"sole_tenant_config,omitempty"`
 
 	Spot *bool `json:"spot,omitempty" tf:"spot,omitempty"`
+
+	StoragePools []*string `json:"storagePools,omitempty" tf:"storage_pools,omitempty"`
 
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
@@ -1071,6 +1111,11 @@ type NodePoolNodeConfigParameters_2 struct {
 	// +kubebuilder:validation:Optional
 	LocalSsdCount *float64 `json:"localSsdCount,omitempty" tf:"local_ssd_count,omitempty"`
 
+	// Possible Local SSD encryption modes:
+	// Accepted values are:
+	// +kubebuilder:validation:Optional
+	LocalSsdEncryptionMode *string `json:"localSsdEncryptionMode,omitempty" tf:"local_ssd_encryption_mode,omitempty"`
+
 	// +kubebuilder:validation:Optional
 	LoggingVariant *string `json:"loggingVariant,omitempty" tf:"logging_variant,omitempty"`
 
@@ -1131,6 +1176,9 @@ type NodePoolNodeConfigParameters_2 struct {
 
 	// +kubebuilder:validation:Optional
 	Spot *bool `json:"spot,omitempty" tf:"spot,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	StoragePools []*string `json:"storagePools,omitempty" tf:"storage_pools,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`

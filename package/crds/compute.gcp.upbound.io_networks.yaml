@@ -431,9 +431,14 @@ spec:
                       Default value is AFTER_CLASSIC_FIREWALL.
                       Possible values are: BEFORE_CLASSIC_FIREWALL, AFTER_CLASSIC_FIREWALL.
                     type: string
-                  numericId:
+                  networkId:
                     description: The unique identifier for the resource. This identifier
                       is defined by the server.
+                    type: string
+                  numericId:
+                    description: |-
+                      (Deprecated)
+                      The unique identifier for the resource. This identifier is defined by the server.
                     type: string
                   project:
                     description: |-

@@ -107,6 +107,9 @@ type CertificateObservation struct {
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// The list of Subject Alternative Names of dnsName type defined in the certificate (see RFC 5280 4.2.1.6)
+	SanDnsnames []*string `json:"sanDnsnames,omitempty" tf:"san_dnsnames,omitempty"`
+
 	// The scope of the certificate.
 	// DEFAULT: Certificates with default scope are served from core Google data centers.
 	// If unsure, choose this option.

@@ -234,6 +234,9 @@ type RulesInitParameters struct {
 	// If "TRUE", then the Policy is enforced. If "FALSE", then any configuration is acceptable. This field can be set only in Policies for boolean constraints.
 	Enforce *string `json:"enforce,omitempty" tf:"enforce,omitempty"`
 
+	// Optional. Required for Managed Constraints if parameters defined in constraints. Pass parameter values when policy enforcement is enabled. Ensure that parameter value types match those defined in the constraint definition. For example: { "allowedLocations" : ["us-east1", "us-west1"], "allowAll" : true }
+	Parameters *string `json:"parameters,omitempty" tf:"parameters,omitempty"`
+
 	// List of values to be used for this PolicyRule. This field can be set only in Policies for list constraints.
 	// Structure is documented below.
 	Values *ValuesInitParameters `json:"values,omitempty" tf:"values,omitempty"`
@@ -253,6 +256,9 @@ type RulesObservation struct {
 
 	// If "TRUE", then the Policy is enforced. If "FALSE", then any configuration is acceptable. This field can be set only in Policies for boolean constraints.
 	Enforce *string `json:"enforce,omitempty" tf:"enforce,omitempty"`
+
+	// Optional. Required for Managed Constraints if parameters defined in constraints. Pass parameter values when policy enforcement is enabled. Ensure that parameter value types match those defined in the constraint definition. For example: { "allowedLocations" : ["us-east1", "us-west1"], "allowAll" : true }
+	Parameters *string `json:"parameters,omitempty" tf:"parameters,omitempty"`
 
 	// List of values to be used for this PolicyRule. This field can be set only in Policies for list constraints.
 	// Structure is documented below.
@@ -277,6 +283,10 @@ type RulesParameters struct {
 	// If "TRUE", then the Policy is enforced. If "FALSE", then any configuration is acceptable. This field can be set only in Policies for boolean constraints.
 	// +kubebuilder:validation:Optional
 	Enforce *string `json:"enforce,omitempty" tf:"enforce,omitempty"`
+
+	// Optional. Required for Managed Constraints if parameters defined in constraints. Pass parameter values when policy enforcement is enabled. Ensure that parameter value types match those defined in the constraint definition. For example: { "allowedLocations" : ["us-east1", "us-west1"], "allowAll" : true }
+	// +kubebuilder:validation:Optional
+	Parameters *string `json:"parameters,omitempty" tf:"parameters,omitempty"`
 
 	// List of values to be used for this PolicyRule. This field can be set only in Policies for list constraints.
 	// Structure is documented below.
@@ -321,7 +331,7 @@ type SpecInitParameters struct {
 	// Ignores policies set above this resource and restores the constraint_default enforcement behavior of the specific Constraint at this resource. This field can be set in policies for either list or boolean constraints. If set, rules must be empty and inherit_from_parent must be set to false.
 	Reset *bool `json:"reset,omitempty" tf:"reset,omitempty"`
 
-	// Up to 10 PolicyRules are allowed. In Policies for boolean constraints, the following requirements apply: - There must be one and only one PolicyRule where condition is unset. - BooleanPolicyRules with conditions must set enforced to the opposite of the PolicyRule without a condition. - During policy evaluation, PolicyRules with conditions that are true for a target resource take precedence.
+	// In Policies for boolean constraints, the following requirements apply: - There must be one and only one PolicyRule where condition is unset. - BooleanPolicyRules with conditions must set enforced to the opposite of the PolicyRule without a condition. - During policy evaluation, PolicyRules with conditions that are true for a target resource take precedence.
 	// Structure is documented below.
 	Rules []SpecRulesInitParameters `json:"rules,omitempty" tf:"rules,omitempty"`
 }
@@ -338,7 +348,7 @@ type SpecObservation struct {
 	// Ignores policies set above this resource and restores the constraint_default enforcement behavior of the specific Constraint at this resource. This field can be set in policies for either list or boolean constraints. If set, rules must be empty and inherit_from_parent must be set to false.
 	Reset *bool `json:"reset,omitempty" tf:"reset,omitempty"`
 
-	// Up to 10 PolicyRules are allowed. In Policies for boolean constraints, the following requirements apply: - There must be one and only one PolicyRule where condition is unset. - BooleanPolicyRules with conditions must set enforced to the opposite of the PolicyRule without a condition. - During policy evaluation, PolicyRules with conditions that are true for a target resource take precedence.
+	// In Policies for boolean constraints, the following requirements apply: - There must be one and only one PolicyRule where condition is unset. - BooleanPolicyRules with conditions must set enforced to the opposite of the PolicyRule without a condition. - During policy evaluation, PolicyRules with conditions that are true for a target resource take precedence.
 	// Structure is documented below.
 	Rules []SpecRulesObservation `json:"rules,omitempty" tf:"rules,omitempty"`
 
@@ -357,7 +367,7 @@ type SpecParameters struct {
 	// +kubebuilder:validation:Optional
 	Reset *bool `json:"reset,omitempty" tf:"reset,omitempty"`
 
-	// Up to 10 PolicyRules are allowed. In Policies for boolean constraints, the following requirements apply: - There must be one and only one PolicyRule where condition is unset. - BooleanPolicyRules with conditions must set enforced to the opposite of the PolicyRule without a condition. - During policy evaluation, PolicyRules with conditions that are true for a target resource take precedence.
+	// In Policies for boolean constraints, the following requirements apply: - There must be one and only one PolicyRule where condition is unset. - BooleanPolicyRules with conditions must set enforced to the opposite of the PolicyRule without a condition. - During policy evaluation, PolicyRules with conditions that are true for a target resource take precedence.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Rules []SpecRulesParameters `json:"rules,omitempty" tf:"rules,omitempty"`
@@ -378,6 +388,9 @@ type SpecRulesInitParameters struct {
 	// If "TRUE", then the Policy is enforced. If "FALSE", then any configuration is acceptable. This field can be set only in Policies for boolean constraints.
 	Enforce *string `json:"enforce,omitempty" tf:"enforce,omitempty"`
 
+	// Optional. Required for Managed Constraints if parameters defined in constraints. Pass parameter values when policy enforcement is enabled. Ensure that parameter value types match those defined in the constraint definition. For example: { "allowedLocations" : ["us-east1", "us-west1"], "allowAll" : true }
+	Parameters *string `json:"parameters,omitempty" tf:"parameters,omitempty"`
+
 	// List of values to be used for this PolicyRule. This field can be set only in Policies for list constraints.
 	// Structure is documented below.
 	Values *RulesValuesInitParameters `json:"values,omitempty" tf:"values,omitempty"`
@@ -397,6 +410,9 @@ type SpecRulesObservation struct {
 
 	// If "TRUE", then the Policy is enforced. If "FALSE", then any configuration is acceptable. This field can be set only in Policies for boolean constraints.
 	Enforce *string `json:"enforce,omitempty" tf:"enforce,omitempty"`
+
+	// Optional. Required for Managed Constraints if parameters defined in constraints. Pass parameter values when policy enforcement is enabled. Ensure that parameter value types match those defined in the constraint definition. For example: { "allowedLocations" : ["us-east1", "us-west1"], "allowAll" : true }
+	Parameters *string `json:"parameters,omitempty" tf:"parameters,omitempty"`
 
 	// List of values to be used for this PolicyRule. This field can be set only in Policies for list constraints.
 	// Structure is documented below.
@@ -421,6 +437,10 @@ type SpecRulesParameters struct {
 	// If "TRUE", then the Policy is enforced. If "FALSE", then any configuration is acceptable. This field can be set only in Policies for boolean constraints.
 	// +kubebuilder:validation:Optional
 	Enforce *string `json:"enforce,omitempty" tf:"enforce,omitempty"`
+
+	// Optional. Required for Managed Constraints if parameters defined in constraints. Pass parameter values when policy enforcement is enabled. Ensure that parameter value types match those defined in the constraint definition. For example: { "allowedLocations" : ["us-east1", "us-west1"], "allowAll" : true }
+	// +kubebuilder:validation:Optional
+	Parameters *string `json:"parameters,omitempty" tf:"parameters,omitempty"`
 
 	// List of values to be used for this PolicyRule. This field can be set only in Policies for list constraints.
 	// Structure is documented below.

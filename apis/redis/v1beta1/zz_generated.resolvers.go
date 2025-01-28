@@ -27,6 +27,29 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 	var rsp reference.ResolutionResponse
 	var err error
 
+	if mg.Spec.ForProvider.CrossClusterReplicationConfig != nil {
+		if mg.Spec.ForProvider.CrossClusterReplicationConfig.PrimaryCluster != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("redis.gcp.upbound.io", "v1beta1", "Cluster", "ClusterList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CrossClusterReplicationConfig.PrimaryCluster.Cluster),
+					Extract:      resource.ExtractResourceID(),
+					Reference:    mg.Spec.ForProvider.CrossClusterReplicationConfig.PrimaryCluster.ClusterRef,
+					Selector:     mg.Spec.ForProvider.CrossClusterReplicationConfig.PrimaryCluster.ClusterSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.CrossClusterReplicationConfig.PrimaryCluster.Cluster")
+			}
+			mg.Spec.ForProvider.CrossClusterReplicationConfig.PrimaryCluster.Cluster = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.CrossClusterReplicationConfig.PrimaryCluster.ClusterRef = rsp.ResolvedReference
+
+		}
+	}
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.PscConfigs); i3++ {
 		{
 			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Network", "NetworkList")
@@ -47,6 +70,29 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 		mg.Spec.ForProvider.PscConfigs[i3].Network = reference.ToPtrValue(rsp.ResolvedValue)
 		mg.Spec.ForProvider.PscConfigs[i3].NetworkRef = rsp.ResolvedReference
 
+	}
+	if mg.Spec.InitProvider.CrossClusterReplicationConfig != nil {
+		if mg.Spec.InitProvider.CrossClusterReplicationConfig.PrimaryCluster != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("redis.gcp.upbound.io", "v1beta1", "Cluster", "ClusterList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CrossClusterReplicationConfig.PrimaryCluster.Cluster),
+					Extract:      resource.ExtractResourceID(),
+					Reference:    mg.Spec.InitProvider.CrossClusterReplicationConfig.PrimaryCluster.ClusterRef,
+					Selector:     mg.Spec.InitProvider.CrossClusterReplicationConfig.PrimaryCluster.ClusterSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.CrossClusterReplicationConfig.PrimaryCluster.Cluster")
+			}
+			mg.Spec.InitProvider.CrossClusterReplicationConfig.PrimaryCluster.Cluster = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.CrossClusterReplicationConfig.PrimaryCluster.ClusterRef = rsp.ResolvedReference
+
+		}
 	}
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.PscConfigs); i3++ {
 		{

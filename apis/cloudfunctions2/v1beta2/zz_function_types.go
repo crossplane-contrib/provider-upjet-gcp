@@ -593,7 +593,7 @@ type RepoSourceInitParameters struct {
 	// NOT match the revision regex.
 	InvertRegex *bool `json:"invertRegex,omitempty" tf:"invert_regex,omitempty"`
 
-	// Project identifier (preferrably project number but can also be the project ID) of the project that contains the secret. If not set, it will be populated with the function's project assuming that the secret exists in the same project as of the function.
+	// Project identifier (preferably project number but can also be the project ID) of the project that contains the secret. If not set, it will be populated with the function's project assuming that the secret exists in the same project as of the function.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Name of the Cloud Source Repository.
@@ -618,7 +618,7 @@ type RepoSourceObservation struct {
 	// NOT match the revision regex.
 	InvertRegex *bool `json:"invertRegex,omitempty" tf:"invert_regex,omitempty"`
 
-	// Project identifier (preferrably project number but can also be the project ID) of the project that contains the secret. If not set, it will be populated with the function's project assuming that the secret exists in the same project as of the function.
+	// Project identifier (preferably project number but can also be the project ID) of the project that contains the secret. If not set, it will be populated with the function's project assuming that the secret exists in the same project as of the function.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Name of the Cloud Source Repository.
@@ -647,7 +647,7 @@ type RepoSourceParameters struct {
 	// +kubebuilder:validation:Optional
 	InvertRegex *bool `json:"invertRegex,omitempty" tf:"invert_regex,omitempty"`
 
-	// Project identifier (preferrably project number but can also be the project ID) of the project that contains the secret. If not set, it will be populated with the function's project assuming that the secret exists in the same project as of the function.
+	// Project identifier (preferably project number but can also be the project ID) of the project that contains the secret. If not set, it will be populated with the function's project assuming that the secret exists in the same project as of the function.
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -665,7 +665,7 @@ type SecretEnvironmentVariablesInitParameters struct {
 	// Name of the environment variable.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
-	// Project identifier (preferrably project number but can also be the project ID) of the project that contains the secret. If not set, it will be populated with the function's project assuming that the secret exists in the same project as of the function.
+	// Project identifier (preferably project number but can also be the project ID) of the project that contains the secret. If not set, it will be populated with the function's project assuming that the secret exists in the same project as of the function.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Name of the secret in secret manager (not the full resource name).
@@ -689,7 +689,7 @@ type SecretEnvironmentVariablesObservation struct {
 	// Name of the environment variable.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
-	// Project identifier (preferrably project number but can also be the project ID) of the project that contains the secret. If not set, it will be populated with the function's project assuming that the secret exists in the same project as of the function.
+	// Project identifier (preferably project number but can also be the project ID) of the project that contains the secret. If not set, it will be populated with the function's project assuming that the secret exists in the same project as of the function.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Name of the secret in secret manager (not the full resource name).
@@ -705,7 +705,7 @@ type SecretEnvironmentVariablesParameters struct {
 	// +kubebuilder:validation:Optional
 	Key *string `json:"key" tf:"key,omitempty"`
 
-	// Project identifier (preferrably project number but can also be the project ID) of the project that contains the secret. If not set, it will be populated with the function's project assuming that the secret exists in the same project as of the function.
+	// Project identifier (preferably project number but can also be the project ID) of the project that contains the secret. If not set, it will be populated with the function's project assuming that the secret exists in the same project as of the function.
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
 
@@ -732,7 +732,7 @@ type SecretVolumesInitParameters struct {
 	// The path within the container to mount the secret volume. For example, setting the mountPath as /etc/secrets would mount the secret value files under the /etc/secrets directory. This directory will also be completely shadowed and unavailable to mount any other secrets. Recommended mount path: /etc/secrets
 	MountPath *string `json:"mountPath,omitempty" tf:"mount_path,omitempty"`
 
-	// Project identifier (preferrably project number but can also be the project ID) of the project that contains the secret. If not set, it will be populated with the function's project assuming that the secret exists in the same project as of the function.
+	// Project identifier (preferably project number but can also be the project ID) of the project that contains the secret. If not set, it will be populated with the function's project assuming that the secret exists in the same project as of the function.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Name of the secret in secret manager (not the full resource name).
@@ -757,7 +757,7 @@ type SecretVolumesObservation struct {
 	// The path within the container to mount the secret volume. For example, setting the mountPath as /etc/secrets would mount the secret value files under the /etc/secrets directory. This directory will also be completely shadowed and unavailable to mount any other secrets. Recommended mount path: /etc/secrets
 	MountPath *string `json:"mountPath,omitempty" tf:"mount_path,omitempty"`
 
-	// Project identifier (preferrably project number but can also be the project ID) of the project that contains the secret. If not set, it will be populated with the function's project assuming that the secret exists in the same project as of the function.
+	// Project identifier (preferably project number but can also be the project ID) of the project that contains the secret. If not set, it will be populated with the function's project assuming that the secret exists in the same project as of the function.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Name of the secret in secret manager (not the full resource name).
@@ -774,7 +774,7 @@ type SecretVolumesParameters struct {
 	// +kubebuilder:validation:Optional
 	MountPath *string `json:"mountPath" tf:"mount_path,omitempty"`
 
-	// Project identifier (preferrably project number but can also be the project ID) of the project that contains the secret. If not set, it will be populated with the function's project assuming that the secret exists in the same project as of the function.
+	// Project identifier (preferably project number but can also be the project ID) of the project that contains the secret. If not set, it will be populated with the function's project assuming that the secret exists in the same project as of the function.
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
 

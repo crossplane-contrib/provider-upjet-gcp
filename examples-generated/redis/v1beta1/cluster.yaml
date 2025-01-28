@@ -9,6 +9,15 @@ metadata:
 spec:
   forProvider:
     authorizationMode: AUTH_MODE_DISABLED
+    deletionProtectionEnabled: true
+    maintenancePolicy:
+    - weeklyMaintenanceWindow:
+      - day: MONDAY
+        startTime:
+        - hours: 1
+          minutes: 0
+          nanos: 0
+          seconds: 0
     nodeType: REDIS_SHARED_CORE_NANO
     pscConfigs:
     - networkSelector:
