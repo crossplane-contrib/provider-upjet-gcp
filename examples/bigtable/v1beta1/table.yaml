@@ -12,6 +12,24 @@ metadata:
   name: table
 spec:
   forProvider:
+    columnFamily:
+    - family: family-first
+    - family: family-second
+      type: intsum
+    - family: family-third
+      type: |
+        {
+          "aggregateType": {
+            "max": {},
+            "inputType": {
+              "int64Type": {
+                "encoding": {
+                  "bigEndianBytes": {}
+                }
+              }
+            }
+          }
+        }
     instanceNameSelector:
       matchLabels:
         testing.upbound.io/example-name: instance
