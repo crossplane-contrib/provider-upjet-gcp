@@ -1791,6 +1791,11 @@ spec:
                           If set, message data will be written to Cloud Storage in Avro format.
                           Structure is documented below.
                         properties:
+                          useTopicSchema:
+                            description: |-
+                              When true, use the topic's schema as the columns to write to in BigQuery, if it exists.
+                              Only one of use_topic_schema and use_table_schema can be set.
+                            type: boolean
                           writeMetadata:
                             description: |-
                               When true, writes the Pub/Sub message metadata to
@@ -1825,6 +1830,11 @@ spec:
                           May not exceed the subscription's acknowledgement deadline.
                           A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
                         type: string
+                      maxMessages:
+                        description: The maximum messages that can be written to a
+                          Cloud Storage file before a new file is created. Min 1000
+                          messages.
+                        type: number
                       serviceAccountEmail:
                         description: |-
                           The service account to use to write to Cloud Storage. If not specified, the Pub/Sub
@@ -2069,7 +2079,7 @@ spec:
                       retain_acked_messages is true, then this also configures the retention
                       of acknowledged messages, and thus configures how far back in time a
                       subscriptions.seek can be done. Defaults to 7 days. Cannot be more
-                      than 7 days ("604800s") or less than 10 minutes ("600s").
+                      than 31 days ("2678400s") or less than 10 minutes ("600s").
                       A duration in seconds with up to nine fractional digits, terminated
                       by 's'. Example: "600.5s".
                     type: string
@@ -2414,6 +2424,11 @@ spec:
                           If set, message data will be written to Cloud Storage in Avro format.
                           Structure is documented below.
                         properties:
+                          useTopicSchema:
+                            description: |-
+                              When true, use the topic's schema as the columns to write to in BigQuery, if it exists.
+                              Only one of use_topic_schema and use_table_schema can be set.
+                            type: boolean
                           writeMetadata:
                             description: |-
                               When true, writes the Pub/Sub message metadata to
@@ -2448,6 +2463,11 @@ spec:
                           May not exceed the subscription's acknowledgement deadline.
                           A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
                         type: string
+                      maxMessages:
+                        description: The maximum messages that can be written to a
+                          Cloud Storage file before a new file is created. Min 1000
+                          messages.
+                        type: number
                       serviceAccountEmail:
                         description: |-
                           The service account to use to write to Cloud Storage. If not specified, the Pub/Sub
@@ -2692,7 +2712,7 @@ spec:
                       retain_acked_messages is true, then this also configures the retention
                       of acknowledged messages, and thus configures how far back in time a
                       subscriptions.seek can be done. Defaults to 7 days. Cannot be more
-                      than 7 days ("604800s") or less than 10 minutes ("600s").
+                      than 31 days ("2678400s") or less than 10 minutes ("600s").
                       A duration in seconds with up to nine fractional digits, terminated
                       by 's'. Example: "600.5s".
                     type: string
@@ -3120,6 +3140,11 @@ spec:
                           If set, message data will be written to Cloud Storage in Avro format.
                           Structure is documented below.
                         properties:
+                          useTopicSchema:
+                            description: |-
+                              When true, use the topic's schema as the columns to write to in BigQuery, if it exists.
+                              Only one of use_topic_schema and use_table_schema can be set.
+                            type: boolean
                           writeMetadata:
                             description: |-
                               When true, writes the Pub/Sub message metadata to
@@ -3154,6 +3179,11 @@ spec:
                           May not exceed the subscription's acknowledgement deadline.
                           A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
                         type: string
+                      maxMessages:
+                        description: The maximum messages that can be written to a
+                          Cloud Storage file before a new file is created. Min 1000
+                          messages.
+                        type: number
                       serviceAccountEmail:
                         description: |-
                           The service account to use to write to Cloud Storage. If not specified, the Pub/Sub
@@ -3262,7 +3292,7 @@ spec:
                       retain_acked_messages is true, then this also configures the retention
                       of acknowledged messages, and thus configures how far back in time a
                       subscriptions.seek can be done. Defaults to 7 days. Cannot be more
-                      than 7 days ("604800s") or less than 10 minutes ("600s").
+                      than 31 days ("2678400s") or less than 10 minutes ("600s").
                       A duration in seconds with up to nine fractional digits, terminated
                       by 's'. Example: "600.5s".
                     type: string
