@@ -1,8 +1,8 @@
-apiVersion: identityplatform.gcp.upbound.io/v1beta2
-kind: ProjectDefaultConfig
+apiVersion: identityplatform.gcp.upbound.io/v1beta1
+kind: Config
 metadata:
   annotations:
-    meta.upbound.io/example-id: identityplatform/v1beta2/projectdefaultconfig
+    meta.upbound.io/example-id: identityplatform/v1beta1/config
   labels:
     testing.upbound.io/example-name: default
   name: default
@@ -11,11 +11,11 @@ spec:
     signIn:
     - allowDuplicateEmails: true
       anonymous:
-      - enabled: true
+        enabled: true
       email:
-      - enabled: true
+        enabled: true
         passwordRequired: false
       phoneNumber:
-      - enabled: true
+        enabled: true
         testPhoneNumbers:
           "+11231231234": "000000"
