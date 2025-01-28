@@ -41,6 +41,13 @@ type BackupInitParameters struct {
 	// Selector for a Instance in filestore to populate sourceInstance.
 	// +kubebuilder:validation:Optional
 	SourceInstanceSelector *v1.Selector `json:"sourceInstanceSelector,omitempty" tf:"-"`
+
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
+	// The field is ignored (both PUT & PATCH) when empty.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
 type BackupObservation struct {
@@ -93,6 +100,13 @@ type BackupObservation struct {
 	// The size of the storage used by the backup. As backups share storage, this number is expected to change with backup creation/deletion.
 	StorageBytes *string `json:"storageBytes,omitempty" tf:"storage_bytes,omitempty"`
 
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
+	// The field is ignored (both PUT & PATCH) when empty.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
 	// The combination of labels configured directly on the resource
 	// and default labels configured on the provider.
 	// +mapType=granular
@@ -136,6 +150,14 @@ type BackupParameters struct {
 	// Selector for a Instance in filestore to populate sourceInstance.
 	// +kubebuilder:validation:Optional
 	SourceInstanceSelector *v1.Selector `json:"sourceInstanceSelector,omitempty" tf:"-"`
+
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
+	// The field is ignored (both PUT & PATCH) when empty.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
 // BackupSpec defines the desired state of Backup
