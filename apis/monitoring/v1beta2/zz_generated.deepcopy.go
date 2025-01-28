@@ -589,6 +589,17 @@ func (in *AlertStrategyInitParameters) DeepCopyInto(out *AlertStrategyInitParame
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.NotificationPrompts != nil {
+		in, out := &in.NotificationPrompts, &out.NotificationPrompts
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
 	if in.NotificationRateLimit != nil {
 		in, out := &in.NotificationRateLimit, &out.NotificationRateLimit
 		*out = new(NotificationRateLimitInitParameters)
@@ -621,6 +632,17 @@ func (in *AlertStrategyObservation) DeepCopyInto(out *AlertStrategyObservation) 
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.NotificationPrompts != nil {
+		in, out := &in.NotificationPrompts, &out.NotificationPrompts
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
 	if in.NotificationRateLimit != nil {
 		in, out := &in.NotificationRateLimit, &out.NotificationRateLimit
 		*out = new(NotificationRateLimitObservation)
@@ -651,6 +673,17 @@ func (in *AlertStrategyParameters) DeepCopyInto(out *AlertStrategyParameters) {
 		*out = make([]NotificationChannelStrategyParameters, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.NotificationPrompts != nil {
+		in, out := &in.NotificationPrompts, &out.NotificationPrompts
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
 		}
 	}
 	if in.NotificationRateLimit != nil {
@@ -1855,6 +1888,11 @@ func (in *ConditionPrometheusQueryLanguageInitParameters) DeepCopyInto(out *Cond
 		*out = new(string)
 		**out = **in
 	}
+	if in.DisableMetricValidation != nil {
+		in, out := &in.DisableMetricValidation, &out.DisableMetricValidation
+		*out = new(bool)
+		**out = **in
+	}
 	if in.Duration != nil {
 		in, out := &in.Duration, &out.Duration
 		*out = new(string)
@@ -1911,6 +1949,11 @@ func (in *ConditionPrometheusQueryLanguageObservation) DeepCopyInto(out *Conditi
 		*out = new(string)
 		**out = **in
 	}
+	if in.DisableMetricValidation != nil {
+		in, out := &in.DisableMetricValidation, &out.DisableMetricValidation
+		*out = new(bool)
+		**out = **in
+	}
 	if in.Duration != nil {
 		in, out := &in.Duration, &out.Duration
 		*out = new(string)
@@ -1965,6 +2008,11 @@ func (in *ConditionPrometheusQueryLanguageParameters) DeepCopyInto(out *Conditio
 	if in.AlertRule != nil {
 		in, out := &in.AlertRule, &out.AlertRule
 		*out = new(string)
+		**out = **in
+	}
+	if in.DisableMetricValidation != nil {
+		in, out := &in.DisableMetricValidation, &out.DisableMetricValidation
+		*out = new(bool)
 		**out = **in
 	}
 	if in.Duration != nil {
