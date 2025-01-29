@@ -49,7 +49,7 @@ func dumpGeneratedResourceList(p *ujconfig.Provider, targetPath *string) {
 		generatedResources = append(generatedResources, name)
 	}
 	sort.Strings(generatedResources)
-	buff, err := json.Marshal(generatedResources)
+	buff, err := json.MarshalIndent(generatedResources, "", "  ")
 	if err != nil {
 		panic(fmt.Sprintf("Cannot marshal native schema versions to JSON: %s", err.Error()))
 	}
