@@ -105,9 +105,6 @@ type CertificateAuthorityInitParameters struct {
 	// Structure is documented below.
 	Config *CertificateAuthorityConfigInitParameters `json:"config,omitempty" tf:"config,omitempty"`
 
-	// When the field is set to false, deleting the CertificateAuthority is allowed.
-	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
-
 	// Desired state of the CertificateAuthority. Set this field to STAGED to create a STAGED root CA.
 	// Possible values: ENABLED, DISABLED, STAGED.
 	DesiredState *string `json:"desiredState,omitempty" tf:"desired_state,omitempty"`
@@ -284,10 +281,6 @@ type CertificateAuthorityParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Config *CertificateAuthorityConfigParameters `json:"config,omitempty" tf:"config,omitempty"`
-
-	// When the field is set to false, deleting the CertificateAuthority is allowed.
-	// +kubebuilder:validation:Optional
-	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// Desired state of the CertificateAuthority. Set this field to STAGED to create a STAGED root CA.
 	// Possible values: ENABLED, DISABLED, STAGED.

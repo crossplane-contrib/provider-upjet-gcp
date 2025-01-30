@@ -1534,10 +1534,6 @@ spec:
                       Default value is MYSQL.
                       Possible values are: MYSQL, SPANNER.
                     type: string
-                  deletionProtection:
-                    description: Indicates if the dataproc metastore should be protected
-                      against accidental deletions.
-                    type: boolean
                   encryptionConfig:
                     description: |-
                       Information used to configure the Dataproc Metastore service to encrypt
@@ -1947,10 +1943,6 @@ spec:
                       Default value is MYSQL.
                       Possible values are: MYSQL, SPANNER.
                     type: string
-                  deletionProtection:
-                    description: Indicates if the dataproc metastore should be protected
-                      against accidental deletions.
-                    type: boolean
                   encryptionConfig:
                     description: |-
                       Information used to configure the Dataproc Metastore service to encrypt

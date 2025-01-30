@@ -31,7 +31,6 @@ metadata:
   name: membership
 spec:
   forProvider:
-    deletionProtection: false
     initialNodeCount: 2
     location: us-central1-a
     nodeConfig:

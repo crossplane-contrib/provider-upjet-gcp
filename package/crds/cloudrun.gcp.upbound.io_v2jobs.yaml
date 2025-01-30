@@ -2367,11 +2367,6 @@ spec:
                   clientVersion:
                     description: Arbitrary version identifier for the API client.
                     type: string
-                  deletionProtection:
-                    description: |-
-                      Defaults to true.
-                      When the field is set to false, deleting the job is allowed.
-                    type: boolean
                   labels:
                     additionalProperties:
                       type: string
@@ -3063,11 +3058,6 @@ spec:
                   clientVersion:
                     description: Arbitrary version identifier for the API client.
                     type: string
-                  deletionProtection:
-                    description: |-
-                      Defaults to true.
-                      When the field is set to false, deleting the job is allowed.
-                    type: boolean
                   labels:
                     additionalProperties:
                       type: string

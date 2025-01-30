@@ -51,6 +51,5 @@ metadata:
   name: firewall-policy-assoc
 spec:
   forProvider:
-    deletionPolicy: false
     displayName: firewall-policy-assoc
     parent: organizations/1234567

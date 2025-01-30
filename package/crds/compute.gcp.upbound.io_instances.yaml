@@ -3568,11 +3568,6 @@ spec:
                           TERMINATE or this will fail to create the VM.
                         type: boolean
                     type: object
-                  deletionProtection:
-                    description: |-
-                      Enable deletion protection on this instance. Defaults to false.
-                      Note: you must disable deletion protection before removing the resource (e.g.
-                    type: boolean
                   description:
                     description: A brief description of this resource.
                     type: string
@@ -4643,11 +4638,6 @@ spec:
                           TERMINATE or this will fail to create the VM.
                         type: boolean
                     type: object
-                  deletionProtection:
-                    description: |-
-                      Enable deletion protection on this instance. Defaults to false.
-                      Note: you must disable deletion protection before removing the resource (e.g.
-                    type: boolean
                   description:
                     description: A brief description of this resource.
                     type: string

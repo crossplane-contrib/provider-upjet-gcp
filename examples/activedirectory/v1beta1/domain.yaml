@@ -13,7 +13,6 @@ metadata:
   name: domain
 spec:
   forProvider:
-    deletionProtection: false
     domainName: "fndomain.org.com"
     locations:
     - us-central1

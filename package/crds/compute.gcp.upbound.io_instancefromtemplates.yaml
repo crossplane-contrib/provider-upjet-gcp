@@ -2100,8 +2100,6 @@ spec:
                       enableConfidentialCompute:
                         type: boolean
                     type: object
-                  deletionProtection:
-                    type: boolean
                   description:
                     type: string
                   desiredStatus:
@@ -2716,8 +2714,6 @@ spec:
                       enableConfidentialCompute:
                         type: boolean
                     type: object
-                  deletionProtection:
-                    type: boolean
                   description:
                     type: string
                   desiredStatus:

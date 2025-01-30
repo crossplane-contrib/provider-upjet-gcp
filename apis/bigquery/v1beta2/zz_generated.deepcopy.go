@@ -12817,11 +12817,6 @@ func (in *TableInitParameters) DeepCopyInto(out *TableInitParameters) {
 			}
 		}
 	}
-	if in.DeletionProtection != nil {
-		in, out := &in.DeletionProtection, &out.DeletionProtection
-		*out = new(bool)
-		**out = **in
-	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -13231,11 +13226,6 @@ func (in *TableParameters) DeepCopyInto(out *TableParameters) {
 		in, out := &in.DatasetIDSelector, &out.DatasetIDSelector
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
-	}
-	if in.DeletionProtection != nil {
-		in, out := &in.DeletionProtection, &out.DeletionProtection
-		*out = new(bool)
-		**out = **in
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description

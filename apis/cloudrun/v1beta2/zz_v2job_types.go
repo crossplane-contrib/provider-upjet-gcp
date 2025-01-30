@@ -760,10 +760,6 @@ type V2JobInitParameters struct {
 	// Arbitrary version identifier for the API client.
 	ClientVersion *string `json:"clientVersion,omitempty" tf:"client_version,omitempty"`
 
-	// Defaults to true.
-	// When the field is set to false, deleting the job is allowed.
-	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
-
 	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter,
 	// or break down billing charges by team, component, environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or
 	// https://cloud.google.com/run/docs/configuring/labels.
@@ -923,11 +919,6 @@ type V2JobParameters struct {
 	// Arbitrary version identifier for the API client.
 	// +kubebuilder:validation:Optional
 	ClientVersion *string `json:"clientVersion,omitempty" tf:"client_version,omitempty"`
-
-	// Defaults to true.
-	// When the field is set to false, deleting the job is allowed.
-	// +kubebuilder:validation:Optional
-	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter,
 	// or break down billing charges by team, component, environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or

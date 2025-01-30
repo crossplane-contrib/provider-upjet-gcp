@@ -74,9 +74,6 @@ type TableInitParameters struct {
 	// A group of columns within a table which share a common configuration. This can be specified multiple times. Structure is documented below.
 	ColumnFamily []ColumnFamilyInitParameters `json:"columnFamily,omitempty" tf:"column_family,omitempty"`
 
-	// A field to make the table protected against data loss i.e. when set to PROTECTED, deleting the table, the column families in the table, and the instance containing the table would be prohibited. If not provided, deletion protection will be set to UNPROTECTED.
-	DeletionProtection *string `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
-
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -126,10 +123,6 @@ type TableParameters struct {
 	// A group of columns within a table which share a common configuration. This can be specified multiple times. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ColumnFamily []ColumnFamilyParameters `json:"columnFamily,omitempty" tf:"column_family,omitempty"`
-
-	// A field to make the table protected against data loss i.e. when set to PROTECTED, deleting the table, the column families in the table, and the instance containing the table would be prohibited. If not provided, deletion protection will be set to UNPROTECTED.
-	// +kubebuilder:validation:Optional
-	DeletionProtection *string `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// The name of the Bigtable instance.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigtable/v1beta2.Instance

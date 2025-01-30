@@ -3471,11 +3471,6 @@ func (in *TableInitParameters) DeepCopyInto(out *TableInitParameters) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
-	if in.DeletionProtection != nil {
-		in, out := &in.DeletionProtection, &out.DeletionProtection
-		*out = new(string)
-		**out = **in
-	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
 		*out = new(string)
@@ -3618,11 +3613,6 @@ func (in *TableParameters) DeepCopyInto(out *TableParameters) {
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
-	}
-	if in.DeletionProtection != nil {
-		in, out := &in.DeletionProtection, &out.DeletionProtection
-		*out = new(string)
-		**out = **in
 	}
 	if in.InstanceName != nil {
 		in, out := &in.InstanceName, &out.InstanceName

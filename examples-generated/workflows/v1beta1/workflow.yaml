@@ -9,7 +9,6 @@ metadata:
 spec:
   forProvider:
     callLogLevel: LOG_ERRORS_ONLY
-    deletionProtection: false
     description: Magic
     labels:
       env: test
