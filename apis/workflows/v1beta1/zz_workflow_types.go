@@ -25,10 +25,6 @@ type WorkflowInitParameters struct {
 	// Format: projects/{project}/locations/{location}/keyRings/{keyRing}/cryptoKeys/{cryptoKey}
 	CryptoKeyName *string `json:"cryptoKeyName,omitempty" tf:"crypto_key_name,omitempty"`
 
-	// Defaults to true.
-	// When the field is set to false, deleting the workflow is allowed.
-	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
-
 	// Description of the workflow provided by the user. Must be at most 1000 unicode characters long.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -168,11 +164,6 @@ type WorkflowParameters struct {
 	// Format: projects/{project}/locations/{location}/keyRings/{keyRing}/cryptoKeys/{cryptoKey}
 	// +kubebuilder:validation:Optional
 	CryptoKeyName *string `json:"cryptoKeyName,omitempty" tf:"crypto_key_name,omitempty"`
-
-	// Defaults to true.
-	// When the field is set to false, deleting the workflow is allowed.
-	// +kubebuilder:validation:Optional
-	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// Description of the workflow provided by the user. Must be at most 1000 unicode characters long.
 	// +kubebuilder:validation:Optional

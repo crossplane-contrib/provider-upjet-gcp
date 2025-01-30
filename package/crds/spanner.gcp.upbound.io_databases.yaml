@@ -631,11 +631,6 @@ spec:
                     items:
                       type: string
                     type: array
-                  deletionProtection:
-                    description: |-
-                      Defaults to true.
-                      When the field is set to false, deleting the database is allowed.
-                    type: boolean
                   enableDropProtection:
                     description: |-
                       Whether drop protection is enabled for this database. Defaults to false.
@@ -780,11 +775,6 @@ spec:
                     items:
                       type: string
                     type: array
-                  deletionProtection:
-                    description: |-
-                      Defaults to true.
-                      When the field is set to false, deleting the database is allowed.
-                    type: boolean
                   enableDropProtection:
                     description: |-
                       Whether drop protection is enabled for this database. Defaults to false.

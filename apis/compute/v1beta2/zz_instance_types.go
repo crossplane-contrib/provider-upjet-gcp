@@ -745,10 +745,6 @@ type InstanceInitParameters struct {
 	// Enable Confidential Mode on this VM. Structure is documented below
 	ConfidentialInstanceConfig *ConfidentialInstanceConfigInitParameters `json:"confidentialInstanceConfig,omitempty" tf:"confidential_instance_config,omitempty"`
 
-	// Enable deletion protection on this instance. Defaults to false.
-	// Note: you must disable deletion protection before removing the resource (e.g.
-	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
-
 	// A brief description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -1051,11 +1047,6 @@ type InstanceParameters struct {
 	// Enable Confidential Mode on this VM. Structure is documented below
 	// +kubebuilder:validation:Optional
 	ConfidentialInstanceConfig *ConfidentialInstanceConfigParameters `json:"confidentialInstanceConfig,omitempty" tf:"confidential_instance_config,omitempty"`
-
-	// Enable deletion protection on this instance. Defaults to false.
-	// Note: you must disable deletion protection before removing the resource (e.g.
-	// +kubebuilder:validation:Optional
-	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// A brief description of this resource.
 	// +kubebuilder:validation:Optional

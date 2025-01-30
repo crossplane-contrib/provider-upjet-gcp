@@ -2504,10 +2504,6 @@ spec:
                             type: array
                         type: object
                     type: object
-                  deletionProtection:
-                    description: When the field is set to false, deleting the CertificateAuthority
-                      is allowed.
-                    type: boolean
                   desiredState:
                     description: |-
                       Desired state of the CertificateAuthority. Set this field to STAGED to create a STAGED root CA.
@@ -3127,10 +3123,6 @@ spec:
                             type: array
                         type: object
                     type: object
-                  deletionProtection:
-                    description: When the field is set to false, deleting the CertificateAuthority
-                      is allowed.
-                    type: boolean
                   desiredState:
                     description: |-
                       Desired state of the CertificateAuthority. Set this field to STAGED to create a STAGED root CA.
