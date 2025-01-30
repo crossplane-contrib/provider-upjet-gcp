@@ -18306,11 +18306,6 @@ func (in *InstanceFromTemplateInitParameters) DeepCopyInto(out *InstanceFromTemp
 		*out = new(InstanceFromTemplateConfidentialInstanceConfigInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
-	if in.DeletionProtection != nil {
-		in, out := &in.DeletionProtection, &out.DeletionProtection
-		*out = new(bool)
-		**out = **in
-	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -19193,11 +19188,6 @@ func (in *InstanceFromTemplateParameters) DeepCopyInto(out *InstanceFromTemplate
 		in, out := &in.ConfidentialInstanceConfig, &out.ConfidentialInstanceConfig
 		*out = new(InstanceFromTemplateConfidentialInstanceConfigParameters)
 		(*in).DeepCopyInto(*out)
-	}
-	if in.DeletionProtection != nil {
-		in, out := &in.DeletionProtection, &out.DeletionProtection
-		*out = new(bool)
-		**out = **in
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
@@ -21016,11 +21006,6 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 		*out = new(ConfidentialInstanceConfigInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
-	if in.DeletionProtection != nil {
-		in, out := &in.DeletionProtection, &out.DeletionProtection
-		*out = new(bool)
-		**out = **in
-	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -21608,11 +21593,6 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 		in, out := &in.ConfidentialInstanceConfig, &out.ConfidentialInstanceConfig
 		*out = new(ConfidentialInstanceConfigParameters)
 		(*in).DeepCopyInto(*out)
-	}
-	if in.DeletionProtection != nil {
-		in, out := &in.DeletionProtection, &out.DeletionProtection
-		*out = new(bool)
-		**out = **in
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description

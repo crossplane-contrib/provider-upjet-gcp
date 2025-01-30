@@ -73,8 +73,6 @@ spec:
                 type: string
               forProvider:
                 properties:
-                  deletionProtection:
-                    type: boolean
                   displayName:
                     description: |-
                       The folder’s display name.
@@ -188,8 +186,6 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
-                  deletionProtection:
-                    type: boolean
                   displayName:
                     description: |-
                       The folder’s display name.

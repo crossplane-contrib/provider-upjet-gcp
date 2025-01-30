@@ -66,7 +66,6 @@ metadata:
   name: folder
 spec:
   forProvider:
-    deletionProtection: false
     displayName: folder
     parentSelector:
       matchLabels:

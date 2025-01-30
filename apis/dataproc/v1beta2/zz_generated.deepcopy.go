@@ -9016,11 +9016,6 @@ func (in *MetastoreServiceInitParameters) DeepCopyInto(out *MetastoreServiceInit
 		*out = new(string)
 		**out = **in
 	}
-	if in.DeletionProtection != nil {
-		in, out := &in.DeletionProtection, &out.DeletionProtection
-		*out = new(bool)
-		**out = **in
-	}
 	if in.EncryptionConfig != nil {
 		in, out := &in.EncryptionConfig, &out.EncryptionConfig
 		*out = new(MetastoreServiceEncryptionConfigInitParameters)
@@ -9330,11 +9325,6 @@ func (in *MetastoreServiceParameters) DeepCopyInto(out *MetastoreServiceParamete
 	if in.DatabaseType != nil {
 		in, out := &in.DatabaseType, &out.DatabaseType
 		*out = new(string)
-		**out = **in
-	}
-	if in.DeletionProtection != nil {
-		in, out := &in.DeletionProtection, &out.DeletionProtection
-		*out = new(bool)
 		**out = **in
 	}
 	if in.EncryptionConfig != nil {

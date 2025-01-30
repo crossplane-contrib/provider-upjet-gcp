@@ -897,8 +897,6 @@ type ClusterInitParameters struct {
 	// GKE SNAT DefaultSnatStatus contains the desired state of whether default sNAT should be disabled on the cluster, API doc. Structure is documented below
 	DefaultSnatStatus *DefaultSnatStatusInitParameters `json:"defaultSnatStatus,omitempty" tf:"default_snat_status,omitempty"`
 
-	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
-
 	// Description of the cluster.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -1569,9 +1567,6 @@ type ClusterParameters struct {
 	// GKE SNAT DefaultSnatStatus contains the desired state of whether default sNAT should be disabled on the cluster, API doc. Structure is documented below
 	// +kubebuilder:validation:Optional
 	DefaultSnatStatus *DefaultSnatStatusParameters `json:"defaultSnatStatus,omitempty" tf:"default_snat_status,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// Description of the cluster.
 	// +kubebuilder:validation:Optional

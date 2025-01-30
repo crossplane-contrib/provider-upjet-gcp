@@ -12,7 +12,6 @@ metadata:
   name: example
 spec:
   forProvider:
-    deletionProtection: false
     description: Magic
     name: workflow
     region: us-central1

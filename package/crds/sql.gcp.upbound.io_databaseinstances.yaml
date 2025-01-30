@@ -2435,10 +2435,6 @@ spec:
                       Database Version Policies
                       includes an up-to-date reference of supported versions.
                     type: string
-                  deletionProtection:
-                    description: When the field is set to false, deleting the instance
-                      is allowed.
-                    type: boolean
                   encryptionKeyName:
                     description: |-
                       The full path to the encryption key used for the CMEK disk encryption.
@@ -3136,10 +3132,6 @@ spec:
                       Database Version Policies
                       includes an up-to-date reference of supported versions.
                     type: string
-                  deletionProtection:
-                    description: When the field is set to false, deleting the instance
-                      is allowed.
-                    type: boolean
                   encryptionKeyName:
                     description: |-
                       The full path to the encryption key used for the CMEK disk encryption.

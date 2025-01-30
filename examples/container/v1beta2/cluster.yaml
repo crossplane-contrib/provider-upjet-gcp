@@ -12,7 +12,6 @@ metadata:
   name: cluster
 spec:
   forProvider:
-    deletionProtection: false
     enableAutopilot: true
     enableIntranodeVisibility: true
     ipAllocationPolicy: {}

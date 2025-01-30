@@ -1785,11 +1785,6 @@ func (in *CertificateAuthorityInitParameters) DeepCopyInto(out *CertificateAutho
 		*out = new(CertificateAuthorityConfigInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
-	if in.DeletionProtection != nil {
-		in, out := &in.DeletionProtection, &out.DeletionProtection
-		*out = new(bool)
-		**out = **in
-	}
 	if in.DesiredState != nil {
 		in, out := &in.DesiredState, &out.DesiredState
 		*out = new(string)
@@ -2083,11 +2078,6 @@ func (in *CertificateAuthorityParameters) DeepCopyInto(out *CertificateAuthority
 		in, out := &in.Config, &out.Config
 		*out = new(CertificateAuthorityConfigParameters)
 		(*in).DeepCopyInto(*out)
-	}
-	if in.DeletionProtection != nil {
-		in, out := &in.DeletionProtection, &out.DeletionProtection
-		*out = new(bool)
-		**out = **in
 	}
 	if in.DesiredState != nil {
 		in, out := &in.DesiredState, &out.DesiredState

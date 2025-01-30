@@ -322,8 +322,6 @@ type InstanceFromTemplateInitParameters struct {
 
 	ConfidentialInstanceConfig *InstanceFromTemplateConfidentialInstanceConfigInitParameters `json:"confidentialInstanceConfig,omitempty" tf:"confidential_instance_config,omitempty"`
 
-	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
-
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	DesiredStatus *string `json:"desiredStatus,omitempty" tf:"desired_status,omitempty"`
@@ -665,9 +663,6 @@ type InstanceFromTemplateParameters struct {
 
 	// +kubebuilder:validation:Optional
 	ConfidentialInstanceConfig *InstanceFromTemplateConfidentialInstanceConfigParameters `json:"confidentialInstanceConfig,omitempty" tf:"confidential_instance_config,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`

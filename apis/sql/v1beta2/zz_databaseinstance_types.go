@@ -349,9 +349,6 @@ type DatabaseInstanceInitParameters struct {
 	// includes an up-to-date reference of supported versions.
 	DatabaseVersion *string `json:"databaseVersion,omitempty" tf:"database_version,omitempty"`
 
-	// When the field is set to false, deleting the instance is allowed.
-	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
-
 	// The full path to the encryption key used for the CMEK disk encryption.
 	// The provided key must be in the same region as the SQL instance.  In order
 	// to use this feature, a special kind of service account must be created and
@@ -512,10 +509,6 @@ type DatabaseInstanceParameters struct {
 	// includes an up-to-date reference of supported versions.
 	// +kubebuilder:validation:Optional
 	DatabaseVersion *string `json:"databaseVersion,omitempty" tf:"database_version,omitempty"`
-
-	// When the field is set to false, deleting the instance is allowed.
-	// +kubebuilder:validation:Optional
-	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// The full path to the encryption key used for the CMEK disk encryption.
 	// The provided key must be in the same region as the SQL instance.  In order

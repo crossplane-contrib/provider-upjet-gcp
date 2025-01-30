@@ -17,6 +17,5 @@ spec:
       numNodes: 1
       storageType: HDD
       zone: us-central1-b
-    deletionProtection: false
     labels:
       my-label: prod-label

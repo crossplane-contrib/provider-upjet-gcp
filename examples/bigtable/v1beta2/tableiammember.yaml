@@ -54,4 +54,3 @@ spec:
       numNodes: 3
       storageType: HDD
       zone: us-central1-b
-    deletionProtection: false

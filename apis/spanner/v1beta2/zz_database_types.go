@@ -26,10 +26,6 @@ type DatabaseInitParameters struct {
 	// error in any statement, the database is not created.
 	Ddl []*string `json:"ddl,omitempty" tf:"ddl,omitempty"`
 
-	// Defaults to true.
-	// When the field is set to false, deleting the database is allowed.
-	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
-
 	// Whether drop protection is enabled for this database. Defaults to false.
 	// whereas setting “enableDropProtection” to true protects the database from deletions in all interfaces.
 	// (2) Setting "enableDropProtection" to true also prevents the deletion of the parent instance containing the database.
@@ -114,11 +110,6 @@ type DatabaseParameters struct {
 	// error in any statement, the database is not created.
 	// +kubebuilder:validation:Optional
 	Ddl []*string `json:"ddl,omitempty" tf:"ddl,omitempty"`
-
-	// Defaults to true.
-	// When the field is set to false, deleting the database is allowed.
-	// +kubebuilder:validation:Optional
-	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// Whether drop protection is enabled for this database. Defaults to false.
 	// whereas setting “enableDropProtection” to true protects the database from deletions in all interfaces.

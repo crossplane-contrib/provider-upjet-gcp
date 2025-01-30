@@ -8,7 +8,6 @@ metadata:
   name: default
 spec:
   forProvider:
-    deletionProtection: false
     ingress: INGRESS_TRAFFIC_ALL
     location: us-central1
     template:

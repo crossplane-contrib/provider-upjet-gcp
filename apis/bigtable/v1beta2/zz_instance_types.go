@@ -153,9 +153,6 @@ type InstanceInitParameters struct {
 	// to default to the backend value. See structure below.
 	Cluster []ClusterInitParameters `json:"cluster,omitempty" tf:"cluster,omitempty"`
 
-	// When the field is set to false, deleting the instance is allowed.
-	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
-
 	// The human-readable display name of the Bigtable instance. Defaults to the instance name.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
@@ -227,10 +224,6 @@ type InstanceParameters struct {
 	// to default to the backend value. See structure below.
 	// +kubebuilder:validation:Optional
 	Cluster []ClusterParameters `json:"cluster,omitempty" tf:"cluster,omitempty"`
-
-	// When the field is set to false, deleting the instance is allowed.
-	// +kubebuilder:validation:Optional
-	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// The human-readable display name of the Bigtable instance. Defaults to the instance name.
 	// +kubebuilder:validation:Optional

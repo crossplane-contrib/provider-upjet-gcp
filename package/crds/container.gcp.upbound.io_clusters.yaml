@@ -7751,8 +7751,6 @@ spec:
                           internal traffic
                         type: boolean
                     type: object
-                  deletionProtection:
-                    type: boolean
                   description:
                     description: Description of the cluster.
                     type: string
@@ -9816,8 +9814,6 @@ spec:
                           internal traffic
                         type: boolean
                     type: object
-                  deletionProtection:
-                    type: boolean
                   description:
                     description: Description of the cluster.
                     type: string

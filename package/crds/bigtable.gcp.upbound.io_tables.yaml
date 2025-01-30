@@ -101,13 +101,6 @@ spec:
                           type: string
                       type: object
                     type: array
-                  deletionProtection:
-                    description: A field to make the table protected against data
-                      loss i.e. when set to PROTECTED, deleting the table, the column
-                      families in the table, and the instance containing the table
-                      would be prohibited. If not provided, deletion protection will
-                      be set to UNPROTECTED.
-                    type: string
                   instanceName:
                     description: The name of the Bigtable instance.
                     type: string
@@ -237,13 +230,6 @@ spec:
                           type: string
                       type: object
                     type: array
-                  deletionProtection:
-                    description: A field to make the table protected against data
-                      loss i.e. when set to PROTECTED, deleting the table, the column
-                      families in the table, and the instance containing the table
-                      would be prohibited. If not provided, deletion protection will
-                      be set to UNPROTECTED.
-                    type: string
                   project:
                     description: |-
                       The ID of the project in which the resource belongs. If it

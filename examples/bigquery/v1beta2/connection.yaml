@@ -63,7 +63,6 @@ metadata:
 spec:
   forProvider:
     databaseVersion: POSTGRES_11
-    deletionProtection: false
     region: us-central1
     settings:
       tier: db-f1-micro

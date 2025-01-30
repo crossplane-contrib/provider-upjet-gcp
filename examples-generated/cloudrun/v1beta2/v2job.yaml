@@ -8,7 +8,6 @@ metadata:
   name: default
 spec:
   forProvider:
-    deletionProtection: false
     location: us-central1
     template:
     - template:

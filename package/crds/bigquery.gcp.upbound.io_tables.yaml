@@ -2552,10 +2552,6 @@ spec:
                             type: string
                         type: object
                     type: object
-                  deletionProtection:
-                    description: When the field is set to false, deleting the table
-                      is allowed..
-                    type: boolean
                   description:
                     description: The field description.
                     type: string
@@ -3185,10 +3181,6 @@ spec:
                     items:
                       type: string
                     type: array
-                  deletionProtection:
-                    description: When the field is set to false, deleting the table
-                      is allowed..
-                    type: boolean
                   description:
                     description: The field description.
                     type: string
