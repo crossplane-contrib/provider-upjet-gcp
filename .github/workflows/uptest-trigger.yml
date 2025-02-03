@@ -9,7 +9,7 @@ on:
     types: [created]
 
 env:
-  GO_VERSION: "1.23"
+  GO_VERSION: "1.22.11"
 
 jobs:
   debug:
@@ -178,4 +178,3 @@ jobs:
             -f target_url='https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}' \
             -f description='Failed' \
             -f context="Uptest-${EXAMPLE_HASH}"
-            
