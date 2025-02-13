@@ -1699,16 +1699,26 @@ spec:
                         type: string
                     type: object
                   customLearnedIpRanges:
+                    description: |-
+                      The custom learned route IP address range. Must be a valid CIDR-formatted prefix.
+                      If an IP address is provided without a subnet mask, it is interpreted as, for IPv4,
+                      a /32 singular IP address range, and, for IPv6, /128.
+                      Structure is documented below.
                     items:
                       properties:
                         range:
                           description: |-
-                            The IP range to advertise. The value must be a
+                            The IP range to learn. The value must be a
                             CIDR-formatted string.
                           type: string
                       type: object
                     type: array
                   customLearnedRoutePriority:
+                    description: |-
+                      The user-defined custom learned route priority for a BGP session.
+                      This value is applied to all custom learned route ranges for the session.
+                      You can choose a value from 0 to 65335. If you don't provide a value,
+                      Google Cloud assigns a priority of 100 to the ranges.
                     type: number
                   enable:
                     description: |-
@@ -2280,16 +2290,26 @@ spec:
                         type: string
                     type: object
                   customLearnedIpRanges:
+                    description: |-
+                      The custom learned route IP address range. Must be a valid CIDR-formatted prefix.
+                      If an IP address is provided without a subnet mask, it is interpreted as, for IPv4,
+                      a /32 singular IP address range, and, for IPv6, /128.
+                      Structure is documented below.
                     items:
                       properties:
                         range:
                           description: |-
-                            The IP range to advertise. The value must be a
+                            The IP range to learn. The value must be a
                             CIDR-formatted string.
                           type: string
                       type: object
                     type: array
                   customLearnedRoutePriority:
+                    description: |-
+                      The user-defined custom learned route priority for a BGP session.
+                      This value is applied to all custom learned route ranges for the session.
+                      You can choose a value from 0 to 65335. If you don't provide a value,
+                      Google Cloud assigns a priority of 100 to the ranges.
                     type: number
                   enable:
                     description: |-
@@ -2949,16 +2969,26 @@ spec:
                         type: string
                     type: object
                   customLearnedIpRanges:
+                    description: |-
+                      The custom learned route IP address range. Must be a valid CIDR-formatted prefix.
+                      If an IP address is provided without a subnet mask, it is interpreted as, for IPv4,
+                      a /32 singular IP address range, and, for IPv6, /128.
+                      Structure is documented below.
                     items:
                       properties:
                         range:
                           description: |-
-                            The IP range to advertise. The value must be a
+                            The IP range to learn. The value must be a
                             CIDR-formatted string.
                           type: string
                       type: object
                     type: array
                   customLearnedRoutePriority:
+                    description: |-
+                      The user-defined custom learned route priority for a BGP session.
+                      This value is applied to all custom learned route ranges for the session.
+                      You can choose a value from 0 to 65335. If you don't provide a value,
+                      Google Cloud assigns a priority of 100 to the ranges.
                     type: number
                   enable:
                     description: |-

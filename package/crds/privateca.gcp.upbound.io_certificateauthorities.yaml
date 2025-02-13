@@ -2241,7 +2241,7 @@ spec:
                           Structure is documented below.
                         properties:
                           keyId:
-                            description: The value of the KeyId in lowercase hexidecimal.
+                            description: The value of the KeyId in lowercase hexadecimal.
                             type: string
                         type: object
                       x509Config:
@@ -2504,13 +2504,10 @@ spec:
                             type: array
                         type: object
                     type: object
-                  deletionProtection:
-                    description: When the field is set to false, deleting the CertificateAuthority
-                      is allowed.
-                    type: boolean
                   desiredState:
-                    description: Desired state of the CertificateAuthority. Set this
-                      field to STAGED to create a STAGED root CA.
+                    description: |-
+                      Desired state of the CertificateAuthority. Set this field to STAGED to create a STAGED root CA.
+                      Possible values: ENABLED, DISABLED, STAGED.
                     type: string
                   gcsBucket:
                     description: |-
@@ -2863,7 +2860,7 @@ spec:
                           Structure is documented below.
                         properties:
                           keyId:
-                            description: The value of the KeyId in lowercase hexidecimal.
+                            description: The value of the KeyId in lowercase hexadecimal.
                             type: string
                         type: object
                       x509Config:
@@ -3126,13 +3123,10 @@ spec:
                             type: array
                         type: object
                     type: object
-                  deletionProtection:
-                    description: When the field is set to false, deleting the CertificateAuthority
-                      is allowed.
-                    type: boolean
                   desiredState:
-                    description: Desired state of the CertificateAuthority. Set this
-                      field to STAGED to create a STAGED root CA.
+                    description: |-
+                      Desired state of the CertificateAuthority. Set this field to STAGED to create a STAGED root CA.
+                      Possible values: ENABLED, DISABLED, STAGED.
                     type: string
                   gcsBucket:
                     description: |-
@@ -3591,7 +3585,7 @@ spec:
                           Structure is documented below.
                         properties:
                           keyId:
-                            description: The value of the KeyId in lowercase hexidecimal.
+                            description: The value of the KeyId in lowercase hexadecimal.
                             type: string
                         type: object
                       x509Config:
@@ -3865,8 +3859,9 @@ spec:
                       is allowed.
                     type: boolean
                   desiredState:
-                    description: Desired state of the CertificateAuthority. Set this
-                      field to STAGED to create a STAGED root CA.
+                    description: |-
+                      Desired state of the CertificateAuthority. Set this field to STAGED to create a STAGED root CA.
+                      Possible values: ENABLED, DISABLED, STAGED.
                     type: string
                   effectiveLabels:
                     additionalProperties:

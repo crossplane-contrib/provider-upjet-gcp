@@ -2738,6 +2738,13 @@ spec:
                         properties:
                           cgroupMode:
                             type: string
+                          hugepagesConfig:
+                            properties:
+                              hugepageSize1G:
+                                type: number
+                              hugepageSize2M:
+                                type: number
+                            type: object
                           sysctls:
                             additionalProperties:
                               type: string
@@ -2751,6 +2758,11 @@ spec:
                         type: object
                       localSsdCount:
                         type: number
+                      localSsdEncryptionMode:
+                        description: |-
+                          Possible Local SSD encryption modes:
+                          Accepted values are:
+                        type: string
                       loggingVariant:
                         type: string
                       machineType:
@@ -2917,6 +2929,10 @@ spec:
                         type: object
                       spot:
                         type: boolean
+                      storagePools:
+                        items:
+                          type: string
+                        type: array
                       tags:
                         items:
                           type: string
@@ -3351,6 +3367,13 @@ spec:
                         properties:
                           cgroupMode:
                             type: string
+                          hugepagesConfig:
+                            properties:
+                              hugepageSize1G:
+                                type: number
+                              hugepageSize2M:
+                                type: number
+                            type: object
                           sysctls:
                             additionalProperties:
                               type: string
@@ -3364,6 +3387,11 @@ spec:
                         type: object
                       localSsdCount:
                         type: number
+                      localSsdEncryptionMode:
+                        description: |-
+                          Possible Local SSD encryption modes:
+                          Accepted values are:
+                        type: string
                       loggingVariant:
                         type: string
                       machineType:
@@ -3530,6 +3558,10 @@ spec:
                         type: object
                       spot:
                         type: boolean
+                      storagePools:
+                        items:
+                          type: string
+                        type: array
                       tags:
                         items:
                           type: string
@@ -4160,6 +4192,13 @@ spec:
                         properties:
                           cgroupMode:
                             type: string
+                          hugepagesConfig:
+                            properties:
+                              hugepageSize1G:
+                                type: number
+                              hugepageSize2M:
+                                type: number
+                            type: object
                           sysctls:
                             additionalProperties:
                               type: string
@@ -4173,6 +4212,11 @@ spec:
                         type: object
                       localSsdCount:
                         type: number
+                      localSsdEncryptionMode:
+                        description: |-
+                          Possible Local SSD encryption modes:
+                          Accepted values are:
+                        type: string
                       loggingVariant:
                         type: string
                       machineType:
@@ -4263,6 +4307,10 @@ spec:
                         type: object
                       spot:
                         type: boolean
+                      storagePools:
+                        items:
+                          type: string
+                        type: array
                       tags:
                         items:
                           type: string

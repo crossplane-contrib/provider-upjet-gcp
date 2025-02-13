@@ -240,6 +240,34 @@ type CloudRunParameters struct {
 	URLMask *string `json:"urlMask,omitempty" tf:"url_mask,omitempty"`
 }
 
+type PscDataInitParameters struct {
+
+	// The PSC producer port to use when consumer PSC NEG connects to a producer. If
+	// this flag isn't specified for a PSC NEG with endpoint type
+	// private-service-connect, then PSC NEG will be connected to a first port in the
+	// available PSC producer port range.
+	ProducerPort *string `json:"producerPort,omitempty" tf:"producer_port,omitempty"`
+}
+
+type PscDataObservation struct {
+
+	// The PSC producer port to use when consumer PSC NEG connects to a producer. If
+	// this flag isn't specified for a PSC NEG with endpoint type
+	// private-service-connect, then PSC NEG will be connected to a first port in the
+	// available PSC producer port range.
+	ProducerPort *string `json:"producerPort,omitempty" tf:"producer_port,omitempty"`
+}
+
+type PscDataParameters struct {
+
+	// The PSC producer port to use when consumer PSC NEG connects to a producer. If
+	// this flag isn't specified for a PSC NEG with endpoint type
+	// private-service-connect, then PSC NEG will be connected to a first port in the
+	// available PSC producer port range.
+	// +kubebuilder:validation:Optional
+	ProducerPort *string `json:"producerPort,omitempty" tf:"producer_port,omitempty"`
+}
+
 type RegionNetworkEndpointGroupInitParameters struct {
 
 	// This field is only used for SERVERLESS NEGs.
@@ -284,6 +312,10 @@ type RegionNetworkEndpointGroupInitParameters struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// This field is only used for PSC NEGs.
+	// Structure is documented below.
+	PscData *PscDataInitParameters `json:"pscData,omitempty" tf:"psc_data,omitempty"`
 
 	// This field is only used for PSC and INTERNET NEGs.
 	// The target service url used to set up private service connection to
@@ -353,6 +385,10 @@ type RegionNetworkEndpointGroupObservation struct {
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// This field is only used for PSC NEGs.
+	// Structure is documented below.
+	PscData *PscDataObservation `json:"pscData,omitempty" tf:"psc_data,omitempty"`
+
 	// This field is only used for PSC and INTERNET NEGs.
 	// The target service url used to set up private service connection to
 	// a Google API or a PSC Producer Service Attachment.
@@ -420,6 +456,11 @@ type RegionNetworkEndpointGroupParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// This field is only used for PSC NEGs.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PscData *PscDataParameters `json:"pscData,omitempty" tf:"psc_data,omitempty"`
 
 	// This field is only used for PSC and INTERNET NEGs.
 	// The target service url used to set up private service connection to

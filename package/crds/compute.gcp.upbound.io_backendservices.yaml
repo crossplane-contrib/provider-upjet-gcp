@@ -2926,7 +2926,6 @@ spec:
                             and CONNECTION (for TCP/SSL).
                             See the Backend Services Overview
                             for an explanation of load balancing modes.
-                            From version 6.0.0 default value will be UTILIZATION to match default GCP value.
                             Default value is UTILIZATION.
                             Possible values are: UTILIZATION, RATE, CONNECTION.
                           type: string
@@ -3205,8 +3204,8 @@ spec:
                               type: number
                             ttl:
                               description: |-
-                                The TTL (in seconds) for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
-                                (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
+                                Lifetime of the cookie.
+                                Structure is documented below.
                               type: number
                           type: object
                         type: array
@@ -3293,23 +3292,15 @@ spec:
                           Structure is documented below.
                         properties:
                           name:
-                            description: |-
-                              The name of a locality load balancer policy to be used. The value
-                              should be one of the predefined ones as supported by localityLbPolicy,
-                              although at the moment only ROUND_ROBIN is supported.
-                              This field should only be populated when the customPolicy field is not
-                              used.
-                              Note that specifying the same policy more than once for a backend is
-                              not a valid configuration and will be rejected.
-                              The possible values are:
+                            description: Name of the cookie.
                             type: string
                           path:
                             description: Path to set for the cookie.
                             type: string
                           ttl:
                             description: |-
-                              The TTL (in seconds) for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
-                              (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
+                              Lifetime of the cookie.
+                              Structure is documented below.
                             properties:
                               nanos:
                                 description: |-
@@ -3462,6 +3453,10 @@ spec:
                       Settings for enabling Cloud Identity Aware Proxy
                       Structure is documented below.
                     properties:
+                      enabled:
+                        description: Whether the serving infrastructure will authenticate
+                          and authorize all incoming requests.
+                        type: boolean
                       oauth2ClientId:
                         description: OAuth2 Client ID for IAP
                         type: string
@@ -3485,6 +3480,11 @@ spec:
                         - namespace
                         type: object
                     type: object
+                  ipAddressSelectionPolicy:
+                    description: |-
+                      Specifies preference of traffic to the backend (from the proxy and from the client for proxyless gRPC).
+                      Possible values are: IPV4_ONLY, PREFER_IPV6, IPV6_ONLY.
+                    type: string
                   loadBalancingScheme:
                     description: |-
                       Indicates whether the backend service will be used with internal or
@@ -3517,15 +3517,7 @@ spec:
                                 by a locally installed custom policy implementation.
                               type: string
                             name:
-                              description: |-
-                                The name of a locality load balancer policy to be used. The value
-                                should be one of the predefined ones as supported by localityLbPolicy,
-                                although at the moment only ROUND_ROBIN is supported.
-                                This field should only be populated when the customPolicy field is not
-                                used.
-                                Note that specifying the same policy more than once for a backend is
-                                not a valid configuration and will be rejected.
-                                The possible values are:
+                              description: Name of the cookie.
                               type: string
                           type: object
                         policy:
@@ -3534,15 +3526,7 @@ spec:
                             Structure is documented below.
                           properties:
                             name:
-                              description: |-
-                                The name of a locality load balancer policy to be used. The value
-                                should be one of the predefined ones as supported by localityLbPolicy,
-                                although at the moment only ROUND_ROBIN is supported.
-                                This field should only be populated when the customPolicy field is not
-                                used.
-                                Note that specifying the same policy more than once for a backend is
-                                not a valid configuration and will be rejected.
-                                The possible values are:
+                              description: Name of the cookie.
                               type: string
                           type: object
                       type: object
@@ -3575,8 +3559,6 @@ spec:
                       Settings controlling eviction of unhealthy hosts from the load balancing pool.
                       Applicable backend service types can be a global backend service with the
                       loadBalancingScheme set to INTERNAL_SELF_MANAGED or EXTERNAL_MANAGED.
-                      From version 6.0.
-                      Default values are enforce by GCP without providing them.
                       Structure is documented below.
                     properties:
                       baseEjectionTime:
@@ -3775,8 +3757,38 @@ spec:
                     description: |-
                       Type of session affinity to use. The default is NONE. Session affinity is
                       not applicable if the protocol is UDP.
-                      Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE.
+                      Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE, STRONG_COOKIE_AFFINITY.
                     type: string
+                  strongSessionAffinityCookie:
+                    description: |-
+                      Describes the HTTP cookie used for stateful session affinity. This field is applicable and required if the sessionAffinity is set to STRONG_COOKIE_AFFINITY.
+                      Structure is documented below.
+                    properties:
+                      name:
+                        description: Name of the cookie.
+                        type: string
+                      path:
+                        description: Path to set for the cookie.
+                        type: string
+                      ttl:
+                        description: |-
+                          Lifetime of the cookie.
+                          Structure is documented below.
+                        properties:
+                          nanos:
+                            description: |-
+                              Span of time that's a fraction of a second at nanosecond
+                              resolution. Durations less than one second are represented
+                              with a 0 seconds field and a positive nanos field. Must
+                              be from 0 to 999,999,999 inclusive.
+                            type: number
+                          seconds:
+                            description: |-
+                              Span of time at a resolution of a second.
+                              Must be from 0 to 315,576,000,000 inclusive.
+                            type: number
+                        type: object
+                    type: object
                   timeoutSec:
                     description: |-
                       The backend service timeout has a different meaning depending on the type of load balancer.
@@ -3820,7 +3832,6 @@ spec:
                             and CONNECTION (for TCP/SSL).
                             See the Backend Services Overview
                             for an explanation of load balancing modes.
-                            From version 6.0.0 default value will be UTILIZATION to match default GCP value.
                             Default value is UTILIZATION.
                             Possible values are: UTILIZATION, RATE, CONNECTION.
                           type: string
@@ -4099,8 +4110,8 @@ spec:
                               type: number
                             ttl:
                               description: |-
-                                The TTL (in seconds) for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
-                                (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
+                                Lifetime of the cookie.
+                                Structure is documented below.
                               type: number
                           type: object
                         type: array
@@ -4187,23 +4198,15 @@ spec:
                           Structure is documented below.
                         properties:
                           name:
-                            description: |-
-                              The name of a locality load balancer policy to be used. The value
-                              should be one of the predefined ones as supported by localityLbPolicy,
-                              although at the moment only ROUND_ROBIN is supported.
-                              This field should only be populated when the customPolicy field is not
-                              used.
-                              Note that specifying the same policy more than once for a backend is
-                              not a valid configuration and will be rejected.
-                              The possible values are:
+                            description: Name of the cookie.
                             type: string
                           path:
                             description: Path to set for the cookie.
                             type: string
                           ttl:
                             description: |-
-                              The TTL (in seconds) for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
-                              (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
+                              Lifetime of the cookie.
+                              Structure is documented below.
                             properties:
                               nanos:
                                 description: |-
@@ -4356,6 +4359,10 @@ spec:
                       Settings for enabling Cloud Identity Aware Proxy
                       Structure is documented below.
                     properties:
+                      enabled:
+                        description: Whether the serving infrastructure will authenticate
+                          and authorize all incoming requests.
+                        type: boolean
                       oauth2ClientId:
                         description: OAuth2 Client ID for IAP
                         type: string
@@ -4378,9 +4385,12 @@ spec:
                         - name
                         - namespace
                         type: object
-                    required:
-                    - oauth2ClientSecretSecretRef
                     type: object
+                  ipAddressSelectionPolicy:
+                    description: |-
+                      Specifies preference of traffic to the backend (from the proxy and from the client for proxyless gRPC).
+                      Possible values are: IPV4_ONLY, PREFER_IPV6, IPV6_ONLY.
+                    type: string
                   loadBalancingScheme:
                     description: |-
                       Indicates whether the backend service will be used with internal or
@@ -4413,15 +4423,7 @@ spec:
                                 by a locally installed custom policy implementation.
                               type: string
                             name:
-                              description: |-
-                                The name of a locality load balancer policy to be used. The value
-                                should be one of the predefined ones as supported by localityLbPolicy,
-                                although at the moment only ROUND_ROBIN is supported.
-                                This field should only be populated when the customPolicy field is not
-                                used.
-                                Note that specifying the same policy more than once for a backend is
-                                not a valid configuration and will be rejected.
-                                The possible values are:
+                              description: Name of the cookie.
                               type: string
                           type: object
                         policy:
@@ -4430,15 +4432,7 @@ spec:
                             Structure is documented below.
                           properties:
                             name:
-                              description: |-
-                                The name of a locality load balancer policy to be used. The value
-                                should be one of the predefined ones as supported by localityLbPolicy,
-                                although at the moment only ROUND_ROBIN is supported.
-                                This field should only be populated when the customPolicy field is not
-                                used.
-                                Note that specifying the same policy more than once for a backend is
-                                not a valid configuration and will be rejected.
-                                The possible values are:
+                              description: Name of the cookie.
                               type: string
                           type: object
                       type: object
@@ -4471,8 +4465,6 @@ spec:
                       Settings controlling eviction of unhealthy hosts from the load balancing pool.
                       Applicable backend service types can be a global backend service with the
                       loadBalancingScheme set to INTERNAL_SELF_MANAGED or EXTERNAL_MANAGED.
-                      From version 6.0.
-                      Default values are enforce by GCP without providing them.
                       Structure is documented below.
                     properties:
                       baseEjectionTime:
@@ -4671,8 +4663,38 @@ spec:
                     description: |-
                       Type of session affinity to use. The default is NONE. Session affinity is
                       not applicable if the protocol is UDP.
-                      Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE.
+                      Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE, STRONG_COOKIE_AFFINITY.
                     type: string
+                  strongSessionAffinityCookie:
+                    description: |-
+                      Describes the HTTP cookie used for stateful session affinity. This field is applicable and required if the sessionAffinity is set to STRONG_COOKIE_AFFINITY.
+                      Structure is documented below.
+                    properties:
+                      name:
+                        description: Name of the cookie.
+                        type: string
+                      path:
+                        description: Path to set for the cookie.
+                        type: string
+                      ttl:
+                        description: |-
+                          Lifetime of the cookie.
+                          Structure is documented below.
+                        properties:
+                          nanos:
+                            description: |-
+                              Span of time that's a fraction of a second at nanosecond
+                              resolution. Durations less than one second are represented
+                              with a 0 seconds field and a positive nanos field. Must
+                              be from 0 to 999,999,999 inclusive.
+                            type: number
+                          seconds:
+                            description: |-
+                              Span of time at a resolution of a second.
+                              Must be from 0 to 315,576,000,000 inclusive.
+                            type: number
+                        type: object
+                    type: object
                   timeoutSec:
                     description: |-
                       The backend service timeout has a different meaning depending on the type of load balancer.
@@ -4875,7 +4897,6 @@ spec:
                             and CONNECTION (for TCP/SSL).
                             See the Backend Services Overview
                             for an explanation of load balancing modes.
-                            From version 6.0.0 default value will be UTILIZATION to match default GCP value.
                             Default value is UTILIZATION.
                             Possible values are: UTILIZATION, RATE, CONNECTION.
                           type: string
@@ -5078,8 +5099,8 @@ spec:
                               type: number
                             ttl:
                               description: |-
-                                The TTL (in seconds) for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
-                                (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
+                                Lifetime of the cookie.
+                                Structure is documented below.
                               type: number
                           type: object
                         type: array
@@ -5166,23 +5187,15 @@ spec:
                           Structure is documented below.
                         properties:
                           name:
-                            description: |-
-                              The name of a locality load balancer policy to be used. The value
-                              should be one of the predefined ones as supported by localityLbPolicy,
-                              although at the moment only ROUND_ROBIN is supported.
-                              This field should only be populated when the customPolicy field is not
-                              used.
-                              Note that specifying the same policy more than once for a backend is
-                              not a valid configuration and will be rejected.
-                              The possible values are:
+                            description: Name of the cookie.
                             type: string
                           path:
                             description: Path to set for the cookie.
                             type: string
                           ttl:
                             description: |-
-                              The TTL (in seconds) for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
-                              (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
+                              Lifetime of the cookie.
+                              Structure is documented below.
                             properties:
                               nanos:
                                 description: |-
@@ -5268,12 +5281,21 @@ spec:
                       Settings for enabling Cloud Identity Aware Proxy
                       Structure is documented below.
                     properties:
+                      enabled:
+                        description: Whether the serving infrastructure will authenticate
+                          and authorize all incoming requests.
+                        type: boolean
                       oauth2ClientId:
                         description: OAuth2 Client ID for IAP
                         type: string
                     type: object
                   id:
                     description: an identifier for the resource with format projects/{{project}}/global/backendServices/{{name}}
+                    type: string
+                  ipAddressSelectionPolicy:
+                    description: |-
+                      Specifies preference of traffic to the backend (from the proxy and from the client for proxyless gRPC).
+                      Possible values are: IPV4_ONLY, PREFER_IPV6, IPV6_ONLY.
                     type: string
                   loadBalancingScheme:
                     description: |-
@@ -5307,15 +5329,7 @@ spec:
                                 by a locally installed custom policy implementation.
                               type: string
                             name:
-                              description: |-
-                                The name of a locality load balancer policy to be used. The value
-                                should be one of the predefined ones as supported by localityLbPolicy,
-                                although at the moment only ROUND_ROBIN is supported.
-                                This field should only be populated when the customPolicy field is not
-                                used.
-                                Note that specifying the same policy more than once for a backend is
-                                not a valid configuration and will be rejected.
-                                The possible values are:
+                              description: Name of the cookie.
                               type: string
                           type: object
                         policy:
@@ -5324,15 +5338,7 @@ spec:
                             Structure is documented below.
                           properties:
                             name:
-                              description: |-
-                                The name of a locality load balancer policy to be used. The value
-                                should be one of the predefined ones as supported by localityLbPolicy,
-                                although at the moment only ROUND_ROBIN is supported.
-                                This field should only be populated when the customPolicy field is not
-                                used.
-                                Note that specifying the same policy more than once for a backend is
-                                not a valid configuration and will be rejected.
-                                The possible values are:
+                              description: Name of the cookie.
                               type: string
                           type: object
                       type: object
@@ -5365,8 +5371,6 @@ spec:
                       Settings controlling eviction of unhealthy hosts from the load balancing pool.
                       Applicable backend service types can be a global backend service with the
                       loadBalancingScheme set to INTERNAL_SELF_MANAGED or EXTERNAL_MANAGED.
-                      From version 6.0.
-                      Default values are enforce by GCP without providing them.
                       Structure is documented below.
                     properties:
                       baseEjectionTime:
@@ -5548,8 +5552,38 @@ spec:
                     description: |-
                       Type of session affinity to use. The default is NONE. Session affinity is
                       not applicable if the protocol is UDP.
-                      Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE.
+                      Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE, STRONG_COOKIE_AFFINITY.
                     type: string
+                  strongSessionAffinityCookie:
+                    description: |-
+                      Describes the HTTP cookie used for stateful session affinity. This field is applicable and required if the sessionAffinity is set to STRONG_COOKIE_AFFINITY.
+                      Structure is documented below.
+                    properties:
+                      name:
+                        description: Name of the cookie.
+                        type: string
+                      path:
+                        description: Path to set for the cookie.
+                        type: string
+                      ttl:
+                        description: |-
+                          Lifetime of the cookie.
+                          Structure is documented below.
+                        properties:
+                          nanos:
+                            description: |-
+                              Span of time that's a fraction of a second at nanosecond
+                              resolution. Durations less than one second are represented
+                              with a 0 seconds field and a positive nanos field. Must
+                              be from 0 to 999,999,999 inclusive.
+                            type: number
+                          seconds:
+                            description: |-
+                              Span of time at a resolution of a second.
+                              Must be from 0 to 315,576,000,000 inclusive.
+                            type: number
+                        type: object
+                    type: object
                   timeoutSec:
                     description: |-
                       The backend service timeout has a different meaning depending on the type of load balancer.

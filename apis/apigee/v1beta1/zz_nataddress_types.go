@@ -14,9 +14,15 @@ import (
 )
 
 type NATAddressInitParameters struct {
+
+	// Flag that specifies whether the reserved NAT address should be activate.
+	Activate *bool `json:"activate,omitempty" tf:"activate,omitempty"`
 }
 
 type NATAddressObservation struct {
+
+	// Flag that specifies whether the reserved NAT address should be activate.
+	Activate *bool `json:"activate,omitempty" tf:"activate,omitempty"`
 
 	// an identifier for the resource with format {{instance_id}}/natAddresses/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -33,6 +39,10 @@ type NATAddressObservation struct {
 }
 
 type NATAddressParameters struct {
+
+	// Flag that specifies whether the reserved NAT address should be activate.
+	// +kubebuilder:validation:Optional
+	Activate *bool `json:"activate,omitempty" tf:"activate,omitempty"`
 
 	// The Apigee instance associated with the Apigee environment,
 	// in the format organizations/{{org_name}}/instances/{{instance_name}}.

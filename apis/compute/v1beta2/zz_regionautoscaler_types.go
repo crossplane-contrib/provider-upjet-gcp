@@ -245,7 +245,7 @@ type AutoscalingPolicyMetricParameters struct {
 
 type AutoscalingPolicyScaleInControlInitParameters struct {
 
-	// A nested object resource
+	// A nested object resource.
 	// Structure is documented below.
 	MaxScaledInReplicas *ScaleInControlMaxScaledInReplicasInitParameters `json:"maxScaledInReplicas,omitempty" tf:"max_scaled_in_replicas,omitempty"`
 
@@ -256,7 +256,7 @@ type AutoscalingPolicyScaleInControlInitParameters struct {
 
 type AutoscalingPolicyScaleInControlObservation struct {
 
-	// A nested object resource
+	// A nested object resource.
 	// Structure is documented below.
 	MaxScaledInReplicas *ScaleInControlMaxScaledInReplicasObservation `json:"maxScaledInReplicas,omitempty" tf:"max_scaled_in_replicas,omitempty"`
 
@@ -267,7 +267,7 @@ type AutoscalingPolicyScaleInControlObservation struct {
 
 type AutoscalingPolicyScaleInControlParameters struct {
 
-	// A nested object resource
+	// A nested object resource.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	MaxScaledInReplicas *ScaleInControlMaxScaledInReplicasParameters `json:"maxScaledInReplicas,omitempty" tf:"max_scaled_in_replicas,omitempty"`

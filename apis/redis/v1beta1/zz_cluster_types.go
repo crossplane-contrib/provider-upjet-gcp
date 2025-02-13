@@ -13,6 +13,25 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AofConfigInitParameters struct {
+
+	// Optional. Available fsync modes.
+	AppendFsync *string `json:"appendFsync,omitempty" tf:"append_fsync,omitempty"`
+}
+
+type AofConfigObservation struct {
+
+	// Optional. Available fsync modes.
+	AppendFsync *string `json:"appendFsync,omitempty" tf:"append_fsync,omitempty"`
+}
+
+type AofConfigParameters struct {
+
+	// Optional. Available fsync modes.
+	// +kubebuilder:validation:Optional
+	AppendFsync *string `json:"appendFsync,omitempty" tf:"append_fsync,omitempty"`
+}
+
 type ClusterInitParameters struct {
 
 	// Optional. The authorization mode of the Redis cluster. If not provided, auth feature is disabled for the cluster.
@@ -20,10 +39,26 @@ type ClusterInitParameters struct {
 	// Possible values are: AUTH_MODE_UNSPECIFIED, AUTH_MODE_IAM_AUTH, AUTH_MODE_DISABLED.
 	AuthorizationMode *string `json:"authorizationMode,omitempty" tf:"authorization_mode,omitempty"`
 
+	// field to the configuration file to match the latest value in the state.
+	CrossClusterReplicationConfig *CrossClusterReplicationConfigInitParameters `json:"crossClusterReplicationConfig,omitempty" tf:"cross_cluster_replication_config,omitempty"`
+
+	// Optional. Indicates if the cluster is deletion protected or not.
+	// If the value if set to true, any delete cluster operation will fail.
+	// Default value is true.
+	DeletionProtectionEnabled *bool `json:"deletionProtectionEnabled,omitempty" tf:"deletion_protection_enabled,omitempty"`
+
+	// Maintenance policy for a cluster
+	// Structure is documented below.
+	MaintenancePolicy *ClusterMaintenancePolicyInitParameters `json:"maintenancePolicy,omitempty" tf:"maintenance_policy,omitempty"`
+
 	// The nodeType for the Redis cluster.
 	// If not provided, REDIS_HIGHMEM_MEDIUM will be used as default
 	// Possible values are: REDIS_SHARED_CORE_NANO, REDIS_HIGHMEM_MEDIUM, REDIS_HIGHMEM_XLARGE, REDIS_STANDARD_SMALL.
 	NodeType *string `json:"nodeType,omitempty" tf:"node_type,omitempty"`
+
+	// Persistence config (RDB, AOF) for the cluster.
+	// Structure is documented below.
+	PersistenceConfig *ClusterPersistenceConfigInitParameters `json:"persistenceConfig,omitempty" tf:"persistence_config,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -58,6 +93,74 @@ type ClusterInitParameters struct {
 	ZoneDistributionConfig *ZoneDistributionConfigInitParameters `json:"zoneDistributionConfig,omitempty" tf:"zone_distribution_config,omitempty"`
 }
 
+type ClusterMaintenancePolicyInitParameters struct {
+
+	// Optional. Maintenance window that is applied to resources covered by this policy.
+	// Minimum 1. For the current version, the maximum number
+	// of weekly_window is expected to be one.
+	// Structure is documented below.
+	WeeklyMaintenanceWindow []MaintenancePolicyWeeklyMaintenanceWindowInitParameters `json:"weeklyMaintenanceWindow,omitempty" tf:"weekly_maintenance_window,omitempty"`
+}
+
+type ClusterMaintenancePolicyObservation struct {
+
+	// (Output)
+	// Output only. The time when the policy was created.
+	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+	// resolution and up to nine fractional digits.
+	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// (Output)
+	// Output only. The time when the policy was last updated.
+	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+	// resolution and up to nine fractional digits.
+	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`
+
+	// Optional. Maintenance window that is applied to resources covered by this policy.
+	// Minimum 1. For the current version, the maximum number
+	// of weekly_window is expected to be one.
+	// Structure is documented below.
+	WeeklyMaintenanceWindow []MaintenancePolicyWeeklyMaintenanceWindowObservation `json:"weeklyMaintenanceWindow,omitempty" tf:"weekly_maintenance_window,omitempty"`
+}
+
+type ClusterMaintenancePolicyParameters struct {
+
+	// Optional. Maintenance window that is applied to resources covered by this policy.
+	// Minimum 1. For the current version, the maximum number
+	// of weekly_window is expected to be one.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	WeeklyMaintenanceWindow []MaintenancePolicyWeeklyMaintenanceWindowParameters `json:"weeklyMaintenanceWindow,omitempty" tf:"weekly_maintenance_window,omitempty"`
+}
+
+type ClusterMaintenanceScheduleInitParameters struct {
+}
+
+type ClusterMaintenanceScheduleObservation struct {
+
+	// (Output)
+	// Output only. The end time of any upcoming scheduled maintenance for this cluster.
+	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+	// resolution and up to nine fractional digits.
+	EndTime *string `json:"endTime,omitempty" tf:"end_time,omitempty"`
+
+	// (Output)
+	// Output only. The deadline that the maintenance schedule start time
+	// can not go beyond, including reschedule.
+	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+	// resolution and up to nine fractional digits.
+	ScheduleDeadlineTime *string `json:"scheduleDeadlineTime,omitempty" tf:"schedule_deadline_time,omitempty"`
+
+	// (Output)
+	// Output only. The start time of any upcoming scheduled maintenance for this cluster.
+	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+	// resolution and up to nine fractional digits.
+	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
+}
+
+type ClusterMaintenanceScheduleParameters struct {
+}
+
 type ClusterObservation struct {
 
 	// Optional. The authorization mode of the Redis cluster. If not provided, auth feature is disabled for the cluster.
@@ -70,6 +173,14 @@ type ClusterObservation struct {
 	// digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// field to the configuration file to match the latest value in the state.
+	CrossClusterReplicationConfig *CrossClusterReplicationConfigObservation `json:"crossClusterReplicationConfig,omitempty" tf:"cross_cluster_replication_config,omitempty"`
+
+	// Optional. Indicates if the cluster is deletion protected or not.
+	// If the value if set to true, any delete cluster operation will fail.
+	// Default value is true.
+	DeletionProtectionEnabled *bool `json:"deletionProtectionEnabled,omitempty" tf:"deletion_protection_enabled,omitempty"`
+
 	// Output only. Endpoints created on each given network,
 	// for Redis clients to connect to the cluster.
 	// Currently only one endpoint is supported.
@@ -79,10 +190,22 @@ type ClusterObservation struct {
 	// an identifier for the resource with format projects/{{project}}/locations/{{region}}/clusters/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Maintenance policy for a cluster
+	// Structure is documented below.
+	MaintenancePolicy *ClusterMaintenancePolicyObservation `json:"maintenancePolicy,omitempty" tf:"maintenance_policy,omitempty"`
+
+	// Upcoming maintenance schedule.
+	// Structure is documented below.
+	MaintenanceSchedule []ClusterMaintenanceScheduleObservation `json:"maintenanceSchedule,omitempty" tf:"maintenance_schedule,omitempty"`
+
 	// The nodeType for the Redis cluster.
 	// If not provided, REDIS_HIGHMEM_MEDIUM will be used as default
 	// Possible values are: REDIS_SHARED_CORE_NANO, REDIS_HIGHMEM_MEDIUM, REDIS_HIGHMEM_XLARGE, REDIS_STANDARD_SMALL.
 	NodeType *string `json:"nodeType,omitempty" tf:"node_type,omitempty"`
+
+	// Persistence config (RDB, AOF) for the cluster.
+	// Structure is documented below.
+	PersistenceConfig *ClusterPersistenceConfigObservation `json:"persistenceConfig,omitempty" tf:"persistence_config,omitempty"`
 
 	// Output only. Redis memory precise size in GB for the entire cluster.
 	PreciseSizeGb *float64 `json:"preciseSizeGb,omitempty" tf:"precise_size_gb,omitempty"`
@@ -148,11 +271,31 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	AuthorizationMode *string `json:"authorizationMode,omitempty" tf:"authorization_mode,omitempty"`
 
+	// field to the configuration file to match the latest value in the state.
+	// +kubebuilder:validation:Optional
+	CrossClusterReplicationConfig *CrossClusterReplicationConfigParameters `json:"crossClusterReplicationConfig,omitempty" tf:"cross_cluster_replication_config,omitempty"`
+
+	// Optional. Indicates if the cluster is deletion protected or not.
+	// If the value if set to true, any delete cluster operation will fail.
+	// Default value is true.
+	// +kubebuilder:validation:Optional
+	DeletionProtectionEnabled *bool `json:"deletionProtectionEnabled,omitempty" tf:"deletion_protection_enabled,omitempty"`
+
+	// Maintenance policy for a cluster
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	MaintenancePolicy *ClusterMaintenancePolicyParameters `json:"maintenancePolicy,omitempty" tf:"maintenance_policy,omitempty"`
+
 	// The nodeType for the Redis cluster.
 	// If not provided, REDIS_HIGHMEM_MEDIUM will be used as default
 	// Possible values are: REDIS_SHARED_CORE_NANO, REDIS_HIGHMEM_MEDIUM, REDIS_HIGHMEM_XLARGE, REDIS_STANDARD_SMALL.
 	// +kubebuilder:validation:Optional
 	NodeType *string `json:"nodeType,omitempty" tf:"node_type,omitempty"`
+
+	// Persistence config (RDB, AOF) for the cluster.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PersistenceConfig *ClusterPersistenceConfigParameters `json:"persistenceConfig,omitempty" tf:"persistence_config,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -198,6 +341,163 @@ type ClusterParameters struct {
 	ZoneDistributionConfig *ZoneDistributionConfigParameters `json:"zoneDistributionConfig,omitempty" tf:"zone_distribution_config,omitempty"`
 }
 
+type ClusterPersistenceConfigInitParameters struct {
+
+	// AOF configuration. This field will be ignored if mode is not AOF.
+	// Structure is documented below.
+	AofConfig *AofConfigInitParameters `json:"aofConfig,omitempty" tf:"aof_config,omitempty"`
+
+	// Optional. Controls whether Persistence features are enabled. If not provided, the existing value will be used.
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	// RDB configuration. This field will be ignored if mode is not RDB.
+	// Structure is documented below.
+	RdbConfig *RdbConfigInitParameters `json:"rdbConfig,omitempty" tf:"rdb_config,omitempty"`
+}
+
+type ClusterPersistenceConfigObservation struct {
+
+	// AOF configuration. This field will be ignored if mode is not AOF.
+	// Structure is documented below.
+	AofConfig *AofConfigObservation `json:"aofConfig,omitempty" tf:"aof_config,omitempty"`
+
+	// Optional. Controls whether Persistence features are enabled. If not provided, the existing value will be used.
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	// RDB configuration. This field will be ignored if mode is not RDB.
+	// Structure is documented below.
+	RdbConfig *RdbConfigObservation `json:"rdbConfig,omitempty" tf:"rdb_config,omitempty"`
+}
+
+type ClusterPersistenceConfigParameters struct {
+
+	// AOF configuration. This field will be ignored if mode is not AOF.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AofConfig *AofConfigParameters `json:"aofConfig,omitempty" tf:"aof_config,omitempty"`
+
+	// Optional. Controls whether Persistence features are enabled. If not provided, the existing value will be used.
+	// +kubebuilder:validation:Optional
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	// RDB configuration. This field will be ignored if mode is not RDB.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RdbConfig *RdbConfigParameters `json:"rdbConfig,omitempty" tf:"rdb_config,omitempty"`
+}
+
+type CrossClusterReplicationConfigInitParameters struct {
+
+	// from SECONDARY to PRIMARY.
+	ClusterRole *string `json:"clusterRole,omitempty" tf:"cluster_role,omitempty"`
+
+	// field.
+	PrimaryCluster *CrossClusterReplicationConfigPrimaryClusterInitParameters `json:"primaryCluster,omitempty" tf:"primary_cluster,omitempty"`
+
+	// list with the new secondaries. The new secondaries are the current primary and other secondary clusters(if any).
+	SecondaryClusters []CrossClusterReplicationConfigSecondaryClustersInitParameters `json:"secondaryClusters,omitempty" tf:"secondary_clusters,omitempty"`
+}
+
+type CrossClusterReplicationConfigObservation struct {
+
+	// from SECONDARY to PRIMARY.
+	ClusterRole *string `json:"clusterRole,omitempty" tf:"cluster_role,omitempty"`
+
+	// (Output)
+	// An output only view of all the member clusters participating in cross cluster replication. This field is populated for all the member clusters irrespective of their cluster role.
+	// Structure is documented below.
+	Membership []MembershipObservation `json:"membership,omitempty" tf:"membership,omitempty"`
+
+	// field.
+	PrimaryCluster *CrossClusterReplicationConfigPrimaryClusterObservation `json:"primaryCluster,omitempty" tf:"primary_cluster,omitempty"`
+
+	// list with the new secondaries. The new secondaries are the current primary and other secondary clusters(if any).
+	SecondaryClusters []CrossClusterReplicationConfigSecondaryClustersObservation `json:"secondaryClusters,omitempty" tf:"secondary_clusters,omitempty"`
+
+	// (Output)
+	// The last time cross cluster replication config was updated.
+	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`
+}
+
+type CrossClusterReplicationConfigParameters struct {
+
+	// from SECONDARY to PRIMARY.
+	// +kubebuilder:validation:Optional
+	ClusterRole *string `json:"clusterRole,omitempty" tf:"cluster_role,omitempty"`
+
+	// field.
+	// +kubebuilder:validation:Optional
+	PrimaryCluster *CrossClusterReplicationConfigPrimaryClusterParameters `json:"primaryCluster,omitempty" tf:"primary_cluster,omitempty"`
+
+	// list with the new secondaries. The new secondaries are the current primary and other secondary clusters(if any).
+	// +kubebuilder:validation:Optional
+	SecondaryClusters []CrossClusterReplicationConfigSecondaryClustersParameters `json:"secondaryClusters,omitempty" tf:"secondary_clusters,omitempty"`
+}
+
+type CrossClusterReplicationConfigPrimaryClusterInitParameters struct {
+
+	// The full resource path of the secondary cluster in the format: projects/{project}/locations/{region}/clusters/{cluster-id}
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/redis/v1beta1.Cluster
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	Cluster *string `json:"cluster,omitempty" tf:"cluster,omitempty"`
+
+	// Reference to a Cluster in redis to populate cluster.
+	// +kubebuilder:validation:Optional
+	ClusterRef *v1.Reference `json:"clusterRef,omitempty" tf:"-"`
+
+	// Selector for a Cluster in redis to populate cluster.
+	// +kubebuilder:validation:Optional
+	ClusterSelector *v1.Selector `json:"clusterSelector,omitempty" tf:"-"`
+}
+
+type CrossClusterReplicationConfigPrimaryClusterObservation struct {
+
+	// The full resource path of the secondary cluster in the format: projects/{project}/locations/{region}/clusters/{cluster-id}
+	Cluster *string `json:"cluster,omitempty" tf:"cluster,omitempty"`
+
+	// System assigned, unique identifier for the cluster.
+	UID *string `json:"uid,omitempty" tf:"uid,omitempty"`
+}
+
+type CrossClusterReplicationConfigPrimaryClusterParameters struct {
+
+	// The full resource path of the secondary cluster in the format: projects/{project}/locations/{region}/clusters/{cluster-id}
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/redis/v1beta1.Cluster
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	Cluster *string `json:"cluster,omitempty" tf:"cluster,omitempty"`
+
+	// Reference to a Cluster in redis to populate cluster.
+	// +kubebuilder:validation:Optional
+	ClusterRef *v1.Reference `json:"clusterRef,omitempty" tf:"-"`
+
+	// Selector for a Cluster in redis to populate cluster.
+	// +kubebuilder:validation:Optional
+	ClusterSelector *v1.Selector `json:"clusterSelector,omitempty" tf:"-"`
+}
+
+type CrossClusterReplicationConfigSecondaryClustersInitParameters struct {
+
+	// The full resource path of the secondary cluster in the format: projects/{project}/locations/{region}/clusters/{cluster-id}
+	Cluster *string `json:"cluster,omitempty" tf:"cluster,omitempty"`
+}
+
+type CrossClusterReplicationConfigSecondaryClustersObservation struct {
+
+	// The full resource path of the secondary cluster in the format: projects/{project}/locations/{region}/clusters/{cluster-id}
+	Cluster *string `json:"cluster,omitempty" tf:"cluster,omitempty"`
+
+	// System assigned, unique identifier for the cluster.
+	UID *string `json:"uid,omitempty" tf:"uid,omitempty"`
+}
+
+type CrossClusterReplicationConfigSecondaryClustersParameters struct {
+
+	// The full resource path of the secondary cluster in the format: projects/{project}/locations/{region}/clusters/{cluster-id}
+	// +kubebuilder:validation:Optional
+	Cluster *string `json:"cluster,omitempty" tf:"cluster,omitempty"`
+}
+
 type DiscoveryEndpointsInitParameters struct {
 }
 
@@ -216,6 +516,79 @@ type DiscoveryEndpointsObservation struct {
 }
 
 type DiscoveryEndpointsParameters struct {
+}
+
+type MaintenancePolicyWeeklyMaintenanceWindowInitParameters struct {
+
+	// Required. The day of week that maintenance updates occur.
+	Day *string `json:"day,omitempty" tf:"day,omitempty"`
+
+	// Required. Start time of the window in UTC time.
+	// Structure is documented below.
+	StartTime *WeeklyMaintenanceWindowStartTimeInitParameters `json:"startTime,omitempty" tf:"start_time,omitempty"`
+}
+
+type MaintenancePolicyWeeklyMaintenanceWindowObservation struct {
+
+	// Required. The day of week that maintenance updates occur.
+	Day *string `json:"day,omitempty" tf:"day,omitempty"`
+
+	// (Output)
+	// Output only. Duration of the maintenance window.
+	// The current window is fixed at 1 hour.
+	// A duration in seconds with up to nine fractional digits,
+	// terminated by 's'. Example: "3.5s".
+	Duration *string `json:"duration,omitempty" tf:"duration,omitempty"`
+
+	// Required. Start time of the window in UTC time.
+	// Structure is documented below.
+	StartTime *WeeklyMaintenanceWindowStartTimeObservation `json:"startTime,omitempty" tf:"start_time,omitempty"`
+}
+
+type MaintenancePolicyWeeklyMaintenanceWindowParameters struct {
+
+	// Required. The day of week that maintenance updates occur.
+	// +kubebuilder:validation:Optional
+	Day *string `json:"day" tf:"day,omitempty"`
+
+	// Required. Start time of the window in UTC time.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	StartTime *WeeklyMaintenanceWindowStartTimeParameters `json:"startTime" tf:"start_time,omitempty"`
+}
+
+type MembershipInitParameters struct {
+}
+
+type MembershipObservation struct {
+
+	// (Output)
+	// Details of the primary cluster that is used as the replication source for all the secondary clusters.
+	// Structure is documented below.
+	PrimaryCluster []PrimaryClusterObservation `json:"primaryCluster,omitempty" tf:"primary_cluster,omitempty"`
+
+	// (Output)
+	// List of secondary clusters that are replicating from the primary cluster.
+	// Structure is documented below.
+	SecondaryClusters []SecondaryClustersObservation `json:"secondaryClusters,omitempty" tf:"secondary_clusters,omitempty"`
+}
+
+type MembershipParameters struct {
+}
+
+type PrimaryClusterInitParameters struct {
+}
+
+type PrimaryClusterObservation struct {
+
+	// The full resource path of the secondary cluster in the format: projects/{project}/locations/{region}/clusters/{cluster-id}
+	Cluster *string `json:"cluster,omitempty" tf:"cluster,omitempty"`
+
+	// System assigned, unique identifier for the cluster.
+	UID *string `json:"uid,omitempty" tf:"uid,omitempty"`
+}
+
+type PrimaryClusterParameters struct {
 }
 
 type PscConfigInitParameters struct {
@@ -299,12 +672,62 @@ type PscConnectionsObservation struct {
 type PscConnectionsParameters struct {
 }
 
+type RdbConfigInitParameters struct {
+
+	// Optional. Available snapshot periods for scheduling.
+	RdbSnapshotPeriod *string `json:"rdbSnapshotPeriod,omitempty" tf:"rdb_snapshot_period,omitempty"`
+
+	// The time that the first snapshot was/will be attempted, and to which
+	// future snapshots will be aligned.
+	// If not provided, the current time will be used.
+	RdbSnapshotStartTime *string `json:"rdbSnapshotStartTime,omitempty" tf:"rdb_snapshot_start_time,omitempty"`
+}
+
+type RdbConfigObservation struct {
+
+	// Optional. Available snapshot periods for scheduling.
+	RdbSnapshotPeriod *string `json:"rdbSnapshotPeriod,omitempty" tf:"rdb_snapshot_period,omitempty"`
+
+	// The time that the first snapshot was/will be attempted, and to which
+	// future snapshots will be aligned.
+	// If not provided, the current time will be used.
+	RdbSnapshotStartTime *string `json:"rdbSnapshotStartTime,omitempty" tf:"rdb_snapshot_start_time,omitempty"`
+}
+
+type RdbConfigParameters struct {
+
+	// Optional. Available snapshot periods for scheduling.
+	// +kubebuilder:validation:Optional
+	RdbSnapshotPeriod *string `json:"rdbSnapshotPeriod,omitempty" tf:"rdb_snapshot_period,omitempty"`
+
+	// The time that the first snapshot was/will be attempted, and to which
+	// future snapshots will be aligned.
+	// If not provided, the current time will be used.
+	// +kubebuilder:validation:Optional
+	RdbSnapshotStartTime *string `json:"rdbSnapshotStartTime,omitempty" tf:"rdb_snapshot_start_time,omitempty"`
+}
+
+type SecondaryClustersInitParameters struct {
+}
+
+type SecondaryClustersObservation struct {
+
+	// The full resource path of the secondary cluster in the format: projects/{project}/locations/{region}/clusters/{cluster-id}
+	Cluster *string `json:"cluster,omitempty" tf:"cluster,omitempty"`
+
+	// System assigned, unique identifier for the cluster.
+	UID *string `json:"uid,omitempty" tf:"uid,omitempty"`
+}
+
+type SecondaryClustersParameters struct {
+}
+
 type StateInfoInitParameters struct {
 }
 
 type StateInfoObservation struct {
 
-	// A nested object resource
+	// A nested object resource.
 	// Structure is documented below.
 	UpdateInfo *UpdateInfoObservation `json:"updateInfo,omitempty" tf:"update_info,omitempty"`
 }
@@ -325,6 +748,61 @@ type UpdateInfoObservation struct {
 }
 
 type UpdateInfoParameters struct {
+}
+
+type WeeklyMaintenanceWindowStartTimeInitParameters struct {
+
+	// Hours of day in 24 hour format. Should be from 0 to 23.
+	// An API may choose to allow the value "24:00:00" for scenarios like business closing time.
+	Hours *float64 `json:"hours,omitempty" tf:"hours,omitempty"`
+
+	// Minutes of hour of day. Must be from 0 to 59.
+	Minutes *float64 `json:"minutes,omitempty" tf:"minutes,omitempty"`
+
+	// Fractions of seconds in nanoseconds. Must be from 0 to 999,999,999.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Seconds of minutes of the time. Must normally be from 0 to 59.
+	// An API may allow the value 60 if it allows leap-seconds.
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type WeeklyMaintenanceWindowStartTimeObservation struct {
+
+	// Hours of day in 24 hour format. Should be from 0 to 23.
+	// An API may choose to allow the value "24:00:00" for scenarios like business closing time.
+	Hours *float64 `json:"hours,omitempty" tf:"hours,omitempty"`
+
+	// Minutes of hour of day. Must be from 0 to 59.
+	Minutes *float64 `json:"minutes,omitempty" tf:"minutes,omitempty"`
+
+	// Fractions of seconds in nanoseconds. Must be from 0 to 999,999,999.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Seconds of minutes of the time. Must normally be from 0 to 59.
+	// An API may allow the value 60 if it allows leap-seconds.
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type WeeklyMaintenanceWindowStartTimeParameters struct {
+
+	// Hours of day in 24 hour format. Should be from 0 to 23.
+	// An API may choose to allow the value "24:00:00" for scenarios like business closing time.
+	// +kubebuilder:validation:Optional
+	Hours *float64 `json:"hours,omitempty" tf:"hours,omitempty"`
+
+	// Minutes of hour of day. Must be from 0 to 59.
+	// +kubebuilder:validation:Optional
+	Minutes *float64 `json:"minutes,omitempty" tf:"minutes,omitempty"`
+
+	// Fractions of seconds in nanoseconds. Must be from 0 to 999,999,999.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Seconds of minutes of the time. Must normally be from 0 to 59.
+	// An API may allow the value 60 if it allows leap-seconds.
+	// +kubebuilder:validation:Optional
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type ZoneDistributionConfigInitParameters struct {

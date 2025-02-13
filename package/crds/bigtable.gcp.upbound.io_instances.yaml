@@ -754,10 +754,6 @@ spec:
                           type: string
                       type: object
                     type: array
-                  deletionProtection:
-                    description: When the field is set to false, deleting the instance
-                      is allowed.
-                    type: boolean
                   displayName:
                     description: The human-readable display name of the Bigtable instance.
                       Defaults to the instance name.
@@ -865,10 +861,6 @@ spec:
                           type: string
                       type: object
                     type: array
-                  deletionProtection:
-                    description: When the field is set to false, deleting the instance
-                      is allowed.
-                    type: boolean
                   displayName:
                     description: The human-readable display name of the Bigtable instance.
                       Defaults to the instance name.

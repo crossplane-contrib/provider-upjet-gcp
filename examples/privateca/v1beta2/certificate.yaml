@@ -102,7 +102,6 @@ spec:
             crlSign: true
           extendedKeyUsage:
             serverAuth: true
-    deletionProtection: false
     ignoreActiveCertificatesOnDeletion: false
     keySpec:
       algorithm: RSA_PKCS1_4096_SHA256

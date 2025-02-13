@@ -38,12 +38,18 @@ type ColumnFamilyInitParameters struct {
 
 	// The name of the column family.
 	Family *string `json:"family,omitempty" tf:"family,omitempty"`
+
+	// The type of the column family.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type ColumnFamilyObservation struct {
 
 	// The name of the column family.
 	Family *string `json:"family,omitempty" tf:"family,omitempty"`
+
+	// The type of the column family.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type ColumnFamilyParameters struct {
@@ -51,6 +57,10 @@ type ColumnFamilyParameters struct {
 	// The name of the column family.
 	// +kubebuilder:validation:Optional
 	Family *string `json:"family" tf:"family,omitempty"`
+
+	// The type of the column family.
+	// +kubebuilder:validation:Optional
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type TableInitParameters struct {
@@ -63,9 +73,6 @@ type TableInitParameters struct {
 
 	// A group of columns within a table which share a common configuration. This can be specified multiple times. Structure is documented below.
 	ColumnFamily []ColumnFamilyInitParameters `json:"columnFamily,omitempty" tf:"column_family,omitempty"`
-
-	// A field to make the table protected against data loss i.e. when set to PROTECTED, deleting the table, the column families in the table, and the instance containing the table would be prohibited. If not provided, deletion protection will be set to UNPROTECTED.
-	DeletionProtection *string `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
@@ -116,10 +123,6 @@ type TableParameters struct {
 	// A group of columns within a table which share a common configuration. This can be specified multiple times. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ColumnFamily []ColumnFamilyParameters `json:"columnFamily,omitempty" tf:"column_family,omitempty"`
-
-	// A field to make the table protected against data loss i.e. when set to PROTECTED, deleting the table, the column families in the table, and the instance containing the table would be prohibited. If not provided, deletion protection will be set to UNPROTECTED.
-	// +kubebuilder:validation:Optional
-	DeletionProtection *string `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// The name of the Bigtable instance.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigtable/v1beta2.Instance

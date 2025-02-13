@@ -77,6 +77,14 @@ spec:
                   description:
                     description: An optional description of this resource.
                     type: string
+                  httpKeepAliveTimeoutSec:
+                    description: |-
+                      Specifies how long to keep a connection open, after completing a response,
+                      while there is no matching traffic (in seconds). If an HTTP keepalive is
+                      not specified, a default value (600 seconds) will be used. For Regional
+                      HTTP(S) load balancer, the minimum allowed value is 5 seconds and the
+                      maximum allowed value is 600 seconds.
+                    type: number
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -187,6 +195,14 @@ spec:
                   description:
                     description: An optional description of this resource.
                     type: string
+                  httpKeepAliveTimeoutSec:
+                    description: |-
+                      Specifies how long to keep a connection open, after completing a response,
+                      while there is no matching traffic (in seconds). If an HTTP keepalive is
+                      not specified, a default value (600 seconds) will be used. For Regional
+                      HTTP(S) load balancer, the minimum allowed value is 5 seconds and the
+                      maximum allowed value is 600 seconds.
+                    type: number
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -453,6 +469,14 @@ spec:
                   description:
                     description: An optional description of this resource.
                     type: string
+                  httpKeepAliveTimeoutSec:
+                    description: |-
+                      Specifies how long to keep a connection open, after completing a response,
+                      while there is no matching traffic (in seconds). If an HTTP keepalive is
+                      not specified, a default value (600 seconds) will be used. For Regional
+                      HTTP(S) load balancer, the minimum allowed value is 5 seconds and the
+                      maximum allowed value is 600 seconds.
+                    type: number
                   id:
                     description: an identifier for the resource with format projects/{{project}}/regions/{{region}}/targetHttpProxies/{{name}}
                     type: string

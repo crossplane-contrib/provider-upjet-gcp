@@ -3632,6 +3632,15 @@ spec:
                           Common config settings for resources of Google Compute Engine cluster
                           instances, applicable to all instances in the cluster. Structure defined below.
                         properties:
+                          confidentialInstanceConfig:
+                            description: Confidential Instance Config for clusters
+                              using Confidential VMs
+                            properties:
+                              enableConfidentialCompute:
+                                description: Defines whether the instance should have
+                                  confidential compute enabled.
+                                type: boolean
+                            type: object
                           internalIpOnly:
                             description: |-
                               By default, clusters are not restricted to internal IP addresses,
@@ -3994,6 +4003,13 @@ spec:
                                       type: number
                                   type: object
                                 type: array
+                              provisioningModelMix:
+                                properties:
+                                  standardCapacityBase:
+                                    type: number
+                                  standardCapacityPercentAboveBase:
+                                    type: number
+                                type: object
                             type: object
                           numInstances:
                             description: |-
@@ -4597,6 +4613,15 @@ spec:
                           Common config settings for resources of Google Compute Engine cluster
                           instances, applicable to all instances in the cluster. Structure defined below.
                         properties:
+                          confidentialInstanceConfig:
+                            description: Confidential Instance Config for clusters
+                              using Confidential VMs
+                            properties:
+                              enableConfidentialCompute:
+                                description: Defines whether the instance should have
+                                  confidential compute enabled.
+                                type: boolean
+                            type: object
                           internalIpOnly:
                             description: |-
                               By default, clusters are not restricted to internal IP addresses,
@@ -4959,6 +4984,13 @@ spec:
                                       type: number
                                   type: object
                                 type: array
+                              provisioningModelMix:
+                                properties:
+                                  standardCapacityBase:
+                                    type: number
+                                  standardCapacityPercentAboveBase:
+                                    type: number
+                                type: object
                             type: object
                           numInstances:
                             description: |-
@@ -5752,6 +5784,15 @@ spec:
                           Common config settings for resources of Google Compute Engine cluster
                           instances, applicable to all instances in the cluster. Structure defined below.
                         properties:
+                          confidentialInstanceConfig:
+                            description: Confidential Instance Config for clusters
+                              using Confidential VMs
+                            properties:
+                              enableConfidentialCompute:
+                                description: Defines whether the instance should have
+                                  confidential compute enabled.
+                                type: boolean
+                            type: object
                           internalIpOnly:
                             description: |-
                               By default, clusters are not restricted to internal IP addresses,
@@ -6061,6 +6102,13 @@ spec:
                                       type: number
                                   type: object
                                 type: array
+                              provisioningModelMix:
+                                properties:
+                                  standardCapacityBase:
+                                    type: number
+                                  standardCapacityPercentAboveBase:
+                                    type: number
+                                type: object
                             type: object
                           instanceNames:
                             description: |-
