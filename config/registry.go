@@ -161,6 +161,7 @@ func GetProvider(_ context.Context, generationProvider bool) (*ujconfig.Provider
 			defaultVersion(),
 			resourceConfigurator(),
 			descriptionOverrides(),
+			DeletionProtectionRemove(),
 		),
 		ujconfig.WithRootGroup("gcp.upbound.io"),
 		ujconfig.WithShortName("gcp"),

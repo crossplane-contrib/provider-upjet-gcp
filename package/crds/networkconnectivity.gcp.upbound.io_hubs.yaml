@@ -95,6 +95,11 @@ spec:
                     description: 'Immutable. The name of the hub. Hub names must be
                       unique. They use the following form: projects/{project_number}/locations/global/hubs/{hub_id}'
                     type: string
+                  presetTopology:
+                    description: |-
+                      Optional. The topology implemented in this hub. Currently, this field is only used when policyMode = PRESET. The available preset topologies are MESH and STAR. If presetTopology is unspecified and policyMode = PRESET, the presetTopology defaults to MESH. When policyMode = CUSTOM, the presetTopology is set to PRESET_TOPOLOGY_UNSPECIFIED.
+                      Possible values are: MESH, STAR.
+                    type: string
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -135,6 +140,11 @@ spec:
                   name:
                     description: 'Immutable. The name of the hub. Hub names must be
                       unique. They use the following form: projects/{project_number}/locations/global/hubs/{hub_id}'
+                    type: string
+                  presetTopology:
+                    description: |-
+                      Optional. The topology implemented in this hub. Currently, this field is only used when policyMode = PRESET. The available preset topologies are MESH and STAR. If presetTopology is unspecified and policyMode = PRESET, the presetTopology defaults to MESH. When policyMode = CUSTOM, the presetTopology is set to PRESET_TOPOLOGY_UNSPECIFIED.
+                      Possible values are: MESH, STAR.
                     type: string
                   project:
                     description: |-
@@ -346,6 +356,11 @@ spec:
                   name:
                     description: 'Immutable. The name of the hub. Hub names must be
                       unique. They use the following form: projects/{project_number}/locations/global/hubs/{hub_id}'
+                    type: string
+                  presetTopology:
+                    description: |-
+                      Optional. The topology implemented in this hub. Currently, this field is only used when policyMode = PRESET. The available preset topologies are MESH and STAR. If presetTopology is unspecified and policyMode = PRESET, the presetTopology defaults to MESH. When policyMode = CUSTOM, the presetTopology is set to PRESET_TOPOLOGY_UNSPECIFIED.
+                      Possible values are: MESH, STAR.
                     type: string
                   project:
                     description: |-

@@ -955,6 +955,13 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  deletionProtectionEnabled:
+                    description: Indicates whether the instance is protected against
+                      deletion.
+                    type: boolean
+                  deletionProtectionReason:
+                    description: The reason for enabling deletion protection.
+                    type: string
                   description:
                     description: A description of the instance.
                     type: string
@@ -1143,10 +1150,54 @@ spec:
                           type: string
                       type: object
                     type: array
+                  performanceConfig:
+                    description: |-
+                      Performance configuration for the instance. If not provided,
+                      the default performance settings will be used.
+                      Structure is documented below.
+                    properties:
+                      fixedIops:
+                        description: |-
+                          The instance will have a fixed provisioned IOPS value,
+                          which will remain constant regardless of instance
+                          capacity.
+                          Structure is documented below.
+                        properties:
+                          maxIops:
+                            description: |-
+                              The number of IOPS to provision for the instance.
+                              max_iops must be in multiple of 1000.
+                            type: number
+                        type: object
+                      iopsPerTb:
+                        description: |-
+                          The instance provisioned IOPS will change dynamically
+                          based on the capacity of the instance.
+                          Structure is documented below.
+                        properties:
+                          maxIopsPerTb:
+                            description: |-
+                              The instance max IOPS will be calculated by multiplying
+                              the capacity of the instance (TB) by max_iops_per_tb,
+                              and rounding to the nearest 1000. The instance max IOPS
+                              will be changed dynamically based on the instance
+                              capacity.
+                            type: number
+                        type: object
+                    type: object
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
+                    type: string
+                  protocol:
+                    description: |-
+                      Either NFSv3, for using NFS version 3 as file sharing protocol,
+                      or NFSv4.1, for using NFS version 4.1 as file sharing protocol.
+                      NFSv4.1 can be used with HIGH_SCALE_SSD, ZONAL, REGIONAL and ENTERPRISE.
+                      The default is NFSv3.
+                      Default value is NFS_V3.
+                      Possible values are: NFS_V3, NFS_V4_1.
                     type: string
                   tier:
                     description: |-
@@ -1170,6 +1221,13 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  deletionProtectionEnabled:
+                    description: Indicates whether the instance is protected against
+                      deletion.
+                    type: boolean
+                  deletionProtectionReason:
+                    description: The reason for enabling deletion protection.
+                    type: string
                   description:
                     description: A description of the instance.
                     type: string
@@ -1354,10 +1412,54 @@ spec:
                           type: string
                       type: object
                     type: array
+                  performanceConfig:
+                    description: |-
+                      Performance configuration for the instance. If not provided,
+                      the default performance settings will be used.
+                      Structure is documented below.
+                    properties:
+                      fixedIops:
+                        description: |-
+                          The instance will have a fixed provisioned IOPS value,
+                          which will remain constant regardless of instance
+                          capacity.
+                          Structure is documented below.
+                        properties:
+                          maxIops:
+                            description: |-
+                              The number of IOPS to provision for the instance.
+                              max_iops must be in multiple of 1000.
+                            type: number
+                        type: object
+                      iopsPerTb:
+                        description: |-
+                          The instance provisioned IOPS will change dynamically
+                          based on the capacity of the instance.
+                          Structure is documented below.
+                        properties:
+                          maxIopsPerTb:
+                            description: |-
+                              The instance max IOPS will be calculated by multiplying
+                              the capacity of the instance (TB) by max_iops_per_tb,
+                              and rounding to the nearest 1000. The instance max IOPS
+                              will be changed dynamically based on the instance
+                              capacity.
+                            type: number
+                        type: object
+                    type: object
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
+                    type: string
+                  protocol:
+                    description: |-
+                      Either NFSv3, for using NFS version 3 as file sharing protocol,
+                      or NFSv4.1, for using NFS version 4.1 as file sharing protocol.
+                      NFSv4.1 can be used with HIGH_SCALE_SSD, ZONAL, REGIONAL and ENTERPRISE.
+                      The default is NFSv3.
+                      Default value is NFS_V3.
+                      Possible values are: NFS_V3, NFS_V4_1.
                     type: string
                   tier:
                     description: |-
@@ -1556,6 +1658,13 @@ spec:
                   createTime:
                     description: Creation timestamp in RFC3339 text format.
                     type: string
+                  deletionProtectionEnabled:
+                    description: Indicates whether the instance is protected against
+                      deletion.
+                    type: boolean
+                  deletionProtectionReason:
+                    description: The reason for enabling deletion protection.
+                    type: string
                   description:
                     description: A description of the instance.
                     type: string
@@ -1690,10 +1799,54 @@ spec:
                           type: string
                       type: object
                     type: array
+                  performanceConfig:
+                    description: |-
+                      Performance configuration for the instance. If not provided,
+                      the default performance settings will be used.
+                      Structure is documented below.
+                    properties:
+                      fixedIops:
+                        description: |-
+                          The instance will have a fixed provisioned IOPS value,
+                          which will remain constant regardless of instance
+                          capacity.
+                          Structure is documented below.
+                        properties:
+                          maxIops:
+                            description: |-
+                              The number of IOPS to provision for the instance.
+                              max_iops must be in multiple of 1000.
+                            type: number
+                        type: object
+                      iopsPerTb:
+                        description: |-
+                          The instance provisioned IOPS will change dynamically
+                          based on the capacity of the instance.
+                          Structure is documented below.
+                        properties:
+                          maxIopsPerTb:
+                            description: |-
+                              The instance max IOPS will be calculated by multiplying
+                              the capacity of the instance (TB) by max_iops_per_tb,
+                              and rounding to the nearest 1000. The instance max IOPS
+                              will be changed dynamically based on the instance
+                              capacity.
+                            type: number
+                        type: object
+                    type: object
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
+                    type: string
+                  protocol:
+                    description: |-
+                      Either NFSv3, for using NFS version 3 as file sharing protocol,
+                      or NFSv4.1, for using NFS version 4.1 as file sharing protocol.
+                      NFSv4.1 can be used with HIGH_SCALE_SSD, ZONAL, REGIONAL and ENTERPRISE.
+                      The default is NFSv3.
+                      Default value is NFS_V3.
+                      Possible values are: NFS_V3, NFS_V4_1.
                     type: string
                   terraformLabels:
                     additionalProperties:

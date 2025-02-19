@@ -15,51 +15,33 @@ import (
 
 type ConsistentHashHTTPCookieInitParameters struct {
 
-	// Name of the resource. Provided by the client when the resource is
-	// created. The name must be 1-63 characters long, and comply with
-	// RFC1035. Specifically, the name must be 1-63 characters long and match
-	// the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
-	// first character must be a lowercase letter, and all following
-	// characters must be a dash, lowercase letter, or digit, except the last
-	// character, which cannot be a dash.
+	// Name of the cookie.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Path to set for the cookie.
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
-	// The TTL (in seconds) for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
-	// (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
+	// Lifetime of the cookie.
+	// Structure is documented below.
 	TTL *HTTPCookieTTLInitParameters `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
 
 type ConsistentHashHTTPCookieObservation struct {
 
-	// Name of the resource. Provided by the client when the resource is
-	// created. The name must be 1-63 characters long, and comply with
-	// RFC1035. Specifically, the name must be 1-63 characters long and match
-	// the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
-	// first character must be a lowercase letter, and all following
-	// characters must be a dash, lowercase letter, or digit, except the last
-	// character, which cannot be a dash.
+	// Name of the cookie.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Path to set for the cookie.
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
-	// The TTL (in seconds) for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
-	// (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
+	// Lifetime of the cookie.
+	// Structure is documented below.
 	TTL *HTTPCookieTTLObservation `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
 
 type ConsistentHashHTTPCookieParameters struct {
 
-	// Name of the resource. Provided by the client when the resource is
-	// created. The name must be 1-63 characters long, and comply with
-	// RFC1035. Specifically, the name must be 1-63 characters long and match
-	// the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
-	// first character must be a lowercase letter, and all following
-	// characters must be a dash, lowercase letter, or digit, except the last
-	// character, which cannot be a dash.
+	// Name of the cookie.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
@@ -67,8 +49,8 @@ type ConsistentHashHTTPCookieParameters struct {
 	// +kubebuilder:validation:Optional
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
-	// The TTL (in seconds) for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
-	// (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
+	// Lifetime of the cookie.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	TTL *HTTPCookieTTLParameters `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
@@ -291,8 +273,7 @@ type RegionBackendServiceBackendInitParameters struct {
 	// Specifies the balancing mode for this backend.
 	// See the Backend Services Overview
 	// for an explanation of load balancing modes.
-	// From version 6.0.0 default value will be UTILIZATION to match default GCP value.
-	// Default value is CONNECTION.
+	// Default value is UTILIZATION.
 	// Possible values are: UTILIZATION, RATE, CONNECTION.
 	BalancingMode *string `json:"balancingMode,omitempty" tf:"balancing_mode,omitempty"`
 
@@ -401,8 +382,7 @@ type RegionBackendServiceBackendObservation struct {
 	// Specifies the balancing mode for this backend.
 	// See the Backend Services Overview
 	// for an explanation of load balancing modes.
-	// From version 6.0.0 default value will be UTILIZATION to match default GCP value.
-	// Default value is CONNECTION.
+	// Default value is UTILIZATION.
 	// Possible values are: UTILIZATION, RATE, CONNECTION.
 	BalancingMode *string `json:"balancingMode,omitempty" tf:"balancing_mode,omitempty"`
 
@@ -501,8 +481,7 @@ type RegionBackendServiceBackendParameters struct {
 	// Specifies the balancing mode for this backend.
 	// See the Backend Services Overview
 	// for an explanation of load balancing modes.
-	// From version 6.0.0 default value will be UTILIZATION to match default GCP value.
-	// Default value is CONNECTION.
+	// Default value is UTILIZATION.
 	// Possible values are: UTILIZATION, RATE, CONNECTION.
 	// +kubebuilder:validation:Optional
 	BalancingMode *string `json:"balancingMode,omitempty" tf:"balancing_mode,omitempty"`
@@ -1046,15 +1025,21 @@ type RegionBackendServiceConsistentHashParameters struct {
 
 type RegionBackendServiceIapInitParameters struct {
 
+	// Whether the serving infrastructure will authenticate and authorize all incoming requests.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
 	// OAuth2 Client ID for IAP
 	Oauth2ClientID *string `json:"oauth2ClientId,omitempty" tf:"oauth2_client_id,omitempty"`
 
 	// OAuth2 Client Secret for IAP
 	// Note: This property is sensitive and will not be displayed in the plan.
-	Oauth2ClientSecretSecretRef v1.SecretKeySelector `json:"oauth2ClientSecretSecretRef" tf:"-"`
+	Oauth2ClientSecretSecretRef *v1.SecretKeySelector `json:"oauth2ClientSecretSecretRef,omitempty" tf:"-"`
 }
 
 type RegionBackendServiceIapObservation struct {
+
+	// Whether the serving infrastructure will authenticate and authorize all incoming requests.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
 	// OAuth2 Client ID for IAP
 	Oauth2ClientID *string `json:"oauth2ClientId,omitempty" tf:"oauth2_client_id,omitempty"`
@@ -1062,14 +1047,18 @@ type RegionBackendServiceIapObservation struct {
 
 type RegionBackendServiceIapParameters struct {
 
+	// Whether the serving infrastructure will authenticate and authorize all incoming requests.
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+
 	// OAuth2 Client ID for IAP
 	// +kubebuilder:validation:Optional
-	Oauth2ClientID *string `json:"oauth2ClientId" tf:"oauth2_client_id,omitempty"`
+	Oauth2ClientID *string `json:"oauth2ClientId,omitempty" tf:"oauth2_client_id,omitempty"`
 
 	// OAuth2 Client Secret for IAP
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	Oauth2ClientSecretSecretRef v1.SecretKeySelector `json:"oauth2ClientSecretSecretRef" tf:"-"`
+	Oauth2ClientSecretSecretRef *v1.SecretKeySelector `json:"oauth2ClientSecretSecretRef,omitempty" tf:"-"`
 }
 
 type RegionBackendServiceInitParameters struct {
@@ -1097,7 +1086,6 @@ type RegionBackendServiceInitParameters struct {
 
 	// Time for which instance will be drained (not accept new
 	// connections, but still work to finish started).
-	// From version 6.0.0 ConnectionDrainingTimeoutSec default value will be 300 to match default GCP value.
 	ConnectionDrainingTimeoutSec *float64 `json:"connectionDrainingTimeoutSec,omitempty" tf:"connection_draining_timeout_sec,omitempty"`
 
 	// Consistent Hash-based load balancing can be used to provide soft session
@@ -1137,6 +1125,10 @@ type RegionBackendServiceInitParameters struct {
 	// +kubebuilder:validation:Optional
 	HealthChecksSelector *v1.Selector `json:"healthChecksSelector,omitempty" tf:"-"`
 
+	// Specifies preference of traffic to the backend (from the proxy and from the client for proxyless gRPC).
+	// Possible values are: IPV4_ONLY, PREFER_IPV6, IPV6_ONLY.
+	IPAddressSelectionPolicy *string `json:"ipAddressSelectionPolicy,omitempty" tf:"ip_address_selection_policy,omitempty"`
+
 	// Settings for enabling Cloud Identity Aware Proxy
 	// Structure is documented below.
 	Iap *RegionBackendServiceIapInitParameters `json:"iap,omitempty" tf:"iap,omitempty"`
@@ -1160,8 +1152,6 @@ type RegionBackendServiceInitParameters struct {
 	// Settings controlling eviction of unhealthy hosts from the load balancing pool.
 	// This field is applicable only when the load_balancing_scheme is set
 	// to INTERNAL_MANAGED and the protocol is set to HTTP, HTTPS, or HTTP2.
-	// From version 6.0.
-	// Default values are enforce by GCP without providing them.
 	// Structure is documented below.
 	OutlierDetection *RegionBackendServiceOutlierDetectionInitParameters `json:"outlierDetection,omitempty" tf:"outlier_detection,omitempty"`
 
@@ -1183,8 +1173,12 @@ type RegionBackendServiceInitParameters struct {
 
 	// Type of session affinity to use. The default is NONE. Session affinity is
 	// not applicable if the protocol is UDP.
-	// Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE, CLIENT_IP_NO_DESTINATION.
+	// Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE, CLIENT_IP_NO_DESTINATION, STRONG_COOKIE_AFFINITY.
 	SessionAffinity *string `json:"sessionAffinity,omitempty" tf:"session_affinity,omitempty"`
+
+	// Describes the HTTP cookie used for stateful session affinity. This field is applicable and required if the sessionAffinity is set to STRONG_COOKIE_AFFINITY.
+	// Structure is documented below.
+	StrongSessionAffinityCookie *RegionBackendServiceStrongSessionAffinityCookieInitParameters `json:"strongSessionAffinityCookie,omitempty" tf:"strong_session_affinity_cookie,omitempty"`
 
 	// The backend service timeout has a different meaning depending on the type of load balancer.
 	// For more information see, Backend service settings.
@@ -1256,7 +1250,6 @@ type RegionBackendServiceObservation struct {
 
 	// Time for which instance will be drained (not accept new
 	// connections, but still work to finish started).
-	// From version 6.0.0 ConnectionDrainingTimeoutSec default value will be 300 to match default GCP value.
 	ConnectionDrainingTimeoutSec *float64 `json:"connectionDrainingTimeoutSec,omitempty" tf:"connection_draining_timeout_sec,omitempty"`
 
 	// Consistent Hash-based load balancing can be used to provide soft session
@@ -1299,6 +1292,10 @@ type RegionBackendServiceObservation struct {
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/backendServices/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Specifies preference of traffic to the backend (from the proxy and from the client for proxyless gRPC).
+	// Possible values are: IPV4_ONLY, PREFER_IPV6, IPV6_ONLY.
+	IPAddressSelectionPolicy *string `json:"ipAddressSelectionPolicy,omitempty" tf:"ip_address_selection_policy,omitempty"`
+
 	// Settings for enabling Cloud Identity Aware Proxy
 	// Structure is documented below.
 	Iap *RegionBackendServiceIapObservation `json:"iap,omitempty" tf:"iap,omitempty"`
@@ -1322,8 +1319,6 @@ type RegionBackendServiceObservation struct {
 	// Settings controlling eviction of unhealthy hosts from the load balancing pool.
 	// This field is applicable only when the load_balancing_scheme is set
 	// to INTERNAL_MANAGED and the protocol is set to HTTP, HTTPS, or HTTP2.
-	// From version 6.0.
-	// Default values are enforce by GCP without providing them.
 	// Structure is documented below.
 	OutlierDetection *RegionBackendServiceOutlierDetectionObservation `json:"outlierDetection,omitempty" tf:"outlier_detection,omitempty"`
 
@@ -1352,8 +1347,12 @@ type RegionBackendServiceObservation struct {
 
 	// Type of session affinity to use. The default is NONE. Session affinity is
 	// not applicable if the protocol is UDP.
-	// Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE, CLIENT_IP_NO_DESTINATION.
+	// Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE, CLIENT_IP_NO_DESTINATION, STRONG_COOKIE_AFFINITY.
 	SessionAffinity *string `json:"sessionAffinity,omitempty" tf:"session_affinity,omitempty"`
+
+	// Describes the HTTP cookie used for stateful session affinity. This field is applicable and required if the sessionAffinity is set to STRONG_COOKIE_AFFINITY.
+	// Structure is documented below.
+	StrongSessionAffinityCookie *RegionBackendServiceStrongSessionAffinityCookieObservation `json:"strongSessionAffinityCookie,omitempty" tf:"strong_session_affinity_cookie,omitempty"`
 
 	// The backend service timeout has a different meaning depending on the type of load balancer.
 	// For more information see, Backend service settings.
@@ -1594,7 +1593,6 @@ type RegionBackendServiceParameters struct {
 
 	// Time for which instance will be drained (not accept new
 	// connections, but still work to finish started).
-	// From version 6.0.0 ConnectionDrainingTimeoutSec default value will be 300 to match default GCP value.
 	// +kubebuilder:validation:Optional
 	ConnectionDrainingTimeoutSec *float64 `json:"connectionDrainingTimeoutSec,omitempty" tf:"connection_draining_timeout_sec,omitempty"`
 
@@ -1640,6 +1638,11 @@ type RegionBackendServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	HealthChecksSelector *v1.Selector `json:"healthChecksSelector,omitempty" tf:"-"`
 
+	// Specifies preference of traffic to the backend (from the proxy and from the client for proxyless gRPC).
+	// Possible values are: IPV4_ONLY, PREFER_IPV6, IPV6_ONLY.
+	// +kubebuilder:validation:Optional
+	IPAddressSelectionPolicy *string `json:"ipAddressSelectionPolicy,omitempty" tf:"ip_address_selection_policy,omitempty"`
+
 	// Settings for enabling Cloud Identity Aware Proxy
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -1668,8 +1671,6 @@ type RegionBackendServiceParameters struct {
 	// Settings controlling eviction of unhealthy hosts from the load balancing pool.
 	// This field is applicable only when the load_balancing_scheme is set
 	// to INTERNAL_MANAGED and the protocol is set to HTTP, HTTPS, or HTTP2.
-	// From version 6.0.
-	// Default values are enforce by GCP without providing them.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	OutlierDetection *RegionBackendServiceOutlierDetectionParameters `json:"outlierDetection,omitempty" tf:"outlier_detection,omitempty"`
@@ -1700,9 +1701,14 @@ type RegionBackendServiceParameters struct {
 
 	// Type of session affinity to use. The default is NONE. Session affinity is
 	// not applicable if the protocol is UDP.
-	// Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE, CLIENT_IP_NO_DESTINATION.
+	// Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE, CLIENT_IP_NO_DESTINATION, STRONG_COOKIE_AFFINITY.
 	// +kubebuilder:validation:Optional
 	SessionAffinity *string `json:"sessionAffinity,omitempty" tf:"session_affinity,omitempty"`
+
+	// Describes the HTTP cookie used for stateful session affinity. This field is applicable and required if the sessionAffinity is set to STRONG_COOKIE_AFFINITY.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	StrongSessionAffinityCookie *RegionBackendServiceStrongSessionAffinityCookieParameters `json:"strongSessionAffinityCookie,omitempty" tf:"strong_session_affinity_cookie,omitempty"`
 
 	// The backend service timeout has a different meaning depending on the type of load balancer.
 	// For more information see, Backend service settings.
@@ -1710,6 +1716,89 @@ type RegionBackendServiceParameters struct {
 	// The full range of timeout values allowed goes from 1 through 2,147,483,647 seconds.
 	// +kubebuilder:validation:Optional
 	TimeoutSec *float64 `json:"timeoutSec,omitempty" tf:"timeout_sec,omitempty"`
+}
+
+type RegionBackendServiceStrongSessionAffinityCookieInitParameters struct {
+
+	// Name of the cookie.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Path to set for the cookie.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// Lifetime of the cookie.
+	// Structure is documented below.
+	TTL *RegionBackendServiceStrongSessionAffinityCookieTTLInitParameters `json:"ttl,omitempty" tf:"ttl,omitempty"`
+}
+
+type RegionBackendServiceStrongSessionAffinityCookieObservation struct {
+
+	// Name of the cookie.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Path to set for the cookie.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// Lifetime of the cookie.
+	// Structure is documented below.
+	TTL *RegionBackendServiceStrongSessionAffinityCookieTTLObservation `json:"ttl,omitempty" tf:"ttl,omitempty"`
+}
+
+type RegionBackendServiceStrongSessionAffinityCookieParameters struct {
+
+	// Name of the cookie.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Path to set for the cookie.
+	// +kubebuilder:validation:Optional
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// Lifetime of the cookie.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	TTL *RegionBackendServiceStrongSessionAffinityCookieTTLParameters `json:"ttl,omitempty" tf:"ttl,omitempty"`
+}
+
+type RegionBackendServiceStrongSessionAffinityCookieTTLInitParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond
+	// resolution. Durations less than one second are represented
+	// with a 0 seconds field and a positive nanos field. Must
+	// be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second.
+	// Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type RegionBackendServiceStrongSessionAffinityCookieTTLObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond
+	// resolution. Durations less than one second are represented
+	// with a 0 seconds field and a positive nanos field. Must
+	// be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second.
+	// Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type RegionBackendServiceStrongSessionAffinityCookieTTLParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond
+	// resolution. Durations less than one second are represented
+	// with a 0 seconds field and a positive nanos field. Must
+	// be from 0 to 999,999,999 inclusive.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second.
+	// Must be from 0 to 315,576,000,000 inclusive.
+	// +kubebuilder:validation:Optional
+	Seconds *float64 `json:"seconds" tf:"seconds,omitempty"`
 }
 
 // RegionBackendServiceSpec defines the desired state of RegionBackendService

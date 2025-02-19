@@ -1335,7 +1335,7 @@ spec:
                     type: string
                   asyncPrimaryDisk:
                     description: |-
-                      A nested object resource
+                      A nested object resource.
                       Structure is documented below.
                     properties:
                       disk:
@@ -1634,7 +1634,7 @@ spec:
                     type: object
                   storagePool:
                     description: |-
-                      The URL of the storage pool in which the new disk is created.
+                      The URL or the name of the storage pool in which the new disk is created.
                       For example:
                     type: string
                   type:
@@ -1668,7 +1668,7 @@ spec:
                     type: string
                   asyncPrimaryDisk:
                     description: |-
-                      A nested object resource
+                      A nested object resource.
                       Structure is documented below.
                     properties:
                       disk:
@@ -1967,7 +1967,7 @@ spec:
                     type: object
                   storagePool:
                     description: |-
-                      The URL of the storage pool in which the new disk is created.
+                      The URL or the name of the storage pool in which the new disk is created.
                       For example:
                     type: string
                   type:
@@ -2155,7 +2155,7 @@ spec:
                     type: string
                   asyncPrimaryDisk:
                     description: |-
-                      A nested object resource
+                      A nested object resource.
                       Structure is documented below.
                     properties:
                       disk:
@@ -2410,7 +2410,7 @@ spec:
                     type: string
                   storagePool:
                     description: |-
-                      The URL of the storage pool in which the new disk is created.
+                      The URL or the name of the storage pool in which the new disk is created.
                       For example:
                     type: string
                   terraformLabels:

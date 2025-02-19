@@ -42,7 +42,6 @@ spec:
             emailProtection: true
             serverAuth: true
             timeStamping: true
-    deletionProtection: false
     keySpec:
       algorithm: RSA_PKCS1_4096_SHA256
     lifetime: 86400s

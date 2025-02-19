@@ -119,6 +119,14 @@ type InterfaceInitParameters struct {
 	// your on-premise gateway or another Cloud provider's VPN gateway,
 	// it cannot be an IP address from Google Compute Engine.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// IPv6 address of the interface in the external VPN gateway. This IPv6
+	// address can be either from your on-premise gateway or another Cloud
+	// provider's VPN gateway, it cannot be an IP address from Google Compute
+	// Engine. Must specify an IPv6 address (not IPV4-mapped) using any format
+	// described in RFC 4291 (e.g. 2001:db8:0:0:2d9:51:0:0). The output format
+	// is RFC 5952 format (e.g. 2001:db8::2d9:51:0:0).
+	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
 }
 
 type InterfaceObservation struct {
@@ -132,6 +140,14 @@ type InterfaceObservation struct {
 	// your on-premise gateway or another Cloud provider's VPN gateway,
 	// it cannot be an IP address from Google Compute Engine.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// IPv6 address of the interface in the external VPN gateway. This IPv6
+	// address can be either from your on-premise gateway or another Cloud
+	// provider's VPN gateway, it cannot be an IP address from Google Compute
+	// Engine. Must specify an IPv6 address (not IPV4-mapped) using any format
+	// described in RFC 4291 (e.g. 2001:db8:0:0:2d9:51:0:0). The output format
+	// is RFC 5952 format (e.g. 2001:db8::2d9:51:0:0).
+	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
 }
 
 type InterfaceParameters struct {
@@ -147,6 +163,15 @@ type InterfaceParameters struct {
 	// it cannot be an IP address from Google Compute Engine.
 	// +kubebuilder:validation:Optional
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// IPv6 address of the interface in the external VPN gateway. This IPv6
+	// address can be either from your on-premise gateway or another Cloud
+	// provider's VPN gateway, it cannot be an IP address from Google Compute
+	// Engine. Must specify an IPv6 address (not IPV4-mapped) using any format
+	// described in RFC 4291 (e.g. 2001:db8:0:0:2d9:51:0:0). The output format
+	// is RFC 5952 format (e.g. 2001:db8::2d9:51:0:0).
+	// +kubebuilder:validation:Optional
+	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
 }
 
 // ExternalVPNGatewaySpec defines the desired state of ExternalVPNGateway

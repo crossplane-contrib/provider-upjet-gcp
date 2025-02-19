@@ -38,7 +38,6 @@ metadata:
   name: nodepool
 spec:
   forProvider:
-    deletionProtection: false
     initialNodeCount: 1
     location: us-central1-a
     removeDefaultNodePool: true

@@ -141,6 +141,9 @@ type InstanceGroupManagerInitParameters struct {
 	// is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// The standby policy for stopped and suspended instances. Structure is documented below. For more information, see the official documentation.
+	StandbyPolicy *StandbyPolicyInitParameters `json:"standbyPolicy,omitempty" tf:"standby_policy,omitempty"`
+
 	// Disks created on the instances that will be preserved on instance delete, update, etc. Structure is documented below. For more information see the official documentation.
 	StatefulDisk []StatefulDiskInitParameters `json:"statefulDisk,omitempty" tf:"stateful_disk,omitempty"`
 
@@ -171,6 +174,12 @@ type InstanceGroupManagerInitParameters struct {
 	// when using one. If a value is required, such as to specify a creation-time target size for the MIG,
 	// lifecycle. Defaults to 0.
 	TargetSize *float64 `json:"targetSize,omitempty" tf:"target_size,omitempty"`
+
+	// The target number of stopped instances for this managed instance group.
+	TargetStoppedSize *float64 `json:"targetStoppedSize,omitempty" tf:"target_stopped_size,omitempty"`
+
+	// The target number of suspended instances for this managed instance group.
+	TargetSuspendedSize *float64 `json:"targetSuspendedSize,omitempty" tf:"target_suspended_size,omitempty"`
 
 	// The update policy for this managed instance group. Structure is documented below. For more information, see the official documentation and API.
 	UpdatePolicy *UpdatePolicyInitParameters `json:"updatePolicy,omitempty" tf:"update_policy,omitempty"`
@@ -226,6 +235,9 @@ type InstanceGroupManagerObservation struct {
 	// The full URL of the instance group created by the manager.
 	InstanceGroup *string `json:"instanceGroup,omitempty" tf:"instance_group,omitempty"`
 
+	// an identifier for the resource with format projects/{{project}}/zones/{{zone}}/instanceGroupManagers/{{name}}
+	InstanceGroupManagerID *float64 `json:"instanceGroupManagerId,omitempty" tf:"instance_group_manager_id,omitempty"`
+
 	InstanceLifecyclePolicy *InstanceLifecyclePolicyObservation `json:"instanceLifecyclePolicy,omitempty" tf:"instance_lifecycle_policy,omitempty"`
 
 	// Pagination behavior of the listManagedInstances API
@@ -248,6 +260,9 @@ type InstanceGroupManagerObservation struct {
 
 	// The URL of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
+
+	// The standby policy for stopped and suspended instances. Structure is documented below. For more information, see the official documentation.
+	StandbyPolicy *StandbyPolicyObservation `json:"standbyPolicy,omitempty" tf:"standby_policy,omitempty"`
 
 	// Disks created on the instances that will be preserved on instance delete, update, etc. Structure is documented below. For more information see the official documentation.
 	StatefulDisk []StatefulDiskObservation `json:"statefulDisk,omitempty" tf:"stateful_disk,omitempty"`
@@ -272,6 +287,12 @@ type InstanceGroupManagerObservation struct {
 	// when using one. If a value is required, such as to specify a creation-time target size for the MIG,
 	// lifecycle. Defaults to 0.
 	TargetSize *float64 `json:"targetSize,omitempty" tf:"target_size,omitempty"`
+
+	// The target number of stopped instances for this managed instance group.
+	TargetStoppedSize *float64 `json:"targetStoppedSize,omitempty" tf:"target_stopped_size,omitempty"`
+
+	// The target number of suspended instances for this managed instance group.
+	TargetSuspendedSize *float64 `json:"targetSuspendedSize,omitempty" tf:"target_suspended_size,omitempty"`
 
 	// The update policy for this managed instance group. Structure is documented below. For more information, see the official documentation and API.
 	UpdatePolicy *UpdatePolicyObservation `json:"updatePolicy,omitempty" tf:"update_policy,omitempty"`
@@ -345,6 +366,10 @@ type InstanceGroupManagerParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// The standby policy for stopped and suspended instances. Structure is documented below. For more information, see the official documentation.
+	// +kubebuilder:validation:Optional
+	StandbyPolicy *StandbyPolicyParameters `json:"standbyPolicy,omitempty" tf:"standby_policy,omitempty"`
+
 	// Disks created on the instances that will be preserved on instance delete, update, etc. Structure is documented below. For more information see the official documentation.
 	// +kubebuilder:validation:Optional
 	StatefulDisk []StatefulDiskParameters `json:"statefulDisk,omitempty" tf:"stateful_disk,omitempty"`
@@ -380,6 +405,14 @@ type InstanceGroupManagerParameters struct {
 	// lifecycle. Defaults to 0.
 	// +kubebuilder:validation:Optional
 	TargetSize *float64 `json:"targetSize,omitempty" tf:"target_size,omitempty"`
+
+	// The target number of stopped instances for this managed instance group.
+	// +kubebuilder:validation:Optional
+	TargetStoppedSize *float64 `json:"targetStoppedSize,omitempty" tf:"target_stopped_size,omitempty"`
+
+	// The target number of suspended instances for this managed instance group.
+	// +kubebuilder:validation:Optional
+	TargetSuspendedSize *float64 `json:"targetSuspendedSize,omitempty" tf:"target_suspended_size,omitempty"`
 
 	// The update policy for this managed instance group. Structure is documented below. For more information, see the official documentation and API.
 	// +kubebuilder:validation:Optional
@@ -477,6 +510,35 @@ type PerInstanceConfigsObservation struct {
 }
 
 type PerInstanceConfigsParameters struct {
+}
+
+type StandbyPolicyInitParameters struct {
+
+	// - Specifies the number of seconds that the MIG should wait to suspend or stop a VM after that VM was created. The initial delay gives the initialization script the time to prepare your VM for a quick scale out. The value of initial delay must be between 0 and 3600 seconds. The default value is 0.
+	InitialDelaySec *float64 `json:"initialDelaySec,omitempty" tf:"initial_delay_sec,omitempty"`
+
+	// - Defines how a MIG resumes or starts VMs from a standby pool when the group scales out. Valid options are: MANUAL, SCALE_OUT_POOL. If MANUAL(default), you have full control over which VMs are stopped and suspended in the MIG. If SCALE_OUT_POOL, the MIG uses the VMs from the standby pools to accelerate the scale out by resuming or starting them and then automatically replenishes the standby pool with new VMs to maintain the target sizes.
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+}
+
+type StandbyPolicyObservation struct {
+
+	// - Specifies the number of seconds that the MIG should wait to suspend or stop a VM after that VM was created. The initial delay gives the initialization script the time to prepare your VM for a quick scale out. The value of initial delay must be between 0 and 3600 seconds. The default value is 0.
+	InitialDelaySec *float64 `json:"initialDelaySec,omitempty" tf:"initial_delay_sec,omitempty"`
+
+	// - Defines how a MIG resumes or starts VMs from a standby pool when the group scales out. Valid options are: MANUAL, SCALE_OUT_POOL. If MANUAL(default), you have full control over which VMs are stopped and suspended in the MIG. If SCALE_OUT_POOL, the MIG uses the VMs from the standby pools to accelerate the scale out by resuming or starting them and then automatically replenishes the standby pool with new VMs to maintain the target sizes.
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+}
+
+type StandbyPolicyParameters struct {
+
+	// - Specifies the number of seconds that the MIG should wait to suspend or stop a VM after that VM was created. The initial delay gives the initialization script the time to prepare your VM for a quick scale out. The value of initial delay must be between 0 and 3600 seconds. The default value is 0.
+	// +kubebuilder:validation:Optional
+	InitialDelaySec *float64 `json:"initialDelaySec,omitempty" tf:"initial_delay_sec,omitempty"`
+
+	// - Defines how a MIG resumes or starts VMs from a standby pool when the group scales out. Valid options are: MANUAL, SCALE_OUT_POOL. If MANUAL(default), you have full control over which VMs are stopped and suspended in the MIG. If SCALE_OUT_POOL, the MIG uses the VMs from the standby pools to accelerate the scale out by resuming or starting them and then automatically replenishes the standby pool with new VMs to maintain the target sizes.
+	// +kubebuilder:validation:Optional
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 }
 
 type StatefulDiskInitParameters struct {

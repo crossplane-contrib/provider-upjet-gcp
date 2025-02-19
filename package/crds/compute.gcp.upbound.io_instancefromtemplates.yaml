@@ -1976,8 +1976,14 @@ spec:
                     properties:
                       enableNestedVirtualization:
                         type: boolean
+                      enableUefiNetworking:
+                        type: boolean
+                      performanceMonitoringUnit:
+                        type: string
                       threadsPerCore:
                         type: number
+                      turboMode:
+                        type: string
                       visibleCoreCount:
                         type: number
                     type: object
@@ -1992,10 +1998,24 @@ spec:
                             A unique name for the resource, required by GCE.
                             Changing this forces a new resource to be created.
                           type: string
-                        diskEncryptionKeyRaw:
-                          type: string
-                        diskEncryptionKeySha256:
-                          type: string
+                        diskEncryptionKeyRawSecretRef:
+                          description: A SecretKeySelector is a reference to a secret
+                            key in an arbitrary namespace.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
                         kmsKeySelfLink:
                           type: string
                         mode:
@@ -2051,6 +2071,10 @@ spec:
                               type: string
                             type: object
                             x-kubernetes-map-type: granular
+                          resourcePolicies:
+                            items:
+                              type: string
+                            type: array
                           size:
                             type: number
                           storagePool:
@@ -2058,6 +2082,8 @@ spec:
                           type:
                             type: string
                         type: object
+                      interface:
+                        type: string
                       kmsKeySelfLink:
                         type: string
                       mode:
@@ -2074,8 +2100,6 @@ spec:
                       enableConfidentialCompute:
                         type: boolean
                     type: object
-                  deletionProtection:
-                    type: boolean
                   description:
                     type: string
                   desiredStatus:
@@ -2095,6 +2119,8 @@ spec:
                     description: |-
                       A unique name for the resource, required by GCE.
                       Changing this forces a new resource to be created.
+                    type: string
+                  keyRevocationActionType:
                     type: string
                   labels:
                     additionalProperties:
@@ -2375,6 +2401,8 @@ spec:
                     properties:
                       automaticRestart:
                         type: boolean
+                      availabilityDomain:
+                        type: number
                       instanceTerminationAction:
                         type: string
                       localSsdRecoveryTimeout:
@@ -2562,8 +2590,14 @@ spec:
                     properties:
                       enableNestedVirtualization:
                         type: boolean
+                      enableUefiNetworking:
+                        type: boolean
+                      performanceMonitoringUnit:
+                        type: string
                       threadsPerCore:
                         type: number
+                      turboMode:
+                        type: string
                       visibleCoreCount:
                         type: number
                     type: object
@@ -2578,10 +2612,24 @@ spec:
                             A unique name for the resource, required by GCE.
                             Changing this forces a new resource to be created.
                           type: string
-                        diskEncryptionKeyRaw:
-                          type: string
-                        diskEncryptionKeySha256:
-                          type: string
+                        diskEncryptionKeyRawSecretRef:
+                          description: A SecretKeySelector is a reference to a secret
+                            key in an arbitrary namespace.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
                         kmsKeySelfLink:
                           type: string
                         mode:
@@ -2637,6 +2685,10 @@ spec:
                               type: string
                             type: object
                             x-kubernetes-map-type: granular
+                          resourcePolicies:
+                            items:
+                              type: string
+                            type: array
                           size:
                             type: number
                           storagePool:
@@ -2644,6 +2696,8 @@ spec:
                           type:
                             type: string
                         type: object
+                      interface:
+                        type: string
                       kmsKeySelfLink:
                         type: string
                       mode:
@@ -2660,8 +2714,6 @@ spec:
                       enableConfidentialCompute:
                         type: boolean
                     type: object
-                  deletionProtection:
-                    type: boolean
                   description:
                     type: string
                   desiredStatus:
@@ -2681,6 +2733,8 @@ spec:
                     description: |-
                       A unique name for the resource, required by GCE.
                       Changing this forces a new resource to be created.
+                    type: string
+                  keyRevocationActionType:
                     type: string
                   labels:
                     additionalProperties:
@@ -2961,6 +3015,8 @@ spec:
                     properties:
                       automaticRestart:
                         type: boolean
+                      availabilityDomain:
+                        type: number
                       instanceTerminationAction:
                         type: string
                       localSsdRecoveryTimeout:
@@ -3313,8 +3369,14 @@ spec:
                     properties:
                       enableNestedVirtualization:
                         type: boolean
+                      enableUefiNetworking:
+                        type: boolean
+                      performanceMonitoringUnit:
+                        type: string
                       threadsPerCore:
                         type: number
+                      turboMode:
+                        type: string
                       visibleCoreCount:
                         type: number
                     type: object
@@ -3328,8 +3390,6 @@ spec:
                           description: |-
                             A unique name for the resource, required by GCE.
                             Changing this forces a new resource to be created.
-                          type: string
-                        diskEncryptionKeyRaw:
                           type: string
                         diskEncryptionKeySha256:
                           type: string
@@ -3372,6 +3432,10 @@ spec:
                               type: string
                             type: object
                             x-kubernetes-map-type: granular
+                          resourcePolicies:
+                            items:
+                              type: string
+                            type: array
                           size:
                             type: number
                           storagePool:
@@ -3379,6 +3443,8 @@ spec:
                           type:
                             type: string
                         type: object
+                      interface:
+                        type: string
                       kmsKeySelfLink:
                         type: string
                       mode:
@@ -3396,6 +3462,8 @@ spec:
                         type: boolean
                     type: object
                   cpuPlatform:
+                    type: string
+                  creationTimestamp:
                     type: string
                   currentStatus:
                     type: string
@@ -3429,6 +3497,8 @@ spec:
                   id:
                     type: string
                   instanceId:
+                    type: string
+                  keyRevocationActionType:
                     type: string
                   labelFingerprint:
                     type: string
@@ -3568,6 +3638,8 @@ spec:
                     properties:
                       automaticRestart:
                         type: boolean
+                      availabilityDomain:
+                        type: number
                       instanceTerminationAction:
                         type: string
                       localSsdRecoveryTimeout:

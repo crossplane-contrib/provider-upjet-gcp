@@ -48,6 +48,10 @@ type DataTransferConfigInitParameters struct {
 	// Structure is documented below.
 	EmailPreferences *EmailPreferencesInitParameters `json:"emailPreferences,omitempty" tf:"email_preferences,omitempty"`
 
+	// Represents the encryption configuration for a transfer.
+	// Structure is documented below.
+	EncryptionConfiguration *EncryptionConfigurationInitParameters `json:"encryptionConfiguration,omitempty" tf:"encryption_configuration,omitempty"`
+
 	// The geographic location where the transfer config should reside.
 	// Examples: US, EU, asia-northeast1. The default value is US.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
@@ -122,6 +126,10 @@ type DataTransferConfigObservation struct {
 	// email address of the user who owns this transfer config.
 	// Structure is documented below.
 	EmailPreferences *EmailPreferencesObservation `json:"emailPreferences,omitempty" tf:"email_preferences,omitempty"`
+
+	// Represents the encryption configuration for a transfer.
+	// Structure is documented below.
+	EncryptionConfiguration *EncryptionConfigurationObservation `json:"encryptionConfiguration,omitempty" tf:"encryption_configuration,omitempty"`
 
 	// an identifier for the resource with format {{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -223,6 +231,11 @@ type DataTransferConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	EmailPreferences *EmailPreferencesParameters `json:"emailPreferences,omitempty" tf:"email_preferences,omitempty"`
 
+	// Represents the encryption configuration for a transfer.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	EncryptionConfiguration *EncryptionConfigurationParameters `json:"encryptionConfiguration,omitempty" tf:"encryption_configuration,omitempty"`
+
 	// The geographic location where the transfer config should reside.
 	// Examples: US, EU, asia-northeast1. The default value is US.
 	// +kubebuilder:validation:Optional
@@ -297,6 +310,45 @@ type EmailPreferencesParameters struct {
 	// If true, email notifications will be sent on transfer run failures.
 	// +kubebuilder:validation:Optional
 	EnableFailureEmail *bool `json:"enableFailureEmail" tf:"enable_failure_email,omitempty"`
+}
+
+type EncryptionConfigurationInitParameters struct {
+
+	// The name of the KMS key used for encrypting BigQuery data.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/kms/v1beta2.CryptoKey
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+
+	// Reference to a CryptoKey in kms to populate kmsKeyName.
+	// +kubebuilder:validation:Optional
+	KMSKeyNameRef *v1.Reference `json:"kmsKeyNameRef,omitempty" tf:"-"`
+
+	// Selector for a CryptoKey in kms to populate kmsKeyName.
+	// +kubebuilder:validation:Optional
+	KMSKeyNameSelector *v1.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
+}
+
+type EncryptionConfigurationObservation struct {
+
+	// The name of the KMS key used for encrypting BigQuery data.
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+}
+
+type EncryptionConfigurationParameters struct {
+
+	// The name of the KMS key used for encrypting BigQuery data.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/kms/v1beta2.CryptoKey
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+
+	// Reference to a CryptoKey in kms to populate kmsKeyName.
+	// +kubebuilder:validation:Optional
+	KMSKeyNameRef *v1.Reference `json:"kmsKeyNameRef,omitempty" tf:"-"`
+
+	// Selector for a CryptoKey in kms to populate kmsKeyName.
+	// +kubebuilder:validation:Optional
+	KMSKeyNameSelector *v1.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
 }
 
 type ScheduleOptionsInitParameters struct {

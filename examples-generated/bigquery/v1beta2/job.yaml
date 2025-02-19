@@ -57,4 +57,3 @@ spec:
     datasetIdSelector:
       matchLabels:
         testing.upbound.io/example-name: example
-    deletionProtection: false

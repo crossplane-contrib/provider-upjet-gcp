@@ -551,6 +551,11 @@ func (in *RulesInitParameters) DeepCopyInto(out *RulesInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Parameters != nil {
+		in, out := &in.Parameters, &out.Parameters
+		*out = new(string)
+		**out = **in
+	}
 	if in.Values != nil {
 		in, out := &in.Values, &out.Values
 		*out = new(ValuesInitParameters)
@@ -591,6 +596,11 @@ func (in *RulesObservation) DeepCopyInto(out *RulesObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Parameters != nil {
+		in, out := &in.Parameters, &out.Parameters
+		*out = new(string)
+		**out = **in
+	}
 	if in.Values != nil {
 		in, out := &in.Values, &out.Values
 		*out = new(ValuesObservation)
@@ -628,6 +638,11 @@ func (in *RulesParameters) DeepCopyInto(out *RulesParameters) {
 	}
 	if in.Enforce != nil {
 		in, out := &in.Enforce, &out.Enforce
+		*out = new(string)
+		**out = **in
+	}
+	if in.Parameters != nil {
+		in, out := &in.Parameters, &out.Parameters
 		*out = new(string)
 		**out = **in
 	}
@@ -888,6 +903,11 @@ func (in *SpecRulesInitParameters) DeepCopyInto(out *SpecRulesInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Parameters != nil {
+		in, out := &in.Parameters, &out.Parameters
+		*out = new(string)
+		**out = **in
+	}
 	if in.Values != nil {
 		in, out := &in.Values, &out.Values
 		*out = new(RulesValuesInitParameters)
@@ -928,6 +948,11 @@ func (in *SpecRulesObservation) DeepCopyInto(out *SpecRulesObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Parameters != nil {
+		in, out := &in.Parameters, &out.Parameters
+		*out = new(string)
+		**out = **in
+	}
 	if in.Values != nil {
 		in, out := &in.Values, &out.Values
 		*out = new(RulesValuesObservation)
@@ -965,6 +990,11 @@ func (in *SpecRulesParameters) DeepCopyInto(out *SpecRulesParameters) {
 	}
 	if in.Enforce != nil {
 		in, out := &in.Enforce, &out.Enforce
+		*out = new(string)
+		**out = **in
+	}
+	if in.Parameters != nil {
+		in, out := &in.Parameters, &out.Parameters
 		*out = new(string)
 		**out = **in
 	}

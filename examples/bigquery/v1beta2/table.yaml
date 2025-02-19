@@ -15,7 +15,6 @@ spec:
     datasetIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
-    deletionProtection: false
     labels:
       env: default
     schema: |

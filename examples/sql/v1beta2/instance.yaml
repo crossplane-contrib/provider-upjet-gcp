@@ -13,7 +13,6 @@ metadata:
 spec:
   forProvider:
     databaseVersion: MYSQL_5_7
-    deletionProtection: false
     region: us-central1
     settings:
       diskSize: 20

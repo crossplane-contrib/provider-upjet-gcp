@@ -239,6 +239,9 @@ spec:
                             type: string
                         type: object
                     type: object
+                  interface:
+                    description: The disk interface used for attaching this disk.
+                    type: string
                   mode:
                     description: |-
                       The mode in which to attach this disk, either READ_WRITE or
@@ -435,6 +438,9 @@ spec:
                             type: string
                         type: object
                     type: object
+                  interface:
+                    description: The disk interface used for attaching this disk.
+                    type: string
                   mode:
                     description: |-
                       The mode in which to attach this disk, either READ_WRITE or
@@ -644,6 +650,9 @@ spec:
                       If the self_link is provided then zone and project are extracted from the
                       self link. If only the name is used then zone and project must be defined
                       as properties on the resource or provider.
+                    type: string
+                  interface:
+                    description: The disk interface used for attaching this disk.
                     type: string
                   mode:
                     description: |-
