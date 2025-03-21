@@ -71,6 +71,7 @@
   "google_certificate_manager_dns_authorization",
   "google_certificate_manager_trust_config",
   "google_cloud_ids_endpoint",
+  "google_cloud_quotas_quota_preference",
   "google_cloud_run_domain_mapping",
   "google_cloud_run_service",
   "google_cloud_run_service_iam_member",

@@ -1103,6 +1103,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	//
 	// Imported by using projects/{{project}}/locations/{{location}}/gateways/{{name}}
 	"google_network_services_gateway": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/gateways/{{ .external_name }}"),
+	// cloudquotas
+	"google_cloud_quotas_quota_preference": config.TemplatedStringAsIdentifier("name", "{{ .parameters.parent }}/locations/global/quotaPreferences/{{ .external_name }}"),
 }
 
 // cliReconciledExternalNameConfigs contains all external name configurations
