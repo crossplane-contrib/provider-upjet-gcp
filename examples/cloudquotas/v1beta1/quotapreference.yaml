@@ -13,6 +13,6 @@ spec:
       region: us-east1
     parent: projects/my-project-name
     quotaConfig:
-    - preferredValue: 200
+      preferredValue: 200
     quotaId: CPUS-per-project-region
     service: compute.googleapis.com
