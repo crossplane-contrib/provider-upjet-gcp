@@ -104,9 +104,9 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: locations/{{location}}/namespaces/{{project}}/services/{{name}}
 	"google_cloud_run_service": config.TemplatedStringAsIdentifier("name", "locations/{{ .parameters.location }}/namespaces/{{ .setup.configuration.project }}/services/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/locations/{{location}}/services/{{service}} roles/viewer user:jane@example.com
-  "google_cloud_run_service_iam_member": config.IdentifierFromProvider,
+	"google_cloud_run_service_iam_member": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{{project}}/locations/{{location}}/services/{{service}}
-  "google_cloud_run_service_iam_policy": config.IdentifierFromProvider,
+	"google_cloud_run_service_iam_policy": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/services/{{ .external_name }}"),
 	// Imported by using the following projects/{{project}}/locations/{{location}}/jobs/{{name}}
 	"google_cloud_run_v2_job": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/jobs/{{ .external_name }}"),
 	// Imported by using the following projects/{{project}}/locations/{{location}}/services/{{name}}
