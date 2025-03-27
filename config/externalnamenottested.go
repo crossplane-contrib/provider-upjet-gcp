@@ -11,8 +11,6 @@ import "github.com/crossplane/upjet/pkg/config"
 var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	// appengine
 	//
-	// apps/{{project}}/domainMappings/{{domain_name}}
-	"google_app_engine_domain_mapping": config.TemplatedStringAsIdentifier("domain_name", "apps/{{ .setup.configuration.project }}/domainMappings/{{ .external_name }}"),
 	// apps/{{project}}/services/{{service}}/versions/{{version_id}}
 	"google_app_engine_flexible_app_version": config.TemplatedStringAsIdentifier("version_id", "apps/{{ .setup.configuration.project }}/services{{ .parameters.service }}/versions/{{ .external_name }}"),
 	// apps/{{project}}/services/{{service}}

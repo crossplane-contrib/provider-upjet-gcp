@@ -32,6 +32,7 @@ import (
 	syncauthorization "github.com/upbound/provider-gcp/internal/controller/apigee/syncauthorization"
 	application "github.com/upbound/provider-gcp/internal/controller/appengine/application"
 	applicationurldispatchrules "github.com/upbound/provider-gcp/internal/controller/appengine/applicationurldispatchrules"
+	domainmapping "github.com/upbound/provider-gcp/internal/controller/appengine/domainmapping"
 	firewallrule "github.com/upbound/provider-gcp/internal/controller/appengine/firewallrule"
 	servicenetworksettings "github.com/upbound/provider-gcp/internal/controller/appengine/servicenetworksettings"
 	standardappversion "github.com/upbound/provider-gcp/internal/controller/appengine/standardappversion"
@@ -97,7 +98,7 @@ import (
 	serviceaccountiammember "github.com/upbound/provider-gcp/internal/controller/cloudplatform/serviceaccountiammember"
 	serviceaccountkey "github.com/upbound/provider-gcp/internal/controller/cloudplatform/serviceaccountkey"
 	servicenetworkingpeereddnsdomain "github.com/upbound/provider-gcp/internal/controller/cloudplatform/servicenetworkingpeereddnsdomain"
-	domainmapping "github.com/upbound/provider-gcp/internal/controller/cloudrun/domainmapping"
+	domainmappingcloudrun "github.com/upbound/provider-gcp/internal/controller/cloudrun/domainmapping"
 	service "github.com/upbound/provider-gcp/internal/controller/cloudrun/service"
 	serviceiammember "github.com/upbound/provider-gcp/internal/controller/cloudrun/serviceiammember"
 	v2job "github.com/upbound/provider-gcp/internal/controller/cloudrun/v2job"
@@ -403,6 +404,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		syncauthorization.Setup,
 		application.Setup,
 		applicationurldispatchrules.Setup,
+		domainmapping.Setup,
 		firewallrule.Setup,
 		servicenetworksettings.Setup,
 		standardappversion.Setup,
@@ -468,7 +470,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		serviceaccountiammember.Setup,
 		serviceaccountkey.Setup,
 		servicenetworkingpeereddnsdomain.Setup,
-		domainmapping.Setup,
+		domainmappingcloudrun.Setup,
 		service.Setup,
 		serviceiammember.Setup,
 		v2job.Setup,

@@ -1,0 +1,12 @@
+apiVersion: appengine.gcp.upbound.io/v1beta1
+kind: DomainMapping
+metadata:
+  annotations:
+    meta.upbound.io/example-id: appengine/v1beta1/domainmapping
+  labels:
+    testing.upbound.io/example-name: domain_mapping
+  name: domain-mapping
+spec:
+  forProvider:
+    sslSettings:
+    - sslManagementType: AUTOMATIC
