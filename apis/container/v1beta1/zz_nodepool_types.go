@@ -1040,7 +1040,7 @@ type NodePoolNodeConfigParameters_2 struct {
 	// This is an injected field with a default value for being able to merge items of the parent object list.
 	// +kubebuilder:validation:Optional
 	// +kubebuilder:default:="0"
-	Index *string `json:"index" tf:"-"`
+	Index *string `json:"index,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	KubeletConfig []NodePoolNodeConfigKubeletConfigParameters `json:"kubeletConfig,omitempty" tf:"kubelet_config,omitempty"`
