@@ -24,6 +24,7 @@
   "google_app_engine_application_url_dispatch_rules",
   "google_app_engine_domain_mapping",
   "google_app_engine_firewall_rule",
+  "google_app_engine_flexible_app_version",
   "google_app_engine_service_network_settings",
   "google_app_engine_standard_app_version",
   "google_artifact_registry_repository",

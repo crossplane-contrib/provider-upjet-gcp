@@ -13,6 +13,7 @@ import (
 	applicationurldispatchrules "github.com/upbound/provider-gcp/internal/controller/appengine/applicationurldispatchrules"
 	domainmapping "github.com/upbound/provider-gcp/internal/controller/appengine/domainmapping"
 	firewallrule "github.com/upbound/provider-gcp/internal/controller/appengine/firewallrule"
+	flexibleappversion "github.com/upbound/provider-gcp/internal/controller/appengine/flexibleappversion"
 	servicenetworksettings "github.com/upbound/provider-gcp/internal/controller/appengine/servicenetworksettings"
 	standardappversion "github.com/upbound/provider-gcp/internal/controller/appengine/standardappversion"
 )
@@ -25,6 +26,7 @@ func Setup_appengine(mgr ctrl.Manager, o controller.Options) error {
 		applicationurldispatchrules.Setup,
 		domainmapping.Setup,
 		firewallrule.Setup,
+		flexibleappversion.Setup,
 		servicenetworksettings.Setup,
 		standardappversion.Setup,
 	} {
