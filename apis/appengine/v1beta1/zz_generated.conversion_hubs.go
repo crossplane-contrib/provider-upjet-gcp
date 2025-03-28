@@ -17,3 +17,6 @@ func (tr *FirewallRule) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *FlexibleAppVersion) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *ServiceSplitTraffic) Hub() {}

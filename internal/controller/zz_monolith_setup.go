@@ -36,6 +36,7 @@ import (
 	firewallrule "github.com/upbound/provider-gcp/internal/controller/appengine/firewallrule"
 	flexibleappversion "github.com/upbound/provider-gcp/internal/controller/appengine/flexibleappversion"
 	servicenetworksettings "github.com/upbound/provider-gcp/internal/controller/appengine/servicenetworksettings"
+	servicesplittraffic "github.com/upbound/provider-gcp/internal/controller/appengine/servicesplittraffic"
 	standardappversion "github.com/upbound/provider-gcp/internal/controller/appengine/standardappversion"
 	registryrepository "github.com/upbound/provider-gcp/internal/controller/artifact/registryrepository"
 	registryrepositoryiammember "github.com/upbound/provider-gcp/internal/controller/artifact/registryrepositoryiammember"
@@ -409,6 +410,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		firewallrule.Setup,
 		flexibleappversion.Setup,
 		servicenetworksettings.Setup,
+		servicesplittraffic.Setup,
 		standardappversion.Setup,
 		registryrepository.Setup,
 		registryrepositoryiammember.Setup,
