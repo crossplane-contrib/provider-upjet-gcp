@@ -2488,6 +2488,48 @@ func (mg *RegionNetworkEndpointGroup) ResolveReferences(ctx context.Context, c c
 	var rsp reference.ResolutionResponse
 	var err error
 
+	if mg.Spec.ForProvider.AppEngine != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("appengine.gcp.upbound.io", "v1beta1", "FlexibleAppVersion", "FlexibleAppVersionList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.AppEngine.Service),
+				Extract:      resource.ExtractParamPath("service", false),
+				Reference:    mg.Spec.ForProvider.AppEngine.ServiceRef,
+				Selector:     mg.Spec.ForProvider.AppEngine.ServiceSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.AppEngine.Service")
+		}
+		mg.Spec.ForProvider.AppEngine.Service = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.AppEngine.ServiceRef = rsp.ResolvedReference
+
+	}
+	if mg.Spec.ForProvider.AppEngine != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("appengine.gcp.upbound.io", "v1beta1", "FlexibleAppVersion", "FlexibleAppVersionList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.AppEngine.Version),
+				Extract:      reference.ExternalName(),
+				Reference:    mg.Spec.ForProvider.AppEngine.VersionRef,
+				Selector:     mg.Spec.ForProvider.AppEngine.VersionSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.AppEngine.Version")
+		}
+		mg.Spec.ForProvider.AppEngine.Version = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.AppEngine.VersionRef = rsp.ResolvedReference
+
+	}
 	if mg.Spec.ForProvider.CloudFunction != nil {
 		{
 			m, l, err = apisresolver.GetManagedResource("cloudfunctions.gcp.upbound.io", "v1beta2", "Function", "FunctionList")
@@ -2587,6 +2629,48 @@ func (mg *RegionNetworkEndpointGroup) ResolveReferences(ctx context.Context, c c
 	mg.Spec.ForProvider.Subnetwork = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.SubnetworkRef = rsp.ResolvedReference
 
+	if mg.Spec.InitProvider.AppEngine != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("appengine.gcp.upbound.io", "v1beta1", "FlexibleAppVersion", "FlexibleAppVersionList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.AppEngine.Service),
+				Extract:      resource.ExtractParamPath("service", false),
+				Reference:    mg.Spec.InitProvider.AppEngine.ServiceRef,
+				Selector:     mg.Spec.InitProvider.AppEngine.ServiceSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.AppEngine.Service")
+		}
+		mg.Spec.InitProvider.AppEngine.Service = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.AppEngine.ServiceRef = rsp.ResolvedReference
+
+	}
+	if mg.Spec.InitProvider.AppEngine != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("appengine.gcp.upbound.io", "v1beta1", "FlexibleAppVersion", "FlexibleAppVersionList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.AppEngine.Version),
+				Extract:      reference.ExternalName(),
+				Reference:    mg.Spec.InitProvider.AppEngine.VersionRef,
+				Selector:     mg.Spec.InitProvider.AppEngine.VersionSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.AppEngine.Version")
+		}
+		mg.Spec.InitProvider.AppEngine.Version = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.AppEngine.VersionRef = rsp.ResolvedReference
+
+	}
 	if mg.Spec.InitProvider.CloudFunction != nil {
 		{
 			m, l, err = apisresolver.GetManagedResource("cloudfunctions.gcp.upbound.io", "v1beta2", "Function", "FunctionList")

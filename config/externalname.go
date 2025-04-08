@@ -40,6 +40,12 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_app_engine_standard_app_version": config.TemplatedStringAsIdentifier("version_id", "apps/{{ .setup.configuration.project }}/services/{{ .parameters.service }}/versions/{{ .external_name }}"),
 	// apps/{{project}}/firewall/ingressRules/{{priority}}
 	"google_app_engine_firewall_rule": config.IdentifierFromProvider,
+	// Imported by using the following format: apps/{{project}}/domainMappings/{{domain_name}}
+	"google_app_engine_domain_mapping": config.TemplatedStringAsIdentifier("domain_name", "apps/{{ .setup.configuration.project }}/domainMappings/{{ .external_name }}"),
+	// Imported by using the following format: apps/{{project}}/services/{{service}}/versions/{{version_id}}
+	"google_app_engine_flexible_app_version": config.TemplatedStringAsIdentifier("version_id", "apps/{{ .setup.configuration.project }}/services{{ .parameters.service }}/versions/{{ .external_name }}"),
+	// Imported by using the following format: apps/{{project}}/services/{{service}}
+	"google_app_engine_service_split_traffic": config.TemplatedStringAsIdentifier("service", "apps/{{ .setup.configuration.project }}/services/{{ .external_name }}"),
 
 	// composer
 	//
