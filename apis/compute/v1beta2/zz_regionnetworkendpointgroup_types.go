@@ -18,7 +18,17 @@ type AppEngineInitParameters struct {
 	// Optional serving service.
 	// The service name must be 1-63 characters long, and comply with RFC1035.
 	// Example value: "default", "my-service".
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/appengine/v1beta1.FlexibleAppVersion
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("service",false)
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+
+	// Reference to a FlexibleAppVersion in appengine to populate service.
+	// +kubebuilder:validation:Optional
+	ServiceRef *v1.Reference `json:"serviceRef,omitempty" tf:"-"`
+
+	// Selector for a FlexibleAppVersion in appengine to populate service.
+	// +kubebuilder:validation:Optional
+	ServiceSelector *v1.Selector `json:"serviceSelector,omitempty" tf:"-"`
 
 	// A template to parse service and version fields from a request URL.
 	// URL mask allows for routing to multiple App Engine services without
@@ -32,7 +42,16 @@ type AppEngineInitParameters struct {
 	// Optional serving version.
 	// The version must be 1-63 characters long, and comply with RFC1035.
 	// Example value: "v1", "v2".
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/appengine/v1beta1.FlexibleAppVersion
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+
+	// Reference to a FlexibleAppVersion in appengine to populate version.
+	// +kubebuilder:validation:Optional
+	VersionRef *v1.Reference `json:"versionRef,omitempty" tf:"-"`
+
+	// Selector for a FlexibleAppVersion in appengine to populate version.
+	// +kubebuilder:validation:Optional
+	VersionSelector *v1.Selector `json:"versionSelector,omitempty" tf:"-"`
 }
 
 type AppEngineObservation struct {
@@ -62,8 +81,18 @@ type AppEngineParameters struct {
 	// Optional serving service.
 	// The service name must be 1-63 characters long, and comply with RFC1035.
 	// Example value: "default", "my-service".
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/appengine/v1beta1.FlexibleAppVersion
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("service",false)
 	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+
+	// Reference to a FlexibleAppVersion in appengine to populate service.
+	// +kubebuilder:validation:Optional
+	ServiceRef *v1.Reference `json:"serviceRef,omitempty" tf:"-"`
+
+	// Selector for a FlexibleAppVersion in appengine to populate service.
+	// +kubebuilder:validation:Optional
+	ServiceSelector *v1.Selector `json:"serviceSelector,omitempty" tf:"-"`
 
 	// A template to parse service and version fields from a request URL.
 	// URL mask allows for routing to multiple App Engine services without
@@ -78,8 +107,17 @@ type AppEngineParameters struct {
 	// Optional serving version.
 	// The version must be 1-63 characters long, and comply with RFC1035.
 	// Example value: "v1", "v2".
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/appengine/v1beta1.FlexibleAppVersion
 	// +kubebuilder:validation:Optional
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+
+	// Reference to a FlexibleAppVersion in appengine to populate version.
+	// +kubebuilder:validation:Optional
+	VersionRef *v1.Reference `json:"versionRef,omitempty" tf:"-"`
+
+	// Selector for a FlexibleAppVersion in appengine to populate version.
+	// +kubebuilder:validation:Optional
+	VersionSelector *v1.Selector `json:"versionSelector,omitempty" tf:"-"`
 }
 
 type CloudFunctionInitParameters struct {

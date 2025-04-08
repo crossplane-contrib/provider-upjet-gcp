@@ -9,15 +9,6 @@ import "github.com/crossplane/upjet/pkg/config"
 // ExternalNameNotTestedConfigs contains no-tested configurations for this
 // provider.
 var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
-	// appengine
-	//
-	// apps/{{project}}/domainMappings/{{domain_name}}
-	"google_app_engine_domain_mapping": config.TemplatedStringAsIdentifier("domain_name", "apps/{{ .setup.configuration.project }}/domainMappings/{{ .external_name }}"),
-	// apps/{{project}}/services/{{service}}/versions/{{version_id}}
-	"google_app_engine_flexible_app_version": config.TemplatedStringAsIdentifier("version_id", "apps/{{ .setup.configuration.project }}/services{{ .parameters.service }}/versions/{{ .external_name }}"),
-	// apps/{{project}}/services/{{service}}
-	"google_app_engine_service_split_traffic": config.TemplatedStringAsIdentifier("service", "apps/{{ .setup.configuration.project }}/services/{{ .external_name }}"),
-
 	// assuredworkloads
 	//
 	// organizations/{{organization}}/locations/{{location}}/workloads/{{name}}
