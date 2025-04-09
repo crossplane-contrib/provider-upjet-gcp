@@ -2707,6 +2707,37 @@ func (mg *NetworkFirewallPolicyAssociation) ResolveReferences(ctx context.Contex
 	return nil
 }
 
+// ResolveReferences of this NetworkFirewallPolicyRule.
+func (mg *NetworkFirewallPolicyRule) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "NetworkFirewallPolicy", "NetworkFirewallPolicyList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.FirewallPolicy),
+			Extract:      reference.ExternalName(),
+			Reference:    mg.Spec.ForProvider.FirewallPolicyRef,
+			Selector:     mg.Spec.ForProvider.FirewallPolicySelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.FirewallPolicy")
+	}
+	mg.Spec.ForProvider.FirewallPolicy = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.FirewallPolicyRef = rsp.ResolvedReference
+
+	return nil
+}
+
 // ResolveReferences of this NetworkPeering.
 func (mg *NetworkPeering) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed

@@ -119,6 +119,7 @@
   "google_compute_network_endpoint_group",
   "google_compute_network_firewall_policy",
   "google_compute_network_firewall_policy_association",
+  "google_compute_network_firewall_policy_rule",
   "google_compute_network_peering",
   "google_compute_network_peering_routes_config",
   "google_compute_node_group",
