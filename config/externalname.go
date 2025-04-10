@@ -1040,10 +1040,10 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following tagValues/{{name}}
 	"google_tags_tag_value": config.IdentifierFromProvider,
 
-  // network security
-  //
-  // Imported by using the following {{parent}}/locations/{{location}}/addressGroups/{{name}}
-  "google_network_security_address_group": config.TemplatedStringAsIdentifier("name", "{{ .parameters.parent }}/locations/{{ .parameters.location }}/addressGroups/{{ .external_name }}"),
+	// network security
+	//
+	// Imported by using the following {{parent}}/locations/{{location}}/addressGroups/{{name}}
+	"google_network_security_address_group": config.TemplatedStringAsIdentifier("name", "{{ .parameters.parent }}/locations/{{ .parameters.location }}/addressGroups/{{ .external_name }}"),
 }
 
 // cliReconciledExternalNameConfigs contains all external name configurations
