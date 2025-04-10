@@ -287,6 +287,7 @@
   "google_network_connectivity_service_connection_policy",
   "google_network_connectivity_spoke",
   "google_network_management_connectivity_test",
+  "google_network_security_address_group",
   "google_notebooks_environment",
   "google_notebooks_instance",
   "google_notebooks_instance_iam_member",

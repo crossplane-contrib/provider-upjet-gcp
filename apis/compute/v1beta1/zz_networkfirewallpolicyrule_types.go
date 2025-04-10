@@ -102,7 +102,17 @@ type NetworkFirewallPolicyRuleMatchInitParameters struct {
 	Layer4Configs []MatchLayer4ConfigsInitParameters `json:"layer4Configs,omitempty" tf:"layer4_configs,omitempty"`
 
 	// Address groups which should be matched against the traffic source. Maximum number of source address groups is 10. Source address groups is only supported in Ingress rules.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/networksecurity/v1beta1.AddressGroup
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	SrcAddressGroups []*string `json:"srcAddressGroups,omitempty" tf:"src_address_groups,omitempty"`
+
+	// References to AddressGroup in networksecurity to populate srcAddressGroups.
+	// +kubebuilder:validation:Optional
+	SrcAddressGroupsRefs []v1.Reference `json:"srcAddressGroupsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of AddressGroup in networksecurity to populate srcAddressGroups.
+	// +kubebuilder:validation:Optional
+	SrcAddressGroupsSelector *v1.Selector `json:"srcAddressGroupsSelector,omitempty" tf:"-"`
 
 	// Domain names that will be used to match against the resolved domain name of source of traffic. Can only be specified if DIRECTION is ingress.
 	SrcFqdns []*string `json:"srcFqdns,omitempty" tf:"src_fqdns,omitempty"`
@@ -186,8 +196,18 @@ type NetworkFirewallPolicyRuleMatchParameters struct {
 	Layer4Configs []MatchLayer4ConfigsParameters `json:"layer4Configs" tf:"layer4_configs,omitempty"`
 
 	// Address groups which should be matched against the traffic source. Maximum number of source address groups is 10. Source address groups is only supported in Ingress rules.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/networksecurity/v1beta1.AddressGroup
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	SrcAddressGroups []*string `json:"srcAddressGroups,omitempty" tf:"src_address_groups,omitempty"`
+
+	// References to AddressGroup in networksecurity to populate srcAddressGroups.
+	// +kubebuilder:validation:Optional
+	SrcAddressGroupsRefs []v1.Reference `json:"srcAddressGroupsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of AddressGroup in networksecurity to populate srcAddressGroups.
+	// +kubebuilder:validation:Optional
+	SrcAddressGroupsSelector *v1.Selector `json:"srcAddressGroupsSelector,omitempty" tf:"-"`
 
 	// Domain names that will be used to match against the resolved domain name of source of traffic. Can only be specified if DIRECTION is ingress.
 	// +kubebuilder:validation:Optional

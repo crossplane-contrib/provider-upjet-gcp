@@ -311,6 +311,7 @@ import (
 	serviceconnectionpolicy "github.com/upbound/provider-gcp/internal/controller/networkconnectivity/serviceconnectionpolicy"
 	spoke "github.com/upbound/provider-gcp/internal/controller/networkconnectivity/spoke"
 	connectivitytest "github.com/upbound/provider-gcp/internal/controller/networkmanagement/connectivitytest"
+	addressgroup "github.com/upbound/provider-gcp/internal/controller/networksecurity/addressgroup"
 	environmentnotebooks "github.com/upbound/provider-gcp/internal/controller/notebooks/environment"
 	instancenotebooks "github.com/upbound/provider-gcp/internal/controller/notebooks/instance"
 	instanceiammembernotebooks "github.com/upbound/provider-gcp/internal/controller/notebooks/instanceiammember"
@@ -683,6 +684,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		serviceconnectionpolicy.Setup,
 		spoke.Setup,
 		connectivitytest.Setup,
+		addressgroup.Setup,
 		environmentnotebooks.Setup,
 		instancenotebooks.Setup,
 		instanceiammembernotebooks.Setup,

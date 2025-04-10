@@ -19,8 +19,8 @@ spec:
     match:
     - layer4Configs:
       - ipProtocol: all
-      srcAddressGroups:
-      - ${google_network_security_address_group.basic_global_networksecurity_address_group.id}
+      srcAddressGroupsRefs:
+      - name: basic_global_networksecurity_address_group
       srcFqdns:
       - google.com
       srcIpRanges:
@@ -62,6 +62,26 @@ spec:
   forProvider:
     description: Sample global network firewall policy
     project: my-project-name
+
+---
+
+apiVersion: networksecurity.gcp.upbound.io/v1beta1
+kind: AddressGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/networkfirewallpolicyrule
+  labels:
+    testing.upbound.io/example-name: basic_global_networksecurity_address_group
+  name: basic-global-networksecurity-address-group
+spec:
+  forProvider:
+    capacity: 100
+    description: Sample global networksecurity_address_group
+    items:
+    - 208.80.154.224/32
+    location: global
+    parent: projects/my-project-name
+    type: IPV4
 
 ---
 

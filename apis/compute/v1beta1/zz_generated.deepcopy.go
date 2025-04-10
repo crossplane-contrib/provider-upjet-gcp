@@ -34225,6 +34225,18 @@ func (in *NetworkFirewallPolicyRuleMatchInitParameters) DeepCopyInto(out *Networ
 			}
 		}
 	}
+	if in.SrcAddressGroupsRefs != nil {
+		in, out := &in.SrcAddressGroupsRefs, &out.SrcAddressGroupsRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.SrcAddressGroupsSelector != nil {
+		in, out := &in.SrcAddressGroupsSelector, &out.SrcAddressGroupsSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.SrcFqdns != nil {
 		in, out := &in.SrcFqdns, &out.SrcFqdns
 		*out = make([]*string, len(*in))
@@ -34502,6 +34514,18 @@ func (in *NetworkFirewallPolicyRuleMatchParameters) DeepCopyInto(out *NetworkFir
 				**out = **in
 			}
 		}
+	}
+	if in.SrcAddressGroupsRefs != nil {
+		in, out := &in.SrcAddressGroupsRefs, &out.SrcAddressGroupsRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.SrcAddressGroupsSelector != nil {
+		in, out := &in.SrcAddressGroupsSelector, &out.SrcAddressGroupsSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SrcFqdns != nil {
 		in, out := &in.SrcFqdns, &out.SrcFqdns

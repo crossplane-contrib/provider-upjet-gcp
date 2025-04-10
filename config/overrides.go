@@ -87,6 +87,7 @@ var groupMap = map[string]GroupKindCalculator{
 	"google_network_management.+":           ReplaceGroupWords("", 2),
 	"google_network_services.+":             ReplaceGroupWords("", 2),
 	"google_network_connectivity.+":         ReplaceGroupWords("", 2),
+	"google_network_security.+":             ReplaceGroupWords("", 2),
 	"google_resource_manager.+":             ReplaceGroupWords("", 2),
 	"google_secret_manager.+":               ReplaceGroupWords("", 2),
 	"google_storage_transfer.+":             ReplaceGroupWords("", 2),
