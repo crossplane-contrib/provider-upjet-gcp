@@ -8,7 +8,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    capacity: "100"
+    capacity: 100
     items:
     - 208.80.154.224/32
     location: us-central1
