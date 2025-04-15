@@ -17,7 +17,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: basic_network_firewall_policy
     match:
-      layer4Configs:
+    - layer4Configs:
       - ipProtocol: all
       srcAddressGroupsRefs:
       - name: basic_global_networksecurity_address_group
@@ -33,6 +33,7 @@ spec:
             testing.upbound.io/example-name: basic_value
       srcThreatIntelligences:
       - iplist-known-malicious-ips
+    priority: 1000
     ruleName: test-rule
     targetServiceAccounts:
     - my@service-account.com

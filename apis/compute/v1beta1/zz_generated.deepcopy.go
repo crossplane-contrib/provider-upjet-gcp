@@ -34638,6 +34638,11 @@ func (in *NetworkFirewallPolicyRuleObservation) DeepCopyInto(out *NetworkFirewal
 		*out = new(NetworkFirewallPolicyRuleMatchObservation)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.Priority != nil {
+		in, out := &in.Priority, &out.Priority
+		*out = new(float64)
+		**out = **in
+	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
 		*out = new(string)
@@ -34740,6 +34745,11 @@ func (in *NetworkFirewallPolicyRuleParameters) DeepCopyInto(out *NetworkFirewall
 		in, out := &in.Match, &out.Match
 		*out = new(NetworkFirewallPolicyRuleMatchParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.Priority != nil {
+		in, out := &in.Priority, &out.Priority
+		*out = new(float64)
+		**out = **in
 	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project

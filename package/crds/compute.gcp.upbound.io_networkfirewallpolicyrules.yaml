@@ -444,6 +444,12 @@ spec:
                           type: string
                         type: array
                     type: object
+                  priority:
+                    description: An integer indicating the priority of a rule in the
+                      list. The priority must be a positive value between 0 and 2147483647.
+                      Rules are evaluated from highest to lowest priority where 0
+                      is the highest priority and 2147483647 is the lowest prority.
+                    type: number
                   project:
                     description: The project for the resource
                     type: string
@@ -487,6 +493,8 @@ spec:
                       TLS decrypted. It can be set only if action = 'apply_security_profile_group'
                       and cannot be set for other actions.
                     type: boolean
+                required:
+                - priority
                 type: object
               initProvider:
                 description: |-
@@ -1173,6 +1181,12 @@ spec:
                           type: string
                         type: array
                     type: object
+                  priority:
+                    description: An integer indicating the priority of a rule in the
+                      list. The priority must be a positive value between 0 and 2147483647.
+                      Rules are evaluated from highest to lowest priority where 0
+                      is the highest priority and 2147483647 is the lowest prority.
+                    type: number
                   project:
                     description: The project for the resource
                     type: string

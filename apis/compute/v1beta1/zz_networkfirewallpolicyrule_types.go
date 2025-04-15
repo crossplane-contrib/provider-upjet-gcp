@@ -259,6 +259,9 @@ type NetworkFirewallPolicyRuleObservation struct {
 	// A match condition that incoming traffic is evaluated against. If it evaluates to true, the corresponding 'action' is enforced.
 	Match *NetworkFirewallPolicyRuleMatchObservation `json:"match,omitempty" tf:"match,omitempty"`
 
+	// An integer indicating the priority of a rule in the list. The priority must be a positive value between 0 and 2147483647. Rules are evaluated from highest to lowest priority where 0 is the highest priority and 2147483647 is the lowest prority.
+	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
+
 	// The project for the resource
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
@@ -319,6 +322,10 @@ type NetworkFirewallPolicyRuleParameters struct {
 	// A match condition that incoming traffic is evaluated against. If it evaluates to true, the corresponding 'action' is enforced.
 	// +kubebuilder:validation:Optional
 	Match *NetworkFirewallPolicyRuleMatchParameters `json:"match,omitempty" tf:"match,omitempty"`
+
+	// An integer indicating the priority of a rule in the list. The priority must be a positive value between 0 and 2147483647. Rules are evaluated from highest to lowest priority where 0 is the highest priority and 2147483647 is the lowest prority.
+	// +kubebuilder:validation:Required
+	Priority *float64 `json:"priority" tf:"priority,omitempty"`
 
 	// The project for the resource
 	// +kubebuilder:validation:Optional

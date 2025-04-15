@@ -3,8 +3,6 @@ kind: NetworkFirewallPolicyRule
 metadata:
   annotations:
     meta.upbound.io/example-id: compute/v1beta1/networkfirewallpolicyrule
-## external-name is rule "priority" and it is mandatory
-    crossplane.io/external-name: "1000"
   labels:
     testing.upbound.io/example-name: primary
   name: primary
@@ -22,7 +20,7 @@ spec:
       layer4Configs:
       - ipProtocol: all
       srcAddressGroupsRefs:
-      - name: default
+      - name: basic-global-networksecurity-address-group
       srcFqdns:
       - google.com
       srcIpRanges:
@@ -35,6 +33,7 @@ spec:
             testing.upbound.io/example-name: basic_value
       srcThreatIntelligences:
       - iplist-known-malicious-ips
+    priority: 1000
     ruleName: test-rule
     targetServiceAccounts:
     - my@service-account.com
@@ -76,7 +75,7 @@ metadata:
     meta.upbound.io/example-id: compute/v1beta1/networkfirewallpolicyrule
   labels:
     testing.upbound.io/example-name: basic_global_networksecurity_address_group
-  name: default
+  name: basic-global-networksecurity-address-group
 spec:
   forProvider:
     capacity: 100
@@ -100,7 +99,7 @@ metadata:
 spec:
   forProvider:
     description: For keyname resources.
-    parent: projects/my-project-name
+    parent: organizations/123456789
     purpose: GCE_FIREWALL
     purposeData:
       network: network-with-id
