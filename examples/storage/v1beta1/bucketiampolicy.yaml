@@ -1,0 +1,35 @@
+apiVersion: storage.gcp.upbound.io/v1beta1
+kind: BucketIAMPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: storage/v1beta1/bucketiampolicy
+  labels:
+    testing.upbound.io/example-name: bucket-iam-policy
+  name: bucket-iam-policy
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: bucket
+    policyData: |
+      {
+        "bindings":[
+          {
+            "members":[
+              "user:jane@example.com"
+            ],
+            "role": "roles/storage.admin"
+          }]
+      }
+---
+apiVersion: storage.gcp.upbound.io/v1beta1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: storage/v1beta1/bucketiampolicy
+  labels:
+    testing.upbound.io/example-name: bucket
+  name: bucket-iam-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    location: US
