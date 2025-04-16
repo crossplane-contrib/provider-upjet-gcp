@@ -574,6 +574,15 @@ func (l *RegionSSLCertificateList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this RegionSSLPolicyList.
+func (l *RegionSSLPolicyList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this RegionTargetHTTPProxyList.
 func (l *RegionTargetHTTPProxyList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))

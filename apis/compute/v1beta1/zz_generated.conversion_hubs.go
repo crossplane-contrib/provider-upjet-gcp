@@ -106,6 +106,9 @@ func (tr *RegionNetworkFirewallPolicyAssociation) Hub() {}
 func (tr *RegionSSLCertificate) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *RegionSSLPolicy) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *RegionTargetHTTPProxy) Hub() {}
 
 // Hub marks this type as a conversion hub.
