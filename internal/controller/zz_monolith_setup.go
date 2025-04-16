@@ -167,6 +167,7 @@ import (
 	regionnetworkfirewallpolicyassociation "github.com/upbound/provider-gcp/internal/controller/compute/regionnetworkfirewallpolicyassociation"
 	regionperinstanceconfig "github.com/upbound/provider-gcp/internal/controller/compute/regionperinstanceconfig"
 	regionsslcertificate "github.com/upbound/provider-gcp/internal/controller/compute/regionsslcertificate"
+	regionsslpolicy "github.com/upbound/provider-gcp/internal/controller/compute/regionsslpolicy"
 	regiontargethttpproxy "github.com/upbound/provider-gcp/internal/controller/compute/regiontargethttpproxy"
 	regiontargethttpsproxy "github.com/upbound/provider-gcp/internal/controller/compute/regiontargethttpsproxy"
 	regiontargettcpproxy "github.com/upbound/provider-gcp/internal/controller/compute/regiontargettcpproxy"
@@ -538,6 +539,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		regionnetworkfirewallpolicyassociation.Setup,
 		regionperinstanceconfig.Setup,
 		regionsslcertificate.Setup,
+		regionsslpolicy.Setup,
 		regiontargethttpproxy.Setup,
 		regiontargethttpsproxy.Setup,
 		regiontargettcpproxy.Setup,
