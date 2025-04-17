@@ -203,7 +203,17 @@ type Layer4ConfigsParameters struct {
 type MatchInitParameters struct {
 
 	// Address groups which should be matched against the traffic destination. Maximum number of destination address groups is 10. Destination address groups is only supported in Egress rules.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/networksecurity/v1beta1.AddressGroup
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	DestAddressGroups []*string `json:"destAddressGroups,omitempty" tf:"dest_address_groups,omitempty"`
+
+	// References to AddressGroup in networksecurity to populate destAddressGroups.
+	// +kubebuilder:validation:Optional
+	DestAddressGroupsRefs []v1.Reference `json:"destAddressGroupsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of AddressGroup in networksecurity to populate destAddressGroups.
+	// +kubebuilder:validation:Optional
+	DestAddressGroupsSelector *v1.Selector `json:"destAddressGroupsSelector,omitempty" tf:"-"`
 
 	// Domain names that will be used to match against the resolved domain name of destination of traffic. Can only be specified if DIRECTION is egress.
 	DestFqdns []*string `json:"destFqdns,omitempty" tf:"dest_fqdns,omitempty"`
@@ -275,8 +285,18 @@ type MatchObservation struct {
 type MatchParameters struct {
 
 	// Address groups which should be matched against the traffic destination. Maximum number of destination address groups is 10. Destination address groups is only supported in Egress rules.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/networksecurity/v1beta1.AddressGroup
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	DestAddressGroups []*string `json:"destAddressGroups,omitempty" tf:"dest_address_groups,omitempty"`
+
+	// References to AddressGroup in networksecurity to populate destAddressGroups.
+	// +kubebuilder:validation:Optional
+	DestAddressGroupsRefs []v1.Reference `json:"destAddressGroupsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of AddressGroup in networksecurity to populate destAddressGroups.
+	// +kubebuilder:validation:Optional
+	DestAddressGroupsSelector *v1.Selector `json:"destAddressGroupsSelector,omitempty" tf:"-"`
 
 	// Domain names that will be used to match against the resolved domain name of destination of traffic. Can only be specified if DIRECTION is egress.
 	// +kubebuilder:validation:Optional

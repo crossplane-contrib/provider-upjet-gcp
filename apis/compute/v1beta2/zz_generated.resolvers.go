@@ -412,6 +412,7 @@ func (mg *FirewallPolicyRule) ResolveReferences(ctx context.Context, c client.Re
 	r := reference.NewAPIResolver(c, mg)
 
 	var rsp reference.ResolutionResponse
+	var mrsp reference.MultiResolutionResponse
 	var err error
 	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "FirewallPolicy", "FirewallPolicyList")
@@ -432,12 +433,33 @@ func (mg *FirewallPolicyRule) ResolveReferences(ctx context.Context, c client.Re
 	}
 	mg.Spec.ForProvider.FirewallPolicy = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.FirewallPolicyRef = rsp.ResolvedReference
+
+	if mg.Spec.ForProvider.Match != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("networksecurity.gcp.upbound.io", "v1beta1", "AddressGroup", "AddressGroupList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+				CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.Match.DestAddressGroups),
+				Extract:       resource.ExtractResourceID(),
+				References:    mg.Spec.ForProvider.Match.DestAddressGroupsRefs,
+				Selector:      mg.Spec.ForProvider.Match.DestAddressGroupsSelector,
+				To:            reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.Match.DestAddressGroups")
+		}
+		mg.Spec.ForProvider.Match.DestAddressGroups = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.ForProvider.Match.DestAddressGroupsRefs = mrsp.ResolvedReferences
+
+	}
 	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "FirewallPolicy", "FirewallPolicyList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
-
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.FirewallPolicy),
 			Extract:      resource.ExtractParamPath("name", true),
@@ -451,6 +473,28 @@ func (mg *FirewallPolicyRule) ResolveReferences(ctx context.Context, c client.Re
 	}
 	mg.Spec.InitProvider.FirewallPolicy = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.FirewallPolicyRef = rsp.ResolvedReference
+
+	if mg.Spec.InitProvider.Match != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("networksecurity.gcp.upbound.io", "v1beta1", "AddressGroup", "AddressGroupList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+				CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.Match.DestAddressGroups),
+				Extract:       resource.ExtractResourceID(),
+				References:    mg.Spec.InitProvider.Match.DestAddressGroupsRefs,
+				Selector:      mg.Spec.InitProvider.Match.DestAddressGroupsSelector,
+				To:            reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.Match.DestAddressGroups")
+		}
+		mg.Spec.InitProvider.Match.DestAddressGroups = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.InitProvider.Match.DestAddressGroupsRefs = mrsp.ResolvedReferences
+
+	}
 
 	return nil
 }

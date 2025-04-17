@@ -49,6 +49,7 @@ import (
 	networkendpointgroup "github.com/upbound/provider-gcp/internal/controller/compute/networkendpointgroup"
 	networkfirewallpolicy "github.com/upbound/provider-gcp/internal/controller/compute/networkfirewallpolicy"
 	networkfirewallpolicyassociation "github.com/upbound/provider-gcp/internal/controller/compute/networkfirewallpolicyassociation"
+	networkfirewallpolicyrule "github.com/upbound/provider-gcp/internal/controller/compute/networkfirewallpolicyrule"
 	networkpeering "github.com/upbound/provider-gcp/internal/controller/compute/networkpeering"
 	networkpeeringroutesconfig "github.com/upbound/provider-gcp/internal/controller/compute/networkpeeringroutesconfig"
 	nodegroup "github.com/upbound/provider-gcp/internal/controller/compute/nodegroup"
@@ -148,6 +149,7 @@ func Setup_compute(mgr ctrl.Manager, o controller.Options) error {
 		networkendpointgroup.Setup,
 		networkfirewallpolicy.Setup,
 		networkfirewallpolicyassociation.Setup,
+		networkfirewallpolicyrule.Setup,
 		networkpeering.Setup,
 		networkpeeringroutesconfig.Setup,
 		nodegroup.Setup,

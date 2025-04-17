@@ -507,6 +507,12 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 	p.AddResourceConfigurator("google_compute_project_metadata_item", func(r *config.Resource) {
 		r.MetaResource.ArgumentDocs["id"] = "an identifier for the resource with format `{{key}}`"
 	})
+	p.AddResourceConfigurator("google_compute_network_firewall_policy_rule", func(r *config.Resource) {
+		r.References["match.src_secure_tags.name"] = config.Reference{
+			TerraformName: "google_tags_tag_value",
+		}
+	})
+
 }
 
 // InstanceGroupExtractor extracts Instance Group from
