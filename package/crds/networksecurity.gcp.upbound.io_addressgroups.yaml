@@ -109,6 +109,7 @@ spec:
                     type: string
                 required:
                 - location
+                - parent
                 type: object
               initProvider:
                 description: |-

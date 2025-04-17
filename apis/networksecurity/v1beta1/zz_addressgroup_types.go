@@ -110,8 +110,8 @@ type AddressGroupParameters struct {
 	Location *string `json:"location" tf:"location,omitempty"`
 
 	// The name of the parent this address group belongs to. Format: organizations/{organization_id} or projects/{project_id}.
-	// +kubebuilder:validation:Optional
-	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
+	// +kubebuilder:validation:Required
+	Parent *string `json:"parent" tf:"parent,omitempty"`
 
 	// The type of the Address Group. Possible values are "IPV4" or "IPV6".
 	// Possible values are: IPV4, IPV6.

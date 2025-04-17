@@ -639,6 +639,11 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// ServiceConnectionPolicy can be imported using projects/{{project}}/locations/{{location}}/serviceConnectionPolicies/{{name}}
 	"google_network_connectivity_service_connection_policy": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/serviceConnectionPolicies/{{ .external_name }}"),
 
+	// network security
+	//
+	// Imported by using the following {{parent}}/locations/{{location}}/addressGroups/{{name}}
+	"google_network_security_address_group": config.TemplatedStringAsIdentifier("name", "{{ .parameters.parent }}/locations/{{ .parameters.location }}/addressGroups/{{ .external_name }}"),
+
 	// mlengine
 	//
 	// Model can be imported using Name
@@ -1039,11 +1044,6 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_tags_tag_key": config.IdentifierFromProvider,
 	// Imported by using the following tagValues/{{name}}
 	"google_tags_tag_value": config.IdentifierFromProvider,
-
-	// network security
-	//
-	// Imported by using the following {{parent}}/locations/{{location}}/addressGroups/{{name}}
-	"google_network_security_address_group": config.TemplatedStringAsIdentifier("name", "{{ .parameters.parent }}/locations/{{ .parameters.location }}/addressGroups/{{ .external_name }}"),
 }
 
 // cliReconciledExternalNameConfigs contains all external name configurations
