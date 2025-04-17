@@ -3,6 +3,7 @@ kind: NetworkFirewallPolicyRule
 metadata:
   annotations:
     meta.upbound.io/example-id: compute/v1beta1/networkfirewallpolicyrule
+    upjet.upbound.io/manual-intervention: "This resource was skipped because its child resources were also skipped"
   labels:
     testing.upbound.io/example-name: primary
   name: primary
