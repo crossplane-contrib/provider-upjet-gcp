@@ -9,35 +9,35 @@ metadata:
 spec:
   forProvider:
     automaticScaling:
-    - coolDownPeriod: 120s
+      coolDownPeriod: 120s
       cpuUtilization:
-      - targetUtilization: 0.5
+        targetUtilization: 0.5
     deployment:
-    - zip:
-      - sourceUrl: https://storage.googleapis.com/${google_storage_bucket.bucket.name}/${google_storage_bucket_object.object.name}
+      zip:
+        sourceUrl: https://storage.googleapis.com/${google_storage_bucket.bucket.name}/${google_storage_bucket_object.object.name}
     entrypoint:
-    - shell: node ./app.js
+      shell: node ./app.js
     envVariables:
       port: "8080"
     flexibleRuntimeSettings:
-    - operatingSystem: ubuntu22
+      operatingSystem: ubuntu22
       runtimeVersion: "20"
     handlers:
     - authFailAction: AUTH_FAIL_ACTION_REDIRECT
       login: LOGIN_REQUIRED
       securityLevel: SECURE_ALWAYS
       staticFiles:
-      - path: my-other-path
+        path: my-other-path
         uploadPathRegex: .*\/my-path\/*
       urlRegex: .*\/my-path\/*
     livenessCheck:
-    - path: /
+      path: /
     noopOnDestroy: true
     projectSelector:
       matchLabels:
         testing.upbound.io/example-name: gae_api
     readinessCheck:
-    - path: /
+      path: /
     runtime: nodejs
     service: default
     serviceAccountSelector:
