@@ -116,6 +116,7 @@ kind: TagValue
 metadata:
   annotations:
     meta.upbound.io/example-id: compute/v1beta1/networkfirewallpolicyrule
+    upjet.upbound.io/manual-intervention: "This resource was skipped because other related resources were also skipped."
   labels:
     testing.upbound.io/example-name: basic_value
   name: basic-value
