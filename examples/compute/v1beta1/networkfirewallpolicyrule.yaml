@@ -96,6 +96,7 @@ kind: TagKey
 metadata:
   annotations:
     meta.upbound.io/example-id: compute/v1beta1/networkfirewallpolicyrule
+    upjet.upbound.io/manual-intervention: "This resource needs a valid organization id."
   labels:
     testing.upbound.io/example-name: basic_key
   name: basic-key
