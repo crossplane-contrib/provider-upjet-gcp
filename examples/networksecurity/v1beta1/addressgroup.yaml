@@ -12,5 +12,5 @@ spec:
     items:
     - 208.80.154.224/32
     location: us-central1
-    parent: projects/my-project-name
+    parent: projects/${data.cloudplatform_project.projectId}
     type: IPV4
