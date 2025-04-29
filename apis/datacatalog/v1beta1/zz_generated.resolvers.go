@@ -13,6 +13,7 @@ import (
 	errors "github.com/pkg/errors"
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 
 	// ResolveReferences of this Entry.
@@ -33,7 +34,7 @@ func (mg *Entry) ResolveReferences(ctx context.Context, c client.Reader) error {
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.EntryGroup),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.EntryGroup, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.EntryGroupRef,
 			Selector:     mg.Spec.ForProvider.EntryGroupSelector,
@@ -43,7 +44,7 @@ func (mg *Entry) ResolveReferences(ctx context.Context, c client.Reader) error {
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.EntryGroup")
 	}
-	mg.Spec.ForProvider.EntryGroup = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.EntryGroup = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.EntryGroupRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("datacatalog.gcp.upbound.io", "v1beta1", "EntryGroup", "EntryGroupList")
@@ -52,7 +53,7 @@ func (mg *Entry) ResolveReferences(ctx context.Context, c client.Reader) error {
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.EntryGroup),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.EntryGroup, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.EntryGroupRef,
 			Selector:     mg.Spec.InitProvider.EntryGroupSelector,
@@ -62,7 +63,7 @@ func (mg *Entry) ResolveReferences(ctx context.Context, c client.Reader) error {
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.EntryGroup")
 	}
-	mg.Spec.InitProvider.EntryGroup = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.EntryGroup = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.EntryGroupRef = rsp.ResolvedReference
 
 	return nil
@@ -83,7 +84,7 @@ func (mg *PolicyTag) ResolveReferences(ctx context.Context, c client.Reader) err
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ParentPolicyTag),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.ParentPolicyTag, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.ParentPolicyTagRef,
 			Selector:     mg.Spec.ForProvider.ParentPolicyTagSelector,
@@ -93,7 +94,7 @@ func (mg *PolicyTag) ResolveReferences(ctx context.Context, c client.Reader) err
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.ParentPolicyTag")
 	}
-	mg.Spec.ForProvider.ParentPolicyTag = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ParentPolicyTag = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ParentPolicyTagRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("datacatalog.gcp.upbound.io", "v1beta1", "Taxonomy", "TaxonomyList")
@@ -102,7 +103,7 @@ func (mg *PolicyTag) ResolveReferences(ctx context.Context, c client.Reader) err
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Taxonomy),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Taxonomy, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.TaxonomyRef,
 			Selector:     mg.Spec.ForProvider.TaxonomySelector,
@@ -112,7 +113,7 @@ func (mg *PolicyTag) ResolveReferences(ctx context.Context, c client.Reader) err
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Taxonomy")
 	}
-	mg.Spec.ForProvider.Taxonomy = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Taxonomy = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.TaxonomyRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("datacatalog.gcp.upbound.io", "v1beta1", "PolicyTag", "PolicyTagList")
@@ -121,7 +122,7 @@ func (mg *PolicyTag) ResolveReferences(ctx context.Context, c client.Reader) err
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ParentPolicyTag),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.ParentPolicyTag, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.ParentPolicyTagRef,
 			Selector:     mg.Spec.InitProvider.ParentPolicyTagSelector,
@@ -131,7 +132,7 @@ func (mg *PolicyTag) ResolveReferences(ctx context.Context, c client.Reader) err
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.ParentPolicyTag")
 	}
-	mg.Spec.InitProvider.ParentPolicyTag = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ParentPolicyTag = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ParentPolicyTagRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("datacatalog.gcp.upbound.io", "v1beta1", "Taxonomy", "TaxonomyList")
@@ -140,7 +141,7 @@ func (mg *PolicyTag) ResolveReferences(ctx context.Context, c client.Reader) err
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Taxonomy),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Taxonomy, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.TaxonomyRef,
 			Selector:     mg.Spec.InitProvider.TaxonomySelector,
@@ -150,7 +151,7 @@ func (mg *PolicyTag) ResolveReferences(ctx context.Context, c client.Reader) err
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Taxonomy")
 	}
-	mg.Spec.InitProvider.Taxonomy = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Taxonomy = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.TaxonomyRef = rsp.ResolvedReference
 
 	return nil
@@ -171,7 +172,7 @@ func (mg *Tag) ResolveReferences(ctx context.Context, c client.Reader) error {
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Parent),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Parent, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.ParentRef,
 			Selector:     mg.Spec.ForProvider.ParentSelector,
@@ -181,7 +182,7 @@ func (mg *Tag) ResolveReferences(ctx context.Context, c client.Reader) error {
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Parent")
 	}
-	mg.Spec.ForProvider.Parent = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Parent = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ParentRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("datacatalog.gcp.upbound.io", "v1beta2", "TagTemplate", "TagTemplateList")
@@ -190,7 +191,7 @@ func (mg *Tag) ResolveReferences(ctx context.Context, c client.Reader) error {
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Template),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Template, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.TemplateRef,
 			Selector:     mg.Spec.ForProvider.TemplateSelector,
@@ -200,7 +201,7 @@ func (mg *Tag) ResolveReferences(ctx context.Context, c client.Reader) error {
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Template")
 	}
-	mg.Spec.ForProvider.Template = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Template = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.TemplateRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("datacatalog.gcp.upbound.io", "v1beta2", "Entry", "EntryList")
@@ -209,7 +210,7 @@ func (mg *Tag) ResolveReferences(ctx context.Context, c client.Reader) error {
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Parent),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Parent, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.ParentRef,
 			Selector:     mg.Spec.InitProvider.ParentSelector,
@@ -219,7 +220,7 @@ func (mg *Tag) ResolveReferences(ctx context.Context, c client.Reader) error {
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Parent")
 	}
-	mg.Spec.InitProvider.Parent = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Parent = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ParentRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("datacatalog.gcp.upbound.io", "v1beta2", "TagTemplate", "TagTemplateList")
@@ -228,7 +229,7 @@ func (mg *Tag) ResolveReferences(ctx context.Context, c client.Reader) error {
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Template),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Template, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.TemplateRef,
 			Selector:     mg.Spec.InitProvider.TemplateSelector,
@@ -238,7 +239,7 @@ func (mg *Tag) ResolveReferences(ctx context.Context, c client.Reader) error {
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Template")
 	}
-	mg.Spec.InitProvider.Template = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Template = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.TemplateRef = rsp.ResolvedReference
 
 	return nil

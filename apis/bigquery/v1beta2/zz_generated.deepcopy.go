@@ -10837,15 +10837,45 @@ func (in *SourceTablesInitParameters) DeepCopyInto(out *SourceTablesInitParamete
 		*out = new(string)
 		**out = **in
 	}
+	if in.DatasetIDRef != nil {
+		in, out := &in.DatasetIDRef, &out.DatasetIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.DatasetIDSelector != nil {
+		in, out := &in.DatasetIDSelector, &out.DatasetIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.ProjectID != nil {
 		in, out := &in.ProjectID, &out.ProjectID
 		*out = new(string)
 		**out = **in
 	}
+	if in.ProjectIDRef != nil {
+		in, out := &in.ProjectIDRef, &out.ProjectIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ProjectIDSelector != nil {
+		in, out := &in.ProjectIDSelector, &out.ProjectIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.TableID != nil {
 		in, out := &in.TableID, &out.TableID
 		*out = new(string)
 		**out = **in
+	}
+	if in.TableIDRef != nil {
+		in, out := &in.TableIDRef, &out.TableIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.TableIDSelector != nil {
+		in, out := &in.TableIDSelector, &out.TableIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -10897,15 +10927,45 @@ func (in *SourceTablesParameters) DeepCopyInto(out *SourceTablesParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.DatasetIDRef != nil {
+		in, out := &in.DatasetIDRef, &out.DatasetIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.DatasetIDSelector != nil {
+		in, out := &in.DatasetIDSelector, &out.DatasetIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.ProjectID != nil {
 		in, out := &in.ProjectID, &out.ProjectID
 		*out = new(string)
 		**out = **in
 	}
+	if in.ProjectIDRef != nil {
+		in, out := &in.ProjectIDRef, &out.ProjectIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ProjectIDSelector != nil {
+		in, out := &in.ProjectIDSelector, &out.ProjectIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.TableID != nil {
 		in, out := &in.TableID, &out.TableID
 		*out = new(string)
 		**out = **in
+	}
+	if in.TableIDRef != nil {
+		in, out := &in.TableIDRef, &out.TableIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.TableIDSelector != nil {
+		in, out := &in.TableIDSelector, &out.TableIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 }
 

@@ -13,6 +13,7 @@ import (
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -36,7 +37,7 @@ func (mg *JobTrigger) ResolveReferences( // ResolveReferences of this JobTrigger
 								return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 							}
 							rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-								CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.InspectJob.Actions[i4].Deidentify.TransformationDetailsStorageConfig.Table.DatasetID),
+								CurrentValue: ptr.Deref(mg.Spec.ForProvider.InspectJob.Actions[i4].Deidentify.TransformationDetailsStorageConfig.Table.DatasetID, ""),
 								Extract:      reference.ExternalName(),
 								Reference:    mg.Spec.ForProvider.InspectJob.Actions[i4].Deidentify.TransformationDetailsStorageConfig.Table.DatasetIDRef,
 								Selector:     mg.Spec.ForProvider.InspectJob.Actions[i4].Deidentify.TransformationDetailsStorageConfig.Table.DatasetIDSelector,
@@ -46,7 +47,7 @@ func (mg *JobTrigger) ResolveReferences( // ResolveReferences of this JobTrigger
 						if err != nil {
 							return errors.Wrap(err, "mg.Spec.ForProvider.InspectJob.Actions[i4].Deidentify.TransformationDetailsStorageConfig.Table.DatasetID")
 						}
-						mg.Spec.ForProvider.InspectJob.Actions[i4].Deidentify.TransformationDetailsStorageConfig.Table.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+						mg.Spec.ForProvider.InspectJob.Actions[i4].Deidentify.TransformationDetailsStorageConfig.Table.DatasetID = ptr.To(rsp.ResolvedValue)
 						mg.Spec.ForProvider.InspectJob.Actions[i4].Deidentify.TransformationDetailsStorageConfig.Table.DatasetIDRef = rsp.ResolvedReference
 
 					}
@@ -65,7 +66,7 @@ func (mg *JobTrigger) ResolveReferences( // ResolveReferences of this JobTrigger
 								return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 							}
 							rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-								CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.InspectJob.Actions[i4].Deidentify.TransformationDetailsStorageConfig.Table.TableID),
+								CurrentValue: ptr.Deref(mg.Spec.ForProvider.InspectJob.Actions[i4].Deidentify.TransformationDetailsStorageConfig.Table.TableID, ""),
 								Extract:      reference.ExternalName(),
 								Reference:    mg.Spec.ForProvider.InspectJob.Actions[i4].Deidentify.TransformationDetailsStorageConfig.Table.TableIDRef,
 								Selector:     mg.Spec.ForProvider.InspectJob.Actions[i4].Deidentify.TransformationDetailsStorageConfig.Table.TableIDSelector,
@@ -75,7 +76,7 @@ func (mg *JobTrigger) ResolveReferences( // ResolveReferences of this JobTrigger
 						if err != nil {
 							return errors.Wrap(err, "mg.Spec.ForProvider.InspectJob.Actions[i4].Deidentify.TransformationDetailsStorageConfig.Table.TableID")
 						}
-						mg.Spec.ForProvider.InspectJob.Actions[i4].Deidentify.TransformationDetailsStorageConfig.Table.TableID = reference.ToPtrValue(rsp.ResolvedValue)
+						mg.Spec.ForProvider.InspectJob.Actions[i4].Deidentify.TransformationDetailsStorageConfig.Table.TableID = ptr.To(rsp.ResolvedValue)
 						mg.Spec.ForProvider.InspectJob.Actions[i4].Deidentify.TransformationDetailsStorageConfig.Table.TableIDRef = rsp.ResolvedReference
 
 					}
@@ -94,7 +95,7 @@ func (mg *JobTrigger) ResolveReferences( // ResolveReferences of this JobTrigger
 								return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 							}
 							rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-								CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.InspectJob.Actions[i4].Deidentify.TransformationDetailsStorageConfig.Table.DatasetID),
+								CurrentValue: ptr.Deref(mg.Spec.InitProvider.InspectJob.Actions[i4].Deidentify.TransformationDetailsStorageConfig.Table.DatasetID, ""),
 								Extract:      reference.ExternalName(),
 								Reference:    mg.Spec.InitProvider.InspectJob.Actions[i4].Deidentify.TransformationDetailsStorageConfig.Table.DatasetIDRef,
 								Selector:     mg.Spec.InitProvider.InspectJob.Actions[i4].Deidentify.TransformationDetailsStorageConfig.Table.DatasetIDSelector,
@@ -104,7 +105,7 @@ func (mg *JobTrigger) ResolveReferences( // ResolveReferences of this JobTrigger
 						if err != nil {
 							return errors.Wrap(err, "mg.Spec.InitProvider.InspectJob.Actions[i4].Deidentify.TransformationDetailsStorageConfig.Table.DatasetID")
 						}
-						mg.Spec.InitProvider.InspectJob.Actions[i4].Deidentify.TransformationDetailsStorageConfig.Table.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+						mg.Spec.InitProvider.InspectJob.Actions[i4].Deidentify.TransformationDetailsStorageConfig.Table.DatasetID = ptr.To(rsp.ResolvedValue)
 						mg.Spec.InitProvider.InspectJob.Actions[i4].Deidentify.TransformationDetailsStorageConfig.Table.DatasetIDRef = rsp.ResolvedReference
 
 					}
@@ -123,7 +124,7 @@ func (mg *JobTrigger) ResolveReferences( // ResolveReferences of this JobTrigger
 								return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 							}
 							rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-								CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.InspectJob.Actions[i4].Deidentify.TransformationDetailsStorageConfig.Table.TableID),
+								CurrentValue: ptr.Deref(mg.Spec.InitProvider.InspectJob.Actions[i4].Deidentify.TransformationDetailsStorageConfig.Table.TableID, ""),
 								Extract:      reference.ExternalName(),
 								Reference:    mg.Spec.InitProvider.InspectJob.Actions[i4].Deidentify.TransformationDetailsStorageConfig.Table.TableIDRef,
 								Selector:     mg.Spec.InitProvider.InspectJob.Actions[i4].Deidentify.TransformationDetailsStorageConfig.Table.TableIDSelector,
@@ -133,7 +134,7 @@ func (mg *JobTrigger) ResolveReferences( // ResolveReferences of this JobTrigger
 						if err != nil {
 							return errors.Wrap(err, "mg.Spec.InitProvider.InspectJob.Actions[i4].Deidentify.TransformationDetailsStorageConfig.Table.TableID")
 						}
-						mg.Spec.InitProvider.InspectJob.Actions[i4].Deidentify.TransformationDetailsStorageConfig.Table.TableID = reference.ToPtrValue(rsp.ResolvedValue)
+						mg.Spec.InitProvider.InspectJob.Actions[i4].Deidentify.TransformationDetailsStorageConfig.Table.TableID = ptr.To(rsp.ResolvedValue)
 						mg.Spec.InitProvider.InspectJob.Actions[i4].Deidentify.TransformationDetailsStorageConfig.Table.TableIDRef = rsp.ResolvedReference
 
 					}

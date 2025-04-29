@@ -9,9 +9,11 @@ package v1beta1
 import (
 	"context"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
+	helper "github.com/crossplane/crossplane-tools/pkg/helpers"
 	errors "github.com/pkg/errors"
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 
 	// ResolveReferences of this Attestor.
@@ -33,7 +35,7 @@ func (mg *Attestor) ResolveReferences(ctx context.Context, c client.Reader) erro
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.AttestationAuthorityNote[i3].NoteReference),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.AttestationAuthorityNote[i3].NoteReference, ""),
 				Extract:      reference.ExternalName(),
 				Reference:    mg.Spec.ForProvider.AttestationAuthorityNote[i3].NoteReferenceRef,
 				Selector:     mg.Spec.ForProvider.AttestationAuthorityNote[i3].NoteReferenceSelector,
@@ -43,7 +45,7 @@ func (mg *Attestor) ResolveReferences(ctx context.Context, c client.Reader) erro
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.AttestationAuthorityNote[i3].NoteReference")
 		}
-		mg.Spec.ForProvider.AttestationAuthorityNote[i3].NoteReference = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.AttestationAuthorityNote[i3].NoteReference = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.AttestationAuthorityNote[i3].NoteReferenceRef = rsp.ResolvedReference
 
 	}
@@ -54,7 +56,7 @@ func (mg *Attestor) ResolveReferences(ctx context.Context, c client.Reader) erro
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.AttestationAuthorityNote[i3].NoteReference),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.AttestationAuthorityNote[i3].NoteReference, ""),
 				Extract:      reference.ExternalName(),
 				Reference:    mg.Spec.InitProvider.AttestationAuthorityNote[i3].NoteReferenceRef,
 				Selector:     mg.Spec.InitProvider.AttestationAuthorityNote[i3].NoteReferenceSelector,
@@ -64,7 +66,7 @@ func (mg *Attestor) ResolveReferences(ctx context.Context, c client.Reader) erro
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.AttestationAuthorityNote[i3].NoteReference")
 		}
-		mg.Spec.InitProvider.AttestationAuthorityNote[i3].NoteReference = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.AttestationAuthorityNote[i3].NoteReference = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.AttestationAuthorityNote[i3].NoteReferenceRef = rsp.ResolvedReference
 
 	}
@@ -88,7 +90,7 @@ func (mg *Policy) ResolveReferences(ctx context.Context, c client.Reader) error 
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
-				CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.ClusterAdmissionRules[i3].RequireAttestationsBy),
+				CurrentValues: helper.FromPtrValues(mg.Spec.ForProvider.ClusterAdmissionRules[i3].RequireAttestationsBy),
 				Extract:       reference.ExternalName(),
 				References:    mg.Spec.ForProvider.ClusterAdmissionRules[i3].RequireAttestationsByRefs,
 				Selector:      mg.Spec.ForProvider.ClusterAdmissionRules[i3].RequireAttestationsBySelector,
@@ -98,7 +100,7 @@ func (mg *Policy) ResolveReferences(ctx context.Context, c client.Reader) error 
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.ClusterAdmissionRules[i3].RequireAttestationsBy")
 		}
-		mg.Spec.ForProvider.ClusterAdmissionRules[i3].RequireAttestationsBy = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.ForProvider.ClusterAdmissionRules[i3].RequireAttestationsBy = helper.ToPtrValues(mrsp.ResolvedValues)
 		mg.Spec.ForProvider.ClusterAdmissionRules[i3].RequireAttestationsByRefs = mrsp.ResolvedReferences
 
 	}
@@ -109,7 +111,7 @@ func (mg *Policy) ResolveReferences(ctx context.Context, c client.Reader) error 
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
-				CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.DefaultAdmissionRule[i3].RequireAttestationsBy),
+				CurrentValues: helper.FromPtrValues(mg.Spec.ForProvider.DefaultAdmissionRule[i3].RequireAttestationsBy),
 				Extract:       reference.ExternalName(),
 				References:    mg.Spec.ForProvider.DefaultAdmissionRule[i3].RequireAttestationsByRefs,
 				Selector:      mg.Spec.ForProvider.DefaultAdmissionRule[i3].RequireAttestationsBySelector,
@@ -119,7 +121,7 @@ func (mg *Policy) ResolveReferences(ctx context.Context, c client.Reader) error 
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.DefaultAdmissionRule[i3].RequireAttestationsBy")
 		}
-		mg.Spec.ForProvider.DefaultAdmissionRule[i3].RequireAttestationsBy = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.ForProvider.DefaultAdmissionRule[i3].RequireAttestationsBy = helper.ToPtrValues(mrsp.ResolvedValues)
 		mg.Spec.ForProvider.DefaultAdmissionRule[i3].RequireAttestationsByRefs = mrsp.ResolvedReferences
 
 	}
@@ -130,7 +132,7 @@ func (mg *Policy) ResolveReferences(ctx context.Context, c client.Reader) error 
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
-				CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.ClusterAdmissionRules[i3].RequireAttestationsBy),
+				CurrentValues: helper.FromPtrValues(mg.Spec.InitProvider.ClusterAdmissionRules[i3].RequireAttestationsBy),
 				Extract:       reference.ExternalName(),
 				References:    mg.Spec.InitProvider.ClusterAdmissionRules[i3].RequireAttestationsByRefs,
 				Selector:      mg.Spec.InitProvider.ClusterAdmissionRules[i3].RequireAttestationsBySelector,
@@ -140,7 +142,7 @@ func (mg *Policy) ResolveReferences(ctx context.Context, c client.Reader) error 
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.ClusterAdmissionRules[i3].RequireAttestationsBy")
 		}
-		mg.Spec.InitProvider.ClusterAdmissionRules[i3].RequireAttestationsBy = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.InitProvider.ClusterAdmissionRules[i3].RequireAttestationsBy = helper.ToPtrValues(mrsp.ResolvedValues)
 		mg.Spec.InitProvider.ClusterAdmissionRules[i3].RequireAttestationsByRefs = mrsp.ResolvedReferences
 
 	}
@@ -151,7 +153,7 @@ func (mg *Policy) ResolveReferences(ctx context.Context, c client.Reader) error 
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
-				CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.DefaultAdmissionRule[i3].RequireAttestationsBy),
+				CurrentValues: helper.FromPtrValues(mg.Spec.InitProvider.DefaultAdmissionRule[i3].RequireAttestationsBy),
 				Extract:       reference.ExternalName(),
 				References:    mg.Spec.InitProvider.DefaultAdmissionRule[i3].RequireAttestationsByRefs,
 				Selector:      mg.Spec.InitProvider.DefaultAdmissionRule[i3].RequireAttestationsBySelector,
@@ -161,7 +163,7 @@ func (mg *Policy) ResolveReferences(ctx context.Context, c client.Reader) error 
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.DefaultAdmissionRule[i3].RequireAttestationsBy")
 		}
-		mg.Spec.InitProvider.DefaultAdmissionRule[i3].RequireAttestationsBy = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.InitProvider.DefaultAdmissionRule[i3].RequireAttestationsBy = helper.ToPtrValues(mrsp.ResolvedValues)
 		mg.Spec.InitProvider.DefaultAdmissionRule[i3].RequireAttestationsByRefs = mrsp.ResolvedReferences
 
 	}

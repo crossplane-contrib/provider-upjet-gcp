@@ -13,6 +13,7 @@ import (
 	errors "github.com/pkg/errors"
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 
 	// ResolveReferences of this Backup.
@@ -33,7 +34,7 @@ func (mg *Backup) ResolveReferences(ctx context.Context, c client.Reader) error 
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ClusterName),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.ClusterName, ""),
 			Extract:      resource.ExtractParamPath("name", true),
 			Reference:    mg.Spec.ForProvider.ClusterNameRef,
 			Selector:     mg.Spec.ForProvider.ClusterNameSelector,
@@ -43,7 +44,7 @@ func (mg *Backup) ResolveReferences(ctx context.Context, c client.Reader) error 
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.ClusterName")
 	}
-	mg.Spec.ForProvider.ClusterName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ClusterName = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ClusterNameRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("alloydb.gcp.upbound.io", "v1beta2", "Cluster", "ClusterList")
@@ -52,7 +53,7 @@ func (mg *Backup) ResolveReferences(ctx context.Context, c client.Reader) error 
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ClusterName),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.ClusterName, ""),
 			Extract:      resource.ExtractParamPath("name", true),
 			Reference:    mg.Spec.InitProvider.ClusterNameRef,
 			Selector:     mg.Spec.InitProvider.ClusterNameSelector,
@@ -62,7 +63,7 @@ func (mg *Backup) ResolveReferences(ctx context.Context, c client.Reader) error 
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.ClusterName")
 	}
-	mg.Spec.InitProvider.ClusterName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ClusterName = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ClusterNameRef = rsp.ResolvedReference
 
 	return nil
@@ -83,7 +84,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Network),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Network, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.NetworkRef,
 			Selector:     mg.Spec.ForProvider.NetworkSelector,
@@ -93,7 +94,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Network")
 	}
-	mg.Spec.ForProvider.Network = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Network = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.NetworkRef = rsp.ResolvedReference
 
 	if mg.Spec.ForProvider.NetworkConfig != nil {
@@ -103,7 +104,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.NetworkConfig.Network),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.NetworkConfig.Network, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.ForProvider.NetworkConfig.NetworkRef,
 				Selector:     mg.Spec.ForProvider.NetworkConfig.NetworkSelector,
@@ -113,7 +114,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.NetworkConfig.Network")
 		}
-		mg.Spec.ForProvider.NetworkConfig.Network = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.NetworkConfig.Network = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.NetworkConfig.NetworkRef = rsp.ResolvedReference
 
 	}
@@ -124,7 +125,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RestoreBackupSource.BackupName),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.RestoreBackupSource.BackupName, ""),
 				Extract:      resource.ExtractParamPath("name", true),
 				Reference:    mg.Spec.ForProvider.RestoreBackupSource.BackupNameRef,
 				Selector:     mg.Spec.ForProvider.RestoreBackupSource.BackupNameSelector,
@@ -134,7 +135,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.RestoreBackupSource.BackupName")
 		}
-		mg.Spec.ForProvider.RestoreBackupSource.BackupName = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.RestoreBackupSource.BackupName = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.RestoreBackupSource.BackupNameRef = rsp.ResolvedReference
 
 	}
@@ -145,7 +146,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RestoreContinuousBackupSource.Cluster),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.RestoreContinuousBackupSource.Cluster, ""),
 				Extract:      resource.ExtractParamPath("name", true),
 				Reference:    mg.Spec.ForProvider.RestoreContinuousBackupSource.ClusterRef,
 				Selector:     mg.Spec.ForProvider.RestoreContinuousBackupSource.ClusterSelector,
@@ -155,7 +156,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.RestoreContinuousBackupSource.Cluster")
 		}
-		mg.Spec.ForProvider.RestoreContinuousBackupSource.Cluster = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.RestoreContinuousBackupSource.Cluster = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.RestoreContinuousBackupSource.ClusterRef = rsp.ResolvedReference
 
 	}
@@ -166,7 +167,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SecondaryConfig.PrimaryClusterName),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.SecondaryConfig.PrimaryClusterName, ""),
 				Extract:      resource.ExtractParamPath("name", true),
 				Reference:    mg.Spec.ForProvider.SecondaryConfig.PrimaryClusterNameRef,
 				Selector:     mg.Spec.ForProvider.SecondaryConfig.PrimaryClusterNameSelector,
@@ -176,7 +177,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.SecondaryConfig.PrimaryClusterName")
 		}
-		mg.Spec.ForProvider.SecondaryConfig.PrimaryClusterName = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.SecondaryConfig.PrimaryClusterName = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.SecondaryConfig.PrimaryClusterNameRef = rsp.ResolvedReference
 
 	}
@@ -186,7 +187,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Network),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Network, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.NetworkRef,
 			Selector:     mg.Spec.InitProvider.NetworkSelector,
@@ -196,7 +197,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Network")
 	}
-	mg.Spec.InitProvider.Network = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Network = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.NetworkRef = rsp.ResolvedReference
 
 	if mg.Spec.InitProvider.NetworkConfig != nil {
@@ -206,7 +207,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.NetworkConfig.Network),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.NetworkConfig.Network, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.InitProvider.NetworkConfig.NetworkRef,
 				Selector:     mg.Spec.InitProvider.NetworkConfig.NetworkSelector,
@@ -216,7 +217,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.NetworkConfig.Network")
 		}
-		mg.Spec.InitProvider.NetworkConfig.Network = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.NetworkConfig.Network = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.NetworkConfig.NetworkRef = rsp.ResolvedReference
 
 	}
@@ -227,7 +228,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RestoreBackupSource.BackupName),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.RestoreBackupSource.BackupName, ""),
 				Extract:      resource.ExtractParamPath("name", true),
 				Reference:    mg.Spec.InitProvider.RestoreBackupSource.BackupNameRef,
 				Selector:     mg.Spec.InitProvider.RestoreBackupSource.BackupNameSelector,
@@ -237,7 +238,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.RestoreBackupSource.BackupName")
 		}
-		mg.Spec.InitProvider.RestoreBackupSource.BackupName = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.RestoreBackupSource.BackupName = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.RestoreBackupSource.BackupNameRef = rsp.ResolvedReference
 
 	}
@@ -248,7 +249,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RestoreContinuousBackupSource.Cluster),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.RestoreContinuousBackupSource.Cluster, ""),
 				Extract:      resource.ExtractParamPath("name", true),
 				Reference:    mg.Spec.InitProvider.RestoreContinuousBackupSource.ClusterRef,
 				Selector:     mg.Spec.InitProvider.RestoreContinuousBackupSource.ClusterSelector,
@@ -258,7 +259,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.RestoreContinuousBackupSource.Cluster")
 		}
-		mg.Spec.InitProvider.RestoreContinuousBackupSource.Cluster = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.RestoreContinuousBackupSource.Cluster = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.RestoreContinuousBackupSource.ClusterRef = rsp.ResolvedReference
 
 	}
@@ -269,7 +270,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SecondaryConfig.PrimaryClusterName),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.SecondaryConfig.PrimaryClusterName, ""),
 				Extract:      resource.ExtractParamPath("name", true),
 				Reference:    mg.Spec.InitProvider.SecondaryConfig.PrimaryClusterNameRef,
 				Selector:     mg.Spec.InitProvider.SecondaryConfig.PrimaryClusterNameSelector,
@@ -279,7 +280,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.SecondaryConfig.PrimaryClusterName")
 		}
-		mg.Spec.InitProvider.SecondaryConfig.PrimaryClusterName = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.SecondaryConfig.PrimaryClusterName = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.SecondaryConfig.PrimaryClusterNameRef = rsp.ResolvedReference
 
 	}
@@ -302,7 +303,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Cluster),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Cluster, ""),
 			Extract:      resource.ExtractParamPath("name", true),
 			Reference:    mg.Spec.ForProvider.ClusterRef,
 			Selector:     mg.Spec.ForProvider.ClusterSelector,
@@ -312,7 +313,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Cluster")
 	}
-	mg.Spec.ForProvider.Cluster = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Cluster = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ClusterRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("alloydb.gcp.upbound.io", "v1beta2", "Cluster", "ClusterList")
@@ -321,7 +322,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.InstanceType),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.InstanceType, ""),
 			Extract:      resource.ExtractParamPath("cluster_type", false),
 			Reference:    mg.Spec.ForProvider.InstanceTypeRef,
 			Selector:     mg.Spec.ForProvider.InstanceTypeSelector,
@@ -331,7 +332,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.InstanceType")
 	}
-	mg.Spec.ForProvider.InstanceType = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.InstanceType = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.InstanceTypeRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("alloydb.gcp.upbound.io", "v1beta2", "Cluster", "ClusterList")
@@ -340,7 +341,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.InstanceType),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.InstanceType, ""),
 			Extract:      resource.ExtractParamPath("cluster_type", false),
 			Reference:    mg.Spec.InitProvider.InstanceTypeRef,
 			Selector:     mg.Spec.InitProvider.InstanceTypeSelector,
@@ -350,7 +351,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.InstanceType")
 	}
-	mg.Spec.InitProvider.InstanceType = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.InstanceType = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.InstanceTypeRef = rsp.ResolvedReference
 
 	return nil

@@ -14,6 +14,7 @@ import (
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -33,7 +34,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PostgresqlProfile[i3].Database),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.PostgresqlProfile[i3].Database, ""),
 				Extract:      reference.ExternalName(),
 				Reference:    mg.Spec.ForProvider.PostgresqlProfile[i3].DatabaseRef,
 				Selector:     mg.Spec.ForProvider.PostgresqlProfile[i3].DatabaseSelector,
@@ -43,7 +44,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.PostgresqlProfile[i3].Database")
 		}
-		mg.Spec.ForProvider.PostgresqlProfile[i3].Database = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.PostgresqlProfile[i3].Database = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.PostgresqlProfile[i3].DatabaseRef = rsp.ResolvedReference
 
 	}
@@ -54,7 +55,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PostgresqlProfile[i3].Hostname),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.PostgresqlProfile[i3].Hostname, ""),
 				Extract:      resource.ExtractParamPath("public_ip_address", true),
 				Reference:    mg.Spec.ForProvider.PostgresqlProfile[i3].HostnameRef,
 				Selector:     mg.Spec.ForProvider.PostgresqlProfile[i3].HostnameSelector,
@@ -64,7 +65,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.PostgresqlProfile[i3].Hostname")
 		}
-		mg.Spec.ForProvider.PostgresqlProfile[i3].Hostname = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.PostgresqlProfile[i3].Hostname = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.PostgresqlProfile[i3].HostnameRef = rsp.ResolvedReference
 
 	}
@@ -75,7 +76,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PostgresqlProfile[i3].Username),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.PostgresqlProfile[i3].Username, ""),
 				Extract:      reference.ExternalName(),
 				Reference:    mg.Spec.ForProvider.PostgresqlProfile[i3].UsernameRef,
 				Selector:     mg.Spec.ForProvider.PostgresqlProfile[i3].UsernameSelector,
@@ -85,7 +86,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.PostgresqlProfile[i3].Username")
 		}
-		mg.Spec.ForProvider.PostgresqlProfile[i3].Username = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.PostgresqlProfile[i3].Username = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.PostgresqlProfile[i3].UsernameRef = rsp.ResolvedReference
 
 	}
@@ -96,7 +97,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PrivateConnectivity[i3].PrivateConnection),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.PrivateConnectivity[i3].PrivateConnection, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.ForProvider.PrivateConnectivity[i3].PrivateConnectionRef,
 				Selector:     mg.Spec.ForProvider.PrivateConnectivity[i3].PrivateConnectionSelector,
@@ -106,7 +107,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.PrivateConnectivity[i3].PrivateConnection")
 		}
-		mg.Spec.ForProvider.PrivateConnectivity[i3].PrivateConnection = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.PrivateConnectivity[i3].PrivateConnection = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.PrivateConnectivity[i3].PrivateConnectionRef = rsp.ResolvedReference
 
 	}
@@ -117,7 +118,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SQLServerProfile[i3].Database),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.SQLServerProfile[i3].Database, ""),
 				Extract:      reference.ExternalName(),
 				Reference:    mg.Spec.ForProvider.SQLServerProfile[i3].DatabaseRef,
 				Selector:     mg.Spec.ForProvider.SQLServerProfile[i3].DatabaseSelector,
@@ -127,7 +128,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.SQLServerProfile[i3].Database")
 		}
-		mg.Spec.ForProvider.SQLServerProfile[i3].Database = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.SQLServerProfile[i3].Database = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.SQLServerProfile[i3].DatabaseRef = rsp.ResolvedReference
 
 	}
@@ -138,7 +139,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SQLServerProfile[i3].Hostname),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.SQLServerProfile[i3].Hostname, ""),
 				Extract:      resource.ExtractParamPath("public_ip_address", true),
 				Reference:    mg.Spec.ForProvider.SQLServerProfile[i3].HostnameRef,
 				Selector:     mg.Spec.ForProvider.SQLServerProfile[i3].HostnameSelector,
@@ -148,7 +149,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.SQLServerProfile[i3].Hostname")
 		}
-		mg.Spec.ForProvider.SQLServerProfile[i3].Hostname = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.SQLServerProfile[i3].Hostname = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.SQLServerProfile[i3].HostnameRef = rsp.ResolvedReference
 
 	}
@@ -159,7 +160,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SQLServerProfile[i3].Username),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.SQLServerProfile[i3].Username, ""),
 				Extract:      reference.ExternalName(),
 				Reference:    mg.Spec.ForProvider.SQLServerProfile[i3].UsernameRef,
 				Selector:     mg.Spec.ForProvider.SQLServerProfile[i3].UsernameSelector,
@@ -169,7 +170,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.SQLServerProfile[i3].Username")
 		}
-		mg.Spec.ForProvider.SQLServerProfile[i3].Username = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.SQLServerProfile[i3].Username = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.SQLServerProfile[i3].UsernameRef = rsp.ResolvedReference
 
 	}
@@ -180,7 +181,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PostgresqlProfile[i3].Database),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.PostgresqlProfile[i3].Database, ""),
 				Extract:      reference.ExternalName(),
 				Reference:    mg.Spec.InitProvider.PostgresqlProfile[i3].DatabaseRef,
 				Selector:     mg.Spec.InitProvider.PostgresqlProfile[i3].DatabaseSelector,
@@ -190,7 +191,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.PostgresqlProfile[i3].Database")
 		}
-		mg.Spec.InitProvider.PostgresqlProfile[i3].Database = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.PostgresqlProfile[i3].Database = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.PostgresqlProfile[i3].DatabaseRef = rsp.ResolvedReference
 
 	}
@@ -201,7 +202,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PostgresqlProfile[i3].Hostname),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.PostgresqlProfile[i3].Hostname, ""),
 				Extract:      resource.ExtractParamPath("public_ip_address", true),
 				Reference:    mg.Spec.InitProvider.PostgresqlProfile[i3].HostnameRef,
 				Selector:     mg.Spec.InitProvider.PostgresqlProfile[i3].HostnameSelector,
@@ -211,7 +212,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.PostgresqlProfile[i3].Hostname")
 		}
-		mg.Spec.InitProvider.PostgresqlProfile[i3].Hostname = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.PostgresqlProfile[i3].Hostname = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.PostgresqlProfile[i3].HostnameRef = rsp.ResolvedReference
 
 	}
@@ -222,7 +223,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PostgresqlProfile[i3].Username),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.PostgresqlProfile[i3].Username, ""),
 				Extract:      reference.ExternalName(),
 				Reference:    mg.Spec.InitProvider.PostgresqlProfile[i3].UsernameRef,
 				Selector:     mg.Spec.InitProvider.PostgresqlProfile[i3].UsernameSelector,
@@ -232,7 +233,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.PostgresqlProfile[i3].Username")
 		}
-		mg.Spec.InitProvider.PostgresqlProfile[i3].Username = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.PostgresqlProfile[i3].Username = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.PostgresqlProfile[i3].UsernameRef = rsp.ResolvedReference
 
 	}
@@ -243,7 +244,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PrivateConnectivity[i3].PrivateConnection),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.PrivateConnectivity[i3].PrivateConnection, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.InitProvider.PrivateConnectivity[i3].PrivateConnectionRef,
 				Selector:     mg.Spec.InitProvider.PrivateConnectivity[i3].PrivateConnectionSelector,
@@ -253,7 +254,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.PrivateConnectivity[i3].PrivateConnection")
 		}
-		mg.Spec.InitProvider.PrivateConnectivity[i3].PrivateConnection = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.PrivateConnectivity[i3].PrivateConnection = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.PrivateConnectivity[i3].PrivateConnectionRef = rsp.ResolvedReference
 
 	}
@@ -264,7 +265,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SQLServerProfile[i3].Database),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.SQLServerProfile[i3].Database, ""),
 				Extract:      reference.ExternalName(),
 				Reference:    mg.Spec.InitProvider.SQLServerProfile[i3].DatabaseRef,
 				Selector:     mg.Spec.InitProvider.SQLServerProfile[i3].DatabaseSelector,
@@ -274,7 +275,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.SQLServerProfile[i3].Database")
 		}
-		mg.Spec.InitProvider.SQLServerProfile[i3].Database = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.SQLServerProfile[i3].Database = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.SQLServerProfile[i3].DatabaseRef = rsp.ResolvedReference
 
 	}
@@ -285,7 +286,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SQLServerProfile[i3].Hostname),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.SQLServerProfile[i3].Hostname, ""),
 				Extract:      resource.ExtractParamPath("public_ip_address", true),
 				Reference:    mg.Spec.InitProvider.SQLServerProfile[i3].HostnameRef,
 				Selector:     mg.Spec.InitProvider.SQLServerProfile[i3].HostnameSelector,
@@ -295,7 +296,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.SQLServerProfile[i3].Hostname")
 		}
-		mg.Spec.InitProvider.SQLServerProfile[i3].Hostname = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.SQLServerProfile[i3].Hostname = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.SQLServerProfile[i3].HostnameRef = rsp.ResolvedReference
 
 	}
@@ -306,7 +307,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SQLServerProfile[i3].Username),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.SQLServerProfile[i3].Username, ""),
 				Extract:      reference.ExternalName(),
 				Reference:    mg.Spec.InitProvider.SQLServerProfile[i3].UsernameRef,
 				Selector:     mg.Spec.InitProvider.SQLServerProfile[i3].UsernameSelector,
@@ -316,7 +317,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.SQLServerProfile[i3].Username")
 		}
-		mg.Spec.InitProvider.SQLServerProfile[i3].Username = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.SQLServerProfile[i3].Username = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.SQLServerProfile[i3].UsernameRef = rsp.ResolvedReference
 
 	}
@@ -340,7 +341,7 @@ func (mg *PrivateConnection) ResolveReferences(ctx context.Context, c client.Rea
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.VPCPeeringConfig[i3].VPC),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.VPCPeeringConfig[i3].VPC, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.ForProvider.VPCPeeringConfig[i3].VPCRef,
 				Selector:     mg.Spec.ForProvider.VPCPeeringConfig[i3].VPCSelector,
@@ -350,7 +351,7 @@ func (mg *PrivateConnection) ResolveReferences(ctx context.Context, c client.Rea
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.VPCPeeringConfig[i3].VPC")
 		}
-		mg.Spec.ForProvider.VPCPeeringConfig[i3].VPC = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.VPCPeeringConfig[i3].VPC = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.VPCPeeringConfig[i3].VPCRef = rsp.ResolvedReference
 
 	}
@@ -361,7 +362,7 @@ func (mg *PrivateConnection) ResolveReferences(ctx context.Context, c client.Rea
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.VPCPeeringConfig[i3].VPC),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.VPCPeeringConfig[i3].VPC, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.InitProvider.VPCPeeringConfig[i3].VPCRef,
 				Selector:     mg.Spec.InitProvider.VPCPeeringConfig[i3].VPCSelector,
@@ -371,7 +372,7 @@ func (mg *PrivateConnection) ResolveReferences(ctx context.Context, c client.Rea
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.VPCPeeringConfig[i3].VPC")
 		}
-		mg.Spec.InitProvider.VPCPeeringConfig[i3].VPC = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.VPCPeeringConfig[i3].VPC = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.VPCPeeringConfig[i3].VPCRef = rsp.ResolvedReference
 
 	}

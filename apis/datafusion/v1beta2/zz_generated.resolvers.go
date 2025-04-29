@@ -13,6 +13,7 @@ import (
 	errors "github.com/pkg/errors"
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 
 	// ResolveReferences of this Instance.
@@ -34,7 +35,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CryptoKeyConfig.KeyReference),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.CryptoKeyConfig.KeyReference, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.ForProvider.CryptoKeyConfig.KeyReferenceRef,
 				Selector:     mg.Spec.ForProvider.CryptoKeyConfig.KeyReferenceSelector,
@@ -44,7 +45,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.CryptoKeyConfig.KeyReference")
 		}
-		mg.Spec.ForProvider.CryptoKeyConfig.KeyReference = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.CryptoKeyConfig.KeyReference = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.CryptoKeyConfig.KeyReferenceRef = rsp.ResolvedReference
 
 	}
@@ -55,7 +56,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.EventPublishConfig.Topic),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.EventPublishConfig.Topic, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.ForProvider.EventPublishConfig.TopicRef,
 				Selector:     mg.Spec.ForProvider.EventPublishConfig.TopicSelector,
@@ -65,7 +66,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.EventPublishConfig.Topic")
 		}
-		mg.Spec.ForProvider.EventPublishConfig.Topic = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.EventPublishConfig.Topic = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.EventPublishConfig.TopicRef = rsp.ResolvedReference
 
 	}
@@ -76,7 +77,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CryptoKeyConfig.KeyReference),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.CryptoKeyConfig.KeyReference, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.InitProvider.CryptoKeyConfig.KeyReferenceRef,
 				Selector:     mg.Spec.InitProvider.CryptoKeyConfig.KeyReferenceSelector,
@@ -86,7 +87,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.CryptoKeyConfig.KeyReference")
 		}
-		mg.Spec.InitProvider.CryptoKeyConfig.KeyReference = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.CryptoKeyConfig.KeyReference = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.CryptoKeyConfig.KeyReferenceRef = rsp.ResolvedReference
 
 	}
@@ -97,7 +98,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.EventPublishConfig.Topic),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.EventPublishConfig.Topic, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.InitProvider.EventPublishConfig.TopicRef,
 				Selector:     mg.Spec.InitProvider.EventPublishConfig.TopicSelector,
@@ -107,7 +108,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.EventPublishConfig.Topic")
 		}
-		mg.Spec.InitProvider.EventPublishConfig.Topic = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.EventPublishConfig.Topic = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.EventPublishConfig.TopicRef = rsp.ResolvedReference
 
 	}

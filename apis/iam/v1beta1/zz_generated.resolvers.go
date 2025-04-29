@@ -12,6 +12,7 @@ import (
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	errors "github.com/pkg/errors"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -30,7 +31,7 @@ func (mg *WorkloadIdentityPoolProvider) ResolveReferences( // ResolveReferences 
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.WorkloadIdentityPoolID),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.WorkloadIdentityPoolID, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.WorkloadIdentityPoolIDRef,
 			Selector:     mg.Spec.ForProvider.WorkloadIdentityPoolIDSelector,
@@ -40,7 +41,7 @@ func (mg *WorkloadIdentityPoolProvider) ResolveReferences( // ResolveReferences 
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.WorkloadIdentityPoolID")
 	}
-	mg.Spec.ForProvider.WorkloadIdentityPoolID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.WorkloadIdentityPoolID = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.WorkloadIdentityPoolIDRef = rsp.ResolvedReference
 
 	return nil

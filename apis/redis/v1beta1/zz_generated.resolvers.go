@@ -13,6 +13,7 @@ import (
 	errors "github.com/pkg/errors"
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 
 	// ResolveReferences of this Cluster.
@@ -34,7 +35,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PscConfigs[i3].Network),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.PscConfigs[i3].Network, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.ForProvider.PscConfigs[i3].NetworkRef,
 				Selector:     mg.Spec.ForProvider.PscConfigs[i3].NetworkSelector,
@@ -44,7 +45,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.PscConfigs[i3].Network")
 		}
-		mg.Spec.ForProvider.PscConfigs[i3].Network = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.PscConfigs[i3].Network = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.PscConfigs[i3].NetworkRef = rsp.ResolvedReference
 
 	}
@@ -55,7 +56,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PscConfigs[i3].Network),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.PscConfigs[i3].Network, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.InitProvider.PscConfigs[i3].NetworkRef,
 				Selector:     mg.Spec.InitProvider.PscConfigs[i3].NetworkSelector,
@@ -65,7 +66,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.PscConfigs[i3].Network")
 		}
-		mg.Spec.InitProvider.PscConfigs[i3].Network = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.PscConfigs[i3].Network = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.PscConfigs[i3].NetworkRef = rsp.ResolvedReference
 
 	}
@@ -88,7 +89,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.AuthorizedNetwork),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.AuthorizedNetwork, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.AuthorizedNetworkRef,
 			Selector:     mg.Spec.ForProvider.AuthorizedNetworkSelector,
@@ -98,7 +99,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.AuthorizedNetwork")
 	}
-	mg.Spec.ForProvider.AuthorizedNetwork = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.AuthorizedNetwork = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.AuthorizedNetworkRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("kms.gcp.upbound.io", "v1beta1", "CryptoKey", "CryptoKeyList")
@@ -107,7 +108,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CustomerManagedKey),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.CustomerManagedKey, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.CustomerManagedKeyRef,
 			Selector:     mg.Spec.ForProvider.CustomerManagedKeySelector,
@@ -117,7 +118,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.CustomerManagedKey")
 	}
-	mg.Spec.ForProvider.CustomerManagedKey = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.CustomerManagedKey = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.CustomerManagedKeyRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Network", "NetworkList")
@@ -126,7 +127,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.AuthorizedNetwork),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.AuthorizedNetwork, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.AuthorizedNetworkRef,
 			Selector:     mg.Spec.InitProvider.AuthorizedNetworkSelector,
@@ -136,7 +137,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.AuthorizedNetwork")
 	}
-	mg.Spec.InitProvider.AuthorizedNetwork = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.AuthorizedNetwork = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.AuthorizedNetworkRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("kms.gcp.upbound.io", "v1beta1", "CryptoKey", "CryptoKeyList")
@@ -145,7 +146,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CustomerManagedKey),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.CustomerManagedKey, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.CustomerManagedKeyRef,
 			Selector:     mg.Spec.InitProvider.CustomerManagedKeySelector,
@@ -155,7 +156,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.CustomerManagedKey")
 	}
-	mg.Spec.InitProvider.CustomerManagedKey = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CustomerManagedKey = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.CustomerManagedKeyRef = rsp.ResolvedReference
 
 	return nil

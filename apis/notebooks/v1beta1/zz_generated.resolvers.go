@@ -12,6 +12,7 @@ import (
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	errors "github.com/pkg/errors"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -30,7 +31,7 @@ func (mg *InstanceIAMMember) ResolveReferences( // ResolveReferences of this Ins
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.InstanceName),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.InstanceName, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.InstanceNameRef,
 			Selector:     mg.Spec.ForProvider.InstanceNameSelector,
@@ -40,7 +41,7 @@ func (mg *InstanceIAMMember) ResolveReferences( // ResolveReferences of this Ins
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.InstanceName")
 	}
-	mg.Spec.ForProvider.InstanceName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.InstanceName = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.InstanceNameRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("notebooks.gcp.upbound.io", "v1beta1", "Instance", "InstanceList")
@@ -49,7 +50,7 @@ func (mg *InstanceIAMMember) ResolveReferences( // ResolveReferences of this Ins
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.InstanceName),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.InstanceName, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.InstanceNameRef,
 			Selector:     mg.Spec.InitProvider.InstanceNameSelector,
@@ -59,7 +60,7 @@ func (mg *InstanceIAMMember) ResolveReferences( // ResolveReferences of this Ins
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.InstanceName")
 	}
-	mg.Spec.InitProvider.InstanceName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.InstanceName = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.InstanceNameRef = rsp.ResolvedReference
 
 	return nil
@@ -80,7 +81,7 @@ func (mg *RuntimeIAMMember) ResolveReferences(ctx context.Context, c client.Read
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RuntimeName),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.RuntimeName, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.RuntimeNameRef,
 			Selector:     mg.Spec.ForProvider.RuntimeNameSelector,
@@ -90,7 +91,7 @@ func (mg *RuntimeIAMMember) ResolveReferences(ctx context.Context, c client.Read
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.RuntimeName")
 	}
-	mg.Spec.ForProvider.RuntimeName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.RuntimeName = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.RuntimeNameRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("notebooks.gcp.upbound.io", "v1beta1", "Runtime", "RuntimeList")
@@ -99,7 +100,7 @@ func (mg *RuntimeIAMMember) ResolveReferences(ctx context.Context, c client.Read
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RuntimeName),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.RuntimeName, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.RuntimeNameRef,
 			Selector:     mg.Spec.InitProvider.RuntimeNameSelector,
@@ -109,7 +110,7 @@ func (mg *RuntimeIAMMember) ResolveReferences(ctx context.Context, c client.Read
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.RuntimeName")
 	}
-	mg.Spec.InitProvider.RuntimeName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.RuntimeName = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.RuntimeNameRef = rsp.ResolvedReference
 
 	return nil

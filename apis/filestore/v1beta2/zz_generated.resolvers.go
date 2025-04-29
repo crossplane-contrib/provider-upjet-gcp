@@ -13,6 +13,7 @@ import (
 	errors "github.com/pkg/errors"
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 
 	// ResolveReferences of this Instance.
@@ -33,7 +34,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.KMSKeyName),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.KMSKeyName, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.KMSKeyNameRef,
 			Selector:     mg.Spec.ForProvider.KMSKeyNameSelector,
@@ -43,7 +44,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.KMSKeyName")
 	}
-	mg.Spec.ForProvider.KMSKeyName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.KMSKeyName = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.KMSKeyNameRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("kms.gcp.upbound.io", "v1beta2", "CryptoKey", "CryptoKeyList")
@@ -52,7 +53,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.KMSKeyName),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.KMSKeyName, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.KMSKeyNameRef,
 			Selector:     mg.Spec.InitProvider.KMSKeyNameSelector,
@@ -62,7 +63,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.KMSKeyName")
 	}
-	mg.Spec.InitProvider.KMSKeyName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.KMSKeyName = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.KMSKeyNameRef = rsp.ResolvedReference
 
 	return nil

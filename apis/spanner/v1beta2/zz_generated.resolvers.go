@@ -12,6 +12,7 @@ import (
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	errors "github.com/pkg/errors"
 	common "github.com/upbound/provider-gcp/config/common"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 
 	// ResolveReferences of this Database.
@@ -32,7 +33,7 @@ func (mg *Database) ResolveReferences(ctx context.Context, c client.Reader) erro
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Instance),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Instance, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.InstanceRef,
 			Selector:     mg.Spec.ForProvider.InstanceSelector,
@@ -42,7 +43,7 @@ func (mg *Database) ResolveReferences(ctx context.Context, c client.Reader) erro
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Instance")
 	}
-	mg.Spec.ForProvider.Instance = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Instance = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.InstanceRef = rsp.ResolvedReference
 
 	return nil
@@ -63,7 +64,7 @@ func (mg *DatabaseIAMMember) ResolveReferences(ctx context.Context, c client.Rea
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Database),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Database, ""),
 			Extract:      common.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.DatabaseRef,
 			Selector:     mg.Spec.ForProvider.DatabaseSelector,
@@ -73,7 +74,7 @@ func (mg *DatabaseIAMMember) ResolveReferences(ctx context.Context, c client.Rea
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Database")
 	}
-	mg.Spec.ForProvider.Database = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Database = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.DatabaseRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("spanner.gcp.upbound.io", "v1beta2", "Instance", "InstanceList")
@@ -82,7 +83,7 @@ func (mg *DatabaseIAMMember) ResolveReferences(ctx context.Context, c client.Rea
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Instance),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Instance, ""),
 			Extract:      common.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.InstanceRef,
 			Selector:     mg.Spec.ForProvider.InstanceSelector,
@@ -92,7 +93,7 @@ func (mg *DatabaseIAMMember) ResolveReferences(ctx context.Context, c client.Rea
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Instance")
 	}
-	mg.Spec.ForProvider.Instance = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Instance = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.InstanceRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("spanner.gcp.upbound.io", "v1beta2", "Database", "DatabaseList")
@@ -101,7 +102,7 @@ func (mg *DatabaseIAMMember) ResolveReferences(ctx context.Context, c client.Rea
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Database),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Database, ""),
 			Extract:      common.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.DatabaseRef,
 			Selector:     mg.Spec.InitProvider.DatabaseSelector,
@@ -111,7 +112,7 @@ func (mg *DatabaseIAMMember) ResolveReferences(ctx context.Context, c client.Rea
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Database")
 	}
-	mg.Spec.InitProvider.Database = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Database = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.DatabaseRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("spanner.gcp.upbound.io", "v1beta2", "Instance", "InstanceList")
@@ -120,7 +121,7 @@ func (mg *DatabaseIAMMember) ResolveReferences(ctx context.Context, c client.Rea
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Instance),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Instance, ""),
 			Extract:      common.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.InstanceRef,
 			Selector:     mg.Spec.InitProvider.InstanceSelector,
@@ -130,7 +131,7 @@ func (mg *DatabaseIAMMember) ResolveReferences(ctx context.Context, c client.Rea
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Instance")
 	}
-	mg.Spec.InitProvider.Instance = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Instance = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.InstanceRef = rsp.ResolvedReference
 
 	return nil
@@ -151,7 +152,7 @@ func (mg *InstanceIAMMember) ResolveReferences(ctx context.Context, c client.Rea
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Instance),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Instance, ""),
 			Extract:      common.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.InstanceRef,
 			Selector:     mg.Spec.ForProvider.InstanceSelector,
@@ -161,7 +162,7 @@ func (mg *InstanceIAMMember) ResolveReferences(ctx context.Context, c client.Rea
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Instance")
 	}
-	mg.Spec.ForProvider.Instance = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Instance = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.InstanceRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("spanner.gcp.upbound.io", "v1beta2", "Instance", "InstanceList")
@@ -170,7 +171,7 @@ func (mg *InstanceIAMMember) ResolveReferences(ctx context.Context, c client.Rea
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Instance),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Instance, ""),
 			Extract:      common.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.InstanceRef,
 			Selector:     mg.Spec.InitProvider.InstanceSelector,
@@ -180,7 +181,7 @@ func (mg *InstanceIAMMember) ResolveReferences(ctx context.Context, c client.Rea
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Instance")
 	}
-	mg.Spec.InitProvider.Instance = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Instance = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.InstanceRef = rsp.ResolvedReference
 
 	return nil

@@ -11,6 +11,7 @@ import (
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	errors "github.com/pkg/errors"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 
 	// ResolveReferences of this NodePool.
@@ -31,7 +32,7 @@ func (mg *NodePool) ResolveReferences(ctx context.Context, c client.Reader) erro
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Cluster),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Cluster, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.ClusterRef,
 			Selector:     mg.Spec.ForProvider.ClusterSelector,
@@ -41,7 +42,7 @@ func (mg *NodePool) ResolveReferences(ctx context.Context, c client.Reader) erro
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Cluster")
 	}
-	mg.Spec.ForProvider.Cluster = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Cluster = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ClusterRef = rsp.ResolvedReference
 
 	return nil

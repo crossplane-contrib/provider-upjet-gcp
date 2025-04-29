@@ -12,6 +12,7 @@ import (
 	errors "github.com/pkg/errors"
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 
 	// ResolveReferences of this Job.
@@ -33,7 +34,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PubsubTarget.TopicName),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.PubsubTarget.TopicName, ""),
 				Extract:      reference.ExternalName(),
 				Reference:    mg.Spec.ForProvider.PubsubTarget.TopicNameRef,
 				Selector:     mg.Spec.ForProvider.PubsubTarget.TopicNameSelector,
@@ -43,7 +44,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.PubsubTarget.TopicName")
 		}
-		mg.Spec.ForProvider.PubsubTarget.TopicName = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.PubsubTarget.TopicName = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.PubsubTarget.TopicNameRef = rsp.ResolvedReference
 
 	}
@@ -54,7 +55,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PubsubTarget.TopicName),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.PubsubTarget.TopicName, ""),
 				Extract:      reference.ExternalName(),
 				Reference:    mg.Spec.InitProvider.PubsubTarget.TopicNameRef,
 				Selector:     mg.Spec.InitProvider.PubsubTarget.TopicNameSelector,
@@ -64,7 +65,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.PubsubTarget.TopicName")
 		}
-		mg.Spec.InitProvider.PubsubTarget.TopicName = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.PubsubTarget.TopicName = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.PubsubTarget.TopicNameRef = rsp.ResolvedReference
 
 	}

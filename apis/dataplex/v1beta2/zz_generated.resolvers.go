@@ -11,6 +11,7 @@ import (
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	errors "github.com/pkg/errors"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 
 	// ResolveReferences of this Asset.
@@ -31,7 +32,7 @@ func (mg *Asset) ResolveReferences(ctx context.Context, c client.Reader) error {
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DataplexZone),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.DataplexZone, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.DataplexZoneRef,
 			Selector:     mg.Spec.ForProvider.DataplexZoneSelector,
@@ -41,7 +42,7 @@ func (mg *Asset) ResolveReferences(ctx context.Context, c client.Reader) error {
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.DataplexZone")
 	}
-	mg.Spec.ForProvider.DataplexZone = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.DataplexZone = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.DataplexZoneRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("dataplex.gcp.upbound.io", "v1beta2", "Lake", "LakeList")
@@ -50,7 +51,7 @@ func (mg *Asset) ResolveReferences(ctx context.Context, c client.Reader) error {
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Lake),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Lake, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.LakeRef,
 			Selector:     mg.Spec.ForProvider.LakeSelector,
@@ -60,7 +61,7 @@ func (mg *Asset) ResolveReferences(ctx context.Context, c client.Reader) error {
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Lake")
 	}
-	mg.Spec.ForProvider.Lake = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Lake = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.LakeRef = rsp.ResolvedReference
 
 	return nil
@@ -81,7 +82,7 @@ func (mg *Zone) ResolveReferences(ctx context.Context, c client.Reader) error {
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Lake),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Lake, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.LakeRef,
 			Selector:     mg.Spec.ForProvider.LakeSelector,
@@ -91,7 +92,7 @@ func (mg *Zone) ResolveReferences(ctx context.Context, c client.Reader) error {
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Lake")
 	}
-	mg.Spec.ForProvider.Lake = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Lake = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.LakeRef = rsp.ResolvedReference
 
 	return nil

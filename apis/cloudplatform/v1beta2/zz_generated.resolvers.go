@@ -14,6 +14,7 @@ import (
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	common "github.com/upbound/provider-gcp/config/common"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -32,7 +33,7 @@ func (mg *FolderIAMMember) ResolveReferences( // ResolveReferences of this Folde
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Folder),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Folder, ""),
 			Extract:      common.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.FolderRef,
 			Selector:     mg.Spec.ForProvider.FolderSelector,
@@ -42,7 +43,7 @@ func (mg *FolderIAMMember) ResolveReferences( // ResolveReferences of this Folde
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Folder")
 	}
-	mg.Spec.ForProvider.Folder = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Folder = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.FolderRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "Folder", "FolderList")
@@ -51,7 +52,7 @@ func (mg *FolderIAMMember) ResolveReferences( // ResolveReferences of this Folde
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Folder),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Folder, ""),
 			Extract:      common.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.FolderRef,
 			Selector:     mg.Spec.InitProvider.FolderSelector,
@@ -61,7 +62,7 @@ func (mg *FolderIAMMember) ResolveReferences( // ResolveReferences of this Folde
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Folder")
 	}
-	mg.Spec.InitProvider.Folder = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Folder = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.FolderRef = rsp.ResolvedReference
 
 	return nil
@@ -82,7 +83,7 @@ func (mg *ProjectIAMMember) ResolveReferences(ctx context.Context, c client.Read
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Project, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.ProjectRef,
 			Selector:     mg.Spec.ForProvider.ProjectSelector,
@@ -92,7 +93,7 @@ func (mg *ProjectIAMMember) ResolveReferences(ctx context.Context, c client.Read
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Project")
 	}
-	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Project = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "Project", "ProjectList")
@@ -101,7 +102,7 @@ func (mg *ProjectIAMMember) ResolveReferences(ctx context.Context, c client.Read
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Project),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Project, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.ProjectRef,
 			Selector:     mg.Spec.InitProvider.ProjectSelector,
@@ -111,7 +112,7 @@ func (mg *ProjectIAMMember) ResolveReferences(ctx context.Context, c client.Read
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Project")
 	}
-	mg.Spec.InitProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Project = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ProjectRef = rsp.ResolvedReference
 
 	return nil
@@ -132,7 +133,7 @@ func (mg *ServiceAccountIAMMember) ResolveReferences(ctx context.Context, c clie
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ServiceAccountID),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.ServiceAccountID, ""),
 			Extract:      common.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.ServiceAccountIDRef,
 			Selector:     mg.Spec.ForProvider.ServiceAccountIDSelector,
@@ -142,7 +143,7 @@ func (mg *ServiceAccountIAMMember) ResolveReferences(ctx context.Context, c clie
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.ServiceAccountID")
 	}
-	mg.Spec.ForProvider.ServiceAccountID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ServiceAccountID = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ServiceAccountIDRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "ServiceAccount", "ServiceAccountList")
@@ -151,7 +152,7 @@ func (mg *ServiceAccountIAMMember) ResolveReferences(ctx context.Context, c clie
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ServiceAccountID),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.ServiceAccountID, ""),
 			Extract:      common.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.ServiceAccountIDRef,
 			Selector:     mg.Spec.InitProvider.ServiceAccountIDSelector,
@@ -161,7 +162,7 @@ func (mg *ServiceAccountIAMMember) ResolveReferences(ctx context.Context, c clie
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.ServiceAccountID")
 	}
-	mg.Spec.InitProvider.ServiceAccountID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ServiceAccountID = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ServiceAccountIDRef = rsp.ResolvedReference
 
 	return nil

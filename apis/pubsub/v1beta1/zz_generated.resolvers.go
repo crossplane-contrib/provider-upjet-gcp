@@ -14,6 +14,7 @@ import (
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -32,7 +33,7 @@ func (mg *LiteSubscription) ResolveReferences( // ResolveReferences of this Lite
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Topic),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Topic, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.TopicRef,
 			Selector:     mg.Spec.ForProvider.TopicSelector,
@@ -42,7 +43,7 @@ func (mg *LiteSubscription) ResolveReferences( // ResolveReferences of this Lite
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Topic")
 	}
-	mg.Spec.ForProvider.Topic = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Topic = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.TopicRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("pubsub.gcp.upbound.io", "v1beta1", "LiteTopic", "LiteTopicList")
@@ -51,7 +52,7 @@ func (mg *LiteSubscription) ResolveReferences( // ResolveReferences of this Lite
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Topic),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Topic, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.TopicRef,
 			Selector:     mg.Spec.InitProvider.TopicSelector,
@@ -61,7 +62,7 @@ func (mg *LiteSubscription) ResolveReferences( // ResolveReferences of this Lite
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Topic")
 	}
-	mg.Spec.InitProvider.Topic = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Topic = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.TopicRef = rsp.ResolvedReference
 
 	return nil
@@ -83,7 +84,7 @@ func (mg *LiteTopic) ResolveReferences(ctx context.Context, c client.Reader) err
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ReservationConfig[i3].ThroughputReservation),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.ReservationConfig[i3].ThroughputReservation, ""),
 				Extract:      reference.ExternalName(),
 				Reference:    mg.Spec.ForProvider.ReservationConfig[i3].ThroughputReservationRef,
 				Selector:     mg.Spec.ForProvider.ReservationConfig[i3].ThroughputReservationSelector,
@@ -93,7 +94,7 @@ func (mg *LiteTopic) ResolveReferences(ctx context.Context, c client.Reader) err
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.ReservationConfig[i3].ThroughputReservation")
 		}
-		mg.Spec.ForProvider.ReservationConfig[i3].ThroughputReservation = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.ReservationConfig[i3].ThroughputReservation = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.ReservationConfig[i3].ThroughputReservationRef = rsp.ResolvedReference
 
 	}
@@ -104,7 +105,7 @@ func (mg *LiteTopic) ResolveReferences(ctx context.Context, c client.Reader) err
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ReservationConfig[i3].ThroughputReservation),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.ReservationConfig[i3].ThroughputReservation, ""),
 				Extract:      reference.ExternalName(),
 				Reference:    mg.Spec.InitProvider.ReservationConfig[i3].ThroughputReservationRef,
 				Selector:     mg.Spec.InitProvider.ReservationConfig[i3].ThroughputReservationSelector,
@@ -114,7 +115,7 @@ func (mg *LiteTopic) ResolveReferences(ctx context.Context, c client.Reader) err
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.ReservationConfig[i3].ThroughputReservation")
 		}
-		mg.Spec.InitProvider.ReservationConfig[i3].ThroughputReservation = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.ReservationConfig[i3].ThroughputReservation = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.ReservationConfig[i3].ThroughputReservationRef = rsp.ResolvedReference
 
 	}
@@ -138,7 +139,7 @@ func (mg *Subscription) ResolveReferences(ctx context.Context, c client.Reader) 
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DeadLetterPolicy[i3].DeadLetterTopic),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.DeadLetterPolicy[i3].DeadLetterTopic, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.ForProvider.DeadLetterPolicy[i3].DeadLetterTopicRef,
 				Selector:     mg.Spec.ForProvider.DeadLetterPolicy[i3].DeadLetterTopicSelector,
@@ -148,7 +149,7 @@ func (mg *Subscription) ResolveReferences(ctx context.Context, c client.Reader) 
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.DeadLetterPolicy[i3].DeadLetterTopic")
 		}
-		mg.Spec.ForProvider.DeadLetterPolicy[i3].DeadLetterTopic = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.DeadLetterPolicy[i3].DeadLetterTopic = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.DeadLetterPolicy[i3].DeadLetterTopicRef = rsp.ResolvedReference
 
 	}
@@ -158,7 +159,7 @@ func (mg *Subscription) ResolveReferences(ctx context.Context, c client.Reader) 
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Topic),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Topic, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.TopicRef,
 			Selector:     mg.Spec.ForProvider.TopicSelector,
@@ -168,7 +169,7 @@ func (mg *Subscription) ResolveReferences(ctx context.Context, c client.Reader) 
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Topic")
 	}
-	mg.Spec.ForProvider.Topic = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Topic = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.TopicRef = rsp.ResolvedReference
 
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.DeadLetterPolicy); i3++ {
@@ -178,7 +179,7 @@ func (mg *Subscription) ResolveReferences(ctx context.Context, c client.Reader) 
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DeadLetterPolicy[i3].DeadLetterTopic),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.DeadLetterPolicy[i3].DeadLetterTopic, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.InitProvider.DeadLetterPolicy[i3].DeadLetterTopicRef,
 				Selector:     mg.Spec.InitProvider.DeadLetterPolicy[i3].DeadLetterTopicSelector,
@@ -188,7 +189,7 @@ func (mg *Subscription) ResolveReferences(ctx context.Context, c client.Reader) 
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.DeadLetterPolicy[i3].DeadLetterTopic")
 		}
-		mg.Spec.InitProvider.DeadLetterPolicy[i3].DeadLetterTopic = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.DeadLetterPolicy[i3].DeadLetterTopic = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.DeadLetterPolicy[i3].DeadLetterTopicRef = rsp.ResolvedReference
 
 	}
@@ -198,7 +199,7 @@ func (mg *Subscription) ResolveReferences(ctx context.Context, c client.Reader) 
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Topic),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Topic, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.TopicRef,
 			Selector:     mg.Spec.InitProvider.TopicSelector,
@@ -208,7 +209,7 @@ func (mg *Subscription) ResolveReferences(ctx context.Context, c client.Reader) 
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Topic")
 	}
-	mg.Spec.InitProvider.Topic = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Topic = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.TopicRef = rsp.ResolvedReference
 
 	return nil
@@ -229,7 +230,7 @@ func (mg *SubscriptionIAMMember) ResolveReferences(ctx context.Context, c client
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Subscription),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Subscription, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.SubscriptionRef,
 			Selector:     mg.Spec.ForProvider.SubscriptionSelector,
@@ -239,7 +240,7 @@ func (mg *SubscriptionIAMMember) ResolveReferences(ctx context.Context, c client
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Subscription")
 	}
-	mg.Spec.ForProvider.Subscription = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Subscription = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.SubscriptionRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("pubsub.gcp.upbound.io", "v1beta1", "Subscription", "SubscriptionList")
@@ -248,7 +249,7 @@ func (mg *SubscriptionIAMMember) ResolveReferences(ctx context.Context, c client
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Subscription),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Subscription, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.SubscriptionRef,
 			Selector:     mg.Spec.InitProvider.SubscriptionSelector,
@@ -258,7 +259,7 @@ func (mg *SubscriptionIAMMember) ResolveReferences(ctx context.Context, c client
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Subscription")
 	}
-	mg.Spec.InitProvider.Subscription = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Subscription = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.SubscriptionRef = rsp.ResolvedReference
 
 	return nil
@@ -279,7 +280,7 @@ func (mg *Topic) ResolveReferences(ctx context.Context, c client.Reader) error {
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.KMSKeyName),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.KMSKeyName, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.KMSKeyNameRef,
 			Selector:     mg.Spec.ForProvider.KMSKeyNameSelector,
@@ -289,7 +290,7 @@ func (mg *Topic) ResolveReferences(ctx context.Context, c client.Reader) error {
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.KMSKeyName")
 	}
-	mg.Spec.ForProvider.KMSKeyName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.KMSKeyName = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.KMSKeyNameRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("kms.gcp.upbound.io", "v1beta1", "CryptoKey", "CryptoKeyList")
@@ -298,7 +299,7 @@ func (mg *Topic) ResolveReferences(ctx context.Context, c client.Reader) error {
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.KMSKeyName),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.KMSKeyName, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.KMSKeyNameRef,
 			Selector:     mg.Spec.InitProvider.KMSKeyNameSelector,
@@ -308,7 +309,7 @@ func (mg *Topic) ResolveReferences(ctx context.Context, c client.Reader) error {
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.KMSKeyName")
 	}
-	mg.Spec.InitProvider.KMSKeyName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.KMSKeyName = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.KMSKeyNameRef = rsp.ResolvedReference
 
 	return nil
@@ -329,7 +330,7 @@ func (mg *TopicIAMMember) ResolveReferences(ctx context.Context, c client.Reader
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Topic),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Topic, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.TopicRef,
 			Selector:     mg.Spec.ForProvider.TopicSelector,
@@ -339,7 +340,7 @@ func (mg *TopicIAMMember) ResolveReferences(ctx context.Context, c client.Reader
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Topic")
 	}
-	mg.Spec.ForProvider.Topic = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Topic = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.TopicRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("pubsub.gcp.upbound.io", "v1beta1", "Topic", "TopicList")
@@ -348,7 +349,7 @@ func (mg *TopicIAMMember) ResolveReferences(ctx context.Context, c client.Reader
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Topic),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Topic, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.TopicRef,
 			Selector:     mg.Spec.InitProvider.TopicSelector,
@@ -358,7 +359,7 @@ func (mg *TopicIAMMember) ResolveReferences(ctx context.Context, c client.Reader
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Topic")
 	}
-	mg.Spec.InitProvider.Topic = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Topic = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.TopicRef = rsp.ResolvedReference
 
 	return nil

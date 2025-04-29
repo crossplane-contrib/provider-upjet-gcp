@@ -13,6 +13,7 @@ import (
 	errors "github.com/pkg/errors"
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 
 	// ResolveReferences of this SLO.
@@ -33,7 +34,7 @@ func (mg *SLO) ResolveReferences(ctx context.Context, c client.Reader) error {
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Service),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Service, ""),
 			Extract:      resource.ExtractParamPath("service_id", false),
 			Reference:    mg.Spec.ForProvider.ServiceRef,
 			Selector:     mg.Spec.ForProvider.ServiceSelector,
@@ -43,7 +44,7 @@ func (mg *SLO) ResolveReferences(ctx context.Context, c client.Reader) error {
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Service")
 	}
-	mg.Spec.ForProvider.Service = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Service = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ServiceRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("monitoring.gcp.upbound.io", "v1beta2", "CustomService", "CustomServiceList")
@@ -52,7 +53,7 @@ func (mg *SLO) ResolveReferences(ctx context.Context, c client.Reader) error {
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Service),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Service, ""),
 			Extract:      resource.ExtractParamPath("service_id", false),
 			Reference:    mg.Spec.InitProvider.ServiceRef,
 			Selector:     mg.Spec.InitProvider.ServiceSelector,
@@ -62,7 +63,7 @@ func (mg *SLO) ResolveReferences(ctx context.Context, c client.Reader) error {
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Service")
 	}
-	mg.Spec.InitProvider.Service = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Service = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ServiceRef = rsp.ResolvedReference
 
 	return nil
@@ -84,7 +85,7 @@ func (mg *UptimeCheckConfig) ResolveReferences(ctx context.Context, c client.Rea
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ResourceGroup.GroupID),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.ResourceGroup.GroupID, ""),
 				Extract:      resource.ExtractParamPath("name", true),
 				Reference:    mg.Spec.ForProvider.ResourceGroup.GroupIDRef,
 				Selector:     mg.Spec.ForProvider.ResourceGroup.GroupIDSelector,
@@ -94,7 +95,7 @@ func (mg *UptimeCheckConfig) ResolveReferences(ctx context.Context, c client.Rea
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.ResourceGroup.GroupID")
 		}
-		mg.Spec.ForProvider.ResourceGroup.GroupID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.ResourceGroup.GroupID = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.ResourceGroup.GroupIDRef = rsp.ResolvedReference
 
 	}
@@ -106,7 +107,7 @@ func (mg *UptimeCheckConfig) ResolveReferences(ctx context.Context, c client.Rea
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SyntheticMonitor.CloudFunctionV2.Name),
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.SyntheticMonitor.CloudFunctionV2.Name, ""),
 					Extract:      resource.ExtractResourceID(),
 					Reference:    mg.Spec.ForProvider.SyntheticMonitor.CloudFunctionV2.NameRef,
 					Selector:     mg.Spec.ForProvider.SyntheticMonitor.CloudFunctionV2.NameSelector,
@@ -116,7 +117,7 @@ func (mg *UptimeCheckConfig) ResolveReferences(ctx context.Context, c client.Rea
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.ForProvider.SyntheticMonitor.CloudFunctionV2.Name")
 			}
-			mg.Spec.ForProvider.SyntheticMonitor.CloudFunctionV2.Name = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.SyntheticMonitor.CloudFunctionV2.Name = ptr.To(rsp.ResolvedValue)
 			mg.Spec.ForProvider.SyntheticMonitor.CloudFunctionV2.NameRef = rsp.ResolvedReference
 
 		}
@@ -128,7 +129,7 @@ func (mg *UptimeCheckConfig) ResolveReferences(ctx context.Context, c client.Rea
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ResourceGroup.GroupID),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.ResourceGroup.GroupID, ""),
 				Extract:      resource.ExtractParamPath("name", true),
 				Reference:    mg.Spec.InitProvider.ResourceGroup.GroupIDRef,
 				Selector:     mg.Spec.InitProvider.ResourceGroup.GroupIDSelector,
@@ -138,7 +139,7 @@ func (mg *UptimeCheckConfig) ResolveReferences(ctx context.Context, c client.Rea
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.ResourceGroup.GroupID")
 		}
-		mg.Spec.InitProvider.ResourceGroup.GroupID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.ResourceGroup.GroupID = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.ResourceGroup.GroupIDRef = rsp.ResolvedReference
 
 	}
@@ -150,7 +151,7 @@ func (mg *UptimeCheckConfig) ResolveReferences(ctx context.Context, c client.Rea
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SyntheticMonitor.CloudFunctionV2.Name),
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.SyntheticMonitor.CloudFunctionV2.Name, ""),
 					Extract:      resource.ExtractResourceID(),
 					Reference:    mg.Spec.InitProvider.SyntheticMonitor.CloudFunctionV2.NameRef,
 					Selector:     mg.Spec.InitProvider.SyntheticMonitor.CloudFunctionV2.NameSelector,
@@ -160,7 +161,7 @@ func (mg *UptimeCheckConfig) ResolveReferences(ctx context.Context, c client.Rea
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.InitProvider.SyntheticMonitor.CloudFunctionV2.Name")
 			}
-			mg.Spec.InitProvider.SyntheticMonitor.CloudFunctionV2.Name = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.SyntheticMonitor.CloudFunctionV2.Name = ptr.To(rsp.ResolvedValue)
 			mg.Spec.InitProvider.SyntheticMonitor.CloudFunctionV2.NameRef = rsp.ResolvedReference
 
 		}

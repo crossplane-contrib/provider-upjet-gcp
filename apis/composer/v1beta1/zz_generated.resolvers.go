@@ -14,6 +14,7 @@ import (
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -34,7 +35,7 @@ func (mg *Environment) ResolveReferences( // ResolveReferences of this Environme
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Config[i3].NodeConfig[i4].Network),
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.Config[i3].NodeConfig[i4].Network, ""),
 					Extract:      resource.ExtractResourceID(),
 					Reference:    mg.Spec.ForProvider.Config[i3].NodeConfig[i4].NetworkRef,
 					Selector:     mg.Spec.ForProvider.Config[i3].NodeConfig[i4].NetworkSelector,
@@ -44,7 +45,7 @@ func (mg *Environment) ResolveReferences( // ResolveReferences of this Environme
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.ForProvider.Config[i3].NodeConfig[i4].Network")
 			}
-			mg.Spec.ForProvider.Config[i3].NodeConfig[i4].Network = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Config[i3].NodeConfig[i4].Network = ptr.To(rsp.ResolvedValue)
 			mg.Spec.ForProvider.Config[i3].NodeConfig[i4].NetworkRef = rsp.ResolvedReference
 
 		}
@@ -57,7 +58,7 @@ func (mg *Environment) ResolveReferences( // ResolveReferences of this Environme
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Config[i3].NodeConfig[i4].ServiceAccount),
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.Config[i3].NodeConfig[i4].ServiceAccount, ""),
 					Extract:      resource.ExtractParamPath("name", true),
 					Reference:    mg.Spec.ForProvider.Config[i3].NodeConfig[i4].ServiceAccountRef,
 					Selector:     mg.Spec.ForProvider.Config[i3].NodeConfig[i4].ServiceAccountSelector,
@@ -67,7 +68,7 @@ func (mg *Environment) ResolveReferences( // ResolveReferences of this Environme
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.ForProvider.Config[i3].NodeConfig[i4].ServiceAccount")
 			}
-			mg.Spec.ForProvider.Config[i3].NodeConfig[i4].ServiceAccount = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Config[i3].NodeConfig[i4].ServiceAccount = ptr.To(rsp.ResolvedValue)
 			mg.Spec.ForProvider.Config[i3].NodeConfig[i4].ServiceAccountRef = rsp.ResolvedReference
 
 		}
@@ -80,7 +81,7 @@ func (mg *Environment) ResolveReferences( // ResolveReferences of this Environme
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Config[i3].NodeConfig[i4].Subnetwork),
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.Config[i3].NodeConfig[i4].Subnetwork, ""),
 					Extract:      resource.ExtractResourceID(),
 					Reference:    mg.Spec.ForProvider.Config[i3].NodeConfig[i4].SubnetworkRef,
 					Selector:     mg.Spec.ForProvider.Config[i3].NodeConfig[i4].SubnetworkSelector,
@@ -90,7 +91,7 @@ func (mg *Environment) ResolveReferences( // ResolveReferences of this Environme
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.ForProvider.Config[i3].NodeConfig[i4].Subnetwork")
 			}
-			mg.Spec.ForProvider.Config[i3].NodeConfig[i4].Subnetwork = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Config[i3].NodeConfig[i4].Subnetwork = ptr.To(rsp.ResolvedValue)
 			mg.Spec.ForProvider.Config[i3].NodeConfig[i4].SubnetworkRef = rsp.ResolvedReference
 
 		}
@@ -101,7 +102,7 @@ func (mg *Environment) ResolveReferences( // ResolveReferences of this Environme
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Project, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.ProjectRef,
 			Selector:     mg.Spec.ForProvider.ProjectSelector,
@@ -111,7 +112,7 @@ func (mg *Environment) ResolveReferences( // ResolveReferences of this Environme
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Project")
 	}
-	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Project = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
 
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.Config); i3++ {
@@ -122,7 +123,7 @@ func (mg *Environment) ResolveReferences( // ResolveReferences of this Environme
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Config[i3].NodeConfig[i4].Network),
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.Config[i3].NodeConfig[i4].Network, ""),
 					Extract:      resource.ExtractResourceID(),
 					Reference:    mg.Spec.InitProvider.Config[i3].NodeConfig[i4].NetworkRef,
 					Selector:     mg.Spec.InitProvider.Config[i3].NodeConfig[i4].NetworkSelector,
@@ -132,7 +133,7 @@ func (mg *Environment) ResolveReferences( // ResolveReferences of this Environme
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.InitProvider.Config[i3].NodeConfig[i4].Network")
 			}
-			mg.Spec.InitProvider.Config[i3].NodeConfig[i4].Network = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Config[i3].NodeConfig[i4].Network = ptr.To(rsp.ResolvedValue)
 			mg.Spec.InitProvider.Config[i3].NodeConfig[i4].NetworkRef = rsp.ResolvedReference
 
 		}
@@ -145,7 +146,7 @@ func (mg *Environment) ResolveReferences( // ResolveReferences of this Environme
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Config[i3].NodeConfig[i4].ServiceAccount),
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.Config[i3].NodeConfig[i4].ServiceAccount, ""),
 					Extract:      resource.ExtractParamPath("name", true),
 					Reference:    mg.Spec.InitProvider.Config[i3].NodeConfig[i4].ServiceAccountRef,
 					Selector:     mg.Spec.InitProvider.Config[i3].NodeConfig[i4].ServiceAccountSelector,
@@ -155,7 +156,7 @@ func (mg *Environment) ResolveReferences( // ResolveReferences of this Environme
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.InitProvider.Config[i3].NodeConfig[i4].ServiceAccount")
 			}
-			mg.Spec.InitProvider.Config[i3].NodeConfig[i4].ServiceAccount = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Config[i3].NodeConfig[i4].ServiceAccount = ptr.To(rsp.ResolvedValue)
 			mg.Spec.InitProvider.Config[i3].NodeConfig[i4].ServiceAccountRef = rsp.ResolvedReference
 
 		}
@@ -168,7 +169,7 @@ func (mg *Environment) ResolveReferences( // ResolveReferences of this Environme
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Config[i3].NodeConfig[i4].Subnetwork),
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.Config[i3].NodeConfig[i4].Subnetwork, ""),
 					Extract:      resource.ExtractResourceID(),
 					Reference:    mg.Spec.InitProvider.Config[i3].NodeConfig[i4].SubnetworkRef,
 					Selector:     mg.Spec.InitProvider.Config[i3].NodeConfig[i4].SubnetworkSelector,
@@ -178,7 +179,7 @@ func (mg *Environment) ResolveReferences( // ResolveReferences of this Environme
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.InitProvider.Config[i3].NodeConfig[i4].Subnetwork")
 			}
-			mg.Spec.InitProvider.Config[i3].NodeConfig[i4].Subnetwork = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Config[i3].NodeConfig[i4].Subnetwork = ptr.To(rsp.ResolvedValue)
 			mg.Spec.InitProvider.Config[i3].NodeConfig[i4].SubnetworkRef = rsp.ResolvedReference
 
 		}
@@ -189,7 +190,7 @@ func (mg *Environment) ResolveReferences( // ResolveReferences of this Environme
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Project),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Project, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.ProjectRef,
 			Selector:     mg.Spec.InitProvider.ProjectSelector,
@@ -199,7 +200,7 @@ func (mg *Environment) ResolveReferences( // ResolveReferences of this Environme
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Project")
 	}
-	mg.Spec.InitProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Project = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ProjectRef = rsp.ResolvedReference
 
 	return nil

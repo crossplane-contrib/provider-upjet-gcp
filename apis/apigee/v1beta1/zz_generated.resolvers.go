@@ -15,6 +15,7 @@ import (
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	common "github.com/upbound/provider-gcp/config/common"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -33,7 +34,7 @@ func (mg *AddonsConfig) ResolveReferences( // ResolveReferences of this AddonsCo
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Org),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Org, ""),
 			Extract:      resource.ExtractParamPath("name", true),
 			Reference:    mg.Spec.ForProvider.OrgRef,
 			Selector:     mg.Spec.ForProvider.OrgSelector,
@@ -43,7 +44,7 @@ func (mg *AddonsConfig) ResolveReferences( // ResolveReferences of this AddonsCo
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Org")
 	}
-	mg.Spec.ForProvider.Org = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Org = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.OrgRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("apigee.gcp.upbound.io", "v1beta2", "Organization", "OrganizationList")
@@ -52,7 +53,7 @@ func (mg *AddonsConfig) ResolveReferences( // ResolveReferences of this AddonsCo
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Org),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Org, ""),
 			Extract:      resource.ExtractParamPath("name", true),
 			Reference:    mg.Spec.InitProvider.OrgRef,
 			Selector:     mg.Spec.InitProvider.OrgSelector,
@@ -62,7 +63,7 @@ func (mg *AddonsConfig) ResolveReferences( // ResolveReferences of this AddonsCo
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Org")
 	}
-	mg.Spec.InitProvider.Org = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Org = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.OrgRef = rsp.ResolvedReference
 
 	return nil
@@ -83,7 +84,7 @@ func (mg *EndpointAttachment) ResolveReferences(ctx context.Context, c client.Re
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.OrgID),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.OrgID, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.OrgIDRef,
 			Selector:     mg.Spec.ForProvider.OrgIDSelector,
@@ -93,7 +94,7 @@ func (mg *EndpointAttachment) ResolveReferences(ctx context.Context, c client.Re
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.OrgID")
 	}
-	mg.Spec.ForProvider.OrgID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.OrgID = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.OrgIDRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "ServiceAttachment", "ServiceAttachmentList")
@@ -102,7 +103,7 @@ func (mg *EndpointAttachment) ResolveReferences(ctx context.Context, c client.Re
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ServiceAttachment),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.ServiceAttachment, ""),
 			Extract:      common.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.ServiceAttachmentRef,
 			Selector:     mg.Spec.ForProvider.ServiceAttachmentSelector,
@@ -112,7 +113,7 @@ func (mg *EndpointAttachment) ResolveReferences(ctx context.Context, c client.Re
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.ServiceAttachment")
 	}
-	mg.Spec.ForProvider.ServiceAttachment = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ServiceAttachment = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ServiceAttachmentRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "ServiceAttachment", "ServiceAttachmentList")
@@ -121,7 +122,7 @@ func (mg *EndpointAttachment) ResolveReferences(ctx context.Context, c client.Re
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ServiceAttachment),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.ServiceAttachment, ""),
 			Extract:      common.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.ServiceAttachmentRef,
 			Selector:     mg.Spec.InitProvider.ServiceAttachmentSelector,
@@ -131,7 +132,7 @@ func (mg *EndpointAttachment) ResolveReferences(ctx context.Context, c client.Re
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.ServiceAttachment")
 	}
-	mg.Spec.InitProvider.ServiceAttachment = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ServiceAttachment = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ServiceAttachmentRef = rsp.ResolvedReference
 
 	return nil
@@ -152,7 +153,7 @@ func (mg *Envgroup) ResolveReferences(ctx context.Context, c client.Reader) erro
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.OrgID),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.OrgID, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.OrgIDRef,
 			Selector:     mg.Spec.ForProvider.OrgIDSelector,
@@ -162,7 +163,7 @@ func (mg *Envgroup) ResolveReferences(ctx context.Context, c client.Reader) erro
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.OrgID")
 	}
-	mg.Spec.ForProvider.OrgID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.OrgID = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.OrgIDRef = rsp.ResolvedReference
 
 	return nil
@@ -183,7 +184,7 @@ func (mg *EnvgroupAttachment) ResolveReferences(ctx context.Context, c client.Re
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.EnvgroupID),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.EnvgroupID, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.EnvgroupIDRef,
 			Selector:     mg.Spec.ForProvider.EnvgroupIDSelector,
@@ -193,7 +194,7 @@ func (mg *EnvgroupAttachment) ResolveReferences(ctx context.Context, c client.Re
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.EnvgroupID")
 	}
-	mg.Spec.ForProvider.EnvgroupID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.EnvgroupID = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.EnvgroupIDRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("apigee.gcp.upbound.io", "v1beta2", "Environment", "EnvironmentList")
@@ -202,7 +203,7 @@ func (mg *EnvgroupAttachment) ResolveReferences(ctx context.Context, c client.Re
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Environment),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Environment, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.EnvironmentRef,
 			Selector:     mg.Spec.ForProvider.EnvironmentSelector,
@@ -212,7 +213,7 @@ func (mg *EnvgroupAttachment) ResolveReferences(ctx context.Context, c client.Re
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Environment")
 	}
-	mg.Spec.ForProvider.Environment = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Environment = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.EnvironmentRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("apigee.gcp.upbound.io", "v1beta1", "Envgroup", "EnvgroupList")
@@ -221,7 +222,7 @@ func (mg *EnvgroupAttachment) ResolveReferences(ctx context.Context, c client.Re
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.EnvgroupID),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.EnvgroupID, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.EnvgroupIDRef,
 			Selector:     mg.Spec.InitProvider.EnvgroupIDSelector,
@@ -231,7 +232,7 @@ func (mg *EnvgroupAttachment) ResolveReferences(ctx context.Context, c client.Re
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.EnvgroupID")
 	}
-	mg.Spec.InitProvider.EnvgroupID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.EnvgroupID = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.EnvgroupIDRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("apigee.gcp.upbound.io", "v1beta2", "Environment", "EnvironmentList")
@@ -240,7 +241,7 @@ func (mg *EnvgroupAttachment) ResolveReferences(ctx context.Context, c client.Re
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Environment),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Environment, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.EnvironmentRef,
 			Selector:     mg.Spec.InitProvider.EnvironmentSelector,
@@ -250,7 +251,7 @@ func (mg *EnvgroupAttachment) ResolveReferences(ctx context.Context, c client.Re
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Environment")
 	}
-	mg.Spec.InitProvider.Environment = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Environment = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.EnvironmentRef = rsp.ResolvedReference
 
 	return nil
@@ -271,7 +272,7 @@ func (mg *Environment) ResolveReferences(ctx context.Context, c client.Reader) e
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.OrgID),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.OrgID, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.OrgIDRef,
 			Selector:     mg.Spec.ForProvider.OrgIDSelector,
@@ -281,7 +282,7 @@ func (mg *Environment) ResolveReferences(ctx context.Context, c client.Reader) e
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.OrgID")
 	}
-	mg.Spec.ForProvider.OrgID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.OrgID = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.OrgIDRef = rsp.ResolvedReference
 
 	return nil
@@ -302,7 +303,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DiskEncryptionKeyName),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.DiskEncryptionKeyName, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.DiskEncryptionKeyNameRef,
 			Selector:     mg.Spec.ForProvider.DiskEncryptionKeyNameSelector,
@@ -312,7 +313,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.DiskEncryptionKeyName")
 	}
-	mg.Spec.ForProvider.DiskEncryptionKeyName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.DiskEncryptionKeyName = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.DiskEncryptionKeyNameRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("apigee.gcp.upbound.io", "v1beta2", "Organization", "OrganizationList")
@@ -321,7 +322,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.OrgID),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.OrgID, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.OrgIDRef,
 			Selector:     mg.Spec.ForProvider.OrgIDSelector,
@@ -331,7 +332,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.OrgID")
 	}
-	mg.Spec.ForProvider.OrgID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.OrgID = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.OrgIDRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("kms.gcp.upbound.io", "v1beta2", "CryptoKey", "CryptoKeyList")
@@ -340,7 +341,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DiskEncryptionKeyName),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.DiskEncryptionKeyName, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.DiskEncryptionKeyNameRef,
 			Selector:     mg.Spec.InitProvider.DiskEncryptionKeyNameSelector,
@@ -350,7 +351,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.DiskEncryptionKeyName")
 	}
-	mg.Spec.InitProvider.DiskEncryptionKeyName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.DiskEncryptionKeyName = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.DiskEncryptionKeyNameRef = rsp.ResolvedReference
 
 	return nil
@@ -371,7 +372,7 @@ func (mg *InstanceAttachment) ResolveReferences(ctx context.Context, c client.Re
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Environment),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Environment, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.EnvironmentRef,
 			Selector:     mg.Spec.ForProvider.EnvironmentSelector,
@@ -381,7 +382,7 @@ func (mg *InstanceAttachment) ResolveReferences(ctx context.Context, c client.Re
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Environment")
 	}
-	mg.Spec.ForProvider.Environment = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Environment = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.EnvironmentRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("apigee.gcp.upbound.io", "v1beta1", "Instance", "InstanceList")
@@ -390,7 +391,7 @@ func (mg *InstanceAttachment) ResolveReferences(ctx context.Context, c client.Re
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.InstanceID),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.InstanceID, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.InstanceIDRef,
 			Selector:     mg.Spec.ForProvider.InstanceIDSelector,
@@ -400,7 +401,7 @@ func (mg *InstanceAttachment) ResolveReferences(ctx context.Context, c client.Re
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.InstanceID")
 	}
-	mg.Spec.ForProvider.InstanceID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.InstanceID = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.InstanceIDRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("apigee.gcp.upbound.io", "v1beta2", "Environment", "EnvironmentList")
@@ -409,7 +410,7 @@ func (mg *InstanceAttachment) ResolveReferences(ctx context.Context, c client.Re
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Environment),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Environment, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.EnvironmentRef,
 			Selector:     mg.Spec.InitProvider.EnvironmentSelector,
@@ -419,7 +420,7 @@ func (mg *InstanceAttachment) ResolveReferences(ctx context.Context, c client.Re
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Environment")
 	}
-	mg.Spec.InitProvider.Environment = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Environment = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.EnvironmentRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("apigee.gcp.upbound.io", "v1beta1", "Instance", "InstanceList")
@@ -428,7 +429,7 @@ func (mg *InstanceAttachment) ResolveReferences(ctx context.Context, c client.Re
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.InstanceID),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.InstanceID, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.InstanceIDRef,
 			Selector:     mg.Spec.InitProvider.InstanceIDSelector,
@@ -438,7 +439,7 @@ func (mg *InstanceAttachment) ResolveReferences(ctx context.Context, c client.Re
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.InstanceID")
 	}
-	mg.Spec.InitProvider.InstanceID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.InstanceID = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.InstanceIDRef = rsp.ResolvedReference
 
 	return nil
@@ -459,7 +460,7 @@ func (mg *NATAddress) ResolveReferences(ctx context.Context, c client.Reader) er
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.InstanceID),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.InstanceID, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.InstanceIDRef,
 			Selector:     mg.Spec.ForProvider.InstanceIDSelector,
@@ -469,7 +470,7 @@ func (mg *NATAddress) ResolveReferences(ctx context.Context, c client.Reader) er
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.InstanceID")
 	}
-	mg.Spec.ForProvider.InstanceID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.InstanceID = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.InstanceIDRef = rsp.ResolvedReference
 
 	return nil
@@ -490,7 +491,7 @@ func (mg *Organization) ResolveReferences(ctx context.Context, c client.Reader) 
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.AuthorizedNetwork),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.AuthorizedNetwork, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.AuthorizedNetworkRef,
 			Selector:     mg.Spec.ForProvider.AuthorizedNetworkSelector,
@@ -500,7 +501,7 @@ func (mg *Organization) ResolveReferences(ctx context.Context, c client.Reader) 
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.AuthorizedNetwork")
 	}
-	mg.Spec.ForProvider.AuthorizedNetwork = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.AuthorizedNetwork = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.AuthorizedNetworkRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("kms.gcp.upbound.io", "v1beta1", "CryptoKey", "CryptoKeyList")
@@ -509,7 +510,7 @@ func (mg *Organization) ResolveReferences(ctx context.Context, c client.Reader) 
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RuntimeDatabaseEncryptionKeyName),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.RuntimeDatabaseEncryptionKeyName, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.RuntimeDatabaseEncryptionKeyNameRef,
 			Selector:     mg.Spec.ForProvider.RuntimeDatabaseEncryptionKeyNameSelector,
@@ -519,7 +520,7 @@ func (mg *Organization) ResolveReferences(ctx context.Context, c client.Reader) 
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.RuntimeDatabaseEncryptionKeyName")
 	}
-	mg.Spec.ForProvider.RuntimeDatabaseEncryptionKeyName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.RuntimeDatabaseEncryptionKeyName = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.RuntimeDatabaseEncryptionKeyNameRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Network", "NetworkList")
@@ -528,7 +529,7 @@ func (mg *Organization) ResolveReferences(ctx context.Context, c client.Reader) 
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.AuthorizedNetwork),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.AuthorizedNetwork, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.AuthorizedNetworkRef,
 			Selector:     mg.Spec.InitProvider.AuthorizedNetworkSelector,
@@ -538,7 +539,7 @@ func (mg *Organization) ResolveReferences(ctx context.Context, c client.Reader) 
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.AuthorizedNetwork")
 	}
-	mg.Spec.InitProvider.AuthorizedNetwork = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.AuthorizedNetwork = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.AuthorizedNetworkRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("kms.gcp.upbound.io", "v1beta1", "CryptoKey", "CryptoKeyList")
@@ -547,7 +548,7 @@ func (mg *Organization) ResolveReferences(ctx context.Context, c client.Reader) 
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RuntimeDatabaseEncryptionKeyName),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.RuntimeDatabaseEncryptionKeyName, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.RuntimeDatabaseEncryptionKeyNameRef,
 			Selector:     mg.Spec.InitProvider.RuntimeDatabaseEncryptionKeyNameSelector,
@@ -557,7 +558,7 @@ func (mg *Organization) ResolveReferences(ctx context.Context, c client.Reader) 
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.RuntimeDatabaseEncryptionKeyName")
 	}
-	mg.Spec.InitProvider.RuntimeDatabaseEncryptionKeyName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.RuntimeDatabaseEncryptionKeyName = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.RuntimeDatabaseEncryptionKeyNameRef = rsp.ResolvedReference
 
 	return nil
@@ -578,7 +579,7 @@ func (mg *SyncAuthorization) ResolveReferences(ctx context.Context, c client.Rea
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Name),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Name, ""),
 			Extract:      resource.ExtractParamPath("name", true),
 			Reference:    mg.Spec.ForProvider.NameRef,
 			Selector:     mg.Spec.ForProvider.NameSelector,
@@ -588,7 +589,7 @@ func (mg *SyncAuthorization) ResolveReferences(ctx context.Context, c client.Rea
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Name")
 	}
-	mg.Spec.ForProvider.Name = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Name = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.NameRef = rsp.ResolvedReference
 
 	return nil

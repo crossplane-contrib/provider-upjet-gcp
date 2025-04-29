@@ -13,6 +13,7 @@ import (
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -31,7 +32,7 @@ func (mg *AppProfile) ResolveReferences( // ResolveReferences of this AppProfile
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Instance),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Instance, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.InstanceRef,
 			Selector:     mg.Spec.ForProvider.InstanceSelector,
@@ -41,7 +42,7 @@ func (mg *AppProfile) ResolveReferences( // ResolveReferences of this AppProfile
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Instance")
 	}
-	mg.Spec.ForProvider.Instance = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Instance = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.InstanceRef = rsp.ResolvedReference
 
 	return nil
@@ -62,7 +63,7 @@ func (mg *GarbageCollectionPolicy) ResolveReferences(ctx context.Context, c clie
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.InstanceName),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.InstanceName, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.InstanceNameRef,
 			Selector:     mg.Spec.ForProvider.InstanceNameSelector,
@@ -72,7 +73,7 @@ func (mg *GarbageCollectionPolicy) ResolveReferences(ctx context.Context, c clie
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.InstanceName")
 	}
-	mg.Spec.ForProvider.InstanceName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.InstanceName = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.InstanceNameRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("bigtable.gcp.upbound.io", "v1beta1", "Table", "TableList")
@@ -81,7 +82,7 @@ func (mg *GarbageCollectionPolicy) ResolveReferences(ctx context.Context, c clie
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Table),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Table, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.TableRef,
 			Selector:     mg.Spec.ForProvider.TableSelector,
@@ -91,7 +92,7 @@ func (mg *GarbageCollectionPolicy) ResolveReferences(ctx context.Context, c clie
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Table")
 	}
-	mg.Spec.ForProvider.Table = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Table = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.TableRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("bigtable.gcp.upbound.io", "v1beta1", "Instance", "InstanceList")
@@ -100,7 +101,7 @@ func (mg *GarbageCollectionPolicy) ResolveReferences(ctx context.Context, c clie
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.InstanceName),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.InstanceName, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.InstanceNameRef,
 			Selector:     mg.Spec.InitProvider.InstanceNameSelector,
@@ -110,7 +111,7 @@ func (mg *GarbageCollectionPolicy) ResolveReferences(ctx context.Context, c clie
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.InstanceName")
 	}
-	mg.Spec.InitProvider.InstanceName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.InstanceName = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.InstanceNameRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("bigtable.gcp.upbound.io", "v1beta1", "Table", "TableList")
@@ -119,7 +120,7 @@ func (mg *GarbageCollectionPolicy) ResolveReferences(ctx context.Context, c clie
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Table),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Table, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.TableRef,
 			Selector:     mg.Spec.InitProvider.TableSelector,
@@ -129,7 +130,7 @@ func (mg *GarbageCollectionPolicy) ResolveReferences(ctx context.Context, c clie
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Table")
 	}
-	mg.Spec.InitProvider.Table = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Table = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.TableRef = rsp.ResolvedReference
 
 	return nil
@@ -150,7 +151,7 @@ func (mg *Table) ResolveReferences(ctx context.Context, c client.Reader) error {
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.InstanceName),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.InstanceName, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.InstanceNameRef,
 			Selector:     mg.Spec.ForProvider.InstanceNameSelector,
@@ -160,7 +161,7 @@ func (mg *Table) ResolveReferences(ctx context.Context, c client.Reader) error {
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.InstanceName")
 	}
-	mg.Spec.ForProvider.InstanceName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.InstanceName = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.InstanceNameRef = rsp.ResolvedReference
 
 	return nil

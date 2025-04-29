@@ -13,6 +13,7 @@ import (
 	errors "github.com/pkg/errors"
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 
 	// ResolveReferences of this Cluster.
@@ -35,7 +36,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ClusterConfig.GceClusterConfig.ServiceAccount),
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.ClusterConfig.GceClusterConfig.ServiceAccount, ""),
 					Extract:      resource.ExtractParamPath("email", true),
 					Reference:    mg.Spec.ForProvider.ClusterConfig.GceClusterConfig.ServiceAccountRef,
 					Selector:     mg.Spec.ForProvider.ClusterConfig.GceClusterConfig.ServiceAccountSelector,
@@ -45,7 +46,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.ForProvider.ClusterConfig.GceClusterConfig.ServiceAccount")
 			}
-			mg.Spec.ForProvider.ClusterConfig.GceClusterConfig.ServiceAccount = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.ClusterConfig.GceClusterConfig.ServiceAccount = ptr.To(rsp.ResolvedValue)
 			mg.Spec.ForProvider.ClusterConfig.GceClusterConfig.ServiceAccountRef = rsp.ResolvedReference
 
 		}
@@ -58,7 +59,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ClusterConfig.GceClusterConfig.ServiceAccount),
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.ClusterConfig.GceClusterConfig.ServiceAccount, ""),
 					Extract:      resource.ExtractParamPath("email", true),
 					Reference:    mg.Spec.InitProvider.ClusterConfig.GceClusterConfig.ServiceAccountRef,
 					Selector:     mg.Spec.InitProvider.ClusterConfig.GceClusterConfig.ServiceAccountSelector,
@@ -68,7 +69,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.InitProvider.ClusterConfig.GceClusterConfig.ServiceAccount")
 			}
-			mg.Spec.InitProvider.ClusterConfig.GceClusterConfig.ServiceAccount = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.ClusterConfig.GceClusterConfig.ServiceAccount = ptr.To(rsp.ResolvedValue)
 			mg.Spec.InitProvider.ClusterConfig.GceClusterConfig.ServiceAccountRef = rsp.ResolvedReference
 
 		}
@@ -93,7 +94,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Placement.ClusterName),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.Placement.ClusterName, ""),
 				Extract:      resource.ExtractParamPath("name", false),
 				Reference:    mg.Spec.ForProvider.Placement.ClusterNameRef,
 				Selector:     mg.Spec.ForProvider.Placement.ClusterNameSelector,
@@ -103,7 +104,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.Placement.ClusterName")
 		}
-		mg.Spec.ForProvider.Placement.ClusterName = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.Placement.ClusterName = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.Placement.ClusterNameRef = rsp.ResolvedReference
 
 	}
@@ -113,7 +114,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Region),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Region, ""),
 			Extract:      resource.ExtractParamPath("region", false),
 			Reference:    mg.Spec.ForProvider.RegionRef,
 			Selector:     mg.Spec.ForProvider.RegionSelector,
@@ -123,7 +124,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Region")
 	}
-	mg.Spec.ForProvider.Region = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Region = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.RegionRef = rsp.ResolvedReference
 
 	if mg.Spec.InitProvider.Placement != nil {
@@ -133,7 +134,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Placement.ClusterName),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.Placement.ClusterName, ""),
 				Extract:      resource.ExtractParamPath("name", false),
 				Reference:    mg.Spec.InitProvider.Placement.ClusterNameRef,
 				Selector:     mg.Spec.InitProvider.Placement.ClusterNameSelector,
@@ -143,7 +144,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.Placement.ClusterName")
 		}
-		mg.Spec.InitProvider.Placement.ClusterName = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Placement.ClusterName = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.Placement.ClusterNameRef = rsp.ResolvedReference
 
 	}
@@ -153,7 +154,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Region),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Region, ""),
 			Extract:      resource.ExtractParamPath("region", false),
 			Reference:    mg.Spec.InitProvider.RegionRef,
 			Selector:     mg.Spec.InitProvider.RegionSelector,
@@ -163,7 +164,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Region")
 	}
-	mg.Spec.InitProvider.Region = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Region = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.RegionRef = rsp.ResolvedReference
 
 	return nil
@@ -185,7 +186,7 @@ func (mg *MetastoreService) ResolveReferences(ctx context.Context, c client.Read
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.EncryptionConfig.KMSKey),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.EncryptionConfig.KMSKey, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.ForProvider.EncryptionConfig.KMSKeyRef,
 				Selector:     mg.Spec.ForProvider.EncryptionConfig.KMSKeySelector,
@@ -195,7 +196,7 @@ func (mg *MetastoreService) ResolveReferences(ctx context.Context, c client.Read
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.EncryptionConfig.KMSKey")
 		}
-		mg.Spec.ForProvider.EncryptionConfig.KMSKey = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.EncryptionConfig.KMSKey = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.EncryptionConfig.KMSKeyRef = rsp.ResolvedReference
 
 	}
@@ -207,7 +208,7 @@ func (mg *MetastoreService) ResolveReferences(ctx context.Context, c client.Read
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.NetworkConfig.Consumers[i4].Subnetwork),
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.NetworkConfig.Consumers[i4].Subnetwork, ""),
 					Extract:      resource.ExtractResourceID(),
 					Reference:    mg.Spec.ForProvider.NetworkConfig.Consumers[i4].SubnetworkRef,
 					Selector:     mg.Spec.ForProvider.NetworkConfig.Consumers[i4].SubnetworkSelector,
@@ -217,7 +218,7 @@ func (mg *MetastoreService) ResolveReferences(ctx context.Context, c client.Read
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.ForProvider.NetworkConfig.Consumers[i4].Subnetwork")
 			}
-			mg.Spec.ForProvider.NetworkConfig.Consumers[i4].Subnetwork = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.NetworkConfig.Consumers[i4].Subnetwork = ptr.To(rsp.ResolvedValue)
 			mg.Spec.ForProvider.NetworkConfig.Consumers[i4].SubnetworkRef = rsp.ResolvedReference
 
 		}
@@ -229,7 +230,7 @@ func (mg *MetastoreService) ResolveReferences(ctx context.Context, c client.Read
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.EncryptionConfig.KMSKey),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.EncryptionConfig.KMSKey, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.InitProvider.EncryptionConfig.KMSKeyRef,
 				Selector:     mg.Spec.InitProvider.EncryptionConfig.KMSKeySelector,
@@ -239,7 +240,7 @@ func (mg *MetastoreService) ResolveReferences(ctx context.Context, c client.Read
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.EncryptionConfig.KMSKey")
 		}
-		mg.Spec.InitProvider.EncryptionConfig.KMSKey = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.EncryptionConfig.KMSKey = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.EncryptionConfig.KMSKeyRef = rsp.ResolvedReference
 
 	}
@@ -251,7 +252,7 @@ func (mg *MetastoreService) ResolveReferences(ctx context.Context, c client.Read
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.NetworkConfig.Consumers[i4].Subnetwork),
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.NetworkConfig.Consumers[i4].Subnetwork, ""),
 					Extract:      resource.ExtractResourceID(),
 					Reference:    mg.Spec.InitProvider.NetworkConfig.Consumers[i4].SubnetworkRef,
 					Selector:     mg.Spec.InitProvider.NetworkConfig.Consumers[i4].SubnetworkSelector,
@@ -261,7 +262,7 @@ func (mg *MetastoreService) ResolveReferences(ctx context.Context, c client.Read
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.InitProvider.NetworkConfig.Consumers[i4].Subnetwork")
 			}
-			mg.Spec.InitProvider.NetworkConfig.Consumers[i4].Subnetwork = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.NetworkConfig.Consumers[i4].Subnetwork = ptr.To(rsp.ResolvedValue)
 			mg.Spec.InitProvider.NetworkConfig.Consumers[i4].SubnetworkRef = rsp.ResolvedReference
 
 		}

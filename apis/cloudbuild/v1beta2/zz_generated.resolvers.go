@@ -13,6 +13,7 @@ import (
 	errors "github.com/pkg/errors"
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 
 	// ResolveReferences of this Trigger.
@@ -34,7 +35,7 @@ func (mg *Trigger) ResolveReferences(ctx context.Context, c client.Reader) error
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PubsubConfig.Topic),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.PubsubConfig.Topic, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.ForProvider.PubsubConfig.TopicRef,
 				Selector:     mg.Spec.ForProvider.PubsubConfig.TopicSelector,
@@ -44,7 +45,7 @@ func (mg *Trigger) ResolveReferences(ctx context.Context, c client.Reader) error
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.PubsubConfig.Topic")
 		}
-		mg.Spec.ForProvider.PubsubConfig.Topic = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.PubsubConfig.Topic = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.PubsubConfig.TopicRef = rsp.ResolvedReference
 
 	}
@@ -54,7 +55,7 @@ func (mg *Trigger) ResolveReferences(ctx context.Context, c client.Reader) error
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ServiceAccount),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.ServiceAccount, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.ServiceAccountRef,
 			Selector:     mg.Spec.ForProvider.ServiceAccountSelector,
@@ -64,7 +65,7 @@ func (mg *Trigger) ResolveReferences(ctx context.Context, c client.Reader) error
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.ServiceAccount")
 	}
-	mg.Spec.ForProvider.ServiceAccount = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ServiceAccount = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ServiceAccountRef = rsp.ResolvedReference
 
 	if mg.Spec.ForProvider.WebhookConfig != nil {
@@ -74,7 +75,7 @@ func (mg *Trigger) ResolveReferences(ctx context.Context, c client.Reader) error
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.WebhookConfig.Secret),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.WebhookConfig.Secret, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.ForProvider.WebhookConfig.SecretRef,
 				Selector:     mg.Spec.ForProvider.WebhookConfig.SecretSelector,
@@ -84,7 +85,7 @@ func (mg *Trigger) ResolveReferences(ctx context.Context, c client.Reader) error
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.WebhookConfig.Secret")
 		}
-		mg.Spec.ForProvider.WebhookConfig.Secret = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.WebhookConfig.Secret = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.WebhookConfig.SecretRef = rsp.ResolvedReference
 
 	}
@@ -95,7 +96,7 @@ func (mg *Trigger) ResolveReferences(ctx context.Context, c client.Reader) error
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PubsubConfig.Topic),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.PubsubConfig.Topic, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.InitProvider.PubsubConfig.TopicRef,
 				Selector:     mg.Spec.InitProvider.PubsubConfig.TopicSelector,
@@ -105,7 +106,7 @@ func (mg *Trigger) ResolveReferences(ctx context.Context, c client.Reader) error
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.PubsubConfig.Topic")
 		}
-		mg.Spec.InitProvider.PubsubConfig.Topic = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.PubsubConfig.Topic = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.PubsubConfig.TopicRef = rsp.ResolvedReference
 
 	}
@@ -115,7 +116,7 @@ func (mg *Trigger) ResolveReferences(ctx context.Context, c client.Reader) error
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ServiceAccount),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.ServiceAccount, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.ServiceAccountRef,
 			Selector:     mg.Spec.InitProvider.ServiceAccountSelector,
@@ -125,7 +126,7 @@ func (mg *Trigger) ResolveReferences(ctx context.Context, c client.Reader) error
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.ServiceAccount")
 	}
-	mg.Spec.InitProvider.ServiceAccount = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ServiceAccount = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ServiceAccountRef = rsp.ResolvedReference
 
 	if mg.Spec.InitProvider.WebhookConfig != nil {
@@ -135,7 +136,7 @@ func (mg *Trigger) ResolveReferences(ctx context.Context, c client.Reader) error
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.WebhookConfig.Secret),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.WebhookConfig.Secret, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.InitProvider.WebhookConfig.SecretRef,
 				Selector:     mg.Spec.InitProvider.WebhookConfig.SecretSelector,
@@ -145,7 +146,7 @@ func (mg *Trigger) ResolveReferences(ctx context.Context, c client.Reader) error
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.WebhookConfig.Secret")
 		}
-		mg.Spec.InitProvider.WebhookConfig.Secret = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.WebhookConfig.Secret = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.WebhookConfig.SecretRef = rsp.ResolvedReference
 
 	}
@@ -169,7 +170,7 @@ func (mg *WorkerPool) ResolveReferences(ctx context.Context, c client.Reader) er
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.NetworkConfig.PeeredNetwork),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.NetworkConfig.PeeredNetwork, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.ForProvider.NetworkConfig.PeeredNetworkRef,
 				Selector:     mg.Spec.ForProvider.NetworkConfig.PeeredNetworkSelector,
@@ -179,7 +180,7 @@ func (mg *WorkerPool) ResolveReferences(ctx context.Context, c client.Reader) er
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.NetworkConfig.PeeredNetwork")
 		}
-		mg.Spec.ForProvider.NetworkConfig.PeeredNetwork = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.NetworkConfig.PeeredNetwork = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.NetworkConfig.PeeredNetworkRef = rsp.ResolvedReference
 
 	}
@@ -190,7 +191,7 @@ func (mg *WorkerPool) ResolveReferences(ctx context.Context, c client.Reader) er
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.NetworkConfig.PeeredNetwork),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.NetworkConfig.PeeredNetwork, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.InitProvider.NetworkConfig.PeeredNetworkRef,
 				Selector:     mg.Spec.InitProvider.NetworkConfig.PeeredNetworkSelector,
@@ -200,7 +201,7 @@ func (mg *WorkerPool) ResolveReferences(ctx context.Context, c client.Reader) er
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.NetworkConfig.PeeredNetwork")
 		}
-		mg.Spec.InitProvider.NetworkConfig.PeeredNetwork = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.NetworkConfig.PeeredNetwork = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.NetworkConfig.PeeredNetworkRef = rsp.ResolvedReference
 
 	}

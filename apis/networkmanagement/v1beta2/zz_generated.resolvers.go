@@ -14,6 +14,7 @@ import (
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -33,7 +34,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Destination.IPAddress),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.Destination.IPAddress, ""),
 				Extract:      resource.ExtractParamPath("address", false),
 				Reference:    mg.Spec.ForProvider.Destination.IPAddressRef,
 				Selector:     mg.Spec.ForProvider.Destination.IPAddressSelector,
@@ -43,7 +44,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.Destination.IPAddress")
 		}
-		mg.Spec.ForProvider.Destination.IPAddress = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.Destination.IPAddress = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.Destination.IPAddressRef = rsp.ResolvedReference
 
 	}
@@ -54,7 +55,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Destination.Instance),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.Destination.Instance, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.ForProvider.Destination.InstanceRef,
 				Selector:     mg.Spec.ForProvider.Destination.InstanceSelector,
@@ -64,7 +65,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.Destination.Instance")
 		}
-		mg.Spec.ForProvider.Destination.Instance = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.Destination.Instance = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.Destination.InstanceRef = rsp.ResolvedReference
 
 	}
@@ -75,7 +76,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Destination.Network),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.Destination.Network, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.ForProvider.Destination.NetworkRef,
 				Selector:     mg.Spec.ForProvider.Destination.NetworkSelector,
@@ -85,7 +86,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.Destination.Network")
 		}
-		mg.Spec.ForProvider.Destination.Network = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.Destination.Network = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.Destination.NetworkRef = rsp.ResolvedReference
 
 	}
@@ -96,7 +97,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Destination.ProjectID),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.Destination.ProjectID, ""),
 				Extract:      resource.ExtractParamPath("project", false),
 				Reference:    mg.Spec.ForProvider.Destination.ProjectIDRef,
 				Selector:     mg.Spec.ForProvider.Destination.ProjectIDSelector,
@@ -106,7 +107,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.Destination.ProjectID")
 		}
-		mg.Spec.ForProvider.Destination.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.Destination.ProjectID = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.Destination.ProjectIDRef = rsp.ResolvedReference
 
 	}
@@ -117,7 +118,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Source.IPAddress),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.Source.IPAddress, ""),
 				Extract:      resource.ExtractParamPath("address", false),
 				Reference:    mg.Spec.ForProvider.Source.IPAddressRef,
 				Selector:     mg.Spec.ForProvider.Source.IPAddressSelector,
@@ -127,7 +128,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.Source.IPAddress")
 		}
-		mg.Spec.ForProvider.Source.IPAddress = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.Source.IPAddress = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.Source.IPAddressRef = rsp.ResolvedReference
 
 	}
@@ -138,7 +139,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Source.Instance),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.Source.Instance, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.ForProvider.Source.InstanceRef,
 				Selector:     mg.Spec.ForProvider.Source.InstanceSelector,
@@ -148,7 +149,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.Source.Instance")
 		}
-		mg.Spec.ForProvider.Source.Instance = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.Source.Instance = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.Source.InstanceRef = rsp.ResolvedReference
 
 	}
@@ -159,7 +160,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Source.Network),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.Source.Network, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.ForProvider.Source.NetworkRef,
 				Selector:     mg.Spec.ForProvider.Source.NetworkSelector,
@@ -169,7 +170,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.Source.Network")
 		}
-		mg.Spec.ForProvider.Source.Network = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.Source.Network = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.Source.NetworkRef = rsp.ResolvedReference
 
 	}
@@ -180,7 +181,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Source.ProjectID),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.Source.ProjectID, ""),
 				Extract:      resource.ExtractParamPath("project", false),
 				Reference:    mg.Spec.ForProvider.Source.ProjectIDRef,
 				Selector:     mg.Spec.ForProvider.Source.ProjectIDSelector,
@@ -190,7 +191,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.Source.ProjectID")
 		}
-		mg.Spec.ForProvider.Source.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.Source.ProjectID = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.Source.ProjectIDRef = rsp.ResolvedReference
 
 	}
@@ -201,7 +202,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Destination.IPAddress),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.Destination.IPAddress, ""),
 				Extract:      resource.ExtractParamPath("address", false),
 				Reference:    mg.Spec.InitProvider.Destination.IPAddressRef,
 				Selector:     mg.Spec.InitProvider.Destination.IPAddressSelector,
@@ -211,7 +212,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.Destination.IPAddress")
 		}
-		mg.Spec.InitProvider.Destination.IPAddress = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Destination.IPAddress = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.Destination.IPAddressRef = rsp.ResolvedReference
 
 	}
@@ -222,7 +223,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Destination.Instance),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.Destination.Instance, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.InitProvider.Destination.InstanceRef,
 				Selector:     mg.Spec.InitProvider.Destination.InstanceSelector,
@@ -232,7 +233,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.Destination.Instance")
 		}
-		mg.Spec.InitProvider.Destination.Instance = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Destination.Instance = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.Destination.InstanceRef = rsp.ResolvedReference
 
 	}
@@ -243,7 +244,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Destination.Network),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.Destination.Network, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.InitProvider.Destination.NetworkRef,
 				Selector:     mg.Spec.InitProvider.Destination.NetworkSelector,
@@ -253,7 +254,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.Destination.Network")
 		}
-		mg.Spec.InitProvider.Destination.Network = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Destination.Network = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.Destination.NetworkRef = rsp.ResolvedReference
 
 	}
@@ -264,7 +265,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Destination.ProjectID),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.Destination.ProjectID, ""),
 				Extract:      resource.ExtractParamPath("project", false),
 				Reference:    mg.Spec.InitProvider.Destination.ProjectIDRef,
 				Selector:     mg.Spec.InitProvider.Destination.ProjectIDSelector,
@@ -274,7 +275,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.Destination.ProjectID")
 		}
-		mg.Spec.InitProvider.Destination.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Destination.ProjectID = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.Destination.ProjectIDRef = rsp.ResolvedReference
 
 	}
@@ -285,7 +286,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Source.IPAddress),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.Source.IPAddress, ""),
 				Extract:      resource.ExtractParamPath("address", false),
 				Reference:    mg.Spec.InitProvider.Source.IPAddressRef,
 				Selector:     mg.Spec.InitProvider.Source.IPAddressSelector,
@@ -295,7 +296,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.Source.IPAddress")
 		}
-		mg.Spec.InitProvider.Source.IPAddress = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Source.IPAddress = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.Source.IPAddressRef = rsp.ResolvedReference
 
 	}
@@ -306,7 +307,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Source.Instance),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.Source.Instance, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.InitProvider.Source.InstanceRef,
 				Selector:     mg.Spec.InitProvider.Source.InstanceSelector,
@@ -316,7 +317,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.Source.Instance")
 		}
-		mg.Spec.InitProvider.Source.Instance = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Source.Instance = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.Source.InstanceRef = rsp.ResolvedReference
 
 	}
@@ -327,7 +328,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Source.Network),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.Source.Network, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.InitProvider.Source.NetworkRef,
 				Selector:     mg.Spec.InitProvider.Source.NetworkSelector,
@@ -337,7 +338,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.Source.Network")
 		}
-		mg.Spec.InitProvider.Source.Network = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Source.Network = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.Source.NetworkRef = rsp.ResolvedReference
 
 	}
@@ -348,7 +349,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Source.ProjectID),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.Source.ProjectID, ""),
 				Extract:      resource.ExtractParamPath("project", false),
 				Reference:    mg.Spec.InitProvider.Source.ProjectIDRef,
 				Selector:     mg.Spec.InitProvider.Source.ProjectIDSelector,
@@ -358,7 +359,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.Source.ProjectID")
 		}
-		mg.Spec.InitProvider.Source.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Source.ProjectID = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.Source.ProjectIDRef = rsp.ResolvedReference
 
 	}

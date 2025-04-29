@@ -13,6 +13,7 @@ import (
 	errors "github.com/pkg/errors"
 	common "github.com/upbound/provider-gcp/config/common"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -31,7 +32,7 @@ func (mg *LocationTagBinding) ResolveReferences( // ResolveReferences of this Lo
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.TagValue),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.TagValue, ""),
 			Extract:      common.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.TagValueRef,
 			Selector:     mg.Spec.ForProvider.TagValueSelector,
@@ -41,7 +42,7 @@ func (mg *LocationTagBinding) ResolveReferences( // ResolveReferences of this Lo
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.TagValue")
 	}
-	mg.Spec.ForProvider.TagValue = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.TagValue = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.TagValueRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("tags.gcp.upbound.io", "v1beta1", "TagValue", "TagValueList")
@@ -50,7 +51,7 @@ func (mg *LocationTagBinding) ResolveReferences( // ResolveReferences of this Lo
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.TagValue),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.TagValue, ""),
 			Extract:      common.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.TagValueRef,
 			Selector:     mg.Spec.InitProvider.TagValueSelector,
@@ -60,7 +61,7 @@ func (mg *LocationTagBinding) ResolveReferences( // ResolveReferences of this Lo
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.TagValue")
 	}
-	mg.Spec.InitProvider.TagValue = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.TagValue = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.TagValueRef = rsp.ResolvedReference
 
 	return nil
@@ -81,7 +82,7 @@ func (mg *TagBinding) ResolveReferences(ctx context.Context, c client.Reader) er
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.TagValue),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.TagValue, ""),
 			Extract:      common.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.TagValueRef,
 			Selector:     mg.Spec.ForProvider.TagValueSelector,
@@ -91,7 +92,7 @@ func (mg *TagBinding) ResolveReferences(ctx context.Context, c client.Reader) er
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.TagValue")
 	}
-	mg.Spec.ForProvider.TagValue = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.TagValue = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.TagValueRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("tags.gcp.upbound.io", "v1beta1", "TagValue", "TagValueList")
@@ -100,7 +101,7 @@ func (mg *TagBinding) ResolveReferences(ctx context.Context, c client.Reader) er
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.TagValue),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.TagValue, ""),
 			Extract:      common.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.TagValueRef,
 			Selector:     mg.Spec.InitProvider.TagValueSelector,
@@ -110,7 +111,7 @@ func (mg *TagBinding) ResolveReferences(ctx context.Context, c client.Reader) er
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.TagValue")
 	}
-	mg.Spec.InitProvider.TagValue = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.TagValue = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.TagValueRef = rsp.ResolvedReference
 
 	return nil
@@ -131,7 +132,7 @@ func (mg *TagValue) ResolveReferences(ctx context.Context, c client.Reader) erro
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Parent),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Parent, ""),
 			Extract:      common.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.ParentRef,
 			Selector:     mg.Spec.ForProvider.ParentSelector,
@@ -141,7 +142,7 @@ func (mg *TagValue) ResolveReferences(ctx context.Context, c client.Reader) erro
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Parent")
 	}
-	mg.Spec.ForProvider.Parent = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Parent = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ParentRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("tags.gcp.upbound.io", "v1beta1", "TagKey", "TagKeyList")
@@ -150,7 +151,7 @@ func (mg *TagValue) ResolveReferences(ctx context.Context, c client.Reader) erro
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Parent),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Parent, ""),
 			Extract:      common.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.ParentRef,
 			Selector:     mg.Spec.InitProvider.ParentSelector,
@@ -160,7 +161,7 @@ func (mg *TagValue) ResolveReferences(ctx context.Context, c client.Reader) erro
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Parent")
 	}
-	mg.Spec.InitProvider.Parent = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Parent = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ParentRef = rsp.ResolvedReference
 
 	return nil

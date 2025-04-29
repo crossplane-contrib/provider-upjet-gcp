@@ -14,6 +14,7 @@ import (
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -32,7 +33,7 @@ func (mg *BucketACL) ResolveReferences( // ResolveReferences of this BucketACL.
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Bucket),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Bucket, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.BucketRef,
 			Selector:     mg.Spec.ForProvider.BucketSelector,
@@ -42,7 +43,7 @@ func (mg *BucketACL) ResolveReferences( // ResolveReferences of this BucketACL.
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Bucket")
 	}
-	mg.Spec.ForProvider.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Bucket = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.BucketRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta2", "Bucket", "BucketList")
@@ -51,7 +52,7 @@ func (mg *BucketACL) ResolveReferences( // ResolveReferences of this BucketACL.
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Bucket),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Bucket, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.BucketRef,
 			Selector:     mg.Spec.InitProvider.BucketSelector,
@@ -61,7 +62,7 @@ func (mg *BucketACL) ResolveReferences( // ResolveReferences of this BucketACL.
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Bucket")
 	}
-	mg.Spec.InitProvider.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Bucket = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.BucketRef = rsp.ResolvedReference
 
 	return nil
@@ -82,7 +83,7 @@ func (mg *BucketAccessControl) ResolveReferences(ctx context.Context, c client.R
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Bucket),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Bucket, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.BucketRef,
 			Selector:     mg.Spec.ForProvider.BucketSelector,
@@ -92,7 +93,7 @@ func (mg *BucketAccessControl) ResolveReferences(ctx context.Context, c client.R
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Bucket")
 	}
-	mg.Spec.ForProvider.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Bucket = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.BucketRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta2", "Bucket", "BucketList")
@@ -101,7 +102,7 @@ func (mg *BucketAccessControl) ResolveReferences(ctx context.Context, c client.R
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Bucket),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Bucket, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.BucketRef,
 			Selector:     mg.Spec.InitProvider.BucketSelector,
@@ -111,7 +112,7 @@ func (mg *BucketAccessControl) ResolveReferences(ctx context.Context, c client.R
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Bucket")
 	}
-	mg.Spec.InitProvider.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Bucket = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.BucketRef = rsp.ResolvedReference
 
 	return nil
@@ -132,7 +133,7 @@ func (mg *BucketIAMMember) ResolveReferences(ctx context.Context, c client.Reade
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Bucket),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Bucket, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.BucketRef,
 			Selector:     mg.Spec.ForProvider.BucketSelector,
@@ -142,7 +143,7 @@ func (mg *BucketIAMMember) ResolveReferences(ctx context.Context, c client.Reade
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Bucket")
 	}
-	mg.Spec.ForProvider.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Bucket = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.BucketRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta1", "Bucket", "BucketList")
@@ -151,7 +152,7 @@ func (mg *BucketIAMMember) ResolveReferences(ctx context.Context, c client.Reade
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Bucket),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Bucket, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.BucketRef,
 			Selector:     mg.Spec.InitProvider.BucketSelector,
@@ -161,7 +162,7 @@ func (mg *BucketIAMMember) ResolveReferences(ctx context.Context, c client.Reade
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Bucket")
 	}
-	mg.Spec.InitProvider.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Bucket = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.BucketRef = rsp.ResolvedReference
 
 	return nil
@@ -182,7 +183,7 @@ func (mg *BucketObject) ResolveReferences(ctx context.Context, c client.Reader) 
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Bucket),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Bucket, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.BucketRef,
 			Selector:     mg.Spec.ForProvider.BucketSelector,
@@ -192,7 +193,7 @@ func (mg *BucketObject) ResolveReferences(ctx context.Context, c client.Reader) 
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Bucket")
 	}
-	mg.Spec.ForProvider.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Bucket = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.BucketRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta1", "Bucket", "BucketList")
@@ -201,7 +202,7 @@ func (mg *BucketObject) ResolveReferences(ctx context.Context, c client.Reader) 
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Bucket),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Bucket, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.BucketRef,
 			Selector:     mg.Spec.InitProvider.BucketSelector,
@@ -211,7 +212,7 @@ func (mg *BucketObject) ResolveReferences(ctx context.Context, c client.Reader) 
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Bucket")
 	}
-	mg.Spec.InitProvider.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Bucket = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.BucketRef = rsp.ResolvedReference
 
 	return nil
@@ -232,7 +233,7 @@ func (mg *DefaultObjectACL) ResolveReferences(ctx context.Context, c client.Read
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Bucket),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Bucket, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.BucketRef,
 			Selector:     mg.Spec.ForProvider.BucketSelector,
@@ -242,7 +243,7 @@ func (mg *DefaultObjectACL) ResolveReferences(ctx context.Context, c client.Read
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Bucket")
 	}
-	mg.Spec.ForProvider.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Bucket = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.BucketRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta2", "Bucket", "BucketList")
@@ -251,7 +252,7 @@ func (mg *DefaultObjectACL) ResolveReferences(ctx context.Context, c client.Read
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Bucket),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Bucket, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.BucketRef,
 			Selector:     mg.Spec.InitProvider.BucketSelector,
@@ -261,7 +262,7 @@ func (mg *DefaultObjectACL) ResolveReferences(ctx context.Context, c client.Read
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Bucket")
 	}
-	mg.Spec.InitProvider.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Bucket = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.BucketRef = rsp.ResolvedReference
 
 	return nil
@@ -282,7 +283,7 @@ func (mg *DefaultObjectAccessControl) ResolveReferences(ctx context.Context, c c
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Bucket),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Bucket, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.BucketRef,
 			Selector:     mg.Spec.ForProvider.BucketSelector,
@@ -292,7 +293,7 @@ func (mg *DefaultObjectAccessControl) ResolveReferences(ctx context.Context, c c
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Bucket")
 	}
-	mg.Spec.ForProvider.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Bucket = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.BucketRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta2", "Bucket", "BucketList")
@@ -301,7 +302,7 @@ func (mg *DefaultObjectAccessControl) ResolveReferences(ctx context.Context, c c
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Bucket),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Bucket, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.BucketRef,
 			Selector:     mg.Spec.InitProvider.BucketSelector,
@@ -311,7 +312,7 @@ func (mg *DefaultObjectAccessControl) ResolveReferences(ctx context.Context, c c
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Bucket")
 	}
-	mg.Spec.InitProvider.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Bucket = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.BucketRef = rsp.ResolvedReference
 
 	return nil
@@ -332,7 +333,7 @@ func (mg *HMACKey) ResolveReferences(ctx context.Context, c client.Reader) error
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ServiceAccountEmail),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.ServiceAccountEmail, ""),
 			Extract:      resource.ExtractParamPath("email", true),
 			Reference:    mg.Spec.ForProvider.ServiceAccountEmailRef,
 			Selector:     mg.Spec.ForProvider.ServiceAccountEmailSelector,
@@ -342,7 +343,7 @@ func (mg *HMACKey) ResolveReferences(ctx context.Context, c client.Reader) error
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.ServiceAccountEmail")
 	}
-	mg.Spec.ForProvider.ServiceAccountEmail = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ServiceAccountEmail = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ServiceAccountEmailRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "ServiceAccount", "ServiceAccountList")
@@ -351,7 +352,7 @@ func (mg *HMACKey) ResolveReferences(ctx context.Context, c client.Reader) error
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ServiceAccountEmail),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.ServiceAccountEmail, ""),
 			Extract:      resource.ExtractParamPath("email", true),
 			Reference:    mg.Spec.InitProvider.ServiceAccountEmailRef,
 			Selector:     mg.Spec.InitProvider.ServiceAccountEmailSelector,
@@ -361,7 +362,7 @@ func (mg *HMACKey) ResolveReferences(ctx context.Context, c client.Reader) error
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.ServiceAccountEmail")
 	}
-	mg.Spec.InitProvider.ServiceAccountEmail = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ServiceAccountEmail = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ServiceAccountEmailRef = rsp.ResolvedReference
 
 	return nil
@@ -382,7 +383,7 @@ func (mg *Notification) ResolveReferences(ctx context.Context, c client.Reader) 
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Bucket),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Bucket, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.BucketRef,
 			Selector:     mg.Spec.ForProvider.BucketSelector,
@@ -392,7 +393,7 @@ func (mg *Notification) ResolveReferences(ctx context.Context, c client.Reader) 
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Bucket")
 	}
-	mg.Spec.ForProvider.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Bucket = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.BucketRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("pubsub.gcp.upbound.io", "v1beta2", "Topic", "TopicList")
@@ -401,7 +402,7 @@ func (mg *Notification) ResolveReferences(ctx context.Context, c client.Reader) 
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Topic),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Topic, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.TopicRef,
 			Selector:     mg.Spec.ForProvider.TopicSelector,
@@ -411,7 +412,7 @@ func (mg *Notification) ResolveReferences(ctx context.Context, c client.Reader) 
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Topic")
 	}
-	mg.Spec.ForProvider.Topic = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Topic = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.TopicRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta2", "Bucket", "BucketList")
@@ -420,7 +421,7 @@ func (mg *Notification) ResolveReferences(ctx context.Context, c client.Reader) 
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Bucket),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Bucket, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.BucketRef,
 			Selector:     mg.Spec.InitProvider.BucketSelector,
@@ -430,7 +431,7 @@ func (mg *Notification) ResolveReferences(ctx context.Context, c client.Reader) 
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Bucket")
 	}
-	mg.Spec.InitProvider.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Bucket = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.BucketRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("pubsub.gcp.upbound.io", "v1beta2", "Topic", "TopicList")
@@ -439,7 +440,7 @@ func (mg *Notification) ResolveReferences(ctx context.Context, c client.Reader) 
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Topic),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Topic, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.TopicRef,
 			Selector:     mg.Spec.InitProvider.TopicSelector,
@@ -449,7 +450,7 @@ func (mg *Notification) ResolveReferences(ctx context.Context, c client.Reader) 
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Topic")
 	}
-	mg.Spec.InitProvider.Topic = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Topic = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.TopicRef = rsp.ResolvedReference
 
 	return nil
@@ -470,7 +471,7 @@ func (mg *ObjectACL) ResolveReferences(ctx context.Context, c client.Reader) err
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Bucket),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Bucket, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.BucketRef,
 			Selector:     mg.Spec.ForProvider.BucketSelector,
@@ -480,7 +481,7 @@ func (mg *ObjectACL) ResolveReferences(ctx context.Context, c client.Reader) err
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Bucket")
 	}
-	mg.Spec.ForProvider.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Bucket = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.BucketRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta2", "BucketObject", "BucketObjectList")
@@ -489,7 +490,7 @@ func (mg *ObjectACL) ResolveReferences(ctx context.Context, c client.Reader) err
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Object),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Object, ""),
 			Extract:      resource.ExtractParamPath("output_name", true),
 			Reference:    mg.Spec.ForProvider.ObjectRef,
 			Selector:     mg.Spec.ForProvider.ObjectSelector,
@@ -499,7 +500,7 @@ func (mg *ObjectACL) ResolveReferences(ctx context.Context, c client.Reader) err
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Object")
 	}
-	mg.Spec.ForProvider.Object = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Object = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ObjectRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta2", "Bucket", "BucketList")
@@ -508,7 +509,7 @@ func (mg *ObjectACL) ResolveReferences(ctx context.Context, c client.Reader) err
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Bucket),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Bucket, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.BucketRef,
 			Selector:     mg.Spec.InitProvider.BucketSelector,
@@ -518,7 +519,7 @@ func (mg *ObjectACL) ResolveReferences(ctx context.Context, c client.Reader) err
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Bucket")
 	}
-	mg.Spec.InitProvider.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Bucket = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.BucketRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta2", "BucketObject", "BucketObjectList")
@@ -527,7 +528,7 @@ func (mg *ObjectACL) ResolveReferences(ctx context.Context, c client.Reader) err
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Object),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Object, ""),
 			Extract:      resource.ExtractParamPath("output_name", true),
 			Reference:    mg.Spec.InitProvider.ObjectRef,
 			Selector:     mg.Spec.InitProvider.ObjectSelector,
@@ -537,7 +538,7 @@ func (mg *ObjectACL) ResolveReferences(ctx context.Context, c client.Reader) err
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Object")
 	}
-	mg.Spec.InitProvider.Object = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Object = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ObjectRef = rsp.ResolvedReference
 
 	return nil
@@ -558,7 +559,7 @@ func (mg *ObjectAccessControl) ResolveReferences(ctx context.Context, c client.R
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Bucket),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Bucket, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.BucketRef,
 			Selector:     mg.Spec.ForProvider.BucketSelector,
@@ -568,7 +569,7 @@ func (mg *ObjectAccessControl) ResolveReferences(ctx context.Context, c client.R
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Bucket")
 	}
-	mg.Spec.ForProvider.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Bucket = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.BucketRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta2", "BucketObject", "BucketObjectList")
@@ -577,7 +578,7 @@ func (mg *ObjectAccessControl) ResolveReferences(ctx context.Context, c client.R
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Object),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Object, ""),
 			Extract:      resource.ExtractParamPath("output_name", true),
 			Reference:    mg.Spec.ForProvider.ObjectRef,
 			Selector:     mg.Spec.ForProvider.ObjectSelector,
@@ -587,7 +588,7 @@ func (mg *ObjectAccessControl) ResolveReferences(ctx context.Context, c client.R
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Object")
 	}
-	mg.Spec.ForProvider.Object = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Object = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ObjectRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta2", "Bucket", "BucketList")
@@ -596,7 +597,7 @@ func (mg *ObjectAccessControl) ResolveReferences(ctx context.Context, c client.R
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Bucket),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Bucket, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.BucketRef,
 			Selector:     mg.Spec.InitProvider.BucketSelector,
@@ -606,7 +607,7 @@ func (mg *ObjectAccessControl) ResolveReferences(ctx context.Context, c client.R
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Bucket")
 	}
-	mg.Spec.InitProvider.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Bucket = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.BucketRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta2", "BucketObject", "BucketObjectList")
@@ -615,7 +616,7 @@ func (mg *ObjectAccessControl) ResolveReferences(ctx context.Context, c client.R
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Object),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Object, ""),
 			Extract:      resource.ExtractParamPath("output_name", true),
 			Reference:    mg.Spec.InitProvider.ObjectRef,
 			Selector:     mg.Spec.InitProvider.ObjectSelector,
@@ -625,7 +626,7 @@ func (mg *ObjectAccessControl) ResolveReferences(ctx context.Context, c client.R
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Object")
 	}
-	mg.Spec.InitProvider.Object = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Object = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ObjectRef = rsp.ResolvedReference
 
 	return nil

@@ -12,6 +12,7 @@ import (
 	errors "github.com/pkg/errors"
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 
 	// ResolveReferences of this Release.
@@ -32,7 +33,7 @@ func (mg *Release) ResolveReferences(ctx context.Context, c client.Reader) error
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RulesetName),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.RulesetName, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.RulesetNameRef,
 			Selector:     mg.Spec.ForProvider.RulesetNameSelector,
@@ -42,7 +43,7 @@ func (mg *Release) ResolveReferences(ctx context.Context, c client.Reader) error
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.RulesetName")
 	}
-	mg.Spec.ForProvider.RulesetName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.RulesetName = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.RulesetNameRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("firebaserules.gcp.upbound.io", "v1beta2", "Ruleset", "RulesetList")
@@ -51,7 +52,7 @@ func (mg *Release) ResolveReferences(ctx context.Context, c client.Reader) error
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RulesetName),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.RulesetName, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.RulesetNameRef,
 			Selector:     mg.Spec.InitProvider.RulesetNameSelector,
@@ -61,7 +62,7 @@ func (mg *Release) ResolveReferences(ctx context.Context, c client.Reader) error
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.RulesetName")
 	}
-	mg.Spec.InitProvider.RulesetName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.RulesetName = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.RulesetNameRef = rsp.ResolvedReference
 
 	return nil

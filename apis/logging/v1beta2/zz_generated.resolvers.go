@@ -15,6 +15,7 @@ import (
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	common "github.com/upbound/provider-gcp/config/common"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -33,7 +34,7 @@ func (mg *FolderBucketConfig) ResolveReferences( // ResolveReferences of this Fo
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Folder),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Folder, ""),
 			Extract:      common.ExtractFolderID(),
 			Reference:    mg.Spec.ForProvider.FolderRef,
 			Selector:     mg.Spec.ForProvider.FolderSelector,
@@ -43,7 +44,7 @@ func (mg *FolderBucketConfig) ResolveReferences( // ResolveReferences of this Fo
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Folder")
 	}
-	mg.Spec.ForProvider.Folder = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Folder = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.FolderRef = rsp.ResolvedReference
 
 	return nil
@@ -64,7 +65,7 @@ func (mg *FolderSink) ResolveReferences(ctx context.Context, c client.Reader) er
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Folder),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Folder, ""),
 			Extract:      resource.ExtractParamPath("name", true),
 			Reference:    mg.Spec.ForProvider.FolderRef,
 			Selector:     mg.Spec.ForProvider.FolderSelector,
@@ -74,7 +75,7 @@ func (mg *FolderSink) ResolveReferences(ctx context.Context, c client.Reader) er
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Folder")
 	}
-	mg.Spec.ForProvider.Folder = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Folder = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.FolderRef = rsp.ResolvedReference
 
 	return nil
@@ -95,7 +96,7 @@ func (mg *Metric) ResolveReferences(ctx context.Context, c client.Reader) error 
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.BucketName),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.BucketName, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.BucketNameRef,
 			Selector:     mg.Spec.ForProvider.BucketNameSelector,
@@ -105,7 +106,7 @@ func (mg *Metric) ResolveReferences(ctx context.Context, c client.Reader) error 
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.BucketName")
 	}
-	mg.Spec.ForProvider.BucketName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.BucketName = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.BucketNameRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("logging.gcp.upbound.io", "v1beta2", "ProjectBucketConfig", "ProjectBucketConfigList")
@@ -114,7 +115,7 @@ func (mg *Metric) ResolveReferences(ctx context.Context, c client.Reader) error 
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.BucketName),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.BucketName, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.BucketNameRef,
 			Selector:     mg.Spec.InitProvider.BucketNameSelector,
@@ -124,7 +125,7 @@ func (mg *Metric) ResolveReferences(ctx context.Context, c client.Reader) error 
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.BucketName")
 	}
-	mg.Spec.InitProvider.BucketName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.BucketName = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.BucketNameRef = rsp.ResolvedReference
 
 	return nil
@@ -146,7 +147,7 @@ func (mg *ProjectBucketConfig) ResolveReferences(ctx context.Context, c client.R
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CmekSettings.KMSKeyName),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.CmekSettings.KMSKeyName, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.ForProvider.CmekSettings.KMSKeyNameRef,
 				Selector:     mg.Spec.ForProvider.CmekSettings.KMSKeyNameSelector,
@@ -156,7 +157,7 @@ func (mg *ProjectBucketConfig) ResolveReferences(ctx context.Context, c client.R
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.CmekSettings.KMSKeyName")
 		}
-		mg.Spec.ForProvider.CmekSettings.KMSKeyName = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.CmekSettings.KMSKeyName = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.CmekSettings.KMSKeyNameRef = rsp.ResolvedReference
 
 	}
@@ -166,7 +167,7 @@ func (mg *ProjectBucketConfig) ResolveReferences(ctx context.Context, c client.R
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Project, ""),
 			Extract:      resource.ExtractParamPath("project_id", false),
 			Reference:    mg.Spec.ForProvider.ProjectRef,
 			Selector:     mg.Spec.ForProvider.ProjectSelector,
@@ -176,7 +177,7 @@ func (mg *ProjectBucketConfig) ResolveReferences(ctx context.Context, c client.R
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Project")
 	}
-	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Project = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
 
 	if mg.Spec.InitProvider.CmekSettings != nil {
@@ -186,7 +187,7 @@ func (mg *ProjectBucketConfig) ResolveReferences(ctx context.Context, c client.R
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CmekSettings.KMSKeyName),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.CmekSettings.KMSKeyName, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.InitProvider.CmekSettings.KMSKeyNameRef,
 				Selector:     mg.Spec.InitProvider.CmekSettings.KMSKeyNameSelector,
@@ -196,7 +197,7 @@ func (mg *ProjectBucketConfig) ResolveReferences(ctx context.Context, c client.R
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.CmekSettings.KMSKeyName")
 		}
-		mg.Spec.InitProvider.CmekSettings.KMSKeyName = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.CmekSettings.KMSKeyName = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.CmekSettings.KMSKeyNameRef = rsp.ResolvedReference
 
 	}
@@ -219,7 +220,7 @@ func (mg *ProjectSink) ResolveReferences(ctx context.Context, c client.Reader) e
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CustomWriterIdentity),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.CustomWriterIdentity, ""),
 			Extract:      resource.ExtractParamPath("email", true),
 			Reference:    mg.Spec.ForProvider.CustomWriterIdentityRef,
 			Selector:     mg.Spec.ForProvider.CustomWriterIdentitySelector,
@@ -229,7 +230,7 @@ func (mg *ProjectSink) ResolveReferences(ctx context.Context, c client.Reader) e
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.CustomWriterIdentity")
 	}
-	mg.Spec.ForProvider.CustomWriterIdentity = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.CustomWriterIdentity = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.CustomWriterIdentityRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "ServiceAccount", "ServiceAccountList")
@@ -238,7 +239,7 @@ func (mg *ProjectSink) ResolveReferences(ctx context.Context, c client.Reader) e
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CustomWriterIdentity),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.CustomWriterIdentity, ""),
 			Extract:      resource.ExtractParamPath("email", true),
 			Reference:    mg.Spec.InitProvider.CustomWriterIdentityRef,
 			Selector:     mg.Spec.InitProvider.CustomWriterIdentitySelector,
@@ -248,7 +249,7 @@ func (mg *ProjectSink) ResolveReferences(ctx context.Context, c client.Reader) e
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.CustomWriterIdentity")
 	}
-	mg.Spec.InitProvider.CustomWriterIdentity = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CustomWriterIdentity = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.CustomWriterIdentityRef = rsp.ResolvedReference
 
 	return nil

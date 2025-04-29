@@ -13,6 +13,7 @@ import (
 	errors "github.com/pkg/errors"
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 
 	// ResolveReferences of this Workflow.
@@ -33,7 +34,7 @@ func (mg *Workflow) ResolveReferences(ctx context.Context, c client.Reader) erro
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ServiceAccount),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.ServiceAccount, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.ServiceAccountRef,
 			Selector:     mg.Spec.ForProvider.ServiceAccountSelector,
@@ -43,7 +44,7 @@ func (mg *Workflow) ResolveReferences(ctx context.Context, c client.Reader) erro
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.ServiceAccount")
 	}
-	mg.Spec.ForProvider.ServiceAccount = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ServiceAccount = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ServiceAccountRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "ServiceAccount", "ServiceAccountList")
@@ -52,7 +53,7 @@ func (mg *Workflow) ResolveReferences(ctx context.Context, c client.Reader) erro
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ServiceAccount),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.ServiceAccount, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.ServiceAccountRef,
 			Selector:     mg.Spec.InitProvider.ServiceAccountSelector,
@@ -62,7 +63,7 @@ func (mg *Workflow) ResolveReferences(ctx context.Context, c client.Reader) erro
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.ServiceAccount")
 	}
-	mg.Spec.InitProvider.ServiceAccount = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ServiceAccount = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ServiceAccountRef = rsp.ResolvedReference
 
 	return nil

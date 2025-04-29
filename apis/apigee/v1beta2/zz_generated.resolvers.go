@@ -14,6 +14,7 @@ import (
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -32,7 +33,7 @@ func (mg *Environment) ResolveReferences( // ResolveReferences of this Environme
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.OrgID),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.OrgID, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.OrgIDRef,
 			Selector:     mg.Spec.ForProvider.OrgIDSelector,
@@ -42,7 +43,7 @@ func (mg *Environment) ResolveReferences( // ResolveReferences of this Environme
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.OrgID")
 	}
-	mg.Spec.ForProvider.OrgID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.OrgID = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.OrgIDRef = rsp.ResolvedReference
 
 	return nil
@@ -63,7 +64,7 @@ func (mg *Organization) ResolveReferences(ctx context.Context, c client.Reader) 
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.AuthorizedNetwork),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.AuthorizedNetwork, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.AuthorizedNetworkRef,
 			Selector:     mg.Spec.ForProvider.AuthorizedNetworkSelector,
@@ -73,7 +74,7 @@ func (mg *Organization) ResolveReferences(ctx context.Context, c client.Reader) 
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.AuthorizedNetwork")
 	}
-	mg.Spec.ForProvider.AuthorizedNetwork = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.AuthorizedNetwork = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.AuthorizedNetworkRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("kms.gcp.upbound.io", "v1beta2", "CryptoKey", "CryptoKeyList")
@@ -82,7 +83,7 @@ func (mg *Organization) ResolveReferences(ctx context.Context, c client.Reader) 
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RuntimeDatabaseEncryptionKeyName),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.RuntimeDatabaseEncryptionKeyName, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.RuntimeDatabaseEncryptionKeyNameRef,
 			Selector:     mg.Spec.ForProvider.RuntimeDatabaseEncryptionKeyNameSelector,
@@ -92,7 +93,7 @@ func (mg *Organization) ResolveReferences(ctx context.Context, c client.Reader) 
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.RuntimeDatabaseEncryptionKeyName")
 	}
-	mg.Spec.ForProvider.RuntimeDatabaseEncryptionKeyName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.RuntimeDatabaseEncryptionKeyName = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.RuntimeDatabaseEncryptionKeyNameRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Network", "NetworkList")
@@ -101,7 +102,7 @@ func (mg *Organization) ResolveReferences(ctx context.Context, c client.Reader) 
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.AuthorizedNetwork),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.AuthorizedNetwork, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.AuthorizedNetworkRef,
 			Selector:     mg.Spec.InitProvider.AuthorizedNetworkSelector,
@@ -111,7 +112,7 @@ func (mg *Organization) ResolveReferences(ctx context.Context, c client.Reader) 
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.AuthorizedNetwork")
 	}
-	mg.Spec.InitProvider.AuthorizedNetwork = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.AuthorizedNetwork = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.AuthorizedNetworkRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("kms.gcp.upbound.io", "v1beta2", "CryptoKey", "CryptoKeyList")
@@ -120,7 +121,7 @@ func (mg *Organization) ResolveReferences(ctx context.Context, c client.Reader) 
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RuntimeDatabaseEncryptionKeyName),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.RuntimeDatabaseEncryptionKeyName, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.RuntimeDatabaseEncryptionKeyNameRef,
 			Selector:     mg.Spec.InitProvider.RuntimeDatabaseEncryptionKeyNameSelector,
@@ -130,7 +131,7 @@ func (mg *Organization) ResolveReferences(ctx context.Context, c client.Reader) 
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.RuntimeDatabaseEncryptionKeyName")
 	}
-	mg.Spec.InitProvider.RuntimeDatabaseEncryptionKeyName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.RuntimeDatabaseEncryptionKeyName = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.RuntimeDatabaseEncryptionKeyNameRef = rsp.ResolvedReference
 
 	return nil

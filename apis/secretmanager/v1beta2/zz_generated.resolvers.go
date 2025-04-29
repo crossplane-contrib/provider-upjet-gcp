@@ -13,6 +13,7 @@ import (
 	errors "github.com/pkg/errors"
 	common "github.com/upbound/provider-gcp/config/common"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -31,7 +32,7 @@ func (mg *SecretIAMMember) ResolveReferences( // ResolveReferences of this Secre
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SecretID),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.SecretID, ""),
 			Extract:      common.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.SecretIDRef,
 			Selector:     mg.Spec.ForProvider.SecretIDSelector,
@@ -41,7 +42,7 @@ func (mg *SecretIAMMember) ResolveReferences( // ResolveReferences of this Secre
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.SecretID")
 	}
-	mg.Spec.ForProvider.SecretID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.SecretID = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.SecretIDRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("secretmanager.gcp.upbound.io", "v1beta2", "Secret", "SecretList")
@@ -50,7 +51,7 @@ func (mg *SecretIAMMember) ResolveReferences( // ResolveReferences of this Secre
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SecretID),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.SecretID, ""),
 			Extract:      common.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.SecretIDRef,
 			Selector:     mg.Spec.InitProvider.SecretIDSelector,
@@ -60,7 +61,7 @@ func (mg *SecretIAMMember) ResolveReferences( // ResolveReferences of this Secre
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.SecretID")
 	}
-	mg.Spec.InitProvider.SecretID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.SecretID = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.SecretIDRef = rsp.ResolvedReference
 
 	return nil

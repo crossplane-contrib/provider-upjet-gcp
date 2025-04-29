@@ -13,6 +13,7 @@ import (
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -31,7 +32,7 @@ func (mg *DatasetIAMMember) ResolveReferences( // ResolveReferences of this Data
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DatasetID),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.DatasetID, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.DatasetIDRef,
 			Selector:     mg.Spec.ForProvider.DatasetIDSelector,
@@ -41,7 +42,7 @@ func (mg *DatasetIAMMember) ResolveReferences( // ResolveReferences of this Data
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.DatasetID")
 	}
-	mg.Spec.ForProvider.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.DatasetID = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.DatasetIDRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("healthcare.gcp.upbound.io", "v1beta1", "Dataset", "DatasetList")
@@ -50,7 +51,7 @@ func (mg *DatasetIAMMember) ResolveReferences( // ResolveReferences of this Data
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DatasetID),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.DatasetID, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.DatasetIDRef,
 			Selector:     mg.Spec.InitProvider.DatasetIDSelector,
@@ -60,7 +61,7 @@ func (mg *DatasetIAMMember) ResolveReferences( // ResolveReferences of this Data
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.DatasetID")
 	}
-	mg.Spec.InitProvider.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.DatasetID = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.DatasetIDRef = rsp.ResolvedReference
 
 	return nil

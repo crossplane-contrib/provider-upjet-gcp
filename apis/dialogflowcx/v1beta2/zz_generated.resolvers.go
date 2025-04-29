@@ -12,6 +12,7 @@ import (
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	resource "github.com/crossplane/upjet/pkg/resource"
 	errors "github.com/pkg/errors"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 
 	// ResolveReferences of this Flow.
@@ -32,7 +33,7 @@ func (mg *Flow) ResolveReferences(ctx context.Context, c client.Reader) error {
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Parent),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Parent, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.ParentRef,
 			Selector:     mg.Spec.ForProvider.ParentSelector,
@@ -42,7 +43,7 @@ func (mg *Flow) ResolveReferences(ctx context.Context, c client.Reader) error {
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Parent")
 	}
-	mg.Spec.ForProvider.Parent = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Parent = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ParentRef = rsp.ResolvedReference
 
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.TransitionRoutes); i3++ {
@@ -52,7 +53,7 @@ func (mg *Flow) ResolveReferences(ctx context.Context, c client.Reader) error {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.TransitionRoutes[i3].TargetFlow),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.TransitionRoutes[i3].TargetFlow, ""),
 				Extract:      resource.ExtractParamPath("start_flow", true),
 				Reference:    mg.Spec.ForProvider.TransitionRoutes[i3].TargetFlowRef,
 				Selector:     mg.Spec.ForProvider.TransitionRoutes[i3].TargetFlowSelector,
@@ -62,7 +63,7 @@ func (mg *Flow) ResolveReferences(ctx context.Context, c client.Reader) error {
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.TransitionRoutes[i3].TargetFlow")
 		}
-		mg.Spec.ForProvider.TransitionRoutes[i3].TargetFlow = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.TransitionRoutes[i3].TargetFlow = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.TransitionRoutes[i3].TargetFlowRef = rsp.ResolvedReference
 
 	}
@@ -72,7 +73,7 @@ func (mg *Flow) ResolveReferences(ctx context.Context, c client.Reader) error {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Parent),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Parent, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.ParentRef,
 			Selector:     mg.Spec.InitProvider.ParentSelector,
@@ -82,7 +83,7 @@ func (mg *Flow) ResolveReferences(ctx context.Context, c client.Reader) error {
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Parent")
 	}
-	mg.Spec.InitProvider.Parent = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Parent = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ParentRef = rsp.ResolvedReference
 
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.TransitionRoutes); i3++ {
@@ -92,7 +93,7 @@ func (mg *Flow) ResolveReferences(ctx context.Context, c client.Reader) error {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.TransitionRoutes[i3].TargetFlow),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.TransitionRoutes[i3].TargetFlow, ""),
 				Extract:      resource.ExtractParamPath("start_flow", true),
 				Reference:    mg.Spec.InitProvider.TransitionRoutes[i3].TargetFlowRef,
 				Selector:     mg.Spec.InitProvider.TransitionRoutes[i3].TargetFlowSelector,
@@ -102,7 +103,7 @@ func (mg *Flow) ResolveReferences(ctx context.Context, c client.Reader) error {
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.TransitionRoutes[i3].TargetFlow")
 		}
-		mg.Spec.InitProvider.TransitionRoutes[i3].TargetFlow = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.TransitionRoutes[i3].TargetFlow = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.TransitionRoutes[i3].TargetFlowRef = rsp.ResolvedReference
 
 	}
@@ -129,7 +130,7 @@ func (mg *Page) ResolveReferences(ctx context.Context, c client.Reader) error {
 							return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 						}
 						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-							CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetFlow),
+							CurrentValue: ptr.Deref(mg.Spec.ForProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetFlow, ""),
 							Extract:      resource.ExtractParamPath("start_flow", true),
 							Reference:    mg.Spec.ForProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetFlowRef,
 							Selector:     mg.Spec.ForProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetFlowSelector,
@@ -139,7 +140,7 @@ func (mg *Page) ResolveReferences(ctx context.Context, c client.Reader) error {
 					if err != nil {
 						return errors.Wrap(err, "mg.Spec.ForProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetFlow")
 					}
-					mg.Spec.ForProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetFlow = reference.ToPtrValue(rsp.ResolvedValue)
+					mg.Spec.ForProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetFlow = ptr.To(rsp.ResolvedValue)
 					mg.Spec.ForProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetFlowRef = rsp.ResolvedReference
 
 				}
@@ -156,7 +157,7 @@ func (mg *Page) ResolveReferences(ctx context.Context, c client.Reader) error {
 							return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 						}
 						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-							CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetPage),
+							CurrentValue: ptr.Deref(mg.Spec.ForProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetPage, ""),
 							Extract:      resource.ExtractResourceID(),
 							Reference:    mg.Spec.ForProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetPageRef,
 							Selector:     mg.Spec.ForProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetPageSelector,
@@ -166,7 +167,7 @@ func (mg *Page) ResolveReferences(ctx context.Context, c client.Reader) error {
 					if err != nil {
 						return errors.Wrap(err, "mg.Spec.ForProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetPage")
 					}
-					mg.Spec.ForProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetPage = reference.ToPtrValue(rsp.ResolvedValue)
+					mg.Spec.ForProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetPage = ptr.To(rsp.ResolvedValue)
 					mg.Spec.ForProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetPageRef = rsp.ResolvedReference
 
 				}
@@ -184,7 +185,7 @@ func (mg *Page) ResolveReferences(ctx context.Context, c client.Reader) error {
 								return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 							}
 							rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-								CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TriggerFulfillment.Webhook),
+								CurrentValue: ptr.Deref(mg.Spec.ForProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TriggerFulfillment.Webhook, ""),
 								Extract:      resource.ExtractResourceID(),
 								Reference:    mg.Spec.ForProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TriggerFulfillment.WebhookRef,
 								Selector:     mg.Spec.ForProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TriggerFulfillment.WebhookSelector,
@@ -194,7 +195,7 @@ func (mg *Page) ResolveReferences(ctx context.Context, c client.Reader) error {
 						if err != nil {
 							return errors.Wrap(err, "mg.Spec.ForProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TriggerFulfillment.Webhook")
 						}
-						mg.Spec.ForProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TriggerFulfillment.Webhook = reference.ToPtrValue(rsp.ResolvedValue)
+						mg.Spec.ForProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TriggerFulfillment.Webhook = ptr.To(rsp.ResolvedValue)
 						mg.Spec.ForProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TriggerFulfillment.WebhookRef = rsp.ResolvedReference
 
 					}
@@ -208,7 +209,7 @@ func (mg *Page) ResolveReferences(ctx context.Context, c client.Reader) error {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Parent),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Parent, ""),
 			Extract:      resource.ExtractParamPath("start_flow", true),
 			Reference:    mg.Spec.ForProvider.ParentRef,
 			Selector:     mg.Spec.ForProvider.ParentSelector,
@@ -218,7 +219,7 @@ func (mg *Page) ResolveReferences(ctx context.Context, c client.Reader) error {
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Parent")
 	}
-	mg.Spec.ForProvider.Parent = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Parent = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ParentRef = rsp.ResolvedReference
 
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.TransitionRoutes); i3++ {
@@ -228,7 +229,7 @@ func (mg *Page) ResolveReferences(ctx context.Context, c client.Reader) error {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.TransitionRoutes[i3].TargetPage),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.TransitionRoutes[i3].TargetPage, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.ForProvider.TransitionRoutes[i3].TargetPageRef,
 				Selector:     mg.Spec.ForProvider.TransitionRoutes[i3].TargetPageSelector,
@@ -238,7 +239,7 @@ func (mg *Page) ResolveReferences(ctx context.Context, c client.Reader) error {
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.TransitionRoutes[i3].TargetPage")
 		}
-		mg.Spec.ForProvider.TransitionRoutes[i3].TargetPage = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.TransitionRoutes[i3].TargetPage = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.TransitionRoutes[i3].TargetPageRef = rsp.ResolvedReference
 
 	}
@@ -252,7 +253,7 @@ func (mg *Page) ResolveReferences(ctx context.Context, c client.Reader) error {
 							return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 						}
 						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-							CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetFlow),
+							CurrentValue: ptr.Deref(mg.Spec.InitProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetFlow, ""),
 							Extract:      resource.ExtractParamPath("start_flow", true),
 							Reference:    mg.Spec.InitProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetFlowRef,
 							Selector:     mg.Spec.InitProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetFlowSelector,
@@ -262,7 +263,7 @@ func (mg *Page) ResolveReferences(ctx context.Context, c client.Reader) error {
 					if err != nil {
 						return errors.Wrap(err, "mg.Spec.InitProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetFlow")
 					}
-					mg.Spec.InitProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetFlow = reference.ToPtrValue(rsp.ResolvedValue)
+					mg.Spec.InitProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetFlow = ptr.To(rsp.ResolvedValue)
 					mg.Spec.InitProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetFlowRef = rsp.ResolvedReference
 
 				}
@@ -279,7 +280,7 @@ func (mg *Page) ResolveReferences(ctx context.Context, c client.Reader) error {
 							return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 						}
 						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-							CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetPage),
+							CurrentValue: ptr.Deref(mg.Spec.InitProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetPage, ""),
 							Extract:      resource.ExtractResourceID(),
 							Reference:    mg.Spec.InitProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetPageRef,
 							Selector:     mg.Spec.InitProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetPageSelector,
@@ -289,7 +290,7 @@ func (mg *Page) ResolveReferences(ctx context.Context, c client.Reader) error {
 					if err != nil {
 						return errors.Wrap(err, "mg.Spec.InitProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetPage")
 					}
-					mg.Spec.InitProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetPage = reference.ToPtrValue(rsp.ResolvedValue)
+					mg.Spec.InitProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetPage = ptr.To(rsp.ResolvedValue)
 					mg.Spec.InitProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetPageRef = rsp.ResolvedReference
 
 				}
@@ -307,7 +308,7 @@ func (mg *Page) ResolveReferences(ctx context.Context, c client.Reader) error {
 								return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 							}
 							rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-								CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TriggerFulfillment.Webhook),
+								CurrentValue: ptr.Deref(mg.Spec.InitProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TriggerFulfillment.Webhook, ""),
 								Extract:      resource.ExtractResourceID(),
 								Reference:    mg.Spec.InitProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TriggerFulfillment.WebhookRef,
 								Selector:     mg.Spec.InitProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TriggerFulfillment.WebhookSelector,
@@ -317,7 +318,7 @@ func (mg *Page) ResolveReferences(ctx context.Context, c client.Reader) error {
 						if err != nil {
 							return errors.Wrap(err, "mg.Spec.InitProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TriggerFulfillment.Webhook")
 						}
-						mg.Spec.InitProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TriggerFulfillment.Webhook = reference.ToPtrValue(rsp.ResolvedValue)
+						mg.Spec.InitProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TriggerFulfillment.Webhook = ptr.To(rsp.ResolvedValue)
 						mg.Spec.InitProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TriggerFulfillment.WebhookRef = rsp.ResolvedReference
 
 					}
@@ -331,7 +332,7 @@ func (mg *Page) ResolveReferences(ctx context.Context, c client.Reader) error {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Parent),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Parent, ""),
 			Extract:      resource.ExtractParamPath("start_flow", true),
 			Reference:    mg.Spec.InitProvider.ParentRef,
 			Selector:     mg.Spec.InitProvider.ParentSelector,
@@ -341,7 +342,7 @@ func (mg *Page) ResolveReferences(ctx context.Context, c client.Reader) error {
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Parent")
 	}
-	mg.Spec.InitProvider.Parent = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Parent = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ParentRef = rsp.ResolvedReference
 
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.TransitionRoutes); i3++ {
@@ -351,7 +352,7 @@ func (mg *Page) ResolveReferences(ctx context.Context, c client.Reader) error {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.TransitionRoutes[i3].TargetPage),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.TransitionRoutes[i3].TargetPage, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.InitProvider.TransitionRoutes[i3].TargetPageRef,
 				Selector:     mg.Spec.InitProvider.TransitionRoutes[i3].TargetPageSelector,
@@ -361,7 +362,7 @@ func (mg *Page) ResolveReferences(ctx context.Context, c client.Reader) error {
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.TransitionRoutes[i3].TargetPage")
 		}
-		mg.Spec.InitProvider.TransitionRoutes[i3].TargetPage = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.TransitionRoutes[i3].TargetPage = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.TransitionRoutes[i3].TargetPageRef = rsp.ResolvedReference
 
 	}
@@ -384,7 +385,7 @@ func (mg *Webhook) ResolveReferences(ctx context.Context, c client.Reader) error
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Parent),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Parent, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.ParentRef,
 			Selector:     mg.Spec.ForProvider.ParentSelector,
@@ -394,7 +395,7 @@ func (mg *Webhook) ResolveReferences(ctx context.Context, c client.Reader) error
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Parent")
 	}
-	mg.Spec.ForProvider.Parent = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Parent = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ParentRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("dialogflowcx.gcp.upbound.io", "v1beta2", "Agent", "AgentList")
@@ -403,7 +404,7 @@ func (mg *Webhook) ResolveReferences(ctx context.Context, c client.Reader) error
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Parent),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Parent, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.ParentRef,
 			Selector:     mg.Spec.InitProvider.ParentSelector,
@@ -413,7 +414,7 @@ func (mg *Webhook) ResolveReferences(ctx context.Context, c client.Reader) error
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Parent")
 	}
-	mg.Spec.InitProvider.Parent = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Parent = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ParentRef = rsp.ResolvedReference
 
 	return nil
