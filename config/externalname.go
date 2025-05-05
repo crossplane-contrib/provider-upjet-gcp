@@ -248,6 +248,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_compute_region_per_instance_config": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{{project}}/regions/{{region}}/sslCertificates/{{name}}
 	"google_compute_region_ssl_certificate": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/regions/{{ .parameters.region }}/sslCertificates/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/regions/{{region}}/sslPolicies/{{name}}
+	"google_compute_region_ssl_policy": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/regions/{{ .parameters.region }}/sslPolicies/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/regions/{{region}}/targetHttpsProxies/{{name}}
 	"google_compute_region_target_https_proxy": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/regions/{{ .parameters.region }}/targetHttpsProxies/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/reservations/{{name}}
@@ -305,6 +307,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_compute_network_firewall_policy": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/global/firewallPolicies/{{ .external_name }}"),
 	// Imported by using the following projects/{{project}}/global/firewallPolicies/{{firewall_policy}}/associations/{{name}}
 	"google_compute_network_firewall_policy_association": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/global/firewallPolicies/{{ .parameters.firewall_policy }}/associations/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/global/firewallPolicies/{{firewall_policy}}/rules/{{priority}}
+	"google_compute_network_firewall_policy_rule": config.TemplatedStringAsIdentifier("", "projects/{{ .setup.configuration.project }}/global/firewallPolicies/{{ .parameters.firewall_policy }}/rules/{{ .parameters.priority }}"),
 	// Imported by using the following projects/{{project}}/regions/{{region}}/firewallPolicies/{{name}}
 	"google_compute_region_network_firewall_policy": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/regions/{{ .parameters.region }}/firewallPolicies/{{ .external_name }}"),
 	// Imported by using the following projects/{{project}}/regions/{{region}}/firewallPolicies/{{firewall_policy}}/associations/{{name}}
@@ -642,6 +646,11 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_network_connectivity_spoke": config.IdentifierFromProvider,
 	// ServiceConnectionPolicy can be imported using projects/{{project}}/locations/{{location}}/serviceConnectionPolicies/{{name}}
 	"google_network_connectivity_service_connection_policy": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/serviceConnectionPolicies/{{ .external_name }}"),
+
+	// network security
+	//
+	// Imported by using the following {{parent}}/locations/{{location}}/addressGroups/{{name}}
+	"google_network_security_address_group": config.TemplatedStringAsIdentifier("name", "{{ .parameters.parent }}/locations/{{ .parameters.location }}/addressGroups/{{ .external_name }}"),
 
 	// mlengine
 	//

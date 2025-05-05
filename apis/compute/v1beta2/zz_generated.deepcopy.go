@@ -25423,6 +25423,18 @@ func (in *MatchInitParameters) DeepCopyInto(out *MatchInitParameters) {
 			}
 		}
 	}
+	if in.DestAddressGroupsRefs != nil {
+		in, out := &in.DestAddressGroupsRefs, &out.DestAddressGroupsRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.DestAddressGroupsSelector != nil {
+		in, out := &in.DestAddressGroupsSelector, &out.DestAddressGroupsSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.DestFqdns != nil {
 		in, out := &in.DestFqdns, &out.DestFqdns
 		*out = make([]*string, len(*in))
@@ -25686,6 +25698,18 @@ func (in *MatchParameters) DeepCopyInto(out *MatchParameters) {
 				**out = **in
 			}
 		}
+	}
+	if in.DestAddressGroupsRefs != nil {
+		in, out := &in.DestAddressGroupsRefs, &out.DestAddressGroupsRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.DestAddressGroupsSelector != nil {
+		in, out := &in.DestAddressGroupsSelector, &out.DestAddressGroupsSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.DestFqdns != nil {
 		in, out := &in.DestFqdns, &out.DestFqdns

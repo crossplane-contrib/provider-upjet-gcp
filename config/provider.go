@@ -36,6 +36,7 @@ import (
 	"github.com/upbound/provider-gcp/config/kms"
 	"github.com/upbound/provider-gcp/config/logging"
 	"github.com/upbound/provider-gcp/config/monitoring"
+	"github.com/upbound/provider-gcp/config/networksecurity"
 	"github.com/upbound/provider-gcp/config/notebooks"
 	"github.com/upbound/provider-gcp/config/oslogin"
 	"github.com/upbound/provider-gcp/config/privateca"
@@ -81,6 +82,7 @@ func init() {
 	ProviderConfiguration.AddConfig(identityplatform.Configure)
 	ProviderConfiguration.AddConfig(logging.Configure)
 	ProviderConfiguration.AddConfig(kms.Configure)
+	ProviderConfiguration.AddConfig(networksecurity.Configure)
 	ProviderConfiguration.AddConfig(notebooks.Configure)
 	ProviderConfiguration.AddConfig(privateca.Configure)
 	ProviderConfiguration.AddConfig(oslogin.Configure)

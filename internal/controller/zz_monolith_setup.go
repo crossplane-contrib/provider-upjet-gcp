@@ -148,6 +148,7 @@ import (
 	networkendpointgroup "github.com/upbound/provider-gcp/internal/controller/compute/networkendpointgroup"
 	networkfirewallpolicy "github.com/upbound/provider-gcp/internal/controller/compute/networkfirewallpolicy"
 	networkfirewallpolicyassociation "github.com/upbound/provider-gcp/internal/controller/compute/networkfirewallpolicyassociation"
+	networkfirewallpolicyrule "github.com/upbound/provider-gcp/internal/controller/compute/networkfirewallpolicyrule"
 	networkpeering "github.com/upbound/provider-gcp/internal/controller/compute/networkpeering"
 	networkpeeringroutesconfig "github.com/upbound/provider-gcp/internal/controller/compute/networkpeeringroutesconfig"
 	nodegroup "github.com/upbound/provider-gcp/internal/controller/compute/nodegroup"
@@ -170,6 +171,7 @@ import (
 	regionnetworkfirewallpolicyassociation "github.com/upbound/provider-gcp/internal/controller/compute/regionnetworkfirewallpolicyassociation"
 	regionperinstanceconfig "github.com/upbound/provider-gcp/internal/controller/compute/regionperinstanceconfig"
 	regionsslcertificate "github.com/upbound/provider-gcp/internal/controller/compute/regionsslcertificate"
+	regionsslpolicy "github.com/upbound/provider-gcp/internal/controller/compute/regionsslpolicy"
 	regiontargethttpproxy "github.com/upbound/provider-gcp/internal/controller/compute/regiontargethttpproxy"
 	regiontargethttpsproxy "github.com/upbound/provider-gcp/internal/controller/compute/regiontargethttpsproxy"
 	regiontargettcpproxy "github.com/upbound/provider-gcp/internal/controller/compute/regiontargettcpproxy"
@@ -313,6 +315,7 @@ import (
 	serviceconnectionpolicy "github.com/upbound/provider-gcp/internal/controller/networkconnectivity/serviceconnectionpolicy"
 	spoke "github.com/upbound/provider-gcp/internal/controller/networkconnectivity/spoke"
 	connectivitytest "github.com/upbound/provider-gcp/internal/controller/networkmanagement/connectivitytest"
+	addressgroup "github.com/upbound/provider-gcp/internal/controller/networksecurity/addressgroup"
 	environmentnotebooks "github.com/upbound/provider-gcp/internal/controller/notebooks/environment"
 	instancenotebooks "github.com/upbound/provider-gcp/internal/controller/notebooks/instance"
 	instanceiammembernotebooks "github.com/upbound/provider-gcp/internal/controller/notebooks/instanceiammember"
@@ -522,6 +525,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		networkendpointgroup.Setup,
 		networkfirewallpolicy.Setup,
 		networkfirewallpolicyassociation.Setup,
+		networkfirewallpolicyrule.Setup,
 		networkpeering.Setup,
 		networkpeeringroutesconfig.Setup,
 		nodegroup.Setup,
@@ -544,6 +548,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		regionnetworkfirewallpolicyassociation.Setup,
 		regionperinstanceconfig.Setup,
 		regionsslcertificate.Setup,
+		regionsslpolicy.Setup,
 		regiontargethttpproxy.Setup,
 		regiontargethttpsproxy.Setup,
 		regiontargettcpproxy.Setup,
@@ -687,6 +692,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		serviceconnectionpolicy.Setup,
 		spoke.Setup,
 		connectivitytest.Setup,
+		addressgroup.Setup,
 		environmentnotebooks.Setup,
 		instancenotebooks.Setup,
 		instanceiammembernotebooks.Setup,

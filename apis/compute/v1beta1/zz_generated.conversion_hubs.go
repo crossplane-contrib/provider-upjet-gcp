@@ -73,6 +73,9 @@ func (tr *NetworkFirewallPolicy) Hub() {}
 func (tr *NetworkFirewallPolicyAssociation) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *NetworkFirewallPolicyRule) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *NetworkPeering) Hub() {}
 
 // Hub marks this type as a conversion hub.
@@ -101,6 +104,9 @@ func (tr *RegionNetworkFirewallPolicyAssociation) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *RegionSSLCertificate) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *RegionSSLPolicy) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *RegionTargetHTTPProxy) Hub() {}

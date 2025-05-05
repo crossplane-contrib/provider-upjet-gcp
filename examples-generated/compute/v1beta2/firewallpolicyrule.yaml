@@ -17,8 +17,8 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: default
     match:
-    - destAddressGroups:
-      - ${google_network_security_address_group.basic_global_networksecurity_address_group.id}
+    - destAddressGroupsRefs:
+      - name: basic_global_networksecurity_address_group
       destFqdns: []
       destIpRanges:
       - 11.100.0.1/32
@@ -70,3 +70,23 @@ spec:
     parentSelector:
       matchLabels:
         testing.upbound.io/example-name: example
+
+---
+
+apiVersion: networksecurity.gcp.upbound.io/v1beta1
+kind: AddressGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta2/firewallpolicyrule
+  labels:
+    testing.upbound.io/example-name: basic_global_networksecurity_address_group
+  name: basic-global-networksecurity-address-group
+spec:
+  forProvider:
+    capacity: 100
+    description: Sample global networksecurity_address_group
+    items:
+    - 208.80.154.224/32
+    location: global
+    parent: organizations/123456789
+    type: IPV4

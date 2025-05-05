@@ -49,6 +49,7 @@ import (
 	networkendpointgroup "github.com/upbound/provider-gcp/internal/controller/compute/networkendpointgroup"
 	networkfirewallpolicy "github.com/upbound/provider-gcp/internal/controller/compute/networkfirewallpolicy"
 	networkfirewallpolicyassociation "github.com/upbound/provider-gcp/internal/controller/compute/networkfirewallpolicyassociation"
+	networkfirewallpolicyrule "github.com/upbound/provider-gcp/internal/controller/compute/networkfirewallpolicyrule"
 	networkpeering "github.com/upbound/provider-gcp/internal/controller/compute/networkpeering"
 	networkpeeringroutesconfig "github.com/upbound/provider-gcp/internal/controller/compute/networkpeeringroutesconfig"
 	nodegroup "github.com/upbound/provider-gcp/internal/controller/compute/nodegroup"
@@ -71,6 +72,7 @@ import (
 	regionnetworkfirewallpolicyassociation "github.com/upbound/provider-gcp/internal/controller/compute/regionnetworkfirewallpolicyassociation"
 	regionperinstanceconfig "github.com/upbound/provider-gcp/internal/controller/compute/regionperinstanceconfig"
 	regionsslcertificate "github.com/upbound/provider-gcp/internal/controller/compute/regionsslcertificate"
+	regionsslpolicy "github.com/upbound/provider-gcp/internal/controller/compute/regionsslpolicy"
 	regiontargethttpproxy "github.com/upbound/provider-gcp/internal/controller/compute/regiontargethttpproxy"
 	regiontargethttpsproxy "github.com/upbound/provider-gcp/internal/controller/compute/regiontargethttpsproxy"
 	regiontargettcpproxy "github.com/upbound/provider-gcp/internal/controller/compute/regiontargettcpproxy"
@@ -148,6 +150,7 @@ func Setup_compute(mgr ctrl.Manager, o controller.Options) error {
 		networkendpointgroup.Setup,
 		networkfirewallpolicy.Setup,
 		networkfirewallpolicyassociation.Setup,
+		networkfirewallpolicyrule.Setup,
 		networkpeering.Setup,
 		networkpeeringroutesconfig.Setup,
 		nodegroup.Setup,
@@ -170,6 +173,7 @@ func Setup_compute(mgr ctrl.Manager, o controller.Options) error {
 		regionnetworkfirewallpolicyassociation.Setup,
 		regionperinstanceconfig.Setup,
 		regionsslcertificate.Setup,
+		regionsslpolicy.Setup,
 		regiontargethttpproxy.Setup,
 		regiontargethttpsproxy.Setup,
 		regiontargettcpproxy.Setup,
