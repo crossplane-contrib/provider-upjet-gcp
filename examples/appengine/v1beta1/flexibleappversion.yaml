@@ -113,7 +113,7 @@ metadata:
   annotations:
     meta.upbound.io/example-id: appengine/v1beta1/flexibleappversion
   labels:
-    testing.upbound.io/example-name: test-bucket
+    testing.upbound.io/example-name: ${data.bucket_name}
   name: ${data.bucket_name}
 spec:
   forProvider:
