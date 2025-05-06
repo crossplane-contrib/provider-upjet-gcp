@@ -65,7 +65,7 @@ type ColumnFamilyParameters struct {
 
 type TableInitParameters struct {
 
-	// Defines an automated backup policy for a table, specified by Retention Period and Frequency. To disable, set both Retention Period and Frequency to 0.
+	// Defines an automated backup policy for a table, specified by Retention Period and Frequency. To create a table with automated backup disabled, omit this argument. To disable automated backup on an existing table that has automated backup enabled, set both Retention Period and Frequency to "0". If this argument is not provided in the configuration on update, the resource's automated backup policy will not be modified.
 	AutomatedBackupPolicy *AutomatedBackupPolicyInitParameters `json:"automatedBackupPolicy,omitempty" tf:"automated_backup_policy,omitempty"`
 
 	// Duration to retain change stream data for the table. Set to 0 to disable. Must be between 1 and 7 days.
@@ -84,7 +84,7 @@ type TableInitParameters struct {
 
 type TableObservation struct {
 
-	// Defines an automated backup policy for a table, specified by Retention Period and Frequency. To disable, set both Retention Period and Frequency to 0.
+	// Defines an automated backup policy for a table, specified by Retention Period and Frequency. To create a table with automated backup disabled, omit this argument. To disable automated backup on an existing table that has automated backup enabled, set both Retention Period and Frequency to "0". If this argument is not provided in the configuration on update, the resource's automated backup policy will not be modified.
 	AutomatedBackupPolicy *AutomatedBackupPolicyObservation `json:"automatedBackupPolicy,omitempty" tf:"automated_backup_policy,omitempty"`
 
 	// Duration to retain change stream data for the table. Set to 0 to disable. Must be between 1 and 7 days.
@@ -112,7 +112,7 @@ type TableObservation struct {
 
 type TableParameters struct {
 
-	// Defines an automated backup policy for a table, specified by Retention Period and Frequency. To disable, set both Retention Period and Frequency to 0.
+	// Defines an automated backup policy for a table, specified by Retention Period and Frequency. To create a table with automated backup disabled, omit this argument. To disable automated backup on an existing table that has automated backup enabled, set both Retention Period and Frequency to "0". If this argument is not provided in the configuration on update, the resource's automated backup policy will not be modified.
 	// +kubebuilder:validation:Optional
 	AutomatedBackupPolicy *AutomatedBackupPolicyParameters `json:"automatedBackupPolicy,omitempty" tf:"automated_backup_policy,omitempty"`
 
