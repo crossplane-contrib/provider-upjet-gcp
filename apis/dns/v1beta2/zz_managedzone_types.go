@@ -572,7 +572,7 @@ type TargetNameServersParameters struct {
 
 	// IPv4 address of a target name server.
 	// +kubebuilder:validation:Optional
-	IPv4Address *string `json:"ipv4Address" tf:"ipv4_address,omitempty"`
+	IPv4Address *string `json:"ipv4Address,omitempty" tf:"ipv4_address,omitempty"`
 }
 
 type TargetNetworkInitParameters struct {
