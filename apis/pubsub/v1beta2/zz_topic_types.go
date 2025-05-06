@@ -25,7 +25,7 @@ type AvroFormatParameters struct {
 type AwsKinesisInitParameters struct {
 
 	// AWS role ARN to be used for Federated Identity authentication with
-	// Kinesis. Check the Pub/Sub docs for how to set up this role and the
+	// MSK. Check the Pub/Sub docs for how to set up this role and the
 	// required permissions that need to be attached to it.
 	AwsRoleArn *string `json:"awsRoleArn,omitempty" tf:"aws_role_arn,omitempty"`
 
@@ -35,9 +35,7 @@ type AwsKinesisInitParameters struct {
 	ConsumerArn *string `json:"consumerArn,omitempty" tf:"consumer_arn,omitempty"`
 
 	// The GCP service account to be used for Federated Identity authentication
-	// with Kinesis (via a AssumeRoleWithWebIdentity call for the provided
-	// role). The awsRoleArn must be set up with accounts.google.com:sub
-	// equals to this service account number.
+	// with Confluent Cloud.
 	GCPServiceAccount *string `json:"gcpServiceAccount,omitempty" tf:"gcp_service_account,omitempty"`
 
 	// The Kinesis stream ARN to ingest data from.
@@ -47,7 +45,7 @@ type AwsKinesisInitParameters struct {
 type AwsKinesisObservation struct {
 
 	// AWS role ARN to be used for Federated Identity authentication with
-	// Kinesis. Check the Pub/Sub docs for how to set up this role and the
+	// MSK. Check the Pub/Sub docs for how to set up this role and the
 	// required permissions that need to be attached to it.
 	AwsRoleArn *string `json:"awsRoleArn,omitempty" tf:"aws_role_arn,omitempty"`
 
@@ -57,9 +55,7 @@ type AwsKinesisObservation struct {
 	ConsumerArn *string `json:"consumerArn,omitempty" tf:"consumer_arn,omitempty"`
 
 	// The GCP service account to be used for Federated Identity authentication
-	// with Kinesis (via a AssumeRoleWithWebIdentity call for the provided
-	// role). The awsRoleArn must be set up with accounts.google.com:sub
-	// equals to this service account number.
+	// with Confluent Cloud.
 	GCPServiceAccount *string `json:"gcpServiceAccount,omitempty" tf:"gcp_service_account,omitempty"`
 
 	// The Kinesis stream ARN to ingest data from.
@@ -69,7 +65,7 @@ type AwsKinesisObservation struct {
 type AwsKinesisParameters struct {
 
 	// AWS role ARN to be used for Federated Identity authentication with
-	// Kinesis. Check the Pub/Sub docs for how to set up this role and the
+	// MSK. Check the Pub/Sub docs for how to set up this role and the
 	// required permissions that need to be attached to it.
 	// +kubebuilder:validation:Optional
 	AwsRoleArn *string `json:"awsRoleArn" tf:"aws_role_arn,omitempty"`
@@ -81,15 +77,153 @@ type AwsKinesisParameters struct {
 	ConsumerArn *string `json:"consumerArn" tf:"consumer_arn,omitempty"`
 
 	// The GCP service account to be used for Federated Identity authentication
-	// with Kinesis (via a AssumeRoleWithWebIdentity call for the provided
-	// role). The awsRoleArn must be set up with accounts.google.com:sub
-	// equals to this service account number.
+	// with Confluent Cloud.
 	// +kubebuilder:validation:Optional
 	GCPServiceAccount *string `json:"gcpServiceAccount" tf:"gcp_service_account,omitempty"`
 
 	// The Kinesis stream ARN to ingest data from.
 	// +kubebuilder:validation:Optional
 	StreamArn *string `json:"streamArn" tf:"stream_arn,omitempty"`
+}
+
+type AwsMskInitParameters struct {
+
+	// AWS role ARN to be used for Federated Identity authentication with
+	// MSK. Check the Pub/Sub docs for how to set up this role and the
+	// required permissions that need to be attached to it.
+	AwsRoleArn *string `json:"awsRoleArn,omitempty" tf:"aws_role_arn,omitempty"`
+
+	// ARN that uniquely identifies the MSK cluster.
+	ClusterArn *string `json:"clusterArn,omitempty" tf:"cluster_arn,omitempty"`
+
+	// The GCP service account to be used for Federated Identity authentication
+	// with Confluent Cloud.
+	GCPServiceAccount *string `json:"gcpServiceAccount,omitempty" tf:"gcp_service_account,omitempty"`
+
+	// Name of the Confluent Cloud topic that Pub/Sub will import from.
+	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
+}
+
+type AwsMskObservation struct {
+
+	// AWS role ARN to be used for Federated Identity authentication with
+	// MSK. Check the Pub/Sub docs for how to set up this role and the
+	// required permissions that need to be attached to it.
+	AwsRoleArn *string `json:"awsRoleArn,omitempty" tf:"aws_role_arn,omitempty"`
+
+	// ARN that uniquely identifies the MSK cluster.
+	ClusterArn *string `json:"clusterArn,omitempty" tf:"cluster_arn,omitempty"`
+
+	// The GCP service account to be used for Federated Identity authentication
+	// with Confluent Cloud.
+	GCPServiceAccount *string `json:"gcpServiceAccount,omitempty" tf:"gcp_service_account,omitempty"`
+
+	// Name of the Confluent Cloud topic that Pub/Sub will import from.
+	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
+}
+
+type AwsMskParameters struct {
+
+	// AWS role ARN to be used for Federated Identity authentication with
+	// MSK. Check the Pub/Sub docs for how to set up this role and the
+	// required permissions that need to be attached to it.
+	// +kubebuilder:validation:Optional
+	AwsRoleArn *string `json:"awsRoleArn" tf:"aws_role_arn,omitempty"`
+
+	// ARN that uniquely identifies the MSK cluster.
+	// +kubebuilder:validation:Optional
+	ClusterArn *string `json:"clusterArn" tf:"cluster_arn,omitempty"`
+
+	// The GCP service account to be used for Federated Identity authentication
+	// with Confluent Cloud.
+	// +kubebuilder:validation:Optional
+	GCPServiceAccount *string `json:"gcpServiceAccount" tf:"gcp_service_account,omitempty"`
+
+	// Name of the Confluent Cloud topic that Pub/Sub will import from.
+	// +kubebuilder:validation:Optional
+	Topic *string `json:"topic" tf:"topic,omitempty"`
+}
+
+type AzureEventHubsInitParameters struct {
+
+	// The Azure event hub client ID to use for ingestion.
+	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
+
+	// The Azure event hub to ingest data from.
+	EventHub *string `json:"eventHub,omitempty" tf:"event_hub,omitempty"`
+
+	// The GCP service account to be used for Federated Identity authentication
+	// with Confluent Cloud.
+	GCPServiceAccount *string `json:"gcpServiceAccount,omitempty" tf:"gcp_service_account,omitempty"`
+
+	// The Azure event hub namespace to ingest data from.
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+
+	// The name of the resource group within an Azure subscription.
+	ResourceGroup *string `json:"resourceGroup,omitempty" tf:"resource_group,omitempty"`
+
+	// The Azure event hub subscription ID to use for ingestion.
+	SubscriptionID *string `json:"subscriptionId,omitempty" tf:"subscription_id,omitempty"`
+
+	// The Azure event hub tenant ID to use for ingestion.
+	TenantID *string `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
+}
+
+type AzureEventHubsObservation struct {
+
+	// The Azure event hub client ID to use for ingestion.
+	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
+
+	// The Azure event hub to ingest data from.
+	EventHub *string `json:"eventHub,omitempty" tf:"event_hub,omitempty"`
+
+	// The GCP service account to be used for Federated Identity authentication
+	// with Confluent Cloud.
+	GCPServiceAccount *string `json:"gcpServiceAccount,omitempty" tf:"gcp_service_account,omitempty"`
+
+	// The Azure event hub namespace to ingest data from.
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+
+	// The name of the resource group within an Azure subscription.
+	ResourceGroup *string `json:"resourceGroup,omitempty" tf:"resource_group,omitempty"`
+
+	// The Azure event hub subscription ID to use for ingestion.
+	SubscriptionID *string `json:"subscriptionId,omitempty" tf:"subscription_id,omitempty"`
+
+	// The Azure event hub tenant ID to use for ingestion.
+	TenantID *string `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
+}
+
+type AzureEventHubsParameters struct {
+
+	// The Azure event hub client ID to use for ingestion.
+	// +kubebuilder:validation:Optional
+	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
+
+	// The Azure event hub to ingest data from.
+	// +kubebuilder:validation:Optional
+	EventHub *string `json:"eventHub,omitempty" tf:"event_hub,omitempty"`
+
+	// The GCP service account to be used for Federated Identity authentication
+	// with Confluent Cloud.
+	// +kubebuilder:validation:Optional
+	GCPServiceAccount *string `json:"gcpServiceAccount,omitempty" tf:"gcp_service_account,omitempty"`
+
+	// The Azure event hub namespace to ingest data from.
+	// +kubebuilder:validation:Optional
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+
+	// The name of the resource group within an Azure subscription.
+	// +kubebuilder:validation:Optional
+	ResourceGroup *string `json:"resourceGroup,omitempty" tf:"resource_group,omitempty"`
+
+	// The Azure event hub subscription ID to use for ingestion.
+	// +kubebuilder:validation:Optional
+	SubscriptionID *string `json:"subscriptionId,omitempty" tf:"subscription_id,omitempty"`
+
+	// The Azure event hub tenant ID to use for ingestion.
+	// +kubebuilder:validation:Optional
+	TenantID *string `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
 }
 
 type CloudStorageInitParameters struct {
@@ -200,15 +334,89 @@ type CloudStorageParameters struct {
 	TextFormat *TextFormatParameters `json:"textFormat,omitempty" tf:"text_format,omitempty"`
 }
 
+type ConfluentCloudInitParameters struct {
+
+	// The Confluent Cloud bootstrap server. The format is url:port.
+	BootstrapServer *string `json:"bootstrapServer,omitempty" tf:"bootstrap_server,omitempty"`
+
+	// The Confluent Cloud cluster ID.
+	ClusterID *string `json:"clusterId,omitempty" tf:"cluster_id,omitempty"`
+
+	// The GCP service account to be used for Federated Identity authentication
+	// with Confluent Cloud.
+	GCPServiceAccount *string `json:"gcpServiceAccount,omitempty" tf:"gcp_service_account,omitempty"`
+
+	// Identity pool ID to be used for Federated Identity authentication with Confluent Cloud.
+	IdentityPoolID *string `json:"identityPoolId,omitempty" tf:"identity_pool_id,omitempty"`
+
+	// Name of the Confluent Cloud topic that Pub/Sub will import from.
+	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
+}
+
+type ConfluentCloudObservation struct {
+
+	// The Confluent Cloud bootstrap server. The format is url:port.
+	BootstrapServer *string `json:"bootstrapServer,omitempty" tf:"bootstrap_server,omitempty"`
+
+	// The Confluent Cloud cluster ID.
+	ClusterID *string `json:"clusterId,omitempty" tf:"cluster_id,omitempty"`
+
+	// The GCP service account to be used for Federated Identity authentication
+	// with Confluent Cloud.
+	GCPServiceAccount *string `json:"gcpServiceAccount,omitempty" tf:"gcp_service_account,omitempty"`
+
+	// Identity pool ID to be used for Federated Identity authentication with Confluent Cloud.
+	IdentityPoolID *string `json:"identityPoolId,omitempty" tf:"identity_pool_id,omitempty"`
+
+	// Name of the Confluent Cloud topic that Pub/Sub will import from.
+	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
+}
+
+type ConfluentCloudParameters struct {
+
+	// The Confluent Cloud bootstrap server. The format is url:port.
+	// +kubebuilder:validation:Optional
+	BootstrapServer *string `json:"bootstrapServer" tf:"bootstrap_server,omitempty"`
+
+	// The Confluent Cloud cluster ID.
+	// +kubebuilder:validation:Optional
+	ClusterID *string `json:"clusterId,omitempty" tf:"cluster_id,omitempty"`
+
+	// The GCP service account to be used for Federated Identity authentication
+	// with Confluent Cloud.
+	// +kubebuilder:validation:Optional
+	GCPServiceAccount *string `json:"gcpServiceAccount" tf:"gcp_service_account,omitempty"`
+
+	// Identity pool ID to be used for Federated Identity authentication with Confluent Cloud.
+	// +kubebuilder:validation:Optional
+	IdentityPoolID *string `json:"identityPoolId" tf:"identity_pool_id,omitempty"`
+
+	// Name of the Confluent Cloud topic that Pub/Sub will import from.
+	// +kubebuilder:validation:Optional
+	Topic *string `json:"topic" tf:"topic,omitempty"`
+}
+
 type IngestionDataSourceSettingsInitParameters struct {
 
 	// Settings for ingestion from Amazon Kinesis Data Streams.
 	// Structure is documented below.
 	AwsKinesis *AwsKinesisInitParameters `json:"awsKinesis,omitempty" tf:"aws_kinesis,omitempty"`
 
+	// Settings for ingestion from Amazon Managed Streaming for Apache Kafka.
+	// Structure is documented below.
+	AwsMsk *AwsMskInitParameters `json:"awsMsk,omitempty" tf:"aws_msk,omitempty"`
+
+	// Settings for ingestion from Azure Event Hubs.
+	// Structure is documented below.
+	AzureEventHubs *AzureEventHubsInitParameters `json:"azureEventHubs,omitempty" tf:"azure_event_hubs,omitempty"`
+
 	// Settings for ingestion from Cloud Storage.
 	// Structure is documented below.
 	CloudStorage *CloudStorageInitParameters `json:"cloudStorage,omitempty" tf:"cloud_storage,omitempty"`
+
+	// Settings for ingestion from Confluent Cloud.
+	// Structure is documented below.
+	ConfluentCloud *ConfluentCloudInitParameters `json:"confluentCloud,omitempty" tf:"confluent_cloud,omitempty"`
 
 	// Settings for Platform Logs regarding ingestion to Pub/Sub. If unset,
 	// no Platform Logs will be generated.'
@@ -222,9 +430,21 @@ type IngestionDataSourceSettingsObservation struct {
 	// Structure is documented below.
 	AwsKinesis *AwsKinesisObservation `json:"awsKinesis,omitempty" tf:"aws_kinesis,omitempty"`
 
+	// Settings for ingestion from Amazon Managed Streaming for Apache Kafka.
+	// Structure is documented below.
+	AwsMsk *AwsMskObservation `json:"awsMsk,omitempty" tf:"aws_msk,omitempty"`
+
+	// Settings for ingestion from Azure Event Hubs.
+	// Structure is documented below.
+	AzureEventHubs *AzureEventHubsObservation `json:"azureEventHubs,omitempty" tf:"azure_event_hubs,omitempty"`
+
 	// Settings for ingestion from Cloud Storage.
 	// Structure is documented below.
 	CloudStorage *CloudStorageObservation `json:"cloudStorage,omitempty" tf:"cloud_storage,omitempty"`
+
+	// Settings for ingestion from Confluent Cloud.
+	// Structure is documented below.
+	ConfluentCloud *ConfluentCloudObservation `json:"confluentCloud,omitempty" tf:"confluent_cloud,omitempty"`
 
 	// Settings for Platform Logs regarding ingestion to Pub/Sub. If unset,
 	// no Platform Logs will be generated.'
@@ -239,10 +459,25 @@ type IngestionDataSourceSettingsParameters struct {
 	// +kubebuilder:validation:Optional
 	AwsKinesis *AwsKinesisParameters `json:"awsKinesis,omitempty" tf:"aws_kinesis,omitempty"`
 
+	// Settings for ingestion from Amazon Managed Streaming for Apache Kafka.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AwsMsk *AwsMskParameters `json:"awsMsk,omitempty" tf:"aws_msk,omitempty"`
+
+	// Settings for ingestion from Azure Event Hubs.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AzureEventHubs *AzureEventHubsParameters `json:"azureEventHubs,omitempty" tf:"azure_event_hubs,omitempty"`
+
 	// Settings for ingestion from Cloud Storage.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	CloudStorage *CloudStorageParameters `json:"cloudStorage,omitempty" tf:"cloud_storage,omitempty"`
+
+	// Settings for ingestion from Confluent Cloud.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ConfluentCloud *ConfluentCloudParameters `json:"confluentCloud,omitempty" tf:"confluent_cloud,omitempty"`
 
 	// Settings for Platform Logs regarding ingestion to Pub/Sub. If unset,
 	// no Platform Logs will be generated.'
@@ -259,7 +494,14 @@ type MessageStoragePolicyInitParameters struct {
 	// of GCP altogether) will be routed for storage in one of the
 	// allowed regions. An empty list means that no regions are allowed,
 	// and is not a valid configuration.
+	// +listType=set
 	AllowedPersistenceRegions []*string `json:"allowedPersistenceRegions,omitempty" tf:"allowed_persistence_regions,omitempty"`
+
+	// If true, allowedPersistenceRegions is also used to enforce in-transit
+	// guarantees for messages. That is, Pub/Sub will fail topics.publish
+	// operations on this topic and subscribe operations on any subscription
+	// attached to this topic in any region that is not in allowedPersistenceRegions.
+	EnforceInTransit *bool `json:"enforceInTransit,omitempty" tf:"enforce_in_transit,omitempty"`
 }
 
 type MessageStoragePolicyObservation struct {
@@ -270,7 +512,14 @@ type MessageStoragePolicyObservation struct {
 	// of GCP altogether) will be routed for storage in one of the
 	// allowed regions. An empty list means that no regions are allowed,
 	// and is not a valid configuration.
+	// +listType=set
 	AllowedPersistenceRegions []*string `json:"allowedPersistenceRegions,omitempty" tf:"allowed_persistence_regions,omitempty"`
+
+	// If true, allowedPersistenceRegions is also used to enforce in-transit
+	// guarantees for messages. That is, Pub/Sub will fail topics.publish
+	// operations on this topic and subscribe operations on any subscription
+	// attached to this topic in any region that is not in allowedPersistenceRegions.
+	EnforceInTransit *bool `json:"enforceInTransit,omitempty" tf:"enforce_in_transit,omitempty"`
 }
 
 type MessageStoragePolicyParameters struct {
@@ -282,7 +531,15 @@ type MessageStoragePolicyParameters struct {
 	// allowed regions. An empty list means that no regions are allowed,
 	// and is not a valid configuration.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	AllowedPersistenceRegions []*string `json:"allowedPersistenceRegions" tf:"allowed_persistence_regions,omitempty"`
+
+	// If true, allowedPersistenceRegions is also used to enforce in-transit
+	// guarantees for messages. That is, Pub/Sub will fail topics.publish
+	// operations on this topic and subscribe operations on any subscription
+	// attached to this topic in any region that is not in allowedPersistenceRegions.
+	// +kubebuilder:validation:Optional
+	EnforceInTransit *bool `json:"enforceInTransit,omitempty" tf:"enforce_in_transit,omitempty"`
 }
 
 type PlatformLogsSettingsInitParameters struct {

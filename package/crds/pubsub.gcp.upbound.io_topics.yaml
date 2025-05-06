@@ -891,7 +891,7 @@ spec:
                           awsRoleArn:
                             description: |-
                               AWS role ARN to be used for Federated Identity authentication with
-                              Kinesis. Check the Pub/Sub docs for how to set up this role and the
+                              MSK. Check the Pub/Sub docs for how to set up this role and the
                               required permissions that need to be attached to it.
                             type: string
                           consumerArn:
@@ -903,12 +903,68 @@ spec:
                           gcpServiceAccount:
                             description: |-
                               The GCP service account to be used for Federated Identity authentication
-                              with Kinesis (via a AssumeRoleWithWebIdentity call for the provided
-                              role). The awsRoleArn must be set up with accounts.google.com:sub
-                              equals to this service account number.
+                              with Confluent Cloud.
                             type: string
                           streamArn:
                             description: The Kinesis stream ARN to ingest data from.
+                            type: string
+                        type: object
+                      awsMsk:
+                        description: |-
+                          Settings for ingestion from Amazon Managed Streaming for Apache Kafka.
+                          Structure is documented below.
+                        properties:
+                          awsRoleArn:
+                            description: |-
+                              AWS role ARN to be used for Federated Identity authentication with
+                              MSK. Check the Pub/Sub docs for how to set up this role and the
+                              required permissions that need to be attached to it.
+                            type: string
+                          clusterArn:
+                            description: ARN that uniquely identifies the MSK cluster.
+                            type: string
+                          gcpServiceAccount:
+                            description: |-
+                              The GCP service account to be used for Federated Identity authentication
+                              with Confluent Cloud.
+                            type: string
+                          topic:
+                            description: Name of the Confluent Cloud topic that Pub/Sub
+                              will import from.
+                            type: string
+                        type: object
+                      azureEventHubs:
+                        description: |-
+                          Settings for ingestion from Azure Event Hubs.
+                          Structure is documented below.
+                        properties:
+                          clientId:
+                            description: The Azure event hub client ID to use for
+                              ingestion.
+                            type: string
+                          eventHub:
+                            description: The Azure event hub to ingest data from.
+                            type: string
+                          gcpServiceAccount:
+                            description: |-
+                              The GCP service account to be used for Federated Identity authentication
+                              with Confluent Cloud.
+                            type: string
+                          namespace:
+                            description: The Azure event hub namespace to ingest data
+                              from.
+                            type: string
+                          resourceGroup:
+                            description: The name of the resource group within an
+                              Azure subscription.
+                            type: string
+                          subscriptionId:
+                            description: The Azure event hub subscription ID to use
+                              for ingestion.
+                            type: string
+                          tenantId:
+                            description: The Azure event hub tenant ID to use for
+                              ingestion.
                             type: string
                         type: object
                       cloudStorage:
@@ -960,6 +1016,32 @@ spec:
                                   message. When unset, '\n' is used.
                                 type: string
                             type: object
+                        type: object
+                      confluentCloud:
+                        description: |-
+                          Settings for ingestion from Confluent Cloud.
+                          Structure is documented below.
+                        properties:
+                          bootstrapServer:
+                            description: The Confluent Cloud bootstrap server. The
+                              format is url:port.
+                            type: string
+                          clusterId:
+                            description: The Confluent Cloud cluster ID.
+                            type: string
+                          gcpServiceAccount:
+                            description: |-
+                              The GCP service account to be used for Federated Identity authentication
+                              with Confluent Cloud.
+                            type: string
+                          identityPoolId:
+                            description: Identity pool ID to be used for Federated
+                              Identity authentication with Confluent Cloud.
+                            type: string
+                          topic:
+                            description: Name of the Confluent Cloud topic that Pub/Sub
+                              will import from.
+                            type: string
                         type: object
                       platformLogsSettings:
                         description: |-
@@ -1094,6 +1176,14 @@ spec:
                         items:
                           type: string
                         type: array
+                        x-kubernetes-list-type: set
+                      enforceInTransit:
+                        description: |-
+                          If true, allowedPersistenceRegions is also used to enforce in-transit
+                          guarantees for messages. That is, Pub/Sub will fail topics.publish
+                          operations on this topic and subscribe operations on any subscription
+                          attached to this topic in any region that is not in allowedPersistenceRegions.
+                        type: boolean
                     type: object
                   project:
                     description: |-
@@ -1146,7 +1236,7 @@ spec:
                           awsRoleArn:
                             description: |-
                               AWS role ARN to be used for Federated Identity authentication with
-                              Kinesis. Check the Pub/Sub docs for how to set up this role and the
+                              MSK. Check the Pub/Sub docs for how to set up this role and the
                               required permissions that need to be attached to it.
                             type: string
                           consumerArn:
@@ -1158,12 +1248,68 @@ spec:
                           gcpServiceAccount:
                             description: |-
                               The GCP service account to be used for Federated Identity authentication
-                              with Kinesis (via a AssumeRoleWithWebIdentity call for the provided
-                              role). The awsRoleArn must be set up with accounts.google.com:sub
-                              equals to this service account number.
+                              with Confluent Cloud.
                             type: string
                           streamArn:
                             description: The Kinesis stream ARN to ingest data from.
+                            type: string
+                        type: object
+                      awsMsk:
+                        description: |-
+                          Settings for ingestion from Amazon Managed Streaming for Apache Kafka.
+                          Structure is documented below.
+                        properties:
+                          awsRoleArn:
+                            description: |-
+                              AWS role ARN to be used for Federated Identity authentication with
+                              MSK. Check the Pub/Sub docs for how to set up this role and the
+                              required permissions that need to be attached to it.
+                            type: string
+                          clusterArn:
+                            description: ARN that uniquely identifies the MSK cluster.
+                            type: string
+                          gcpServiceAccount:
+                            description: |-
+                              The GCP service account to be used for Federated Identity authentication
+                              with Confluent Cloud.
+                            type: string
+                          topic:
+                            description: Name of the Confluent Cloud topic that Pub/Sub
+                              will import from.
+                            type: string
+                        type: object
+                      azureEventHubs:
+                        description: |-
+                          Settings for ingestion from Azure Event Hubs.
+                          Structure is documented below.
+                        properties:
+                          clientId:
+                            description: The Azure event hub client ID to use for
+                              ingestion.
+                            type: string
+                          eventHub:
+                            description: The Azure event hub to ingest data from.
+                            type: string
+                          gcpServiceAccount:
+                            description: |-
+                              The GCP service account to be used for Federated Identity authentication
+                              with Confluent Cloud.
+                            type: string
+                          namespace:
+                            description: The Azure event hub namespace to ingest data
+                              from.
+                            type: string
+                          resourceGroup:
+                            description: The name of the resource group within an
+                              Azure subscription.
+                            type: string
+                          subscriptionId:
+                            description: The Azure event hub subscription ID to use
+                              for ingestion.
+                            type: string
+                          tenantId:
+                            description: The Azure event hub tenant ID to use for
+                              ingestion.
                             type: string
                         type: object
                       cloudStorage:
@@ -1215,6 +1361,32 @@ spec:
                                   message. When unset, '\n' is used.
                                 type: string
                             type: object
+                        type: object
+                      confluentCloud:
+                        description: |-
+                          Settings for ingestion from Confluent Cloud.
+                          Structure is documented below.
+                        properties:
+                          bootstrapServer:
+                            description: The Confluent Cloud bootstrap server. The
+                              format is url:port.
+                            type: string
+                          clusterId:
+                            description: The Confluent Cloud cluster ID.
+                            type: string
+                          gcpServiceAccount:
+                            description: |-
+                              The GCP service account to be used for Federated Identity authentication
+                              with Confluent Cloud.
+                            type: string
+                          identityPoolId:
+                            description: Identity pool ID to be used for Federated
+                              Identity authentication with Confluent Cloud.
+                            type: string
+                          topic:
+                            description: Name of the Confluent Cloud topic that Pub/Sub
+                              will import from.
+                            type: string
                         type: object
                       platformLogsSettings:
                         description: |-
@@ -1349,6 +1521,14 @@ spec:
                         items:
                           type: string
                         type: array
+                        x-kubernetes-list-type: set
+                      enforceInTransit:
+                        description: |-
+                          If true, allowedPersistenceRegions is also used to enforce in-transit
+                          guarantees for messages. That is, Pub/Sub will fail topics.publish
+                          operations on this topic and subscribe operations on any subscription
+                          attached to this topic in any region that is not in allowedPersistenceRegions.
+                        type: boolean
                     type: object
                   project:
                     description: |-
@@ -1569,7 +1749,7 @@ spec:
                           awsRoleArn:
                             description: |-
                               AWS role ARN to be used for Federated Identity authentication with
-                              Kinesis. Check the Pub/Sub docs for how to set up this role and the
+                              MSK. Check the Pub/Sub docs for how to set up this role and the
                               required permissions that need to be attached to it.
                             type: string
                           consumerArn:
@@ -1581,12 +1761,68 @@ spec:
                           gcpServiceAccount:
                             description: |-
                               The GCP service account to be used for Federated Identity authentication
-                              with Kinesis (via a AssumeRoleWithWebIdentity call for the provided
-                              role). The awsRoleArn must be set up with accounts.google.com:sub
-                              equals to this service account number.
+                              with Confluent Cloud.
                             type: string
                           streamArn:
                             description: The Kinesis stream ARN to ingest data from.
+                            type: string
+                        type: object
+                      awsMsk:
+                        description: |-
+                          Settings for ingestion from Amazon Managed Streaming for Apache Kafka.
+                          Structure is documented below.
+                        properties:
+                          awsRoleArn:
+                            description: |-
+                              AWS role ARN to be used for Federated Identity authentication with
+                              MSK. Check the Pub/Sub docs for how to set up this role and the
+                              required permissions that need to be attached to it.
+                            type: string
+                          clusterArn:
+                            description: ARN that uniquely identifies the MSK cluster.
+                            type: string
+                          gcpServiceAccount:
+                            description: |-
+                              The GCP service account to be used for Federated Identity authentication
+                              with Confluent Cloud.
+                            type: string
+                          topic:
+                            description: Name of the Confluent Cloud topic that Pub/Sub
+                              will import from.
+                            type: string
+                        type: object
+                      azureEventHubs:
+                        description: |-
+                          Settings for ingestion from Azure Event Hubs.
+                          Structure is documented below.
+                        properties:
+                          clientId:
+                            description: The Azure event hub client ID to use for
+                              ingestion.
+                            type: string
+                          eventHub:
+                            description: The Azure event hub to ingest data from.
+                            type: string
+                          gcpServiceAccount:
+                            description: |-
+                              The GCP service account to be used for Federated Identity authentication
+                              with Confluent Cloud.
+                            type: string
+                          namespace:
+                            description: The Azure event hub namespace to ingest data
+                              from.
+                            type: string
+                          resourceGroup:
+                            description: The name of the resource group within an
+                              Azure subscription.
+                            type: string
+                          subscriptionId:
+                            description: The Azure event hub subscription ID to use
+                              for ingestion.
+                            type: string
+                          tenantId:
+                            description: The Azure event hub tenant ID to use for
+                              ingestion.
                             type: string
                         type: object
                       cloudStorage:
@@ -1638,6 +1874,32 @@ spec:
                                   message. When unset, '\n' is used.
                                 type: string
                             type: object
+                        type: object
+                      confluentCloud:
+                        description: |-
+                          Settings for ingestion from Confluent Cloud.
+                          Structure is documented below.
+                        properties:
+                          bootstrapServer:
+                            description: The Confluent Cloud bootstrap server. The
+                              format is url:port.
+                            type: string
+                          clusterId:
+                            description: The Confluent Cloud cluster ID.
+                            type: string
+                          gcpServiceAccount:
+                            description: |-
+                              The GCP service account to be used for Federated Identity authentication
+                              with Confluent Cloud.
+                            type: string
+                          identityPoolId:
+                            description: Identity pool ID to be used for Federated
+                              Identity authentication with Confluent Cloud.
+                            type: string
+                          topic:
+                            description: Name of the Confluent Cloud topic that Pub/Sub
+                              will import from.
+                            type: string
                         type: object
                       platformLogsSettings:
                         description: |-
@@ -1698,6 +1960,14 @@ spec:
                         items:
                           type: string
                         type: array
+                        x-kubernetes-list-type: set
+                      enforceInTransit:
+                        description: |-
+                          If true, allowedPersistenceRegions is also used to enforce in-transit
+                          guarantees for messages. That is, Pub/Sub will fail topics.publish
+                          operations on this topic and subscribe operations on any subscription
+                          attached to this topic in any region that is not in allowedPersistenceRegions.
+                        type: boolean
                     type: object
                   project:
                     description: |-
