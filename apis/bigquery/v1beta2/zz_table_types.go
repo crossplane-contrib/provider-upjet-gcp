@@ -401,6 +401,69 @@ type CsvOptionsParameters struct {
 	SkipLeadingRows *float64 `json:"skipLeadingRows,omitempty" tf:"skip_leading_rows,omitempty"`
 }
 
+type ExternalCatalogTableOptionsInitParameters struct {
+
+	// The connection specifying the credentials to be
+	// used to read external storage, such as Azure Blob, Cloud Storage, or S3. The
+	// connection is needed to read the open source table from BigQuery Engine. The
+	// connection_id can have the form <project_id>.<location_id>.<connection_id>
+	// or projects/<project_id>/locations/<location_id>/connections/<connection_id>.
+	ConnectionID *string `json:"connectionId,omitempty" tf:"connection_id,omitempty"`
+
+	// A map of key value pairs defining the parameters and
+	// properties of the open source table. Corresponds with hive meta store table
+	// parameters. Maximum size of 4Mib.
+	// +mapType=granular
+	Parameters map[string]*string `json:"parameters,omitempty" tf:"parameters,omitempty"`
+
+	// A storage descriptor containing information
+	// about the physical storage of this table. Structure is documented below.
+	StorageDescriptor *StorageDescriptorInitParameters `json:"storageDescriptor,omitempty" tf:"storage_descriptor,omitempty"`
+}
+
+type ExternalCatalogTableOptionsObservation struct {
+
+	// The connection specifying the credentials to be
+	// used to read external storage, such as Azure Blob, Cloud Storage, or S3. The
+	// connection is needed to read the open source table from BigQuery Engine. The
+	// connection_id can have the form <project_id>.<location_id>.<connection_id>
+	// or projects/<project_id>/locations/<location_id>/connections/<connection_id>.
+	ConnectionID *string `json:"connectionId,omitempty" tf:"connection_id,omitempty"`
+
+	// A map of key value pairs defining the parameters and
+	// properties of the open source table. Corresponds with hive meta store table
+	// parameters. Maximum size of 4Mib.
+	// +mapType=granular
+	Parameters map[string]*string `json:"parameters,omitempty" tf:"parameters,omitempty"`
+
+	// A storage descriptor containing information
+	// about the physical storage of this table. Structure is documented below.
+	StorageDescriptor *StorageDescriptorObservation `json:"storageDescriptor,omitempty" tf:"storage_descriptor,omitempty"`
+}
+
+type ExternalCatalogTableOptionsParameters struct {
+
+	// The connection specifying the credentials to be
+	// used to read external storage, such as Azure Blob, Cloud Storage, or S3. The
+	// connection is needed to read the open source table from BigQuery Engine. The
+	// connection_id can have the form <project_id>.<location_id>.<connection_id>
+	// or projects/<project_id>/locations/<location_id>/connections/<connection_id>.
+	// +kubebuilder:validation:Optional
+	ConnectionID *string `json:"connectionId,omitempty" tf:"connection_id,omitempty"`
+
+	// A map of key value pairs defining the parameters and
+	// properties of the open source table. Corresponds with hive meta store table
+	// parameters. Maximum size of 4Mib.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Parameters map[string]*string `json:"parameters,omitempty" tf:"parameters,omitempty"`
+
+	// A storage descriptor containing information
+	// about the physical storage of this table. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	StorageDescriptor *StorageDescriptorParameters `json:"storageDescriptor,omitempty" tf:"storage_descriptor,omitempty"`
+}
+
 type ExternalDataConfigurationInitParameters struct {
 
 	// Let BigQuery try to autodetect the schema
@@ -756,9 +819,7 @@ type ForeignKeysInitParameters struct {
 	// Structure is documented below.
 	ColumnReferences *ColumnReferencesInitParameters `json:"columnReferences,omitempty" tf:"column_references,omitempty"`
 
-	// )
-	// Name of the SerDe.
-	// The maximum length is 256 characters.
+	// Name of the SerDe. The maximum length is 256 characters.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The table that holds the primary key
@@ -773,9 +834,7 @@ type ForeignKeysObservation struct {
 	// Structure is documented below.
 	ColumnReferences *ColumnReferencesObservation `json:"columnReferences,omitempty" tf:"column_references,omitempty"`
 
-	// )
-	// Name of the SerDe.
-	// The maximum length is 256 characters.
+	// Name of the SerDe. The maximum length is 256 characters.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The table that holds the primary key
@@ -791,9 +850,7 @@ type ForeignKeysParameters struct {
 	// +kubebuilder:validation:Optional
 	ColumnReferences *ColumnReferencesParameters `json:"columnReferences" tf:"column_references,omitempty"`
 
-	// )
-	// Name of the SerDe.
-	// The maximum length is 256 characters.
+	// Name of the SerDe. The maximum length is 256 characters.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
@@ -1123,6 +1180,152 @@ type ReferencedTableParameters struct {
 	TableID *string `json:"tableId" tf:"table_id,omitempty"`
 }
 
+type SchemaForeignTypeInfoInitParameters struct {
+
+	// Specifies the system which defines the foreign data
+	// type.
+	TypeSystem *string `json:"typeSystem,omitempty" tf:"type_system,omitempty"`
+}
+
+type SchemaForeignTypeInfoObservation struct {
+
+	// Specifies the system which defines the foreign data
+	// type.
+	TypeSystem *string `json:"typeSystem,omitempty" tf:"type_system,omitempty"`
+}
+
+type SchemaForeignTypeInfoParameters struct {
+
+	// Specifies the system which defines the foreign data
+	// type.
+	// +kubebuilder:validation:Optional
+	TypeSystem *string `json:"typeSystem" tf:"type_system,omitempty"`
+}
+
+type SerdeInfoInitParameters struct {
+
+	// Name of the SerDe. The maximum length is 256 characters.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Key-value pairs that define the initialization
+	// parameters for the serialization library. Maximum size 10 Kib.
+	// +mapType=granular
+	Parameters map[string]*string `json:"parameters,omitempty" tf:"parameters,omitempty"`
+
+	// Specifies a fully-qualified class name of
+	// the serialization library that is responsible for the translation of data
+	// between table representation and the underlying low-level input and output
+	// format structures. The maximum length is 256 characters.
+	SerializationLibrary *string `json:"serializationLibrary,omitempty" tf:"serialization_library,omitempty"`
+}
+
+type SerdeInfoObservation struct {
+
+	// Name of the SerDe. The maximum length is 256 characters.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Key-value pairs that define the initialization
+	// parameters for the serialization library. Maximum size 10 Kib.
+	// +mapType=granular
+	Parameters map[string]*string `json:"parameters,omitempty" tf:"parameters,omitempty"`
+
+	// Specifies a fully-qualified class name of
+	// the serialization library that is responsible for the translation of data
+	// between table representation and the underlying low-level input and output
+	// format structures. The maximum length is 256 characters.
+	SerializationLibrary *string `json:"serializationLibrary,omitempty" tf:"serialization_library,omitempty"`
+}
+
+type SerdeInfoParameters struct {
+
+	// Name of the SerDe. The maximum length is 256 characters.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Key-value pairs that define the initialization
+	// parameters for the serialization library. Maximum size 10 Kib.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Parameters map[string]*string `json:"parameters,omitempty" tf:"parameters,omitempty"`
+
+	// Specifies a fully-qualified class name of
+	// the serialization library that is responsible for the translation of data
+	// between table representation and the underlying low-level input and output
+	// format structures. The maximum length is 256 characters.
+	// +kubebuilder:validation:Optional
+	SerializationLibrary *string `json:"serializationLibrary" tf:"serialization_library,omitempty"`
+}
+
+type StorageDescriptorInitParameters struct {
+
+	// Specifies the fully qualified class name of the
+	// InputFormat (e.g. "org.apache.hadoop.hive.ql.io.orc.OrcInputFormat"). The
+	// maximum length is 128 characters.
+	InputFormat *string `json:"inputFormat,omitempty" tf:"input_format,omitempty"`
+
+	// The physical location of the table (e.g.
+	// 'gs://spark-dataproc-data/pangea-data/case_sensitive/' or
+	// 'gs://spark-dataproc-data/pangea-data/*'). The maximum length is 2056 bytes.
+	LocationURI *string `json:"locationUri,omitempty" tf:"location_uri,omitempty"`
+
+	// Specifies the fully qualified class name of the
+	// OutputFormat (e.g. "org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat"). The
+	// maximum length is 128 characters.
+	OutputFormat *string `json:"outputFormat,omitempty" tf:"output_format,omitempty"`
+
+	// Serializer and deserializer information. Structure
+	// is documented below.
+	SerdeInfo *SerdeInfoInitParameters `json:"serdeInfo,omitempty" tf:"serde_info,omitempty"`
+}
+
+type StorageDescriptorObservation struct {
+
+	// Specifies the fully qualified class name of the
+	// InputFormat (e.g. "org.apache.hadoop.hive.ql.io.orc.OrcInputFormat"). The
+	// maximum length is 128 characters.
+	InputFormat *string `json:"inputFormat,omitempty" tf:"input_format,omitempty"`
+
+	// The physical location of the table (e.g.
+	// 'gs://spark-dataproc-data/pangea-data/case_sensitive/' or
+	// 'gs://spark-dataproc-data/pangea-data/*'). The maximum length is 2056 bytes.
+	LocationURI *string `json:"locationUri,omitempty" tf:"location_uri,omitempty"`
+
+	// Specifies the fully qualified class name of the
+	// OutputFormat (e.g. "org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat"). The
+	// maximum length is 128 characters.
+	OutputFormat *string `json:"outputFormat,omitempty" tf:"output_format,omitempty"`
+
+	// Serializer and deserializer information. Structure
+	// is documented below.
+	SerdeInfo *SerdeInfoObservation `json:"serdeInfo,omitempty" tf:"serde_info,omitempty"`
+}
+
+type StorageDescriptorParameters struct {
+
+	// Specifies the fully qualified class name of the
+	// InputFormat (e.g. "org.apache.hadoop.hive.ql.io.orc.OrcInputFormat"). The
+	// maximum length is 128 characters.
+	// +kubebuilder:validation:Optional
+	InputFormat *string `json:"inputFormat,omitempty" tf:"input_format,omitempty"`
+
+	// The physical location of the table (e.g.
+	// 'gs://spark-dataproc-data/pangea-data/case_sensitive/' or
+	// 'gs://spark-dataproc-data/pangea-data/*'). The maximum length is 2056 bytes.
+	// +kubebuilder:validation:Optional
+	LocationURI *string `json:"locationUri,omitempty" tf:"location_uri,omitempty"`
+
+	// Specifies the fully qualified class name of the
+	// OutputFormat (e.g. "org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat"). The
+	// maximum length is 128 characters.
+	// +kubebuilder:validation:Optional
+	OutputFormat *string `json:"outputFormat,omitempty" tf:"output_format,omitempty"`
+
+	// Serializer and deserializer information. Structure
+	// is documented below.
+	// +kubebuilder:validation:Optional
+	SerdeInfo *SerdeInfoParameters `json:"serdeInfo,omitempty" tf:"serde_info,omitempty"`
+}
+
 type TableConstraintsInitParameters struct {
 
 	// Present only if the table has a foreign key.
@@ -1225,6 +1428,10 @@ type TableInitParameters struct {
 	// reclaimed.
 	ExpirationTime *float64 `json:"expirationTime,omitempty" tf:"expiration_time,omitempty"`
 
+	// Options defining open source
+	// compatible table. Structure is documented below.
+	ExternalCatalogTableOptions *ExternalCatalogTableOptionsInitParameters `json:"externalCatalogTableOptions,omitempty" tf:"external_catalog_table_options,omitempty"`
+
 	// Describes the data format,
 	// location, and other properties of a table stored outside of BigQuery.
 	// By defining these properties, the data source can then be queried as
@@ -1261,16 +1468,25 @@ type TableInitParameters struct {
 	// globally unique. Tag key is expected to be in the namespaced format, for
 	// example "123456789012/environment" where 123456789012 is the ID of the
 	// parent organization or project resource for this tag key. Tag value is
-	// expected to be the short name, for example "Production".
+	// expected to be the short name, for example "Production". See Tag definitions
+	// for more details.
 	// +mapType=granular
 	ResourceTags map[string]*string `json:"resourceTags,omitempty" tf:"resource_tags,omitempty"`
 
 	// A JSON schema for the table.
 	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
 
+	// Specifies metadata of the foreign data
+	// type definition in field schema. Structure is documented below.
+	SchemaForeignTypeInfo *SchemaForeignTypeInfoInitParameters `json:"schemaForeignTypeInfo,omitempty" tf:"schema_foreign_type_info,omitempty"`
+
 	// Defines the primary key and foreign keys.
 	// Structure is documented below.
 	TableConstraints *TableConstraintsInitParameters `json:"tableConstraints,omitempty" tf:"table_constraints,omitempty"`
+
+	// If specified, configures this table as a view.
+	// Structure is documented below.
+	TableMetadataView *string `json:"tableMetadataView,omitempty" tf:"table_metadata_view,omitempty"`
 
 	// Replication info of a table created
 	// using "AS REPLICA" DDL like:
@@ -1326,6 +1542,10 @@ type TableObservation struct {
 	// indefinitely. Expired tables will be deleted and their storage
 	// reclaimed.
 	ExpirationTime *float64 `json:"expirationTime,omitempty" tf:"expiration_time,omitempty"`
+
+	// Options defining open source
+	// compatible table. Structure is documented below.
+	ExternalCatalogTableOptions *ExternalCatalogTableOptionsObservation `json:"externalCatalogTableOptions,omitempty" tf:"external_catalog_table_options,omitempty"`
 
 	// Describes the data format,
 	// location, and other properties of a table stored outside of BigQuery.
@@ -1385,12 +1605,17 @@ type TableObservation struct {
 	// globally unique. Tag key is expected to be in the namespaced format, for
 	// example "123456789012/environment" where 123456789012 is the ID of the
 	// parent organization or project resource for this tag key. Tag value is
-	// expected to be the short name, for example "Production".
+	// expected to be the short name, for example "Production". See Tag definitions
+	// for more details.
 	// +mapType=granular
 	ResourceTags map[string]*string `json:"resourceTags,omitempty" tf:"resource_tags,omitempty"`
 
 	// A JSON schema for the table.
 	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
+
+	// Specifies metadata of the foreign data
+	// type definition in field schema. Structure is documented below.
+	SchemaForeignTypeInfo *SchemaForeignTypeInfoObservation `json:"schemaForeignTypeInfo,omitempty" tf:"schema_foreign_type_info,omitempty"`
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
@@ -1398,6 +1623,10 @@ type TableObservation struct {
 	// Defines the primary key and foreign keys.
 	// Structure is documented below.
 	TableConstraints *TableConstraintsObservation `json:"tableConstraints,omitempty" tf:"table_constraints,omitempty"`
+
+	// If specified, configures this table as a view.
+	// Structure is documented below.
+	TableMetadataView *string `json:"tableMetadataView,omitempty" tf:"table_metadata_view,omitempty"`
 
 	// Replication info of a table created
 	// using "AS REPLICA" DDL like:
@@ -1464,6 +1693,11 @@ type TableParameters struct {
 	// +kubebuilder:validation:Optional
 	ExpirationTime *float64 `json:"expirationTime,omitempty" tf:"expiration_time,omitempty"`
 
+	// Options defining open source
+	// compatible table. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ExternalCatalogTableOptions *ExternalCatalogTableOptionsParameters `json:"externalCatalogTableOptions,omitempty" tf:"external_catalog_table_options,omitempty"`
+
 	// Describes the data format,
 	// location, and other properties of a table stored outside of BigQuery.
 	// By defining these properties, the data source can then be queried as
@@ -1512,7 +1746,8 @@ type TableParameters struct {
 	// globally unique. Tag key is expected to be in the namespaced format, for
 	// example "123456789012/environment" where 123456789012 is the ID of the
 	// parent organization or project resource for this tag key. Tag value is
-	// expected to be the short name, for example "Production".
+	// expected to be the short name, for example "Production". See Tag definitions
+	// for more details.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	ResourceTags map[string]*string `json:"resourceTags,omitempty" tf:"resource_tags,omitempty"`
@@ -1521,10 +1756,20 @@ type TableParameters struct {
 	// +kubebuilder:validation:Optional
 	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
 
+	// Specifies metadata of the foreign data
+	// type definition in field schema. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SchemaForeignTypeInfo *SchemaForeignTypeInfoParameters `json:"schemaForeignTypeInfo,omitempty" tf:"schema_foreign_type_info,omitempty"`
+
 	// Defines the primary key and foreign keys.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	TableConstraints *TableConstraintsParameters `json:"tableConstraints,omitempty" tf:"table_constraints,omitempty"`
+
+	// If specified, configures this table as a view.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	TableMetadataView *string `json:"tableMetadataView,omitempty" tf:"table_metadata_view,omitempty"`
 
 	// Replication info of a table created
 	// using "AS REPLICA" DDL like:

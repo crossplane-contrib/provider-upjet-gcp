@@ -414,6 +414,11 @@ type DatasetInitParameters struct {
 	// A user-friendly description of the dataset
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Options defining open source compatible datasets living in the BigQuery catalog. Contains
+	// metadata of open source database, schema or namespace represented by the current dataset.
+	// Structure is documented below.
+	ExternalCatalogDatasetOptions *ExternalCatalogDatasetOptionsInitParameters `json:"externalCatalogDatasetOptions,omitempty" tf:"external_catalog_dataset_options,omitempty"`
+
 	// Information about the external metadata storage where the dataset is defined.
 	// Structure is documented below.
 	ExternalDatasetReference *ExternalDatasetReferenceInitParameters `json:"externalDatasetReference,omitempty" tf:"external_dataset_reference,omitempty"`
@@ -526,6 +531,11 @@ type DatasetObservation struct {
 
 	// A hash of the resource.
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
+
+	// Options defining open source compatible datasets living in the BigQuery catalog. Contains
+	// metadata of open source database, schema or namespace represented by the current dataset.
+	// Structure is documented below.
+	ExternalCatalogDatasetOptions *ExternalCatalogDatasetOptionsObservation `json:"externalCatalogDatasetOptions,omitempty" tf:"external_catalog_dataset_options,omitempty"`
 
 	// Information about the external metadata storage where the dataset is defined.
 	// Structure is documented below.
@@ -655,6 +665,12 @@ type DatasetParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Options defining open source compatible datasets living in the BigQuery catalog. Contains
+	// metadata of open source database, schema or namespace represented by the current dataset.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ExternalCatalogDatasetOptions *ExternalCatalogDatasetOptionsParameters `json:"externalCatalogDatasetOptions,omitempty" tf:"external_catalog_dataset_options,omitempty"`
+
 	// Information about the external metadata storage where the dataset is defined.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -756,6 +772,44 @@ type DefaultEncryptionConfigurationParameters struct {
 	// Selector for a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
 	KMSKeyNameSelector *v1.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
+}
+
+type ExternalCatalogDatasetOptionsInitParameters struct {
+
+	// The storage location URI for all tables in the dataset. Equivalent to hive metastore's
+	// database locationUri. Maximum length of 1024 characters.
+	DefaultStorageLocationURI *string `json:"defaultStorageLocationUri,omitempty" tf:"default_storage_location_uri,omitempty"`
+
+	// A map of key value pairs defining the parameters and properties of the open source schema.
+	// Maximum size of 2Mib.
+	// +mapType=granular
+	Parameters map[string]*string `json:"parameters,omitempty" tf:"parameters,omitempty"`
+}
+
+type ExternalCatalogDatasetOptionsObservation struct {
+
+	// The storage location URI for all tables in the dataset. Equivalent to hive metastore's
+	// database locationUri. Maximum length of 1024 characters.
+	DefaultStorageLocationURI *string `json:"defaultStorageLocationUri,omitempty" tf:"default_storage_location_uri,omitempty"`
+
+	// A map of key value pairs defining the parameters and properties of the open source schema.
+	// Maximum size of 2Mib.
+	// +mapType=granular
+	Parameters map[string]*string `json:"parameters,omitempty" tf:"parameters,omitempty"`
+}
+
+type ExternalCatalogDatasetOptionsParameters struct {
+
+	// The storage location URI for all tables in the dataset. Equivalent to hive metastore's
+	// database locationUri. Maximum length of 1024 characters.
+	// +kubebuilder:validation:Optional
+	DefaultStorageLocationURI *string `json:"defaultStorageLocationUri,omitempty" tf:"default_storage_location_uri,omitempty"`
+
+	// A map of key value pairs defining the parameters and properties of the open source schema.
+	// Maximum size of 2Mib.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Parameters map[string]*string `json:"parameters,omitempty" tf:"parameters,omitempty"`
 }
 
 type ExternalDatasetReferenceInitParameters struct {

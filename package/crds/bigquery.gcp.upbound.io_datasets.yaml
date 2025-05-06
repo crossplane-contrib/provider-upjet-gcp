@@ -2670,6 +2670,26 @@ spec:
                   description:
                     description: A user-friendly description of the dataset
                     type: string
+                  externalCatalogDatasetOptions:
+                    description: |-
+                      Options defining open source compatible datasets living in the BigQuery catalog. Contains
+                      metadata of open source database, schema or namespace represented by the current dataset.
+                      Structure is documented below.
+                    properties:
+                      defaultStorageLocationUri:
+                        description: |-
+                          The storage location URI for all tables in the dataset. Equivalent to hive metastore's
+                          database locationUri. Maximum length of 1024 characters.
+                        type: string
+                      parameters:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          A map of key value pairs defining the parameters and properties of the open source schema.
+                          Maximum size of 2Mib.
+                        type: object
+                        x-kubernetes-map-type: granular
+                    type: object
                   externalDatasetReference:
                     description: |-
                       Information about the external metadata storage where the dataset is defined.
@@ -3410,6 +3430,26 @@ spec:
                   description:
                     description: A user-friendly description of the dataset
                     type: string
+                  externalCatalogDatasetOptions:
+                    description: |-
+                      Options defining open source compatible datasets living in the BigQuery catalog. Contains
+                      metadata of open source database, schema or namespace represented by the current dataset.
+                      Structure is documented below.
+                    properties:
+                      defaultStorageLocationUri:
+                        description: |-
+                          The storage location URI for all tables in the dataset. Equivalent to hive metastore's
+                          database locationUri. Maximum length of 1024 characters.
+                        type: string
+                      parameters:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          A map of key value pairs defining the parameters and properties of the open source schema.
+                          Maximum size of 2Mib.
+                        type: object
+                        x-kubernetes-map-type: granular
+                    type: object
                   externalDatasetReference:
                     description: |-
                       Information about the external metadata storage where the dataset is defined.
@@ -3864,6 +3904,26 @@ spec:
                   etag:
                     description: A hash of the resource.
                     type: string
+                  externalCatalogDatasetOptions:
+                    description: |-
+                      Options defining open source compatible datasets living in the BigQuery catalog. Contains
+                      metadata of open source database, schema or namespace represented by the current dataset.
+                      Structure is documented below.
+                    properties:
+                      defaultStorageLocationUri:
+                        description: |-
+                          The storage location URI for all tables in the dataset. Equivalent to hive metastore's
+                          database locationUri. Maximum length of 1024 characters.
+                        type: string
+                      parameters:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          A map of key value pairs defining the parameters and properties of the open source schema.
+                          Maximum size of 2Mib.
+                        type: object
+                        x-kubernetes-map-type: granular
+                    type: object
                   externalDatasetReference:
                     description: |-
                       Information about the external metadata storage where the dataset is defined.

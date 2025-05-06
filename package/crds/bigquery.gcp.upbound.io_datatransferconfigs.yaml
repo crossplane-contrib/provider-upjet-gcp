@@ -1225,9 +1225,8 @@ spec:
                       Structure is documented below.
                     properties:
                       secretAccessKeySecretRef:
-                        description: |-
-                          The Secret Access Key of the AWS account transferring data from.
-                          Note: This property is sensitive and will not be displayed in the plan.
+                        description: A SecretKeySelector is a reference to a secret
+                          key in an arbitrary namespace.
                         properties:
                           key:
                             description: The key to select.
@@ -1243,6 +1242,13 @@ spec:
                         - name
                         - namespace
                         type: object
+                      secretAccessKeyWo:
+                        description: |-
+                          The Secret Access Key of the AWS account transferring data from.
+                          Note: This property is write-only and will not be read from the API.
+                        type: string
+                      secretAccessKeyWoVersion:
+                        type: number
                     type: object
                   serviceAccountName:
                     description: |-
@@ -1533,9 +1539,8 @@ spec:
                       Structure is documented below.
                     properties:
                       secretAccessKeySecretRef:
-                        description: |-
-                          The Secret Access Key of the AWS account transferring data from.
-                          Note: This property is sensitive and will not be displayed in the plan.
+                        description: A SecretKeySelector is a reference to a secret
+                          key in an arbitrary namespace.
                         properties:
                           key:
                             description: The key to select.
@@ -1551,8 +1556,13 @@ spec:
                         - name
                         - namespace
                         type: object
-                    required:
-                    - secretAccessKeySecretRef
+                      secretAccessKeyWo:
+                        description: |-
+                          The Secret Access Key of the AWS account transferring data from.
+                          Note: This property is write-only and will not be read from the API.
+                        type: string
+                      secretAccessKeyWoVersion:
+                        type: number
                     type: object
                   serviceAccountName:
                     description: |-
@@ -1877,25 +1887,13 @@ spec:
                       to a different credential configuration in the config will require an apply to update state.
                       Structure is documented below.
                     properties:
-                      secretAccessKeySecretRef:
+                      secretAccessKeyWo:
                         description: |-
                           The Secret Access Key of the AWS account transferring data from.
-                          Note: This property is sensitive and will not be displayed in the plan.
-                        properties:
-                          key:
-                            description: The key to select.
-                            type: string
-                          name:
-                            description: Name of the secret.
-                            type: string
-                          namespace:
-                            description: Namespace of the secret.
-                            type: string
-                        required:
-                        - key
-                        - name
-                        - namespace
-                        type: object
+                          Note: This property is write-only and will not be read from the API.
+                        type: string
+                      secretAccessKeyWoVersion:
+                        type: number
                     type: object
                   serviceAccountName:
                     description: |-

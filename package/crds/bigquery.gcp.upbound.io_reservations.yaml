@@ -560,6 +560,13 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  secondaryLocation:
+                    description: |-
+                      The current location of the reservation's secondary replica. This field is only set for
+                      reservations using the managed disaster recovery feature. Users can set this in create
+                      reservation calls to create a failover reservation or in update reservation calls to convert
+                      a non-failover reservation to a failover reservation(or vice versa).
+                    type: string
                   slotCapacity:
                     description: |-
                       Minimum slots available to this reservation. A slot is a unit of computational power in BigQuery, and serves as the
@@ -605,6 +612,13 @@ spec:
                       the same admin project. If true, a query using this reservation will execute with the slot
                       capacity specified above at most.
                     type: boolean
+                  secondaryLocation:
+                    description: |-
+                      The current location of the reservation's secondary replica. This field is only set for
+                      reservations using the managed disaster recovery feature. Users can set this in create
+                      reservation calls to create a failover reservation or in update reservation calls to convert
+                      a non-failover reservation to a failover reservation(or vice versa).
+                    type: string
                   slotCapacity:
                     description: |-
                       Minimum slots available to this reservation. A slot is a unit of computational power in BigQuery, and serves as the
@@ -827,10 +841,74 @@ spec:
                       The geographic location where the transfer config should reside.
                       Examples: US, EU, asia-northeast1. The default value is US.
                     type: string
+                  originalPrimaryLocation:
+                    description: |-
+                      The location where the reservation was originally created. This is set only during the
+                      failover reservation's creation. All billing charges for the failover reservation will be
+                      applied to this location.
+                    type: string
+                  primaryLocation:
+                    description: |-
+                      The current location of the reservation's primary replica. This field is only set for
+                      reservations using the managed disaster recovery feature.
+                    type: string
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
+                    type: string
+                  replicationStatus:
+                    description: |-
+                      The Disaster Recovery(DR) replication status of the reservation. This is only available for
+                      the primary replicas of DR/failover reservations and provides information about the both the
+                      staleness of the secondary and the last error encountered while trying to replicate changes
+                      from the primary to the secondary. If this field is blank, it means that the reservation is
+                      either not a DR reservation or the reservation is a DR secondary or that any replication
+                      operations on the reservation have succeeded.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        error:
+                          description: |-
+                            (Output)
+                            The last error encountered while trying to replicate changes from the primary to the
+                            secondary. This field is only available if the replication has not succeeded since.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              code:
+                                description: |-
+                                  (Output)
+                                  The status code, which should be an enum value of google.rpc.Code.
+                                type: number
+                              message:
+                                description: |-
+                                  (Output)
+                                  A developer-facing error message, which should be in English.
+                                type: string
+                            type: object
+                          type: array
+                        lastErrorTime:
+                          description: |-
+                            (Output)
+                            The time at which the last error was encountered while trying to replicate changes from
+                            the primary to the secondary. This field is only available if the replication has not
+                            succeeded since.
+                          type: string
+                        lastReplicationTime:
+                          description: |-
+                            (Output)
+                            A timestamp corresponding to the last change on the primary that was successfully
+                            replicated to the secondary.
+                          type: string
+                      type: object
+                    type: array
+                  secondaryLocation:
+                    description: |-
+                      The current location of the reservation's secondary replica. This field is only set for
+                      reservations using the managed disaster recovery feature. Users can set this in create
+                      reservation calls to create a failover reservation or in update reservation calls to convert
+                      a non-failover reservation to a failover reservation(or vice versa).
                     type: string
                   slotCapacity:
                     description: |-
