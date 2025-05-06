@@ -764,16 +764,6 @@ func (in *EndpointAttachmentParameters) DeepCopyInto(out *EndpointAttachmentPara
 		*out = new(string)
 		**out = **in
 	}
-	if in.OrgIDRef != nil {
-		in, out := &in.OrgIDRef, &out.OrgIDRef
-		*out = new(v1.Reference)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.OrgIDSelector != nil {
-		in, out := &in.OrgIDSelector, &out.OrgIDSelector
-		*out = new(v1.Selector)
-		(*in).DeepCopyInto(*out)
-	}
 	if in.ServiceAttachment != nil {
 		in, out := &in.ServiceAttachment, &out.ServiceAttachment
 		*out = new(string)
