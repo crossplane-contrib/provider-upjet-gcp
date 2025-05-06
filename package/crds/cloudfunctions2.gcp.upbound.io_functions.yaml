@@ -3996,6 +3996,10 @@ spec:
                           Defaults to 256M. Supported units are k, M, G, Mi, Gi. If no unit is
                           supplied the value is interpreted as bytes.
                         type: string
+                      binaryAuthorizationPolicy:
+                        description: The binary authorization policy to be checked
+                          when deploying the Cloud Run service.
+                        type: string
                       environmentVariables:
                         additionalProperties:
                           type: string
@@ -5181,6 +5185,10 @@ spec:
                           Defaults to 256M. Supported units are k, M, G, Mi, Gi. If no unit is
                           supplied the value is interpreted as bytes.
                         type: string
+                      binaryAuthorizationPolicy:
+                        description: The binary authorization policy to be checked
+                          when deploying the Cloud Run service.
+                        type: string
                       environmentVariables:
                         additionalProperties:
                           type: string
@@ -5948,6 +5956,10 @@ spec:
                           The amount of memory available for a function.
                           Defaults to 256M. Supported units are k, M, G, Mi, Gi. If no unit is
                           supplied the value is interpreted as bytes.
+                        type: string
+                      binaryAuthorizationPolicy:
+                        description: The binary authorization policy to be checked
+                          when deploying the Cloud Run service.
                         type: string
                       environmentVariables:
                         additionalProperties:
