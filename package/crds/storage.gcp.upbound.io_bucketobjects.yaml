@@ -1477,6 +1477,8 @@ spec:
                   md5hash:
                     description: (Computed) Base 64 MD5 hash of the uploaded data.
                     type: string
+                  md5hexhash:
+                    type: string
                   mediaLink:
                     description: (Computed) A url reference to download this object.
                     type: string

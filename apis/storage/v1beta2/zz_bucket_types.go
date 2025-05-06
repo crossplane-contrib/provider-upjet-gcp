@@ -115,7 +115,7 @@ type BucketInitParameters struct {
 	// is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// Prevents public access to a bucket. Acceptable values are "inherited" or "enforced". If "inherited", the bucket uses public access prevention. only if the bucket is subject to the public access prevention organization policy constraint. Defaults to "inherited".
+	// Prevents public access to a bucket. Acceptable values are "inherited" or "enforced". If "inherited", the bucket uses public access prevention only if the bucket is subject to the public access prevention organization policy constraint. Defaults to "inherited".
 	PublicAccessPrevention *string `json:"publicAccessPrevention,omitempty" tf:"public_access_prevention,omitempty"`
 
 	// Enables Requester Pays on a storage bucket.
@@ -195,7 +195,7 @@ type BucketObservation struct {
 
 	ProjectNumber *float64 `json:"projectNumber,omitempty" tf:"project_number,omitempty"`
 
-	// Prevents public access to a bucket. Acceptable values are "inherited" or "enforced". If "inherited", the bucket uses public access prevention. only if the bucket is subject to the public access prevention organization policy constraint. Defaults to "inherited".
+	// Prevents public access to a bucket. Acceptable values are "inherited" or "enforced". If "inherited", the bucket uses public access prevention only if the bucket is subject to the public access prevention organization policy constraint. Defaults to "inherited".
 	PublicAccessPrevention *string `json:"publicAccessPrevention,omitempty" tf:"public_access_prevention,omitempty"`
 
 	// Enables Requester Pays on a storage bucket.
@@ -220,11 +220,17 @@ type BucketObservation struct {
 	// +mapType=granular
 	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
+	// (Computed) The creation time of the bucket in RFC 3339 format.
+	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
+
 	// The base URL of the bucket, in the format gs://<bucket-name>.
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
 
 	// Enables Uniform bucket-level access access to a bucket.
 	UniformBucketLevelAccess *bool `json:"uniformBucketLevelAccess,omitempty" tf:"uniform_bucket_level_access,omitempty"`
+
+	// (Computed) The time at which the bucket's metadata or IAM policy was last updated, in RFC 3339 format.
+	Updated *string `json:"updated,omitempty" tf:"updated,omitempty"`
 
 	// The bucket's Versioning configuration.  Structure is documented below.
 	Versioning *VersioningObservation `json:"versioning,omitempty" tf:"versioning,omitempty"`
@@ -290,7 +296,7 @@ type BucketParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// Prevents public access to a bucket. Acceptable values are "inherited" or "enforced". If "inherited", the bucket uses public access prevention. only if the bucket is subject to the public access prevention organization policy constraint. Defaults to "inherited".
+	// Prevents public access to a bucket. Acceptable values are "inherited" or "enforced". If "inherited", the bucket uses public access prevention only if the bucket is subject to the public access prevention organization policy constraint. Defaults to "inherited".
 	// +kubebuilder:validation:Optional
 	PublicAccessPrevention *string `json:"publicAccessPrevention,omitempty" tf:"public_access_prevention,omitempty"`
 

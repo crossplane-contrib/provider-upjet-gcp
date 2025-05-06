@@ -939,6 +939,11 @@ func (in *BucketObjectObservation) DeepCopyInto(out *BucketObjectObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Md5Hexhash != nil {
+		in, out := &in.Md5Hexhash, &out.Md5Hexhash
+		*out = new(string)
+		**out = **in
+	}
 	if in.MediaLink != nil {
 		in, out := &in.MediaLink, &out.MediaLink
 		*out = new(string)
@@ -1323,6 +1328,11 @@ func (in *BucketObservation) DeepCopyInto(out *BucketObservation) {
 			(*out)[key] = outVal
 		}
 	}
+	if in.TimeCreated != nil {
+		in, out := &in.TimeCreated, &out.TimeCreated
+		*out = new(string)
+		**out = **in
+	}
 	if in.URL != nil {
 		in, out := &in.URL, &out.URL
 		*out = new(string)
@@ -1331,6 +1341,11 @@ func (in *BucketObservation) DeepCopyInto(out *BucketObservation) {
 	if in.UniformBucketLevelAccess != nil {
 		in, out := &in.UniformBucketLevelAccess, &out.UniformBucketLevelAccess
 		*out = new(bool)
+		**out = **in
+	}
+	if in.Updated != nil {
+		in, out := &in.Updated, &out.Updated
+		*out = new(string)
 		**out = **in
 	}
 	if in.Versioning != nil {

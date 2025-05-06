@@ -1698,7 +1698,7 @@ spec:
                   publicAccessPrevention:
                     description: Prevents public access to a bucket. Acceptable values
                       are "inherited" or "enforced". If "inherited", the bucket uses
-                      public access prevention. only if the bucket is subject to the
+                      public access prevention only if the bucket is subject to the
                       public access prevention organization policy constraint. Defaults
                       to "inherited".
                     type: string
@@ -2048,7 +2048,7 @@ spec:
                   publicAccessPrevention:
                     description: Prevents public access to a bucket. Acceptable values
                       are "inherited" or "enforced". If "inherited", the bucket uses
-                      public access prevention. only if the bucket is subject to the
+                      public access prevention only if the bucket is subject to the
                       public access prevention organization policy constraint. Defaults
                       to "inherited".
                     type: string
@@ -2572,7 +2572,7 @@ spec:
                   publicAccessPrevention:
                     description: Prevents public access to a bucket. Acceptable values
                       are "inherited" or "enforced". If "inherited", the bucket uses
-                      public access prevention. only if the bucket is subject to the
+                      public access prevention only if the bucket is subject to the
                       public access prevention organization policy constraint. Defaults
                       to "inherited".
                     type: string
@@ -2638,9 +2638,17 @@ spec:
                     description: A map of key/value label pairs to assign to the bucket.
                     type: object
                     x-kubernetes-map-type: granular
+                  timeCreated:
+                    description: (Computed) The creation time of the bucket in RFC
+                      3339 format.
+                    type: string
                   uniformBucketLevelAccess:
                     description: Enables Uniform bucket-level access access to a bucket.
                     type: boolean
+                  updated:
+                    description: (Computed) The time at which the bucket's metadata
+                      or IAM policy was last updated, in RFC 3339 format.
+                    type: string
                   url:
                     description: The base URL of the bucket, in the format gs://<bucket-name>.
                     type: string

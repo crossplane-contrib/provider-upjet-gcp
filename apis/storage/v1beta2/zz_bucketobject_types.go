@@ -130,6 +130,8 @@ type BucketObjectObservation struct {
 	// (Computed) Base 64 MD5 hash of the uploaded data.
 	Md5Hash *string `json:"md5hash,omitempty" tf:"md5hash,omitempty"`
 
+	Md5Hexhash *string `json:"md5hexhash,omitempty" tf:"md5hexhash,omitempty"`
+
 	// (Computed) A url reference to download this object.
 	MediaLink *string `json:"mediaLink,omitempty" tf:"media_link,omitempty"`
 
