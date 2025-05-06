@@ -9,6 +9,7 @@ package v1beta2
 import (
 	"context"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
+	resource "github.com/crossplane/upjet/pkg/resource"
 	errors "github.com/pkg/errors"
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
@@ -25,12 +26,58 @@ func (mg *Queue) ResolveReferences(ctx context.Context, c client.Reader) error {
 
 	var rsp reference.ResolutionResponse
 	var err error
+
+	if mg.Spec.ForProvider.HTTPTarget != nil {
+		if mg.Spec.ForProvider.HTTPTarget.OAuthToken != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "ServiceAccount", "ServiceAccountList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.HTTPTarget.OAuthToken.ServiceAccountEmail),
+					Extract:      resource.ExtractParamPath("email", true),
+					Reference:    mg.Spec.ForProvider.HTTPTarget.OAuthToken.ServiceAccountEmailRef,
+					Selector:     mg.Spec.ForProvider.HTTPTarget.OAuthToken.ServiceAccountEmailSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.HTTPTarget.OAuthToken.ServiceAccountEmail")
+			}
+			mg.Spec.ForProvider.HTTPTarget.OAuthToken.ServiceAccountEmail = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.HTTPTarget.OAuthToken.ServiceAccountEmailRef = rsp.ResolvedReference
+
+		}
+	}
+	if mg.Spec.ForProvider.HTTPTarget != nil {
+		if mg.Spec.ForProvider.HTTPTarget.OidcToken != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "ServiceAccount", "ServiceAccountList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.HTTPTarget.OidcToken.ServiceAccountEmail),
+					Extract:      resource.ExtractParamPath("email", true),
+					Reference:    mg.Spec.ForProvider.HTTPTarget.OidcToken.ServiceAccountEmailRef,
+					Selector:     mg.Spec.ForProvider.HTTPTarget.OidcToken.ServiceAccountEmailSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.HTTPTarget.OidcToken.ServiceAccountEmail")
+			}
+			mg.Spec.ForProvider.HTTPTarget.OidcToken.ServiceAccountEmail = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.HTTPTarget.OidcToken.ServiceAccountEmailRef = rsp.ResolvedReference
+
+		}
+	}
 	{
 		m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "Project", "ProjectList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
-
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
 			Extract:      reference.ExternalName(),
@@ -44,12 +91,58 @@ func (mg *Queue) ResolveReferences(ctx context.Context, c client.Reader) error {
 	}
 	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
+
+	if mg.Spec.InitProvider.HTTPTarget != nil {
+		if mg.Spec.InitProvider.HTTPTarget.OAuthToken != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "ServiceAccount", "ServiceAccountList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.HTTPTarget.OAuthToken.ServiceAccountEmail),
+					Extract:      resource.ExtractParamPath("email", true),
+					Reference:    mg.Spec.InitProvider.HTTPTarget.OAuthToken.ServiceAccountEmailRef,
+					Selector:     mg.Spec.InitProvider.HTTPTarget.OAuthToken.ServiceAccountEmailSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.HTTPTarget.OAuthToken.ServiceAccountEmail")
+			}
+			mg.Spec.InitProvider.HTTPTarget.OAuthToken.ServiceAccountEmail = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.HTTPTarget.OAuthToken.ServiceAccountEmailRef = rsp.ResolvedReference
+
+		}
+	}
+	if mg.Spec.InitProvider.HTTPTarget != nil {
+		if mg.Spec.InitProvider.HTTPTarget.OidcToken != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "ServiceAccount", "ServiceAccountList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.HTTPTarget.OidcToken.ServiceAccountEmail),
+					Extract:      resource.ExtractParamPath("email", true),
+					Reference:    mg.Spec.InitProvider.HTTPTarget.OidcToken.ServiceAccountEmailRef,
+					Selector:     mg.Spec.InitProvider.HTTPTarget.OidcToken.ServiceAccountEmailSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.HTTPTarget.OidcToken.ServiceAccountEmail")
+			}
+			mg.Spec.InitProvider.HTTPTarget.OidcToken.ServiceAccountEmail = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.HTTPTarget.OidcToken.ServiceAccountEmailRef = rsp.ResolvedReference
+
+		}
+	}
 	{
 		m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "Project", "ProjectList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
-
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Project),
 			Extract:      reference.ExternalName(),

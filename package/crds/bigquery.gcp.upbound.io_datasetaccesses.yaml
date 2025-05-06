@@ -1960,6 +1960,32 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  condition:
+                    description: |-
+                      Condition for the binding. If CEL expression in this field is true, this
+                      access binding will be considered.
+                      Structure is documented below.
+                    properties:
+                      description:
+                        description: |-
+                          Description of the expression. This is a longer text which describes the expression,
+                          e.g. when hovered over it in a UI.
+                        type: string
+                      expression:
+                        description: Textual representation of an expression in Common
+                          Expression Language syntax.
+                        type: string
+                      location:
+                        description: |-
+                          String indicating the location of the expression for error reporting, e.g. a file
+                          name and a position in the file.
+                        type: string
+                      title:
+                        description: |-
+                          Title for the expression, i.e. a short string describing its purpose.
+                          This can be used e.g. in UIs which allow to enter the expression.
+                        type: string
+                    type: object
                   dataset:
                     description: |-
                       Grants all resources of particular types in a particular dataset read access to the current dataset.
@@ -2692,6 +2718,32 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  condition:
+                    description: |-
+                      Condition for the binding. If CEL expression in this field is true, this
+                      access binding will be considered.
+                      Structure is documented below.
+                    properties:
+                      description:
+                        description: |-
+                          Description of the expression. This is a longer text which describes the expression,
+                          e.g. when hovered over it in a UI.
+                        type: string
+                      expression:
+                        description: Textual representation of an expression in Common
+                          Expression Language syntax.
+                        type: string
+                      location:
+                        description: |-
+                          String indicating the location of the expression for error reporting, e.g. a file
+                          name and a position in the file.
+                        type: string
+                      title:
+                        description: |-
+                          Title for the expression, i.e. a short string describing its purpose.
+                          This can be used e.g. in UIs which allow to enter the expression.
+                        type: string
+                    type: object
                   dataset:
                     description: |-
                       Grants all resources of particular types in a particular dataset read access to the current dataset.
@@ -3585,6 +3637,32 @@ spec:
                 properties:
                   apiUpdatedMember:
                     type: boolean
+                  condition:
+                    description: |-
+                      Condition for the binding. If CEL expression in this field is true, this
+                      access binding will be considered.
+                      Structure is documented below.
+                    properties:
+                      description:
+                        description: |-
+                          Description of the expression. This is a longer text which describes the expression,
+                          e.g. when hovered over it in a UI.
+                        type: string
+                      expression:
+                        description: Textual representation of an expression in Common
+                          Expression Language syntax.
+                        type: string
+                      location:
+                        description: |-
+                          String indicating the location of the expression for error reporting, e.g. a file
+                          name and a position in the file.
+                        type: string
+                      title:
+                        description: |-
+                          Title for the expression, i.e. a short string describing its purpose.
+                          This can be used e.g. in UIs which allow to enter the expression.
+                        type: string
+                    type: object
                   dataset:
                     description: |-
                       Grants all resources of particular types in a particular dataset read access to the current dataset.

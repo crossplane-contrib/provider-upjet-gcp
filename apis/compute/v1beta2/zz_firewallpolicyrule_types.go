@@ -21,13 +21,19 @@ type FirewallPolicyRuleInitParameters struct {
 	// An optional description for this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// The direction in which this rule applies. Possible values: INGRESS, EGRESS
+	// The direction in which this rule applies.
+	// Possible values are: INGRESS, EGRESS.
 	Direction *string `json:"direction,omitempty" tf:"direction,omitempty"`
 
-	// Denotes whether the firewall policy rule is disabled. When set to true, the firewall policy rule is not enforced and traffic behaves as if it did not exist. If this is unspecified, the firewall policy rule will be enabled.
+	// Denotes whether the firewall policy rule is disabled.
+	// When set to true, the firewall policy rule is not enforced and traffic behaves as if it did not exist.
+	// If this is unspecified, the firewall policy rule will be enabled.
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 
-	// Denotes whether to enable logging for a particular rule. If logging is enabled, logs will be exported to the configured export destination in Stackdriver. Logs may be exported to BigQuery or Pub/Sub. Note: you cannot enable logging on "goto_next" rules.
+	// Denotes whether to enable logging for a particular rule.
+	// If logging is enabled, logs will be exported to the configured export destination in Stackdriver.
+	// Logs may be exported to BigQuery or Pub/Sub.
+	// Note: you cannot enable logging on "goto_next" rules.
 	EnableLogging *bool `json:"enableLogging,omitempty" tf:"enable_logging,omitempty"`
 
 	// The firewall policy of the resource.
@@ -44,18 +50,26 @@ type FirewallPolicyRuleInitParameters struct {
 	FirewallPolicySelector *v1.Selector `json:"firewallPolicySelector,omitempty" tf:"-"`
 
 	// A match condition that incoming traffic is evaluated against. If it evaluates to true, the corresponding 'action' is enforced.
+	// Structure is documented below.
 	Match *MatchInitParameters `json:"match,omitempty" tf:"match,omitempty"`
 
-	// An integer indicating the priority of a rule in the list. The priority must be a positive value between 0 and 2147483647. Rules are evaluated from highest to lowest priority where 0 is the highest priority and 2147483647 is the lowest prority.
+	// An integer indicating the priority of a rule in the list.
+	// The priority must be a positive value between 0 and 2147483647.
+	// Rules are evaluated from highest to lowest priority where 0 is the highest priority and 2147483647 is the lowest prority.
 	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
 
-	// A fully-qualified URL of a SecurityProfileGroup resource. Example: https://networksecurity.googleapis.com/v1/organizations/{organizationId}/locations/global/securityProfileGroups/my-security-profile-group. It must be specified if action = 'apply_security_profile_group' and cannot be specified for other actions.
+	// A fully-qualified URL of a SecurityProfile resource instance.
+	// Example: https://networksecurity.googleapis.com/v1/projects/{project}/locations/{location}/securityProfileGroups/my-security-profile-group
+	// Must be specified if action = 'apply_security_profile_group' and cannot be specified for other actions.
 	SecurityProfileGroup *string `json:"securityProfileGroup,omitempty" tf:"security_profile_group,omitempty"`
 
-	// Boolean flag indicating if the traffic should be TLS decrypted. It can be set only if action = 'apply_security_profile_group' and cannot be set for other actions.
+	// Boolean flag indicating if the traffic should be TLS decrypted.
+	// Can be set only if action = 'apply_security_profile_group' and cannot be set for other actions.
 	TLSInspect *bool `json:"tlsInspect,omitempty" tf:"tls_inspect,omitempty"`
 
-	// A list of network resource URLs to which this rule applies. This field allows you to control which network's VMs get this rule. If this field is left blank, all VMs within the organization will receive the rule.
+	// A list of network resource URLs to which this rule applies.
+	// This field allows you to control which network's VMs get this rule.
+	// If this field is left blank, all VMs within the organization will receive the rule.
 	TargetResources []*string `json:"targetResources,omitempty" tf:"target_resources,omitempty"`
 
 	// A list of service accounts indicating the sets of instances that are applied with this rule.
@@ -67,16 +81,25 @@ type FirewallPolicyRuleObservation struct {
 	// The Action to perform when the client connection triggers the rule. Valid actions are "allow", "deny", "goto_next" and "apply_security_profile_group".
 	Action *string `json:"action,omitempty" tf:"action,omitempty"`
 
+	// Creation timestamp in RFC3339 text format.
+	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
 	// An optional description for this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// The direction in which this rule applies. Possible values: INGRESS, EGRESS
+	// The direction in which this rule applies.
+	// Possible values are: INGRESS, EGRESS.
 	Direction *string `json:"direction,omitempty" tf:"direction,omitempty"`
 
-	// Denotes whether the firewall policy rule is disabled. When set to true, the firewall policy rule is not enforced and traffic behaves as if it did not exist. If this is unspecified, the firewall policy rule will be enabled.
+	// Denotes whether the firewall policy rule is disabled.
+	// When set to true, the firewall policy rule is not enforced and traffic behaves as if it did not exist.
+	// If this is unspecified, the firewall policy rule will be enabled.
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 
-	// Denotes whether to enable logging for a particular rule. If logging is enabled, logs will be exported to the configured export destination in Stackdriver. Logs may be exported to BigQuery or Pub/Sub. Note: you cannot enable logging on "goto_next" rules.
+	// Denotes whether to enable logging for a particular rule.
+	// If logging is enabled, logs will be exported to the configured export destination in Stackdriver.
+	// Logs may be exported to BigQuery or Pub/Sub.
+	// Note: you cannot enable logging on "goto_next" rules.
 	EnableLogging *bool `json:"enableLogging,omitempty" tf:"enable_logging,omitempty"`
 
 	// The firewall policy of the resource.
@@ -89,21 +112,29 @@ type FirewallPolicyRuleObservation struct {
 	Kind *string `json:"kind,omitempty" tf:"kind,omitempty"`
 
 	// A match condition that incoming traffic is evaluated against. If it evaluates to true, the corresponding 'action' is enforced.
+	// Structure is documented below.
 	Match *MatchObservation `json:"match,omitempty" tf:"match,omitempty"`
 
-	// An integer indicating the priority of a rule in the list. The priority must be a positive value between 0 and 2147483647. Rules are evaluated from highest to lowest priority where 0 is the highest priority and 2147483647 is the lowest prority.
+	// An integer indicating the priority of a rule in the list.
+	// The priority must be a positive value between 0 and 2147483647.
+	// Rules are evaluated from highest to lowest priority where 0 is the highest priority and 2147483647 is the lowest prority.
 	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
 
 	// Calculation of the complexity of a single firewall policy rule.
 	RuleTupleCount *float64 `json:"ruleTupleCount,omitempty" tf:"rule_tuple_count,omitempty"`
 
-	// A fully-qualified URL of a SecurityProfileGroup resource. Example: https://networksecurity.googleapis.com/v1/organizations/{organizationId}/locations/global/securityProfileGroups/my-security-profile-group. It must be specified if action = 'apply_security_profile_group' and cannot be specified for other actions.
+	// A fully-qualified URL of a SecurityProfile resource instance.
+	// Example: https://networksecurity.googleapis.com/v1/projects/{project}/locations/{location}/securityProfileGroups/my-security-profile-group
+	// Must be specified if action = 'apply_security_profile_group' and cannot be specified for other actions.
 	SecurityProfileGroup *string `json:"securityProfileGroup,omitempty" tf:"security_profile_group,omitempty"`
 
-	// Boolean flag indicating if the traffic should be TLS decrypted. It can be set only if action = 'apply_security_profile_group' and cannot be set for other actions.
+	// Boolean flag indicating if the traffic should be TLS decrypted.
+	// Can be set only if action = 'apply_security_profile_group' and cannot be set for other actions.
 	TLSInspect *bool `json:"tlsInspect,omitempty" tf:"tls_inspect,omitempty"`
 
-	// A list of network resource URLs to which this rule applies. This field allows you to control which network's VMs get this rule. If this field is left blank, all VMs within the organization will receive the rule.
+	// A list of network resource URLs to which this rule applies.
+	// This field allows you to control which network's VMs get this rule.
+	// If this field is left blank, all VMs within the organization will receive the rule.
 	TargetResources []*string `json:"targetResources,omitempty" tf:"target_resources,omitempty"`
 
 	// A list of service accounts indicating the sets of instances that are applied with this rule.
@@ -120,15 +151,21 @@ type FirewallPolicyRuleParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// The direction in which this rule applies. Possible values: INGRESS, EGRESS
+	// The direction in which this rule applies.
+	// Possible values are: INGRESS, EGRESS.
 	// +kubebuilder:validation:Optional
 	Direction *string `json:"direction,omitempty" tf:"direction,omitempty"`
 
-	// Denotes whether the firewall policy rule is disabled. When set to true, the firewall policy rule is not enforced and traffic behaves as if it did not exist. If this is unspecified, the firewall policy rule will be enabled.
+	// Denotes whether the firewall policy rule is disabled.
+	// When set to true, the firewall policy rule is not enforced and traffic behaves as if it did not exist.
+	// If this is unspecified, the firewall policy rule will be enabled.
 	// +kubebuilder:validation:Optional
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 
-	// Denotes whether to enable logging for a particular rule. If logging is enabled, logs will be exported to the configured export destination in Stackdriver. Logs may be exported to BigQuery or Pub/Sub. Note: you cannot enable logging on "goto_next" rules.
+	// Denotes whether to enable logging for a particular rule.
+	// If logging is enabled, logs will be exported to the configured export destination in Stackdriver.
+	// Logs may be exported to BigQuery or Pub/Sub.
+	// Note: you cannot enable logging on "goto_next" rules.
 	// +kubebuilder:validation:Optional
 	EnableLogging *bool `json:"enableLogging,omitempty" tf:"enable_logging,omitempty"`
 
@@ -147,22 +184,30 @@ type FirewallPolicyRuleParameters struct {
 	FirewallPolicySelector *v1.Selector `json:"firewallPolicySelector,omitempty" tf:"-"`
 
 	// A match condition that incoming traffic is evaluated against. If it evaluates to true, the corresponding 'action' is enforced.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Match *MatchParameters `json:"match,omitempty" tf:"match,omitempty"`
 
-	// An integer indicating the priority of a rule in the list. The priority must be a positive value between 0 and 2147483647. Rules are evaluated from highest to lowest priority where 0 is the highest priority and 2147483647 is the lowest prority.
+	// An integer indicating the priority of a rule in the list.
+	// The priority must be a positive value between 0 and 2147483647.
+	// Rules are evaluated from highest to lowest priority where 0 is the highest priority and 2147483647 is the lowest prority.
 	// +kubebuilder:validation:Optional
 	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
 
-	// A fully-qualified URL of a SecurityProfileGroup resource. Example: https://networksecurity.googleapis.com/v1/organizations/{organizationId}/locations/global/securityProfileGroups/my-security-profile-group. It must be specified if action = 'apply_security_profile_group' and cannot be specified for other actions.
+	// A fully-qualified URL of a SecurityProfile resource instance.
+	// Example: https://networksecurity.googleapis.com/v1/projects/{project}/locations/{location}/securityProfileGroups/my-security-profile-group
+	// Must be specified if action = 'apply_security_profile_group' and cannot be specified for other actions.
 	// +kubebuilder:validation:Optional
 	SecurityProfileGroup *string `json:"securityProfileGroup,omitempty" tf:"security_profile_group,omitempty"`
 
-	// Boolean flag indicating if the traffic should be TLS decrypted. It can be set only if action = 'apply_security_profile_group' and cannot be set for other actions.
+	// Boolean flag indicating if the traffic should be TLS decrypted.
+	// Can be set only if action = 'apply_security_profile_group' and cannot be set for other actions.
 	// +kubebuilder:validation:Optional
 	TLSInspect *bool `json:"tlsInspect,omitempty" tf:"tls_inspect,omitempty"`
 
-	// A list of network resource URLs to which this rule applies. This field allows you to control which network's VMs get this rule. If this field is left blank, all VMs within the organization will receive the rule.
+	// A list of network resource URLs to which this rule applies.
+	// This field allows you to control which network's VMs get this rule.
+	// If this field is left blank, all VMs within the organization will receive the rule.
 	// +kubebuilder:validation:Optional
 	TargetResources []*string `json:"targetResources,omitempty" tf:"target_resources,omitempty"`
 
@@ -173,7 +218,8 @@ type FirewallPolicyRuleParameters struct {
 
 type Layer4ConfigsInitParameters struct {
 
-	// The IP protocol to which this rule applies. The protocol type is required when creating a firewall rule. This value can either be one of the following well known protocol strings (tcp, udp, icmp, esp, ah, ipip, sctp), or the IP protocol number.
+	// The IP protocol to which this rule applies. The protocol type is required when creating a firewall rule.
+	// This value can either be one of the following well known protocol strings (tcp, udp, icmp, esp, ah, ipip, sctp), or the IP protocol number.
 	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
 
 	// An optional list of ports to which this rule applies. This field is only applicable for UDP or TCP protocol. Each entry must be either an integer or a range. If not specified, this rule applies to connections through any port.
@@ -182,7 +228,8 @@ type Layer4ConfigsInitParameters struct {
 
 type Layer4ConfigsObservation struct {
 
-	// The IP protocol to which this rule applies. The protocol type is required when creating a firewall rule. This value can either be one of the following well known protocol strings (tcp, udp, icmp, esp, ah, ipip, sctp), or the IP protocol number.
+	// The IP protocol to which this rule applies. The protocol type is required when creating a firewall rule.
+	// This value can either be one of the following well known protocol strings (tcp, udp, icmp, esp, ah, ipip, sctp), or the IP protocol number.
 	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
 
 	// An optional list of ports to which this rule applies. This field is only applicable for UDP or TCP protocol. Each entry must be either an integer or a range. If not specified, this rule applies to connections through any port.
@@ -191,7 +238,8 @@ type Layer4ConfigsObservation struct {
 
 type Layer4ConfigsParameters struct {
 
-	// The IP protocol to which this rule applies. The protocol type is required when creating a firewall rule. This value can either be one of the following well known protocol strings (tcp, udp, icmp, esp, ah, ipip, sctp), or the IP protocol number.
+	// The IP protocol to which this rule applies. The protocol type is required when creating a firewall rule.
+	// This value can either be one of the following well known protocol strings (tcp, udp, icmp, esp, ah, ipip, sctp), or the IP protocol number.
 	// +kubebuilder:validation:Optional
 	IPProtocol *string `json:"ipProtocol" tf:"ip_protocol,omitempty"`
 
@@ -202,7 +250,7 @@ type Layer4ConfigsParameters struct {
 
 type MatchInitParameters struct {
 
-	// Address groups which should be matched against the traffic destination. Maximum number of destination address groups is 10. Destination address groups is only supported in Egress rules.
+	// Address groups which should be matched against the traffic destination. Maximum number of destination address groups is 10.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/networksecurity/v1beta1.AddressGroup
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	DestAddressGroups []*string `json:"destAddressGroups,omitempty" tf:"dest_address_groups,omitempty"`
@@ -215,76 +263,78 @@ type MatchInitParameters struct {
 	// +kubebuilder:validation:Optional
 	DestAddressGroupsSelector *v1.Selector `json:"destAddressGroupsSelector,omitempty" tf:"-"`
 
-	// Domain names that will be used to match against the resolved domain name of destination of traffic. Can only be specified if DIRECTION is egress.
+	// Fully Qualified Domain Name (FQDN) which should be matched against traffic destination. Maximum number of destination fqdn allowed is 100.
 	DestFqdns []*string `json:"destFqdns,omitempty" tf:"dest_fqdns,omitempty"`
 
-	// CIDR IP address range. Maximum number of destination CIDR IP ranges allowed is 256.
+	// CIDR IP address range. Maximum number of destination CIDR IP ranges allowed is 5000.
 	DestIPRanges []*string `json:"destIpRanges,omitempty" tf:"dest_ip_ranges,omitempty"`
 
-	// The Unicode country codes whose IP addresses will be used to match against the source of traffic. Can only be specified if DIRECTION is egress.
+	// Region codes whose IP addresses will be used to match for destination of traffic. Should be specified as 2 letter country code defined as per ISO 3166 alpha-2 country codes. ex."US" Maximum number of dest region codes allowed is 5000.
 	DestRegionCodes []*string `json:"destRegionCodes,omitempty" tf:"dest_region_codes,omitempty"`
 
-	// Name of the Google Cloud Threat Intelligence list.
+	// Names of Network Threat Intelligence lists. The IPs in these lists will be matched against traffic destination.
 	DestThreatIntelligences []*string `json:"destThreatIntelligences,omitempty" tf:"dest_threat_intelligences,omitempty"`
 
 	// Pairs of IP protocols and ports that the rule should match.
+	// Structure is documented below.
 	Layer4Configs []Layer4ConfigsInitParameters `json:"layer4Configs,omitempty" tf:"layer4_configs,omitempty"`
 
-	// Address groups which should be matched against the traffic source. Maximum number of source address groups is 10. Source address groups is only supported in Ingress rules.
+	// Address groups which should be matched against the traffic source. Maximum number of source address groups is 10.
 	SrcAddressGroups []*string `json:"srcAddressGroups,omitempty" tf:"src_address_groups,omitempty"`
 
-	// Domain names that will be used to match against the resolved domain name of source of traffic. Can only be specified if DIRECTION is ingress.
+	// Fully Qualified Domain Name (FQDN) which should be matched against traffic source. Maximum number of source fqdn allowed is 100.
 	SrcFqdns []*string `json:"srcFqdns,omitempty" tf:"src_fqdns,omitempty"`
 
-	// CIDR IP address range. Maximum number of source CIDR IP ranges allowed is 256.
+	// CIDR IP address range. Maximum number of source CIDR IP ranges allowed is 5000.
 	SrcIPRanges []*string `json:"srcIpRanges,omitempty" tf:"src_ip_ranges,omitempty"`
 
-	// The Unicode country codes whose IP addresses will be used to match against the source of traffic. Can only be specified if DIRECTION is ingress.
+	// Region codes whose IP addresses will be used to match for source of traffic. Should be specified as 2 letter country code defined as per ISO 3166 alpha-2 country codes. ex."US" Maximum number of source region codes allowed is 5000.
 	SrcRegionCodes []*string `json:"srcRegionCodes,omitempty" tf:"src_region_codes,omitempty"`
 
-	// Name of the Google Cloud Threat Intelligence list.
+	// Names of Network Threat Intelligence lists. The IPs in these lists will be matched against traffic source.
 	SrcThreatIntelligences []*string `json:"srcThreatIntelligences,omitempty" tf:"src_threat_intelligences,omitempty"`
 }
 
 type MatchObservation struct {
 
-	// Address groups which should be matched against the traffic destination. Maximum number of destination address groups is 10. Destination address groups is only supported in Egress rules.
+	// Address groups which should be matched against the traffic destination. Maximum number of destination address groups is 10.
 	DestAddressGroups []*string `json:"destAddressGroups,omitempty" tf:"dest_address_groups,omitempty"`
 
-	// Domain names that will be used to match against the resolved domain name of destination of traffic. Can only be specified if DIRECTION is egress.
+	// Fully Qualified Domain Name (FQDN) which should be matched against traffic destination. Maximum number of destination fqdn allowed is 100.
 	DestFqdns []*string `json:"destFqdns,omitempty" tf:"dest_fqdns,omitempty"`
 
-	// CIDR IP address range. Maximum number of destination CIDR IP ranges allowed is 256.
+	// CIDR IP address range. Maximum number of destination CIDR IP ranges allowed is 5000.
 	DestIPRanges []*string `json:"destIpRanges,omitempty" tf:"dest_ip_ranges,omitempty"`
 
-	// The Unicode country codes whose IP addresses will be used to match against the source of traffic. Can only be specified if DIRECTION is egress.
+	// Region codes whose IP addresses will be used to match for destination of traffic. Should be specified as 2 letter country code defined as per ISO 3166 alpha-2 country codes. ex."US" Maximum number of dest region codes allowed is 5000.
 	DestRegionCodes []*string `json:"destRegionCodes,omitempty" tf:"dest_region_codes,omitempty"`
 
-	// Name of the Google Cloud Threat Intelligence list.
+	// Names of Network Threat Intelligence lists. The IPs in these lists will be matched against traffic destination.
 	DestThreatIntelligences []*string `json:"destThreatIntelligences,omitempty" tf:"dest_threat_intelligences,omitempty"`
 
 	// Pairs of IP protocols and ports that the rule should match.
+	// Structure is documented below.
 	Layer4Configs []Layer4ConfigsObservation `json:"layer4Configs,omitempty" tf:"layer4_configs,omitempty"`
 
-	// Address groups which should be matched against the traffic source. Maximum number of source address groups is 10. Source address groups is only supported in Ingress rules.
+	// Address groups which should be matched against the traffic source. Maximum number of source address groups is 10.
 	SrcAddressGroups []*string `json:"srcAddressGroups,omitempty" tf:"src_address_groups,omitempty"`
 
-	// Domain names that will be used to match against the resolved domain name of source of traffic. Can only be specified if DIRECTION is ingress.
+	// Fully Qualified Domain Name (FQDN) which should be matched against traffic source. Maximum number of source fqdn allowed is 100.
 	SrcFqdns []*string `json:"srcFqdns,omitempty" tf:"src_fqdns,omitempty"`
 
-	// CIDR IP address range. Maximum number of source CIDR IP ranges allowed is 256.
+	// CIDR IP address range. Maximum number of source CIDR IP ranges allowed is 5000.
 	SrcIPRanges []*string `json:"srcIpRanges,omitempty" tf:"src_ip_ranges,omitempty"`
 
-	// The Unicode country codes whose IP addresses will be used to match against the source of traffic. Can only be specified if DIRECTION is ingress.
+	// Region codes whose IP addresses will be used to match for source of traffic. Should be specified as 2 letter country code defined as per ISO 3166 alpha-2 country codes. ex."US" Maximum number of source region codes allowed is 5000.
 	SrcRegionCodes []*string `json:"srcRegionCodes,omitempty" tf:"src_region_codes,omitempty"`
 
-	// Name of the Google Cloud Threat Intelligence list.
+	// Names of Network Threat Intelligence lists. The IPs in these lists will be matched against traffic source.
 	SrcThreatIntelligences []*string `json:"srcThreatIntelligences,omitempty" tf:"src_threat_intelligences,omitempty"`
 }
 
 type MatchParameters struct {
 
-	// Address groups which should be matched against the traffic destination. Maximum number of destination address groups is 10. Destination address groups is only supported in Egress rules.
+	// Address groups which should be matched against the traffic destination. Maximum number of destination address groups is 10.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/networksecurity/v1beta1.AddressGroup
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -298,43 +348,44 @@ type MatchParameters struct {
 	// +kubebuilder:validation:Optional
 	DestAddressGroupsSelector *v1.Selector `json:"destAddressGroupsSelector,omitempty" tf:"-"`
 
-	// Domain names that will be used to match against the resolved domain name of destination of traffic. Can only be specified if DIRECTION is egress.
+	// Fully Qualified Domain Name (FQDN) which should be matched against traffic destination. Maximum number of destination fqdn allowed is 100.
 	// +kubebuilder:validation:Optional
 	DestFqdns []*string `json:"destFqdns,omitempty" tf:"dest_fqdns,omitempty"`
 
-	// CIDR IP address range. Maximum number of destination CIDR IP ranges allowed is 256.
+	// CIDR IP address range. Maximum number of destination CIDR IP ranges allowed is 5000.
 	// +kubebuilder:validation:Optional
 	DestIPRanges []*string `json:"destIpRanges,omitempty" tf:"dest_ip_ranges,omitempty"`
 
-	// The Unicode country codes whose IP addresses will be used to match against the source of traffic. Can only be specified if DIRECTION is egress.
+	// Region codes whose IP addresses will be used to match for destination of traffic. Should be specified as 2 letter country code defined as per ISO 3166 alpha-2 country codes. ex."US" Maximum number of dest region codes allowed is 5000.
 	// +kubebuilder:validation:Optional
 	DestRegionCodes []*string `json:"destRegionCodes,omitempty" tf:"dest_region_codes,omitempty"`
 
-	// Name of the Google Cloud Threat Intelligence list.
+	// Names of Network Threat Intelligence lists. The IPs in these lists will be matched against traffic destination.
 	// +kubebuilder:validation:Optional
 	DestThreatIntelligences []*string `json:"destThreatIntelligences,omitempty" tf:"dest_threat_intelligences,omitempty"`
 
 	// Pairs of IP protocols and ports that the rule should match.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Layer4Configs []Layer4ConfigsParameters `json:"layer4Configs" tf:"layer4_configs,omitempty"`
 
-	// Address groups which should be matched against the traffic source. Maximum number of source address groups is 10. Source address groups is only supported in Ingress rules.
+	// Address groups which should be matched against the traffic source. Maximum number of source address groups is 10.
 	// +kubebuilder:validation:Optional
 	SrcAddressGroups []*string `json:"srcAddressGroups,omitempty" tf:"src_address_groups,omitempty"`
 
-	// Domain names that will be used to match against the resolved domain name of source of traffic. Can only be specified if DIRECTION is ingress.
+	// Fully Qualified Domain Name (FQDN) which should be matched against traffic source. Maximum number of source fqdn allowed is 100.
 	// +kubebuilder:validation:Optional
 	SrcFqdns []*string `json:"srcFqdns,omitempty" tf:"src_fqdns,omitempty"`
 
-	// CIDR IP address range. Maximum number of source CIDR IP ranges allowed is 256.
+	// CIDR IP address range. Maximum number of source CIDR IP ranges allowed is 5000.
 	// +kubebuilder:validation:Optional
 	SrcIPRanges []*string `json:"srcIpRanges,omitempty" tf:"src_ip_ranges,omitempty"`
 
-	// The Unicode country codes whose IP addresses will be used to match against the source of traffic. Can only be specified if DIRECTION is ingress.
+	// Region codes whose IP addresses will be used to match for source of traffic. Should be specified as 2 letter country code defined as per ISO 3166 alpha-2 country codes. ex."US" Maximum number of source region codes allowed is 5000.
 	// +kubebuilder:validation:Optional
 	SrcRegionCodes []*string `json:"srcRegionCodes,omitempty" tf:"src_region_codes,omitempty"`
 
-	// Name of the Google Cloud Threat Intelligence list.
+	// Names of Network Threat Intelligence lists. The IPs in these lists will be matched against traffic source.
 	// +kubebuilder:validation:Optional
 	SrcThreatIntelligences []*string `json:"srcThreatIntelligences,omitempty" tf:"src_threat_intelligences,omitempty"`
 }
@@ -365,7 +416,7 @@ type FirewallPolicyRuleStatus struct {
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 
-// FirewallPolicyRule is the Schema for the FirewallPolicyRules API. The Compute FirewallPolicyRule resource
+// FirewallPolicyRule is the Schema for the FirewallPolicyRules API. Represents a rule that describes one or more match conditions along with the action to be taken when traffic matches this condition (allow or deny).
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

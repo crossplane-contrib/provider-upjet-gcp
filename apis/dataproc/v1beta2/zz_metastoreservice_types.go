@@ -456,6 +456,9 @@ type MetastoreServiceObservation struct {
 	// Possible values are: MYSQL, SPANNER.
 	DatabaseType *string `json:"databaseType,omitempty" tf:"database_type,omitempty"`
 
+	// Indicates if the dataproc metastore should be protected against accidental deletions.
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
+
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
 

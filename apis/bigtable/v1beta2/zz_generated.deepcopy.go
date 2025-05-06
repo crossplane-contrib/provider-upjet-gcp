@@ -79,6 +79,11 @@ func (in *AppProfileInitParameters) DeepCopyInto(out *AppProfileInitParameters) 
 		*out = new(string)
 		**out = **in
 	}
+	if in.RowAffinity != nil {
+		in, out := &in.RowAffinity, &out.RowAffinity
+		*out = new(bool)
+		**out = **in
+	}
 	if in.SingleClusterRouting != nil {
 		in, out := &in.SingleClusterRouting, &out.SingleClusterRouting
 		*out = new(SingleClusterRoutingInitParameters)
@@ -187,6 +192,11 @@ func (in *AppProfileObservation) DeepCopyInto(out *AppProfileObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.RowAffinity != nil {
+		in, out := &in.RowAffinity, &out.RowAffinity
+		*out = new(bool)
+		**out = **in
+	}
 	if in.SingleClusterRouting != nil {
 		in, out := &in.SingleClusterRouting, &out.SingleClusterRouting
 		*out = new(SingleClusterRoutingObservation)
@@ -261,6 +271,11 @@ func (in *AppProfileParameters) DeepCopyInto(out *AppProfileParameters) {
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
 		*out = new(string)
+		**out = **in
+	}
+	if in.RowAffinity != nil {
+		in, out := &in.RowAffinity, &out.RowAffinity
+		*out = new(bool)
 		**out = **in
 	}
 	if in.SingleClusterRouting != nil {
@@ -1623,11 +1638,6 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
-	if in.DeletionProtection != nil {
-		in, out := &in.DeletionProtection, &out.DeletionProtection
-		*out = new(bool)
-		**out = **in
-	}
 	if in.DisplayName != nil {
 		in, out := &in.DisplayName, &out.DisplayName
 		*out = new(string)
@@ -1817,11 +1827,6 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
-	}
-	if in.DeletionProtection != nil {
-		in, out := &in.DeletionProtection, &out.DeletionProtection
-		*out = new(bool)
-		**out = **in
 	}
 	if in.DisplayName != nil {
 		in, out := &in.DisplayName, &out.DisplayName

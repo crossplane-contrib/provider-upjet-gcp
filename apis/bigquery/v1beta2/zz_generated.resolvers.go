@@ -97,6 +97,29 @@ func (mg *AnalyticsHubListing) ResolveReferences(ctx context.Context, c client.R
 		mg.Spec.ForProvider.BigqueryDataset.DatasetRef = rsp.ResolvedReference
 
 	}
+	if mg.Spec.ForProvider.BigqueryDataset != nil {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.BigqueryDataset.SelectedResources); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta2", "Table", "TableList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.BigqueryDataset.SelectedResources[i4].Table),
+					Extract:      resource.ExtractResourceID(),
+					Reference:    mg.Spec.ForProvider.BigqueryDataset.SelectedResources[i4].TableRef,
+					Selector:     mg.Spec.ForProvider.BigqueryDataset.SelectedResources[i4].TableSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.BigqueryDataset.SelectedResources[i4].Table")
+			}
+			mg.Spec.ForProvider.BigqueryDataset.SelectedResources[i4].Table = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.BigqueryDataset.SelectedResources[i4].TableRef = rsp.ResolvedReference
+
+		}
+	}
 	{
 		m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta1", "AnalyticsHubDataExchange", "AnalyticsHubDataExchangeList")
 		if err != nil {
@@ -136,6 +159,29 @@ func (mg *AnalyticsHubListing) ResolveReferences(ctx context.Context, c client.R
 		mg.Spec.InitProvider.BigqueryDataset.Dataset = reference.ToPtrValue(rsp.ResolvedValue)
 		mg.Spec.InitProvider.BigqueryDataset.DatasetRef = rsp.ResolvedReference
 
+	}
+	if mg.Spec.InitProvider.BigqueryDataset != nil {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.BigqueryDataset.SelectedResources); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta2", "Table", "TableList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.BigqueryDataset.SelectedResources[i4].Table),
+					Extract:      resource.ExtractResourceID(),
+					Reference:    mg.Spec.InitProvider.BigqueryDataset.SelectedResources[i4].TableRef,
+					Selector:     mg.Spec.InitProvider.BigqueryDataset.SelectedResources[i4].TableSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.BigqueryDataset.SelectedResources[i4].Table")
+			}
+			mg.Spec.InitProvider.BigqueryDataset.SelectedResources[i4].Table = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.BigqueryDataset.SelectedResources[i4].TableRef = rsp.ResolvedReference
+
+		}
 	}
 
 	return nil
@@ -357,12 +403,33 @@ func (mg *DataTransferConfig) ResolveReferences(ctx context.Context, c client.Re
 	}
 	mg.Spec.ForProvider.DestinationDatasetID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.DestinationDatasetIDRef = rsp.ResolvedReference
+
+	if mg.Spec.ForProvider.EncryptionConfiguration != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("kms.gcp.upbound.io", "v1beta2", "CryptoKey", "CryptoKeyList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.EncryptionConfiguration.KMSKeyName),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.ForProvider.EncryptionConfiguration.KMSKeyNameRef,
+				Selector:     mg.Spec.ForProvider.EncryptionConfiguration.KMSKeyNameSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.EncryptionConfiguration.KMSKeyName")
+		}
+		mg.Spec.ForProvider.EncryptionConfiguration.KMSKeyName = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.EncryptionConfiguration.KMSKeyNameRef = rsp.ResolvedReference
+
+	}
 	{
 		m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta2", "Dataset", "DatasetList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
-
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DestinationDatasetID),
 			Extract:      reference.ExternalName(),
@@ -376,6 +443,28 @@ func (mg *DataTransferConfig) ResolveReferences(ctx context.Context, c client.Re
 	}
 	mg.Spec.InitProvider.DestinationDatasetID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.DestinationDatasetIDRef = rsp.ResolvedReference
+
+	if mg.Spec.InitProvider.EncryptionConfiguration != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("kms.gcp.upbound.io", "v1beta2", "CryptoKey", "CryptoKeyList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.EncryptionConfiguration.KMSKeyName),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.InitProvider.EncryptionConfiguration.KMSKeyNameRef,
+				Selector:     mg.Spec.InitProvider.EncryptionConfiguration.KMSKeyNameSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.EncryptionConfiguration.KMSKeyName")
+		}
+		mg.Spec.InitProvider.EncryptionConfiguration.KMSKeyName = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.EncryptionConfiguration.KMSKeyNameRef = rsp.ResolvedReference
+
+	}
 
 	return nil
 }
@@ -1082,29 +1171,6 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var err error
 
 	if mg.Spec.ForProvider.Copy != nil {
-		if mg.Spec.ForProvider.Copy.DestinationEncryptionConfiguration != nil {
-			{
-				m, l, err = apisresolver.GetManagedResource("kms.gcp.upbound.io", "v1beta2", "CryptoKey", "CryptoKeyList")
-				if err != nil {
-					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
-				}
-				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Copy.DestinationEncryptionConfiguration.KMSKeyName),
-					Extract:      resource.ExtractResourceID(),
-					Reference:    mg.Spec.ForProvider.Copy.DestinationEncryptionConfiguration.KMSKeyNameRef,
-					Selector:     mg.Spec.ForProvider.Copy.DestinationEncryptionConfiguration.KMSKeyNameSelector,
-					To:           reference.To{List: l, Managed: m},
-				})
-			}
-			if err != nil {
-				return errors.Wrap(err, "mg.Spec.ForProvider.Copy.DestinationEncryptionConfiguration.KMSKeyName")
-			}
-			mg.Spec.ForProvider.Copy.DestinationEncryptionConfiguration.KMSKeyName = reference.ToPtrValue(rsp.ResolvedValue)
-			mg.Spec.ForProvider.Copy.DestinationEncryptionConfiguration.KMSKeyNameRef = rsp.ResolvedReference
-
-		}
-	}
-	if mg.Spec.ForProvider.Copy != nil {
 		if mg.Spec.ForProvider.Copy.DestinationTable != nil {
 			{
 				m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta2", "Dataset", "DatasetList")
@@ -1308,29 +1374,6 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 			}
 			mg.Spec.ForProvider.Query.DestinationTable.TableID = reference.ToPtrValue(rsp.ResolvedValue)
 			mg.Spec.ForProvider.Query.DestinationTable.TableIDRef = rsp.ResolvedReference
-
-		}
-	}
-	if mg.Spec.InitProvider.Copy != nil {
-		if mg.Spec.InitProvider.Copy.DestinationEncryptionConfiguration != nil {
-			{
-				m, l, err = apisresolver.GetManagedResource("kms.gcp.upbound.io", "v1beta2", "CryptoKey", "CryptoKeyList")
-				if err != nil {
-					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
-				}
-				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Copy.DestinationEncryptionConfiguration.KMSKeyName),
-					Extract:      resource.ExtractResourceID(),
-					Reference:    mg.Spec.InitProvider.Copy.DestinationEncryptionConfiguration.KMSKeyNameRef,
-					Selector:     mg.Spec.InitProvider.Copy.DestinationEncryptionConfiguration.KMSKeyNameSelector,
-					To:           reference.To{List: l, Managed: m},
-				})
-			}
-			if err != nil {
-				return errors.Wrap(err, "mg.Spec.InitProvider.Copy.DestinationEncryptionConfiguration.KMSKeyName")
-			}
-			mg.Spec.InitProvider.Copy.DestinationEncryptionConfiguration.KMSKeyName = reference.ToPtrValue(rsp.ResolvedValue)
-			mg.Spec.InitProvider.Copy.DestinationEncryptionConfiguration.KMSKeyNameRef = rsp.ResolvedReference
 
 		}
 	}

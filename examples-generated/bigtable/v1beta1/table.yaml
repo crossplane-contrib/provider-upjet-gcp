@@ -15,6 +15,11 @@ spec:
     columnFamily:
     - family: family-first
     - family: family-second
+      type: intsum
+    - family: family-third
+      type: "        {\n\t\t\t\t\t\"aggregateType\": {\n\t\t\t\t\t\t\"max\": {},\n\t\t\t\t\t\t\"inputType\":
+        {\n\t\t\t\t\t\t\t\"int64Type\": {\n\t\t\t\t\t\t\t\t\"encoding\": {\n\t\t\t\t\t\t\t\t\t\"bigEndianBytes\":
+        {}\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n"
     instanceNameSelector:
       matchLabels:
         testing.upbound.io/example-name: instance

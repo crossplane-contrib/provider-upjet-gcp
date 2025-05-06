@@ -19,8 +19,20 @@ type ConnectedEndpointsInitParameters struct {
 type ConnectedEndpointsObservation struct {
 
 	// (Output)
+	// The url of the consumer network.
+	ConsumerNetwork *string `json:"consumerNetwork,omitempty" tf:"consumer_network,omitempty"`
+
+	// (Output)
 	// The URL of the consumer forwarding rule.
 	Endpoint *string `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
+
+	// (Output)
+	// The number of consumer Network Connectivity Center spokes that the connected Private Service Connect endpoint has propagated to.
+	PropagatedConnectionCount *float64 `json:"propagatedConnectionCount,omitempty" tf:"propagated_connection_count,omitempty"`
+
+	// (Output)
+	// The PSC connection id of the connected endpoint.
+	PscConnectionID *string `json:"pscConnectionId,omitempty" tf:"psc_connection_id,omitempty"`
 
 	// (Output)
 	// The status of the connection from the consumer forwarding rule to
@@ -144,6 +156,13 @@ type ServiceAttachmentInitParameters struct {
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// The number of consumer spokes that connected Private Service Connect endpoints can be propagated to through Network Connectivity Center.
+	// This limit lets the service producer limit how many propagated Private Service Connect connections can be established to this service attachment from a single consumer.
+	// If the connection preference of the service attachment is ACCEPT_MANUAL, the limit applies to each project or network that is listed in the consumer accept list.
+	// If the connection preference of the service attachment is ACCEPT_AUTOMATIC, the limit applies to each project that contains a connected endpoint.
+	// If unspecified, the default propagated connection limit is 250.
+	PropagatedConnectionLimit *float64 `json:"propagatedConnectionLimit,omitempty" tf:"propagated_connection_limit,omitempty"`
+
 	// This flag determines whether a consumer accept/reject list change can reconcile the statuses of existing ACCEPTED or REJECTED PSC endpoints.
 	// If false, connection policy update will only affect existing PENDING PSC endpoints. Existing ACCEPTED/REJECTED endpoints will remain untouched regardless how the connection policy is modified .
 	// If true, update will affect both PENDING and ACCEPTED/REJECTED PSC endpoints. For example, an ACCEPTED PSC endpoint will be moved to REJECTED if its project is added to the reject list.
@@ -210,6 +229,13 @@ type ServiceAttachmentObservation struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The number of consumer spokes that connected Private Service Connect endpoints can be propagated to through Network Connectivity Center.
+	// This limit lets the service producer limit how many propagated Private Service Connect connections can be established to this service attachment from a single consumer.
+	// If the connection preference of the service attachment is ACCEPT_MANUAL, the limit applies to each project or network that is listed in the consumer accept list.
+	// If the connection preference of the service attachment is ACCEPT_AUTOMATIC, the limit applies to each project that contains a connected endpoint.
+	// If unspecified, the default propagated connection limit is 250.
+	PropagatedConnectionLimit *float64 `json:"propagatedConnectionLimit,omitempty" tf:"propagated_connection_limit,omitempty"`
 
 	// This flag determines whether a consumer accept/reject list change can reconcile the statuses of existing ACCEPTED or REJECTED PSC endpoints.
 	// If false, connection policy update will only affect existing PENDING PSC endpoints. Existing ACCEPTED/REJECTED endpoints will remain untouched regardless how the connection policy is modified .
@@ -278,6 +304,14 @@ type ServiceAttachmentParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The number of consumer spokes that connected Private Service Connect endpoints can be propagated to through Network Connectivity Center.
+	// This limit lets the service producer limit how many propagated Private Service Connect connections can be established to this service attachment from a single consumer.
+	// If the connection preference of the service attachment is ACCEPT_MANUAL, the limit applies to each project or network that is listed in the consumer accept list.
+	// If the connection preference of the service attachment is ACCEPT_AUTOMATIC, the limit applies to each project that contains a connected endpoint.
+	// If unspecified, the default propagated connection limit is 250.
+	// +kubebuilder:validation:Optional
+	PropagatedConnectionLimit *float64 `json:"propagatedConnectionLimit,omitempty" tf:"propagated_connection_limit,omitempty"`
 
 	// This flag determines whether a consumer accept/reject list change can reconcile the statuses of existing ACCEPTED or REJECTED PSC endpoints.
 	// If false, connection policy update will only affect existing PENDING PSC endpoints. Existing ACCEPTED/REJECTED endpoints will remain untouched regardless how the connection policy is modified .

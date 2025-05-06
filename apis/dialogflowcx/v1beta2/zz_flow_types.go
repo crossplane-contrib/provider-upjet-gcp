@@ -74,6 +74,103 @@ type AdvancedSettingsDtmfSettingsParameters struct {
 	MaxDigits *float64 `json:"maxDigits,omitempty" tf:"max_digits,omitempty"`
 }
 
+type AdvancedSettingsLoggingSettingsInitParameters struct {
+
+	// Enables consent-based end-user input redaction, if true, a pre-defined session parameter $session.params.conversation-redaction will be used to determine if the utterance should be redacted.
+	EnableConsentBasedRedaction *bool `json:"enableConsentBasedRedaction,omitempty" tf:"enable_consent_based_redaction,omitempty"`
+
+	// Enables DF Interaction logging.
+	EnableInteractionLogging *bool `json:"enableInteractionLogging,omitempty" tf:"enable_interaction_logging,omitempty"`
+
+	// Enables Google Cloud Logging.
+	EnableStackdriverLogging *bool `json:"enableStackdriverLogging,omitempty" tf:"enable_stackdriver_logging,omitempty"`
+}
+
+type AdvancedSettingsLoggingSettingsObservation struct {
+
+	// Enables consent-based end-user input redaction, if true, a pre-defined session parameter $session.params.conversation-redaction will be used to determine if the utterance should be redacted.
+	EnableConsentBasedRedaction *bool `json:"enableConsentBasedRedaction,omitempty" tf:"enable_consent_based_redaction,omitempty"`
+
+	// Enables DF Interaction logging.
+	EnableInteractionLogging *bool `json:"enableInteractionLogging,omitempty" tf:"enable_interaction_logging,omitempty"`
+
+	// Enables Google Cloud Logging.
+	EnableStackdriverLogging *bool `json:"enableStackdriverLogging,omitempty" tf:"enable_stackdriver_logging,omitempty"`
+}
+
+type AdvancedSettingsLoggingSettingsParameters struct {
+
+	// Enables consent-based end-user input redaction, if true, a pre-defined session parameter $session.params.conversation-redaction will be used to determine if the utterance should be redacted.
+	// +kubebuilder:validation:Optional
+	EnableConsentBasedRedaction *bool `json:"enableConsentBasedRedaction,omitempty" tf:"enable_consent_based_redaction,omitempty"`
+
+	// Enables DF Interaction logging.
+	// +kubebuilder:validation:Optional
+	EnableInteractionLogging *bool `json:"enableInteractionLogging,omitempty" tf:"enable_interaction_logging,omitempty"`
+
+	// Enables Google Cloud Logging.
+	// +kubebuilder:validation:Optional
+	EnableStackdriverLogging *bool `json:"enableStackdriverLogging,omitempty" tf:"enable_stackdriver_logging,omitempty"`
+}
+
+type AdvancedSettingsSpeechSettingsInitParameters struct {
+
+	// Sensitivity of the speech model that detects the end of speech. Scale from 0 to 100.
+	EndpointerSensitivity *float64 `json:"endpointerSensitivity,omitempty" tf:"endpointer_sensitivity,omitempty"`
+
+	// Mapping from language to Speech-to-Text model. The mapped Speech-to-Text model will be selected for requests from its corresponding language. For more information, see Speech models.
+	// An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	// +mapType=granular
+	Models map[string]*string `json:"models,omitempty" tf:"models,omitempty"`
+
+	// Timeout before detecting no speech.
+	// A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
+	NoSpeechTimeout *string `json:"noSpeechTimeout,omitempty" tf:"no_speech_timeout,omitempty"`
+
+	// Use timeout based endpointing, interpreting endpointer sensitivity as seconds of timeout value.
+	UseTimeoutBasedEndpointing *bool `json:"useTimeoutBasedEndpointing,omitempty" tf:"use_timeout_based_endpointing,omitempty"`
+}
+
+type AdvancedSettingsSpeechSettingsObservation struct {
+
+	// Sensitivity of the speech model that detects the end of speech. Scale from 0 to 100.
+	EndpointerSensitivity *float64 `json:"endpointerSensitivity,omitempty" tf:"endpointer_sensitivity,omitempty"`
+
+	// Mapping from language to Speech-to-Text model. The mapped Speech-to-Text model will be selected for requests from its corresponding language. For more information, see Speech models.
+	// An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	// +mapType=granular
+	Models map[string]*string `json:"models,omitempty" tf:"models,omitempty"`
+
+	// Timeout before detecting no speech.
+	// A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
+	NoSpeechTimeout *string `json:"noSpeechTimeout,omitempty" tf:"no_speech_timeout,omitempty"`
+
+	// Use timeout based endpointing, interpreting endpointer sensitivity as seconds of timeout value.
+	UseTimeoutBasedEndpointing *bool `json:"useTimeoutBasedEndpointing,omitempty" tf:"use_timeout_based_endpointing,omitempty"`
+}
+
+type AdvancedSettingsSpeechSettingsParameters struct {
+
+	// Sensitivity of the speech model that detects the end of speech. Scale from 0 to 100.
+	// +kubebuilder:validation:Optional
+	EndpointerSensitivity *float64 `json:"endpointerSensitivity,omitempty" tf:"endpointer_sensitivity,omitempty"`
+
+	// Mapping from language to Speech-to-Text model. The mapped Speech-to-Text model will be selected for requests from its corresponding language. For more information, see Speech models.
+	// An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Models map[string]*string `json:"models,omitempty" tf:"models,omitempty"`
+
+	// Timeout before detecting no speech.
+	// A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
+	// +kubebuilder:validation:Optional
+	NoSpeechTimeout *string `json:"noSpeechTimeout,omitempty" tf:"no_speech_timeout,omitempty"`
+
+	// Use timeout based endpointing, interpreting endpointer sensitivity as seconds of timeout value.
+	// +kubebuilder:validation:Optional
+	UseTimeoutBasedEndpointing *bool `json:"useTimeoutBasedEndpointing,omitempty" tf:"use_timeout_based_endpointing,omitempty"`
+}
+
 type ConditionalCasesInitParameters struct {
 
 	// A JSON encoded list of cascading if-else conditions. Cases are mutually exclusive. The first one with a matching condition is selected, all the rest ignored.
@@ -184,6 +281,12 @@ type FlowAdvancedSettingsInitParameters struct {
 
 	// Define behaviors for DTMF (dual tone multi frequency). DTMF settings does not override each other. DTMF settings set at different levels define DTMF detections running in parallel. Exposed at the following levels:
 	DtmfSettings *AdvancedSettingsDtmfSettingsInitParameters `json:"dtmfSettings,omitempty" tf:"dtmf_settings,omitempty"`
+
+	// Settings for logging. Settings for Dialogflow History, Contact Center messages, StackDriver logs, and speech logging. Exposed at the following levels:
+	LoggingSettings *AdvancedSettingsLoggingSettingsInitParameters `json:"loggingSettings,omitempty" tf:"logging_settings,omitempty"`
+
+	// Settings for speech to text detection. Exposed at the following levels:
+	SpeechSettings *AdvancedSettingsSpeechSettingsInitParameters `json:"speechSettings,omitempty" tf:"speech_settings,omitempty"`
 }
 
 type FlowAdvancedSettingsObservation struct {
@@ -193,6 +296,12 @@ type FlowAdvancedSettingsObservation struct {
 
 	// Define behaviors for DTMF (dual tone multi frequency). DTMF settings does not override each other. DTMF settings set at different levels define DTMF detections running in parallel. Exposed at the following levels:
 	DtmfSettings *AdvancedSettingsDtmfSettingsObservation `json:"dtmfSettings,omitempty" tf:"dtmf_settings,omitempty"`
+
+	// Settings for logging. Settings for Dialogflow History, Contact Center messages, StackDriver logs, and speech logging. Exposed at the following levels:
+	LoggingSettings *AdvancedSettingsLoggingSettingsObservation `json:"loggingSettings,omitempty" tf:"logging_settings,omitempty"`
+
+	// Settings for speech to text detection. Exposed at the following levels:
+	SpeechSettings *AdvancedSettingsSpeechSettingsObservation `json:"speechSettings,omitempty" tf:"speech_settings,omitempty"`
 }
 
 type FlowAdvancedSettingsParameters struct {
@@ -204,6 +313,14 @@ type FlowAdvancedSettingsParameters struct {
 	// Define behaviors for DTMF (dual tone multi frequency). DTMF settings does not override each other. DTMF settings set at different levels define DTMF detections running in parallel. Exposed at the following levels:
 	// +kubebuilder:validation:Optional
 	DtmfSettings *AdvancedSettingsDtmfSettingsParameters `json:"dtmfSettings,omitempty" tf:"dtmf_settings,omitempty"`
+
+	// Settings for logging. Settings for Dialogflow History, Contact Center messages, StackDriver logs, and speech logging. Exposed at the following levels:
+	// +kubebuilder:validation:Optional
+	LoggingSettings *AdvancedSettingsLoggingSettingsParameters `json:"loggingSettings,omitempty" tf:"logging_settings,omitempty"`
+
+	// Settings for speech to text detection. Exposed at the following levels:
+	// +kubebuilder:validation:Optional
+	SpeechSettings *AdvancedSettingsSpeechSettingsParameters `json:"speechSettings,omitempty" tf:"speech_settings,omitempty"`
 }
 
 type FlowInitParameters struct {

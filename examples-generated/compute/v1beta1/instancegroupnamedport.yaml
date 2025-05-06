@@ -57,7 +57,6 @@ metadata:
   name: my-cluster
 spec:
   forProvider:
-    deletionProtection: "true"
     initialNodeCount: 1
     ipAllocationPolicy:
     - clusterIpv4CidrBlock: /19

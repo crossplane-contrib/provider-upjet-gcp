@@ -1,0 +1,34 @@
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"pkg.crossplane.io/v1","kind":"Provider","metadata":{"annotations":{},"name":"provider-gcp-storage"},"spec":{"package":"xpkg.upbound.io/upbound/provider-gcp-storage:v0.41.0"}}
+  creationTimestamp: "2024-09-12T09:04:05Z"
+  generation: 1
+  name: provider-gcp-storage
+  resourceVersion: "7130"
+  uid: 401591d8-e4de-4be6-a9d8-578fe8b75dfe
+spec:
+  ignoreCrossplaneConstraints: false
+  package: xpkg.upbound.io/upbound/provider-gcp-storage:v0.41.0
+  packagePullPolicy: IfNotPresent
+  revisionActivationPolicy: Automatic
+  revisionHistoryLimit: 1
+  runtimeConfigRef:
+    apiVersion: pkg.crossplane.io/v1beta1
+    kind: DeploymentRuntimeConfig
+    name: default
+  skipDependencyResolution: false
+status:
+  conditions:
+  - lastTransitionTime: "2024-09-12T09:04:22Z"
+    reason: HealthyPackageRevision
+    status: "True"
+    type: Healthy
+  - lastTransitionTime: "2024-09-12T09:04:05Z"
+    reason: ActivePackageRevision
+    status: "True"
+    type: Installed
+  currentIdentifier: xpkg.upbound.io/upbound/provider-gcp-storage:v0.41.0
+  currentRevision: provider-gcp-storage-70a994bdf770

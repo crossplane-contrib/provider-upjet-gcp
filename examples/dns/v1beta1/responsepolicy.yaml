@@ -80,7 +80,6 @@ metadata:
   name: cluster-1
 spec:
   forProvider:
-    deletionProtection: false
     defaultSnatStatus:
     - disabled: true
     initialNodeCount: 1

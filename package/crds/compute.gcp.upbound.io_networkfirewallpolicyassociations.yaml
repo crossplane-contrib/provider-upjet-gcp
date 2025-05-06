@@ -152,7 +152,7 @@ spec:
                         type: object
                     type: object
                   firewallPolicy:
-                    description: The firewall policy ID of the association.
+                    description: The firewall policy of the resource.
                     type: string
                   firewallPolicyRef:
                     description: Reference to a NetworkFirewallPolicy in compute to
@@ -231,7 +231,9 @@ spec:
                         type: object
                     type: object
                   project:
-                    description: The project for the resource
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                 type: object
               initProvider:
@@ -325,7 +327,9 @@ spec:
                         type: object
                     type: object
                   project:
-                    description: The project for the resource
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                 type: object
               managementPolicies:
@@ -505,13 +509,15 @@ spec:
                     description: The target that the firewall policy is attached to.
                     type: string
                   firewallPolicy:
-                    description: The firewall policy ID of the association.
+                    description: The firewall policy of the resource.
                     type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/global/firewallPolicies/{{firewall_policy}}/associations/{{name}}
                     type: string
                   project:
-                    description: The project for the resource
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   shortName:
                     description: The short name of the firewall policy of the association.

@@ -9,6 +9,8 @@ metadata:
 spec:
   forProvider:
     ipCidrRange: 10.8.0.0/28
+    maxInstances: 3
+    minInstances: 2
     networkSelector:
       matchLabels:
         testing.upbound.io/example-name: example
