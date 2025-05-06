@@ -28,6 +28,12 @@ type WorkflowInitParameters struct {
 	// Description of the workflow provided by the user. Must be at most 1000 unicode characters long.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Describes the level of execution history to be stored for this workflow. This configuration
+	// determines how much information about workflow executions is preserved. If not specified,
+	// defaults to EXECUTION_HISTORY_LEVEL_UNSPECIFIED.
+	// Possible values are: EXECUTION_HISTORY_LEVEL_UNSPECIFIED, EXECUTION_HISTORY_BASIC, EXECUTION_HISTORY_DETAILED.
+	ExecutionHistoryLevel *string `json:"executionHistoryLevel,omitempty" tf:"execution_history_level,omitempty"`
+
 	// A set of key/value label pairs to assign to this Workflow.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
@@ -68,7 +74,13 @@ type WorkflowInitParameters struct {
 	// Workflow code to be executed. The size limit is 128KB.
 	SourceContents *string `json:"sourceContents,omitempty" tf:"source_contents,omitempty"`
 
-	// User-defined environment variables associated with this workflow revision. This map has a maximum length of 20. Each string can take up to 4KiB. Keys cannot be empty strings and cannot start with “GOOGLE” or “WORKFLOWS".
+	// A map of resource manager tags. Resource manager tag keys and values have the same definition
+	// as resource manager tags. Keys must be in the format tagKeys/{tag_key_id}, and values are in
+	// the format tagValues/456. The field is ignored (both PUT & PATCH) when empty.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
+	// User-defined environment variables associated with this workflow revision. This map has a maximum length of 20. Each string can take up to 4KiB. Keys cannot be empty strings and cannot start with "GOOGLE" or "WORKFLOWS".
 	// +mapType=granular
 	UserEnvVars map[string]*string `json:"userEnvVars,omitempty" tf:"user_env_vars,omitempty"`
 }
@@ -98,6 +110,12 @@ type WorkflowObservation struct {
 	// for all of the labels present on the resource.
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
+	// Describes the level of execution history to be stored for this workflow. This configuration
+	// determines how much information about workflow executions is preserved. If not specified,
+	// defaults to EXECUTION_HISTORY_LEVEL_UNSPECIFIED.
+	// Possible values are: EXECUTION_HISTORY_LEVEL_UNSPECIFIED, EXECUTION_HISTORY_BASIC, EXECUTION_HISTORY_DETAILED.
+	ExecutionHistoryLevel *string `json:"executionHistoryLevel,omitempty" tf:"execution_history_level,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{region}}/workflows/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -138,6 +156,12 @@ type WorkflowObservation struct {
 	// State of the workflow deployment.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
+	// A map of resource manager tags. Resource manager tag keys and values have the same definition
+	// as resource manager tags. Keys must be in the format tagKeys/{tag_key_id}, and values are in
+	// the format tagValues/456. The field is ignored (both PUT & PATCH) when empty.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
 	// The combination of labels configured directly on the resource
 	// and default labels configured on the provider.
 	// +mapType=granular
@@ -146,7 +170,7 @@ type WorkflowObservation struct {
 	// The timestamp of when the workflow was last updated in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits.
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`
 
-	// User-defined environment variables associated with this workflow revision. This map has a maximum length of 20. Each string can take up to 4KiB. Keys cannot be empty strings and cannot start with “GOOGLE” or “WORKFLOWS".
+	// User-defined environment variables associated with this workflow revision. This map has a maximum length of 20. Each string can take up to 4KiB. Keys cannot be empty strings and cannot start with "GOOGLE" or "WORKFLOWS".
 	// +mapType=granular
 	UserEnvVars map[string]*string `json:"userEnvVars,omitempty" tf:"user_env_vars,omitempty"`
 }
@@ -168,6 +192,13 @@ type WorkflowParameters struct {
 	// Description of the workflow provided by the user. Must be at most 1000 unicode characters long.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Describes the level of execution history to be stored for this workflow. This configuration
+	// determines how much information about workflow executions is preserved. If not specified,
+	// defaults to EXECUTION_HISTORY_LEVEL_UNSPECIFIED.
+	// Possible values are: EXECUTION_HISTORY_LEVEL_UNSPECIFIED, EXECUTION_HISTORY_BASIC, EXECUTION_HISTORY_DETAILED.
+	// +kubebuilder:validation:Optional
+	ExecutionHistoryLevel *string `json:"executionHistoryLevel,omitempty" tf:"execution_history_level,omitempty"`
 
 	// A set of key/value label pairs to assign to this Workflow.
 	// +kubebuilder:validation:Optional
@@ -216,7 +247,14 @@ type WorkflowParameters struct {
 	// +kubebuilder:validation:Optional
 	SourceContents *string `json:"sourceContents,omitempty" tf:"source_contents,omitempty"`
 
-	// User-defined environment variables associated with this workflow revision. This map has a maximum length of 20. Each string can take up to 4KiB. Keys cannot be empty strings and cannot start with “GOOGLE” or “WORKFLOWS".
+	// A map of resource manager tags. Resource manager tag keys and values have the same definition
+	// as resource manager tags. Keys must be in the format tagKeys/{tag_key_id}, and values are in
+	// the format tagValues/456. The field is ignored (both PUT & PATCH) when empty.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
+	// User-defined environment variables associated with this workflow revision. This map has a maximum length of 20. Each string can take up to 4KiB. Keys cannot be empty strings and cannot start with "GOOGLE" or "WORKFLOWS".
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	UserEnvVars map[string]*string `json:"userEnvVars,omitempty" tf:"user_env_vars,omitempty"`
