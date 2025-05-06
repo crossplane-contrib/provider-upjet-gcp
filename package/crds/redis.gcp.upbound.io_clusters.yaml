@@ -79,6 +79,35 @@ spec:
                       Default value is AUTH_MODE_DISABLED.
                       Possible values are: AUTH_MODE_UNSPECIFIED, AUTH_MODE_IAM_AUTH, AUTH_MODE_DISABLED.
                     type: string
+                  automatedBackupConfig:
+                    description: |-
+                      The automated backup config for a instance.
+                      Structure is documented below.
+                    properties:
+                      fixedFrequencySchedule:
+                        description: |-
+                          Trigger automated backups at a fixed frequency.
+                          Structure is documented below.
+                        properties:
+                          startTime:
+                            description: |-
+                              Required. Start time of the window in UTC time.
+                              Structure is documented below.
+                            properties:
+                              hours:
+                                description: |-
+                                  Hours of day in 24 hour format. Should be from 0 to 23.
+                                  An API may choose to allow the value "24:00:00" for scenarios like business closing time.
+                                type: number
+                            type: object
+                        type: object
+                      retention:
+                        description: |-
+                          How long to keep automated backups before the backups are deleted.
+                          The value should be between 1 day and 365 days. If not specified, the default value is 35 days.
+                          A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
+                        type: string
+                    type: object
                   crossClusterReplicationConfig:
                     description: field to the configuration file to match the latest
                       value in the state.
@@ -189,6 +218,23 @@ spec:
                       If the value if set to true, any delete cluster operation will fail.
                       Default value is true.
                     type: boolean
+                  gcsSource:
+                    description: |-
+                      Backups stored in Cloud Storage buckets. The Cloud Storage buckets need to be the same region as the clusters.
+                      Structure is documented below.
+                    properties:
+                      uris:
+                        description: 'URIs of the GCS objects to import. Example:
+                          gs://bucket1/object1, gs://bucket2/folder2/object2'
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
+                    type: object
+                  kmsKey:
+                    description: The KMS key used to encrypt the at-rest data of the
+                      cluster.
+                    type: string
                   maintenancePolicy:
                     description: |-
                       Maintenance policy for a cluster
@@ -232,6 +278,17 @@ spec:
                               type: object
                           type: object
                         type: array
+                    type: object
+                  managedBackupSource:
+                    description: |-
+                      Backups that generated and managed by memorystore.
+                      Structure is documented below.
+                    properties:
+                      backup:
+                        description: |-
+                          Example: //redis.googleapis.com/projects/{project}/locations/{location}/backupCollections/{collection}/backups/{backup} A shorter version (without the prefix) of the backup name is also supported,
+                          like projects/{project}/locations/{location}/backupCollections/{collection}/backups/{backupId}. In this case, it assumes the backup is under redis.googleapis.com.
+                        type: string
                     type: object
                   nodeType:
                     description: |-
@@ -435,6 +492,35 @@ spec:
                       Default value is AUTH_MODE_DISABLED.
                       Possible values are: AUTH_MODE_UNSPECIFIED, AUTH_MODE_IAM_AUTH, AUTH_MODE_DISABLED.
                     type: string
+                  automatedBackupConfig:
+                    description: |-
+                      The automated backup config for a instance.
+                      Structure is documented below.
+                    properties:
+                      fixedFrequencySchedule:
+                        description: |-
+                          Trigger automated backups at a fixed frequency.
+                          Structure is documented below.
+                        properties:
+                          startTime:
+                            description: |-
+                              Required. Start time of the window in UTC time.
+                              Structure is documented below.
+                            properties:
+                              hours:
+                                description: |-
+                                  Hours of day in 24 hour format. Should be from 0 to 23.
+                                  An API may choose to allow the value "24:00:00" for scenarios like business closing time.
+                                type: number
+                            type: object
+                        type: object
+                      retention:
+                        description: |-
+                          How long to keep automated backups before the backups are deleted.
+                          The value should be between 1 day and 365 days. If not specified, the default value is 35 days.
+                          A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
+                        type: string
+                    type: object
                   crossClusterReplicationConfig:
                     description: field to the configuration file to match the latest
                       value in the state.
@@ -545,6 +631,23 @@ spec:
                       If the value if set to true, any delete cluster operation will fail.
                       Default value is true.
                     type: boolean
+                  gcsSource:
+                    description: |-
+                      Backups stored in Cloud Storage buckets. The Cloud Storage buckets need to be the same region as the clusters.
+                      Structure is documented below.
+                    properties:
+                      uris:
+                        description: 'URIs of the GCS objects to import. Example:
+                          gs://bucket1/object1, gs://bucket2/folder2/object2'
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
+                    type: object
+                  kmsKey:
+                    description: The KMS key used to encrypt the at-rest data of the
+                      cluster.
+                    type: string
                   maintenancePolicy:
                     description: |-
                       Maintenance policy for a cluster
@@ -588,6 +691,17 @@ spec:
                               type: object
                           type: object
                         type: array
+                    type: object
+                  managedBackupSource:
+                    description: |-
+                      Backups that generated and managed by memorystore.
+                      Structure is documented below.
+                    properties:
+                      backup:
+                        description: |-
+                          Example: //redis.googleapis.com/projects/{project}/locations/{location}/backupCollections/{collection}/backups/{backup} A shorter version (without the prefix) of the backup name is also supported,
+                          like projects/{project}/locations/{location}/backupCollections/{collection}/backups/{backupId}. In this case, it assumes the backup is under redis.googleapis.com.
+                        type: string
                     type: object
                   nodeType:
                     description: |-
@@ -935,10 +1049,6 @@ spec:
             - forProvider
             type: object
             x-kubernetes-validations:
-            - message: spec.forProvider.pscConfigs is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.pscConfigs)
-                || (has(self.initProvider) && has(self.initProvider.pscConfigs))'
             - message: spec.forProvider.shardCount is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.shardCount)
@@ -953,6 +1063,40 @@ spec:
                       Optional. The authorization mode of the Redis cluster. If not provided, auth feature is disabled for the cluster.
                       Default value is AUTH_MODE_DISABLED.
                       Possible values are: AUTH_MODE_UNSPECIFIED, AUTH_MODE_IAM_AUTH, AUTH_MODE_DISABLED.
+                    type: string
+                  automatedBackupConfig:
+                    description: |-
+                      The automated backup config for a instance.
+                      Structure is documented below.
+                    properties:
+                      fixedFrequencySchedule:
+                        description: |-
+                          Trigger automated backups at a fixed frequency.
+                          Structure is documented below.
+                        properties:
+                          startTime:
+                            description: |-
+                              Required. Start time of the window in UTC time.
+                              Structure is documented below.
+                            properties:
+                              hours:
+                                description: |-
+                                  Hours of day in 24 hour format. Should be from 0 to 23.
+                                  An API may choose to allow the value "24:00:00" for scenarios like business closing time.
+                                type: number
+                            type: object
+                        type: object
+                      retention:
+                        description: |-
+                          How long to keep automated backups before the backups are deleted.
+                          The value should be between 1 day and 365 days. If not specified, the default value is 35 days.
+                          A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
+                        type: string
+                    type: object
+                  backupCollection:
+                    description: |-
+                      The backup collection full resource name.
+                      Example: projects/{project}/locations/{location}/backupCollections/{collection}
                     type: string
                   createTime:
                     description: |-
@@ -1079,8 +1223,25 @@ spec:
                           type: object
                       type: object
                     type: array
+                  gcsSource:
+                    description: |-
+                      Backups stored in Cloud Storage buckets. The Cloud Storage buckets need to be the same region as the clusters.
+                      Structure is documented below.
+                    properties:
+                      uris:
+                        description: 'URIs of the GCS objects to import. Example:
+                          gs://bucket1/object1, gs://bucket2/folder2/object2'
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
+                    type: object
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{region}}/clusters/{{name}}
+                    type: string
+                  kmsKey:
+                    description: The KMS key used to encrypt the at-rest data of the
+                      cluster.
                     type: string
                   maintenancePolicy:
                     description: |-
@@ -1178,6 +1339,17 @@ spec:
                           type: string
                       type: object
                     type: array
+                  managedBackupSource:
+                    description: |-
+                      Backups that generated and managed by memorystore.
+                      Structure is documented below.
+                    properties:
+                      backup:
+                        description: |-
+                          Example: //redis.googleapis.com/projects/{project}/locations/{location}/backupCollections/{collection}/backups/{backup} A shorter version (without the prefix) of the backup name is also supported,
+                          like projects/{project}/locations/{location}/backupCollections/{collection}/backups/{backupId}. In this case, it assumes the backup is under redis.googleapis.com.
+                        type: string
+                    type: object
                   nodeType:
                     description: |-
                       The nodeType for the Redis cluster.
@@ -1270,6 +1442,24 @@ spec:
                         pscConnectionId:
                           description: Output only. The PSC connection id of the forwarding
                             rule connected to the service attachment.
+                          type: string
+                      type: object
+                    type: array
+                  pscServiceAttachments:
+                    description: |-
+                      Service attachment details to configure Psc connections.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        connectionType:
+                          description: |-
+                            (Output)
+                            Type of a PSC connection targeting this service attachment.
+                          type: string
+                        serviceAttachment:
+                          description: |-
+                            (Output)
+                            Service attachment URI which your self-created PscConnection should use as
                           type: string
                       type: object
                     type: array

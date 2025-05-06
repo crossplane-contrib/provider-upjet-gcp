@@ -32,12 +32,54 @@ type AofConfigParameters struct {
 	AppendFsync *string `json:"appendFsync,omitempty" tf:"append_fsync,omitempty"`
 }
 
+type AutomatedBackupConfigInitParameters struct {
+
+	// Trigger automated backups at a fixed frequency.
+	// Structure is documented below.
+	FixedFrequencySchedule *FixedFrequencyScheduleInitParameters `json:"fixedFrequencySchedule,omitempty" tf:"fixed_frequency_schedule,omitempty"`
+
+	// How long to keep automated backups before the backups are deleted.
+	// The value should be between 1 day and 365 days. If not specified, the default value is 35 days.
+	// A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
+	Retention *string `json:"retention,omitempty" tf:"retention,omitempty"`
+}
+
+type AutomatedBackupConfigObservation struct {
+
+	// Trigger automated backups at a fixed frequency.
+	// Structure is documented below.
+	FixedFrequencySchedule *FixedFrequencyScheduleObservation `json:"fixedFrequencySchedule,omitempty" tf:"fixed_frequency_schedule,omitempty"`
+
+	// How long to keep automated backups before the backups are deleted.
+	// The value should be between 1 day and 365 days. If not specified, the default value is 35 days.
+	// A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
+	Retention *string `json:"retention,omitempty" tf:"retention,omitempty"`
+}
+
+type AutomatedBackupConfigParameters struct {
+
+	// Trigger automated backups at a fixed frequency.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	FixedFrequencySchedule *FixedFrequencyScheduleParameters `json:"fixedFrequencySchedule" tf:"fixed_frequency_schedule,omitempty"`
+
+	// How long to keep automated backups before the backups are deleted.
+	// The value should be between 1 day and 365 days. If not specified, the default value is 35 days.
+	// A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
+	// +kubebuilder:validation:Optional
+	Retention *string `json:"retention" tf:"retention,omitempty"`
+}
+
 type ClusterInitParameters struct {
 
 	// Optional. The authorization mode of the Redis cluster. If not provided, auth feature is disabled for the cluster.
 	// Default value is AUTH_MODE_DISABLED.
 	// Possible values are: AUTH_MODE_UNSPECIFIED, AUTH_MODE_IAM_AUTH, AUTH_MODE_DISABLED.
 	AuthorizationMode *string `json:"authorizationMode,omitempty" tf:"authorization_mode,omitempty"`
+
+	// The automated backup config for a instance.
+	// Structure is documented below.
+	AutomatedBackupConfig *AutomatedBackupConfigInitParameters `json:"automatedBackupConfig,omitempty" tf:"automated_backup_config,omitempty"`
 
 	// field to the configuration file to match the latest value in the state.
 	CrossClusterReplicationConfig *CrossClusterReplicationConfigInitParameters `json:"crossClusterReplicationConfig,omitempty" tf:"cross_cluster_replication_config,omitempty"`
@@ -47,9 +89,20 @@ type ClusterInitParameters struct {
 	// Default value is true.
 	DeletionProtectionEnabled *bool `json:"deletionProtectionEnabled,omitempty" tf:"deletion_protection_enabled,omitempty"`
 
+	// Backups stored in Cloud Storage buckets. The Cloud Storage buckets need to be the same region as the clusters.
+	// Structure is documented below.
+	GcsSource *GcsSourceInitParameters `json:"gcsSource,omitempty" tf:"gcs_source,omitempty"`
+
+	// The KMS key used to encrypt the at-rest data of the cluster.
+	KMSKey *string `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
+
 	// Maintenance policy for a cluster
 	// Structure is documented below.
 	MaintenancePolicy *ClusterMaintenancePolicyInitParameters `json:"maintenancePolicy,omitempty" tf:"maintenance_policy,omitempty"`
+
+	// Backups that generated and managed by memorystore.
+	// Structure is documented below.
+	ManagedBackupSource *ManagedBackupSourceInitParameters `json:"managedBackupSource,omitempty" tf:"managed_backup_source,omitempty"`
 
 	// The nodeType for the Redis cluster.
 	// If not provided, REDIS_HIGHMEM_MEDIUM will be used as default
@@ -168,6 +221,14 @@ type ClusterObservation struct {
 	// Possible values are: AUTH_MODE_UNSPECIFIED, AUTH_MODE_IAM_AUTH, AUTH_MODE_DISABLED.
 	AuthorizationMode *string `json:"authorizationMode,omitempty" tf:"authorization_mode,omitempty"`
 
+	// The automated backup config for a instance.
+	// Structure is documented below.
+	AutomatedBackupConfig *AutomatedBackupConfigObservation `json:"automatedBackupConfig,omitempty" tf:"automated_backup_config,omitempty"`
+
+	// The backup collection full resource name.
+	// Example: projects/{project}/locations/{location}/backupCollections/{collection}
+	BackupCollection *string `json:"backupCollection,omitempty" tf:"backup_collection,omitempty"`
+
 	// The timestamp associated with the cluster creation request. A timestamp in
 	// RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional
 	// digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
@@ -187,8 +248,15 @@ type ClusterObservation struct {
 	// Structure is documented below.
 	DiscoveryEndpoints []DiscoveryEndpointsObservation `json:"discoveryEndpoints,omitempty" tf:"discovery_endpoints,omitempty"`
 
+	// Backups stored in Cloud Storage buckets. The Cloud Storage buckets need to be the same region as the clusters.
+	// Structure is documented below.
+	GcsSource *GcsSourceObservation `json:"gcsSource,omitempty" tf:"gcs_source,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{region}}/clusters/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The KMS key used to encrypt the at-rest data of the cluster.
+	KMSKey *string `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
 
 	// Maintenance policy for a cluster
 	// Structure is documented below.
@@ -197,6 +265,10 @@ type ClusterObservation struct {
 	// Upcoming maintenance schedule.
 	// Structure is documented below.
 	MaintenanceSchedule []ClusterMaintenanceScheduleObservation `json:"maintenanceSchedule,omitempty" tf:"maintenance_schedule,omitempty"`
+
+	// Backups that generated and managed by memorystore.
+	// Structure is documented below.
+	ManagedBackupSource *ManagedBackupSourceObservation `json:"managedBackupSource,omitempty" tf:"managed_backup_source,omitempty"`
 
 	// The nodeType for the Redis cluster.
 	// If not provided, REDIS_HIGHMEM_MEDIUM will be used as default
@@ -223,6 +295,10 @@ type ClusterObservation struct {
 	// Output only. PSC connections for discovery of the cluster topology and accessing the cluster.
 	// Structure is documented below.
 	PscConnections []PscConnectionsObservation `json:"pscConnections,omitempty" tf:"psc_connections,omitempty"`
+
+	// Service attachment details to configure Psc connections.
+	// Structure is documented below.
+	PscServiceAttachments []PscServiceAttachmentsObservation `json:"pscServiceAttachments,omitempty" tf:"psc_service_attachments,omitempty"`
 
 	// Configure Redis Cluster behavior using a subset of native Redis configuration parameters.
 	// Please check Memorystore documentation for the list of supported parameters:
@@ -271,6 +347,11 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	AuthorizationMode *string `json:"authorizationMode,omitempty" tf:"authorization_mode,omitempty"`
 
+	// The automated backup config for a instance.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AutomatedBackupConfig *AutomatedBackupConfigParameters `json:"automatedBackupConfig,omitempty" tf:"automated_backup_config,omitempty"`
+
 	// field to the configuration file to match the latest value in the state.
 	// +kubebuilder:validation:Optional
 	CrossClusterReplicationConfig *CrossClusterReplicationConfigParameters `json:"crossClusterReplicationConfig,omitempty" tf:"cross_cluster_replication_config,omitempty"`
@@ -281,10 +362,24 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	DeletionProtectionEnabled *bool `json:"deletionProtectionEnabled,omitempty" tf:"deletion_protection_enabled,omitempty"`
 
+	// Backups stored in Cloud Storage buckets. The Cloud Storage buckets need to be the same region as the clusters.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	GcsSource *GcsSourceParameters `json:"gcsSource,omitempty" tf:"gcs_source,omitempty"`
+
+	// The KMS key used to encrypt the at-rest data of the cluster.
+	// +kubebuilder:validation:Optional
+	KMSKey *string `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
+
 	// Maintenance policy for a cluster
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	MaintenancePolicy *ClusterMaintenancePolicyParameters `json:"maintenancePolicy,omitempty" tf:"maintenance_policy,omitempty"`
+
+	// Backups that generated and managed by memorystore.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ManagedBackupSource *ManagedBackupSourceParameters `json:"managedBackupSource,omitempty" tf:"managed_backup_source,omitempty"`
 
 	// The nodeType for the Redis cluster.
 	// If not provided, REDIS_HIGHMEM_MEDIUM will be used as default
@@ -518,6 +613,72 @@ type DiscoveryEndpointsObservation struct {
 type DiscoveryEndpointsParameters struct {
 }
 
+type FixedFrequencyScheduleInitParameters struct {
+
+	// Required. Start time of the window in UTC time.
+	// Structure is documented below.
+	StartTime *FixedFrequencyScheduleStartTimeInitParameters `json:"startTime,omitempty" tf:"start_time,omitempty"`
+}
+
+type FixedFrequencyScheduleObservation struct {
+
+	// Required. Start time of the window in UTC time.
+	// Structure is documented below.
+	StartTime *FixedFrequencyScheduleStartTimeObservation `json:"startTime,omitempty" tf:"start_time,omitempty"`
+}
+
+type FixedFrequencyScheduleParameters struct {
+
+	// Required. Start time of the window in UTC time.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	StartTime *FixedFrequencyScheduleStartTimeParameters `json:"startTime" tf:"start_time,omitempty"`
+}
+
+type FixedFrequencyScheduleStartTimeInitParameters struct {
+
+	// Hours of day in 24 hour format. Should be from 0 to 23.
+	// An API may choose to allow the value "24:00:00" for scenarios like business closing time.
+	Hours *float64 `json:"hours,omitempty" tf:"hours,omitempty"`
+}
+
+type FixedFrequencyScheduleStartTimeObservation struct {
+
+	// Hours of day in 24 hour format. Should be from 0 to 23.
+	// An API may choose to allow the value "24:00:00" for scenarios like business closing time.
+	Hours *float64 `json:"hours,omitempty" tf:"hours,omitempty"`
+}
+
+type FixedFrequencyScheduleStartTimeParameters struct {
+
+	// Hours of day in 24 hour format. Should be from 0 to 23.
+	// An API may choose to allow the value "24:00:00" for scenarios like business closing time.
+	// +kubebuilder:validation:Optional
+	Hours *float64 `json:"hours" tf:"hours,omitempty"`
+}
+
+type GcsSourceInitParameters struct {
+
+	// URIs of the GCS objects to import. Example: gs://bucket1/object1, gs://bucket2/folder2/object2
+	// +listType=set
+	Uris []*string `json:"uris,omitempty" tf:"uris,omitempty"`
+}
+
+type GcsSourceObservation struct {
+
+	// URIs of the GCS objects to import. Example: gs://bucket1/object1, gs://bucket2/folder2/object2
+	// +listType=set
+	Uris []*string `json:"uris,omitempty" tf:"uris,omitempty"`
+}
+
+type GcsSourceParameters struct {
+
+	// URIs of the GCS objects to import. Example: gs://bucket1/object1, gs://bucket2/folder2/object2
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	Uris []*string `json:"uris" tf:"uris,omitempty"`
+}
+
 type MaintenancePolicyWeeklyMaintenanceWindowInitParameters struct {
 
 	// Required. The day of week that maintenance updates occur.
@@ -555,6 +716,28 @@ type MaintenancePolicyWeeklyMaintenanceWindowParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	StartTime *WeeklyMaintenanceWindowStartTimeParameters `json:"startTime" tf:"start_time,omitempty"`
+}
+
+type ManagedBackupSourceInitParameters struct {
+
+	// Example: //redis.googleapis.com/projects/{project}/locations/{location}/backupCollections/{collection}/backups/{backup} A shorter version (without the prefix) of the backup name is also supported,
+	// like projects/{project}/locations/{location}/backupCollections/{collection}/backups/{backupId}. In this case, it assumes the backup is under redis.googleapis.com.
+	Backup *string `json:"backup,omitempty" tf:"backup,omitempty"`
+}
+
+type ManagedBackupSourceObservation struct {
+
+	// Example: //redis.googleapis.com/projects/{project}/locations/{location}/backupCollections/{collection}/backups/{backup} A shorter version (without the prefix) of the backup name is also supported,
+	// like projects/{project}/locations/{location}/backupCollections/{collection}/backups/{backupId}. In this case, it assumes the backup is under redis.googleapis.com.
+	Backup *string `json:"backup,omitempty" tf:"backup,omitempty"`
+}
+
+type ManagedBackupSourceParameters struct {
+
+	// Example: //redis.googleapis.com/projects/{project}/locations/{location}/backupCollections/{collection}/backups/{backup} A shorter version (without the prefix) of the backup name is also supported,
+	// like projects/{project}/locations/{location}/backupCollections/{collection}/backups/{backupId}. In this case, it assumes the backup is under redis.googleapis.com.
+	// +kubebuilder:validation:Optional
+	Backup *string `json:"backup" tf:"backup,omitempty"`
 }
 
 type MembershipInitParameters struct {
@@ -670,6 +853,23 @@ type PscConnectionsObservation struct {
 }
 
 type PscConnectionsParameters struct {
+}
+
+type PscServiceAttachmentsInitParameters struct {
+}
+
+type PscServiceAttachmentsObservation struct {
+
+	// (Output)
+	// Type of a PSC connection targeting this service attachment.
+	ConnectionType *string `json:"connectionType,omitempty" tf:"connection_type,omitempty"`
+
+	// (Output)
+	// Service attachment URI which your self-created PscConnection should use as
+	ServiceAttachment *string `json:"serviceAttachment,omitempty" tf:"service_attachment,omitempty"`
+}
+
+type PscServiceAttachmentsParameters struct {
 }
 
 type RdbConfigInitParameters struct {
@@ -876,7 +1076,6 @@ type ClusterStatus struct {
 type Cluster struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.pscConfigs) || (has(self.initProvider) && has(self.initProvider.pscConfigs))",message="spec.forProvider.pscConfigs is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.shardCount) || (has(self.initProvider) && has(self.initProvider.shardCount))",message="spec.forProvider.shardCount is a required parameter"
 	Spec   ClusterSpec   `json:"spec"`
 	Status ClusterStatus `json:"status,omitempty"`

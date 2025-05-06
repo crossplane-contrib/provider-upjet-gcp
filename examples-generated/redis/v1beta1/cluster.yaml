@@ -22,7 +22,7 @@ spec:
     pscConfigs:
     - networkSelector:
         matchLabels:
-          testing.upbound.io/example-name: producer_net
+          testing.upbound.io/example-name: consumer_net
     redisConfigs:
       maxmemory-policy: volatile-ttl
     region: us-central1
@@ -40,8 +40,8 @@ metadata:
   annotations:
     meta.upbound.io/example-id: redis/v1beta1/cluster
   labels:
-    testing.upbound.io/example-name: producer_net
-  name: producer-net
+    testing.upbound.io/example-name: consumer_net
+  name: consumer-net
 spec:
   forProvider:
     autoCreateSubnetworks: false
@@ -54,14 +54,14 @@ metadata:
   annotations:
     meta.upbound.io/example-id: redis/v1beta1/cluster
   labels:
-    testing.upbound.io/example-name: producer_subnet
-  name: producer-subnet
+    testing.upbound.io/example-name: consumer_subnet
+  name: consumer-subnet
 spec:
   forProvider:
     ipCidrRange: 10.0.0.248/29
     networkSelector:
       matchLabels:
-        testing.upbound.io/example-name: producer_net
+        testing.upbound.io/example-name: consumer_net
     region: us-central1
 
 ---
@@ -80,8 +80,8 @@ spec:
     location: us-central1
     networkSelector:
       matchLabels:
-        testing.upbound.io/example-name: producer_net
+        testing.upbound.io/example-name: consumer_net
     pscConfig:
     - subnetworksRefs:
-      - name: producer_subnet
+      - name: consumer_subnet
     serviceClass: gcp-memorystore-redis
