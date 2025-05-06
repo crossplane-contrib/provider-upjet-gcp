@@ -279,8 +279,42 @@ func (in *ActionInitParameters) DeepCopyInto(out *ActionInitParameters) {
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.SourceNATActiveRanges != nil {
+		in, out := &in.SourceNATActiveRanges, &out.SourceNATActiveRanges
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
+	if in.SourceNATActiveRangesRefs != nil {
+		in, out := &in.SourceNATActiveRangesRefs, &out.SourceNATActiveRangesRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.SourceNATActiveRangesSelector != nil {
+		in, out := &in.SourceNATActiveRangesSelector, &out.SourceNATActiveRangesSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.SourceNATDrainIps != nil {
 		in, out := &in.SourceNATDrainIps, &out.SourceNATDrainIps
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
+	if in.SourceNATDrainRanges != nil {
+		in, out := &in.SourceNATDrainRanges, &out.SourceNATDrainRanges
 		*out = make([]*string, len(*in))
 		for i := range *in {
 			if (*in)[i] != nil {
@@ -316,8 +350,30 @@ func (in *ActionObservation) DeepCopyInto(out *ActionObservation) {
 			}
 		}
 	}
+	if in.SourceNATActiveRanges != nil {
+		in, out := &in.SourceNATActiveRanges, &out.SourceNATActiveRanges
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
 	if in.SourceNATDrainIps != nil {
 		in, out := &in.SourceNATDrainIps, &out.SourceNATDrainIps
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
+	if in.SourceNATDrainRanges != nil {
+		in, out := &in.SourceNATDrainRanges, &out.SourceNATDrainRanges
 		*out = make([]*string, len(*in))
 		for i := range *in {
 			if (*in)[i] != nil {
@@ -365,8 +421,42 @@ func (in *ActionParameters) DeepCopyInto(out *ActionParameters) {
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.SourceNATActiveRanges != nil {
+		in, out := &in.SourceNATActiveRanges, &out.SourceNATActiveRanges
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
+	if in.SourceNATActiveRangesRefs != nil {
+		in, out := &in.SourceNATActiveRangesRefs, &out.SourceNATActiveRangesRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.SourceNATActiveRangesSelector != nil {
+		in, out := &in.SourceNATActiveRangesSelector, &out.SourceNATActiveRangesSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.SourceNATDrainIps != nil {
 		in, out := &in.SourceNATDrainIps, &out.SourceNATDrainIps
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
+	if in.SourceNATDrainRanges != nil {
+		in, out := &in.SourceNATDrainRanges, &out.SourceNATDrainRanges
 		*out = make([]*string, len(*in))
 		for i := range *in {
 			if (*in)[i] != nil {
@@ -1273,6 +1363,16 @@ func (in *AttachedDiskInitParameters) DeepCopyInto(out *AttachedDiskInitParamete
 		*out = new(v1.SecretKeySelector)
 		**out = **in
 	}
+	if in.DiskEncryptionKeyRsaSecretRef != nil {
+		in, out := &in.DiskEncryptionKeyRsaSecretRef, &out.DiskEncryptionKeyRsaSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.DiskEncryptionServiceAccount != nil {
+		in, out := &in.DiskEncryptionServiceAccount, &out.DiskEncryptionServiceAccount
+		*out = new(string)
+		**out = **in
+	}
 	if in.KMSKeySelfLink != nil {
 		in, out := &in.KMSKeySelfLink, &out.KMSKeySelfLink
 		*out = new(string)
@@ -1310,6 +1410,11 @@ func (in *AttachedDiskObservation) DeepCopyInto(out *AttachedDiskObservation) {
 	}
 	if in.DiskEncryptionKeySha256 != nil {
 		in, out := &in.DiskEncryptionKeySha256, &out.DiskEncryptionKeySha256
+		*out = new(string)
+		**out = **in
+	}
+	if in.DiskEncryptionServiceAccount != nil {
+		in, out := &in.DiskEncryptionServiceAccount, &out.DiskEncryptionServiceAccount
 		*out = new(string)
 		**out = **in
 	}
@@ -1351,6 +1456,16 @@ func (in *AttachedDiskParameters) DeepCopyInto(out *AttachedDiskParameters) {
 	if in.DiskEncryptionKeyRawSecretRef != nil {
 		in, out := &in.DiskEncryptionKeyRawSecretRef, &out.DiskEncryptionKeyRawSecretRef
 		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.DiskEncryptionKeyRsaSecretRef != nil {
+		in, out := &in.DiskEncryptionKeyRsaSecretRef, &out.DiskEncryptionKeyRsaSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.DiskEncryptionServiceAccount != nil {
+		in, out := &in.DiskEncryptionServiceAccount, &out.DiskEncryptionServiceAccount
+		*out = new(string)
 		**out = **in
 	}
 	if in.KMSKeySelfLink != nil {
@@ -2983,6 +3098,96 @@ func (in *BackendBucketStatus) DeepCopy() *BackendBucketStatus {
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *BackendCustomMetricsInitParameters) DeepCopyInto(out *BackendCustomMetricsInitParameters) {
+	*out = *in
+	if in.DryRun != nil {
+		in, out := &in.DryRun, &out.DryRun
+		*out = new(bool)
+		**out = **in
+	}
+	if in.MaxUtilization != nil {
+		in, out := &in.MaxUtilization, &out.MaxUtilization
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new BackendCustomMetricsInitParameters.
+func (in *BackendCustomMetricsInitParameters) DeepCopy() *BackendCustomMetricsInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(BackendCustomMetricsInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *BackendCustomMetricsObservation) DeepCopyInto(out *BackendCustomMetricsObservation) {
+	*out = *in
+	if in.DryRun != nil {
+		in, out := &in.DryRun, &out.DryRun
+		*out = new(bool)
+		**out = **in
+	}
+	if in.MaxUtilization != nil {
+		in, out := &in.MaxUtilization, &out.MaxUtilization
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new BackendCustomMetricsObservation.
+func (in *BackendCustomMetricsObservation) DeepCopy() *BackendCustomMetricsObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(BackendCustomMetricsObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *BackendCustomMetricsParameters) DeepCopyInto(out *BackendCustomMetricsParameters) {
+	*out = *in
+	if in.DryRun != nil {
+		in, out := &in.DryRun, &out.DryRun
+		*out = new(bool)
+		**out = **in
+	}
+	if in.MaxUtilization != nil {
+		in, out := &in.MaxUtilization, &out.MaxUtilization
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new BackendCustomMetricsParameters.
+func (in *BackendCustomMetricsParameters) DeepCopy() *BackendCustomMetricsParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(BackendCustomMetricsParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *BackendInitParameters) DeepCopyInto(out *BackendInitParameters) {
 	*out = *in
 	if in.BalancingMode != nil {
@@ -2994,6 +3199,13 @@ func (in *BackendInitParameters) DeepCopyInto(out *BackendInitParameters) {
 		in, out := &in.CapacityScaler, &out.CapacityScaler
 		*out = new(float64)
 		**out = **in
+	}
+	if in.CustomMetrics != nil {
+		in, out := &in.CustomMetrics, &out.CustomMetrics
+		*out = make([]CustomMetricsInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
@@ -3048,6 +3260,11 @@ func (in *BackendInitParameters) DeepCopyInto(out *BackendInitParameters) {
 	if in.MaxUtilization != nil {
 		in, out := &in.MaxUtilization, &out.MaxUtilization
 		*out = new(float64)
+		**out = **in
+	}
+	if in.Preference != nil {
+		in, out := &in.Preference, &out.Preference
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -3075,6 +3292,13 @@ func (in *BackendObservation) DeepCopyInto(out *BackendObservation) {
 		*out = new(float64)
 		**out = **in
 	}
+	if in.CustomMetrics != nil {
+		in, out := &in.CustomMetrics, &out.CustomMetrics
+		*out = make([]CustomMetricsObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -3120,6 +3344,11 @@ func (in *BackendObservation) DeepCopyInto(out *BackendObservation) {
 		*out = new(float64)
 		**out = **in
 	}
+	if in.Preference != nil {
+		in, out := &in.Preference, &out.Preference
+		*out = new(string)
+		**out = **in
+	}
 }
 
 // DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new BackendObservation.
@@ -3144,6 +3373,13 @@ func (in *BackendParameters) DeepCopyInto(out *BackendParameters) {
 		in, out := &in.CapacityScaler, &out.CapacityScaler
 		*out = new(float64)
 		**out = **in
+	}
+	if in.CustomMetrics != nil {
+		in, out := &in.CustomMetrics, &out.CustomMetrics
+		*out = make([]CustomMetricsParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
@@ -3198,6 +3434,11 @@ func (in *BackendParameters) DeepCopyInto(out *BackendParameters) {
 	if in.MaxUtilization != nil {
 		in, out := &in.MaxUtilization, &out.MaxUtilization
 		*out = new(float64)
+		**out = **in
+	}
+	if in.Preference != nil {
+		in, out := &in.Preference, &out.Preference
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -3286,6 +3527,11 @@ func (in *BackendServiceCdnPolicyInitParameters) DeepCopyInto(out *BackendServic
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.RequestCoalescing != nil {
+		in, out := &in.RequestCoalescing, &out.RequestCoalescing
+		*out = new(bool)
+		**out = **in
+	}
 	if in.ServeWhileStale != nil {
 		in, out := &in.ServeWhileStale, &out.ServeWhileStale
 		*out = new(float64)
@@ -3354,6 +3600,11 @@ func (in *BackendServiceCdnPolicyObservation) DeepCopyInto(out *BackendServiceCd
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.RequestCoalescing != nil {
+		in, out := &in.RequestCoalescing, &out.RequestCoalescing
+		*out = new(bool)
+		**out = **in
 	}
 	if in.ServeWhileStale != nil {
 		in, out := &in.ServeWhileStale, &out.ServeWhileStale
@@ -3424,6 +3675,11 @@ func (in *BackendServiceCdnPolicyParameters) DeepCopyInto(out *BackendServiceCdn
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.RequestCoalescing != nil {
+		in, out := &in.RequestCoalescing, &out.RequestCoalescing
+		*out = new(bool)
+		**out = **in
+	}
 	if in.ServeWhileStale != nil {
 		in, out := &in.ServeWhileStale, &out.ServeWhileStale
 		*out = new(float64)
@@ -3442,6 +3698,81 @@ func (in *BackendServiceCdnPolicyParameters) DeepCopy() *BackendServiceCdnPolicy
 		return nil
 	}
 	out := new(BackendServiceCdnPolicyParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *BackendServiceCustomMetricsInitParameters) DeepCopyInto(out *BackendServiceCustomMetricsInitParameters) {
+	*out = *in
+	if in.DryRun != nil {
+		in, out := &in.DryRun, &out.DryRun
+		*out = new(bool)
+		**out = **in
+	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new BackendServiceCustomMetricsInitParameters.
+func (in *BackendServiceCustomMetricsInitParameters) DeepCopy() *BackendServiceCustomMetricsInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(BackendServiceCustomMetricsInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *BackendServiceCustomMetricsObservation) DeepCopyInto(out *BackendServiceCustomMetricsObservation) {
+	*out = *in
+	if in.DryRun != nil {
+		in, out := &in.DryRun, &out.DryRun
+		*out = new(bool)
+		**out = **in
+	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new BackendServiceCustomMetricsObservation.
+func (in *BackendServiceCustomMetricsObservation) DeepCopy() *BackendServiceCustomMetricsObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(BackendServiceCustomMetricsObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *BackendServiceCustomMetricsParameters) DeepCopyInto(out *BackendServiceCustomMetricsParameters) {
+	*out = *in
+	if in.DryRun != nil {
+		in, out := &in.DryRun, &out.DryRun
+		*out = new(bool)
+		**out = **in
+	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new BackendServiceCustomMetricsParameters.
+func (in *BackendServiceCustomMetricsParameters) DeepCopy() *BackendServiceCustomMetricsParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(BackendServiceCustomMetricsParameters)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -3485,6 +3816,13 @@ func (in *BackendServiceInitParameters) DeepCopyInto(out *BackendServiceInitPara
 		in, out := &in.ConsistentHash, &out.ConsistentHash
 		*out = new(ConsistentHashInitParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.CustomMetrics != nil {
+		in, out := &in.CustomMetrics, &out.CustomMetrics
+		*out = make([]BackendServiceCustomMetricsInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.CustomRequestHeaders != nil {
 		in, out := &in.CustomRequestHeaders, &out.CustomRequestHeaders
@@ -3576,6 +3914,11 @@ func (in *BackendServiceInitParameters) DeepCopyInto(out *BackendServiceInitPara
 	if in.LogConfig != nil {
 		in, out := &in.LogConfig, &out.LogConfig
 		*out = new(LogConfigInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.MaxStreamDuration != nil {
+		in, out := &in.MaxStreamDuration, &out.MaxStreamDuration
+		*out = new(MaxStreamDurationInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.OutlierDetection != nil {
@@ -3717,6 +4060,13 @@ func (in *BackendServiceObservation) DeepCopyInto(out *BackendServiceObservation
 		*out = new(string)
 		**out = **in
 	}
+	if in.CustomMetrics != nil {
+		in, out := &in.CustomMetrics, &out.CustomMetrics
+		*out = make([]BackendServiceCustomMetricsObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
 	if in.CustomRequestHeaders != nil {
 		in, out := &in.CustomRequestHeaders, &out.CustomRequestHeaders
 		*out = make([]*string, len(*in))
@@ -3810,6 +4160,11 @@ func (in *BackendServiceObservation) DeepCopyInto(out *BackendServiceObservation
 	if in.LogConfig != nil {
 		in, out := &in.LogConfig, &out.LogConfig
 		*out = new(LogConfigObservation)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.MaxStreamDuration != nil {
+		in, out := &in.MaxStreamDuration, &out.MaxStreamDuration
+		*out = new(MaxStreamDurationObservation)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.OutlierDetection != nil {
@@ -3919,6 +4274,13 @@ func (in *BackendServiceParameters) DeepCopyInto(out *BackendServiceParameters) 
 		*out = new(ConsistentHashParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.CustomMetrics != nil {
+		in, out := &in.CustomMetrics, &out.CustomMetrics
+		*out = make([]BackendServiceCustomMetricsParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
 	if in.CustomRequestHeaders != nil {
 		in, out := &in.CustomRequestHeaders, &out.CustomRequestHeaders
 		*out = make([]*string, len(*in))
@@ -4009,6 +4371,11 @@ func (in *BackendServiceParameters) DeepCopyInto(out *BackendServiceParameters) 
 	if in.LogConfig != nil {
 		in, out := &in.LogConfig, &out.LogConfig
 		*out = new(LogConfigParameters)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.MaxStreamDuration != nil {
+		in, out := &in.MaxStreamDuration, &out.MaxStreamDuration
+		*out = new(MaxStreamDurationParameters)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.OutlierDetection != nil {
@@ -4381,6 +4748,27 @@ func (in *BootDiskInitParameters) DeepCopyInto(out *BootDiskInitParameters) {
 		*out = new(v1.SecretKeySelector)
 		**out = **in
 	}
+	if in.DiskEncryptionKeyRsaSecretRef != nil {
+		in, out := &in.DiskEncryptionKeyRsaSecretRef, &out.DiskEncryptionKeyRsaSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.DiskEncryptionServiceAccount != nil {
+		in, out := &in.DiskEncryptionServiceAccount, &out.DiskEncryptionServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+	if in.GuestOsFeatures != nil {
+		in, out := &in.GuestOsFeatures, &out.GuestOsFeatures
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
 	if in.InitializeParams != nil {
 		in, out := &in.InitializeParams, &out.InitializeParams
 		*out = new(InitializeParamsInitParameters)
@@ -4421,6 +4809,11 @@ func (in *BootDiskInitParameters) DeepCopy() *BootDiskInitParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *BootDiskInitializeParamsInitParameters) DeepCopyInto(out *BootDiskInitializeParamsInitParameters) {
 	*out = *in
+	if in.Architecture != nil {
+		in, out := &in.Architecture, &out.Architecture
+		*out = new(string)
+		**out = **in
+	}
 	if in.EnableConfidentialCompute != nil {
 		in, out := &in.EnableConfidentialCompute, &out.EnableConfidentialCompute
 		*out = new(bool)
@@ -4479,6 +4872,21 @@ func (in *BootDiskInitializeParamsInitParameters) DeepCopyInto(out *BootDiskInit
 		in, out := &in.Size, &out.Size
 		*out = new(float64)
 		**out = **in
+	}
+	if in.Snapshot != nil {
+		in, out := &in.Snapshot, &out.Snapshot
+		*out = new(string)
+		**out = **in
+	}
+	if in.SourceImageEncryptionKey != nil {
+		in, out := &in.SourceImageEncryptionKey, &out.SourceImageEncryptionKey
+		*out = new(BootDiskInitializeParamsSourceImageEncryptionKeyInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.SourceSnapshotEncryptionKey != nil {
+		in, out := &in.SourceSnapshotEncryptionKey, &out.SourceSnapshotEncryptionKey
+		*out = new(BootDiskInitializeParamsSourceSnapshotEncryptionKeyInitParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.StoragePool != nil {
 		in, out := &in.StoragePool, &out.StoragePool
@@ -4505,6 +4913,11 @@ func (in *BootDiskInitializeParamsInitParameters) DeepCopy() *BootDiskInitialize
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *BootDiskInitializeParamsObservation) DeepCopyInto(out *BootDiskInitializeParamsObservation) {
 	*out = *in
+	if in.Architecture != nil {
+		in, out := &in.Architecture, &out.Architecture
+		*out = new(string)
+		**out = **in
+	}
 	if in.EnableConfidentialCompute != nil {
 		in, out := &in.EnableConfidentialCompute, &out.EnableConfidentialCompute
 		*out = new(bool)
@@ -4563,6 +4976,21 @@ func (in *BootDiskInitializeParamsObservation) DeepCopyInto(out *BootDiskInitial
 		in, out := &in.Size, &out.Size
 		*out = new(float64)
 		**out = **in
+	}
+	if in.Snapshot != nil {
+		in, out := &in.Snapshot, &out.Snapshot
+		*out = new(string)
+		**out = **in
+	}
+	if in.SourceImageEncryptionKey != nil {
+		in, out := &in.SourceImageEncryptionKey, &out.SourceImageEncryptionKey
+		*out = new(BootDiskInitializeParamsSourceImageEncryptionKeyObservation)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.SourceSnapshotEncryptionKey != nil {
+		in, out := &in.SourceSnapshotEncryptionKey, &out.SourceSnapshotEncryptionKey
+		*out = new(BootDiskInitializeParamsSourceSnapshotEncryptionKeyObservation)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.StoragePool != nil {
 		in, out := &in.StoragePool, &out.StoragePool
@@ -4589,6 +5017,11 @@ func (in *BootDiskInitializeParamsObservation) DeepCopy() *BootDiskInitializePar
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *BootDiskInitializeParamsParameters) DeepCopyInto(out *BootDiskInitializeParamsParameters) {
 	*out = *in
+	if in.Architecture != nil {
+		in, out := &in.Architecture, &out.Architecture
+		*out = new(string)
+		**out = **in
+	}
 	if in.EnableConfidentialCompute != nil {
 		in, out := &in.EnableConfidentialCompute, &out.EnableConfidentialCompute
 		*out = new(bool)
@@ -4648,6 +5081,21 @@ func (in *BootDiskInitializeParamsParameters) DeepCopyInto(out *BootDiskInitiali
 		*out = new(float64)
 		**out = **in
 	}
+	if in.Snapshot != nil {
+		in, out := &in.Snapshot, &out.Snapshot
+		*out = new(string)
+		**out = **in
+	}
+	if in.SourceImageEncryptionKey != nil {
+		in, out := &in.SourceImageEncryptionKey, &out.SourceImageEncryptionKey
+		*out = new(BootDiskInitializeParamsSourceImageEncryptionKeyParameters)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.SourceSnapshotEncryptionKey != nil {
+		in, out := &in.SourceSnapshotEncryptionKey, &out.SourceSnapshotEncryptionKey
+		*out = new(BootDiskInitializeParamsSourceSnapshotEncryptionKeyParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.StoragePool != nil {
 		in, out := &in.StoragePool, &out.StoragePool
 		*out = new(string)
@@ -4671,6 +5119,206 @@ func (in *BootDiskInitializeParamsParameters) DeepCopy() *BootDiskInitializePara
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *BootDiskInitializeParamsSourceImageEncryptionKeyInitParameters) DeepCopyInto(out *BootDiskInitializeParamsSourceImageEncryptionKeyInitParameters) {
+	*out = *in
+	if in.KMSKeySelfLink != nil {
+		in, out := &in.KMSKeySelfLink, &out.KMSKeySelfLink
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyServiceAccount != nil {
+		in, out := &in.KMSKeyServiceAccount, &out.KMSKeyServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+	if in.RawKeySecretRef != nil {
+		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.RsaEncryptedKeySecretRef != nil {
+		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new BootDiskInitializeParamsSourceImageEncryptionKeyInitParameters.
+func (in *BootDiskInitializeParamsSourceImageEncryptionKeyInitParameters) DeepCopy() *BootDiskInitializeParamsSourceImageEncryptionKeyInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(BootDiskInitializeParamsSourceImageEncryptionKeyInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *BootDiskInitializeParamsSourceImageEncryptionKeyObservation) DeepCopyInto(out *BootDiskInitializeParamsSourceImageEncryptionKeyObservation) {
+	*out = *in
+	if in.KMSKeySelfLink != nil {
+		in, out := &in.KMSKeySelfLink, &out.KMSKeySelfLink
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyServiceAccount != nil {
+		in, out := &in.KMSKeyServiceAccount, &out.KMSKeyServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+	if in.Sha256 != nil {
+		in, out := &in.Sha256, &out.Sha256
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new BootDiskInitializeParamsSourceImageEncryptionKeyObservation.
+func (in *BootDiskInitializeParamsSourceImageEncryptionKeyObservation) DeepCopy() *BootDiskInitializeParamsSourceImageEncryptionKeyObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(BootDiskInitializeParamsSourceImageEncryptionKeyObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *BootDiskInitializeParamsSourceImageEncryptionKeyParameters) DeepCopyInto(out *BootDiskInitializeParamsSourceImageEncryptionKeyParameters) {
+	*out = *in
+	if in.KMSKeySelfLink != nil {
+		in, out := &in.KMSKeySelfLink, &out.KMSKeySelfLink
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyServiceAccount != nil {
+		in, out := &in.KMSKeyServiceAccount, &out.KMSKeyServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+	if in.RawKeySecretRef != nil {
+		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.RsaEncryptedKeySecretRef != nil {
+		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new BootDiskInitializeParamsSourceImageEncryptionKeyParameters.
+func (in *BootDiskInitializeParamsSourceImageEncryptionKeyParameters) DeepCopy() *BootDiskInitializeParamsSourceImageEncryptionKeyParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(BootDiskInitializeParamsSourceImageEncryptionKeyParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *BootDiskInitializeParamsSourceSnapshotEncryptionKeyInitParameters) DeepCopyInto(out *BootDiskInitializeParamsSourceSnapshotEncryptionKeyInitParameters) {
+	*out = *in
+	if in.KMSKeySelfLink != nil {
+		in, out := &in.KMSKeySelfLink, &out.KMSKeySelfLink
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyServiceAccount != nil {
+		in, out := &in.KMSKeyServiceAccount, &out.KMSKeyServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+	if in.RawKeySecretRef != nil {
+		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.RsaEncryptedKeySecretRef != nil {
+		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new BootDiskInitializeParamsSourceSnapshotEncryptionKeyInitParameters.
+func (in *BootDiskInitializeParamsSourceSnapshotEncryptionKeyInitParameters) DeepCopy() *BootDiskInitializeParamsSourceSnapshotEncryptionKeyInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(BootDiskInitializeParamsSourceSnapshotEncryptionKeyInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *BootDiskInitializeParamsSourceSnapshotEncryptionKeyObservation) DeepCopyInto(out *BootDiskInitializeParamsSourceSnapshotEncryptionKeyObservation) {
+	*out = *in
+	if in.KMSKeySelfLink != nil {
+		in, out := &in.KMSKeySelfLink, &out.KMSKeySelfLink
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyServiceAccount != nil {
+		in, out := &in.KMSKeyServiceAccount, &out.KMSKeyServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+	if in.Sha256 != nil {
+		in, out := &in.Sha256, &out.Sha256
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new BootDiskInitializeParamsSourceSnapshotEncryptionKeyObservation.
+func (in *BootDiskInitializeParamsSourceSnapshotEncryptionKeyObservation) DeepCopy() *BootDiskInitializeParamsSourceSnapshotEncryptionKeyObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(BootDiskInitializeParamsSourceSnapshotEncryptionKeyObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *BootDiskInitializeParamsSourceSnapshotEncryptionKeyParameters) DeepCopyInto(out *BootDiskInitializeParamsSourceSnapshotEncryptionKeyParameters) {
+	*out = *in
+	if in.KMSKeySelfLink != nil {
+		in, out := &in.KMSKeySelfLink, &out.KMSKeySelfLink
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyServiceAccount != nil {
+		in, out := &in.KMSKeyServiceAccount, &out.KMSKeyServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+	if in.RawKeySecretRef != nil {
+		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.RsaEncryptedKeySecretRef != nil {
+		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new BootDiskInitializeParamsSourceSnapshotEncryptionKeyParameters.
+func (in *BootDiskInitializeParamsSourceSnapshotEncryptionKeyParameters) DeepCopy() *BootDiskInitializeParamsSourceSnapshotEncryptionKeyParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(BootDiskInitializeParamsSourceSnapshotEncryptionKeyParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *BootDiskObservation) DeepCopyInto(out *BootDiskObservation) {
 	*out = *in
 	if in.AutoDelete != nil {
@@ -4687,6 +5335,22 @@ func (in *BootDiskObservation) DeepCopyInto(out *BootDiskObservation) {
 		in, out := &in.DiskEncryptionKeySha256, &out.DiskEncryptionKeySha256
 		*out = new(string)
 		**out = **in
+	}
+	if in.DiskEncryptionServiceAccount != nil {
+		in, out := &in.DiskEncryptionServiceAccount, &out.DiskEncryptionServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+	if in.GuestOsFeatures != nil {
+		in, out := &in.GuestOsFeatures, &out.GuestOsFeatures
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
 	}
 	if in.InitializeParams != nil {
 		in, out := &in.InitializeParams, &out.InitializeParams
@@ -4742,6 +5406,27 @@ func (in *BootDiskParameters) DeepCopyInto(out *BootDiskParameters) {
 		in, out := &in.DiskEncryptionKeyRawSecretRef, &out.DiskEncryptionKeyRawSecretRef
 		*out = new(v1.SecretKeySelector)
 		**out = **in
+	}
+	if in.DiskEncryptionKeyRsaSecretRef != nil {
+		in, out := &in.DiskEncryptionKeyRsaSecretRef, &out.DiskEncryptionKeyRsaSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.DiskEncryptionServiceAccount != nil {
+		in, out := &in.DiskEncryptionServiceAccount, &out.DiskEncryptionServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+	if in.GuestOsFeatures != nil {
+		in, out := &in.GuestOsFeatures, &out.GuestOsFeatures
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
 	}
 	if in.InitializeParams != nil {
 		in, out := &in.InitializeParams, &out.InitializeParams
@@ -6749,6 +7434,96 @@ func (in *CustomLearnedIPRangesParameters) DeepCopy() *CustomLearnedIPRangesPara
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *CustomMetricsInitParameters) DeepCopyInto(out *CustomMetricsInitParameters) {
+	*out = *in
+	if in.DryRun != nil {
+		in, out := &in.DryRun, &out.DryRun
+		*out = new(bool)
+		**out = **in
+	}
+	if in.MaxUtilization != nil {
+		in, out := &in.MaxUtilization, &out.MaxUtilization
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new CustomMetricsInitParameters.
+func (in *CustomMetricsInitParameters) DeepCopy() *CustomMetricsInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(CustomMetricsInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *CustomMetricsObservation) DeepCopyInto(out *CustomMetricsObservation) {
+	*out = *in
+	if in.DryRun != nil {
+		in, out := &in.DryRun, &out.DryRun
+		*out = new(bool)
+		**out = **in
+	}
+	if in.MaxUtilization != nil {
+		in, out := &in.MaxUtilization, &out.MaxUtilization
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new CustomMetricsObservation.
+func (in *CustomMetricsObservation) DeepCopy() *CustomMetricsObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(CustomMetricsObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *CustomMetricsParameters) DeepCopyInto(out *CustomMetricsParameters) {
+	*out = *in
+	if in.DryRun != nil {
+		in, out := &in.DryRun, &out.DryRun
+		*out = new(bool)
+		**out = **in
+	}
+	if in.MaxUtilization != nil {
+		in, out := &in.MaxUtilization, &out.MaxUtilization
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new CustomMetricsParameters.
+func (in *CustomMetricsParameters) DeepCopy() *CustomMetricsParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(CustomMetricsParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *CustomPolicyInitParameters) DeepCopyInto(out *CustomPolicyInitParameters) {
 	*out = *in
 	if in.Data != nil {
@@ -6969,6 +7744,156 @@ func (in *DayOfWeeksParameters) DeepCopy() *DayOfWeeksParameters {
 		return nil
 	}
 	out := new(DayOfWeeksParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *DbsInitParameters) DeepCopyInto(out *DbsInitParameters) {
+	*out = *in
+	if in.Content != nil {
+		in, out := &in.Content, &out.Content
+		*out = new(string)
+		**out = **in
+	}
+	if in.FileType != nil {
+		in, out := &in.FileType, &out.FileType
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DbsInitParameters.
+func (in *DbsInitParameters) DeepCopy() *DbsInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(DbsInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *DbsObservation) DeepCopyInto(out *DbsObservation) {
+	*out = *in
+	if in.Content != nil {
+		in, out := &in.Content, &out.Content
+		*out = new(string)
+		**out = **in
+	}
+	if in.FileType != nil {
+		in, out := &in.FileType, &out.FileType
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DbsObservation.
+func (in *DbsObservation) DeepCopy() *DbsObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(DbsObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *DbsParameters) DeepCopyInto(out *DbsParameters) {
+	*out = *in
+	if in.Content != nil {
+		in, out := &in.Content, &out.Content
+		*out = new(string)
+		**out = **in
+	}
+	if in.FileType != nil {
+		in, out := &in.FileType, &out.FileType
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DbsParameters.
+func (in *DbsParameters) DeepCopy() *DbsParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(DbsParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *DbxsInitParameters) DeepCopyInto(out *DbxsInitParameters) {
+	*out = *in
+	if in.Content != nil {
+		in, out := &in.Content, &out.Content
+		*out = new(string)
+		**out = **in
+	}
+	if in.FileType != nil {
+		in, out := &in.FileType, &out.FileType
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DbxsInitParameters.
+func (in *DbxsInitParameters) DeepCopy() *DbxsInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(DbxsInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *DbxsObservation) DeepCopyInto(out *DbxsObservation) {
+	*out = *in
+	if in.Content != nil {
+		in, out := &in.Content, &out.Content
+		*out = new(string)
+		**out = **in
+	}
+	if in.FileType != nil {
+		in, out := &in.FileType, &out.FileType
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DbxsObservation.
+func (in *DbxsObservation) DeepCopy() *DbxsObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(DbxsObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *DbxsParameters) DeepCopyInto(out *DbxsParameters) {
+	*out = *in
+	if in.Content != nil {
+		in, out := &in.Content, &out.Content
+		*out = new(string)
+		**out = **in
+	}
+	if in.FileType != nil {
+		in, out := &in.FileType, &out.FileType
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DbxsParameters.
+func (in *DbxsParameters) DeepCopy() *DbxsParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(DbxsParameters)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -7576,6 +8501,81 @@ func (in *DefaultRouteActionInitParameters) DeepCopy() *DefaultRouteActionInitPa
 		return nil
 	}
 	out := new(DefaultRouteActionInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *DefaultRouteActionMaxStreamDurationInitParameters) DeepCopyInto(out *DefaultRouteActionMaxStreamDurationInitParameters) {
+	*out = *in
+	if in.Nanos != nil {
+		in, out := &in.Nanos, &out.Nanos
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Seconds != nil {
+		in, out := &in.Seconds, &out.Seconds
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DefaultRouteActionMaxStreamDurationInitParameters.
+func (in *DefaultRouteActionMaxStreamDurationInitParameters) DeepCopy() *DefaultRouteActionMaxStreamDurationInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(DefaultRouteActionMaxStreamDurationInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *DefaultRouteActionMaxStreamDurationObservation) DeepCopyInto(out *DefaultRouteActionMaxStreamDurationObservation) {
+	*out = *in
+	if in.Nanos != nil {
+		in, out := &in.Nanos, &out.Nanos
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Seconds != nil {
+		in, out := &in.Seconds, &out.Seconds
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DefaultRouteActionMaxStreamDurationObservation.
+func (in *DefaultRouteActionMaxStreamDurationObservation) DeepCopy() *DefaultRouteActionMaxStreamDurationObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(DefaultRouteActionMaxStreamDurationObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *DefaultRouteActionMaxStreamDurationParameters) DeepCopyInto(out *DefaultRouteActionMaxStreamDurationParameters) {
+	*out = *in
+	if in.Nanos != nil {
+		in, out := &in.Nanos, &out.Nanos
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Seconds != nil {
+		in, out := &in.Seconds, &out.Seconds
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DefaultRouteActionMaxStreamDurationParameters.
+func (in *DefaultRouteActionMaxStreamDurationParameters) DeepCopy() *DefaultRouteActionMaxStreamDurationParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(DefaultRouteActionMaxStreamDurationParameters)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -8973,6 +9973,11 @@ func (in *DiskDiskEncryptionKeyInitParameters) DeepCopyInto(out *DiskDiskEncrypt
 		*out = new(string)
 		**out = **in
 	}
+	if in.KMSKeyServiceAccount != nil {
+		in, out := &in.KMSKeyServiceAccount, &out.KMSKeyServiceAccount
+		*out = new(string)
+		**out = **in
+	}
 }
 
 // DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DiskDiskEncryptionKeyInitParameters.
@@ -8993,6 +9998,11 @@ func (in *DiskDiskEncryptionKeyObservation) DeepCopyInto(out *DiskDiskEncryption
 		*out = new(string)
 		**out = **in
 	}
+	if in.KMSKeyServiceAccount != nil {
+		in, out := &in.KMSKeyServiceAccount, &out.KMSKeyServiceAccount
+		*out = new(string)
+		**out = **in
+	}
 }
 
 // DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DiskDiskEncryptionKeyObservation.
@@ -9010,6 +10020,11 @@ func (in *DiskDiskEncryptionKeyParameters) DeepCopyInto(out *DiskDiskEncryptionK
 	*out = *in
 	if in.KMSKeySelfLink != nil {
 		in, out := &in.KMSKeySelfLink, &out.KMSKeySelfLink
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyServiceAccount != nil {
+		in, out := &in.KMSKeyServiceAccount, &out.KMSKeyServiceAccount
 		*out = new(string)
 		**out = **in
 	}
@@ -9392,10 +10407,25 @@ func (in *DiskInitParameters) DeepCopyInto(out *DiskInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Architecture != nil {
+		in, out := &in.Architecture, &out.Architecture
+		*out = new(string)
+		**out = **in
+	}
 	if in.AsyncPrimaryDisk != nil {
 		in, out := &in.AsyncPrimaryDisk, &out.AsyncPrimaryDisk
 		*out = new(AsyncPrimaryDiskInitParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.CreateSnapshotBeforeDestroy != nil {
+		in, out := &in.CreateSnapshotBeforeDestroy, &out.CreateSnapshotBeforeDestroy
+		*out = new(bool)
+		**out = **in
+	}
+	if in.CreateSnapshotBeforeDestroyPrefix != nil {
+		in, out := &in.CreateSnapshotBeforeDestroyPrefix, &out.CreateSnapshotBeforeDestroyPrefix
+		*out = new(string)
+		**out = **in
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
@@ -9451,6 +10481,11 @@ func (in *DiskInitParameters) DeepCopyInto(out *DiskInitParameters) {
 			}
 		}
 	}
+	if in.Params != nil {
+		in, out := &in.Params, &out.Params
+		*out = new(ParamsInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.PhysicalBlockSizeBytes != nil {
 		in, out := &in.PhysicalBlockSizeBytes, &out.PhysicalBlockSizeBytes
 		*out = new(float64)
@@ -9491,10 +10526,20 @@ func (in *DiskInitParameters) DeepCopyInto(out *DiskInitParameters) {
 		*out = new(SourceImageEncryptionKeyInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.SourceInstantSnapshot != nil {
+		in, out := &in.SourceInstantSnapshot, &out.SourceInstantSnapshot
+		*out = new(string)
+		**out = **in
+	}
 	if in.SourceSnapshotEncryptionKey != nil {
 		in, out := &in.SourceSnapshotEncryptionKey, &out.SourceSnapshotEncryptionKey
 		*out = new(SourceSnapshotEncryptionKeyInitParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.SourceStorageObject != nil {
+		in, out := &in.SourceStorageObject, &out.SourceStorageObject
+		*out = new(string)
+		**out = **in
 	}
 	if in.StoragePool != nil {
 		in, out := &in.StoragePool, &out.StoragePool
@@ -9558,10 +10603,25 @@ func (in *DiskObservation) DeepCopyInto(out *DiskObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Architecture != nil {
+		in, out := &in.Architecture, &out.Architecture
+		*out = new(string)
+		**out = **in
+	}
 	if in.AsyncPrimaryDisk != nil {
 		in, out := &in.AsyncPrimaryDisk, &out.AsyncPrimaryDisk
 		*out = new(AsyncPrimaryDiskObservation)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.CreateSnapshotBeforeDestroy != nil {
+		in, out := &in.CreateSnapshotBeforeDestroy, &out.CreateSnapshotBeforeDestroy
+		*out = new(bool)
+		**out = **in
+	}
+	if in.CreateSnapshotBeforeDestroyPrefix != nil {
+		in, out := &in.CreateSnapshotBeforeDestroyPrefix, &out.CreateSnapshotBeforeDestroyPrefix
+		*out = new(string)
+		**out = **in
 	}
 	if in.CreationTimestamp != nil {
 		in, out := &in.CreationTimestamp, &out.CreationTimestamp
@@ -9663,6 +10723,11 @@ func (in *DiskObservation) DeepCopyInto(out *DiskObservation) {
 			}
 		}
 	}
+	if in.Params != nil {
+		in, out := &in.Params, &out.Params
+		*out = new(ParamsObservation)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.PhysicalBlockSizeBytes != nil {
 		in, out := &in.PhysicalBlockSizeBytes, &out.PhysicalBlockSizeBytes
 		*out = new(float64)
@@ -9718,6 +10783,16 @@ func (in *DiskObservation) DeepCopyInto(out *DiskObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.SourceInstantSnapshot != nil {
+		in, out := &in.SourceInstantSnapshot, &out.SourceInstantSnapshot
+		*out = new(string)
+		**out = **in
+	}
+	if in.SourceInstantSnapshotID != nil {
+		in, out := &in.SourceInstantSnapshotID, &out.SourceInstantSnapshotID
+		*out = new(string)
+		**out = **in
+	}
 	if in.SourceSnapshotEncryptionKey != nil {
 		in, out := &in.SourceSnapshotEncryptionKey, &out.SourceSnapshotEncryptionKey
 		*out = new(SourceSnapshotEncryptionKeyObservation)
@@ -9725,6 +10800,11 @@ func (in *DiskObservation) DeepCopyInto(out *DiskObservation) {
 	}
 	if in.SourceSnapshotID != nil {
 		in, out := &in.SourceSnapshotID, &out.SourceSnapshotID
+		*out = new(string)
+		**out = **in
+	}
+	if in.SourceStorageObject != nil {
+		in, out := &in.SourceStorageObject, &out.SourceStorageObject
 		*out = new(string)
 		**out = **in
 	}
@@ -9790,10 +10870,25 @@ func (in *DiskParameters) DeepCopyInto(out *DiskParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Architecture != nil {
+		in, out := &in.Architecture, &out.Architecture
+		*out = new(string)
+		**out = **in
+	}
 	if in.AsyncPrimaryDisk != nil {
 		in, out := &in.AsyncPrimaryDisk, &out.AsyncPrimaryDisk
 		*out = new(AsyncPrimaryDiskParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.CreateSnapshotBeforeDestroy != nil {
+		in, out := &in.CreateSnapshotBeforeDestroy, &out.CreateSnapshotBeforeDestroy
+		*out = new(bool)
+		**out = **in
+	}
+	if in.CreateSnapshotBeforeDestroyPrefix != nil {
+		in, out := &in.CreateSnapshotBeforeDestroyPrefix, &out.CreateSnapshotBeforeDestroyPrefix
+		*out = new(string)
+		**out = **in
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
@@ -9849,6 +10944,11 @@ func (in *DiskParameters) DeepCopyInto(out *DiskParameters) {
 			}
 		}
 	}
+	if in.Params != nil {
+		in, out := &in.Params, &out.Params
+		*out = new(ParamsParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.PhysicalBlockSizeBytes != nil {
 		in, out := &in.PhysicalBlockSizeBytes, &out.PhysicalBlockSizeBytes
 		*out = new(float64)
@@ -9889,10 +10989,20 @@ func (in *DiskParameters) DeepCopyInto(out *DiskParameters) {
 		*out = new(SourceImageEncryptionKeyParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.SourceInstantSnapshot != nil {
+		in, out := &in.SourceInstantSnapshot, &out.SourceInstantSnapshot
+		*out = new(string)
+		**out = **in
+	}
 	if in.SourceSnapshotEncryptionKey != nil {
 		in, out := &in.SourceSnapshotEncryptionKey, &out.SourceSnapshotEncryptionKey
 		*out = new(SourceSnapshotEncryptionKeyParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.SourceStorageObject != nil {
+		in, out := &in.SourceStorageObject, &out.SourceStorageObject
+		*out = new(string)
+		**out = **in
 	}
 	if in.StoragePool != nil {
 		in, out := &in.StoragePool, &out.StoragePool
@@ -9932,6 +11042,16 @@ func (in *DiskSourceImageEncryptionKeyInitParameters) DeepCopyInto(out *DiskSour
 	if in.KMSKeyServiceAccount != nil {
 		in, out := &in.KMSKeyServiceAccount, &out.KMSKeyServiceAccount
 		*out = new(string)
+		**out = **in
+	}
+	if in.RawKeySecretRef != nil {
+		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.RsaEncryptedKeySecretRef != nil {
+		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
+		*out = new(v1.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -9984,6 +11104,16 @@ func (in *DiskSourceImageEncryptionKeyParameters) DeepCopyInto(out *DiskSourceIm
 		*out = new(string)
 		**out = **in
 	}
+	if in.RawKeySecretRef != nil {
+		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.RsaEncryptedKeySecretRef != nil {
+		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
 }
 
 // DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DiskSourceImageEncryptionKeyParameters.
@@ -10007,6 +11137,16 @@ func (in *DiskSourceSnapshotEncryptionKeyInitParameters) DeepCopyInto(out *DiskS
 	if in.KMSKeyServiceAccount != nil {
 		in, out := &in.KMSKeyServiceAccount, &out.KMSKeyServiceAccount
 		*out = new(string)
+		**out = **in
+	}
+	if in.RawKeySecretRef != nil {
+		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.RsaEncryptedKeySecretRef != nil {
+		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
+		*out = new(v1.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -10057,6 +11197,16 @@ func (in *DiskSourceSnapshotEncryptionKeyParameters) DeepCopyInto(out *DiskSourc
 	if in.KMSKeyServiceAccount != nil {
 		in, out := &in.KMSKeyServiceAccount, &out.KMSKeyServiceAccount
 		*out = new(string)
+		**out = **in
+	}
+	if in.RawKeySecretRef != nil {
+		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.RsaEncryptedKeySecretRef != nil {
+		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
+		*out = new(v1.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -12528,6 +13678,11 @@ func (in *ForwardingRuleInitParameters) DeepCopyInto(out *ForwardingRuleInitPara
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.IPCollection != nil {
+		in, out := &in.IPCollection, &out.IPCollection
+		*out = new(string)
+		**out = **in
+	}
 	if in.IPProtocol != nil {
 		in, out := &in.IPProtocol, &out.IPProtocol
 		*out = new(string)
@@ -12779,6 +13934,11 @@ func (in *ForwardingRuleObservation) DeepCopyInto(out *ForwardingRuleObservation
 		*out = new(string)
 		**out = **in
 	}
+	if in.IPCollection != nil {
+		in, out := &in.IPCollection, &out.IPCollection
+		*out = new(string)
+		**out = **in
+	}
 	if in.IPProtocol != nil {
 		in, out := &in.IPProtocol, &out.IPProtocol
 		*out = new(string)
@@ -12997,6 +14157,11 @@ func (in *ForwardingRuleParameters) DeepCopyInto(out *ForwardingRuleParameters) 
 		in, out := &in.IPAddressSelector, &out.IPAddressSelector
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.IPCollection != nil {
+		in, out := &in.IPCollection, &out.IPCollection
+		*out = new(string)
+		**out = **in
 	}
 	if in.IPProtocol != nil {
 		in, out := &in.IPProtocol, &out.IPProtocol
@@ -16394,6 +17559,16 @@ func (in *ImageEncryptionKeyInitParameters) DeepCopyInto(out *ImageEncryptionKey
 		*out = new(string)
 		**out = **in
 	}
+	if in.RawKeySecretRef != nil {
+		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.RsaEncryptedKeySecretRef != nil {
+		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
 }
 
 // DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ImageEncryptionKeyInitParameters.
@@ -16442,6 +17617,16 @@ func (in *ImageEncryptionKeyParameters) DeepCopyInto(out *ImageEncryptionKeyPara
 	if in.KMSKeyServiceAccount != nil {
 		in, out := &in.KMSKeyServiceAccount, &out.KMSKeyServiceAccount
 		*out = new(string)
+		**out = **in
+	}
+	if in.RawKeySecretRef != nil {
+		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.RsaEncryptedKeySecretRef != nil {
+		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
+		*out = new(v1.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -16917,10 +18102,20 @@ func (in *ImageInitParameters) DeepCopyInto(out *ImageInitParameters) {
 		*out = new(RawDiskInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.ShieldedInstanceInitialState != nil {
+		in, out := &in.ShieldedInstanceInitialState, &out.ShieldedInstanceInitialState
+		*out = new(ShieldedInstanceInitialStateInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.SourceDisk != nil {
 		in, out := &in.SourceDisk, &out.SourceDisk
 		*out = new(string)
 		**out = **in
+	}
+	if in.SourceDiskEncryptionKey != nil {
+		in, out := &in.SourceDiskEncryptionKey, &out.SourceDiskEncryptionKey
+		*out = new(SourceDiskEncryptionKeyInitParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceDiskRef != nil {
 		in, out := &in.SourceDiskRef, &out.SourceDiskRef
@@ -16937,10 +18132,20 @@ func (in *ImageInitParameters) DeepCopyInto(out *ImageInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.SourceImageEncryptionKey != nil {
+		in, out := &in.SourceImageEncryptionKey, &out.SourceImageEncryptionKey
+		*out = new(ImageSourceImageEncryptionKeyInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.SourceSnapshot != nil {
 		in, out := &in.SourceSnapshot, &out.SourceSnapshot
 		*out = new(string)
 		**out = **in
+	}
+	if in.SourceSnapshotEncryptionKey != nil {
+		in, out := &in.SourceSnapshotEncryptionKey, &out.SourceSnapshotEncryptionKey
+		*out = new(ImageSourceSnapshotEncryptionKeyInitParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.StorageLocations != nil {
 		in, out := &in.StorageLocations, &out.StorageLocations
@@ -17105,20 +18310,40 @@ func (in *ImageObservation) DeepCopyInto(out *ImageObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ShieldedInstanceInitialState != nil {
+		in, out := &in.ShieldedInstanceInitialState, &out.ShieldedInstanceInitialState
+		*out = new(ShieldedInstanceInitialStateObservation)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.SourceDisk != nil {
 		in, out := &in.SourceDisk, &out.SourceDisk
 		*out = new(string)
 		**out = **in
+	}
+	if in.SourceDiskEncryptionKey != nil {
+		in, out := &in.SourceDiskEncryptionKey, &out.SourceDiskEncryptionKey
+		*out = new(SourceDiskEncryptionKeyObservation)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceImage != nil {
 		in, out := &in.SourceImage, &out.SourceImage
 		*out = new(string)
 		**out = **in
 	}
+	if in.SourceImageEncryptionKey != nil {
+		in, out := &in.SourceImageEncryptionKey, &out.SourceImageEncryptionKey
+		*out = new(ImageSourceImageEncryptionKeyObservation)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.SourceSnapshot != nil {
 		in, out := &in.SourceSnapshot, &out.SourceSnapshot
 		*out = new(string)
 		**out = **in
+	}
+	if in.SourceSnapshotEncryptionKey != nil {
+		in, out := &in.SourceSnapshotEncryptionKey, &out.SourceSnapshotEncryptionKey
+		*out = new(ImageSourceSnapshotEncryptionKeyObservation)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.StorageLocations != nil {
 		in, out := &in.StorageLocations, &out.StorageLocations
@@ -17226,10 +18451,20 @@ func (in *ImageParameters) DeepCopyInto(out *ImageParameters) {
 		*out = new(RawDiskParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.ShieldedInstanceInitialState != nil {
+		in, out := &in.ShieldedInstanceInitialState, &out.ShieldedInstanceInitialState
+		*out = new(ShieldedInstanceInitialStateParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.SourceDisk != nil {
 		in, out := &in.SourceDisk, &out.SourceDisk
 		*out = new(string)
 		**out = **in
+	}
+	if in.SourceDiskEncryptionKey != nil {
+		in, out := &in.SourceDiskEncryptionKey, &out.SourceDiskEncryptionKey
+		*out = new(SourceDiskEncryptionKeyParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceDiskRef != nil {
 		in, out := &in.SourceDiskRef, &out.SourceDiskRef
@@ -17246,10 +18481,20 @@ func (in *ImageParameters) DeepCopyInto(out *ImageParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.SourceImageEncryptionKey != nil {
+		in, out := &in.SourceImageEncryptionKey, &out.SourceImageEncryptionKey
+		*out = new(ImageSourceImageEncryptionKeyParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.SourceSnapshot != nil {
 		in, out := &in.SourceSnapshot, &out.SourceSnapshot
 		*out = new(string)
 		**out = **in
+	}
+	if in.SourceSnapshotEncryptionKey != nil {
+		in, out := &in.SourceSnapshotEncryptionKey, &out.SourceSnapshotEncryptionKey
+		*out = new(ImageSourceSnapshotEncryptionKeyParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.StorageLocations != nil {
 		in, out := &in.StorageLocations, &out.StorageLocations
@@ -17270,6 +18515,196 @@ func (in *ImageParameters) DeepCopy() *ImageParameters {
 		return nil
 	}
 	out := new(ImageParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ImageSourceImageEncryptionKeyInitParameters) DeepCopyInto(out *ImageSourceImageEncryptionKeyInitParameters) {
+	*out = *in
+	if in.KMSKeySelfLink != nil {
+		in, out := &in.KMSKeySelfLink, &out.KMSKeySelfLink
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyServiceAccount != nil {
+		in, out := &in.KMSKeyServiceAccount, &out.KMSKeyServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+	if in.RawKeySecretRef != nil {
+		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.RsaEncryptedKeySecretRef != nil {
+		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ImageSourceImageEncryptionKeyInitParameters.
+func (in *ImageSourceImageEncryptionKeyInitParameters) DeepCopy() *ImageSourceImageEncryptionKeyInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(ImageSourceImageEncryptionKeyInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ImageSourceImageEncryptionKeyObservation) DeepCopyInto(out *ImageSourceImageEncryptionKeyObservation) {
+	*out = *in
+	if in.KMSKeySelfLink != nil {
+		in, out := &in.KMSKeySelfLink, &out.KMSKeySelfLink
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyServiceAccount != nil {
+		in, out := &in.KMSKeyServiceAccount, &out.KMSKeyServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ImageSourceImageEncryptionKeyObservation.
+func (in *ImageSourceImageEncryptionKeyObservation) DeepCopy() *ImageSourceImageEncryptionKeyObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(ImageSourceImageEncryptionKeyObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ImageSourceImageEncryptionKeyParameters) DeepCopyInto(out *ImageSourceImageEncryptionKeyParameters) {
+	*out = *in
+	if in.KMSKeySelfLink != nil {
+		in, out := &in.KMSKeySelfLink, &out.KMSKeySelfLink
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyServiceAccount != nil {
+		in, out := &in.KMSKeyServiceAccount, &out.KMSKeyServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+	if in.RawKeySecretRef != nil {
+		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.RsaEncryptedKeySecretRef != nil {
+		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ImageSourceImageEncryptionKeyParameters.
+func (in *ImageSourceImageEncryptionKeyParameters) DeepCopy() *ImageSourceImageEncryptionKeyParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(ImageSourceImageEncryptionKeyParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ImageSourceSnapshotEncryptionKeyInitParameters) DeepCopyInto(out *ImageSourceSnapshotEncryptionKeyInitParameters) {
+	*out = *in
+	if in.KMSKeySelfLink != nil {
+		in, out := &in.KMSKeySelfLink, &out.KMSKeySelfLink
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyServiceAccount != nil {
+		in, out := &in.KMSKeyServiceAccount, &out.KMSKeyServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+	if in.RawKeySecretRef != nil {
+		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.RsaEncryptedKeySecretRef != nil {
+		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ImageSourceSnapshotEncryptionKeyInitParameters.
+func (in *ImageSourceSnapshotEncryptionKeyInitParameters) DeepCopy() *ImageSourceSnapshotEncryptionKeyInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(ImageSourceSnapshotEncryptionKeyInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ImageSourceSnapshotEncryptionKeyObservation) DeepCopyInto(out *ImageSourceSnapshotEncryptionKeyObservation) {
+	*out = *in
+	if in.KMSKeySelfLink != nil {
+		in, out := &in.KMSKeySelfLink, &out.KMSKeySelfLink
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyServiceAccount != nil {
+		in, out := &in.KMSKeyServiceAccount, &out.KMSKeyServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ImageSourceSnapshotEncryptionKeyObservation.
+func (in *ImageSourceSnapshotEncryptionKeyObservation) DeepCopy() *ImageSourceSnapshotEncryptionKeyObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(ImageSourceSnapshotEncryptionKeyObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ImageSourceSnapshotEncryptionKeyParameters) DeepCopyInto(out *ImageSourceSnapshotEncryptionKeyParameters) {
+	*out = *in
+	if in.KMSKeySelfLink != nil {
+		in, out := &in.KMSKeySelfLink, &out.KMSKeySelfLink
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyServiceAccount != nil {
+		in, out := &in.KMSKeyServiceAccount, &out.KMSKeyServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+	if in.RawKeySecretRef != nil {
+		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.RsaEncryptedKeySecretRef != nil {
+		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ImageSourceSnapshotEncryptionKeyParameters.
+func (in *ImageSourceSnapshotEncryptionKeyParameters) DeepCopy() *ImageSourceSnapshotEncryptionKeyParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(ImageSourceSnapshotEncryptionKeyParameters)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -17312,6 +18747,11 @@ func (in *ImageStatus) DeepCopy() *ImageStatus {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *InitializeParamsInitParameters) DeepCopyInto(out *InitializeParamsInitParameters) {
 	*out = *in
+	if in.Architecture != nil {
+		in, out := &in.Architecture, &out.Architecture
+		*out = new(string)
+		**out = **in
+	}
 	if in.EnableConfidentialCompute != nil {
 		in, out := &in.EnableConfidentialCompute, &out.EnableConfidentialCompute
 		*out = new(bool)
@@ -17380,6 +18820,21 @@ func (in *InitializeParamsInitParameters) DeepCopyInto(out *InitializeParamsInit
 		in, out := &in.Size, &out.Size
 		*out = new(float64)
 		**out = **in
+	}
+	if in.Snapshot != nil {
+		in, out := &in.Snapshot, &out.Snapshot
+		*out = new(string)
+		**out = **in
+	}
+	if in.SourceImageEncryptionKey != nil {
+		in, out := &in.SourceImageEncryptionKey, &out.SourceImageEncryptionKey
+		*out = new(InitializeParamsSourceImageEncryptionKeyInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.SourceSnapshotEncryptionKey != nil {
+		in, out := &in.SourceSnapshotEncryptionKey, &out.SourceSnapshotEncryptionKey
+		*out = new(InitializeParamsSourceSnapshotEncryptionKeyInitParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.StoragePool != nil {
 		in, out := &in.StoragePool, &out.StoragePool
@@ -17406,6 +18861,11 @@ func (in *InitializeParamsInitParameters) DeepCopy() *InitializeParamsInitParame
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *InitializeParamsObservation) DeepCopyInto(out *InitializeParamsObservation) {
 	*out = *in
+	if in.Architecture != nil {
+		in, out := &in.Architecture, &out.Architecture
+		*out = new(string)
+		**out = **in
+	}
 	if in.EnableConfidentialCompute != nil {
 		in, out := &in.EnableConfidentialCompute, &out.EnableConfidentialCompute
 		*out = new(bool)
@@ -17465,6 +18925,21 @@ func (in *InitializeParamsObservation) DeepCopyInto(out *InitializeParamsObserva
 		*out = new(float64)
 		**out = **in
 	}
+	if in.Snapshot != nil {
+		in, out := &in.Snapshot, &out.Snapshot
+		*out = new(string)
+		**out = **in
+	}
+	if in.SourceImageEncryptionKey != nil {
+		in, out := &in.SourceImageEncryptionKey, &out.SourceImageEncryptionKey
+		*out = new(InitializeParamsSourceImageEncryptionKeyObservation)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.SourceSnapshotEncryptionKey != nil {
+		in, out := &in.SourceSnapshotEncryptionKey, &out.SourceSnapshotEncryptionKey
+		*out = new(InitializeParamsSourceSnapshotEncryptionKeyObservation)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.StoragePool != nil {
 		in, out := &in.StoragePool, &out.StoragePool
 		*out = new(string)
@@ -17490,6 +18965,11 @@ func (in *InitializeParamsObservation) DeepCopy() *InitializeParamsObservation {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *InitializeParamsParameters) DeepCopyInto(out *InitializeParamsParameters) {
 	*out = *in
+	if in.Architecture != nil {
+		in, out := &in.Architecture, &out.Architecture
+		*out = new(string)
+		**out = **in
+	}
 	if in.EnableConfidentialCompute != nil {
 		in, out := &in.EnableConfidentialCompute, &out.EnableConfidentialCompute
 		*out = new(bool)
@@ -17559,6 +19039,21 @@ func (in *InitializeParamsParameters) DeepCopyInto(out *InitializeParamsParamete
 		*out = new(float64)
 		**out = **in
 	}
+	if in.Snapshot != nil {
+		in, out := &in.Snapshot, &out.Snapshot
+		*out = new(string)
+		**out = **in
+	}
+	if in.SourceImageEncryptionKey != nil {
+		in, out := &in.SourceImageEncryptionKey, &out.SourceImageEncryptionKey
+		*out = new(InitializeParamsSourceImageEncryptionKeyParameters)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.SourceSnapshotEncryptionKey != nil {
+		in, out := &in.SourceSnapshotEncryptionKey, &out.SourceSnapshotEncryptionKey
+		*out = new(InitializeParamsSourceSnapshotEncryptionKeyParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.StoragePool != nil {
 		in, out := &in.StoragePool, &out.StoragePool
 		*out = new(string)
@@ -17577,6 +19072,206 @@ func (in *InitializeParamsParameters) DeepCopy() *InitializeParamsParameters {
 		return nil
 	}
 	out := new(InitializeParamsParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *InitializeParamsSourceImageEncryptionKeyInitParameters) DeepCopyInto(out *InitializeParamsSourceImageEncryptionKeyInitParameters) {
+	*out = *in
+	if in.KMSKeySelfLink != nil {
+		in, out := &in.KMSKeySelfLink, &out.KMSKeySelfLink
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyServiceAccount != nil {
+		in, out := &in.KMSKeyServiceAccount, &out.KMSKeyServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+	if in.RawKeySecretRef != nil {
+		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.RsaEncryptedKeySecretRef != nil {
+		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InitializeParamsSourceImageEncryptionKeyInitParameters.
+func (in *InitializeParamsSourceImageEncryptionKeyInitParameters) DeepCopy() *InitializeParamsSourceImageEncryptionKeyInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(InitializeParamsSourceImageEncryptionKeyInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *InitializeParamsSourceImageEncryptionKeyObservation) DeepCopyInto(out *InitializeParamsSourceImageEncryptionKeyObservation) {
+	*out = *in
+	if in.KMSKeySelfLink != nil {
+		in, out := &in.KMSKeySelfLink, &out.KMSKeySelfLink
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyServiceAccount != nil {
+		in, out := &in.KMSKeyServiceAccount, &out.KMSKeyServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+	if in.Sha256 != nil {
+		in, out := &in.Sha256, &out.Sha256
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InitializeParamsSourceImageEncryptionKeyObservation.
+func (in *InitializeParamsSourceImageEncryptionKeyObservation) DeepCopy() *InitializeParamsSourceImageEncryptionKeyObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(InitializeParamsSourceImageEncryptionKeyObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *InitializeParamsSourceImageEncryptionKeyParameters) DeepCopyInto(out *InitializeParamsSourceImageEncryptionKeyParameters) {
+	*out = *in
+	if in.KMSKeySelfLink != nil {
+		in, out := &in.KMSKeySelfLink, &out.KMSKeySelfLink
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyServiceAccount != nil {
+		in, out := &in.KMSKeyServiceAccount, &out.KMSKeyServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+	if in.RawKeySecretRef != nil {
+		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.RsaEncryptedKeySecretRef != nil {
+		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InitializeParamsSourceImageEncryptionKeyParameters.
+func (in *InitializeParamsSourceImageEncryptionKeyParameters) DeepCopy() *InitializeParamsSourceImageEncryptionKeyParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(InitializeParamsSourceImageEncryptionKeyParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *InitializeParamsSourceSnapshotEncryptionKeyInitParameters) DeepCopyInto(out *InitializeParamsSourceSnapshotEncryptionKeyInitParameters) {
+	*out = *in
+	if in.KMSKeySelfLink != nil {
+		in, out := &in.KMSKeySelfLink, &out.KMSKeySelfLink
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyServiceAccount != nil {
+		in, out := &in.KMSKeyServiceAccount, &out.KMSKeyServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+	if in.RawKeySecretRef != nil {
+		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.RsaEncryptedKeySecretRef != nil {
+		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InitializeParamsSourceSnapshotEncryptionKeyInitParameters.
+func (in *InitializeParamsSourceSnapshotEncryptionKeyInitParameters) DeepCopy() *InitializeParamsSourceSnapshotEncryptionKeyInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(InitializeParamsSourceSnapshotEncryptionKeyInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *InitializeParamsSourceSnapshotEncryptionKeyObservation) DeepCopyInto(out *InitializeParamsSourceSnapshotEncryptionKeyObservation) {
+	*out = *in
+	if in.KMSKeySelfLink != nil {
+		in, out := &in.KMSKeySelfLink, &out.KMSKeySelfLink
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyServiceAccount != nil {
+		in, out := &in.KMSKeyServiceAccount, &out.KMSKeyServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+	if in.Sha256 != nil {
+		in, out := &in.Sha256, &out.Sha256
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InitializeParamsSourceSnapshotEncryptionKeyObservation.
+func (in *InitializeParamsSourceSnapshotEncryptionKeyObservation) DeepCopy() *InitializeParamsSourceSnapshotEncryptionKeyObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(InitializeParamsSourceSnapshotEncryptionKeyObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *InitializeParamsSourceSnapshotEncryptionKeyParameters) DeepCopyInto(out *InitializeParamsSourceSnapshotEncryptionKeyParameters) {
+	*out = *in
+	if in.KMSKeySelfLink != nil {
+		in, out := &in.KMSKeySelfLink, &out.KMSKeySelfLink
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyServiceAccount != nil {
+		in, out := &in.KMSKeyServiceAccount, &out.KMSKeyServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+	if in.RawKeySecretRef != nil {
+		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.RsaEncryptedKeySecretRef != nil {
+		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InitializeParamsSourceSnapshotEncryptionKeyParameters.
+func (in *InitializeParamsSourceSnapshotEncryptionKeyParameters) DeepCopy() *InitializeParamsSourceSnapshotEncryptionKeyParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(InitializeParamsSourceSnapshotEncryptionKeyParameters)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -17606,6 +19301,86 @@ func (in *Instance) DeepCopyObject() runtime.Object {
 		return c
 	}
 	return nil
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *InstanceEncryptionKeyInitParameters) DeepCopyInto(out *InstanceEncryptionKeyInitParameters) {
+	*out = *in
+	if in.KMSKeySelfLink != nil {
+		in, out := &in.KMSKeySelfLink, &out.KMSKeySelfLink
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyServiceAccount != nil {
+		in, out := &in.KMSKeyServiceAccount, &out.KMSKeyServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InstanceEncryptionKeyInitParameters.
+func (in *InstanceEncryptionKeyInitParameters) DeepCopy() *InstanceEncryptionKeyInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(InstanceEncryptionKeyInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *InstanceEncryptionKeyObservation) DeepCopyInto(out *InstanceEncryptionKeyObservation) {
+	*out = *in
+	if in.KMSKeySelfLink != nil {
+		in, out := &in.KMSKeySelfLink, &out.KMSKeySelfLink
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyServiceAccount != nil {
+		in, out := &in.KMSKeyServiceAccount, &out.KMSKeyServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+	if in.Sha256 != nil {
+		in, out := &in.Sha256, &out.Sha256
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InstanceEncryptionKeyObservation.
+func (in *InstanceEncryptionKeyObservation) DeepCopy() *InstanceEncryptionKeyObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(InstanceEncryptionKeyObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *InstanceEncryptionKeyParameters) DeepCopyInto(out *InstanceEncryptionKeyParameters) {
+	*out = *in
+	if in.KMSKeySelfLink != nil {
+		in, out := &in.KMSKeySelfLink, &out.KMSKeySelfLink
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyServiceAccount != nil {
+		in, out := &in.KMSKeyServiceAccount, &out.KMSKeyServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InstanceEncryptionKeyParameters.
+func (in *InstanceEncryptionKeyParameters) DeepCopy() *InstanceEncryptionKeyParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(InstanceEncryptionKeyParameters)
+	in.DeepCopyInto(out)
+	return out
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
@@ -17849,6 +19624,16 @@ func (in *InstanceFromTemplateAttachedDiskInitParameters) DeepCopyInto(out *Inst
 		*out = new(v1.SecretKeySelector)
 		**out = **in
 	}
+	if in.DiskEncryptionKeyRsaSecretRef != nil {
+		in, out := &in.DiskEncryptionKeyRsaSecretRef, &out.DiskEncryptionKeyRsaSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.DiskEncryptionServiceAccount != nil {
+		in, out := &in.DiskEncryptionServiceAccount, &out.DiskEncryptionServiceAccount
+		*out = new(string)
+		**out = **in
+	}
 	if in.KMSKeySelfLink != nil {
 		in, out := &in.KMSKeySelfLink, &out.KMSKeySelfLink
 		*out = new(string)
@@ -17886,6 +19671,11 @@ func (in *InstanceFromTemplateAttachedDiskObservation) DeepCopyInto(out *Instanc
 	}
 	if in.DiskEncryptionKeySha256 != nil {
 		in, out := &in.DiskEncryptionKeySha256, &out.DiskEncryptionKeySha256
+		*out = new(string)
+		**out = **in
+	}
+	if in.DiskEncryptionServiceAccount != nil {
+		in, out := &in.DiskEncryptionServiceAccount, &out.DiskEncryptionServiceAccount
 		*out = new(string)
 		**out = **in
 	}
@@ -17927,6 +19717,16 @@ func (in *InstanceFromTemplateAttachedDiskParameters) DeepCopyInto(out *Instance
 	if in.DiskEncryptionKeyRawSecretRef != nil {
 		in, out := &in.DiskEncryptionKeyRawSecretRef, &out.DiskEncryptionKeyRawSecretRef
 		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.DiskEncryptionKeyRsaSecretRef != nil {
+		in, out := &in.DiskEncryptionKeyRsaSecretRef, &out.DiskEncryptionKeyRsaSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.DiskEncryptionServiceAccount != nil {
+		in, out := &in.DiskEncryptionServiceAccount, &out.DiskEncryptionServiceAccount
+		*out = new(string)
 		**out = **in
 	}
 	if in.KMSKeySelfLink != nil {
@@ -17973,6 +19773,27 @@ func (in *InstanceFromTemplateBootDiskInitParameters) DeepCopyInto(out *Instance
 		in, out := &in.DiskEncryptionKeyRawSecretRef, &out.DiskEncryptionKeyRawSecretRef
 		*out = new(v1.SecretKeySelector)
 		**out = **in
+	}
+	if in.DiskEncryptionKeyRsaSecretRef != nil {
+		in, out := &in.DiskEncryptionKeyRsaSecretRef, &out.DiskEncryptionKeyRsaSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.DiskEncryptionServiceAccount != nil {
+		in, out := &in.DiskEncryptionServiceAccount, &out.DiskEncryptionServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+	if in.GuestOsFeatures != nil {
+		in, out := &in.GuestOsFeatures, &out.GuestOsFeatures
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
 	}
 	if in.InitializeParams != nil {
 		in, out := &in.InitializeParams, &out.InitializeParams
@@ -18029,6 +19850,22 @@ func (in *InstanceFromTemplateBootDiskObservation) DeepCopyInto(out *InstanceFro
 		*out = new(string)
 		**out = **in
 	}
+	if in.DiskEncryptionServiceAccount != nil {
+		in, out := &in.DiskEncryptionServiceAccount, &out.DiskEncryptionServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+	if in.GuestOsFeatures != nil {
+		in, out := &in.GuestOsFeatures, &out.GuestOsFeatures
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
 	if in.InitializeParams != nil {
 		in, out := &in.InitializeParams, &out.InitializeParams
 		*out = new(BootDiskInitializeParamsObservation)
@@ -18083,6 +19920,27 @@ func (in *InstanceFromTemplateBootDiskParameters) DeepCopyInto(out *InstanceFrom
 		in, out := &in.DiskEncryptionKeyRawSecretRef, &out.DiskEncryptionKeyRawSecretRef
 		*out = new(v1.SecretKeySelector)
 		**out = **in
+	}
+	if in.DiskEncryptionKeyRsaSecretRef != nil {
+		in, out := &in.DiskEncryptionKeyRsaSecretRef, &out.DiskEncryptionKeyRsaSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.DiskEncryptionServiceAccount != nil {
+		in, out := &in.DiskEncryptionServiceAccount, &out.DiskEncryptionServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+	if in.GuestOsFeatures != nil {
+		in, out := &in.GuestOsFeatures, &out.GuestOsFeatures
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
 	}
 	if in.InitializeParams != nil {
 		in, out := &in.InitializeParams, &out.InitializeParams
@@ -18333,6 +20191,11 @@ func (in *InstanceFromTemplateInitParameters) DeepCopyInto(out *InstanceFromTemp
 		*out = new(string)
 		**out = **in
 	}
+	if in.InstanceEncryptionKey != nil {
+		in, out := &in.InstanceEncryptionKey, &out.InstanceEncryptionKey
+		*out = new(InstanceFromTemplateInstanceEncryptionKeyInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.KeyRevocationActionType != nil {
 		in, out := &in.KeyRevocationActionType, &out.KeyRevocationActionType
 		*out = new(string)
@@ -18485,6 +20348,86 @@ func (in *InstanceFromTemplateInitParameters) DeepCopy() *InstanceFromTemplateIn
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *InstanceFromTemplateInstanceEncryptionKeyInitParameters) DeepCopyInto(out *InstanceFromTemplateInstanceEncryptionKeyInitParameters) {
+	*out = *in
+	if in.KMSKeySelfLink != nil {
+		in, out := &in.KMSKeySelfLink, &out.KMSKeySelfLink
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyServiceAccount != nil {
+		in, out := &in.KMSKeyServiceAccount, &out.KMSKeyServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InstanceFromTemplateInstanceEncryptionKeyInitParameters.
+func (in *InstanceFromTemplateInstanceEncryptionKeyInitParameters) DeepCopy() *InstanceFromTemplateInstanceEncryptionKeyInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(InstanceFromTemplateInstanceEncryptionKeyInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *InstanceFromTemplateInstanceEncryptionKeyObservation) DeepCopyInto(out *InstanceFromTemplateInstanceEncryptionKeyObservation) {
+	*out = *in
+	if in.KMSKeySelfLink != nil {
+		in, out := &in.KMSKeySelfLink, &out.KMSKeySelfLink
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyServiceAccount != nil {
+		in, out := &in.KMSKeyServiceAccount, &out.KMSKeyServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+	if in.Sha256 != nil {
+		in, out := &in.Sha256, &out.Sha256
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InstanceFromTemplateInstanceEncryptionKeyObservation.
+func (in *InstanceFromTemplateInstanceEncryptionKeyObservation) DeepCopy() *InstanceFromTemplateInstanceEncryptionKeyObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(InstanceFromTemplateInstanceEncryptionKeyObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *InstanceFromTemplateInstanceEncryptionKeyParameters) DeepCopyInto(out *InstanceFromTemplateInstanceEncryptionKeyParameters) {
+	*out = *in
+	if in.KMSKeySelfLink != nil {
+		in, out := &in.KMSKeySelfLink, &out.KMSKeySelfLink
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyServiceAccount != nil {
+		in, out := &in.KMSKeyServiceAccount, &out.KMSKeyServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InstanceFromTemplateInstanceEncryptionKeyParameters.
+func (in *InstanceFromTemplateInstanceEncryptionKeyParameters) DeepCopy() *InstanceFromTemplateInstanceEncryptionKeyParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(InstanceFromTemplateInstanceEncryptionKeyParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *InstanceFromTemplateList) DeepCopyInto(out *InstanceFromTemplateList) {
 	*out = *in
 	out.TypeMeta = in.TypeMeta
@@ -18552,6 +20495,11 @@ func (in *InstanceFromTemplateNetworkInterfaceInitParameters) DeepCopyInto(out *
 	}
 	if in.Network != nil {
 		in, out := &in.Network, &out.Network
+		*out = new(string)
+		**out = **in
+	}
+	if in.NetworkAttachment != nil {
+		in, out := &in.NetworkAttachment, &out.NetworkAttachment
 		*out = new(string)
 		**out = **in
 	}
@@ -18666,6 +20614,11 @@ func (in *InstanceFromTemplateNetworkInterfaceObservation) DeepCopyInto(out *Ins
 		*out = new(string)
 		**out = **in
 	}
+	if in.NetworkAttachment != nil {
+		in, out := &in.NetworkAttachment, &out.NetworkAttachment
+		*out = new(string)
+		**out = **in
+	}
 	if in.NetworkIP != nil {
 		in, out := &in.NetworkIP, &out.NetworkIP
 		*out = new(string)
@@ -18744,6 +20697,11 @@ func (in *InstanceFromTemplateNetworkInterfaceParameters) DeepCopyInto(out *Inst
 	}
 	if in.Network != nil {
 		in, out := &in.Network, &out.Network
+		*out = new(string)
+		**out = **in
+	}
+	if in.NetworkAttachment != nil {
+		in, out := &in.NetworkAttachment, &out.NetworkAttachment
 		*out = new(string)
 		**out = **in
 	}
@@ -18971,6 +20929,11 @@ func (in *InstanceFromTemplateObservation) DeepCopyInto(out *InstanceFromTemplat
 		in, out := &in.ID, &out.ID
 		*out = new(string)
 		**out = **in
+	}
+	if in.InstanceEncryptionKey != nil {
+		in, out := &in.InstanceEncryptionKey, &out.InstanceEncryptionKey
+		*out = new(InstanceFromTemplateInstanceEncryptionKeyObservation)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceID != nil {
 		in, out := &in.InstanceID, &out.InstanceID
@@ -19215,6 +21178,11 @@ func (in *InstanceFromTemplateParameters) DeepCopyInto(out *InstanceFromTemplate
 		in, out := &in.Hostname, &out.Hostname
 		*out = new(string)
 		**out = **in
+	}
+	if in.InstanceEncryptionKey != nil {
+		in, out := &in.InstanceEncryptionKey, &out.InstanceEncryptionKey
+		*out = new(InstanceFromTemplateInstanceEncryptionKeyParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.KeyRevocationActionType != nil {
 		in, out := &in.KeyRevocationActionType, &out.KeyRevocationActionType
@@ -19595,6 +21563,11 @@ func (in *InstanceFromTemplateSchedulingInitParameters) DeepCopyInto(out *Instan
 		*out = new(string)
 		**out = **in
 	}
+	if in.TerminationTime != nil {
+		in, out := &in.TerminationTime, &out.TerminationTime
+		*out = new(string)
+		**out = **in
+	}
 }
 
 // DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InstanceFromTemplateSchedulingInitParameters.
@@ -19667,6 +21640,11 @@ func (in *InstanceFromTemplateSchedulingObservation) DeepCopyInto(out *InstanceF
 		*out = new(string)
 		**out = **in
 	}
+	if in.TerminationTime != nil {
+		in, out := &in.TerminationTime, &out.TerminationTime
+		*out = new(string)
+		**out = **in
+	}
 }
 
 // DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InstanceFromTemplateSchedulingObservation.
@@ -19736,6 +21714,11 @@ func (in *InstanceFromTemplateSchedulingParameters) DeepCopyInto(out *InstanceFr
 	}
 	if in.ProvisioningModel != nil {
 		in, out := &in.ProvisioningModel, &out.ProvisioningModel
+		*out = new(string)
+		**out = **in
+	}
+	if in.TerminationTime != nil {
+		in, out := &in.TerminationTime, &out.TerminationTime
 		*out = new(string)
 		**out = **in
 	}
@@ -21033,6 +23016,11 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.InstanceEncryptionKey != nil {
+		in, out := &in.InstanceEncryptionKey, &out.InstanceEncryptionKey
+		*out = new(InstanceEncryptionKeyInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.KeyRevocationActionType != nil {
 		in, out := &in.KeyRevocationActionType, &out.KeyRevocationActionType
 		*out = new(string)
@@ -21099,7 +23087,7 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 	}
 	if in.Params != nil {
 		in, out := &in.Params, &out.Params
-		*out = new(ParamsInitParameters)
+		*out = new(InstanceParamsInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Project != nil {
@@ -21378,6 +23366,11 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.InstanceEncryptionKey != nil {
+		in, out := &in.InstanceEncryptionKey, &out.InstanceEncryptionKey
+		*out = new(InstanceEncryptionKeyObservation)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.InstanceID != nil {
 		in, out := &in.InstanceID, &out.InstanceID
 		*out = new(string)
@@ -21459,7 +23452,7 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 	}
 	if in.Params != nil {
 		in, out := &in.Params, &out.Params
-		*out = new(ParamsObservation)
+		*out = new(InstanceParamsObservation)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Project != nil {
@@ -21621,6 +23614,11 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.InstanceEncryptionKey != nil {
+		in, out := &in.InstanceEncryptionKey, &out.InstanceEncryptionKey
+		*out = new(InstanceEncryptionKeyParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.KeyRevocationActionType != nil {
 		in, out := &in.KeyRevocationActionType, &out.KeyRevocationActionType
 		*out = new(string)
@@ -21687,7 +23685,7 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 	}
 	if in.Params != nil {
 		in, out := &in.Params, &out.Params
-		*out = new(ParamsParameters)
+		*out = new(InstanceParamsParameters)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Project != nil {
@@ -21757,6 +23755,99 @@ func (in *InstanceParameters) DeepCopy() *InstanceParameters {
 		return nil
 	}
 	out := new(InstanceParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *InstanceParamsInitParameters) DeepCopyInto(out *InstanceParamsInitParameters) {
+	*out = *in
+	if in.ResourceManagerTags != nil {
+		in, out := &in.ResourceManagerTags, &out.ResourceManagerTags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InstanceParamsInitParameters.
+func (in *InstanceParamsInitParameters) DeepCopy() *InstanceParamsInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(InstanceParamsInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *InstanceParamsObservation) DeepCopyInto(out *InstanceParamsObservation) {
+	*out = *in
+	if in.ResourceManagerTags != nil {
+		in, out := &in.ResourceManagerTags, &out.ResourceManagerTags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InstanceParamsObservation.
+func (in *InstanceParamsObservation) DeepCopy() *InstanceParamsObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(InstanceParamsObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *InstanceParamsParameters) DeepCopyInto(out *InstanceParamsParameters) {
+	*out = *in
+	if in.ResourceManagerTags != nil {
+		in, out := &in.ResourceManagerTags, &out.ResourceManagerTags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InstanceParamsParameters.
+func (in *InstanceParamsParameters) DeepCopy() *InstanceParamsParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(InstanceParamsParameters)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -24399,6 +26490,11 @@ func (in *InstanceTemplateSchedulingInitParameters) DeepCopyInto(out *InstanceTe
 		*out = new(string)
 		**out = **in
 	}
+	if in.TerminationTime != nil {
+		in, out := &in.TerminationTime, &out.TerminationTime
+		*out = new(string)
+		**out = **in
+	}
 }
 
 // DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InstanceTemplateSchedulingInitParameters.
@@ -24731,6 +26827,11 @@ func (in *InstanceTemplateSchedulingObservation) DeepCopyInto(out *InstanceTempl
 		*out = new(string)
 		**out = **in
 	}
+	if in.TerminationTime != nil {
+		in, out := &in.TerminationTime, &out.TerminationTime
+		*out = new(string)
+		**out = **in
+	}
 }
 
 // DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InstanceTemplateSchedulingObservation.
@@ -24862,6 +26963,11 @@ func (in *InstanceTemplateSchedulingParameters) DeepCopyInto(out *InstanceTempla
 	}
 	if in.ProvisioningModel != nil {
 		in, out := &in.ProvisioningModel, &out.ProvisioningModel
+		*out = new(string)
+		**out = **in
+	}
+	if in.TerminationTime != nil {
+		in, out := &in.TerminationTime, &out.TerminationTime
 		*out = new(string)
 		**out = **in
 	}
@@ -25499,6 +27605,81 @@ func (in *JSONCustomConfigParameters) DeepCopy() *JSONCustomConfigParameters {
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *KeksInitParameters) DeepCopyInto(out *KeksInitParameters) {
+	*out = *in
+	if in.Content != nil {
+		in, out := &in.Content, &out.Content
+		*out = new(string)
+		**out = **in
+	}
+	if in.FileType != nil {
+		in, out := &in.FileType, &out.FileType
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new KeksInitParameters.
+func (in *KeksInitParameters) DeepCopy() *KeksInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(KeksInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *KeksObservation) DeepCopyInto(out *KeksObservation) {
+	*out = *in
+	if in.Content != nil {
+		in, out := &in.Content, &out.Content
+		*out = new(string)
+		**out = **in
+	}
+	if in.FileType != nil {
+		in, out := &in.FileType, &out.FileType
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new KeksObservation.
+func (in *KeksObservation) DeepCopy() *KeksObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(KeksObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *KeksParameters) DeepCopyInto(out *KeksParameters) {
+	*out = *in
+	if in.Content != nil {
+		in, out := &in.Content, &out.Content
+		*out = new(string)
+		**out = **in
+	}
+	if in.FileType != nil {
+		in, out := &in.FileType, &out.FileType
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new KeksParameters.
+func (in *KeksParameters) DeepCopy() *KeksParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(KeksParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *Layer4ConfigsInitParameters) DeepCopyInto(out *Layer4ConfigsInitParameters) {
 	*out = *in
 	if in.IPProtocol != nil {
@@ -25980,6 +28161,22 @@ func (in *LogConfigInitParameters) DeepCopyInto(out *LogConfigInitParameters) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.OptionalFields != nil {
+		in, out := &in.OptionalFields, &out.OptionalFields
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
+	if in.OptionalMode != nil {
+		in, out := &in.OptionalMode, &out.OptionalMode
+		*out = new(string)
+		**out = **in
+	}
 	if in.SampleRate != nil {
 		in, out := &in.SampleRate, &out.SampleRate
 		*out = new(float64)
@@ -26005,6 +28202,22 @@ func (in *LogConfigObservation) DeepCopyInto(out *LogConfigObservation) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.OptionalFields != nil {
+		in, out := &in.OptionalFields, &out.OptionalFields
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
+	if in.OptionalMode != nil {
+		in, out := &in.OptionalMode, &out.OptionalMode
+		*out = new(string)
+		**out = **in
+	}
 	if in.SampleRate != nil {
 		in, out := &in.SampleRate, &out.SampleRate
 		*out = new(float64)
@@ -26028,6 +28241,22 @@ func (in *LogConfigParameters) DeepCopyInto(out *LogConfigParameters) {
 	if in.Enable != nil {
 		in, out := &in.Enable, &out.Enable
 		*out = new(bool)
+		**out = **in
+	}
+	if in.OptionalFields != nil {
+		in, out := &in.OptionalFields, &out.OptionalFields
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
+	if in.OptionalMode != nil {
+		in, out := &in.OptionalMode, &out.OptionalMode
+		*out = new(string)
 		**out = **in
 	}
 	if in.SampleRate != nil {
@@ -27600,6 +29829,81 @@ func (in *MaxScaledInReplicasParameters) DeepCopy() *MaxScaledInReplicasParamete
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *MaxStreamDurationInitParameters) DeepCopyInto(out *MaxStreamDurationInitParameters) {
+	*out = *in
+	if in.Nanos != nil {
+		in, out := &in.Nanos, &out.Nanos
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Seconds != nil {
+		in, out := &in.Seconds, &out.Seconds
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new MaxStreamDurationInitParameters.
+func (in *MaxStreamDurationInitParameters) DeepCopy() *MaxStreamDurationInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(MaxStreamDurationInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *MaxStreamDurationObservation) DeepCopyInto(out *MaxStreamDurationObservation) {
+	*out = *in
+	if in.Nanos != nil {
+		in, out := &in.Nanos, &out.Nanos
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Seconds != nil {
+		in, out := &in.Seconds, &out.Seconds
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new MaxStreamDurationObservation.
+func (in *MaxStreamDurationObservation) DeepCopy() *MaxStreamDurationObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(MaxStreamDurationObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *MaxStreamDurationParameters) DeepCopyInto(out *MaxStreamDurationParameters) {
+	*out = *in
+	if in.Nanos != nil {
+		in, out := &in.Nanos, &out.Nanos
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Seconds != nil {
+		in, out := &in.Seconds, &out.Seconds
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new MaxStreamDurationParameters.
+func (in *MaxStreamDurationParameters) DeepCopy() *MaxStreamDurationParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(MaxStreamDurationParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *Md5AuthenticationKeyInitParameters) DeepCopyInto(out *Md5AuthenticationKeyInitParameters) {
 	*out = *in
 	out.KeySecretRef = in.KeySecretRef
@@ -27657,6 +29961,81 @@ func (in *Md5AuthenticationKeyParameters) DeepCopy() *Md5AuthenticationKeyParame
 		return nil
 	}
 	out := new(Md5AuthenticationKeyParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *Md5AuthenticationKeysInitParameters) DeepCopyInto(out *Md5AuthenticationKeysInitParameters) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new Md5AuthenticationKeysInitParameters.
+func (in *Md5AuthenticationKeysInitParameters) DeepCopy() *Md5AuthenticationKeysInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(Md5AuthenticationKeysInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *Md5AuthenticationKeysObservation) DeepCopyInto(out *Md5AuthenticationKeysObservation) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new Md5AuthenticationKeysObservation.
+func (in *Md5AuthenticationKeysObservation) DeepCopy() *Md5AuthenticationKeysObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(Md5AuthenticationKeysObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *Md5AuthenticationKeysParameters) DeepCopyInto(out *Md5AuthenticationKeysParameters) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new Md5AuthenticationKeysParameters.
+func (in *Md5AuthenticationKeysParameters) DeepCopy() *Md5AuthenticationKeysParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(Md5AuthenticationKeysParameters)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -27820,9 +30199,19 @@ func (in *MetadataFiltersParameters) DeepCopy() *MetadataFiltersParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *MetricInitParameters) DeepCopyInto(out *MetricInitParameters) {
 	*out = *in
+	if in.Filter != nil {
+		in, out := &in.Filter, &out.Filter
+		*out = new(string)
+		**out = **in
+	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
 		*out = new(string)
+		**out = **in
+	}
+	if in.SingleInstanceAssignment != nil {
+		in, out := &in.SingleInstanceAssignment, &out.SingleInstanceAssignment
+		*out = new(float64)
 		**out = **in
 	}
 	if in.Target != nil {
@@ -27850,9 +30239,19 @@ func (in *MetricInitParameters) DeepCopy() *MetricInitParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *MetricObservation) DeepCopyInto(out *MetricObservation) {
 	*out = *in
+	if in.Filter != nil {
+		in, out := &in.Filter, &out.Filter
+		*out = new(string)
+		**out = **in
+	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
 		*out = new(string)
+		**out = **in
+	}
+	if in.SingleInstanceAssignment != nil {
+		in, out := &in.SingleInstanceAssignment, &out.SingleInstanceAssignment
+		*out = new(float64)
 		**out = **in
 	}
 	if in.Target != nil {
@@ -27880,9 +30279,19 @@ func (in *MetricObservation) DeepCopy() *MetricObservation {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *MetricParameters) DeepCopyInto(out *MetricParameters) {
 	*out = *in
+	if in.Filter != nil {
+		in, out := &in.Filter, &out.Filter
+		*out = new(string)
+		**out = **in
+	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
 		*out = new(string)
+		**out = **in
+	}
+	if in.SingleInstanceAssignment != nil {
+		in, out := &in.SingleInstanceAssignment, &out.SingleInstanceAssignment
+		*out = new(float64)
 		**out = **in
 	}
 	if in.Target != nil {
@@ -28531,6 +30940,11 @@ func (in *NetworkInterfaceInitParameters) DeepCopyInto(out *NetworkInterfaceInit
 		*out = new(string)
 		**out = **in
 	}
+	if in.NetworkAttachment != nil {
+		in, out := &in.NetworkAttachment, &out.NetworkAttachment
+		*out = new(string)
+		**out = **in
+	}
 	if in.NetworkIP != nil {
 		in, out := &in.NetworkIP, &out.NetworkIP
 		*out = new(string)
@@ -28642,6 +31056,11 @@ func (in *NetworkInterfaceObservation) DeepCopyInto(out *NetworkInterfaceObserva
 		*out = new(string)
 		**out = **in
 	}
+	if in.NetworkAttachment != nil {
+		in, out := &in.NetworkAttachment, &out.NetworkAttachment
+		*out = new(string)
+		**out = **in
+	}
 	if in.NetworkIP != nil {
 		in, out := &in.NetworkIP, &out.NetworkIP
 		*out = new(string)
@@ -28720,6 +31139,11 @@ func (in *NetworkInterfaceParameters) DeepCopyInto(out *NetworkInterfaceParamete
 	}
 	if in.Network != nil {
 		in, out := &in.Network, &out.Network
+		*out = new(string)
+		**out = **in
+	}
+	if in.NetworkAttachment != nil {
+		in, out := &in.NetworkAttachment, &out.NetworkAttachment
 		*out = new(string)
 		**out = **in
 	}
@@ -31166,6 +33590,11 @@ func (in *PathMatcherDefaultRouteActionInitParameters) DeepCopyInto(out *PathMat
 		*out = new(PathMatcherDefaultRouteActionFaultInjectionPolicyInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.MaxStreamDuration != nil {
+		in, out := &in.MaxStreamDuration, &out.MaxStreamDuration
+		*out = new(PathMatcherDefaultRouteActionMaxStreamDurationInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.RequestMirrorPolicy != nil {
 		in, out := &in.RequestMirrorPolicy, &out.RequestMirrorPolicy
 		*out = new(PathMatcherDefaultRouteActionRequestMirrorPolicyInitParameters)
@@ -31206,6 +33635,81 @@ func (in *PathMatcherDefaultRouteActionInitParameters) DeepCopy() *PathMatcherDe
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *PathMatcherDefaultRouteActionMaxStreamDurationInitParameters) DeepCopyInto(out *PathMatcherDefaultRouteActionMaxStreamDurationInitParameters) {
+	*out = *in
+	if in.Nanos != nil {
+		in, out := &in.Nanos, &out.Nanos
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Seconds != nil {
+		in, out := &in.Seconds, &out.Seconds
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new PathMatcherDefaultRouteActionMaxStreamDurationInitParameters.
+func (in *PathMatcherDefaultRouteActionMaxStreamDurationInitParameters) DeepCopy() *PathMatcherDefaultRouteActionMaxStreamDurationInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(PathMatcherDefaultRouteActionMaxStreamDurationInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *PathMatcherDefaultRouteActionMaxStreamDurationObservation) DeepCopyInto(out *PathMatcherDefaultRouteActionMaxStreamDurationObservation) {
+	*out = *in
+	if in.Nanos != nil {
+		in, out := &in.Nanos, &out.Nanos
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Seconds != nil {
+		in, out := &in.Seconds, &out.Seconds
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new PathMatcherDefaultRouteActionMaxStreamDurationObservation.
+func (in *PathMatcherDefaultRouteActionMaxStreamDurationObservation) DeepCopy() *PathMatcherDefaultRouteActionMaxStreamDurationObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(PathMatcherDefaultRouteActionMaxStreamDurationObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *PathMatcherDefaultRouteActionMaxStreamDurationParameters) DeepCopyInto(out *PathMatcherDefaultRouteActionMaxStreamDurationParameters) {
+	*out = *in
+	if in.Nanos != nil {
+		in, out := &in.Nanos, &out.Nanos
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Seconds != nil {
+		in, out := &in.Seconds, &out.Seconds
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new PathMatcherDefaultRouteActionMaxStreamDurationParameters.
+func (in *PathMatcherDefaultRouteActionMaxStreamDurationParameters) DeepCopy() *PathMatcherDefaultRouteActionMaxStreamDurationParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(PathMatcherDefaultRouteActionMaxStreamDurationParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *PathMatcherDefaultRouteActionObservation) DeepCopyInto(out *PathMatcherDefaultRouteActionObservation) {
 	*out = *in
 	if in.CorsPolicy != nil {
@@ -31216,6 +33720,11 @@ func (in *PathMatcherDefaultRouteActionObservation) DeepCopyInto(out *PathMatche
 	if in.FaultInjectionPolicy != nil {
 		in, out := &in.FaultInjectionPolicy, &out.FaultInjectionPolicy
 		*out = new(PathMatcherDefaultRouteActionFaultInjectionPolicyObservation)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.MaxStreamDuration != nil {
+		in, out := &in.MaxStreamDuration, &out.MaxStreamDuration
+		*out = new(PathMatcherDefaultRouteActionMaxStreamDurationObservation)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RequestMirrorPolicy != nil {
@@ -31268,6 +33777,11 @@ func (in *PathMatcherDefaultRouteActionParameters) DeepCopyInto(out *PathMatcher
 	if in.FaultInjectionPolicy != nil {
 		in, out := &in.FaultInjectionPolicy, &out.FaultInjectionPolicy
 		*out = new(PathMatcherDefaultRouteActionFaultInjectionPolicyParameters)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.MaxStreamDuration != nil {
+		in, out := &in.MaxStreamDuration, &out.MaxStreamDuration
+		*out = new(PathMatcherDefaultRouteActionMaxStreamDurationParameters)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RequestMirrorPolicy != nil {
@@ -33740,6 +36254,11 @@ func (in *PathMatcherRouteRulesRouteActionInitParameters) DeepCopyInto(out *Path
 		*out = new(PathMatcherRouteRulesRouteActionFaultInjectionPolicyInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.MaxStreamDuration != nil {
+		in, out := &in.MaxStreamDuration, &out.MaxStreamDuration
+		*out = new(RouteRulesRouteActionMaxStreamDurationInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.RequestMirrorPolicy != nil {
 		in, out := &in.RequestMirrorPolicy, &out.RequestMirrorPolicy
 		*out = new(PathMatcherRouteRulesRouteActionRequestMirrorPolicyInitParameters)
@@ -33792,6 +36311,11 @@ func (in *PathMatcherRouteRulesRouteActionObservation) DeepCopyInto(out *PathMat
 		*out = new(PathMatcherRouteRulesRouteActionFaultInjectionPolicyObservation)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.MaxStreamDuration != nil {
+		in, out := &in.MaxStreamDuration, &out.MaxStreamDuration
+		*out = new(RouteRulesRouteActionMaxStreamDurationObservation)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.RequestMirrorPolicy != nil {
 		in, out := &in.RequestMirrorPolicy, &out.RequestMirrorPolicy
 		*out = new(PathMatcherRouteRulesRouteActionRequestMirrorPolicyObservation)
@@ -33842,6 +36366,11 @@ func (in *PathMatcherRouteRulesRouteActionParameters) DeepCopyInto(out *PathMatc
 	if in.FaultInjectionPolicy != nil {
 		in, out := &in.FaultInjectionPolicy, &out.FaultInjectionPolicy
 		*out = new(PathMatcherRouteRulesRouteActionFaultInjectionPolicyParameters)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.MaxStreamDuration != nil {
+		in, out := &in.MaxStreamDuration, &out.MaxStreamDuration
+		*out = new(RouteRulesRouteActionMaxStreamDurationParameters)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RequestMirrorPolicy != nil {
@@ -35077,6 +37606,11 @@ func (in *PathRuleRouteActionInitParameters) DeepCopyInto(out *PathRuleRouteActi
 		*out = new(PathRuleRouteActionFaultInjectionPolicyInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.MaxStreamDuration != nil {
+		in, out := &in.MaxStreamDuration, &out.MaxStreamDuration
+		*out = new(RouteActionMaxStreamDurationInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.RequestMirrorPolicy != nil {
 		in, out := &in.RequestMirrorPolicy, &out.RequestMirrorPolicy
 		*out = new(PathRuleRouteActionRequestMirrorPolicyInitParameters)
@@ -35129,6 +37663,11 @@ func (in *PathRuleRouteActionObservation) DeepCopyInto(out *PathRuleRouteActionO
 		*out = new(PathRuleRouteActionFaultInjectionPolicyObservation)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.MaxStreamDuration != nil {
+		in, out := &in.MaxStreamDuration, &out.MaxStreamDuration
+		*out = new(RouteActionMaxStreamDurationObservation)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.RequestMirrorPolicy != nil {
 		in, out := &in.RequestMirrorPolicy, &out.RequestMirrorPolicy
 		*out = new(PathRuleRouteActionRequestMirrorPolicyObservation)
@@ -35179,6 +37718,11 @@ func (in *PathRuleRouteActionParameters) DeepCopyInto(out *PathRuleRouteActionPa
 	if in.FaultInjectionPolicy != nil {
 		in, out := &in.FaultInjectionPolicy, &out.FaultInjectionPolicy
 		*out = new(PathRuleRouteActionFaultInjectionPolicyParameters)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.MaxStreamDuration != nil {
+		in, out := &in.MaxStreamDuration, &out.MaxStreamDuration
+		*out = new(RouteActionMaxStreamDurationParameters)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RequestMirrorPolicy != nil {
@@ -36471,6 +39015,81 @@ func (in *PerTryTimeoutParameters) DeepCopy() *PerTryTimeoutParameters {
 		return nil
 	}
 	out := new(PerTryTimeoutParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *PkInitParameters) DeepCopyInto(out *PkInitParameters) {
+	*out = *in
+	if in.Content != nil {
+		in, out := &in.Content, &out.Content
+		*out = new(string)
+		**out = **in
+	}
+	if in.FileType != nil {
+		in, out := &in.FileType, &out.FileType
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new PkInitParameters.
+func (in *PkInitParameters) DeepCopy() *PkInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(PkInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *PkObservation) DeepCopyInto(out *PkObservation) {
+	*out = *in
+	if in.Content != nil {
+		in, out := &in.Content, &out.Content
+		*out = new(string)
+		**out = **in
+	}
+	if in.FileType != nil {
+		in, out := &in.FileType, &out.FileType
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new PkObservation.
+func (in *PkObservation) DeepCopy() *PkObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(PkObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *PkParameters) DeepCopyInto(out *PkParameters) {
+	*out = *in
+	if in.Content != nil {
+		in, out := &in.Content, &out.Content
+		*out = new(string)
+		**out = **in
+	}
+	if in.FileType != nil {
+		in, out := &in.FileType, &out.FileType
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new PkParameters.
+func (in *PkParameters) DeepCopy() *PkParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(PkParameters)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -38550,6 +41169,13 @@ func (in *RegionBackendServiceBackendInitParameters) DeepCopyInto(out *RegionBac
 		*out = new(float64)
 		**out = **in
 	}
+	if in.CustomMetrics != nil {
+		in, out := &in.CustomMetrics, &out.CustomMetrics
+		*out = make([]BackendCustomMetricsInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -38635,6 +41261,13 @@ func (in *RegionBackendServiceBackendObservation) DeepCopyInto(out *RegionBacken
 		*out = new(float64)
 		**out = **in
 	}
+	if in.CustomMetrics != nil {
+		in, out := &in.CustomMetrics, &out.CustomMetrics
+		*out = make([]BackendCustomMetricsObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -38709,6 +41342,13 @@ func (in *RegionBackendServiceBackendParameters) DeepCopyInto(out *RegionBackend
 		in, out := &in.CapacityScaler, &out.CapacityScaler
 		*out = new(float64)
 		**out = **in
+	}
+	if in.CustomMetrics != nil {
+		in, out := &in.CustomMetrics, &out.CustomMetrics
+		*out = make([]BackendCustomMetricsParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
@@ -39428,6 +42068,81 @@ func (in *RegionBackendServiceConsistentHashParameters) DeepCopy() *RegionBacken
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *RegionBackendServiceCustomMetricsInitParameters) DeepCopyInto(out *RegionBackendServiceCustomMetricsInitParameters) {
+	*out = *in
+	if in.DryRun != nil {
+		in, out := &in.DryRun, &out.DryRun
+		*out = new(bool)
+		**out = **in
+	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new RegionBackendServiceCustomMetricsInitParameters.
+func (in *RegionBackendServiceCustomMetricsInitParameters) DeepCopy() *RegionBackendServiceCustomMetricsInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(RegionBackendServiceCustomMetricsInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *RegionBackendServiceCustomMetricsObservation) DeepCopyInto(out *RegionBackendServiceCustomMetricsObservation) {
+	*out = *in
+	if in.DryRun != nil {
+		in, out := &in.DryRun, &out.DryRun
+		*out = new(bool)
+		**out = **in
+	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new RegionBackendServiceCustomMetricsObservation.
+func (in *RegionBackendServiceCustomMetricsObservation) DeepCopy() *RegionBackendServiceCustomMetricsObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(RegionBackendServiceCustomMetricsObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *RegionBackendServiceCustomMetricsParameters) DeepCopyInto(out *RegionBackendServiceCustomMetricsParameters) {
+	*out = *in
+	if in.DryRun != nil {
+		in, out := &in.DryRun, &out.DryRun
+		*out = new(bool)
+		**out = **in
+	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new RegionBackendServiceCustomMetricsParameters.
+func (in *RegionBackendServiceCustomMetricsParameters) DeepCopy() *RegionBackendServiceCustomMetricsParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(RegionBackendServiceCustomMetricsParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *RegionBackendServiceIapInitParameters) DeepCopyInto(out *RegionBackendServiceIapInitParameters) {
 	*out = *in
 	if in.Enabled != nil {
@@ -39546,6 +42261,13 @@ func (in *RegionBackendServiceInitParameters) DeepCopyInto(out *RegionBackendSer
 		in, out := &in.ConsistentHash, &out.ConsistentHash
 		*out = new(RegionBackendServiceConsistentHashInitParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.CustomMetrics != nil {
+		in, out := &in.CustomMetrics, &out.CustomMetrics
+		*out = make([]RegionBackendServiceCustomMetricsInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
@@ -39702,6 +42424,22 @@ func (in *RegionBackendServiceLogConfigInitParameters) DeepCopyInto(out *RegionB
 		*out = new(bool)
 		**out = **in
 	}
+	if in.OptionalFields != nil {
+		in, out := &in.OptionalFields, &out.OptionalFields
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
+	if in.OptionalMode != nil {
+		in, out := &in.OptionalMode, &out.OptionalMode
+		*out = new(string)
+		**out = **in
+	}
 	if in.SampleRate != nil {
 		in, out := &in.SampleRate, &out.SampleRate
 		*out = new(float64)
@@ -39727,6 +42465,22 @@ func (in *RegionBackendServiceLogConfigObservation) DeepCopyInto(out *RegionBack
 		*out = new(bool)
 		**out = **in
 	}
+	if in.OptionalFields != nil {
+		in, out := &in.OptionalFields, &out.OptionalFields
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
+	if in.OptionalMode != nil {
+		in, out := &in.OptionalMode, &out.OptionalMode
+		*out = new(string)
+		**out = **in
+	}
 	if in.SampleRate != nil {
 		in, out := &in.SampleRate, &out.SampleRate
 		*out = new(float64)
@@ -39750,6 +42504,22 @@ func (in *RegionBackendServiceLogConfigParameters) DeepCopyInto(out *RegionBacke
 	if in.Enable != nil {
 		in, out := &in.Enable, &out.Enable
 		*out = new(bool)
+		**out = **in
+	}
+	if in.OptionalFields != nil {
+		in, out := &in.OptionalFields, &out.OptionalFields
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
+	if in.OptionalMode != nil {
+		in, out := &in.OptionalMode, &out.OptionalMode
+		*out = new(string)
 		**out = **in
 	}
 	if in.SampleRate != nil {
@@ -39808,6 +42578,13 @@ func (in *RegionBackendServiceObservation) DeepCopyInto(out *RegionBackendServic
 		in, out := &in.CreationTimestamp, &out.CreationTimestamp
 		*out = new(string)
 		**out = **in
+	}
+	if in.CustomMetrics != nil {
+		in, out := &in.CustomMetrics, &out.CustomMetrics
+		*out = make([]RegionBackendServiceCustomMetricsObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
@@ -40181,6 +42958,13 @@ func (in *RegionBackendServiceParameters) DeepCopyInto(out *RegionBackendService
 		in, out := &in.ConsistentHash, &out.ConsistentHash
 		*out = new(RegionBackendServiceConsistentHashParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.CustomMetrics != nil {
+		in, out := &in.CustomMetrics, &out.CustomMetrics
+		*out = make([]RegionBackendServiceCustomMetricsParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
@@ -40622,6 +43406,11 @@ func (in *RegionDiskDiskEncryptionKeyInitParameters) DeepCopyInto(out *RegionDis
 		*out = new(v1.SecretKeySelector)
 		**out = **in
 	}
+	if in.RsaEncryptedKeySecretRef != nil {
+		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
 }
 
 // DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new RegionDiskDiskEncryptionKeyInitParameters.
@@ -40669,6 +43458,11 @@ func (in *RegionDiskDiskEncryptionKeyParameters) DeepCopyInto(out *RegionDiskDis
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.RsaEncryptedKeySecretRef != nil {
+		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
 		*out = new(v1.SecretKeySelector)
 		**out = **in
 	}
@@ -41101,6 +43895,16 @@ func (in *RegionDiskInitParameters) DeepCopyInto(out *RegionDiskInitParameters) 
 		*out = new(RegionDiskAsyncPrimaryDiskInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.CreateSnapshotBeforeDestroy != nil {
+		in, out := &in.CreateSnapshotBeforeDestroy, &out.CreateSnapshotBeforeDestroy
+		*out = new(bool)
+		**out = **in
+	}
+	if in.CreateSnapshotBeforeDestroyPrefix != nil {
+		in, out := &in.CreateSnapshotBeforeDestroyPrefix, &out.CreateSnapshotBeforeDestroyPrefix
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -41253,6 +44057,16 @@ func (in *RegionDiskObservation) DeepCopyInto(out *RegionDiskObservation) {
 		*out = new(RegionDiskAsyncPrimaryDiskObservation)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.CreateSnapshotBeforeDestroy != nil {
+		in, out := &in.CreateSnapshotBeforeDestroy, &out.CreateSnapshotBeforeDestroy
+		*out = new(bool)
+		**out = **in
+	}
+	if in.CreateSnapshotBeforeDestroyPrefix != nil {
+		in, out := &in.CreateSnapshotBeforeDestroyPrefix, &out.CreateSnapshotBeforeDestroyPrefix
+		*out = new(string)
+		**out = **in
+	}
 	if in.CreationTimestamp != nil {
 		in, out := &in.CreationTimestamp, &out.CreationTimestamp
 		*out = new(string)
@@ -41267,6 +44081,11 @@ func (in *RegionDiskObservation) DeepCopyInto(out *RegionDiskObservation) {
 		in, out := &in.DiskEncryptionKey, &out.DiskEncryptionKey
 		*out = new(RegionDiskDiskEncryptionKeyObservation)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.DiskID != nil {
+		in, out := &in.DiskID, &out.DiskID
+		*out = new(string)
+		**out = **in
 	}
 	if in.EffectiveLabels != nil {
 		in, out := &in.EffectiveLabels, &out.EffectiveLabels
@@ -41450,6 +44269,16 @@ func (in *RegionDiskParameters) DeepCopyInto(out *RegionDiskParameters) {
 		in, out := &in.AsyncPrimaryDisk, &out.AsyncPrimaryDisk
 		*out = new(RegionDiskAsyncPrimaryDiskParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.CreateSnapshotBeforeDestroy != nil {
+		in, out := &in.CreateSnapshotBeforeDestroy, &out.CreateSnapshotBeforeDestroy
+		*out = new(bool)
+		**out = **in
+	}
+	if in.CreateSnapshotBeforeDestroyPrefix != nil {
+		in, out := &in.CreateSnapshotBeforeDestroyPrefix, &out.CreateSnapshotBeforeDestroyPrefix
+		*out = new(string)
+		**out = **in
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
@@ -48294,6 +51123,81 @@ func (in *RouteActionInitParameters) DeepCopy() *RouteActionInitParameters {
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *RouteActionMaxStreamDurationInitParameters) DeepCopyInto(out *RouteActionMaxStreamDurationInitParameters) {
+	*out = *in
+	if in.Nanos != nil {
+		in, out := &in.Nanos, &out.Nanos
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Seconds != nil {
+		in, out := &in.Seconds, &out.Seconds
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new RouteActionMaxStreamDurationInitParameters.
+func (in *RouteActionMaxStreamDurationInitParameters) DeepCopy() *RouteActionMaxStreamDurationInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(RouteActionMaxStreamDurationInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *RouteActionMaxStreamDurationObservation) DeepCopyInto(out *RouteActionMaxStreamDurationObservation) {
+	*out = *in
+	if in.Nanos != nil {
+		in, out := &in.Nanos, &out.Nanos
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Seconds != nil {
+		in, out := &in.Seconds, &out.Seconds
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new RouteActionMaxStreamDurationObservation.
+func (in *RouteActionMaxStreamDurationObservation) DeepCopy() *RouteActionMaxStreamDurationObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(RouteActionMaxStreamDurationObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *RouteActionMaxStreamDurationParameters) DeepCopyInto(out *RouteActionMaxStreamDurationParameters) {
+	*out = *in
+	if in.Nanos != nil {
+		in, out := &in.Nanos, &out.Nanos
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Seconds != nil {
+		in, out := &in.Seconds, &out.Seconds
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new RouteActionMaxStreamDurationParameters.
+func (in *RouteActionMaxStreamDurationParameters) DeepCopy() *RouteActionMaxStreamDurationParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(RouteActionMaxStreamDurationParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *RouteActionObservation) DeepCopyInto(out *RouteActionObservation) {
 	*out = *in
 	if in.CorsPolicy != nil {
@@ -50619,6 +53523,81 @@ func (in *RouteRulesRouteActionInitParameters) DeepCopy() *RouteRulesRouteAction
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *RouteRulesRouteActionMaxStreamDurationInitParameters) DeepCopyInto(out *RouteRulesRouteActionMaxStreamDurationInitParameters) {
+	*out = *in
+	if in.Nanos != nil {
+		in, out := &in.Nanos, &out.Nanos
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Seconds != nil {
+		in, out := &in.Seconds, &out.Seconds
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new RouteRulesRouteActionMaxStreamDurationInitParameters.
+func (in *RouteRulesRouteActionMaxStreamDurationInitParameters) DeepCopy() *RouteRulesRouteActionMaxStreamDurationInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(RouteRulesRouteActionMaxStreamDurationInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *RouteRulesRouteActionMaxStreamDurationObservation) DeepCopyInto(out *RouteRulesRouteActionMaxStreamDurationObservation) {
+	*out = *in
+	if in.Nanos != nil {
+		in, out := &in.Nanos, &out.Nanos
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Seconds != nil {
+		in, out := &in.Seconds, &out.Seconds
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new RouteRulesRouteActionMaxStreamDurationObservation.
+func (in *RouteRulesRouteActionMaxStreamDurationObservation) DeepCopy() *RouteRulesRouteActionMaxStreamDurationObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(RouteRulesRouteActionMaxStreamDurationObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *RouteRulesRouteActionMaxStreamDurationParameters) DeepCopyInto(out *RouteRulesRouteActionMaxStreamDurationParameters) {
+	*out = *in
+	if in.Nanos != nil {
+		in, out := &in.Nanos, &out.Nanos
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Seconds != nil {
+		in, out := &in.Seconds, &out.Seconds
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new RouteRulesRouteActionMaxStreamDurationParameters.
+func (in *RouteRulesRouteActionMaxStreamDurationParameters) DeepCopy() *RouteRulesRouteActionMaxStreamDurationParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(RouteRulesRouteActionMaxStreamDurationParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *RouteRulesRouteActionObservation) DeepCopyInto(out *RouteRulesRouteActionObservation) {
 	*out = *in
 	if in.CorsPolicy != nil {
@@ -51733,6 +54712,11 @@ func (in *RouterInitParameters) DeepCopyInto(out *RouterInitParameters) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.Md5AuthenticationKeys != nil {
+		in, out := &in.Md5AuthenticationKeys, &out.Md5AuthenticationKeys
+		*out = new(Md5AuthenticationKeysInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Network != nil {
 		in, out := &in.Network, &out.Network
 		*out = new(string)
@@ -51960,6 +54944,11 @@ func (in *RouterNATInitParameters) DeepCopyInto(out *RouterNATInitParameters) {
 	if in.TCPTransitoryIdleTimeoutSec != nil {
 		in, out := &in.TCPTransitoryIdleTimeoutSec, &out.TCPTransitoryIdleTimeoutSec
 		*out = new(float64)
+		**out = **in
+	}
+	if in.Type != nil {
+		in, out := &in.Type, &out.Type
+		*out = new(string)
 		**out = **in
 	}
 	if in.UDPIdleTimeoutSec != nil {
@@ -52227,6 +55216,11 @@ func (in *RouterNATObservation) DeepCopyInto(out *RouterNATObservation) {
 		*out = new(float64)
 		**out = **in
 	}
+	if in.Type != nil {
+		in, out := &in.Type, &out.Type
+		*out = new(string)
+		**out = **in
+	}
 	if in.UDPIdleTimeoutSec != nil {
 		in, out := &in.UDPIdleTimeoutSec, &out.UDPIdleTimeoutSec
 		*out = new(float64)
@@ -52402,6 +55396,11 @@ func (in *RouterNATParameters) DeepCopyInto(out *RouterNATParameters) {
 		*out = new(float64)
 		**out = **in
 	}
+	if in.Type != nil {
+		in, out := &in.Type, &out.Type
+		*out = new(string)
+		**out = **in
+	}
 	if in.UDPIdleTimeoutSec != nil {
 		in, out := &in.UDPIdleTimeoutSec, &out.UDPIdleTimeoutSec
 		*out = new(float64)
@@ -52482,6 +55481,11 @@ func (in *RouterObservation) DeepCopyInto(out *RouterObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Md5AuthenticationKeys != nil {
+		in, out := &in.Md5AuthenticationKeys, &out.Md5AuthenticationKeys
+		*out = new(Md5AuthenticationKeysObservation)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Network != nil {
 		in, out := &in.Network, &out.Network
 		*out = new(string)
@@ -52531,6 +55535,11 @@ func (in *RouterParameters) DeepCopyInto(out *RouterParameters) {
 		in, out := &in.EncryptedInterconnectRouter, &out.EncryptedInterconnectRouter
 		*out = new(bool)
 		**out = **in
+	}
+	if in.Md5AuthenticationKeys != nil {
+		in, out := &in.Md5AuthenticationKeys, &out.Md5AuthenticationKeys
+		*out = new(Md5AuthenticationKeysParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Network != nil {
 		in, out := &in.Network, &out.Network
@@ -52734,6 +55743,17 @@ func (in *RouterPeerInitParameters) DeepCopyInto(out *RouterPeerInitParameters) 
 		*out = new(bool)
 		**out = **in
 	}
+	if in.ExportPolicies != nil {
+		in, out := &in.ExportPolicies, &out.ExportPolicies
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
 	if in.IPAddress != nil {
 		in, out := &in.IPAddress, &out.IPAddress
 		*out = new(string)
@@ -52748,6 +55768,17 @@ func (in *RouterPeerInitParameters) DeepCopyInto(out *RouterPeerInitParameters) 
 		in, out := &in.IPv6NexthopAddress, &out.IPv6NexthopAddress
 		*out = new(string)
 		**out = **in
+	}
+	if in.ImportPolicies != nil {
+		in, out := &in.ImportPolicies, &out.ImportPolicies
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
 	}
 	if in.Interface != nil {
 		in, out := &in.Interface, &out.Interface
@@ -52833,6 +55864,16 @@ func (in *RouterPeerInitParameters) DeepCopyInto(out *RouterPeerInitParameters) 
 		in, out := &in.RouterApplianceInstanceSelector, &out.RouterApplianceInstanceSelector
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.ZeroAdvertisedRoutePriority != nil {
+		in, out := &in.ZeroAdvertisedRoutePriority, &out.ZeroAdvertisedRoutePriority
+		*out = new(bool)
+		**out = **in
+	}
+	if in.ZeroCustomLearnedRoutePriority != nil {
+		in, out := &in.ZeroCustomLearnedRoutePriority, &out.ZeroCustomLearnedRoutePriority
+		*out = new(bool)
+		**out = **in
 	}
 }
 
@@ -52941,6 +55982,17 @@ func (in *RouterPeerObservation) DeepCopyInto(out *RouterPeerObservation) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.ExportPolicies != nil {
+		in, out := &in.ExportPolicies, &out.ExportPolicies
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
 	if in.ID != nil {
 		in, out := &in.ID, &out.ID
 		*out = new(string)
@@ -52961,9 +56013,30 @@ func (in *RouterPeerObservation) DeepCopyInto(out *RouterPeerObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ImportPolicies != nil {
+		in, out := &in.ImportPolicies, &out.ImportPolicies
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
 	if in.Interface != nil {
 		in, out := &in.Interface, &out.Interface
 		*out = new(string)
+		**out = **in
+	}
+	if in.IsAdvertisedRoutePrioritySet != nil {
+		in, out := &in.IsAdvertisedRoutePrioritySet, &out.IsAdvertisedRoutePrioritySet
+		*out = new(bool)
+		**out = **in
+	}
+	if in.IsCustomLearnedPrioritySet != nil {
+		in, out := &in.IsCustomLearnedPrioritySet, &out.IsCustomLearnedPrioritySet
+		*out = new(bool)
 		**out = **in
 	}
 	if in.ManagementType != nil {
@@ -53014,6 +56087,16 @@ func (in *RouterPeerObservation) DeepCopyInto(out *RouterPeerObservation) {
 	if in.RouterApplianceInstance != nil {
 		in, out := &in.RouterApplianceInstance, &out.RouterApplianceInstance
 		*out = new(string)
+		**out = **in
+	}
+	if in.ZeroAdvertisedRoutePriority != nil {
+		in, out := &in.ZeroAdvertisedRoutePriority, &out.ZeroAdvertisedRoutePriority
+		*out = new(bool)
+		**out = **in
+	}
+	if in.ZeroCustomLearnedRoutePriority != nil {
+		in, out := &in.ZeroCustomLearnedRoutePriority, &out.ZeroCustomLearnedRoutePriority
+		*out = new(bool)
 		**out = **in
 	}
 }
@@ -53091,6 +56174,17 @@ func (in *RouterPeerParameters) DeepCopyInto(out *RouterPeerParameters) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.ExportPolicies != nil {
+		in, out := &in.ExportPolicies, &out.ExportPolicies
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
 	if in.IPAddress != nil {
 		in, out := &in.IPAddress, &out.IPAddress
 		*out = new(string)
@@ -53105,6 +56199,17 @@ func (in *RouterPeerParameters) DeepCopyInto(out *RouterPeerParameters) {
 		in, out := &in.IPv6NexthopAddress, &out.IPv6NexthopAddress
 		*out = new(string)
 		**out = **in
+	}
+	if in.ImportPolicies != nil {
+		in, out := &in.ImportPolicies, &out.ImportPolicies
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
 	}
 	if in.Interface != nil {
 		in, out := &in.Interface, &out.Interface
@@ -53205,6 +56310,16 @@ func (in *RouterPeerParameters) DeepCopyInto(out *RouterPeerParameters) {
 		in, out := &in.RouterSelector, &out.RouterSelector
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.ZeroAdvertisedRoutePriority != nil {
+		in, out := &in.ZeroAdvertisedRoutePriority, &out.ZeroAdvertisedRoutePriority
+		*out = new(bool)
+		**out = **in
+	}
+	if in.ZeroCustomLearnedRoutePriority != nil {
+		in, out := &in.ZeroCustomLearnedRoutePriority, &out.ZeroCustomLearnedRoutePriority
+		*out = new(bool)
+		**out = **in
 	}
 }
 
@@ -54329,6 +57444,11 @@ func (in *SchedulingInitParameters) DeepCopyInto(out *SchedulingInitParameters) 
 		*out = new(string)
 		**out = **in
 	}
+	if in.TerminationTime != nil {
+		in, out := &in.TerminationTime, &out.TerminationTime
+		*out = new(string)
+		**out = **in
+	}
 }
 
 // DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new SchedulingInitParameters.
@@ -54659,6 +57779,11 @@ func (in *SchedulingObservation) DeepCopyInto(out *SchedulingObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.TerminationTime != nil {
+		in, out := &in.TerminationTime, &out.TerminationTime
+		*out = new(string)
+		**out = **in
+	}
 }
 
 // DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new SchedulingObservation.
@@ -54788,6 +57913,11 @@ func (in *SchedulingParameters) DeepCopyInto(out *SchedulingParameters) {
 	}
 	if in.ProvisioningModel != nil {
 		in, out := &in.ProvisioningModel, &out.ProvisioningModel
+		*out = new(string)
+		**out = **in
+	}
+	if in.TerminationTime != nil {
+		in, out := &in.TerminationTime, &out.TerminationTime
 		*out = new(string)
 		**out = **in
 	}
@@ -55851,6 +58981,129 @@ func (in *ShieldedInstanceConfigParameters) DeepCopy() *ShieldedInstanceConfigPa
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ShieldedInstanceInitialStateInitParameters) DeepCopyInto(out *ShieldedInstanceInitialStateInitParameters) {
+	*out = *in
+	if in.Dbs != nil {
+		in, out := &in.Dbs, &out.Dbs
+		*out = make([]DbsInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.Dbxs != nil {
+		in, out := &in.Dbxs, &out.Dbxs
+		*out = make([]DbxsInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.Keks != nil {
+		in, out := &in.Keks, &out.Keks
+		*out = make([]KeksInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.Pk != nil {
+		in, out := &in.Pk, &out.Pk
+		*out = new(PkInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ShieldedInstanceInitialStateInitParameters.
+func (in *ShieldedInstanceInitialStateInitParameters) DeepCopy() *ShieldedInstanceInitialStateInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(ShieldedInstanceInitialStateInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ShieldedInstanceInitialStateObservation) DeepCopyInto(out *ShieldedInstanceInitialStateObservation) {
+	*out = *in
+	if in.Dbs != nil {
+		in, out := &in.Dbs, &out.Dbs
+		*out = make([]DbsObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.Dbxs != nil {
+		in, out := &in.Dbxs, &out.Dbxs
+		*out = make([]DbxsObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.Keks != nil {
+		in, out := &in.Keks, &out.Keks
+		*out = make([]KeksObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.Pk != nil {
+		in, out := &in.Pk, &out.Pk
+		*out = new(PkObservation)
+		(*in).DeepCopyInto(*out)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ShieldedInstanceInitialStateObservation.
+func (in *ShieldedInstanceInitialStateObservation) DeepCopy() *ShieldedInstanceInitialStateObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(ShieldedInstanceInitialStateObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ShieldedInstanceInitialStateParameters) DeepCopyInto(out *ShieldedInstanceInitialStateParameters) {
+	*out = *in
+	if in.Dbs != nil {
+		in, out := &in.Dbs, &out.Dbs
+		*out = make([]DbsParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.Dbxs != nil {
+		in, out := &in.Dbxs, &out.Dbxs
+		*out = make([]DbxsParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.Keks != nil {
+		in, out := &in.Keks, &out.Keks
+		*out = make([]KeksParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.Pk != nil {
+		in, out := &in.Pk, &out.Pk
+		*out = new(PkParameters)
+		(*in).DeepCopyInto(*out)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ShieldedInstanceInitialStateParameters.
+func (in *ShieldedInstanceInitialStateParameters) DeepCopy() *ShieldedInstanceInitialStateParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(ShieldedInstanceInitialStateParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *Snapshot) DeepCopyInto(out *Snapshot) {
 	*out = *in
 	out.TypeMeta = in.TypeMeta
@@ -55892,6 +59145,11 @@ func (in *SnapshotEncryptionKeyInitParameters) DeepCopyInto(out *SnapshotEncrypt
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.RsaEncryptedKeySecretRef != nil {
+		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
 		*out = new(v1.SecretKeySelector)
 		**out = **in
 	}
@@ -55952,6 +59210,11 @@ func (in *SnapshotEncryptionKeyParameters) DeepCopyInto(out *SnapshotEncryptionK
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.RsaEncryptedKeySecretRef != nil {
+		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
 		*out = new(v1.SecretKeySelector)
 		**out = **in
 	}
@@ -56327,7 +59590,7 @@ func (in *SnapshotInitParameters) DeepCopyInto(out *SnapshotInitParameters) {
 	}
 	if in.SourceDiskEncryptionKey != nil {
 		in, out := &in.SourceDiskEncryptionKey, &out.SourceDiskEncryptionKey
-		*out = new(SourceDiskEncryptionKeyInitParameters)
+		*out = new(SnapshotSourceDiskEncryptionKeyInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceDiskRef != nil {
@@ -56503,7 +59766,7 @@ func (in *SnapshotObservation) DeepCopyInto(out *SnapshotObservation) {
 	}
 	if in.SourceDiskEncryptionKey != nil {
 		in, out := &in.SourceDiskEncryptionKey, &out.SourceDiskEncryptionKey
-		*out = new(SourceDiskEncryptionKeyObservation)
+		*out = new(SnapshotSourceDiskEncryptionKeyObservation)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.StorageBytes != nil {
@@ -56601,7 +59864,7 @@ func (in *SnapshotParameters) DeepCopyInto(out *SnapshotParameters) {
 	}
 	if in.SourceDiskEncryptionKey != nil {
 		in, out := &in.SourceDiskEncryptionKey, &out.SourceDiskEncryptionKey
-		*out = new(SourceDiskEncryptionKeyParameters)
+		*out = new(SnapshotSourceDiskEncryptionKeyParameters)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceDiskRef != nil {
@@ -56889,6 +60152,101 @@ func (in *SnapshotSchedulePolicyParameters) DeepCopy() *SnapshotSchedulePolicyPa
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *SnapshotSourceDiskEncryptionKeyInitParameters) DeepCopyInto(out *SnapshotSourceDiskEncryptionKeyInitParameters) {
+	*out = *in
+	if in.KMSKeySelfLink != nil {
+		in, out := &in.KMSKeySelfLink, &out.KMSKeySelfLink
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyServiceAccount != nil {
+		in, out := &in.KMSKeyServiceAccount, &out.KMSKeyServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+	if in.RawKeySecretRef != nil {
+		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.RsaEncryptedKeySecretRef != nil {
+		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new SnapshotSourceDiskEncryptionKeyInitParameters.
+func (in *SnapshotSourceDiskEncryptionKeyInitParameters) DeepCopy() *SnapshotSourceDiskEncryptionKeyInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(SnapshotSourceDiskEncryptionKeyInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *SnapshotSourceDiskEncryptionKeyObservation) DeepCopyInto(out *SnapshotSourceDiskEncryptionKeyObservation) {
+	*out = *in
+	if in.KMSKeySelfLink != nil {
+		in, out := &in.KMSKeySelfLink, &out.KMSKeySelfLink
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyServiceAccount != nil {
+		in, out := &in.KMSKeyServiceAccount, &out.KMSKeyServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new SnapshotSourceDiskEncryptionKeyObservation.
+func (in *SnapshotSourceDiskEncryptionKeyObservation) DeepCopy() *SnapshotSourceDiskEncryptionKeyObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(SnapshotSourceDiskEncryptionKeyObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *SnapshotSourceDiskEncryptionKeyParameters) DeepCopyInto(out *SnapshotSourceDiskEncryptionKeyParameters) {
+	*out = *in
+	if in.KMSKeySelfLink != nil {
+		in, out := &in.KMSKeySelfLink, &out.KMSKeySelfLink
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyServiceAccount != nil {
+		in, out := &in.KMSKeyServiceAccount, &out.KMSKeyServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+	if in.RawKeySecretRef != nil {
+		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.RsaEncryptedKeySecretRef != nil {
+		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new SnapshotSourceDiskEncryptionKeyParameters.
+func (in *SnapshotSourceDiskEncryptionKeyParameters) DeepCopy() *SnapshotSourceDiskEncryptionKeyParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(SnapshotSourceDiskEncryptionKeyParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *SnapshotSpec) DeepCopyInto(out *SnapshotSpec) {
 	*out = *in
 	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
@@ -56926,6 +60284,11 @@ func (in *SnapshotStatus) DeepCopy() *SnapshotStatus {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *SourceDiskEncryptionKeyInitParameters) DeepCopyInto(out *SourceDiskEncryptionKeyInitParameters) {
 	*out = *in
+	if in.KMSKeySelfLink != nil {
+		in, out := &in.KMSKeySelfLink, &out.KMSKeySelfLink
+		*out = new(string)
+		**out = **in
+	}
 	if in.KMSKeyServiceAccount != nil {
 		in, out := &in.KMSKeyServiceAccount, &out.KMSKeyServiceAccount
 		*out = new(string)
@@ -56933,6 +60296,11 @@ func (in *SourceDiskEncryptionKeyInitParameters) DeepCopyInto(out *SourceDiskEnc
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.RsaEncryptedKeySecretRef != nil {
+		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
 		*out = new(v1.SecretKeySelector)
 		**out = **in
 	}
@@ -56951,6 +60319,11 @@ func (in *SourceDiskEncryptionKeyInitParameters) DeepCopy() *SourceDiskEncryptio
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *SourceDiskEncryptionKeyObservation) DeepCopyInto(out *SourceDiskEncryptionKeyObservation) {
 	*out = *in
+	if in.KMSKeySelfLink != nil {
+		in, out := &in.KMSKeySelfLink, &out.KMSKeySelfLink
+		*out = new(string)
+		**out = **in
+	}
 	if in.KMSKeyServiceAccount != nil {
 		in, out := &in.KMSKeyServiceAccount, &out.KMSKeyServiceAccount
 		*out = new(string)
@@ -56971,6 +60344,11 @@ func (in *SourceDiskEncryptionKeyObservation) DeepCopy() *SourceDiskEncryptionKe
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *SourceDiskEncryptionKeyParameters) DeepCopyInto(out *SourceDiskEncryptionKeyParameters) {
 	*out = *in
+	if in.KMSKeySelfLink != nil {
+		in, out := &in.KMSKeySelfLink, &out.KMSKeySelfLink
+		*out = new(string)
+		**out = **in
+	}
 	if in.KMSKeyServiceAccount != nil {
 		in, out := &in.KMSKeyServiceAccount, &out.KMSKeyServiceAccount
 		*out = new(string)
@@ -56978,6 +60356,11 @@ func (in *SourceDiskEncryptionKeyParameters) DeepCopyInto(out *SourceDiskEncrypt
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.RsaEncryptedKeySecretRef != nil {
+		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
 		*out = new(v1.SecretKeySelector)
 		**out = **in
 	}
@@ -58517,6 +61900,11 @@ func (in *SubnetworkInitParameters_2) DeepCopyInto(out *SubnetworkInitParameters
 		*out = new(string)
 		**out = **in
 	}
+	if in.EnableFlowLogs != nil {
+		in, out := &in.EnableFlowLogs, &out.EnableFlowLogs
+		*out = new(bool)
+		**out = **in
+	}
 	if in.ExternalIPv6Prefix != nil {
 		in, out := &in.ExternalIPv6Prefix, &out.ExternalIPv6Prefix
 		*out = new(string)
@@ -58524,6 +61912,11 @@ func (in *SubnetworkInitParameters_2) DeepCopyInto(out *SubnetworkInitParameters
 	}
 	if in.IPCidrRange != nil {
 		in, out := &in.IPCidrRange, &out.IPCidrRange
+		*out = new(string)
+		**out = **in
+	}
+	if in.IPCollection != nil {
+		in, out := &in.IPCollection, &out.IPCollection
 		*out = new(string)
 		**out = **in
 	}
@@ -58836,6 +62229,11 @@ func (in *SubnetworkObservation_2) DeepCopyInto(out *SubnetworkObservation_2) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.EnableFlowLogs != nil {
+		in, out := &in.EnableFlowLogs, &out.EnableFlowLogs
+		*out = new(bool)
+		**out = **in
+	}
 	if in.ExternalIPv6Prefix != nil {
 		in, out := &in.ExternalIPv6Prefix, &out.ExternalIPv6Prefix
 		*out = new(string)
@@ -58861,6 +62259,11 @@ func (in *SubnetworkObservation_2) DeepCopyInto(out *SubnetworkObservation_2) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.IPCollection != nil {
+		in, out := &in.IPCollection, &out.IPCollection
+		*out = new(string)
+		**out = **in
+	}
 	if in.IPv6AccessType != nil {
 		in, out := &in.IPv6AccessType, &out.IPv6AccessType
 		*out = new(string)
@@ -58868,6 +62271,11 @@ func (in *SubnetworkObservation_2) DeepCopyInto(out *SubnetworkObservation_2) {
 	}
 	if in.IPv6CidrRange != nil {
 		in, out := &in.IPv6CidrRange, &out.IPv6CidrRange
+		*out = new(string)
+		**out = **in
+	}
+	if in.IPv6GceEndpoint != nil {
+		in, out := &in.IPv6GceEndpoint, &out.IPv6GceEndpoint
 		*out = new(string)
 		**out = **in
 	}
@@ -58940,6 +62348,11 @@ func (in *SubnetworkObservation_2) DeepCopyInto(out *SubnetworkObservation_2) {
 	}
 	if in.StackType != nil {
 		in, out := &in.StackType, &out.StackType
+		*out = new(string)
+		**out = **in
+	}
+	if in.State != nil {
+		in, out := &in.State, &out.State
 		*out = new(string)
 		**out = **in
 	}
@@ -59020,6 +62433,11 @@ func (in *SubnetworkParameters_2) DeepCopyInto(out *SubnetworkParameters_2) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.EnableFlowLogs != nil {
+		in, out := &in.EnableFlowLogs, &out.EnableFlowLogs
+		*out = new(bool)
+		**out = **in
+	}
 	if in.ExternalIPv6Prefix != nil {
 		in, out := &in.ExternalIPv6Prefix, &out.ExternalIPv6Prefix
 		*out = new(string)
@@ -59027,6 +62445,11 @@ func (in *SubnetworkParameters_2) DeepCopyInto(out *SubnetworkParameters_2) {
 	}
 	if in.IPCidrRange != nil {
 		in, out := &in.IPCidrRange, &out.IPCidrRange
+		*out = new(string)
+		**out = **in
+	}
+	if in.IPCollection != nil {
+		in, out := &in.IPCollection, &out.IPCollection
 		*out = new(string)
 		**out = **in
 	}
@@ -60015,6 +63438,11 @@ func (in *URLMapDefaultRouteActionInitParameters) DeepCopyInto(out *URLMapDefaul
 		*out = new(DefaultRouteActionFaultInjectionPolicyInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.MaxStreamDuration != nil {
+		in, out := &in.MaxStreamDuration, &out.MaxStreamDuration
+		*out = new(DefaultRouteActionMaxStreamDurationInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.RequestMirrorPolicy != nil {
 		in, out := &in.RequestMirrorPolicy, &out.RequestMirrorPolicy
 		*out = new(DefaultRouteActionRequestMirrorPolicyInitParameters)
@@ -60067,6 +63495,11 @@ func (in *URLMapDefaultRouteActionObservation) DeepCopyInto(out *URLMapDefaultRo
 		*out = new(DefaultRouteActionFaultInjectionPolicyObservation)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.MaxStreamDuration != nil {
+		in, out := &in.MaxStreamDuration, &out.MaxStreamDuration
+		*out = new(DefaultRouteActionMaxStreamDurationObservation)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.RequestMirrorPolicy != nil {
 		in, out := &in.RequestMirrorPolicy, &out.RequestMirrorPolicy
 		*out = new(DefaultRouteActionRequestMirrorPolicyObservation)
@@ -60117,6 +63550,11 @@ func (in *URLMapDefaultRouteActionParameters) DeepCopyInto(out *URLMapDefaultRou
 	if in.FaultInjectionPolicy != nil {
 		in, out := &in.FaultInjectionPolicy, &out.FaultInjectionPolicy
 		*out = new(DefaultRouteActionFaultInjectionPolicyParameters)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.MaxStreamDuration != nil {
+		in, out := &in.MaxStreamDuration, &out.MaxStreamDuration
+		*out = new(DefaultRouteActionMaxStreamDurationParameters)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RequestMirrorPolicy != nil {

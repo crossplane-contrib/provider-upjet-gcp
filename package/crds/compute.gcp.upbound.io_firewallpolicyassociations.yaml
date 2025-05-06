@@ -155,7 +155,12 @@ spec:
                         type: object
                     type: object
                   firewallPolicy:
-                    description: The firewall policy of the resource.
+                    description: |-
+                      The firewall policy of the resource.
+                      This field can be updated to refer to a different Firewall Policy, which will create a new association from that new
+                      firewall policy with the flag to override the existing attachmentTarget's policy association.
+                      Note Due to potential risks with this operation it is highly recommended to use the create_before_destroy life cycle option
+                      on your exisiting firewall policy so as to prevent a situation where your attachment target has no associated policy.
                     type: string
                   firewallPolicyRef:
                     description: Reference to a FirewallPolicy in compute to populate
@@ -330,7 +335,12 @@ spec:
                         type: object
                     type: object
                   firewallPolicy:
-                    description: The firewall policy of the resource.
+                    description: |-
+                      The firewall policy of the resource.
+                      This field can be updated to refer to a different Firewall Policy, which will create a new association from that new
+                      firewall policy with the flag to override the existing attachmentTarget's policy association.
+                      Note Due to potential risks with this operation it is highly recommended to use the create_before_destroy life cycle option
+                      on your exisiting firewall policy so as to prevent a situation where your attachment target has no associated policy.
                     type: string
                   firewallPolicyRef:
                     description: Reference to a FirewallPolicy in compute to populate
@@ -594,7 +604,12 @@ spec:
                     description: The target that the firewall policy is attached to.
                     type: string
                   firewallPolicy:
-                    description: The firewall policy of the resource.
+                    description: |-
+                      The firewall policy of the resource.
+                      This field can be updated to refer to a different Firewall Policy, which will create a new association from that new
+                      firewall policy with the flag to override the existing attachmentTarget's policy association.
+                      Note Due to potential risks with this operation it is highly recommended to use the create_before_destroy life cycle option
+                      on your exisiting firewall policy so as to prevent a situation where your attachment target has no associated policy.
                     type: string
                   id:
                     description: an identifier for the resource with format locations/global/firewallPolicies/{{firewall_policy}}/associations/{{name}}

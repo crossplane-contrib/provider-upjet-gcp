@@ -240,6 +240,10 @@ type RouterPeerInitParameters struct {
 	// Enable IPv6 traffic over BGP Peer. If not specified, it is disabled by default.
 	EnableIPv6 *bool `json:"enableIpv6,omitempty" tf:"enable_ipv6,omitempty"`
 
+	// routers.list of export policies applied to this peer, in the order they must be evaluated.
+	// The name must correspond to an existing policy that has ROUTE_POLICY_TYPE_EXPORT type.
+	ExportPolicies []*string `json:"exportPolicies,omitempty" tf:"export_policies,omitempty"`
+
 	// IP address of the interface inside Google Cloud Platform.
 	// Only IPv4 is supported.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
@@ -252,6 +256,10 @@ type RouterPeerInitParameters struct {
 	// If you do not specify the next hop addresses, Google Cloud automatically
 	// assigns unused addresses from the 2600:2d00:0:2::/64 or 2600:2d00:0:3::/64 range for you.
 	IPv6NexthopAddress *string `json:"ipv6NexthopAddress,omitempty" tf:"ipv6_nexthop_address,omitempty"`
+
+	// routers.list of import policies applied to this peer, in the order they must be evaluated.
+	// The name must correspond to an existing policy that has ROUTE_POLICY_TYPE_IMPORT type.
+	ImportPolicies []*string `json:"importPolicies,omitempty" tf:"import_policies,omitempty"`
 
 	// Name of the interface the BGP peer is associated with.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.RouterInterface
@@ -330,6 +338,14 @@ type RouterPeerInitParameters struct {
 	// Selector for a Instance in compute to populate routerApplianceInstance.
 	// +kubebuilder:validation:Optional
 	RouterApplianceInstanceSelector *v1.Selector `json:"routerApplianceInstanceSelector,omitempty" tf:"-"`
+
+	// The user-defined zero-advertised-route-priority for a advertised-route-priority in BGP session.
+	// This value has to be set true to force the advertised_route_priority to be 0.
+	ZeroAdvertisedRoutePriority *bool `json:"zeroAdvertisedRoutePriority,omitempty" tf:"zero_advertised_route_priority,omitempty"`
+
+	// The user-defined zero-custom-learned-route-priority for a custom-learned-route-priority in BGP session.
+	// This value has to be set true to force the custom_learned_route_priority to be 0.
+	ZeroCustomLearnedRoutePriority *bool `json:"zeroCustomLearnedRoutePriority,omitempty" tf:"zero_custom_learned_route_priority,omitempty"`
 }
 
 type RouterPeerObservation struct {
@@ -385,6 +401,10 @@ type RouterPeerObservation struct {
 	// Enable IPv6 traffic over BGP Peer. If not specified, it is disabled by default.
 	EnableIPv6 *bool `json:"enableIpv6,omitempty" tf:"enable_ipv6,omitempty"`
 
+	// routers.list of export policies applied to this peer, in the order they must be evaluated.
+	// The name must correspond to an existing policy that has ROUTE_POLICY_TYPE_EXPORT type.
+	ExportPolicies []*string `json:"exportPolicies,omitempty" tf:"export_policies,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/routers/{{router}}/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -401,8 +421,16 @@ type RouterPeerObservation struct {
 	// assigns unused addresses from the 2600:2d00:0:2::/64 or 2600:2d00:0:3::/64 range for you.
 	IPv6NexthopAddress *string `json:"ipv6NexthopAddress,omitempty" tf:"ipv6_nexthop_address,omitempty"`
 
+	// routers.list of import policies applied to this peer, in the order they must be evaluated.
+	// The name must correspond to an existing policy that has ROUTE_POLICY_TYPE_IMPORT type.
+	ImportPolicies []*string `json:"importPolicies,omitempty" tf:"import_policies,omitempty"`
+
 	// Name of the interface the BGP peer is associated with.
 	Interface *string `json:"interface,omitempty" tf:"interface,omitempty"`
+
+	IsAdvertisedRoutePrioritySet *bool `json:"isAdvertisedRoutePrioritySet,omitempty" tf:"is_advertised_route_priority_set,omitempty"`
+
+	IsCustomLearnedPrioritySet *bool `json:"isCustomLearnedPrioritySet,omitempty" tf:"is_custom_learned_priority_set,omitempty"`
 
 	// The resource that configures and manages this BGP peer.
 	ManagementType *string `json:"managementType,omitempty" tf:"management_type,omitempty"`
@@ -444,6 +472,14 @@ type RouterPeerObservation struct {
 	// The VM instance must be located in zones contained in the same region as
 	// this Cloud Router. The VM instance is the peer side of the BGP session.
 	RouterApplianceInstance *string `json:"routerApplianceInstance,omitempty" tf:"router_appliance_instance,omitempty"`
+
+	// The user-defined zero-advertised-route-priority for a advertised-route-priority in BGP session.
+	// This value has to be set true to force the advertised_route_priority to be 0.
+	ZeroAdvertisedRoutePriority *bool `json:"zeroAdvertisedRoutePriority,omitempty" tf:"zero_advertised_route_priority,omitempty"`
+
+	// The user-defined zero-custom-learned-route-priority for a custom-learned-route-priority in BGP session.
+	// This value has to be set true to force the custom_learned_route_priority to be 0.
+	ZeroCustomLearnedRoutePriority *bool `json:"zeroCustomLearnedRoutePriority,omitempty" tf:"zero_custom_learned_route_priority,omitempty"`
 }
 
 type RouterPeerParameters struct {
@@ -509,6 +545,11 @@ type RouterPeerParameters struct {
 	// +kubebuilder:validation:Optional
 	EnableIPv6 *bool `json:"enableIpv6,omitempty" tf:"enable_ipv6,omitempty"`
 
+	// routers.list of export policies applied to this peer, in the order they must be evaluated.
+	// The name must correspond to an existing policy that has ROUTE_POLICY_TYPE_EXPORT type.
+	// +kubebuilder:validation:Optional
+	ExportPolicies []*string `json:"exportPolicies,omitempty" tf:"export_policies,omitempty"`
+
 	// IP address of the interface inside Google Cloud Platform.
 	// Only IPv4 is supported.
 	// +kubebuilder:validation:Optional
@@ -524,6 +565,11 @@ type RouterPeerParameters struct {
 	// assigns unused addresses from the 2600:2d00:0:2::/64 or 2600:2d00:0:3::/64 range for you.
 	// +kubebuilder:validation:Optional
 	IPv6NexthopAddress *string `json:"ipv6NexthopAddress,omitempty" tf:"ipv6_nexthop_address,omitempty"`
+
+	// routers.list of import policies applied to this peer, in the order they must be evaluated.
+	// The name must correspond to an existing policy that has ROUTE_POLICY_TYPE_IMPORT type.
+	// +kubebuilder:validation:Optional
+	ImportPolicies []*string `json:"importPolicies,omitempty" tf:"import_policies,omitempty"`
 
 	// Name of the interface the BGP peer is associated with.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.RouterInterface
@@ -624,6 +670,16 @@ type RouterPeerParameters struct {
 	// Selector for a Router in compute to populate router.
 	// +kubebuilder:validation:Optional
 	RouterSelector *v1.Selector `json:"routerSelector,omitempty" tf:"-"`
+
+	// The user-defined zero-advertised-route-priority for a advertised-route-priority in BGP session.
+	// This value has to be set true to force the advertised_route_priority to be 0.
+	// +kubebuilder:validation:Optional
+	ZeroAdvertisedRoutePriority *bool `json:"zeroAdvertisedRoutePriority,omitempty" tf:"zero_advertised_route_priority,omitempty"`
+
+	// The user-defined zero-custom-learned-route-priority for a custom-learned-route-priority in BGP session.
+	// This value has to be set true to force the custom_learned_route_priority to be 0.
+	// +kubebuilder:validation:Optional
+	ZeroCustomLearnedRoutePriority *bool `json:"zeroCustomLearnedRoutePriority,omitempty" tf:"zero_custom_learned_route_priority,omitempty"`
 }
 
 // RouterPeerSpec defines the desired state of RouterPeer

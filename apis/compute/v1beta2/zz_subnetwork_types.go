@@ -83,6 +83,12 @@ type SubnetworkInitParameters_2 struct {
 	// creation time.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Whether to enable flow logging for this subnetwork. If this field is not explicitly set,
+	// it will not appear in get listings. If not set the default behavior is determined by the
+	// org policy, if there is no org policy specified, then it will default to disabled.
+	// This field isn't supported if the subnet purpose field is set to REGIONAL_MANAGED_PROXY.
+	EnableFlowLogs *bool `json:"enableFlowLogs,omitempty" tf:"enable_flow_logs,omitempty"`
+
 	// The range of external IPv6 addresses that are owned by this subnetwork.
 	ExternalIPv6Prefix *string `json:"externalIpv6Prefix,omitempty" tf:"external_ipv6_prefix,omitempty"`
 
@@ -92,6 +98,13 @@ type SubnetworkInitParameters_2 struct {
 	// non-overlapping within a network. Only IPv4 is supported.
 	// Field is optional when reserved_internal_range is defined, otherwise required.
 	IPCidrRange *string `json:"ipCidrRange,omitempty" tf:"ip_cidr_range,omitempty"`
+
+	// Resource reference of a PublicDelegatedPrefix. The PDP must be a sub-PDP
+	// in EXTERNAL_IPV6_SUBNETWORK_CREATION mode.
+	// Use one of the following formats to specify a sub-PDP when creating an
+	// IPv6 NetLB forwarding rule using BYOIP:
+	// Full resource URL, as in:
+	IPCollection *string `json:"ipCollection,omitempty" tf:"ip_collection,omitempty"`
 
 	// The access type of IPv6 address this subnet holds. It's immutable and can only be specified during creation
 	// or the first time the subnet is updated into IPV4_IPV6 dual stack. If the ipv6_type is EXTERNAL then this subnet
@@ -130,10 +143,11 @@ type SubnetworkInitParameters_2 struct {
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// The purpose of the resource. This field can be either PRIVATE, REGIONAL_MANAGED_PROXY, GLOBAL_MANAGED_PROXY, PRIVATE_SERVICE_CONNECT or PRIVATE_NAT(Beta).
+	// The purpose of the resource. This field can be either PRIVATE, REGIONAL_MANAGED_PROXY, GLOBAL_MANAGED_PROXY, PRIVATE_SERVICE_CONNECT, PEER_MIGRATION or PRIVATE_NAT(Beta).
 	// A subnet with purpose set to REGIONAL_MANAGED_PROXY is a user-created subnetwork that is reserved for regional Envoy-based load balancers.
 	// A subnetwork in a given region with purpose set to GLOBAL_MANAGED_PROXY is a proxy-only subnet and is shared between all the cross-regional Envoy-based load balancers.
 	// A subnetwork with purpose set to PRIVATE_SERVICE_CONNECT reserves the subnet for hosting a Private Service Connect published service.
+	// A subnetwork with purpose set to PEER_MIGRATION is a user created subnetwork that is reserved for migrating resources from one peered network to another.
 	// A subnetwork with purpose set to PRIVATE_NAT is used as source range for Private NAT gateways.
 	// Note that REGIONAL_MANAGED_PROXY is the preferred setting for all regional Envoy load balancers.
 	// If unspecified, the purpose defaults to PRIVATE.
@@ -171,7 +185,7 @@ type SubnetworkInitParameters_2 struct {
 
 	// The stack type for this subnet to identify whether the IPv6 feature is enabled or not.
 	// If not specified IPV4_ONLY will be used.
-	// Possible values are: IPV4_ONLY, IPV4_IPV6.
+	// Possible values are: IPV4_ONLY, IPV4_IPV6, IPV6_ONLY.
 	StackType *string `json:"stackType,omitempty" tf:"stack_type,omitempty"`
 }
 
@@ -295,6 +309,12 @@ type SubnetworkObservation_2 struct {
 	// creation time.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Whether to enable flow logging for this subnetwork. If this field is not explicitly set,
+	// it will not appear in get listings. If not set the default behavior is determined by the
+	// org policy, if there is no org policy specified, then it will default to disabled.
+	// This field isn't supported if the subnet purpose field is set to REGIONAL_MANAGED_PROXY.
+	EnableFlowLogs *bool `json:"enableFlowLogs,omitempty" tf:"enable_flow_logs,omitempty"`
+
 	// The range of external IPv6 addresses that are owned by this subnetwork.
 	ExternalIPv6Prefix *string `json:"externalIpv6Prefix,omitempty" tf:"external_ipv6_prefix,omitempty"`
 
@@ -314,6 +334,13 @@ type SubnetworkObservation_2 struct {
 	// Field is optional when reserved_internal_range is defined, otherwise required.
 	IPCidrRange *string `json:"ipCidrRange,omitempty" tf:"ip_cidr_range,omitempty"`
 
+	// Resource reference of a PublicDelegatedPrefix. The PDP must be a sub-PDP
+	// in EXTERNAL_IPV6_SUBNETWORK_CREATION mode.
+	// Use one of the following formats to specify a sub-PDP when creating an
+	// IPv6 NetLB forwarding rule using BYOIP:
+	// Full resource URL, as in:
+	IPCollection *string `json:"ipCollection,omitempty" tf:"ip_collection,omitempty"`
+
 	// The access type of IPv6 address this subnet holds. It's immutable and can only be specified during creation
 	// or the first time the subnet is updated into IPV4_IPV6 dual stack. If the ipv6_type is EXTERNAL then this subnet
 	// cannot enable direct path.
@@ -322,6 +349,9 @@ type SubnetworkObservation_2 struct {
 
 	// The range of internal IPv6 addresses that are owned by this subnetwork.
 	IPv6CidrRange *string `json:"ipv6CidrRange,omitempty" tf:"ipv6_cidr_range,omitempty"`
+
+	// Possible endpoints of this subnetwork. It can be one of the following:
+	IPv6GceEndpoint *string `json:"ipv6GceEndpoint,omitempty" tf:"ipv6_gce_endpoint,omitempty"`
 
 	// The internal IPv6 address range that is assigned to this subnetwork.
 	InternalIPv6Prefix *string `json:"internalIpv6Prefix,omitempty" tf:"internal_ipv6_prefix,omitempty"`
@@ -348,10 +378,11 @@ type SubnetworkObservation_2 struct {
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// The purpose of the resource. This field can be either PRIVATE, REGIONAL_MANAGED_PROXY, GLOBAL_MANAGED_PROXY, PRIVATE_SERVICE_CONNECT or PRIVATE_NAT(Beta).
+	// The purpose of the resource. This field can be either PRIVATE, REGIONAL_MANAGED_PROXY, GLOBAL_MANAGED_PROXY, PRIVATE_SERVICE_CONNECT, PEER_MIGRATION or PRIVATE_NAT(Beta).
 	// A subnet with purpose set to REGIONAL_MANAGED_PROXY is a user-created subnetwork that is reserved for regional Envoy-based load balancers.
 	// A subnetwork in a given region with purpose set to GLOBAL_MANAGED_PROXY is a proxy-only subnet and is shared between all the cross-regional Envoy-based load balancers.
 	// A subnetwork with purpose set to PRIVATE_SERVICE_CONNECT reserves the subnet for hosting a Private Service Connect published service.
+	// A subnetwork with purpose set to PEER_MIGRATION is a user created subnetwork that is reserved for migrating resources from one peered network to another.
 	// A subnetwork with purpose set to PRIVATE_NAT is used as source range for Private NAT gateways.
 	// Note that REGIONAL_MANAGED_PROXY is the preferred setting for all regional Envoy load balancers.
 	// If unspecified, the purpose defaults to PRIVATE.
@@ -395,8 +426,14 @@ type SubnetworkObservation_2 struct {
 
 	// The stack type for this subnet to identify whether the IPv6 feature is enabled or not.
 	// If not specified IPV4_ONLY will be used.
-	// Possible values are: IPV4_ONLY, IPV4_IPV6.
+	// Possible values are: IPV4_ONLY, IPV4_IPV6, IPV6_ONLY.
 	StackType *string `json:"stackType,omitempty" tf:"stack_type,omitempty"`
+
+	// 'The state of the subnetwork, which can be one of the following values:
+	// READY: Subnetwork is created and ready to use DRAINING: only applicable to subnetworks that have the purpose
+	// set to INTERNAL_HTTPS_LOAD_BALANCER and indicates that connections to the load balancer are being drained.
+	// A subnetwork that is draining cannot be used or modified until it reaches a status of READY'
+	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
 	// The unique identifier number for the resource. This identifier is defined by the server.
 	SubnetworkID *float64 `json:"subnetworkId,omitempty" tf:"subnetwork_id,omitempty"`
@@ -410,6 +447,13 @@ type SubnetworkParameters_2 struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Whether to enable flow logging for this subnetwork. If this field is not explicitly set,
+	// it will not appear in get listings. If not set the default behavior is determined by the
+	// org policy, if there is no org policy specified, then it will default to disabled.
+	// This field isn't supported if the subnet purpose field is set to REGIONAL_MANAGED_PROXY.
+	// +kubebuilder:validation:Optional
+	EnableFlowLogs *bool `json:"enableFlowLogs,omitempty" tf:"enable_flow_logs,omitempty"`
+
 	// The range of external IPv6 addresses that are owned by this subnetwork.
 	// +kubebuilder:validation:Optional
 	ExternalIPv6Prefix *string `json:"externalIpv6Prefix,omitempty" tf:"external_ipv6_prefix,omitempty"`
@@ -421,6 +465,14 @@ type SubnetworkParameters_2 struct {
 	// Field is optional when reserved_internal_range is defined, otherwise required.
 	// +kubebuilder:validation:Optional
 	IPCidrRange *string `json:"ipCidrRange,omitempty" tf:"ip_cidr_range,omitempty"`
+
+	// Resource reference of a PublicDelegatedPrefix. The PDP must be a sub-PDP
+	// in EXTERNAL_IPV6_SUBNETWORK_CREATION mode.
+	// Use one of the following formats to specify a sub-PDP when creating an
+	// IPv6 NetLB forwarding rule using BYOIP:
+	// Full resource URL, as in:
+	// +kubebuilder:validation:Optional
+	IPCollection *string `json:"ipCollection,omitempty" tf:"ip_collection,omitempty"`
 
 	// The access type of IPv6 address this subnet holds. It's immutable and can only be specified during creation
 	// or the first time the subnet is updated into IPV4_IPV6 dual stack. If the ipv6_type is EXTERNAL then this subnet
@@ -465,10 +517,11 @@ type SubnetworkParameters_2 struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// The purpose of the resource. This field can be either PRIVATE, REGIONAL_MANAGED_PROXY, GLOBAL_MANAGED_PROXY, PRIVATE_SERVICE_CONNECT or PRIVATE_NAT(Beta).
+	// The purpose of the resource. This field can be either PRIVATE, REGIONAL_MANAGED_PROXY, GLOBAL_MANAGED_PROXY, PRIVATE_SERVICE_CONNECT, PEER_MIGRATION or PRIVATE_NAT(Beta).
 	// A subnet with purpose set to REGIONAL_MANAGED_PROXY is a user-created subnetwork that is reserved for regional Envoy-based load balancers.
 	// A subnetwork in a given region with purpose set to GLOBAL_MANAGED_PROXY is a proxy-only subnet and is shared between all the cross-regional Envoy-based load balancers.
 	// A subnetwork with purpose set to PRIVATE_SERVICE_CONNECT reserves the subnet for hosting a Private Service Connect published service.
+	// A subnetwork with purpose set to PEER_MIGRATION is a user created subnetwork that is reserved for migrating resources from one peered network to another.
 	// A subnetwork with purpose set to PRIVATE_NAT is used as source range for Private NAT gateways.
 	// Note that REGIONAL_MANAGED_PROXY is the preferred setting for all regional Envoy load balancers.
 	// If unspecified, the purpose defaults to PRIVATE.
@@ -515,7 +568,7 @@ type SubnetworkParameters_2 struct {
 
 	// The stack type for this subnet to identify whether the IPv6 feature is enabled or not.
 	// If not specified IPV4_ONLY will be used.
-	// Possible values are: IPV4_ONLY, IPV4_IPV6.
+	// Possible values are: IPV4_ONLY, IPV4_IPV6, IPV6_ONLY.
 	// +kubebuilder:validation:Optional
 	StackType *string `json:"stackType,omitempty" tf:"stack_type,omitempty"`
 }

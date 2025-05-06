@@ -444,7 +444,7 @@ type InstanceGroupManagerParameters struct {
 
 type InstanceLifecyclePolicyInitParameters struct {
 
-	// , Default behavior for all instance or health check failures. Valid options are: REPAIR, DO_NOTHING. If DO_NOTHING then instances will not be repaired. If REPAIR (default), then failed instances will be repaired.
+	// , Specifies the action that a MIG performs on a failed VM. If the value of the on_failed_health_check field is DEFAULT_ACTION, then the same action also applies to the VMs on which your application fails a health check. Valid options are: DO_NOTHING, REPAIR. If DO_NOTHING, then MIG does not repair a failed VM. If REPAIR (default), then MIG automatically repairs a failed VM by recreating it. For more information, see about repairing VMs in a MIG.
 	DefaultActionOnFailure *string `json:"defaultActionOnFailure,omitempty" tf:"default_action_on_failure,omitempty"`
 
 	// , Specifies whether to apply the group's latest configuration when repairing a VM. Valid options are: YES, NO. If YES and you updated the group's instance template or per-instance configurations after the VM was created, then these changes are applied when VM is repaired. If NO (default), then updates are applied in accordance with the group's update policy type.
@@ -453,7 +453,7 @@ type InstanceLifecyclePolicyInitParameters struct {
 
 type InstanceLifecyclePolicyObservation struct {
 
-	// , Default behavior for all instance or health check failures. Valid options are: REPAIR, DO_NOTHING. If DO_NOTHING then instances will not be repaired. If REPAIR (default), then failed instances will be repaired.
+	// , Specifies the action that a MIG performs on a failed VM. If the value of the on_failed_health_check field is DEFAULT_ACTION, then the same action also applies to the VMs on which your application fails a health check. Valid options are: DO_NOTHING, REPAIR. If DO_NOTHING, then MIG does not repair a failed VM. If REPAIR (default), then MIG automatically repairs a failed VM by recreating it. For more information, see about repairing VMs in a MIG.
 	DefaultActionOnFailure *string `json:"defaultActionOnFailure,omitempty" tf:"default_action_on_failure,omitempty"`
 
 	// , Specifies whether to apply the group's latest configuration when repairing a VM. Valid options are: YES, NO. If YES and you updated the group's instance template or per-instance configurations after the VM was created, then these changes are applied when VM is repaired. If NO (default), then updates are applied in accordance with the group's update policy type.
@@ -462,7 +462,7 @@ type InstanceLifecyclePolicyObservation struct {
 
 type InstanceLifecyclePolicyParameters struct {
 
-	// , Default behavior for all instance or health check failures. Valid options are: REPAIR, DO_NOTHING. If DO_NOTHING then instances will not be repaired. If REPAIR (default), then failed instances will be repaired.
+	// , Specifies the action that a MIG performs on a failed VM. If the value of the on_failed_health_check field is DEFAULT_ACTION, then the same action also applies to the VMs on which your application fails a health check. Valid options are: DO_NOTHING, REPAIR. If DO_NOTHING, then MIG does not repair a failed VM. If REPAIR (default), then MIG automatically repairs a failed VM by recreating it. For more information, see about repairing VMs in a MIG.
 	// +kubebuilder:validation:Optional
 	DefaultActionOnFailure *string `json:"defaultActionOnFailure,omitempty" tf:"default_action_on_failure,omitempty"`
 

@@ -233,14 +233,17 @@ type CdnPolicyInitParameters struct {
 	// Possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL, CACHE_ALL_STATIC.
 	CacheMode *string `json:"cacheMode,omitempty" tf:"cache_mode,omitempty"`
 
-	// Specifies the maximum allowed TTL for cached content served by this origin.
+	// Specifies the maximum allowed TTL for cached content served by this origin. When the
+	// cache_mode is set to "USE_ORIGIN_HEADERS", you must omit this field.
 	ClientTTL *float64 `json:"clientTtl,omitempty" tf:"client_ttl,omitempty"`
 
 	// Specifies the default TTL for cached content served by this origin for responses
-	// that do not have an existing valid TTL (max-age or s-max-age).
+	// that do not have an existing valid TTL (max-age or s-max-age). When the cache_mode
+	// is set to "USE_ORIGIN_HEADERS", you must omit this field.
 	DefaultTTL *float64 `json:"defaultTtl,omitempty" tf:"default_ttl,omitempty"`
 
-	// Specifies the maximum allowed TTL for cached content served by this origin.
+	// Specifies the maximum allowed TTL for cached content served by this origin. When the
+	// cache_mode is set to "USE_ORIGIN_HEADERS", you must omit this field.
 	MaxTTL *float64 `json:"maxTtl,omitempty" tf:"max_ttl,omitempty"`
 
 	// Negative caching allows per-status code TTLs to be set, in order to apply fine-grained caching for common errors or redirects.
@@ -283,14 +286,17 @@ type CdnPolicyObservation struct {
 	// Possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL, CACHE_ALL_STATIC.
 	CacheMode *string `json:"cacheMode,omitempty" tf:"cache_mode,omitempty"`
 
-	// Specifies the maximum allowed TTL for cached content served by this origin.
+	// Specifies the maximum allowed TTL for cached content served by this origin. When the
+	// cache_mode is set to "USE_ORIGIN_HEADERS", you must omit this field.
 	ClientTTL *float64 `json:"clientTtl,omitempty" tf:"client_ttl,omitempty"`
 
 	// Specifies the default TTL for cached content served by this origin for responses
-	// that do not have an existing valid TTL (max-age or s-max-age).
+	// that do not have an existing valid TTL (max-age or s-max-age). When the cache_mode
+	// is set to "USE_ORIGIN_HEADERS", you must omit this field.
 	DefaultTTL *float64 `json:"defaultTtl,omitempty" tf:"default_ttl,omitempty"`
 
-	// Specifies the maximum allowed TTL for cached content served by this origin.
+	// Specifies the maximum allowed TTL for cached content served by this origin. When the
+	// cache_mode is set to "USE_ORIGIN_HEADERS", you must omit this field.
 	MaxTTL *float64 `json:"maxTtl,omitempty" tf:"max_ttl,omitempty"`
 
 	// Negative caching allows per-status code TTLs to be set, in order to apply fine-grained caching for common errors or redirects.
@@ -336,16 +342,19 @@ type CdnPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	CacheMode *string `json:"cacheMode,omitempty" tf:"cache_mode,omitempty"`
 
-	// Specifies the maximum allowed TTL for cached content served by this origin.
+	// Specifies the maximum allowed TTL for cached content served by this origin. When the
+	// cache_mode is set to "USE_ORIGIN_HEADERS", you must omit this field.
 	// +kubebuilder:validation:Optional
 	ClientTTL *float64 `json:"clientTtl,omitempty" tf:"client_ttl,omitempty"`
 
 	// Specifies the default TTL for cached content served by this origin for responses
-	// that do not have an existing valid TTL (max-age or s-max-age).
+	// that do not have an existing valid TTL (max-age or s-max-age). When the cache_mode
+	// is set to "USE_ORIGIN_HEADERS", you must omit this field.
 	// +kubebuilder:validation:Optional
 	DefaultTTL *float64 `json:"defaultTtl,omitempty" tf:"default_ttl,omitempty"`
 
-	// Specifies the maximum allowed TTL for cached content served by this origin.
+	// Specifies the maximum allowed TTL for cached content served by this origin. When the
+	// cache_mode is set to "USE_ORIGIN_HEADERS", you must omit this field.
 	// +kubebuilder:validation:Optional
 	MaxTTL *float64 `json:"maxTtl,omitempty" tf:"max_ttl,omitempty"`
 

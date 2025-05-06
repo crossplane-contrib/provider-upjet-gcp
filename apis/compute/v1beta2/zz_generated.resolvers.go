@@ -3465,6 +3465,29 @@ func (mg *RouterNAT) ResolveReferences(ctx context.Context, c client.Reader) err
 
 		}
 	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Rules); i3++ {
+		if mg.Spec.ForProvider.Rules[i3].Action != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Subnetwork", "SubnetworkList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+					CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.Rules[i3].Action.SourceNATActiveRanges),
+					Extract:       resource.ExtractParamPath("self_link", true),
+					References:    mg.Spec.ForProvider.Rules[i3].Action.SourceNATActiveRangesRefs,
+					Selector:      mg.Spec.ForProvider.Rules[i3].Action.SourceNATActiveRangesSelector,
+					To:            reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.Rules[i3].Action.SourceNATActiveRanges")
+			}
+			mg.Spec.ForProvider.Rules[i3].Action.SourceNATActiveRanges = reference.ToPtrValues(mrsp.ResolvedValues)
+			mg.Spec.ForProvider.Rules[i3].Action.SourceNATActiveRangesRefs = mrsp.ResolvedReferences
+
+		}
+	}
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.Subnetwork); i3++ {
 		{
 			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Subnetwork", "SubnetworkList")
@@ -3525,6 +3548,29 @@ func (mg *RouterNAT) ResolveReferences(ctx context.Context, c client.Reader) err
 			}
 			mg.Spec.InitProvider.Rules[i3].Action.SourceNATActiveIps = reference.ToPtrValues(mrsp.ResolvedValues)
 			mg.Spec.InitProvider.Rules[i3].Action.SourceNATActiveIpsRefs = mrsp.ResolvedReferences
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Rules); i3++ {
+		if mg.Spec.InitProvider.Rules[i3].Action != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Subnetwork", "SubnetworkList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+					CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.Rules[i3].Action.SourceNATActiveRanges),
+					Extract:       resource.ExtractParamPath("self_link", true),
+					References:    mg.Spec.InitProvider.Rules[i3].Action.SourceNATActiveRangesRefs,
+					Selector:      mg.Spec.InitProvider.Rules[i3].Action.SourceNATActiveRangesSelector,
+					To:            reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.Rules[i3].Action.SourceNATActiveRanges")
+			}
+			mg.Spec.InitProvider.Rules[i3].Action.SourceNATActiveRanges = reference.ToPtrValues(mrsp.ResolvedValues)
+			mg.Spec.InitProvider.Rules[i3].Action.SourceNATActiveRangesRefs = mrsp.ResolvedReferences
 
 		}
 	}

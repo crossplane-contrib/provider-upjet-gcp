@@ -96,7 +96,7 @@ type TargetHTTPSProxyInitParameters struct {
 	// Early Data allows a TLS resumption handshake to include the initial application payload
 	// (a HTTP request) alongside the handshake, reducing the effective round trips to “zero”.
 	// This applies to TLS 1.3 connections over TCP (HTTP/2) as well as over UDP (QUIC/h3).
-	// Possible values are: STRICT, PERMISSIVE, DISABLED.
+	// Possible values are: STRICT, PERMISSIVE, UNRESTRICTED, DISABLED.
 	TLSEarlyData *string `json:"tlsEarlyData,omitempty" tf:"tls_early_data,omitempty"`
 
 	// A reference to the UrlMap resource that defines the mapping from URL
@@ -200,7 +200,7 @@ type TargetHTTPSProxyObservation struct {
 	// Early Data allows a TLS resumption handshake to include the initial application payload
 	// (a HTTP request) alongside the handshake, reducing the effective round trips to “zero”.
 	// This applies to TLS 1.3 connections over TCP (HTTP/2) as well as over UDP (QUIC/h3).
-	// Possible values are: STRICT, PERMISSIVE, DISABLED.
+	// Possible values are: STRICT, PERMISSIVE, UNRESTRICTED, DISABLED.
 	TLSEarlyData *string `json:"tlsEarlyData,omitempty" tf:"tls_early_data,omitempty"`
 
 	// A reference to the UrlMap resource that defines the mapping from URL
@@ -301,7 +301,7 @@ type TargetHTTPSProxyParameters struct {
 	// Early Data allows a TLS resumption handshake to include the initial application payload
 	// (a HTTP request) alongside the handshake, reducing the effective round trips to “zero”.
 	// This applies to TLS 1.3 connections over TCP (HTTP/2) as well as over UDP (QUIC/h3).
-	// Possible values are: STRICT, PERMISSIVE, DISABLED.
+	// Possible values are: STRICT, PERMISSIVE, UNRESTRICTED, DISABLED.
 	// +kubebuilder:validation:Optional
 	TLSEarlyData *string `json:"tlsEarlyData,omitempty" tf:"tls_early_data,omitempty"`
 

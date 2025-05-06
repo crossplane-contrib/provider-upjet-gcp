@@ -29,6 +29,10 @@ type FirewallPolicyAssociationInitParameters struct {
 	AttachmentTargetSelector *v1.Selector `json:"attachmentTargetSelector,omitempty" tf:"-"`
 
 	// The firewall policy of the resource.
+	// This field can be updated to refer to a different Firewall Policy, which will create a new association from that new
+	// firewall policy with the flag to override the existing attachmentTarget's policy association.
+	// Note Due to potential risks with this operation it is highly recommended to use the create_before_destroy life cycle option
+	// on your exisiting firewall policy so as to prevent a situation where your attachment target has no associated policy.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.FirewallPolicy
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	FirewallPolicy *string `json:"firewallPolicy,omitempty" tf:"firewall_policy,omitempty"`
@@ -51,6 +55,10 @@ type FirewallPolicyAssociationObservation struct {
 	AttachmentTarget *string `json:"attachmentTarget,omitempty" tf:"attachment_target,omitempty"`
 
 	// The firewall policy of the resource.
+	// This field can be updated to refer to a different Firewall Policy, which will create a new association from that new
+	// firewall policy with the flag to override the existing attachmentTarget's policy association.
+	// Note Due to potential risks with this operation it is highly recommended to use the create_before_destroy life cycle option
+	// on your exisiting firewall policy so as to prevent a situation where your attachment target has no associated policy.
 	FirewallPolicy *string `json:"firewallPolicy,omitempty" tf:"firewall_policy,omitempty"`
 
 	// an identifier for the resource with format locations/global/firewallPolicies/{{firewall_policy}}/associations/{{name}}
@@ -80,6 +88,10 @@ type FirewallPolicyAssociationParameters struct {
 	AttachmentTargetSelector *v1.Selector `json:"attachmentTargetSelector,omitempty" tf:"-"`
 
 	// The firewall policy of the resource.
+	// This field can be updated to refer to a different Firewall Policy, which will create a new association from that new
+	// firewall policy with the flag to override the existing attachmentTarget's policy association.
+	// Note Due to potential risks with this operation it is highly recommended to use the create_before_destroy life cycle option
+	// on your exisiting firewall policy so as to prevent a situation where your attachment target has no associated policy.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.FirewallPolicy
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional

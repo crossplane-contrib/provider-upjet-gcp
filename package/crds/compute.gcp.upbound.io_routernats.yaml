@@ -1915,12 +1915,109 @@ spec:
                                       type: string
                                   type: object
                               type: object
+                            sourceNatActiveRanges:
+                              description: |-
+                                A list of URLs of the subnetworks used as source ranges for this NAT Rule.
+                                These subnetworks must have purpose set to PRIVATE_NAT.
+                                This field is used for private NAT.
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
+                            sourceNatActiveRangesRefs:
+                              description: References to Subnetwork in compute to
+                                populate sourceNatActiveRanges.
+                              items:
+                                description: A Reference to a named object.
+                                properties:
+                                  name:
+                                    description: Name of the referenced object.
+                                    type: string
+                                  policy:
+                                    description: Policies for referencing.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                required:
+                                - name
+                                type: object
+                              type: array
+                            sourceNatActiveRangesSelector:
+                              description: Selector for a list of Subnetwork in compute
+                                to populate sourceNatActiveRanges.
+                              properties:
+                                matchControllerRef:
+                                  description: |-
+                                    MatchControllerRef ensures an object with the same controller reference
+                                    as the selecting object is selected.
+                                  type: boolean
+                                matchLabels:
+                                  additionalProperties:
+                                    type: string
+                                  description: MatchLabels ensures an object with
+                                    matching labels is selected.
+                                  type: object
+                                policy:
+                                  description: Policies for selection.
+                                  properties:
+                                    resolution:
+                                      default: Required
+                                      description: |-
+                                        Resolution specifies whether resolution of this reference is required.
+                                        The default is 'Required', which means the reconcile will fail if the
+                                        reference cannot be resolved. 'Optional' means this reference will be
+                                        a no-op if it cannot be resolved.
+                                      enum:
+                                      - Required
+                                      - Optional
+                                      type: string
+                                    resolve:
+                                      description: |-
+                                        Resolve specifies when this reference should be resolved. The default
+                                        is 'IfNotPresent', which will attempt to resolve the reference only when
+                                        the corresponding field is not present. Use 'Always' to resolve the
+                                        reference on every reconcile.
+                                      enum:
+                                      - Always
+                                      - IfNotPresent
+                                      type: string
+                                  type: object
+                              type: object
                             sourceNatDrainIps:
                               description: |-
                                 A list of URLs of the IP resources to be drained.
                                 These IPs must be valid static external IPs that have been assigned to the NAT.
                                 These IPs should be used for updating/patching a NAT rule only.
                                 This field is used for public NAT.
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
+                            sourceNatDrainRanges:
+                              description: |-
+                                A list of URLs of subnetworks representing source ranges to be drained.
+                                This is only supported on patch/update, and these subnetworks must have previously been used as active ranges in this NAT Rule.
+                                This field is used for private NAT.
                               items:
                                 type: string
                               type: array
@@ -2083,6 +2180,15 @@ spec:
                       Timeout (in seconds) for TCP transitory connections.
                       Defaults to 30s if not set.
                     type: number
+                  type:
+                    description: |-
+                      Indicates whether this NAT is used for public or private IP translation.
+                      If unspecified, it defaults to PUBLIC.
+                      If PUBLIC NAT used for public IP translation.
+                      If PRIVATE NAT used for private IP translation.
+                      Default value is PUBLIC.
+                      Possible values are: PUBLIC, PRIVATE.
+                    type: string
                   udpIdleTimeoutSec:
                     description: Timeout (in seconds) for UDP connections. Defaults
                       to 30s if not set.
@@ -2377,12 +2483,109 @@ spec:
                                       type: string
                                   type: object
                               type: object
+                            sourceNatActiveRanges:
+                              description: |-
+                                A list of URLs of the subnetworks used as source ranges for this NAT Rule.
+                                These subnetworks must have purpose set to PRIVATE_NAT.
+                                This field is used for private NAT.
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
+                            sourceNatActiveRangesRefs:
+                              description: References to Subnetwork in compute to
+                                populate sourceNatActiveRanges.
+                              items:
+                                description: A Reference to a named object.
+                                properties:
+                                  name:
+                                    description: Name of the referenced object.
+                                    type: string
+                                  policy:
+                                    description: Policies for referencing.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                required:
+                                - name
+                                type: object
+                              type: array
+                            sourceNatActiveRangesSelector:
+                              description: Selector for a list of Subnetwork in compute
+                                to populate sourceNatActiveRanges.
+                              properties:
+                                matchControllerRef:
+                                  description: |-
+                                    MatchControllerRef ensures an object with the same controller reference
+                                    as the selecting object is selected.
+                                  type: boolean
+                                matchLabels:
+                                  additionalProperties:
+                                    type: string
+                                  description: MatchLabels ensures an object with
+                                    matching labels is selected.
+                                  type: object
+                                policy:
+                                  description: Policies for selection.
+                                  properties:
+                                    resolution:
+                                      default: Required
+                                      description: |-
+                                        Resolution specifies whether resolution of this reference is required.
+                                        The default is 'Required', which means the reconcile will fail if the
+                                        reference cannot be resolved. 'Optional' means this reference will be
+                                        a no-op if it cannot be resolved.
+                                      enum:
+                                      - Required
+                                      - Optional
+                                      type: string
+                                    resolve:
+                                      description: |-
+                                        Resolve specifies when this reference should be resolved. The default
+                                        is 'IfNotPresent', which will attempt to resolve the reference only when
+                                        the corresponding field is not present. Use 'Always' to resolve the
+                                        reference on every reconcile.
+                                      enum:
+                                      - Always
+                                      - IfNotPresent
+                                      type: string
+                                  type: object
+                              type: object
                             sourceNatDrainIps:
                               description: |-
                                 A list of URLs of the IP resources to be drained.
                                 These IPs must be valid static external IPs that have been assigned to the NAT.
                                 These IPs should be used for updating/patching a NAT rule only.
                                 This field is used for public NAT.
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
+                            sourceNatDrainRanges:
+                              description: |-
+                                A list of URLs of subnetworks representing source ranges to be drained.
+                                This is only supported on patch/update, and these subnetworks must have previously been used as active ranges in this NAT Rule.
+                                This field is used for private NAT.
                               items:
                                 type: string
                               type: array
@@ -2545,6 +2748,15 @@ spec:
                       Timeout (in seconds) for TCP transitory connections.
                       Defaults to 30s if not set.
                     type: number
+                  type:
+                    description: |-
+                      Indicates whether this NAT is used for public or private IP translation.
+                      If unspecified, it defaults to PUBLIC.
+                      If PUBLIC NAT used for public IP translation.
+                      If PRIVATE NAT used for private IP translation.
+                      Default value is PUBLIC.
+                      Possible values are: PUBLIC, PRIVATE.
+                    type: string
                   udpIdleTimeoutSec:
                     description: Timeout (in seconds) for UDP connections. Defaults
                       to 30s if not set.
@@ -2855,12 +3067,30 @@ spec:
                                 type: string
                               type: array
                               x-kubernetes-list-type: set
+                            sourceNatActiveRanges:
+                              description: |-
+                                A list of URLs of the subnetworks used as source ranges for this NAT Rule.
+                                These subnetworks must have purpose set to PRIVATE_NAT.
+                                This field is used for private NAT.
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
                             sourceNatDrainIps:
                               description: |-
                                 A list of URLs of the IP resources to be drained.
                                 These IPs must be valid static external IPs that have been assigned to the NAT.
                                 These IPs should be used for updating/patching a NAT rule only.
                                 This field is used for public NAT.
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
+                            sourceNatDrainRanges:
+                              description: |-
+                                A list of URLs of subnetworks representing source ranges to be drained.
+                                This is only supported on patch/update, and these subnetworks must have previously been used as active ranges in this NAT Rule.
+                                This field is used for private NAT.
                               items:
                                 type: string
                               type: array
@@ -2947,6 +3177,15 @@ spec:
                       Timeout (in seconds) for TCP transitory connections.
                       Defaults to 30s if not set.
                     type: number
+                  type:
+                    description: |-
+                      Indicates whether this NAT is used for public or private IP translation.
+                      If unspecified, it defaults to PUBLIC.
+                      If PUBLIC NAT used for public IP translation.
+                      If PRIVATE NAT used for private IP translation.
+                      Default value is PUBLIC.
+                      Possible values are: PUBLIC, PRIVATE.
+                    type: string
                   udpIdleTimeoutSec:
                     description: Timeout (in seconds) for UDP connections. Defaults
                       to 30s if not set.

@@ -22,6 +22,18 @@ type NetworkInitParameters struct {
 	// the user can explicitly connect subnetwork resources.
 	AutoCreateSubnetworks *bool `json:"autoCreateSubnetworks,omitempty" tf:"auto_create_subnetworks,omitempty"`
 
+	// Enables/disables the comparison of MED across routes with different Neighbor ASNs.
+	// This value can only be set if the --bgp-best-path-selection-mode is STANDARD
+	BGPAlwaysCompareMed *bool `json:"bgpAlwaysCompareMed,omitempty" tf:"bgp_always_compare_med,omitempty"`
+
+	// The BGP best selection algorithm to be employed. MODE can be LEGACY or STANDARD.
+	// Possible values are: LEGACY, STANDARD.
+	BGPBestPathSelectionMode *string `json:"bgpBestPathSelectionMode,omitempty" tf:"bgp_best_path_selection_mode,omitempty"`
+
+	// Choice of the behavior of inter-regional cost and MED in the BPS algorithm.
+	// Possible values are: DEFAULT, ADD_COST_TO_MED.
+	BGPInterRegionCost *string `json:"bgpInterRegionCost,omitempty" tf:"bgp_inter_region_cost,omitempty"`
+
 	// If set to true, default routes (0.0.0.0/0) will be deleted
 	// immediately after network creation. Defaults to false.
 	DeleteDefaultRoutesOnCreate *bool `json:"deleteDefaultRoutesOnCreate,omitempty" tf:"delete_default_routes_on_create,omitempty"`
@@ -53,6 +65,11 @@ type NetworkInitParameters struct {
 	// Possible values are: BEFORE_CLASSIC_FIREWALL, AFTER_CLASSIC_FIREWALL.
 	NetworkFirewallPolicyEnforcementOrder *string `json:"networkFirewallPolicyEnforcementOrder,omitempty" tf:"network_firewall_policy_enforcement_order,omitempty"`
 
+	// A full or partial URL of the network profile to apply to this network.
+	// This field can be set only at resource creation time. For example, the
+	// following are valid URLs:
+	NetworkProfile *string `json:"networkProfile,omitempty" tf:"network_profile,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -74,6 +91,18 @@ type NetworkObservation struct {
 	// When set to false, the network is created in "custom subnet mode" so
 	// the user can explicitly connect subnetwork resources.
 	AutoCreateSubnetworks *bool `json:"autoCreateSubnetworks,omitempty" tf:"auto_create_subnetworks,omitempty"`
+
+	// Enables/disables the comparison of MED across routes with different Neighbor ASNs.
+	// This value can only be set if the --bgp-best-path-selection-mode is STANDARD
+	BGPAlwaysCompareMed *bool `json:"bgpAlwaysCompareMed,omitempty" tf:"bgp_always_compare_med,omitempty"`
+
+	// The BGP best selection algorithm to be employed. MODE can be LEGACY or STANDARD.
+	// Possible values are: LEGACY, STANDARD.
+	BGPBestPathSelectionMode *string `json:"bgpBestPathSelectionMode,omitempty" tf:"bgp_best_path_selection_mode,omitempty"`
+
+	// Choice of the behavior of inter-regional cost and MED in the BPS algorithm.
+	// Possible values are: DEFAULT, ADD_COST_TO_MED.
+	BGPInterRegionCost *string `json:"bgpInterRegionCost,omitempty" tf:"bgp_inter_region_cost,omitempty"`
 
 	// If set to true, default routes (0.0.0.0/0) will be deleted
 	// immediately after network creation. Defaults to false.
@@ -116,6 +145,11 @@ type NetworkObservation struct {
 	// The unique identifier for the resource. This identifier is defined by the server.
 	NetworkID *string `json:"networkId,omitempty" tf:"network_id,omitempty"`
 
+	// A full or partial URL of the network profile to apply to this network.
+	// This field can be set only at resource creation time. For example, the
+	// following are valid URLs:
+	NetworkProfile *string `json:"networkProfile,omitempty" tf:"network_profile,omitempty"`
+
 	// (Deprecated)
 	// The unique identifier for the resource. This identifier is defined by the server.
 	NumericID *string `json:"numericId,omitempty" tf:"numeric_id,omitempty"`
@@ -145,6 +179,21 @@ type NetworkParameters struct {
 	// the user can explicitly connect subnetwork resources.
 	// +kubebuilder:validation:Optional
 	AutoCreateSubnetworks *bool `json:"autoCreateSubnetworks,omitempty" tf:"auto_create_subnetworks,omitempty"`
+
+	// Enables/disables the comparison of MED across routes with different Neighbor ASNs.
+	// This value can only be set if the --bgp-best-path-selection-mode is STANDARD
+	// +kubebuilder:validation:Optional
+	BGPAlwaysCompareMed *bool `json:"bgpAlwaysCompareMed,omitempty" tf:"bgp_always_compare_med,omitempty"`
+
+	// The BGP best selection algorithm to be employed. MODE can be LEGACY or STANDARD.
+	// Possible values are: LEGACY, STANDARD.
+	// +kubebuilder:validation:Optional
+	BGPBestPathSelectionMode *string `json:"bgpBestPathSelectionMode,omitempty" tf:"bgp_best_path_selection_mode,omitempty"`
+
+	// Choice of the behavior of inter-regional cost and MED in the BPS algorithm.
+	// Possible values are: DEFAULT, ADD_COST_TO_MED.
+	// +kubebuilder:validation:Optional
+	BGPInterRegionCost *string `json:"bgpInterRegionCost,omitempty" tf:"bgp_inter_region_cost,omitempty"`
 
 	// If set to true, default routes (0.0.0.0/0) will be deleted
 	// immediately after network creation. Defaults to false.
@@ -182,6 +231,12 @@ type NetworkParameters struct {
 	// Possible values are: BEFORE_CLASSIC_FIREWALL, AFTER_CLASSIC_FIREWALL.
 	// +kubebuilder:validation:Optional
 	NetworkFirewallPolicyEnforcementOrder *string `json:"networkFirewallPolicyEnforcementOrder,omitempty" tf:"network_firewall_policy_enforcement_order,omitempty"`
+
+	// A full or partial URL of the network profile to apply to this network.
+	// This field can be set only at resource creation time. For example, the
+	// following are valid URLs:
+	// +kubebuilder:validation:Optional
+	NetworkProfile *string `json:"networkProfile,omitempty" tf:"network_profile,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.

@@ -21,7 +21,7 @@ func (mg *InstanceFromTemplate) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this InstanceFromTemplate
 func (tr *InstanceFromTemplate) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"attached_disk[*].disk_encryption_key_raw": "attachedDisk[*].diskEncryptionKeyRawSecretRef", "boot_disk[*].disk_encryption_key_raw": "bootDisk[*].diskEncryptionKeyRawSecretRef"}
+	return map[string]string{"attached_disk[*].disk_encryption_key_raw": "attachedDisk[*].diskEncryptionKeyRawSecretRef", "attached_disk[*].disk_encryption_key_rsa": "attachedDisk[*].diskEncryptionKeyRsaSecretRef", "boot_disk[*].disk_encryption_key_raw": "bootDisk[*].diskEncryptionKeyRawSecretRef", "boot_disk[*].disk_encryption_key_rsa": "bootDisk[*].diskEncryptionKeyRsaSecretRef", "boot_disk[*].initialize_params[*].source_image_encryption_key[*].raw_key": "bootDisk[*].initializeParams[*].sourceImageEncryptionKey[*].rawKeySecretRef", "boot_disk[*].initialize_params[*].source_image_encryption_key[*].rsa_encrypted_key": "bootDisk[*].initializeParams[*].sourceImageEncryptionKey[*].rsaEncryptedKeySecretRef", "boot_disk[*].initialize_params[*].source_snapshot_encryption_key[*].raw_key": "bootDisk[*].initializeParams[*].sourceSnapshotEncryptionKey[*].rawKeySecretRef", "boot_disk[*].initialize_params[*].source_snapshot_encryption_key[*].rsa_encrypted_key": "bootDisk[*].initializeParams[*].sourceSnapshotEncryptionKey[*].rsaEncryptedKeySecretRef"}
 }
 
 // GetObservation of this InstanceFromTemplate

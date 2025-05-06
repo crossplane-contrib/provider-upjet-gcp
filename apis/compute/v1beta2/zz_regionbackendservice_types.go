@@ -13,6 +13,51 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type BackendCustomMetricsInitParameters struct {
+
+	// If true, the metric data is collected and reported to Cloud
+	// Monitoring, but is not used for load balancing.
+	DryRun *bool `json:"dryRun,omitempty" tf:"dry_run,omitempty"`
+
+	// Optional parameter to define a target utilization for the Custom Metrics
+	// balancing mode. The valid range is [0.0, 1.0].
+	MaxUtilization *float64 `json:"maxUtilization,omitempty" tf:"max_utilization,omitempty"`
+
+	// Name of the cookie.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type BackendCustomMetricsObservation struct {
+
+	// If true, the metric data is collected and reported to Cloud
+	// Monitoring, but is not used for load balancing.
+	DryRun *bool `json:"dryRun,omitempty" tf:"dry_run,omitempty"`
+
+	// Optional parameter to define a target utilization for the Custom Metrics
+	// balancing mode. The valid range is [0.0, 1.0].
+	MaxUtilization *float64 `json:"maxUtilization,omitempty" tf:"max_utilization,omitempty"`
+
+	// Name of the cookie.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type BackendCustomMetricsParameters struct {
+
+	// If true, the metric data is collected and reported to Cloud
+	// Monitoring, but is not used for load balancing.
+	// +kubebuilder:validation:Optional
+	DryRun *bool `json:"dryRun" tf:"dry_run,omitempty"`
+
+	// Optional parameter to define a target utilization for the Custom Metrics
+	// balancing mode. The valid range is [0.0, 1.0].
+	// +kubebuilder:validation:Optional
+	MaxUtilization *float64 `json:"maxUtilization,omitempty" tf:"max_utilization,omitempty"`
+
+	// Name of the cookie.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name" tf:"name,omitempty"`
+}
+
 type ConsistentHashHTTPCookieInitParameters struct {
 
 	// Name of the cookie.
@@ -274,7 +319,7 @@ type RegionBackendServiceBackendInitParameters struct {
 	// See the Backend Services Overview
 	// for an explanation of load balancing modes.
 	// Default value is UTILIZATION.
-	// Possible values are: UTILIZATION, RATE, CONNECTION.
+	// Possible values are: UTILIZATION, RATE, CONNECTION, CUSTOM_METRICS.
 	BalancingMode *string `json:"balancingMode,omitempty" tf:"balancing_mode,omitempty"`
 
 	// A multiplier applied to the group's maximum servicing capacity
@@ -286,6 +331,10 @@ type RegionBackendServiceBackendInitParameters struct {
 	// A setting of 0 means the group is completely drained, offering
 	// 0% of its available Capacity. Valid range is [0.0,1.0].
 	CapacityScaler *float64 `json:"capacityScaler,omitempty" tf:"capacity_scaler,omitempty"`
+
+	// The set of custom metrics that are used for CUSTOM_METRICS BalancingMode.
+	// Structure is documented below.
+	CustomMetrics []BackendCustomMetricsInitParameters `json:"customMetrics,omitempty" tf:"custom_metrics,omitempty"`
 
 	// An optional description of this resource.
 	// Provide this property when you create the resource.
@@ -383,7 +432,7 @@ type RegionBackendServiceBackendObservation struct {
 	// See the Backend Services Overview
 	// for an explanation of load balancing modes.
 	// Default value is UTILIZATION.
-	// Possible values are: UTILIZATION, RATE, CONNECTION.
+	// Possible values are: UTILIZATION, RATE, CONNECTION, CUSTOM_METRICS.
 	BalancingMode *string `json:"balancingMode,omitempty" tf:"balancing_mode,omitempty"`
 
 	// A multiplier applied to the group's maximum servicing capacity
@@ -395,6 +444,10 @@ type RegionBackendServiceBackendObservation struct {
 	// A setting of 0 means the group is completely drained, offering
 	// 0% of its available Capacity. Valid range is [0.0,1.0].
 	CapacityScaler *float64 `json:"capacityScaler,omitempty" tf:"capacity_scaler,omitempty"`
+
+	// The set of custom metrics that are used for CUSTOM_METRICS BalancingMode.
+	// Structure is documented below.
+	CustomMetrics []BackendCustomMetricsObservation `json:"customMetrics,omitempty" tf:"custom_metrics,omitempty"`
 
 	// An optional description of this resource.
 	// Provide this property when you create the resource.
@@ -482,7 +535,7 @@ type RegionBackendServiceBackendParameters struct {
 	// See the Backend Services Overview
 	// for an explanation of load balancing modes.
 	// Default value is UTILIZATION.
-	// Possible values are: UTILIZATION, RATE, CONNECTION.
+	// Possible values are: UTILIZATION, RATE, CONNECTION, CUSTOM_METRICS.
 	// +kubebuilder:validation:Optional
 	BalancingMode *string `json:"balancingMode,omitempty" tf:"balancing_mode,omitempty"`
 
@@ -496,6 +549,11 @@ type RegionBackendServiceBackendParameters struct {
 	// 0% of its available Capacity. Valid range is [0.0,1.0].
 	// +kubebuilder:validation:Optional
 	CapacityScaler *float64 `json:"capacityScaler,omitempty" tf:"capacity_scaler,omitempty"`
+
+	// The set of custom metrics that are used for CUSTOM_METRICS BalancingMode.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CustomMetrics []BackendCustomMetricsParameters `json:"customMetrics,omitempty" tf:"custom_metrics,omitempty"`
 
 	// An optional description of this resource.
 	// Provide this property when you create the resource.
@@ -1023,6 +1081,62 @@ type RegionBackendServiceConsistentHashParameters struct {
 	MinimumRingSize *float64 `json:"minimumRingSize,omitempty" tf:"minimum_ring_size,omitempty"`
 }
 
+type RegionBackendServiceCustomMetricsInitParameters struct {
+
+	// If true, the metric data is collected and reported to Cloud
+	// Monitoring, but is not used for load balancing.
+	DryRun *bool `json:"dryRun,omitempty" tf:"dry_run,omitempty"`
+
+	// Name of a custom utilization signal. The name must be 1-64 characters
+	// long and match the regular expression a-z? which
+	// means the first character must be a lowercase letter, and all following
+	// characters must be a dash, period, underscore, lowercase letter, or
+	// digit, except the last character, which cannot be a dash, period, or
+	// underscore. For usage guidelines, see Custom Metrics balancing mode. This
+	// field can only be used for a global or regional backend service with the
+	// loadBalancingScheme set to EXTERNAL_MANAGED,
+	// INTERNAL_MANAGED INTERNAL_SELF_MANAGED.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type RegionBackendServiceCustomMetricsObservation struct {
+
+	// If true, the metric data is collected and reported to Cloud
+	// Monitoring, but is not used for load balancing.
+	DryRun *bool `json:"dryRun,omitempty" tf:"dry_run,omitempty"`
+
+	// Name of a custom utilization signal. The name must be 1-64 characters
+	// long and match the regular expression a-z? which
+	// means the first character must be a lowercase letter, and all following
+	// characters must be a dash, period, underscore, lowercase letter, or
+	// digit, except the last character, which cannot be a dash, period, or
+	// underscore. For usage guidelines, see Custom Metrics balancing mode. This
+	// field can only be used for a global or regional backend service with the
+	// loadBalancingScheme set to EXTERNAL_MANAGED,
+	// INTERNAL_MANAGED INTERNAL_SELF_MANAGED.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type RegionBackendServiceCustomMetricsParameters struct {
+
+	// If true, the metric data is collected and reported to Cloud
+	// Monitoring, but is not used for load balancing.
+	// +kubebuilder:validation:Optional
+	DryRun *bool `json:"dryRun" tf:"dry_run,omitempty"`
+
+	// Name of a custom utilization signal. The name must be 1-64 characters
+	// long and match the regular expression a-z? which
+	// means the first character must be a lowercase letter, and all following
+	// characters must be a dash, period, underscore, lowercase letter, or
+	// digit, except the last character, which cannot be a dash, period, or
+	// underscore. For usage guidelines, see Custom Metrics balancing mode. This
+	// field can only be used for a global or regional backend service with the
+	// loadBalancingScheme set to EXTERNAL_MANAGED,
+	// INTERNAL_MANAGED INTERNAL_SELF_MANAGED.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name" tf:"name,omitempty"`
+}
+
 type RegionBackendServiceIapInitParameters struct {
 
 	// Whether the serving infrastructure will authenticate and authorize all incoming requests.
@@ -1097,6 +1211,10 @@ type RegionBackendServiceInitParameters struct {
 	// This field only applies when all of the following are true -
 	ConsistentHash *RegionBackendServiceConsistentHashInitParameters `json:"consistentHash,omitempty" tf:"consistent_hash,omitempty"`
 
+	// List of custom metrics that are used for the WEIGHTED_ROUND_ROBIN locality_lb_policy.
+	// Structure is documented below.
+	CustomMetrics []RegionBackendServiceCustomMetricsInitParameters `json:"customMetrics,omitempty" tf:"custom_metrics,omitempty"`
+
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -1129,7 +1247,8 @@ type RegionBackendServiceInitParameters struct {
 	// Possible values are: IPV4_ONLY, PREFER_IPV6, IPV6_ONLY.
 	IPAddressSelectionPolicy *string `json:"ipAddressSelectionPolicy,omitempty" tf:"ip_address_selection_policy,omitempty"`
 
-	// Settings for enabling Cloud Identity Aware Proxy
+	// Settings for enabling Cloud Identity Aware Proxy.
+	// If OAuth client is not set, Google-managed OAuth client is used.
 	// Structure is documented below.
 	Iap *RegionBackendServiceIapInitParameters `json:"iap,omitempty" tf:"iap,omitempty"`
 
@@ -1192,6 +1311,14 @@ type RegionBackendServiceLogConfigInitParameters struct {
 	// Whether to enable logging for the load balancer traffic served by this backend service.
 	Enable *bool `json:"enable,omitempty" tf:"enable,omitempty"`
 
+	// Specifies the fields to include in logging. This field can only be specified if logging is enabled for this backend service.
+	OptionalFields []*string `json:"optionalFields,omitempty" tf:"optional_fields,omitempty"`
+
+	// Specifies the optional logging mode for the load balancer traffic.
+	// Supported values: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
+	// Possible values are: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
+	OptionalMode *string `json:"optionalMode,omitempty" tf:"optional_mode,omitempty"`
+
 	// This field can only be specified if logging is enabled for this backend service. The value of
 	// the field must be in [0, 1]. This configures the sampling rate of requests to the load balancer
 	// where 1.0 means all logged requests are reported and 0.0 means no logged requests are reported.
@@ -1203,6 +1330,14 @@ type RegionBackendServiceLogConfigObservation struct {
 
 	// Whether to enable logging for the load balancer traffic served by this backend service.
 	Enable *bool `json:"enable,omitempty" tf:"enable,omitempty"`
+
+	// Specifies the fields to include in logging. This field can only be specified if logging is enabled for this backend service.
+	OptionalFields []*string `json:"optionalFields,omitempty" tf:"optional_fields,omitempty"`
+
+	// Specifies the optional logging mode for the load balancer traffic.
+	// Supported values: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
+	// Possible values are: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
+	OptionalMode *string `json:"optionalMode,omitempty" tf:"optional_mode,omitempty"`
 
 	// This field can only be specified if logging is enabled for this backend service. The value of
 	// the field must be in [0, 1]. This configures the sampling rate of requests to the load balancer
@@ -1216,6 +1351,16 @@ type RegionBackendServiceLogConfigParameters struct {
 	// Whether to enable logging for the load balancer traffic served by this backend service.
 	// +kubebuilder:validation:Optional
 	Enable *bool `json:"enable,omitempty" tf:"enable,omitempty"`
+
+	// Specifies the fields to include in logging. This field can only be specified if logging is enabled for this backend service.
+	// +kubebuilder:validation:Optional
+	OptionalFields []*string `json:"optionalFields,omitempty" tf:"optional_fields,omitempty"`
+
+	// Specifies the optional logging mode for the load balancer traffic.
+	// Supported values: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
+	// Possible values are: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
+	// +kubebuilder:validation:Optional
+	OptionalMode *string `json:"optionalMode,omitempty" tf:"optional_mode,omitempty"`
 
 	// This field can only be specified if logging is enabled for this backend service. The value of
 	// the field must be in [0, 1]. This configures the sampling rate of requests to the load balancer
@@ -1264,6 +1409,10 @@ type RegionBackendServiceObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// List of custom metrics that are used for the WEIGHTED_ROUND_ROBIN locality_lb_policy.
+	// Structure is documented below.
+	CustomMetrics []RegionBackendServiceCustomMetricsObservation `json:"customMetrics,omitempty" tf:"custom_metrics,omitempty"`
+
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -1296,7 +1445,8 @@ type RegionBackendServiceObservation struct {
 	// Possible values are: IPV4_ONLY, PREFER_IPV6, IPV6_ONLY.
 	IPAddressSelectionPolicy *string `json:"ipAddressSelectionPolicy,omitempty" tf:"ip_address_selection_policy,omitempty"`
 
-	// Settings for enabling Cloud Identity Aware Proxy
+	// Settings for enabling Cloud Identity Aware Proxy.
+	// If OAuth client is not set, Google-managed OAuth client is used.
 	// Structure is documented below.
 	Iap *RegionBackendServiceIapObservation `json:"iap,omitempty" tf:"iap,omitempty"`
 
@@ -1606,6 +1756,11 @@ type RegionBackendServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	ConsistentHash *RegionBackendServiceConsistentHashParameters `json:"consistentHash,omitempty" tf:"consistent_hash,omitempty"`
 
+	// List of custom metrics that are used for the WEIGHTED_ROUND_ROBIN locality_lb_policy.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CustomMetrics []RegionBackendServiceCustomMetricsParameters `json:"customMetrics,omitempty" tf:"custom_metrics,omitempty"`
+
 	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -1643,7 +1798,8 @@ type RegionBackendServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	IPAddressSelectionPolicy *string `json:"ipAddressSelectionPolicy,omitempty" tf:"ip_address_selection_policy,omitempty"`
 
-	// Settings for enabling Cloud Identity Aware Proxy
+	// Settings for enabling Cloud Identity Aware Proxy.
+	// If OAuth client is not set, Google-managed OAuth client is used.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Iap *RegionBackendServiceIapParameters `json:"iap,omitempty" tf:"iap,omitempty"`

@@ -275,6 +275,44 @@ type DefaultRouteActionFaultInjectionPolicyParameters struct {
 	Delay *DefaultRouteActionFaultInjectionPolicyDelayParameters `json:"delay,omitempty" tf:"delay,omitempty"`
 }
 
+type DefaultRouteActionMaxStreamDurationInitParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type DefaultRouteActionMaxStreamDurationObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type DefaultRouteActionMaxStreamDurationParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
+	// +kubebuilder:validation:Optional
+	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
+}
+
 type DefaultRouteActionRequestMirrorPolicyInitParameters struct {
 
 	// The default BackendService resource. Before
@@ -1247,6 +1285,14 @@ type PathMatcherDefaultRouteActionInitParameters struct {
 	// Structure is documented below.
 	FaultInjectionPolicy *PathMatcherDefaultRouteActionFaultInjectionPolicyInitParameters `json:"faultInjectionPolicy,omitempty" tf:"fault_injection_policy,omitempty"`
 
+	// Specifies the maximum duration (timeout) for streams on the selected route.
+	// Unlike the Timeout field where the timeout duration starts from the time the request
+	// has been fully processed (known as end-of-stream), the duration in this field
+	// is computed from the beginning of the stream until the response has been processed,
+	// including all retries. A stream that does not complete in this duration is closed.
+	// Structure is documented below.
+	MaxStreamDuration *PathMatcherDefaultRouteActionMaxStreamDurationInitParameters `json:"maxStreamDuration,omitempty" tf:"max_stream_duration,omitempty"`
+
 	// Specifies the policy on how requests intended for the route's backends are
 	// shadowed to a separate mirrored backend service. Loadbalancer does not wait for
 	// responses from the shadow service. Prior to sending traffic to the shadow
@@ -1282,6 +1328,44 @@ type PathMatcherDefaultRouteActionInitParameters struct {
 	WeightedBackendServices []PathMatcherDefaultRouteActionWeightedBackendServicesInitParameters `json:"weightedBackendServices,omitempty" tf:"weighted_backend_services,omitempty"`
 }
 
+type PathMatcherDefaultRouteActionMaxStreamDurationInitParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type PathMatcherDefaultRouteActionMaxStreamDurationObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type PathMatcherDefaultRouteActionMaxStreamDurationParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
+	// +kubebuilder:validation:Optional
+	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
+}
+
 type PathMatcherDefaultRouteActionObservation struct {
 
 	// The specification for allowing client side cross-origin requests. Please see W3C
@@ -1298,6 +1382,14 @@ type PathMatcherDefaultRouteActionObservation struct {
 	// ignored by clients that are configured with a fault_injection_policy.
 	// Structure is documented below.
 	FaultInjectionPolicy *PathMatcherDefaultRouteActionFaultInjectionPolicyObservation `json:"faultInjectionPolicy,omitempty" tf:"fault_injection_policy,omitempty"`
+
+	// Specifies the maximum duration (timeout) for streams on the selected route.
+	// Unlike the Timeout field where the timeout duration starts from the time the request
+	// has been fully processed (known as end-of-stream), the duration in this field
+	// is computed from the beginning of the stream until the response has been processed,
+	// including all retries. A stream that does not complete in this duration is closed.
+	// Structure is documented below.
+	MaxStreamDuration *PathMatcherDefaultRouteActionMaxStreamDurationObservation `json:"maxStreamDuration,omitempty" tf:"max_stream_duration,omitempty"`
 
 	// Specifies the policy on how requests intended for the route's backends are
 	// shadowed to a separate mirrored backend service. Loadbalancer does not wait for
@@ -1352,6 +1444,15 @@ type PathMatcherDefaultRouteActionParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	FaultInjectionPolicy *PathMatcherDefaultRouteActionFaultInjectionPolicyParameters `json:"faultInjectionPolicy,omitempty" tf:"fault_injection_policy,omitempty"`
+
+	// Specifies the maximum duration (timeout) for streams on the selected route.
+	// Unlike the Timeout field where the timeout duration starts from the time the request
+	// has been fully processed (known as end-of-stream), the duration in this field
+	// is computed from the beginning of the stream until the response has been processed,
+	// including all retries. A stream that does not complete in this duration is closed.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	MaxStreamDuration *PathMatcherDefaultRouteActionMaxStreamDurationParameters `json:"maxStreamDuration,omitempty" tf:"max_stream_duration,omitempty"`
 
 	// Specifies the policy on how requests intended for the route's backends are
 	// shadowed to a separate mirrored backend service. Loadbalancer does not wait for
@@ -2545,6 +2646,14 @@ type PathMatcherRouteRulesRouteActionInitParameters struct {
 	// Structure is documented below.
 	FaultInjectionPolicy *PathMatcherRouteRulesRouteActionFaultInjectionPolicyInitParameters `json:"faultInjectionPolicy,omitempty" tf:"fault_injection_policy,omitempty"`
 
+	// Specifies the maximum duration (timeout) for streams on the selected route.
+	// Unlike the Timeout field where the timeout duration starts from the time the request
+	// has been fully processed (known as end-of-stream), the duration in this field
+	// is computed from the beginning of the stream until the response has been processed,
+	// including all retries. A stream that does not complete in this duration is closed.
+	// Structure is documented below.
+	MaxStreamDuration *RouteRulesRouteActionMaxStreamDurationInitParameters `json:"maxStreamDuration,omitempty" tf:"max_stream_duration,omitempty"`
+
 	// Specifies the policy on how requests intended for the route's backends are
 	// shadowed to a separate mirrored backend service. Loadbalancer does not wait for
 	// responses from the shadow service. Prior to sending traffic to the shadow
@@ -2596,6 +2705,14 @@ type PathMatcherRouteRulesRouteActionObservation struct {
 	// ignored by clients that are configured with a fault_injection_policy.
 	// Structure is documented below.
 	FaultInjectionPolicy *PathMatcherRouteRulesRouteActionFaultInjectionPolicyObservation `json:"faultInjectionPolicy,omitempty" tf:"fault_injection_policy,omitempty"`
+
+	// Specifies the maximum duration (timeout) for streams on the selected route.
+	// Unlike the Timeout field where the timeout duration starts from the time the request
+	// has been fully processed (known as end-of-stream), the duration in this field
+	// is computed from the beginning of the stream until the response has been processed,
+	// including all retries. A stream that does not complete in this duration is closed.
+	// Structure is documented below.
+	MaxStreamDuration *RouteRulesRouteActionMaxStreamDurationObservation `json:"maxStreamDuration,omitempty" tf:"max_stream_duration,omitempty"`
 
 	// Specifies the policy on how requests intended for the route's backends are
 	// shadowed to a separate mirrored backend service. Loadbalancer does not wait for
@@ -2650,6 +2767,15 @@ type PathMatcherRouteRulesRouteActionParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	FaultInjectionPolicy *PathMatcherRouteRulesRouteActionFaultInjectionPolicyParameters `json:"faultInjectionPolicy,omitempty" tf:"fault_injection_policy,omitempty"`
+
+	// Specifies the maximum duration (timeout) for streams on the selected route.
+	// Unlike the Timeout field where the timeout duration starts from the time the request
+	// has been fully processed (known as end-of-stream), the duration in this field
+	// is computed from the beginning of the stream until the response has been processed,
+	// including all retries. A stream that does not complete in this duration is closed.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	MaxStreamDuration *RouteRulesRouteActionMaxStreamDurationParameters `json:"maxStreamDuration,omitempty" tf:"max_stream_duration,omitempty"`
 
 	// Specifies the policy on how requests intended for the route's backends are
 	// shadowed to a separate mirrored backend service. Loadbalancer does not wait for
@@ -3310,6 +3436,14 @@ type PathRuleRouteActionInitParameters struct {
 	// Structure is documented below.
 	FaultInjectionPolicy *PathRuleRouteActionFaultInjectionPolicyInitParameters `json:"faultInjectionPolicy,omitempty" tf:"fault_injection_policy,omitempty"`
 
+	// Specifies the maximum duration (timeout) for streams on the selected route.
+	// Unlike the Timeout field where the timeout duration starts from the time the request
+	// has been fully processed (known as end-of-stream), the duration in this field
+	// is computed from the beginning of the stream until the response has been processed,
+	// including all retries. A stream that does not complete in this duration is closed.
+	// Structure is documented below.
+	MaxStreamDuration *RouteActionMaxStreamDurationInitParameters `json:"maxStreamDuration,omitempty" tf:"max_stream_duration,omitempty"`
+
 	// Specifies the policy on how requests intended for the route's backends are
 	// shadowed to a separate mirrored backend service. Loadbalancer does not wait for
 	// responses from the shadow service. Prior to sending traffic to the shadow
@@ -3361,6 +3495,14 @@ type PathRuleRouteActionObservation struct {
 	// ignored by clients that are configured with a fault_injection_policy.
 	// Structure is documented below.
 	FaultInjectionPolicy *PathRuleRouteActionFaultInjectionPolicyObservation `json:"faultInjectionPolicy,omitempty" tf:"fault_injection_policy,omitempty"`
+
+	// Specifies the maximum duration (timeout) for streams on the selected route.
+	// Unlike the Timeout field where the timeout duration starts from the time the request
+	// has been fully processed (known as end-of-stream), the duration in this field
+	// is computed from the beginning of the stream until the response has been processed,
+	// including all retries. A stream that does not complete in this duration is closed.
+	// Structure is documented below.
+	MaxStreamDuration *RouteActionMaxStreamDurationObservation `json:"maxStreamDuration,omitempty" tf:"max_stream_duration,omitempty"`
 
 	// Specifies the policy on how requests intended for the route's backends are
 	// shadowed to a separate mirrored backend service. Loadbalancer does not wait for
@@ -3415,6 +3557,15 @@ type PathRuleRouteActionParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	FaultInjectionPolicy *PathRuleRouteActionFaultInjectionPolicyParameters `json:"faultInjectionPolicy,omitempty" tf:"fault_injection_policy,omitempty"`
+
+	// Specifies the maximum duration (timeout) for streams on the selected route.
+	// Unlike the Timeout field where the timeout duration starts from the time the request
+	// has been fully processed (known as end-of-stream), the duration in this field
+	// is computed from the beginning of the stream until the response has been processed,
+	// including all retries. A stream that does not complete in this duration is closed.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	MaxStreamDuration *RouteActionMaxStreamDurationParameters `json:"maxStreamDuration,omitempty" tf:"max_stream_duration,omitempty"`
 
 	// Specifies the policy on how requests intended for the route's backends are
 	// shadowed to a separate mirrored backend service. Loadbalancer does not wait for
@@ -3974,6 +4125,44 @@ type RouteActionFaultInjectionPolicyDelayFixedDelayParameters struct {
 	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
 }
 
+type RouteActionMaxStreamDurationInitParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type RouteActionMaxStreamDurationObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type RouteActionMaxStreamDurationParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
+	// +kubebuilder:validation:Optional
+	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
+}
+
 type RouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddInitParameters struct {
 
 	// The name of the header.
@@ -4407,6 +4596,44 @@ type RouteRulesRouteActionFaultInjectionPolicyDelayParameters struct {
 	Percentage *float64 `json:"percentage,omitempty" tf:"percentage,omitempty"`
 }
 
+type RouteRulesRouteActionMaxStreamDurationInitParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type RouteRulesRouteActionMaxStreamDurationObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type RouteRulesRouteActionMaxStreamDurationParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
+	// +kubebuilder:validation:Optional
+	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
+}
+
 type RouteRulesRouteActionRetryPolicyPerTryTimeoutInitParameters struct {
 
 	// Span of time that's a fraction of a second at nanosecond resolution. Durations
@@ -4614,6 +4841,14 @@ type URLMapDefaultRouteActionInitParameters struct {
 	// Structure is documented below.
 	FaultInjectionPolicy *DefaultRouteActionFaultInjectionPolicyInitParameters `json:"faultInjectionPolicy,omitempty" tf:"fault_injection_policy,omitempty"`
 
+	// Specifies the maximum duration (timeout) for streams on the selected route.
+	// Unlike the Timeout field where the timeout duration starts from the time the request
+	// has been fully processed (known as end-of-stream), the duration in this field
+	// is computed from the beginning of the stream until the response has been processed,
+	// including all retries. A stream that does not complete in this duration is closed.
+	// Structure is documented below.
+	MaxStreamDuration *DefaultRouteActionMaxStreamDurationInitParameters `json:"maxStreamDuration,omitempty" tf:"max_stream_duration,omitempty"`
+
 	// Specifies the policy on how requests intended for the route's backends are shadowed to a separate mirrored backend service.
 	// Loadbalancer does not wait for responses from the shadow service. Prior to sending traffic to the shadow service,
 	// the host / authority header is suffixed with -shadow.
@@ -4659,6 +4894,14 @@ type URLMapDefaultRouteActionObservation struct {
 	// timeout and retryPolicy will be ignored by clients that are configured with a faultInjectionPolicy.
 	// Structure is documented below.
 	FaultInjectionPolicy *DefaultRouteActionFaultInjectionPolicyObservation `json:"faultInjectionPolicy,omitempty" tf:"fault_injection_policy,omitempty"`
+
+	// Specifies the maximum duration (timeout) for streams on the selected route.
+	// Unlike the Timeout field where the timeout duration starts from the time the request
+	// has been fully processed (known as end-of-stream), the duration in this field
+	// is computed from the beginning of the stream until the response has been processed,
+	// including all retries. A stream that does not complete in this duration is closed.
+	// Structure is documented below.
+	MaxStreamDuration *DefaultRouteActionMaxStreamDurationObservation `json:"maxStreamDuration,omitempty" tf:"max_stream_duration,omitempty"`
 
 	// Specifies the policy on how requests intended for the route's backends are shadowed to a separate mirrored backend service.
 	// Loadbalancer does not wait for responses from the shadow service. Prior to sending traffic to the shadow service,
@@ -4707,6 +4950,15 @@ type URLMapDefaultRouteActionParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	FaultInjectionPolicy *DefaultRouteActionFaultInjectionPolicyParameters `json:"faultInjectionPolicy,omitempty" tf:"fault_injection_policy,omitempty"`
+
+	// Specifies the maximum duration (timeout) for streams on the selected route.
+	// Unlike the Timeout field where the timeout duration starts from the time the request
+	// has been fully processed (known as end-of-stream), the duration in this field
+	// is computed from the beginning of the stream until the response has been processed,
+	// including all retries. A stream that does not complete in this duration is closed.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	MaxStreamDuration *DefaultRouteActionMaxStreamDurationParameters `json:"maxStreamDuration,omitempty" tf:"max_stream_duration,omitempty"`
 
 	// Specifies the policy on how requests intended for the route's backends are shadowed to a separate mirrored backend service.
 	// Loadbalancer does not wait for responses from the shadow service. Prior to sending traffic to the shadow service,

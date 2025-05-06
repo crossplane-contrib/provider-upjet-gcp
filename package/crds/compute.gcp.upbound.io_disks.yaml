@@ -1333,6 +1333,8 @@ spec:
                       The accessMode of the disk.
                       For example:
                     type: string
+                  architecture:
+                    type: string
                   asyncPrimaryDisk:
                     description: |-
                       A nested object resource.
@@ -1416,6 +1418,16 @@ spec:
                             type: object
                         type: object
                     type: object
+                  createSnapshotBeforeDestroy:
+                    description: |-
+                      If set to true, a snapshot of the disk will be created before it is destroyed.
+                      If your disk is encrypted with customer managed encryption keys these will be reused for the snapshot creation.
+                      The name of the snapshot by default will be {{disk-name}}-YYYYMMDD-HHmm
+                    type: boolean
+                  createSnapshotBeforeDestroyPrefix:
+                    description: This will set a custom name prefix for the snapshot
+                      that's created when the disk is deleted.
+                    type: string
                   description:
                     description: |-
                       An optional description of this resource. Provide this property when
@@ -1532,6 +1544,21 @@ spec:
                     items:
                       type: string
                     type: array
+                  params:
+                    description: |-
+                      Additional params passed with the request, but not persisted as part of resource payload
+                      Structure is documented below.
+                    properties:
+                      resourceManagerTags:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Resource manager tags to be bound to the disk. Tag keys and values have the
+                          same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+                          and values are in the format tagValues/456.
+                        type: object
+                        x-kubernetes-map-type: granular
+                    type: object
                   physicalBlockSizeBytes:
                     description: |-
                       Physical block size of the persistent disk, in bytes. If not present
@@ -1606,6 +1633,11 @@ spec:
                           RFC 4648 base64 to either encrypt or decrypt this resource.
                         type: string
                     type: object
+                  sourceInstantSnapshot:
+                    description: |-
+                      The source instant snapshot used to create this disk. You can provide this as a partial or full URL to the resource.
+                      For example, the following are valid values:
+                    type: string
                   sourceSnapshotEncryptionKey:
                     description: |-
                       The customer-supplied encryption key of the source snapshot. Required
@@ -1632,6 +1664,14 @@ spec:
                           RFC 4648 base64 to either encrypt or decrypt this resource.
                         type: string
                     type: object
+                  sourceStorageObject:
+                    description: |-
+                      The full Google Cloud Storage URI where the disk image is stored.
+                      This file must be a gzip-compressed tarball whose name ends in .tar.gz or virtual machine disk whose name ends in vmdk.
+                      Valid URIs may start with gs:// or https://storage.googleapis.com/.
+                      This flag is not optimized for creating multiple disks from a source storage object.
+                      To create many disks from a source storage object, use gcloud compute images import instead.
+                    type: string
                   storagePool:
                     description: |-
                       The URL or the name of the storage pool in which the new disk is created.
@@ -1666,6 +1706,8 @@ spec:
                       The accessMode of the disk.
                       For example:
                     type: string
+                  architecture:
+                    type: string
                   asyncPrimaryDisk:
                     description: |-
                       A nested object resource.
@@ -1749,6 +1791,16 @@ spec:
                             type: object
                         type: object
                     type: object
+                  createSnapshotBeforeDestroy:
+                    description: |-
+                      If set to true, a snapshot of the disk will be created before it is destroyed.
+                      If your disk is encrypted with customer managed encryption keys these will be reused for the snapshot creation.
+                      The name of the snapshot by default will be {{disk-name}}-YYYYMMDD-HHmm
+                    type: boolean
+                  createSnapshotBeforeDestroyPrefix:
+                    description: This will set a custom name prefix for the snapshot
+                      that's created when the disk is deleted.
+                    type: string
                   description:
                     description: |-
                       An optional description of this resource. Provide this property when
@@ -1865,6 +1917,21 @@ spec:
                     items:
                       type: string
                     type: array
+                  params:
+                    description: |-
+                      Additional params passed with the request, but not persisted as part of resource payload
+                      Structure is documented below.
+                    properties:
+                      resourceManagerTags:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Resource manager tags to be bound to the disk. Tag keys and values have the
+                          same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+                          and values are in the format tagValues/456.
+                        type: object
+                        x-kubernetes-map-type: granular
+                    type: object
                   physicalBlockSizeBytes:
                     description: |-
                       Physical block size of the persistent disk, in bytes. If not present
@@ -1939,6 +2006,11 @@ spec:
                           RFC 4648 base64 to either encrypt or decrypt this resource.
                         type: string
                     type: object
+                  sourceInstantSnapshot:
+                    description: |-
+                      The source instant snapshot used to create this disk. You can provide this as a partial or full URL to the resource.
+                      For example, the following are valid values:
+                    type: string
                   sourceSnapshotEncryptionKey:
                     description: |-
                       The customer-supplied encryption key of the source snapshot. Required
@@ -1965,6 +2037,14 @@ spec:
                           RFC 4648 base64 to either encrypt or decrypt this resource.
                         type: string
                     type: object
+                  sourceStorageObject:
+                    description: |-
+                      The full Google Cloud Storage URI where the disk image is stored.
+                      This file must be a gzip-compressed tarball whose name ends in .tar.gz or virtual machine disk whose name ends in vmdk.
+                      Valid URIs may start with gs:// or https://storage.googleapis.com/.
+                      This flag is not optimized for creating multiple disks from a source storage object.
+                      To create many disks from a source storage object, use gcloud compute images import instead.
+                    type: string
                   storagePool:
                     description: |-
                       The URL or the name of the storage pool in which the new disk is created.
@@ -2153,6 +2233,8 @@ spec:
                       The accessMode of the disk.
                       For example:
                     type: string
+                  architecture:
+                    type: string
                   asyncPrimaryDisk:
                     description: |-
                       A nested object resource.
@@ -2162,6 +2244,16 @@ spec:
                         description: Primary disk for asynchronous disk replication.
                         type: string
                     type: object
+                  createSnapshotBeforeDestroy:
+                    description: |-
+                      If set to true, a snapshot of the disk will be created before it is destroyed.
+                      If your disk is encrypted with customer managed encryption keys these will be reused for the snapshot creation.
+                      The name of the snapshot by default will be {{disk-name}}-YYYYMMDD-HHmm
+                    type: boolean
+                  createSnapshotBeforeDestroyPrefix:
+                    description: This will set a custom name prefix for the snapshot
+                      that's created when the disk is deleted.
+                    type: string
                   creationTimestamp:
                     description: Creation timestamp in RFC3339 text format.
                     type: string
@@ -2270,6 +2362,21 @@ spec:
                     items:
                       type: string
                     type: array
+                  params:
+                    description: |-
+                      Additional params passed with the request, but not persisted as part of resource payload
+                      Structure is documented below.
+                    properties:
+                      resourceManagerTags:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Resource manager tags to be bound to the disk. Tag keys and values have the
+                          same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+                          and values are in the format tagValues/456.
+                        type: object
+                        x-kubernetes-map-type: granular
+                    type: object
                   physicalBlockSizeBytes:
                     description: |-
                       Physical block size of the persistent disk, in bytes. If not present
@@ -2367,6 +2474,19 @@ spec:
                       that was later deleted and recreated under the same name, the source
                       image ID would identify the exact version of the image that was used.
                     type: string
+                  sourceInstantSnapshot:
+                    description: |-
+                      The source instant snapshot used to create this disk. You can provide this as a partial or full URL to the resource.
+                      For example, the following are valid values:
+                    type: string
+                  sourceInstantSnapshotId:
+                    description: |-
+                      The unique ID of the instant snapshot used to create this disk. This value identifies
+                      the exact instant snapshot that was used to create this persistent disk.
+                      For example, if you created the persistent disk from an instant snapshot that was later
+                      deleted and recreated under the same name, the source instant snapshot ID would identify
+                      the exact version of the instant snapshot that was used.
+                    type: string
                   sourceSnapshotEncryptionKey:
                     description: |-
                       The customer-supplied encryption key of the source snapshot. Required
@@ -2407,6 +2527,14 @@ spec:
                       that was later deleted and recreated under the same name, the source
                       snapshot ID would identify the exact version of the snapshot that was
                       used.
+                    type: string
+                  sourceStorageObject:
+                    description: |-
+                      The full Google Cloud Storage URI where the disk image is stored.
+                      This file must be a gzip-compressed tarball whose name ends in .tar.gz or virtual machine disk whose name ends in vmdk.
+                      Valid URIs may start with gs:// or https://storage.googleapis.com/.
+                      This flag is not optimized for creating multiple disks from a source storage object.
+                      To create many disks from a source storage object, use gcloud compute images import instead.
                     type: string
                   storagePool:
                     description: |-

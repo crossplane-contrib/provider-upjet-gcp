@@ -81,6 +81,21 @@ spec:
                       When set to false, the network is created in "custom subnet mode" so
                       the user can explicitly connect subnetwork resources.
                     type: boolean
+                  bgpAlwaysCompareMed:
+                    description: |-
+                      Enables/disables the comparison of MED across routes with different Neighbor ASNs.
+                      This value can only be set if the --bgp-best-path-selection-mode is STANDARD
+                    type: boolean
+                  bgpBestPathSelectionMode:
+                    description: |-
+                      The BGP best selection algorithm to be employed. MODE can be LEGACY or STANDARD.
+                      Possible values are: LEGACY, STANDARD.
+                    type: string
+                  bgpInterRegionCost:
+                    description: |-
+                      Choice of the behavior of inter-regional cost and MED in the BPS algorithm.
+                      Possible values are: DEFAULT, ADD_COST_TO_MED.
+                    type: string
                   deleteDefaultRoutesOnCreate:
                     description: |-
                       If set to true, default routes (0.0.0.0/0) will be deleted
@@ -117,6 +132,12 @@ spec:
                       Set the order that Firewall Rules and Firewall Policies are evaluated.
                       Default value is AFTER_CLASSIC_FIREWALL.
                       Possible values are: BEFORE_CLASSIC_FIREWALL, AFTER_CLASSIC_FIREWALL.
+                    type: string
+                  networkProfile:
+                    description: |-
+                      A full or partial URL of the network profile to apply to this network.
+                      This field can be set only at resource creation time. For example, the
+                      following are valid URLs:
                     type: string
                   project:
                     description: |-
@@ -154,6 +175,21 @@ spec:
                       When set to false, the network is created in "custom subnet mode" so
                       the user can explicitly connect subnetwork resources.
                     type: boolean
+                  bgpAlwaysCompareMed:
+                    description: |-
+                      Enables/disables the comparison of MED across routes with different Neighbor ASNs.
+                      This value can only be set if the --bgp-best-path-selection-mode is STANDARD
+                    type: boolean
+                  bgpBestPathSelectionMode:
+                    description: |-
+                      The BGP best selection algorithm to be employed. MODE can be LEGACY or STANDARD.
+                      Possible values are: LEGACY, STANDARD.
+                    type: string
+                  bgpInterRegionCost:
+                    description: |-
+                      Choice of the behavior of inter-regional cost and MED in the BPS algorithm.
+                      Possible values are: DEFAULT, ADD_COST_TO_MED.
+                    type: string
                   deleteDefaultRoutesOnCreate:
                     description: |-
                       If set to true, default routes (0.0.0.0/0) will be deleted
@@ -190,6 +226,12 @@ spec:
                       Set the order that Firewall Rules and Firewall Policies are evaluated.
                       Default value is AFTER_CLASSIC_FIREWALL.
                       Possible values are: BEFORE_CLASSIC_FIREWALL, AFTER_CLASSIC_FIREWALL.
+                    type: string
+                  networkProfile:
+                    description: |-
+                      A full or partial URL of the network profile to apply to this network.
+                      This field can be set only at resource creation time. For example, the
+                      following are valid URLs:
                     type: string
                   project:
                     description: |-
@@ -386,6 +428,21 @@ spec:
                       When set to false, the network is created in "custom subnet mode" so
                       the user can explicitly connect subnetwork resources.
                     type: boolean
+                  bgpAlwaysCompareMed:
+                    description: |-
+                      Enables/disables the comparison of MED across routes with different Neighbor ASNs.
+                      This value can only be set if the --bgp-best-path-selection-mode is STANDARD
+                    type: boolean
+                  bgpBestPathSelectionMode:
+                    description: |-
+                      The BGP best selection algorithm to be employed. MODE can be LEGACY or STANDARD.
+                      Possible values are: LEGACY, STANDARD.
+                    type: string
+                  bgpInterRegionCost:
+                    description: |-
+                      Choice of the behavior of inter-regional cost and MED in the BPS algorithm.
+                      Possible values are: DEFAULT, ADD_COST_TO_MED.
+                    type: string
                   deleteDefaultRoutesOnCreate:
                     description: |-
                       If set to true, default routes (0.0.0.0/0) will be deleted
@@ -434,6 +491,12 @@ spec:
                   networkId:
                     description: The unique identifier for the resource. This identifier
                       is defined by the server.
+                    type: string
+                  networkProfile:
+                    description: |-
+                      A full or partial URL of the network profile to apply to this network.
+                      This field can be set only at resource creation time. For example, the
+                      following are valid URLs:
                     type: string
                   numericId:
                     description: |-

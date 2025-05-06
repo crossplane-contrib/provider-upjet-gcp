@@ -3286,7 +3286,8 @@ spec:
                             A 256-bit [customer-supplied encryption key]
                             (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption),
                             encoded in RFC 4648 base64
-                            to encrypt this disk. Only one of kms_key_self_link and disk_encryption_key_raw may be set.
+                            to encrypt this disk. Only one of kms_key_self_link, disk_encryption_key_rsa and disk_encryption_key_raw
+                            may be set.
                           properties:
                             key:
                               description: The key to select.
@@ -3302,11 +3303,36 @@ spec:
                           - name
                           - namespace
                           type: object
+                        diskEncryptionKeyRsaSecretRef:
+                          description: |-
+                            Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit [customer-supplied encryption key]
+                            (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) to encrypt this disk. Only one of kms_key_self_link, disk_encryption_key_rsa and disk_encryption_key_raw
+                            may be set.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                        diskEncryptionServiceAccount:
+                          description: The service account being used for the encryption
+                            request for the given KMS key. If absent, the Compute
+                            Engine default service account is used.
+                          type: string
                         kmsKeySelfLink:
                           description: |-
                             The self_link of the encryption key that is
-                            stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link
-                            and disk_encryption_key_raw may be set.
+                            stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link, disk_encryption_key_rsa and disk_encryption_key_raw
+                            may be set.
                           type: string
                         mode:
                           description: |-
@@ -3341,7 +3367,7 @@ spec:
                           A 256-bit [customer-supplied encryption key]
                           (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption),
                           encoded in RFC 4648 base64
-                          to encrypt this disk. Only one of kms_key_self_link and disk_encryption_key_raw
+                          to encrypt this disk. Only one of kms_key_self_link, disk_encryption_key_rsa and disk_encryption_key_raw
                           may be set.
                         properties:
                           key:
@@ -3358,12 +3384,48 @@ spec:
                         - name
                         - namespace
                         type: object
+                      diskEncryptionKeyRsaSecretRef:
+                        description: |-
+                          Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit [customer-supplied encryption key]
+                          (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) to encrypt this disk. Only one of kms_key_self_link, disk_encryption_key_rsa and disk_encryption_key_raw
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
+                      diskEncryptionServiceAccount:
+                        description: The service account being used for the encryption
+                          request for the given KMS key. If absent, the Compute Engine
+                          default service account is used.
+                        type: string
+                      guestOsFeatures:
+                        description: A list of features to enable on the guest operating
+                          system. Applicable only for bootable images. Read Enabling
+                          guest operating system features to see a list of available
+                          options.
+                        items:
+                          type: string
+                        type: array
                       initializeParams:
                         description: |-
                           Parameters for a new disk that will be created
                           alongside the new instance. Either initialize_params or source must be set.
                           Structure is documented below.
                         properties:
+                          architecture:
+                            description: The architecture of the attached disk. Valid
+                              values are ARM64 or x86_64.
+                            type: string
                           enableConfidentialCompute:
                             description: |-
                               Whether this disk is using confidential compute mode.
@@ -3507,6 +3569,127 @@ spec:
                               The size of the image in gigabytes. If not specified, it
                               will inherit the size of its base image.
                             type: number
+                          snapshot:
+                            description: 'The snapshot from which to initialize this
+                              disk. To create a disk with a snapshot that you created,
+                              specify the snapshot name in the following format: global/snapshots/my-backup'
+                            type: string
+                          sourceImageEncryptionKey:
+                            description: Encryption key used to decrypt the given
+                              image. Structure is documented below.
+                            properties:
+                              kmsKeySelfLink:
+                                description: |-
+                                  The self_link of the encryption key that is
+                                  stored in Google Cloud KMS to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
+                                  may be set.
+                                type: string
+                              kmsKeyServiceAccount:
+                                description: The service account being used for the
+                                  encryption request for the given KMS key. If absent,
+                                  the Compute Engine default service account is used.
+                                type: string
+                              rawKeySecretRef:
+                                description: |-
+                                  A 256-bit [customer-supplied encryption key]
+                                  (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption),
+                                  encoded in RFC 4648 base64
+                                  to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
+                                  may be set.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                              rsaEncryptedKeySecretRef:
+                                description: |-
+                                  Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit [customer-supplied encryption key]
+                                  (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
+                                  may be set.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                            type: object
+                          sourceSnapshotEncryptionKey:
+                            description: Encryption key used to decrypt the given
+                              snapshot. Structure is documented below.
+                            properties:
+                              kmsKeySelfLink:
+                                description: |-
+                                  The self_link of the encryption key that is
+                                  stored in Google Cloud KMS to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
+                                  may be set.
+                                type: string
+                              kmsKeyServiceAccount:
+                                description: The service account being used for the
+                                  encryption request for the given KMS key. If absent,
+                                  the Compute Engine default service account is used.
+                                type: string
+                              rawKeySecretRef:
+                                description: |-
+                                  A 256-bit [customer-supplied encryption key]
+                                  (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption),
+                                  encoded in RFC 4648 base64
+                                  to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
+                                  may be set.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                              rsaEncryptedKeySecretRef:
+                                description: |-
+                                  Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit [customer-supplied encryption key]
+                                  (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
+                                  may be set.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                            type: object
                           storagePool:
                             description: |-
                               The URL or the name of the storage pool in which the new disk is created.
@@ -3524,8 +3707,9 @@ spec:
                       kmsKeySelfLink:
                         description: |-
                           The self_link of the encryption key that is
-                          stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link
-                          and disk_encryption_key_raw may be set.
+                          stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link,
+                          disk_encryption_key_rsa and disk_encryption_key_raw
+                          may be set.
                         type: string
                       mode:
                         description: |-
@@ -3607,6 +3791,21 @@ spec:
                       Valid format is a series of labels 1-63 characters long matching the regular expression [a-z]([-a-z0-9]*[a-z0-9]), concatenated with periods.
                       The entire hostname must not exceed 253 characters. Changing this forces a new resource to be created.
                     type: string
+                  instanceEncryptionKey:
+                    description: Configuration for data encryption on the instance
+                      with encryption keys. Structure is documented below.
+                    properties:
+                      kmsKeySelfLink:
+                        description: |-
+                          The self_link of the encryption key that is
+                          stored in Google Cloud KMS to encrypt the data on this instance.
+                        type: string
+                      kmsKeyServiceAccount:
+                        description: The service account being used for the encryption
+                          request for the given KMS key. If absent, the Compute Engine
+                          default service account is used.
+                        type: string
+                    type: object
                   keyRevocationActionType:
                     description: Action to be taken when a customer's encryption key
                       is revoked. Supports STOP and NONE, with NONE being the default.
@@ -3751,6 +3950,10 @@ spec:
                             Either network or subnetwork must be provided. If network isn't provided it will
                             be inferred from the subnetwork.
                           type: string
+                        networkAttachment:
+                          description: 'The URL of the network attachment that this
+                            interface should connect to in the following format: projects/{projectNumber}/regions/{region_name}/networkAttachments/{network_attachment_name}.'
+                          type: string
                         networkIp:
                           description: |-
                             The private IP address to assign to the instance. If
@@ -3834,9 +4037,7 @@ spec:
                           type: object
                         nicType:
                           description: 'The type of vNIC to be used on this interface.
-                            Possible values: GVNIC, VIRTIO_NET, IDPF. In the beta
-                            provider the additional values of MRDMA and IRDMA are
-                            supported.'
+                            Possible values: GVNIC, VIRTIO_NET, IDPF, MRDMA, IRDMA.'
                           type: string
                         queueCount:
                           description: The networking queue count that's specified
@@ -3846,8 +4047,8 @@ spec:
                         stackType:
                           description: The stack type for this network interface to
                             identify whether the IPv6 feature is enabled or not. Values
-                            are IPV4_IPV6 or IPV4_ONLY. If not specified, IPV4_ONLY
-                            will be used.
+                            are IPV4_IPV6, IPV6_ONLY or IPV4_ONLY. If not specified,
+                            IPV4_ONLY will be used.
                           type: string
                         subnetwork:
                           description: |-
@@ -4033,9 +4234,12 @@ spec:
                           Can be STOP or DELETE.  Read more on here
                         type: string
                       localSsdRecoveryTimeout:
-                        description: |-
-                          io/docs/providers/google/guides/provider_versions.html) Specifies the maximum amount of time a Local Ssd Vm should wait while recovery of the Local Ssd state is attempted. Its value should be in between 0 and 168 hours with hour granularity and the default value being 1 hour. Structure is documented below.
-                          The local_ssd_recovery_timeout block supports:
+                        description: io/docs/providers/google/guides/provider_versions.html)
+                          Specifies the maximum amount of time a Local Ssd Vm should
+                          wait while recovery of the Local Ssd state is attempted.
+                          Its value should be in between 0 and 168 hours with hour
+                          granularity and the default value being 1 hour. Structure
+                          is documented below.
                         properties:
                           nanos:
                             description: |-
@@ -4046,9 +4250,8 @@ spec:
                             type: number
                           seconds:
                             description: |-
-                              Span of time at a resolution of a second. Must be from 0 to
-                              315,576,000,000 inclusive. Note: these bounds are computed from: 60
-                              sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years.
+                              Span of time at a resolution of a second.
+                              The value must be between 1 and 3600, which is 3,600 seconds (one hour).`
                             type: number
                         type: object
                       maxRunDuration:
@@ -4066,9 +4269,8 @@ spec:
                             type: number
                           seconds:
                             description: |-
-                              Span of time at a resolution of a second. Must be from 0 to
-                              315,576,000,000 inclusive. Note: these bounds are computed from: 60
-                              sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years.
+                              Span of time at a resolution of a second.
+                              The value must be between 1 and 3600, which is 3,600 seconds (one hour).`
                             type: number
                         type: object
                       minNodeCpus:
@@ -4135,6 +4337,12 @@ spec:
                           preemptible should be true and automatic_restart should be
                           false. For more info about
                           SPOT, read here
+                        type: string
+                      terminationTime:
+                        description: Specifies the timestamp, when the instance will
+                          be terminated, in RFC3339 text format. If specified, the
+                          instance termination action will be performed at the termination
+                          time.
                         type: string
                     type: object
                   scratchDisk:
@@ -4356,7 +4564,8 @@ spec:
                             A 256-bit [customer-supplied encryption key]
                             (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption),
                             encoded in RFC 4648 base64
-                            to encrypt this disk. Only one of kms_key_self_link and disk_encryption_key_raw may be set.
+                            to encrypt this disk. Only one of kms_key_self_link, disk_encryption_key_rsa and disk_encryption_key_raw
+                            may be set.
                           properties:
                             key:
                               description: The key to select.
@@ -4372,11 +4581,36 @@ spec:
                           - name
                           - namespace
                           type: object
+                        diskEncryptionKeyRsaSecretRef:
+                          description: |-
+                            Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit [customer-supplied encryption key]
+                            (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) to encrypt this disk. Only one of kms_key_self_link, disk_encryption_key_rsa and disk_encryption_key_raw
+                            may be set.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                        diskEncryptionServiceAccount:
+                          description: The service account being used for the encryption
+                            request for the given KMS key. If absent, the Compute
+                            Engine default service account is used.
+                          type: string
                         kmsKeySelfLink:
                           description: |-
                             The self_link of the encryption key that is
-                            stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link
-                            and disk_encryption_key_raw may be set.
+                            stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link, disk_encryption_key_rsa and disk_encryption_key_raw
+                            may be set.
                           type: string
                         mode:
                           description: |-
@@ -4411,7 +4645,7 @@ spec:
                           A 256-bit [customer-supplied encryption key]
                           (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption),
                           encoded in RFC 4648 base64
-                          to encrypt this disk. Only one of kms_key_self_link and disk_encryption_key_raw
+                          to encrypt this disk. Only one of kms_key_self_link, disk_encryption_key_rsa and disk_encryption_key_raw
                           may be set.
                         properties:
                           key:
@@ -4428,12 +4662,48 @@ spec:
                         - name
                         - namespace
                         type: object
+                      diskEncryptionKeyRsaSecretRef:
+                        description: |-
+                          Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit [customer-supplied encryption key]
+                          (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) to encrypt this disk. Only one of kms_key_self_link, disk_encryption_key_rsa and disk_encryption_key_raw
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
+                      diskEncryptionServiceAccount:
+                        description: The service account being used for the encryption
+                          request for the given KMS key. If absent, the Compute Engine
+                          default service account is used.
+                        type: string
+                      guestOsFeatures:
+                        description: A list of features to enable on the guest operating
+                          system. Applicable only for bootable images. Read Enabling
+                          guest operating system features to see a list of available
+                          options.
+                        items:
+                          type: string
+                        type: array
                       initializeParams:
                         description: |-
                           Parameters for a new disk that will be created
                           alongside the new instance. Either initialize_params or source must be set.
                           Structure is documented below.
                         properties:
+                          architecture:
+                            description: The architecture of the attached disk. Valid
+                              values are ARM64 or x86_64.
+                            type: string
                           enableConfidentialCompute:
                             description: |-
                               Whether this disk is using confidential compute mode.
@@ -4577,6 +4847,127 @@ spec:
                               The size of the image in gigabytes. If not specified, it
                               will inherit the size of its base image.
                             type: number
+                          snapshot:
+                            description: 'The snapshot from which to initialize this
+                              disk. To create a disk with a snapshot that you created,
+                              specify the snapshot name in the following format: global/snapshots/my-backup'
+                            type: string
+                          sourceImageEncryptionKey:
+                            description: Encryption key used to decrypt the given
+                              image. Structure is documented below.
+                            properties:
+                              kmsKeySelfLink:
+                                description: |-
+                                  The self_link of the encryption key that is
+                                  stored in Google Cloud KMS to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
+                                  may be set.
+                                type: string
+                              kmsKeyServiceAccount:
+                                description: The service account being used for the
+                                  encryption request for the given KMS key. If absent,
+                                  the Compute Engine default service account is used.
+                                type: string
+                              rawKeySecretRef:
+                                description: |-
+                                  A 256-bit [customer-supplied encryption key]
+                                  (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption),
+                                  encoded in RFC 4648 base64
+                                  to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
+                                  may be set.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                              rsaEncryptedKeySecretRef:
+                                description: |-
+                                  Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit [customer-supplied encryption key]
+                                  (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
+                                  may be set.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                            type: object
+                          sourceSnapshotEncryptionKey:
+                            description: Encryption key used to decrypt the given
+                              snapshot. Structure is documented below.
+                            properties:
+                              kmsKeySelfLink:
+                                description: |-
+                                  The self_link of the encryption key that is
+                                  stored in Google Cloud KMS to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
+                                  may be set.
+                                type: string
+                              kmsKeyServiceAccount:
+                                description: The service account being used for the
+                                  encryption request for the given KMS key. If absent,
+                                  the Compute Engine default service account is used.
+                                type: string
+                              rawKeySecretRef:
+                                description: |-
+                                  A 256-bit [customer-supplied encryption key]
+                                  (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption),
+                                  encoded in RFC 4648 base64
+                                  to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
+                                  may be set.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                              rsaEncryptedKeySecretRef:
+                                description: |-
+                                  Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit [customer-supplied encryption key]
+                                  (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
+                                  may be set.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                            type: object
                           storagePool:
                             description: |-
                               The URL or the name of the storage pool in which the new disk is created.
@@ -4594,8 +4985,9 @@ spec:
                       kmsKeySelfLink:
                         description: |-
                           The self_link of the encryption key that is
-                          stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link
-                          and disk_encryption_key_raw may be set.
+                          stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link,
+                          disk_encryption_key_rsa and disk_encryption_key_raw
+                          may be set.
                         type: string
                       mode:
                         description: |-
@@ -4677,6 +5069,21 @@ spec:
                       Valid format is a series of labels 1-63 characters long matching the regular expression [a-z]([-a-z0-9]*[a-z0-9]), concatenated with periods.
                       The entire hostname must not exceed 253 characters. Changing this forces a new resource to be created.
                     type: string
+                  instanceEncryptionKey:
+                    description: Configuration for data encryption on the instance
+                      with encryption keys. Structure is documented below.
+                    properties:
+                      kmsKeySelfLink:
+                        description: |-
+                          The self_link of the encryption key that is
+                          stored in Google Cloud KMS to encrypt the data on this instance.
+                        type: string
+                      kmsKeyServiceAccount:
+                        description: The service account being used for the encryption
+                          request for the given KMS key. If absent, the Compute Engine
+                          default service account is used.
+                        type: string
+                    type: object
                   keyRevocationActionType:
                     description: Action to be taken when a customer's encryption key
                       is revoked. Supports STOP and NONE, with NONE being the default.
@@ -4821,6 +5228,10 @@ spec:
                             Either network or subnetwork must be provided. If network isn't provided it will
                             be inferred from the subnetwork.
                           type: string
+                        networkAttachment:
+                          description: 'The URL of the network attachment that this
+                            interface should connect to in the following format: projects/{projectNumber}/regions/{region_name}/networkAttachments/{network_attachment_name}.'
+                          type: string
                         networkIp:
                           description: |-
                             The private IP address to assign to the instance. If
@@ -4904,9 +5315,7 @@ spec:
                           type: object
                         nicType:
                           description: 'The type of vNIC to be used on this interface.
-                            Possible values: GVNIC, VIRTIO_NET, IDPF. In the beta
-                            provider the additional values of MRDMA and IRDMA are
-                            supported.'
+                            Possible values: GVNIC, VIRTIO_NET, IDPF, MRDMA, IRDMA.'
                           type: string
                         queueCount:
                           description: The networking queue count that's specified
@@ -4916,8 +5325,8 @@ spec:
                         stackType:
                           description: The stack type for this network interface to
                             identify whether the IPv6 feature is enabled or not. Values
-                            are IPV4_IPV6 or IPV4_ONLY. If not specified, IPV4_ONLY
-                            will be used.
+                            are IPV4_IPV6, IPV6_ONLY or IPV4_ONLY. If not specified,
+                            IPV4_ONLY will be used.
                           type: string
                         subnetwork:
                           description: |-
@@ -5103,9 +5512,12 @@ spec:
                           Can be STOP or DELETE.  Read more on here
                         type: string
                       localSsdRecoveryTimeout:
-                        description: |-
-                          io/docs/providers/google/guides/provider_versions.html) Specifies the maximum amount of time a Local Ssd Vm should wait while recovery of the Local Ssd state is attempted. Its value should be in between 0 and 168 hours with hour granularity and the default value being 1 hour. Structure is documented below.
-                          The local_ssd_recovery_timeout block supports:
+                        description: io/docs/providers/google/guides/provider_versions.html)
+                          Specifies the maximum amount of time a Local Ssd Vm should
+                          wait while recovery of the Local Ssd state is attempted.
+                          Its value should be in between 0 and 168 hours with hour
+                          granularity and the default value being 1 hour. Structure
+                          is documented below.
                         properties:
                           nanos:
                             description: |-
@@ -5116,9 +5528,8 @@ spec:
                             type: number
                           seconds:
                             description: |-
-                              Span of time at a resolution of a second. Must be from 0 to
-                              315,576,000,000 inclusive. Note: these bounds are computed from: 60
-                              sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years.
+                              Span of time at a resolution of a second.
+                              The value must be between 1 and 3600, which is 3,600 seconds (one hour).`
                             type: number
                         type: object
                       maxRunDuration:
@@ -5136,9 +5547,8 @@ spec:
                             type: number
                           seconds:
                             description: |-
-                              Span of time at a resolution of a second. Must be from 0 to
-                              315,576,000,000 inclusive. Note: these bounds are computed from: 60
-                              sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years.
+                              Span of time at a resolution of a second.
+                              The value must be between 1 and 3600, which is 3,600 seconds (one hour).`
                             type: number
                         type: object
                       minNodeCpus:
@@ -5205,6 +5615,12 @@ spec:
                           preemptible should be true and automatic_restart should be
                           false. For more info about
                           SPOT, read here
+                        type: string
+                      terminationTime:
+                        description: Specifies the timestamp, when the instance will
+                          be terminated, in RFC3339 text format. If specified, the
+                          instance termination action will be performed at the termination
+                          time.
                         type: string
                     type: object
                   scratchDisk:
@@ -5593,11 +6009,16 @@ spec:
                             encoded SHA-256 hash of the [customer-supplied encryption key]
                             (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) that protects this resource.
                           type: string
+                        diskEncryptionServiceAccount:
+                          description: The service account being used for the encryption
+                            request for the given KMS key. If absent, the Compute
+                            Engine default service account is used.
+                          type: string
                         kmsKeySelfLink:
                           description: |-
                             The self_link of the encryption key that is
-                            stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link
-                            and disk_encryption_key_raw may be set.
+                            stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link, disk_encryption_key_rsa and disk_encryption_key_raw
+                            may be set.
                           type: string
                         mode:
                           description: |-
@@ -5633,12 +6054,29 @@ spec:
                           encoded SHA-256 hash of the [customer-supplied encryption key]
                           (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) that protects this resource.
                         type: string
+                      diskEncryptionServiceAccount:
+                        description: The service account being used for the encryption
+                          request for the given KMS key. If absent, the Compute Engine
+                          default service account is used.
+                        type: string
+                      guestOsFeatures:
+                        description: A list of features to enable on the guest operating
+                          system. Applicable only for bootable images. Read Enabling
+                          guest operating system features to see a list of available
+                          options.
+                        items:
+                          type: string
+                        type: array
                       initializeParams:
                         description: |-
                           Parameters for a new disk that will be created
                           alongside the new instance. Either initialize_params or source must be set.
                           Structure is documented below.
                         properties:
+                          architecture:
+                            description: The architecture of the attached disk. Valid
+                              values are ARM64 or x86_64.
+                            type: string
                           enableConfidentialCompute:
                             description: |-
                               Whether this disk is using confidential compute mode.
@@ -5706,6 +6144,55 @@ spec:
                               The size of the image in gigabytes. If not specified, it
                               will inherit the size of its base image.
                             type: number
+                          snapshot:
+                            description: 'The snapshot from which to initialize this
+                              disk. To create a disk with a snapshot that you created,
+                              specify the snapshot name in the following format: global/snapshots/my-backup'
+                            type: string
+                          sourceImageEncryptionKey:
+                            description: Encryption key used to decrypt the given
+                              image. Structure is documented below.
+                            properties:
+                              kmsKeySelfLink:
+                                description: |-
+                                  The self_link of the encryption key that is
+                                  stored in Google Cloud KMS to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
+                                  may be set.
+                                type: string
+                              kmsKeyServiceAccount:
+                                description: The service account being used for the
+                                  encryption request for the given KMS key. If absent,
+                                  the Compute Engine default service account is used.
+                                type: string
+                              sha256:
+                                description: |-
+                                  The RFC 4648 base64
+                                  encoded SHA-256 hash of the [customer-supplied encryption key]
+                                  (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) that protects this resource.
+                                type: string
+                            type: object
+                          sourceSnapshotEncryptionKey:
+                            description: Encryption key used to decrypt the given
+                              snapshot. Structure is documented below.
+                            properties:
+                              kmsKeySelfLink:
+                                description: |-
+                                  The self_link of the encryption key that is
+                                  stored in Google Cloud KMS to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
+                                  may be set.
+                                type: string
+                              kmsKeyServiceAccount:
+                                description: The service account being used for the
+                                  encryption request for the given KMS key. If absent,
+                                  the Compute Engine default service account is used.
+                                type: string
+                              sha256:
+                                description: |-
+                                  The RFC 4648 base64
+                                  encoded SHA-256 hash of the [customer-supplied encryption key]
+                                  (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) that protects this resource.
+                                type: string
+                            type: object
                           storagePool:
                             description: |-
                               The URL or the name of the storage pool in which the new disk is created.
@@ -5723,8 +6210,9 @@ spec:
                       kmsKeySelfLink:
                         description: |-
                           The self_link of the encryption key that is
-                          stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link
-                          and disk_encryption_key_raw may be set.
+                          stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link,
+                          disk_encryption_key_rsa and disk_encryption_key_raw
+                          may be set.
                         type: string
                       mode:
                         description: |-
@@ -5832,6 +6320,27 @@ spec:
                   id:
                     description: an identifier for the resource with format projects/{{project}}/zones/{{zone}}/instances/{{name}}
                     type: string
+                  instanceEncryptionKey:
+                    description: Configuration for data encryption on the instance
+                      with encryption keys. Structure is documented below.
+                    properties:
+                      kmsKeySelfLink:
+                        description: |-
+                          The self_link of the encryption key that is
+                          stored in Google Cloud KMS to encrypt the data on this instance.
+                        type: string
+                      kmsKeyServiceAccount:
+                        description: The service account being used for the encryption
+                          request for the given KMS key. If absent, the Compute Engine
+                          default service account is used.
+                        type: string
+                      sha256:
+                        description: |-
+                          The RFC 4648 base64
+                          encoded SHA-256 hash of the [customer-supplied encryption key]
+                          (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) that protects this resource.
+                        type: string
+                    type: object
                   instanceId:
                     description: The server-assigned unique identifier of this instance.
                     type: string
@@ -5995,6 +6504,10 @@ spec:
                             Either network or subnetwork must be provided. If network isn't provided it will
                             be inferred from the subnetwork.
                           type: string
+                        networkAttachment:
+                          description: 'The URL of the network attachment that this
+                            interface should connect to in the following format: projects/{projectNumber}/regions/{region_name}/networkAttachments/{network_attachment_name}.'
+                          type: string
                         networkIp:
                           description: |-
                             The private IP address to assign to the instance. If
@@ -6002,9 +6515,7 @@ spec:
                           type: string
                         nicType:
                           description: 'The type of vNIC to be used on this interface.
-                            Possible values: GVNIC, VIRTIO_NET, IDPF. In the beta
-                            provider the additional values of MRDMA and IRDMA are
-                            supported.'
+                            Possible values: GVNIC, VIRTIO_NET, IDPF, MRDMA, IRDMA.'
                           type: string
                         queueCount:
                           description: The networking queue count that's specified
@@ -6014,8 +6525,8 @@ spec:
                         stackType:
                           description: The stack type for this network interface to
                             identify whether the IPv6 feature is enabled or not. Values
-                            are IPV4_IPV6 or IPV4_ONLY. If not specified, IPV4_ONLY
-                            will be used.
+                            are IPV4_IPV6, IPV6_ONLY or IPV4_ONLY. If not specified,
+                            IPV4_ONLY will be used.
                           type: string
                         subnetwork:
                           description: |-
@@ -6125,9 +6636,12 @@ spec:
                           Can be STOP or DELETE.  Read more on here
                         type: string
                       localSsdRecoveryTimeout:
-                        description: |-
-                          io/docs/providers/google/guides/provider_versions.html) Specifies the maximum amount of time a Local Ssd Vm should wait while recovery of the Local Ssd state is attempted. Its value should be in between 0 and 168 hours with hour granularity and the default value being 1 hour. Structure is documented below.
-                          The local_ssd_recovery_timeout block supports:
+                        description: io/docs/providers/google/guides/provider_versions.html)
+                          Specifies the maximum amount of time a Local Ssd Vm should
+                          wait while recovery of the Local Ssd state is attempted.
+                          Its value should be in between 0 and 168 hours with hour
+                          granularity and the default value being 1 hour. Structure
+                          is documented below.
                         properties:
                           nanos:
                             description: |-
@@ -6138,9 +6652,8 @@ spec:
                             type: number
                           seconds:
                             description: |-
-                              Span of time at a resolution of a second. Must be from 0 to
-                              315,576,000,000 inclusive. Note: these bounds are computed from: 60
-                              sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years.
+                              Span of time at a resolution of a second.
+                              The value must be between 1 and 3600, which is 3,600 seconds (one hour).`
                             type: number
                         type: object
                       maxRunDuration:
@@ -6158,9 +6671,8 @@ spec:
                             type: number
                           seconds:
                             description: |-
-                              Span of time at a resolution of a second. Must be from 0 to
-                              315,576,000,000 inclusive. Note: these bounds are computed from: 60
-                              sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years.
+                              Span of time at a resolution of a second.
+                              The value must be between 1 and 3600, which is 3,600 seconds (one hour).`
                             type: number
                         type: object
                       minNodeCpus:
@@ -6227,6 +6739,12 @@ spec:
                           preemptible should be true and automatic_restart should be
                           false. For more info about
                           SPOT, read here
+                        type: string
+                      terminationTime:
+                        description: Specifies the timestamp, when the instance will
+                          be terminated, in RFC3339 text format. If specified, the
+                          instance termination action will be performed at the termination
+                          time.
                         type: string
                     type: object
                   scratchDisk:
