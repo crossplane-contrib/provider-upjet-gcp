@@ -633,14 +633,21 @@ type NodePoolNodeConfigEffectiveTaintsParameters struct {
 }
 
 type NodePoolNodeConfigEphemeralStorageLocalSsdConfigInitParameters struct {
+	DataCacheCount *float64 `json:"dataCacheCount,omitempty" tf:"data_cache_count,omitempty"`
+
 	LocalSsdCount *float64 `json:"localSsdCount,omitempty" tf:"local_ssd_count,omitempty"`
 }
 
 type NodePoolNodeConfigEphemeralStorageLocalSsdConfigObservation struct {
+	DataCacheCount *float64 `json:"dataCacheCount,omitempty" tf:"data_cache_count,omitempty"`
+
 	LocalSsdCount *float64 `json:"localSsdCount,omitempty" tf:"local_ssd_count,omitempty"`
 }
 
 type NodePoolNodeConfigEphemeralStorageLocalSsdConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	DataCacheCount *float64 `json:"dataCacheCount,omitempty" tf:"data_cache_count,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	LocalSsdCount *float64 `json:"localSsdCount" tf:"local_ssd_count,omitempty"`
@@ -818,6 +825,8 @@ type NodePoolNodeConfigInitParameters_2 struct {
 
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
+	MaxRunDuration *string `json:"maxRunDuration,omitempty" tf:"max_run_duration,omitempty"`
+
 	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
@@ -866,15 +875,33 @@ type NodePoolNodeConfigInitParameters_2 struct {
 
 	Taint []NodePoolNodeConfigTaintInitParameters `json:"taint,omitempty" tf:"taint,omitempty"`
 
+	// Parameters used in creating the node pool. See
+	// google_container_cluster for schema.
+	WindowsNodeConfig *NodePoolNodeConfigWindowsNodeConfigInitParameters `json:"windowsNodeConfig,omitempty" tf:"windows_node_config,omitempty"`
+
 	WorkloadMetadataConfig *NodePoolNodeConfigWorkloadMetadataConfigInitParameters `json:"workloadMetadataConfig,omitempty" tf:"workload_metadata_config,omitempty"`
 }
 
 type NodePoolNodeConfigKubeletConfigInitParameters struct {
+	AllowedUnsafeSysctls []*string `json:"allowedUnsafeSysctls,omitempty" tf:"allowed_unsafe_sysctls,omitempty"`
+
 	CPUCfsQuota *bool `json:"cpuCfsQuota,omitempty" tf:"cpu_cfs_quota,omitempty"`
 
 	CPUCfsQuotaPeriod *string `json:"cpuCfsQuotaPeriod,omitempty" tf:"cpu_cfs_quota_period,omitempty"`
 
 	CPUManagerPolicy *string `json:"cpuManagerPolicy,omitempty" tf:"cpu_manager_policy,omitempty"`
+
+	ContainerLogMaxFiles *float64 `json:"containerLogMaxFiles,omitempty" tf:"container_log_max_files,omitempty"`
+
+	ContainerLogMaxSize *string `json:"containerLogMaxSize,omitempty" tf:"container_log_max_size,omitempty"`
+
+	ImageGcHighThresholdPercent *float64 `json:"imageGcHighThresholdPercent,omitempty" tf:"image_gc_high_threshold_percent,omitempty"`
+
+	ImageGcLowThresholdPercent *float64 `json:"imageGcLowThresholdPercent,omitempty" tf:"image_gc_low_threshold_percent,omitempty"`
+
+	ImageMaximumGcAge *string `json:"imageMaximumGcAge,omitempty" tf:"image_maximum_gc_age,omitempty"`
+
+	ImageMinimumGcAge *string `json:"imageMinimumGcAge,omitempty" tf:"image_minimum_gc_age,omitempty"`
 
 	InsecureKubeletReadonlyPortEnabled *string `json:"insecureKubeletReadonlyPortEnabled,omitempty" tf:"insecure_kubelet_readonly_port_enabled,omitempty"`
 
@@ -882,11 +909,25 @@ type NodePoolNodeConfigKubeletConfigInitParameters struct {
 }
 
 type NodePoolNodeConfigKubeletConfigObservation struct {
+	AllowedUnsafeSysctls []*string `json:"allowedUnsafeSysctls,omitempty" tf:"allowed_unsafe_sysctls,omitempty"`
+
 	CPUCfsQuota *bool `json:"cpuCfsQuota,omitempty" tf:"cpu_cfs_quota,omitempty"`
 
 	CPUCfsQuotaPeriod *string `json:"cpuCfsQuotaPeriod,omitempty" tf:"cpu_cfs_quota_period,omitempty"`
 
 	CPUManagerPolicy *string `json:"cpuManagerPolicy,omitempty" tf:"cpu_manager_policy,omitempty"`
+
+	ContainerLogMaxFiles *float64 `json:"containerLogMaxFiles,omitempty" tf:"container_log_max_files,omitempty"`
+
+	ContainerLogMaxSize *string `json:"containerLogMaxSize,omitempty" tf:"container_log_max_size,omitempty"`
+
+	ImageGcHighThresholdPercent *float64 `json:"imageGcHighThresholdPercent,omitempty" tf:"image_gc_high_threshold_percent,omitempty"`
+
+	ImageGcLowThresholdPercent *float64 `json:"imageGcLowThresholdPercent,omitempty" tf:"image_gc_low_threshold_percent,omitempty"`
+
+	ImageMaximumGcAge *string `json:"imageMaximumGcAge,omitempty" tf:"image_maximum_gc_age,omitempty"`
+
+	ImageMinimumGcAge *string `json:"imageMinimumGcAge,omitempty" tf:"image_minimum_gc_age,omitempty"`
 
 	InsecureKubeletReadonlyPortEnabled *string `json:"insecureKubeletReadonlyPortEnabled,omitempty" tf:"insecure_kubelet_readonly_port_enabled,omitempty"`
 
@@ -896,6 +937,9 @@ type NodePoolNodeConfigKubeletConfigObservation struct {
 type NodePoolNodeConfigKubeletConfigParameters struct {
 
 	// +kubebuilder:validation:Optional
+	AllowedUnsafeSysctls []*string `json:"allowedUnsafeSysctls,omitempty" tf:"allowed_unsafe_sysctls,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	CPUCfsQuota *bool `json:"cpuCfsQuota,omitempty" tf:"cpu_cfs_quota,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -903,6 +947,24 @@ type NodePoolNodeConfigKubeletConfigParameters struct {
 
 	// +kubebuilder:validation:Optional
 	CPUManagerPolicy *string `json:"cpuManagerPolicy,omitempty" tf:"cpu_manager_policy,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ContainerLogMaxFiles *float64 `json:"containerLogMaxFiles,omitempty" tf:"container_log_max_files,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ContainerLogMaxSize *string `json:"containerLogMaxSize,omitempty" tf:"container_log_max_size,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ImageGcHighThresholdPercent *float64 `json:"imageGcHighThresholdPercent,omitempty" tf:"image_gc_high_threshold_percent,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ImageGcLowThresholdPercent *float64 `json:"imageGcLowThresholdPercent,omitempty" tf:"image_gc_low_threshold_percent,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ImageMaximumGcAge *string `json:"imageMaximumGcAge,omitempty" tf:"image_maximum_gc_age,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ImageMinimumGcAge *string `json:"imageMinimumGcAge,omitempty" tf:"image_minimum_gc_age,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	InsecureKubeletReadonlyPortEnabled *string `json:"insecureKubeletReadonlyPortEnabled,omitempty" tf:"insecure_kubelet_readonly_port_enabled,omitempty"`
@@ -1008,6 +1070,8 @@ type NodePoolNodeConfigObservation_2 struct {
 
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
+	MaxRunDuration *string `json:"maxRunDuration,omitempty" tf:"max_run_duration,omitempty"`
+
 	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
@@ -1045,6 +1109,10 @@ type NodePoolNodeConfigObservation_2 struct {
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	Taint []NodePoolNodeConfigTaintObservation `json:"taint,omitempty" tf:"taint,omitempty"`
+
+	// Parameters used in creating the node pool. See
+	// google_container_cluster for schema.
+	WindowsNodeConfig *NodePoolNodeConfigWindowsNodeConfigObservation `json:"windowsNodeConfig,omitempty" tf:"windows_node_config,omitempty"`
 
 	WorkloadMetadataConfig *NodePoolNodeConfigWorkloadMetadataConfigObservation `json:"workloadMetadataConfig,omitempty" tf:"workload_metadata_config,omitempty"`
 }
@@ -1123,6 +1191,9 @@ type NodePoolNodeConfigParameters_2 struct {
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	MaxRunDuration *string `json:"maxRunDuration,omitempty" tf:"max_run_duration,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
@@ -1185,6 +1256,11 @@ type NodePoolNodeConfigParameters_2 struct {
 
 	// +kubebuilder:validation:Optional
 	Taint []NodePoolNodeConfigTaintParameters `json:"taint,omitempty" tf:"taint,omitempty"`
+
+	// Parameters used in creating the node pool. See
+	// google_container_cluster for schema.
+	// +kubebuilder:validation:Optional
+	WindowsNodeConfig *NodePoolNodeConfigWindowsNodeConfigParameters `json:"windowsNodeConfig,omitempty" tf:"windows_node_config,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	WorkloadMetadataConfig *NodePoolNodeConfigWorkloadMetadataConfigParameters `json:"workloadMetadataConfig,omitempty" tf:"workload_metadata_config,omitempty"`
@@ -1320,6 +1396,31 @@ type NodePoolNodeConfigTaintParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Value *string `json:"value" tf:"value,omitempty"`
+}
+
+type NodePoolNodeConfigWindowsNodeConfigInitParameters struct {
+
+	// The Kubernetes version for the nodes in this pool. Note that if this field
+	// and auto_upgrade are both specified, they will fight each other for what the node version should
+	// be, so setting both is highly discouraged.
+	Osversion *string `json:"osversion,omitempty" tf:"osversion,omitempty"`
+}
+
+type NodePoolNodeConfigWindowsNodeConfigObservation struct {
+
+	// The Kubernetes version for the nodes in this pool. Note that if this field
+	// and auto_upgrade are both specified, they will fight each other for what the node version should
+	// be, so setting both is highly discouraged.
+	Osversion *string `json:"osversion,omitempty" tf:"osversion,omitempty"`
+}
+
+type NodePoolNodeConfigWindowsNodeConfigParameters struct {
+
+	// The Kubernetes version for the nodes in this pool. Note that if this field
+	// and auto_upgrade are both specified, they will fight each other for what the node version should
+	// be, so setting both is highly discouraged.
+	// +kubebuilder:validation:Optional
+	Osversion *string `json:"osversion,omitempty" tf:"osversion,omitempty"`
 }
 
 type NodePoolNodeConfigWorkloadMetadataConfigInitParameters struct {
