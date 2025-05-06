@@ -3356,6 +3356,128 @@ spec:
                           will be disabled.
                         type: boolean
                     type: object
+                  buildConfig:
+                    description: |-
+                      Configuration for building a Cloud Run function.
+                      Structure is documented below.
+                    properties:
+                      baseImage:
+                        description: The base image used to build the function.
+                        type: string
+                      enableAutomaticUpdates:
+                        description: Sets whether the function will receive automatic
+                          base image updates.
+                        type: boolean
+                      environmentVariables:
+                        additionalProperties:
+                          type: string
+                        description: User-provided build-time environment variables
+                          for the function.
+                        type: object
+                        x-kubernetes-map-type: granular
+                      functionTarget:
+                        description: The name of the function (as defined in source
+                          code) that will be executed. Defaults to the resource name
+                          suffix, if not specified. For backward compatibility, if
+                          function with given name is not found, then the system will
+                          try to use function named "function".
+                        type: string
+                      imageUri:
+                        description: Artifact Registry URI to store the built image.
+                        type: string
+                      serviceAccount:
+                        description: Service account to be used for building the container.
+                          The format of this field is projects/{projectId}/serviceAccounts/{serviceAccountEmail}.
+                        type: string
+                      serviceAccountRef:
+                        description: Reference to a ServiceAccount in cloudplatform
+                          to populate serviceAccount.
+                        properties:
+                          name:
+                            description: Name of the referenced object.
+                            type: string
+                          policy:
+                            description: Policies for referencing.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        required:
+                        - name
+                        type: object
+                      serviceAccountSelector:
+                        description: Selector for a ServiceAccount in cloudplatform
+                          to populate serviceAccount.
+                        properties:
+                          matchControllerRef:
+                            description: |-
+                              MatchControllerRef ensures an object with the same controller reference
+                              as the selecting object is selected.
+                            type: boolean
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: MatchLabels ensures an object with matching
+                              labels is selected.
+                            type: object
+                          policy:
+                            description: Policies for selection.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        type: object
+                      sourceLocation:
+                        description: The Cloud Storage bucket URI where the function
+                          source code is located.
+                        type: string
+                      workerPool:
+                        description: Name of the Cloud Build Custom Worker Pool that
+                          should be used to build the Cloud Run function. The format
+                          of this field is projects/{project}/locations/{region}/workerPools/{workerPool}
+                          where {project} and {region} are the project id and region
+                          respectively where the worker pool is defined and {workerPool}
+                          is the short name of the worker pool.
+                        type: string
+                    type: object
                   client:
                     description: Arbitrary identifier for the API client.
                     type: string
@@ -3380,8 +3502,7 @@ spec:
                     type: string
                   invokerIamDisabled:
                     description: Disables IAM permission check for run.routes.invoke
-                      for callers of this service. This feature is available by invitation
-                      only. For more information, visit https://cloud.google.com/run/docs/securing/managing-access#invoker_check.
+                      for callers of this service. For more information, visit https://cloud.google.com/run/docs/securing/managing-access#invoker_check.
                     type: boolean
                   labels:
                     additionalProperties:
@@ -3447,6 +3568,11 @@ spec:
                               items:
                                 type: string
                               type: array
+                            baseImageUri:
+                              description: Base image for this container. If set,
+                                it indicates that the service is enrolled into automatic
+                                base image update.
+                              type: string
                             command:
                               description: 'Entrypoint array. Not executed within
                                 a shell. The docker image''s ENTRYPOINT is used if
@@ -3853,6 +3979,10 @@ spec:
                           The sandbox environment to host this Revision.
                           Possible values are: EXECUTION_ENVIRONMENT_GEN1, EXECUTION_ENVIRONMENT_GEN2.
                         type: string
+                      gpuZonalRedundancyDisabled:
+                        description: True if GPU zonal redundancy is disabled on this
+                          revision.
+                        type: boolean
                       labels:
                         additionalProperties:
                           type: string
@@ -3868,6 +3998,16 @@ spec:
                           Sets the maximum number of requests that each serving instance can receive.
                           If not specified or 0, defaults to 80 when requested CPU >= 1 and defaults to 1 when requested CPU < 1.
                         type: number
+                      nodeSelector:
+                        description: |-
+                          Node Selector describes the hardware requirements of the resources.
+                          Structure is documented below.
+                        properties:
+                          accelerator:
+                            description: The GPU to attach to an instance. See https://cloud.google.com/run/docs/configuring/services/gpu
+                              for configuring GPU.
+                            type: string
+                        type: object
                       revision:
                         description: The unique name for the revision. If this field
                           is omitted, it will be automatically generated based on
@@ -4369,6 +4509,128 @@ spec:
                           will be disabled.
                         type: boolean
                     type: object
+                  buildConfig:
+                    description: |-
+                      Configuration for building a Cloud Run function.
+                      Structure is documented below.
+                    properties:
+                      baseImage:
+                        description: The base image used to build the function.
+                        type: string
+                      enableAutomaticUpdates:
+                        description: Sets whether the function will receive automatic
+                          base image updates.
+                        type: boolean
+                      environmentVariables:
+                        additionalProperties:
+                          type: string
+                        description: User-provided build-time environment variables
+                          for the function.
+                        type: object
+                        x-kubernetes-map-type: granular
+                      functionTarget:
+                        description: The name of the function (as defined in source
+                          code) that will be executed. Defaults to the resource name
+                          suffix, if not specified. For backward compatibility, if
+                          function with given name is not found, then the system will
+                          try to use function named "function".
+                        type: string
+                      imageUri:
+                        description: Artifact Registry URI to store the built image.
+                        type: string
+                      serviceAccount:
+                        description: Service account to be used for building the container.
+                          The format of this field is projects/{projectId}/serviceAccounts/{serviceAccountEmail}.
+                        type: string
+                      serviceAccountRef:
+                        description: Reference to a ServiceAccount in cloudplatform
+                          to populate serviceAccount.
+                        properties:
+                          name:
+                            description: Name of the referenced object.
+                            type: string
+                          policy:
+                            description: Policies for referencing.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        required:
+                        - name
+                        type: object
+                      serviceAccountSelector:
+                        description: Selector for a ServiceAccount in cloudplatform
+                          to populate serviceAccount.
+                        properties:
+                          matchControllerRef:
+                            description: |-
+                              MatchControllerRef ensures an object with the same controller reference
+                              as the selecting object is selected.
+                            type: boolean
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: MatchLabels ensures an object with matching
+                              labels is selected.
+                            type: object
+                          policy:
+                            description: Policies for selection.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        type: object
+                      sourceLocation:
+                        description: The Cloud Storage bucket URI where the function
+                          source code is located.
+                        type: string
+                      workerPool:
+                        description: Name of the Cloud Build Custom Worker Pool that
+                          should be used to build the Cloud Run function. The format
+                          of this field is projects/{project}/locations/{region}/workerPools/{workerPool}
+                          where {project} and {region} are the project id and region
+                          respectively where the worker pool is defined and {workerPool}
+                          is the short name of the worker pool.
+                        type: string
+                    type: object
                   client:
                     description: Arbitrary identifier for the API client.
                     type: string
@@ -4393,8 +4655,7 @@ spec:
                     type: string
                   invokerIamDisabled:
                     description: Disables IAM permission check for run.routes.invoke
-                      for callers of this service. This feature is available by invitation
-                      only. For more information, visit https://cloud.google.com/run/docs/securing/managing-access#invoker_check.
+                      for callers of this service. For more information, visit https://cloud.google.com/run/docs/securing/managing-access#invoker_check.
                     type: boolean
                   labels:
                     additionalProperties:
@@ -4457,6 +4718,11 @@ spec:
                               items:
                                 type: string
                               type: array
+                            baseImageUri:
+                              description: Base image for this container. If set,
+                                it indicates that the service is enrolled into automatic
+                                base image update.
+                              type: string
                             command:
                               description: 'Entrypoint array. Not executed within
                                 a shell. The docker image''s ENTRYPOINT is used if
@@ -4863,6 +5129,10 @@ spec:
                           The sandbox environment to host this Revision.
                           Possible values are: EXECUTION_ENVIRONMENT_GEN1, EXECUTION_ENVIRONMENT_GEN2.
                         type: string
+                      gpuZonalRedundancyDisabled:
+                        description: True if GPU zonal redundancy is disabled on this
+                          revision.
+                        type: boolean
                       labels:
                         additionalProperties:
                           type: string
@@ -4878,6 +5148,16 @@ spec:
                           Sets the maximum number of requests that each serving instance can receive.
                           If not specified or 0, defaults to 80 when requested CPU >= 1 and defaults to 1 when requested CPU < 1.
                         type: number
+                      nodeSelector:
+                        description: |-
+                          Node Selector describes the hardware requirements of the resources.
+                          Structure is documented below.
+                        properties:
+                          accelerator:
+                            description: The GPU to attach to an instance. See https://cloud.google.com/run/docs/configuring/services/gpu
+                              for configuring GPU.
+                            type: string
+                        type: object
                       revision:
                         description: The unique name for the revision. If this field
                           is omitted, it will be automatically generated based on
@@ -5541,6 +5821,57 @@ spec:
                           will be disabled.
                         type: boolean
                     type: object
+                  buildConfig:
+                    description: |-
+                      Configuration for building a Cloud Run function.
+                      Structure is documented below.
+                    properties:
+                      baseImage:
+                        description: The base image used to build the function.
+                        type: string
+                      enableAutomaticUpdates:
+                        description: Sets whether the function will receive automatic
+                          base image updates.
+                        type: boolean
+                      environmentVariables:
+                        additionalProperties:
+                          type: string
+                        description: User-provided build-time environment variables
+                          for the function.
+                        type: object
+                        x-kubernetes-map-type: granular
+                      functionTarget:
+                        description: The name of the function (as defined in source
+                          code) that will be executed. Defaults to the resource name
+                          suffix, if not specified. For backward compatibility, if
+                          function with given name is not found, then the system will
+                          try to use function named "function".
+                        type: string
+                      imageUri:
+                        description: Artifact Registry URI to store the built image.
+                        type: string
+                      name:
+                        description: |-
+                          (Output)
+                          The Cloud Build name of the latest successful deployment of the function.
+                        type: string
+                      serviceAccount:
+                        description: Service account to be used for building the container.
+                          The format of this field is projects/{projectId}/serviceAccounts/{serviceAccountEmail}.
+                        type: string
+                      sourceLocation:
+                        description: The Cloud Storage bucket URI where the function
+                          source code is located.
+                        type: string
+                      workerPool:
+                        description: Name of the Cloud Build Custom Worker Pool that
+                          should be used to build the Cloud Run function. The format
+                          of this field is projects/{project}/locations/{region}/workerPools/{workerPool}
+                          where {project} and {region} are the project id and region
+                          respectively where the worker pool is defined and {workerPool}
+                          is the short name of the worker pool.
+                        type: string
+                    type: object
                   client:
                     description: Arbitrary identifier for the API client.
                     type: string
@@ -5656,8 +5987,7 @@ spec:
                     type: string
                   invokerIamDisabled:
                     description: Disables IAM permission check for run.routes.invoke
-                      for callers of this service. This feature is available by invitation
-                      only. For more information, visit https://cloud.google.com/run/docs/securing/managing-access#invoker_check.
+                      for callers of this service. For more information, visit https://cloud.google.com/run/docs/securing/managing-access#invoker_check.
                     type: boolean
                   labels:
                     additionalProperties:
@@ -5749,6 +6079,30 @@ spec:
                                 references are not supported in Cloud Run.
                               items:
                                 type: string
+                              type: array
+                            baseImageUri:
+                              description: Base image for this container. If set,
+                                it indicates that the service is enrolled into automatic
+                                base image update.
+                              type: string
+                            buildInfo:
+                              description: |-
+                                (Output)
+                                The build info of the container image.
+                                Structure is documented below.
+                              items:
+                                properties:
+                                  functionTarget:
+                                    description: |-
+                                      (Output)
+                                      Entry point of the function when the image is a Cloud Run function.
+                                    type: string
+                                  sourceLocation:
+                                    description: |-
+                                      (Output)
+                                      Source code location of the image.
+                                    type: string
+                                type: object
                               type: array
                             command:
                               description: 'Entrypoint array. Not executed within
@@ -6079,6 +6433,10 @@ spec:
                           The sandbox environment to host this Revision.
                           Possible values are: EXECUTION_ENVIRONMENT_GEN1, EXECUTION_ENVIRONMENT_GEN2.
                         type: string
+                      gpuZonalRedundancyDisabled:
+                        description: True if GPU zonal redundancy is disabled on this
+                          revision.
+                        type: boolean
                       labels:
                         additionalProperties:
                           type: string
@@ -6094,6 +6452,16 @@ spec:
                           Sets the maximum number of requests that each serving instance can receive.
                           If not specified or 0, defaults to 80 when requested CPU >= 1 and defaults to 1 when requested CPU < 1.
                         type: number
+                      nodeSelector:
+                        description: |-
+                          Node Selector describes the hardware requirements of the resources.
+                          Structure is documented below.
+                        properties:
+                          accelerator:
+                            description: The GPU to attach to an instance. See https://cloud.google.com/run/docs/configuring/services/gpu
+                              for configuring GPU.
+                            type: string
+                        type: object
                       revision:
                         description: The unique name for the revision. If this field
                           is omitted, it will be automatically generated based on

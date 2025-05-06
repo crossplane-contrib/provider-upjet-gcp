@@ -3524,6 +3524,14 @@ spec:
                                   type: string
                               type: object
                             type: array
+                          nodeSelector:
+                            additionalProperties:
+                              type: string
+                            description: |-
+                              Node Selector describes the hardware requirements of the resources.
+                              Use the following node selector keys to configure features on a Revision:
+                            type: object
+                            x-kubernetes-map-type: granular
                           serviceAccountName:
                             description: |-
                               Email address of the IAM service account associated with the revision of the
@@ -4405,6 +4413,14 @@ spec:
                                   type: string
                               type: object
                             type: array
+                          nodeSelector:
+                            additionalProperties:
+                              type: string
+                            description: |-
+                              Node Selector describes the hardware requirements of the resources.
+                              Use the following node selector keys to configure features on a Revision:
+                            type: object
+                            x-kubernetes-map-type: granular
                           serviceAccountName:
                             description: |-
                               Email address of the IAM service account associated with the revision of the
@@ -5466,6 +5482,14 @@ spec:
                                   type: string
                               type: object
                             type: array
+                          nodeSelector:
+                            additionalProperties:
+                              type: string
+                            description: |-
+                              Node Selector describes the hardware requirements of the resources.
+                              Use the following node selector keys to configure features on a Revision:
+                            type: object
+                            x-kubernetes-map-type: granular
                           serviceAccountName:
                             description: |-
                               Email address of the IAM service account associated with the revision of the

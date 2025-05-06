@@ -482,7 +482,7 @@ type TemplateTemplateInitParameters struct {
 	// Possible values are: EXECUTION_ENVIRONMENT_GEN1, EXECUTION_ENVIRONMENT_GEN2.
 	ExecutionEnvironment *string `json:"executionEnvironment,omitempty" tf:"execution_environment,omitempty"`
 
-	// Number of retries allowed per Task, before marking this Task failed.
+	// Number of retries allowed per Task, before marking this Task failed. Defaults to 3. Minimum value is 0.
 	MaxRetries *float64 `json:"maxRetries,omitempty" tf:"max_retries,omitempty"`
 
 	// Email address of the IAM service account associated with the Task of a Job. The service account represents the identity of the running task, and determines what permissions the task has. If not provided, the task will use the project's default service account.
@@ -514,7 +514,7 @@ type TemplateTemplateObservation struct {
 	// Possible values are: EXECUTION_ENVIRONMENT_GEN1, EXECUTION_ENVIRONMENT_GEN2.
 	ExecutionEnvironment *string `json:"executionEnvironment,omitempty" tf:"execution_environment,omitempty"`
 
-	// Number of retries allowed per Task, before marking this Task failed.
+	// Number of retries allowed per Task, before marking this Task failed. Defaults to 3. Minimum value is 0.
 	MaxRetries *float64 `json:"maxRetries,omitempty" tf:"max_retries,omitempty"`
 
 	// Email address of the IAM service account associated with the Task of a Job. The service account represents the identity of the running task, and determines what permissions the task has. If not provided, the task will use the project's default service account.
@@ -549,7 +549,7 @@ type TemplateTemplateParameters struct {
 	// +kubebuilder:validation:Optional
 	ExecutionEnvironment *string `json:"executionEnvironment,omitempty" tf:"execution_environment,omitempty"`
 
-	// Number of retries allowed per Task, before marking this Task failed.
+	// Number of retries allowed per Task, before marking this Task failed. Defaults to 3. Minimum value is 0.
 	// +kubebuilder:validation:Optional
 	MaxRetries *float64 `json:"maxRetries,omitempty" tf:"max_retries,omitempty"`
 

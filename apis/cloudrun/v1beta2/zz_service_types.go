@@ -1798,6 +1798,11 @@ type TemplateSpecInitParameters struct {
 	// Structure is documented below.
 	Containers []ContainersInitParameters `json:"containers,omitempty" tf:"containers,omitempty"`
 
+	// Node Selector describes the hardware requirements of the resources.
+	// Use the following node selector keys to configure features on a Revision:
+	// +mapType=granular
+	NodeSelector map[string]*string `json:"nodeSelector,omitempty" tf:"node_selector,omitempty"`
+
 	// Email address of the IAM service account associated with the revision of the
 	// service. The service account represents the identity of the running revision,
 	// and determines what permissions the revision has. If not provided, the revision
@@ -1824,6 +1829,11 @@ type TemplateSpecObservation struct {
 	// Containers defines the unit of execution for this Revision.
 	// Structure is documented below.
 	Containers []ContainersObservation `json:"containers,omitempty" tf:"containers,omitempty"`
+
+	// Node Selector describes the hardware requirements of the resources.
+	// Use the following node selector keys to configure features on a Revision:
+	// +mapType=granular
+	NodeSelector map[string]*string `json:"nodeSelector,omitempty" tf:"node_selector,omitempty"`
 
 	// Email address of the IAM service account associated with the revision of the
 	// service. The service account represents the identity of the running revision,
@@ -1860,6 +1870,12 @@ type TemplateSpecParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Containers []ContainersParameters `json:"containers,omitempty" tf:"containers,omitempty"`
+
+	// Node Selector describes the hardware requirements of the resources.
+	// Use the following node selector keys to configure features on a Revision:
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	NodeSelector map[string]*string `json:"nodeSelector,omitempty" tf:"node_selector,omitempty"`
 
 	// Email address of the IAM service account associated with the revision of the
 	// service. The service account represents the identity of the running revision,
