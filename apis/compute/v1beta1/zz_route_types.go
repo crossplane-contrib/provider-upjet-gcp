@@ -13,6 +13,40 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AsPathsInitParameters struct {
+}
+
+type AsPathsObservation struct {
+
+	// (Output)
+	// The AS numbers of the AS Path.
+	AsLists []*float64 `json:"asLists,omitempty" tf:"as_lists,omitempty"`
+
+	// (Output)
+	// The type of the AS Path, which can be one of the following values:
+	PathSegmentType *string `json:"pathSegmentType,omitempty" tf:"path_segment_type,omitempty"`
+}
+
+type AsPathsParameters struct {
+}
+
+type DataInitParameters struct {
+}
+
+type DataObservation struct {
+
+	// (Output)
+	// A key that provides more detail on the warning being returned. For example, for warnings where there are no results in a list request for a particular zone, this key might be scope and the key value might be the zone name. Other examples might be a key indicating a deprecated resource and a suggested replacement, or a warning about invalid network settings (for example, if an instance attempts to perform IP forwarding but is not enabled for IP forwarding).
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// (Output)
+	// A warning data value corresponding to the key.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type DataParameters struct {
+}
+
 type RouteInitParameters struct {
 
 	// An optional description of this resource. Provide this property
@@ -98,6 +132,12 @@ type RouteInitParameters struct {
 
 type RouteObservation struct {
 
+	// Structure is documented below.
+	AsPaths []AsPathsObservation `json:"asPaths,omitempty" tf:"as_paths,omitempty"`
+
+	// Creation timestamp in RFC3339 text format.
+	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
 	// An optional description of this resource. Provide this property
 	// when you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -117,6 +157,9 @@ type RouteObservation struct {
 	// partial valid URL:
 	NextHopGateway *string `json:"nextHopGateway,omitempty" tf:"next_hop_gateway,omitempty"`
 
+	// The hub network that should handle matching packets, which should conform to RFC1035.
+	NextHopHub *string `json:"nextHopHub,omitempty" tf:"next_hop_hub,omitempty"`
+
 	// Network IP address of an instance that should handle matching packets.
 	NextHopIP *string `json:"nextHopIp,omitempty" tf:"next_hop_ip,omitempty"`
 
@@ -135,8 +178,20 @@ type RouteObservation struct {
 	// .
 	NextHopInstanceZone *string `json:"nextHopInstanceZone,omitempty" tf:"next_hop_instance_zone,omitempty"`
 
+	// Internal fixed region-to-region cost that Google Cloud calculates based on factors such as network performance, distance, and available bandwidth between regions.
+	NextHopInterRegionCost *string `json:"nextHopInterRegionCost,omitempty" tf:"next_hop_inter_region_cost,omitempty"`
+
+	// Multi-Exit Discriminator, a BGP route metric that indicates the desirability of a particular route in a network.
+	NextHopMed *string `json:"nextHopMed,omitempty" tf:"next_hop_med,omitempty"`
+
 	// URL to a Network that should handle matching packets.
 	NextHopNetwork *string `json:"nextHopNetwork,omitempty" tf:"next_hop_network,omitempty"`
+
+	// Indicates the origin of the route. Can be IGP (Interior Gateway Protocol), EGP (Exterior Gateway Protocol), or INCOMPLETE.
+	NextHopOrigin *string `json:"nextHopOrigin,omitempty" tf:"next_hop_origin,omitempty"`
+
+	// The network peering name that should handle matching packets, which should conform to RFC1035.
+	NextHopPeering *string `json:"nextHopPeering,omitempty" tf:"next_hop_peering,omitempty"`
 
 	// URL to a VpnTunnel that should handle matching packets.
 	NextHopVPNTunnel *string `json:"nextHopVpnTunnel,omitempty" tf:"next_hop_vpn_tunnel,omitempty"`
@@ -152,12 +207,22 @@ type RouteObservation struct {
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// The status of the route, which can be one of the following values:
+	RouteStatus *string `json:"routeStatus,omitempty" tf:"route_status,omitempty"`
+
+	// The type of this route, which can be one of the following values:
+	RouteType *string `json:"routeType,omitempty" tf:"route_type,omitempty"`
+
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
 	// A list of instance tags to which this route applies.
 	// +listType=set
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
+	// If potential misconfigurations are detected for this route, this field will be populated with warning messages.
+	// Structure is documented below.
+	Warnings []WarningsObservation `json:"warnings,omitempty" tf:"warnings,omitempty"`
 }
 
 type RouteParameters struct {
@@ -253,6 +318,30 @@ type RouteParameters struct {
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
+}
+
+type WarningsInitParameters struct {
+}
+
+type WarningsObservation struct {
+
+	// (Output)
+	// A warning code, if applicable. For example, Compute Engine returns
+	// NO_RESULTS_ON_PAGE if there are no results in the response.
+	Code *string `json:"code,omitempty" tf:"code,omitempty"`
+
+	// (Output)
+	// Metadata about this warning in key: value format. For example:
+	// "data": [  {  "key": "scope",  "value": "zones/us-east1-d"  }
+	// Structure is documented below.
+	Data []DataObservation `json:"data,omitempty" tf:"data,omitempty"`
+
+	// (Output)
+	// A human-readable description of the warning code.
+	Message *string `json:"message,omitempty" tf:"message,omitempty"`
+}
+
+type WarningsParameters struct {
 }
 
 // RouteSpec defines the desired state of Route

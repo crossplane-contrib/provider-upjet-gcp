@@ -31,7 +31,8 @@ metadata:
     testing.upbound.io/example-name: basic_network
   name: basic-network
 spec:
-  forProvider: {}
+  forProvider:
+    autoCreateSubnetworks: false
 
 ---
 

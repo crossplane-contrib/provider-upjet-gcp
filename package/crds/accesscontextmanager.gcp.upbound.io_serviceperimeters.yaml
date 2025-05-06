@@ -3035,9 +3035,11 @@ spec:
                               properties:
                                 identities:
                                   description: |-
-                                    A list of identities that are allowed access through this ingress policy.
-                                    Should be in the format of email address. The email address should represent
-                                    individual user or service account only.
+                                    Identities can be an individual user, service account, Google group,
+                                    or third-party identity. For third-party identity, only single identities
+                                    are supported and other identity types are not supported.The v1 identities
+                                    that have the prefix user, group and serviceAccount in
+                                    https://cloud.google.com/iam/docs/principal-identifiers#v1 are supported.
                                   items:
                                     type: string
                                   type: array
@@ -3070,6 +3072,18 @@ spec:
                                           with request origins within the perimeter.
                                           Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
                                           If * is specified, then all IngressSources will be allowed.
+                                        type: string
+                                      resource:
+                                        description: |-
+                                          A Google Cloud resource that is allowed to ingress the perimeter.
+                                          Requests from these resources will be allowed to access perimeter data.
+                                          Currently only projects and VPCs are allowed.
+                                          Project format: projects/{projectNumber}
+                                          VPC network format:
+                                          //compute.googleapis.com/projects/{PROJECT_ID}/global/networks/{NAME}.
+                                          The project may be in any Google Cloud organization, not just the
+                                          organization that the perimeter is defined in. * is not allowed, the case
+                                          of allowing all Google Cloud resources only is not supported.
                                         type: string
                                     type: object
                                   type: array
@@ -3135,7 +3149,19 @@ spec:
                                     type: string
                                   type: array
                                   x-kubernetes-list-type: set
+                                roles:
+                                  description: |-
+                                    A list of IAM roles that represent the set of operations that the sources
+                                    specified in the corresponding IngressFrom
+                                    are allowed to perform.
+                                  items:
+                                    type: string
+                                  type: array
                               type: object
+                            title:
+                              description: Human readable title. Must be unique within
+                                the Policy.
+                              type: string
                           type: object
                         type: array
                       ingressPolicies:
@@ -3155,9 +3181,11 @@ spec:
                               properties:
                                 identities:
                                   description: |-
-                                    A list of identities that are allowed access through this ingress policy.
-                                    Should be in the format of email address. The email address should represent
-                                    individual user or service account only.
+                                    Identities can be an individual user, service account, Google group,
+                                    or third-party identity. For third-party identity, only single identities
+                                    are supported and other identity types are not supported.The v1 identities
+                                    that have the prefix user, group and serviceAccount in
+                                    https://cloud.google.com/iam/docs/principal-identifiers#v1 are supported.
                                   items:
                                     type: string
                                   type: array
@@ -3253,7 +3281,19 @@ spec:
                                     type: string
                                   type: array
                                   x-kubernetes-list-type: set
+                                roles:
+                                  description: |-
+                                    A list of IAM roles that represent the set of operations that the sources
+                                    specified in the corresponding IngressFrom
+                                    are allowed to perform.
+                                  items:
+                                    type: string
+                                  type: array
                               type: object
+                            title:
+                              description: Human readable title. Must be unique within
+                                the Policy.
+                              type: string
                           type: object
                         type: array
                       resources:
@@ -3414,9 +3454,11 @@ spec:
                               properties:
                                 identities:
                                   description: |-
-                                    A list of identities that are allowed access through this ingress policy.
-                                    Should be in the format of email address. The email address should represent
-                                    individual user or service account only.
+                                    Identities can be an individual user, service account, Google group,
+                                    or third-party identity. For third-party identity, only single identities
+                                    are supported and other identity types are not supported.The v1 identities
+                                    that have the prefix user, group and serviceAccount in
+                                    https://cloud.google.com/iam/docs/principal-identifiers#v1 are supported.
                                   items:
                                     type: string
                                   type: array
@@ -3449,6 +3491,18 @@ spec:
                                           with request origins within the perimeter.
                                           Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
                                           If * is specified, then all IngressSources will be allowed.
+                                        type: string
+                                      resource:
+                                        description: |-
+                                          A Google Cloud resource that is allowed to ingress the perimeter.
+                                          Requests from these resources will be allowed to access perimeter data.
+                                          Currently only projects and VPCs are allowed.
+                                          Project format: projects/{projectNumber}
+                                          VPC network format:
+                                          //compute.googleapis.com/projects/{PROJECT_ID}/global/networks/{NAME}.
+                                          The project may be in any Google Cloud organization, not just the
+                                          organization that the perimeter is defined in. * is not allowed, the case
+                                          of allowing all Google Cloud resources only is not supported.
                                         type: string
                                     type: object
                                   type: array
@@ -3514,7 +3568,19 @@ spec:
                                     type: string
                                   type: array
                                   x-kubernetes-list-type: set
+                                roles:
+                                  description: |-
+                                    A list of IAM roles that represent the set of operations that the sources
+                                    specified in the corresponding IngressFrom
+                                    are allowed to perform.
+                                  items:
+                                    type: string
+                                  type: array
                               type: object
+                            title:
+                              description: Human readable title. Must be unique within
+                                the Policy.
+                              type: string
                           type: object
                         type: array
                       ingressPolicies:
@@ -3534,9 +3600,11 @@ spec:
                               properties:
                                 identities:
                                   description: |-
-                                    A list of identities that are allowed access through this ingress policy.
-                                    Should be in the format of email address. The email address should represent
-                                    individual user or service account only.
+                                    Identities can be an individual user, service account, Google group,
+                                    or third-party identity. For third-party identity, only single identities
+                                    are supported and other identity types are not supported.The v1 identities
+                                    that have the prefix user, group and serviceAccount in
+                                    https://cloud.google.com/iam/docs/principal-identifiers#v1 are supported.
                                   items:
                                     type: string
                                   type: array
@@ -3708,7 +3776,19 @@ spec:
                                     type: string
                                   type: array
                                   x-kubernetes-list-type: set
+                                roles:
+                                  description: |-
+                                    A list of IAM roles that represent the set of operations that the sources
+                                    specified in the corresponding IngressFrom
+                                    are allowed to perform.
+                                  items:
+                                    type: string
+                                  type: array
                               type: object
+                            title:
+                              description: Human readable title. Must be unique within
+                                the Policy.
+                              type: string
                           type: object
                         type: array
                       resources:
@@ -3934,9 +4014,11 @@ spec:
                               properties:
                                 identities:
                                   description: |-
-                                    A list of identities that are allowed access through this ingress policy.
-                                    Should be in the format of email address. The email address should represent
-                                    individual user or service account only.
+                                    Identities can be an individual user, service account, Google group,
+                                    or third-party identity. For third-party identity, only single identities
+                                    are supported and other identity types are not supported.The v1 identities
+                                    that have the prefix user, group and serviceAccount in
+                                    https://cloud.google.com/iam/docs/principal-identifiers#v1 are supported.
                                   items:
                                     type: string
                                   type: array
@@ -3969,6 +4051,18 @@ spec:
                                           with request origins within the perimeter.
                                           Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
                                           If * is specified, then all IngressSources will be allowed.
+                                        type: string
+                                      resource:
+                                        description: |-
+                                          A Google Cloud resource that is allowed to ingress the perimeter.
+                                          Requests from these resources will be allowed to access perimeter data.
+                                          Currently only projects and VPCs are allowed.
+                                          Project format: projects/{projectNumber}
+                                          VPC network format:
+                                          //compute.googleapis.com/projects/{PROJECT_ID}/global/networks/{NAME}.
+                                          The project may be in any Google Cloud organization, not just the
+                                          organization that the perimeter is defined in. * is not allowed, the case
+                                          of allowing all Google Cloud resources only is not supported.
                                         type: string
                                     type: object
                                   type: array
@@ -4034,7 +4128,19 @@ spec:
                                     type: string
                                   type: array
                                   x-kubernetes-list-type: set
+                                roles:
+                                  description: |-
+                                    A list of IAM roles that represent the set of operations that the sources
+                                    specified in the corresponding IngressFrom
+                                    are allowed to perform.
+                                  items:
+                                    type: string
+                                  type: array
                               type: object
+                            title:
+                              description: Human readable title. Must be unique within
+                                the Policy.
+                              type: string
                           type: object
                         type: array
                       ingressPolicies:
@@ -4054,9 +4160,11 @@ spec:
                               properties:
                                 identities:
                                   description: |-
-                                    A list of identities that are allowed access through this ingress policy.
-                                    Should be in the format of email address. The email address should represent
-                                    individual user or service account only.
+                                    Identities can be an individual user, service account, Google group,
+                                    or third-party identity. For third-party identity, only single identities
+                                    are supported and other identity types are not supported.The v1 identities
+                                    that have the prefix user, group and serviceAccount in
+                                    https://cloud.google.com/iam/docs/principal-identifiers#v1 are supported.
                                   items:
                                     type: string
                                   type: array
@@ -4152,7 +4260,19 @@ spec:
                                     type: string
                                   type: array
                                   x-kubernetes-list-type: set
+                                roles:
+                                  description: |-
+                                    A list of IAM roles that represent the set of operations that the sources
+                                    specified in the corresponding IngressFrom
+                                    are allowed to perform.
+                                  items:
+                                    type: string
+                                  type: array
                               type: object
+                            title:
+                              description: Human readable title. Must be unique within
+                                the Policy.
+                              type: string
                           type: object
                         type: array
                       resources:
@@ -4313,9 +4433,11 @@ spec:
                               properties:
                                 identities:
                                   description: |-
-                                    A list of identities that are allowed access through this ingress policy.
-                                    Should be in the format of email address. The email address should represent
-                                    individual user or service account only.
+                                    Identities can be an individual user, service account, Google group,
+                                    or third-party identity. For third-party identity, only single identities
+                                    are supported and other identity types are not supported.The v1 identities
+                                    that have the prefix user, group and serviceAccount in
+                                    https://cloud.google.com/iam/docs/principal-identifiers#v1 are supported.
                                   items:
                                     type: string
                                   type: array
@@ -4348,6 +4470,18 @@ spec:
                                           with request origins within the perimeter.
                                           Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
                                           If * is specified, then all IngressSources will be allowed.
+                                        type: string
+                                      resource:
+                                        description: |-
+                                          A Google Cloud resource that is allowed to ingress the perimeter.
+                                          Requests from these resources will be allowed to access perimeter data.
+                                          Currently only projects and VPCs are allowed.
+                                          Project format: projects/{projectNumber}
+                                          VPC network format:
+                                          //compute.googleapis.com/projects/{PROJECT_ID}/global/networks/{NAME}.
+                                          The project may be in any Google Cloud organization, not just the
+                                          organization that the perimeter is defined in. * is not allowed, the case
+                                          of allowing all Google Cloud resources only is not supported.
                                         type: string
                                     type: object
                                   type: array
@@ -4413,7 +4547,19 @@ spec:
                                     type: string
                                   type: array
                                   x-kubernetes-list-type: set
+                                roles:
+                                  description: |-
+                                    A list of IAM roles that represent the set of operations that the sources
+                                    specified in the corresponding IngressFrom
+                                    are allowed to perform.
+                                  items:
+                                    type: string
+                                  type: array
                               type: object
+                            title:
+                              description: Human readable title. Must be unique within
+                                the Policy.
+                              type: string
                           type: object
                         type: array
                       ingressPolicies:
@@ -4433,9 +4579,11 @@ spec:
                               properties:
                                 identities:
                                   description: |-
-                                    A list of identities that are allowed access through this ingress policy.
-                                    Should be in the format of email address. The email address should represent
-                                    individual user or service account only.
+                                    Identities can be an individual user, service account, Google group,
+                                    or third-party identity. For third-party identity, only single identities
+                                    are supported and other identity types are not supported.The v1 identities
+                                    that have the prefix user, group and serviceAccount in
+                                    https://cloud.google.com/iam/docs/principal-identifiers#v1 are supported.
                                   items:
                                     type: string
                                   type: array
@@ -4607,7 +4755,19 @@ spec:
                                     type: string
                                   type: array
                                   x-kubernetes-list-type: set
+                                roles:
+                                  description: |-
+                                    A list of IAM roles that represent the set of operations that the sources
+                                    specified in the corresponding IngressFrom
+                                    are allowed to perform.
+                                  items:
+                                    type: string
+                                  type: array
                               type: object
+                            title:
+                              description: Human readable title. Must be unique within
+                                the Policy.
+                              type: string
                           type: object
                         type: array
                       resources:
@@ -4932,9 +5092,11 @@ spec:
                               properties:
                                 identities:
                                   description: |-
-                                    A list of identities that are allowed access through this ingress policy.
-                                    Should be in the format of email address. The email address should represent
-                                    individual user or service account only.
+                                    Identities can be an individual user, service account, Google group,
+                                    or third-party identity. For third-party identity, only single identities
+                                    are supported and other identity types are not supported.The v1 identities
+                                    that have the prefix user, group and serviceAccount in
+                                    https://cloud.google.com/iam/docs/principal-identifiers#v1 are supported.
                                   items:
                                     type: string
                                   type: array
@@ -4967,6 +5129,18 @@ spec:
                                           with request origins within the perimeter.
                                           Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
                                           If * is specified, then all IngressSources will be allowed.
+                                        type: string
+                                      resource:
+                                        description: |-
+                                          A Google Cloud resource that is allowed to ingress the perimeter.
+                                          Requests from these resources will be allowed to access perimeter data.
+                                          Currently only projects and VPCs are allowed.
+                                          Project format: projects/{projectNumber}
+                                          VPC network format:
+                                          //compute.googleapis.com/projects/{PROJECT_ID}/global/networks/{NAME}.
+                                          The project may be in any Google Cloud organization, not just the
+                                          organization that the perimeter is defined in. * is not allowed, the case
+                                          of allowing all Google Cloud resources only is not supported.
                                         type: string
                                     type: object
                                   type: array
@@ -5032,7 +5206,19 @@ spec:
                                     type: string
                                   type: array
                                   x-kubernetes-list-type: set
+                                roles:
+                                  description: |-
+                                    A list of IAM roles that represent the set of operations that the sources
+                                    specified in the corresponding IngressFrom
+                                    are allowed to perform.
+                                  items:
+                                    type: string
+                                  type: array
                               type: object
+                            title:
+                              description: Human readable title. Must be unique within
+                                the Policy.
+                              type: string
                           type: object
                         type: array
                       ingressPolicies:
@@ -5052,9 +5238,11 @@ spec:
                               properties:
                                 identities:
                                   description: |-
-                                    A list of identities that are allowed access through this ingress policy.
-                                    Should be in the format of email address. The email address should represent
-                                    individual user or service account only.
+                                    Identities can be an individual user, service account, Google group,
+                                    or third-party identity. For third-party identity, only single identities
+                                    are supported and other identity types are not supported.The v1 identities
+                                    that have the prefix user, group and serviceAccount in
+                                    https://cloud.google.com/iam/docs/principal-identifiers#v1 are supported.
                                   items:
                                     type: string
                                   type: array
@@ -5150,7 +5338,19 @@ spec:
                                     type: string
                                   type: array
                                   x-kubernetes-list-type: set
+                                roles:
+                                  description: |-
+                                    A list of IAM roles that represent the set of operations that the sources
+                                    specified in the corresponding IngressFrom
+                                    are allowed to perform.
+                                  items:
+                                    type: string
+                                  type: array
                               type: object
+                            title:
+                              description: Human readable title. Must be unique within
+                                the Policy.
+                              type: string
                           type: object
                         type: array
                       resources:
@@ -5232,9 +5432,11 @@ spec:
                               properties:
                                 identities:
                                   description: |-
-                                    A list of identities that are allowed access through this ingress policy.
-                                    Should be in the format of email address. The email address should represent
-                                    individual user or service account only.
+                                    Identities can be an individual user, service account, Google group,
+                                    or third-party identity. For third-party identity, only single identities
+                                    are supported and other identity types are not supported.The v1 identities
+                                    that have the prefix user, group and serviceAccount in
+                                    https://cloud.google.com/iam/docs/principal-identifiers#v1 are supported.
                                   items:
                                     type: string
                                   type: array
@@ -5267,6 +5469,18 @@ spec:
                                           with request origins within the perimeter.
                                           Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
                                           If * is specified, then all IngressSources will be allowed.
+                                        type: string
+                                      resource:
+                                        description: |-
+                                          A Google Cloud resource that is allowed to ingress the perimeter.
+                                          Requests from these resources will be allowed to access perimeter data.
+                                          Currently only projects and VPCs are allowed.
+                                          Project format: projects/{projectNumber}
+                                          VPC network format:
+                                          //compute.googleapis.com/projects/{PROJECT_ID}/global/networks/{NAME}.
+                                          The project may be in any Google Cloud organization, not just the
+                                          organization that the perimeter is defined in. * is not allowed, the case
+                                          of allowing all Google Cloud resources only is not supported.
                                         type: string
                                     type: object
                                   type: array
@@ -5332,7 +5546,19 @@ spec:
                                     type: string
                                   type: array
                                   x-kubernetes-list-type: set
+                                roles:
+                                  description: |-
+                                    A list of IAM roles that represent the set of operations that the sources
+                                    specified in the corresponding IngressFrom
+                                    are allowed to perform.
+                                  items:
+                                    type: string
+                                  type: array
                               type: object
+                            title:
+                              description: Human readable title. Must be unique within
+                                the Policy.
+                              type: string
                           type: object
                         type: array
                       ingressPolicies:
@@ -5352,9 +5578,11 @@ spec:
                               properties:
                                 identities:
                                   description: |-
-                                    A list of identities that are allowed access through this ingress policy.
-                                    Should be in the format of email address. The email address should represent
-                                    individual user or service account only.
+                                    Identities can be an individual user, service account, Google group,
+                                    or third-party identity. For third-party identity, only single identities
+                                    are supported and other identity types are not supported.The v1 identities
+                                    that have the prefix user, group and serviceAccount in
+                                    https://cloud.google.com/iam/docs/principal-identifiers#v1 are supported.
                                   items:
                                     type: string
                                   type: array
@@ -5450,7 +5678,19 @@ spec:
                                     type: string
                                   type: array
                                   x-kubernetes-list-type: set
+                                roles:
+                                  description: |-
+                                    A list of IAM roles that represent the set of operations that the sources
+                                    specified in the corresponding IngressFrom
+                                    are allowed to perform.
+                                  items:
+                                    type: string
+                                  type: array
                               type: object
+                            title:
+                              description: Human readable title. Must be unique within
+                                the Policy.
+                              type: string
                           type: object
                         type: array
                       resources:

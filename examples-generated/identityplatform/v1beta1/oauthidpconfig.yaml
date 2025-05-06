@@ -20,3 +20,6 @@ spec:
     enabled: true
     issuer: issuer
     name: oidc.oauth-idp-config
+    responseType:
+    - code: false
+      idToken: true

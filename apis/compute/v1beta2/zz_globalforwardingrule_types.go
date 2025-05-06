@@ -161,6 +161,18 @@ type GlobalForwardingRuleInitParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
+	// This signifies the networking tier used for configuring
+	// this load balancer and can only take the following values:
+	// PREMIUM, STANDARD.
+	// For regional ForwardingRule, the valid values are PREMIUM and
+	// STANDARD. For GlobalForwardingRule, the valid value is
+	// PREMIUM.
+	// If this field is not specified, it is assumed to be PREMIUM.
+	// If IPAddress is specified, this value must be equal to the
+	// networkTier of the Address.
+	// Possible values are: PREMIUM, STANDARD.
+	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
+
 	// This is used in PSC consumer ForwardingRule to control whether it should try to auto-generate a DNS zone or not. Non-PSC forwarding rules do not use this field.
 	NoAutomateDNSZone *bool `json:"noAutomateDnsZone,omitempty" tf:"no_automate_dns_zone,omitempty"`
 
@@ -238,6 +250,9 @@ type GlobalForwardingRuleObservation struct {
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
 
+	// The unique identifier number for the resource. This identifier is defined by the server.
+	ForwardingRuleID *float64 `json:"forwardingRuleId,omitempty" tf:"forwarding_rule_id,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/global/forwardingRules/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -304,6 +319,18 @@ type GlobalForwardingRuleObservation struct {
 	// For Private Service Connect forwarding rules that forward traffic to Google
 	// APIs, a network must be provided.
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// This signifies the networking tier used for configuring
+	// this load balancer and can only take the following values:
+	// PREMIUM, STANDARD.
+	// For regional ForwardingRule, the valid values are PREMIUM and
+	// STANDARD. For GlobalForwardingRule, the valid value is
+	// PREMIUM.
+	// If this field is not specified, it is assumed to be PREMIUM.
+	// If IPAddress is specified, this value must be equal to the
+	// networkTier of the Address.
+	// Possible values are: PREMIUM, STANDARD.
+	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
 
 	// This is used in PSC consumer ForwardingRule to control whether it should try to auto-generate a DNS zone or not. Non-PSC forwarding rules do not use this field.
 	NoAutomateDNSZone *bool `json:"noAutomateDnsZone,omitempty" tf:"no_automate_dns_zone,omitempty"`
@@ -446,6 +473,19 @@ type GlobalForwardingRuleParameters struct {
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+
+	// This signifies the networking tier used for configuring
+	// this load balancer and can only take the following values:
+	// PREMIUM, STANDARD.
+	// For regional ForwardingRule, the valid values are PREMIUM and
+	// STANDARD. For GlobalForwardingRule, the valid value is
+	// PREMIUM.
+	// If this field is not specified, it is assumed to be PREMIUM.
+	// If IPAddress is specified, this value must be equal to the
+	// networkTier of the Address.
+	// Possible values are: PREMIUM, STANDARD.
+	// +kubebuilder:validation:Optional
+	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
 
 	// This is used in PSC consumer ForwardingRule to control whether it should try to auto-generate a DNS zone or not. Non-PSC forwarding rules do not use this field.
 	// +kubebuilder:validation:Optional

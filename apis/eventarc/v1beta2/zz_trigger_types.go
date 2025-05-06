@@ -73,15 +73,19 @@ type CloudRunServiceParameters struct {
 type DestinationInitParameters struct {
 
 	// Cloud Run fully-managed service that receives the events. The service should be running in the same project of the trigger.
+	// Structure is documented below.
 	CloudRunService *CloudRunServiceInitParameters `json:"cloudRunService,omitempty" tf:"cloud_run_service,omitempty"`
 
 	// A GKE service capable of receiving events. The service should be running in the same project as the trigger.
+	// Structure is documented below.
 	Gke *GkeInitParameters `json:"gke,omitempty" tf:"gke,omitempty"`
 
 	// An HTTP endpoint destination described by an URI.
+	// Structure is documented below.
 	HTTPEndpoint *HTTPEndpointInitParameters `json:"httpEndpoint,omitempty" tf:"http_endpoint,omitempty"`
 
 	// Optional. Network config is used to configure how Eventarc resolves and connect to a destination. This should only be used with HttpEndpoint destination type.
+	// Structure is documented below.
 	NetworkConfig *NetworkConfigInitParameters `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
 
 	// The resource name of the Workflow whose Executions are triggered by the events. The Workflow resource should be deployed in the same project as the trigger. Format: projects/{project}/locations/{location}/workflows/{workflow}
@@ -90,19 +94,24 @@ type DestinationInitParameters struct {
 
 type DestinationObservation struct {
 
+	// (Output)
 	// The Cloud Function resource name. Only Cloud Functions V2 is supported. Format projects/{project}/locations/{location}/functions/{function} This is a read-only field. [WARNING] Creating Cloud Functions V2 triggers is only supported via the Cloud Functions product. An error will be returned if the user sets this value.
 	CloudFunction *string `json:"cloudFunction,omitempty" tf:"cloud_function,omitempty"`
 
 	// Cloud Run fully-managed service that receives the events. The service should be running in the same project of the trigger.
+	// Structure is documented below.
 	CloudRunService *CloudRunServiceObservation `json:"cloudRunService,omitempty" tf:"cloud_run_service,omitempty"`
 
 	// A GKE service capable of receiving events. The service should be running in the same project as the trigger.
+	// Structure is documented below.
 	Gke *GkeObservation `json:"gke,omitempty" tf:"gke,omitempty"`
 
 	// An HTTP endpoint destination described by an URI.
+	// Structure is documented below.
 	HTTPEndpoint *HTTPEndpointObservation `json:"httpEndpoint,omitempty" tf:"http_endpoint,omitempty"`
 
 	// Optional. Network config is used to configure how Eventarc resolves and connect to a destination. This should only be used with HttpEndpoint destination type.
+	// Structure is documented below.
 	NetworkConfig *NetworkConfigObservation `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
 
 	// The resource name of the Workflow whose Executions are triggered by the events. The Workflow resource should be deployed in the same project as the trigger. Format: projects/{project}/locations/{location}/workflows/{workflow}
@@ -112,18 +121,22 @@ type DestinationObservation struct {
 type DestinationParameters struct {
 
 	// Cloud Run fully-managed service that receives the events. The service should be running in the same project of the trigger.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	CloudRunService *CloudRunServiceParameters `json:"cloudRunService,omitempty" tf:"cloud_run_service,omitempty"`
 
 	// A GKE service capable of receiving events. The service should be running in the same project as the trigger.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Gke *GkeParameters `json:"gke,omitempty" tf:"gke,omitempty"`
 
 	// An HTTP endpoint destination described by an URI.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	HTTPEndpoint *HTTPEndpointParameters `json:"httpEndpoint,omitempty" tf:"http_endpoint,omitempty"`
 
 	// Optional. Network config is used to configure how Eventarc resolves and connect to a destination. This should only be used with HttpEndpoint destination type.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	NetworkConfig *NetworkConfigParameters `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
 
@@ -268,11 +281,22 @@ type NetworkConfigParameters struct {
 type PubsubInitParameters struct {
 
 	// Optional. The name of the Pub/Sub topic created and managed by Eventarc system as a transport for the event delivery. Format: projects/{PROJECT_ID}/topics/{TOPIC_NAME}. You may set an existing topic for triggers of the type google.cloud.pubsub.topic.v1.messagePublished only. The topic you provide here will not be deleted by Eventarc at trigger deletion.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/pubsub/v1beta2.Topic
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
+
+	// Reference to a Topic in pubsub to populate topic.
+	// +kubebuilder:validation:Optional
+	TopicRef *v1.Reference `json:"topicRef,omitempty" tf:"-"`
+
+	// Selector for a Topic in pubsub to populate topic.
+	// +kubebuilder:validation:Optional
+	TopicSelector *v1.Selector `json:"topicSelector,omitempty" tf:"-"`
 }
 
 type PubsubObservation struct {
 
+	// (Output)
 	// Output only. The name of the Pub/Sub subscription created and managed by Eventarc system as a transport for the event delivery. Format: projects/{PROJECT_ID}/subscriptions/{SUBSCRIPTION_NAME}.
 	Subscription *string `json:"subscription,omitempty" tf:"subscription,omitempty"`
 
@@ -283,25 +307,38 @@ type PubsubObservation struct {
 type PubsubParameters struct {
 
 	// Optional. The name of the Pub/Sub topic created and managed by Eventarc system as a transport for the event delivery. Format: projects/{PROJECT_ID}/topics/{TOPIC_NAME}. You may set an existing topic for triggers of the type google.cloud.pubsub.topic.v1.messagePublished only. The topic you provide here will not be deleted by Eventarc at trigger deletion.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/pubsub/v1beta2.Topic
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
+
+	// Reference to a Topic in pubsub to populate topic.
+	// +kubebuilder:validation:Optional
+	TopicRef *v1.Reference `json:"topicRef,omitempty" tf:"-"`
+
+	// Selector for a Topic in pubsub to populate topic.
+	// +kubebuilder:validation:Optional
+	TopicSelector *v1.Selector `json:"topicSelector,omitempty" tf:"-"`
 }
 
 type TransportInitParameters struct {
 
 	// The Pub/Sub topic and subscription used by Eventarc as delivery intermediary.
+	// Structure is documented below.
 	Pubsub *PubsubInitParameters `json:"pubsub,omitempty" tf:"pubsub,omitempty"`
 }
 
 type TransportObservation struct {
 
 	// The Pub/Sub topic and subscription used by Eventarc as delivery intermediary.
+	// Structure is documented below.
 	Pubsub *PubsubObservation `json:"pubsub,omitempty" tf:"pubsub,omitempty"`
 }
 
 type TransportParameters struct {
 
 	// The Pub/Sub topic and subscription used by Eventarc as delivery intermediary.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Pubsub *PubsubParameters `json:"pubsub,omitempty" tf:"pubsub,omitempty"`
 }
@@ -312,25 +349,31 @@ type TriggerInitParameters struct {
 	Channel *string `json:"channel,omitempty" tf:"channel,omitempty"`
 
 	// Required. Destination specifies where the events should be sent to.
+	// Structure is documented below.
 	Destination *DestinationInitParameters `json:"destination,omitempty" tf:"destination,omitempty"`
 
 	// Optional. EventDataContentType specifies the type of payload in MIME format that is expected from the CloudEvent data field. This is set to application/json if the value is not defined.
 	EventDataContentType *string `json:"eventDataContentType,omitempty" tf:"event_data_content_type,omitempty"`
 
 	// Optional. User labels attached to the triggers that can be used to group resources.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Required. null The list of filters that applies to event attributes. Only events that match all the provided filters will be sent to the destination.
+	// Structure is documented below.
 	MatchingCriteria []MatchingCriteriaInitParameters `json:"matchingCriteria,omitempty" tf:"matching_criteria,omitempty"`
 
-	// The project for the resource
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Optional. The IAM service account email associated with the trigger. The service account represents the identity of the trigger. The principal who calls this API must have iam.serviceAccounts.actAs permission in the service account. See https://cloud.google.com/iam/docs/understanding-service-accounts#sa_common for more information. For Cloud Run destinations, this service account is used to generate identity tokens when invoking the service. See https://cloud.google.com/run/docs/triggering/pubsub-push#create-service-account for information on how to invoke authenticated Cloud Run services. In order to create Audit Log triggers, the service account should also have roles/eventarc.eventReceiver IAM role.
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
 	// Optional. In order to deliver messages, Eventarc may use other GCP products as transport intermediary. This field contains a reference to that transport intermediary. This information can be used for debugging purposes.
+	// Structure is documented below.
 	Transport *TransportInitParameters `json:"transport,omitempty" tf:"transport,omitempty"`
 }
 
@@ -347,6 +390,7 @@ type TriggerObservation struct {
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
 	// Required. Destination specifies where the events should be sent to.
+	// Structure is documented below.
 	Destination *DestinationObservation `json:"destination,omitempty" tf:"destination,omitempty"`
 
 	// +mapType=granular
@@ -362,6 +406,8 @@ type TriggerObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Optional. User labels attached to the triggers that can be used to group resources.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -369,19 +415,23 @@ type TriggerObservation struct {
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// Required. null The list of filters that applies to event attributes. Only events that match all the provided filters will be sent to the destination.
+	// Structure is documented below.
 	MatchingCriteria []MatchingCriteriaObservation `json:"matchingCriteria,omitempty" tf:"matching_criteria,omitempty"`
 
-	// The project for the resource
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Optional. The IAM service account email associated with the trigger. The service account represents the identity of the trigger. The principal who calls this API must have iam.serviceAccounts.actAs permission in the service account. See https://cloud.google.com/iam/docs/understanding-service-accounts#sa_common for more information. For Cloud Run destinations, this service account is used to generate identity tokens when invoking the service. See https://cloud.google.com/run/docs/triggering/pubsub-push#create-service-account for information on how to invoke authenticated Cloud Run services. In order to create Audit Log triggers, the service account should also have roles/eventarc.eventReceiver IAM role.
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
-	// The combination of labels configured directly on the resource and default labels configured on the provider.
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
 	// +mapType=granular
 	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// Optional. In order to deliver messages, Eventarc may use other GCP products as transport intermediary. This field contains a reference to that transport intermediary. This information can be used for debugging purposes.
+	// Structure is documented below.
 	Transport *TransportObservation `json:"transport,omitempty" tf:"transport,omitempty"`
 
 	// Output only. Server assigned unique identifier for the trigger. The value is a UUID4 string and guaranteed to remain unchanged until the resource is deleted.
@@ -398,6 +448,7 @@ type TriggerParameters struct {
 	Channel *string `json:"channel,omitempty" tf:"channel,omitempty"`
 
 	// Required. Destination specifies where the events should be sent to.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Destination *DestinationParameters `json:"destination,omitempty" tf:"destination,omitempty"`
 
@@ -406,6 +457,8 @@ type TriggerParameters struct {
 	EventDataContentType *string `json:"eventDataContentType,omitempty" tf:"event_data_content_type,omitempty"`
 
 	// Optional. User labels attached to the triggers that can be used to group resources.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
@@ -415,10 +468,12 @@ type TriggerParameters struct {
 	Location *string `json:"location" tf:"location,omitempty"`
 
 	// Required. null The list of filters that applies to event attributes. Only events that match all the provided filters will be sent to the destination.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	MatchingCriteria []MatchingCriteriaParameters `json:"matchingCriteria,omitempty" tf:"matching_criteria,omitempty"`
 
-	// The project for the resource
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
@@ -427,6 +482,7 @@ type TriggerParameters struct {
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
 	// Optional. In order to deliver messages, Eventarc may use other GCP products as transport intermediary. This field contains a reference to that transport intermediary. This information can be used for debugging purposes.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Transport *TransportParameters `json:"transport,omitempty" tf:"transport,omitempty"`
 }

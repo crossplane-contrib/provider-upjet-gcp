@@ -43,6 +43,10 @@ type EnvironmentInitParameters struct {
 	// Structure is documented below.
 	NodeConfig *NodeConfigInitParameters `json:"nodeConfig,omitempty" tf:"node_config,omitempty"`
 
+	// Key-value pairs that may be used for customizing the environment.
+	// Structure is documented below.
+	Properties *PropertiesInitParameters `json:"properties,omitempty" tf:"properties,omitempty"`
+
 	// Types that can be selected for an Environment. Each of the types are
 	// limited by capability and capacity. Refer to Apigee's public documentation
 	// to understand about each of these types in details.
@@ -87,6 +91,10 @@ type EnvironmentObservation struct {
 	// The Apigee Organization associated with the Apigee environment,
 	// in the format organizations/{{org_name}}.
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
+
+	// Key-value pairs that may be used for customizing the environment.
+	// Structure is documented below.
+	Properties *PropertiesObservation `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// Types that can be selected for an Environment. Each of the types are
 	// limited by capability and capacity. Refer to Apigee's public documentation
@@ -147,6 +155,11 @@ type EnvironmentParameters struct {
 	// +kubebuilder:validation:Optional
 	OrgIDSelector *v1.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 
+	// Key-value pairs that may be used for customizing the environment.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Properties *PropertiesParameters `json:"properties,omitempty" tf:"properties,omitempty"`
+
 	// Types that can be selected for an Environment. Each of the types are
 	// limited by capability and capacity. Refer to Apigee's public documentation
 	// to understand about each of these types in details.
@@ -200,6 +213,57 @@ type NodeConfigParameters struct {
 	// recommended minimum number of nodes for that gateway.
 	// +kubebuilder:validation:Optional
 	MinNodeCount *string `json:"minNodeCount,omitempty" tf:"min_node_count,omitempty"`
+}
+
+type PropertiesInitParameters struct {
+
+	// List of all properties in the object.
+	// Structure is documented below.
+	Property []PropertyInitParameters `json:"property,omitempty" tf:"property,omitempty"`
+}
+
+type PropertiesObservation struct {
+
+	// List of all properties in the object.
+	// Structure is documented below.
+	Property []PropertyObservation `json:"property,omitempty" tf:"property,omitempty"`
+}
+
+type PropertiesParameters struct {
+
+	// List of all properties in the object.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Property []PropertyParameters `json:"property,omitempty" tf:"property,omitempty"`
+}
+
+type PropertyInitParameters struct {
+
+	// The property key.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The property value.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type PropertyObservation struct {
+
+	// The property key.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The property value.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type PropertyParameters struct {
+
+	// The property key.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The property value.
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 // EnvironmentSpec defines the desired state of Environment

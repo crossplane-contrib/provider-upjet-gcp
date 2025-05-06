@@ -13,6 +13,41 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AirflowMetadataRetentionConfigInitParameters struct {
+
+	// How many days data should be retained for.
+	RetentionDays *float64 `json:"retentionDays,omitempty" tf:"retention_days,omitempty"`
+
+	// Retention can be either enabled or disabled. Values for retention_mode are
+	// RETENTION_MODE_ENABLED to enable retention and RETENTION_MODE_DISABLED
+	// to disable retention.
+	RetentionMode *string `json:"retentionMode,omitempty" tf:"retention_mode,omitempty"`
+}
+
+type AirflowMetadataRetentionConfigObservation struct {
+
+	// How many days data should be retained for.
+	RetentionDays *float64 `json:"retentionDays,omitempty" tf:"retention_days,omitempty"`
+
+	// Retention can be either enabled or disabled. Values for retention_mode are
+	// RETENTION_MODE_ENABLED to enable retention and RETENTION_MODE_DISABLED
+	// to disable retention.
+	RetentionMode *string `json:"retentionMode,omitempty" tf:"retention_mode,omitempty"`
+}
+
+type AirflowMetadataRetentionConfigParameters struct {
+
+	// How many days data should be retained for.
+	// +kubebuilder:validation:Optional
+	RetentionDays *float64 `json:"retentionDays,omitempty" tf:"retention_days,omitempty"`
+
+	// Retention can be either enabled or disabled. Values for retention_mode are
+	// RETENTION_MODE_ENABLED to enable retention and RETENTION_MODE_DISABLED
+	// to disable retention.
+	// +kubebuilder:validation:Optional
+	RetentionMode *string `json:"retentionMode,omitempty" tf:"retention_mode,omitempty"`
+}
+
 type AllowedIPRangeInitParameters struct {
 
 	// A description of this ip range.
@@ -80,15 +115,41 @@ type CidrBlocksParameters struct {
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 }
 
+type CloudDataLineageIntegrationInitParameters struct {
+
+	// When enabled, Cloud Composer periodically saves snapshots of your environment to a Cloud Storage bucket.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type CloudDataLineageIntegrationObservation struct {
+
+	// When enabled, Cloud Composer periodically saves snapshots of your environment to a Cloud Storage bucket.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type CloudDataLineageIntegrationParameters struct {
+
+	// When enabled, Cloud Composer periodically saves snapshots of your environment to a Cloud Storage bucket.
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+}
+
 type ConfigInitParameters struct {
 
-	// Configuration setting for Airflow database retention mechanism. Structure is
+	// Configuration setting for airflow data rentention mechanism. Structure is
 	// documented below.
 	DataRetentionConfig *DataRetentionConfigInitParameters `json:"dataRetentionConfig,omitempty" tf:"data_retention_config,omitempty"`
 
 	// The configuration settings for Cloud SQL instance used internally
 	// by Apache Airflow software.
 	DatabaseConfig *DatabaseConfigInitParameters `json:"databaseConfig,omitempty" tf:"database_config,omitempty"`
+
+	// If true, builds performed during operations that install Python packages have only private connectivity to Google services.
+	// If false, the builds also have access to the internet.
+	EnablePrivateBuildsOnly *bool `json:"enablePrivateBuildsOnly,omitempty" tf:"enable_private_builds_only,omitempty"`
+
+	// If true, a private Composer environment will be created.
+	EnablePrivateEnvironment *bool `json:"enablePrivateEnvironment,omitempty" tf:"enable_private_environment,omitempty"`
 
 	// The encryption options for the Cloud Composer environment and its
 	// dependencies.
@@ -156,13 +217,20 @@ type ConfigObservation struct {
 	// reside in a simulated directory with this prefix.
 	DagGcsPrefix *string `json:"dagGcsPrefix,omitempty" tf:"dag_gcs_prefix,omitempty"`
 
-	// Configuration setting for Airflow database retention mechanism. Structure is
+	// Configuration setting for airflow data rentention mechanism. Structure is
 	// documented below.
 	DataRetentionConfig *DataRetentionConfigObservation `json:"dataRetentionConfig,omitempty" tf:"data_retention_config,omitempty"`
 
 	// The configuration settings for Cloud SQL instance used internally
 	// by Apache Airflow software.
 	DatabaseConfig *DatabaseConfigObservation `json:"databaseConfig,omitempty" tf:"database_config,omitempty"`
+
+	// If true, builds performed during operations that install Python packages have only private connectivity to Google services.
+	// If false, the builds also have access to the internet.
+	EnablePrivateBuildsOnly *bool `json:"enablePrivateBuildsOnly,omitempty" tf:"enable_private_builds_only,omitempty"`
+
+	// If true, a private Composer environment will be created.
+	EnablePrivateEnvironment *bool `json:"enablePrivateEnvironment,omitempty" tf:"enable_private_environment,omitempty"`
 
 	// The encryption options for the Cloud Composer environment and its
 	// dependencies.
@@ -222,7 +290,7 @@ type ConfigObservation struct {
 
 type ConfigParameters struct {
 
-	// Configuration setting for Airflow database retention mechanism. Structure is
+	// Configuration setting for airflow data rentention mechanism. Structure is
 	// documented below.
 	// +kubebuilder:validation:Optional
 	DataRetentionConfig *DataRetentionConfigParameters `json:"dataRetentionConfig,omitempty" tf:"data_retention_config,omitempty"`
@@ -231,6 +299,15 @@ type ConfigParameters struct {
 	// by Apache Airflow software.
 	// +kubebuilder:validation:Optional
 	DatabaseConfig *DatabaseConfigParameters `json:"databaseConfig,omitempty" tf:"database_config,omitempty"`
+
+	// If true, builds performed during operations that install Python packages have only private connectivity to Google services.
+	// If false, the builds also have access to the internet.
+	// +kubebuilder:validation:Optional
+	EnablePrivateBuildsOnly *bool `json:"enablePrivateBuildsOnly,omitempty" tf:"enable_private_builds_only,omitempty"`
+
+	// If true, a private Composer environment will be created.
+	// +kubebuilder:validation:Optional
+	EnablePrivateEnvironment *bool `json:"enablePrivateEnvironment,omitempty" tf:"enable_private_environment,omitempty"`
 
 	// The encryption options for the Cloud Composer environment and its
 	// dependencies.
@@ -298,7 +375,60 @@ type ConfigParameters struct {
 	WorkloadsConfig *WorkloadsConfigParameters `json:"workloadsConfig,omitempty" tf:"workloads_config,omitempty"`
 }
 
+type DagProcessorInitParameters struct {
+
+	// The number of CPUs for a single Airflow worker.
+	CPU *float64 `json:"cpu,omitempty" tf:"cpu,omitempty"`
+
+	// The number of Airflow triggerers.
+	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
+
+	// The amount of memory (GB) for a single Airflow worker.
+	MemoryGb *float64 `json:"memoryGb,omitempty" tf:"memory_gb,omitempty"`
+
+	// The amount of storage (GB) for a single Airflow worker.
+	StorageGb *float64 `json:"storageGb,omitempty" tf:"storage_gb,omitempty"`
+}
+
+type DagProcessorObservation struct {
+
+	// The number of CPUs for a single Airflow worker.
+	CPU *float64 `json:"cpu,omitempty" tf:"cpu,omitempty"`
+
+	// The number of Airflow triggerers.
+	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
+
+	// The amount of memory (GB) for a single Airflow worker.
+	MemoryGb *float64 `json:"memoryGb,omitempty" tf:"memory_gb,omitempty"`
+
+	// The amount of storage (GB) for a single Airflow worker.
+	StorageGb *float64 `json:"storageGb,omitempty" tf:"storage_gb,omitempty"`
+}
+
+type DagProcessorParameters struct {
+
+	// The number of CPUs for a single Airflow worker.
+	// +kubebuilder:validation:Optional
+	CPU *float64 `json:"cpu,omitempty" tf:"cpu,omitempty"`
+
+	// The number of Airflow triggerers.
+	// +kubebuilder:validation:Optional
+	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
+
+	// The amount of memory (GB) for a single Airflow worker.
+	// +kubebuilder:validation:Optional
+	MemoryGb *float64 `json:"memoryGb,omitempty" tf:"memory_gb,omitempty"`
+
+	// The amount of storage (GB) for a single Airflow worker.
+	// +kubebuilder:validation:Optional
+	StorageGb *float64 `json:"storageGb,omitempty" tf:"storage_gb,omitempty"`
+}
+
 type DataRetentionConfigInitParameters struct {
+
+	// The retention policy for airflow metadata database. Structure is
+	// documented below.
+	AirflowMetadataRetentionConfig []AirflowMetadataRetentionConfigInitParameters `json:"airflowMetadataRetentionConfig,omitempty" tf:"airflow_metadata_retention_config,omitempty"`
 
 	// The configuration setting for Task Logs. Structure is
 	// documented below.
@@ -307,6 +437,10 @@ type DataRetentionConfigInitParameters struct {
 
 type DataRetentionConfigObservation struct {
 
+	// The retention policy for airflow metadata database. Structure is
+	// documented below.
+	AirflowMetadataRetentionConfig []AirflowMetadataRetentionConfigObservation `json:"airflowMetadataRetentionConfig,omitempty" tf:"airflow_metadata_retention_config,omitempty"`
+
 	// The configuration setting for Task Logs. Structure is
 	// documented below.
 	TaskLogsRetentionConfig []TaskLogsRetentionConfigObservation `json:"taskLogsRetentionConfig,omitempty" tf:"task_logs_retention_config,omitempty"`
@@ -314,10 +448,15 @@ type DataRetentionConfigObservation struct {
 
 type DataRetentionConfigParameters struct {
 
+	// The retention policy for airflow metadata database. Structure is
+	// documented below.
+	// +kubebuilder:validation:Optional
+	AirflowMetadataRetentionConfig []AirflowMetadataRetentionConfigParameters `json:"airflowMetadataRetentionConfig,omitempty" tf:"airflow_metadata_retention_config,omitempty"`
+
 	// The configuration setting for Task Logs. Structure is
 	// documented below.
 	// +kubebuilder:validation:Optional
-	TaskLogsRetentionConfig []TaskLogsRetentionConfigParameters `json:"taskLogsRetentionConfig" tf:"task_logs_retention_config,omitempty"`
+	TaskLogsRetentionConfig []TaskLogsRetentionConfigParameters `json:"taskLogsRetentionConfig,omitempty" tf:"task_logs_retention_config,omitempty"`
 }
 
 type DatabaseConfigInitParameters struct {
@@ -515,12 +654,12 @@ type IPAllocationPolicyInitParameters struct {
 	// Set to a CIDR notation (e.g. 10.96.0.0/14) from the RFC-1918 private networks
 	// (e.g. 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16) to pick a specific range to use.
 	// Specify either cluster_secondary_range_name or cluster_ipv4_cidr_block but not both.
-	ClusterIPv4CidrBlock *string `json:"clusterIpv4CidrBlock,omitempty" tf:"cluster_ipv4_cidr_block"`
+	ClusterIPv4CidrBlock *string `json:"clusterIpv4CidrBlock,omitempty" tf:"cluster_ipv4_cidr_block,omitempty"`
 
 	// The name of the cluster's secondary range used to allocate IP addresses to pods.
 	// Specify either cluster_secondary_range_name or cluster_ipv4_cidr_block but not both.
 	// For Cloud Composer 1 environments, this field is applicable only when use_ip_aliases is true.
-	ClusterSecondaryRangeName *string `json:"clusterSecondaryRangeName,omitempty" tf:"cluster_secondary_range_name"`
+	ClusterSecondaryRangeName *string `json:"clusterSecondaryRangeName,omitempty" tf:"cluster_secondary_range_name,omitempty"`
 
 	// The IP address range used to allocate IP addresses in this cluster.
 	// For Cloud Composer 1 environments, this field is applicable only when use_ip_aliases is true.
@@ -529,16 +668,16 @@ type IPAllocationPolicyInitParameters struct {
 	// Set to a CIDR notation (e.g. 10.96.0.0/14) from the RFC-1918 private networks
 	// (e.g. 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16) to pick a specific range to use.
 	// Specify either services_secondary_range_name or services_ipv4_cidr_block but not both.
-	ServicesIPv4CidrBlock *string `json:"servicesIpv4CidrBlock,omitempty" tf:"services_ipv4_cidr_block"`
+	ServicesIPv4CidrBlock *string `json:"servicesIpv4CidrBlock,omitempty" tf:"services_ipv4_cidr_block,omitempty"`
 
 	// The name of the services' secondary range used to allocate IP addresses to the cluster.
 	// Specify either services_secondary_range_name or services_ipv4_cidr_block but not both.
 	// For Cloud Composer 1 environments, this field is applicable only when use_ip_aliases is true.
-	ServicesSecondaryRangeName *string `json:"servicesSecondaryRangeName,omitempty" tf:"services_secondary_range_name"`
+	ServicesSecondaryRangeName *string `json:"servicesSecondaryRangeName,omitempty" tf:"services_secondary_range_name,omitempty"`
 
 	// Whether or not to enable Alias IPs in the GKE cluster. If true, a VPC-native cluster is created.
 	// Defaults to true if the ip_allocation_policy block is present in config.
-	UseIPAliases *bool `json:"useIpAliases,omitempty" tf:"use_ip_aliases"`
+	UseIPAliases *bool `json:"useIpAliases,omitempty" tf:"use_ip_aliases,omitempty"`
 }
 
 type IPAllocationPolicyObservation struct {
@@ -586,13 +725,13 @@ type IPAllocationPolicyParameters struct {
 	// (e.g. 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16) to pick a specific range to use.
 	// Specify either cluster_secondary_range_name or cluster_ipv4_cidr_block but not both.
 	// +kubebuilder:validation:Optional
-	ClusterIPv4CidrBlock *string `json:"clusterIpv4CidrBlock,omitempty" tf:"cluster_ipv4_cidr_block"`
+	ClusterIPv4CidrBlock *string `json:"clusterIpv4CidrBlock,omitempty" tf:"cluster_ipv4_cidr_block,omitempty"`
 
 	// The name of the cluster's secondary range used to allocate IP addresses to pods.
 	// Specify either cluster_secondary_range_name or cluster_ipv4_cidr_block but not both.
 	// For Cloud Composer 1 environments, this field is applicable only when use_ip_aliases is true.
 	// +kubebuilder:validation:Optional
-	ClusterSecondaryRangeName *string `json:"clusterSecondaryRangeName,omitempty" tf:"cluster_secondary_range_name"`
+	ClusterSecondaryRangeName *string `json:"clusterSecondaryRangeName,omitempty" tf:"cluster_secondary_range_name,omitempty"`
 
 	// The IP address range used to allocate IP addresses in this cluster.
 	// For Cloud Composer 1 environments, this field is applicable only when use_ip_aliases is true.
@@ -602,18 +741,18 @@ type IPAllocationPolicyParameters struct {
 	// (e.g. 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16) to pick a specific range to use.
 	// Specify either services_secondary_range_name or services_ipv4_cidr_block but not both.
 	// +kubebuilder:validation:Optional
-	ServicesIPv4CidrBlock *string `json:"servicesIpv4CidrBlock,omitempty" tf:"services_ipv4_cidr_block"`
+	ServicesIPv4CidrBlock *string `json:"servicesIpv4CidrBlock,omitempty" tf:"services_ipv4_cidr_block,omitempty"`
 
 	// The name of the services' secondary range used to allocate IP addresses to the cluster.
 	// Specify either services_secondary_range_name or services_ipv4_cidr_block but not both.
 	// For Cloud Composer 1 environments, this field is applicable only when use_ip_aliases is true.
 	// +kubebuilder:validation:Optional
-	ServicesSecondaryRangeName *string `json:"servicesSecondaryRangeName,omitempty" tf:"services_secondary_range_name"`
+	ServicesSecondaryRangeName *string `json:"servicesSecondaryRangeName,omitempty" tf:"services_secondary_range_name,omitempty"`
 
 	// Whether or not to enable Alias IPs in the GKE cluster. If true, a VPC-native cluster is created.
 	// Defaults to true if the ip_allocation_policy block is present in config.
 	// +kubebuilder:validation:Optional
-	UseIPAliases *bool `json:"useIpAliases,omitempty" tf:"use_ip_aliases"`
+	UseIPAliases *bool `json:"useIpAliases,omitempty" tf:"use_ip_aliases,omitempty"`
 }
 
 type MaintenanceWindowInitParameters struct {
@@ -694,6 +833,15 @@ type MasterAuthorizedNetworksConfigParameters struct {
 }
 
 type NodeConfigInitParameters struct {
+
+	// /20 IPv4 cidr range that will be used by Composer internal components.
+	// Cannot be updated.
+	ComposerInternalIPv4CidrBlock *string `json:"composerInternalIpv4CidrBlock,omitempty" tf:"composer_internal_ipv4_cidr_block,omitempty"`
+
+	// PSC (Private Service Connect) Network entry point. Customers can pre-create the Network Attachment
+	// and point Cloud Composer environment to use. It is possible to share network attachment among many environments,
+	// provided enough IP addresses are available.
+	ComposerNetworkAttachment *string `json:"composerNetworkAttachment,omitempty" tf:"composer_network_attachment,omitempty"`
 
 	// The disk size in GB used for node VMs. Minimum size is 20GB.
 	// If unspecified, defaults to 100GB. Cannot be updated.
@@ -786,6 +934,15 @@ type NodeConfigInitParameters struct {
 
 type NodeConfigObservation struct {
 
+	// /20 IPv4 cidr range that will be used by Composer internal components.
+	// Cannot be updated.
+	ComposerInternalIPv4CidrBlock *string `json:"composerInternalIpv4CidrBlock,omitempty" tf:"composer_internal_ipv4_cidr_block,omitempty"`
+
+	// PSC (Private Service Connect) Network entry point. Customers can pre-create the Network Attachment
+	// and point Cloud Composer environment to use. It is possible to share network attachment among many environments,
+	// provided enough IP addresses are available.
+	ComposerNetworkAttachment *string `json:"composerNetworkAttachment,omitempty" tf:"composer_network_attachment,omitempty"`
+
 	// The disk size in GB used for node VMs. Minimum size is 20GB.
 	// If unspecified, defaults to 100GB. Cannot be updated.
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
@@ -846,6 +1003,17 @@ type NodeConfigObservation struct {
 }
 
 type NodeConfigParameters struct {
+
+	// /20 IPv4 cidr range that will be used by Composer internal components.
+	// Cannot be updated.
+	// +kubebuilder:validation:Optional
+	ComposerInternalIPv4CidrBlock *string `json:"composerInternalIpv4CidrBlock,omitempty" tf:"composer_internal_ipv4_cidr_block,omitempty"`
+
+	// PSC (Private Service Connect) Network entry point. Customers can pre-create the Network Attachment
+	// and point Cloud Composer environment to use. It is possible to share network attachment among many environments,
+	// provided enough IP addresses are available.
+	// +kubebuilder:validation:Optional
+	ComposerNetworkAttachment *string `json:"composerNetworkAttachment,omitempty" tf:"composer_network_attachment,omitempty"`
 
 	// The disk size in GB used for node VMs. Minimum size is 20GB.
 	// If unspecified, defaults to 100GB. Cannot be updated.
@@ -1189,6 +1357,10 @@ type SoftwareConfigInitParameters struct {
 	// +mapType=granular
 	AirflowConfigOverrides map[string]*string `json:"airflowConfigOverrides,omitempty" tf:"airflow_config_overrides,omitempty"`
 
+	// The configuration for Cloud Data Lineage integration. Structure is
+	// documented below.
+	CloudDataLineageIntegration *CloudDataLineageIntegrationInitParameters `json:"cloudDataLineageIntegration,omitempty" tf:"cloud_data_lineage_integration,omitempty"`
+
 	// Additional environment variables to provide to the Apache Airflow scheduler, worker, and webserver processes.
 	// Environment variable names must match the regular expression [a-zA-Z_][a-zA-Z0-9_]*.
 	// They cannot specify Apache Airflow software configuration overrides (they cannot match the regular expression
@@ -1212,6 +1384,9 @@ type SoftwareConfigInitParameters struct {
 
 	// The number of schedulers for Airflow.
 	SchedulerCount *float64 `json:"schedulerCount,omitempty" tf:"scheduler_count,omitempty"`
+
+	// Web server plugins configuration. Can be either 'ENABLED' or 'DISABLED'. Defaults to 'ENABLED'.
+	WebServerPluginsMode *string `json:"webServerPluginsMode,omitempty" tf:"web_server_plugins_mode,omitempty"`
 }
 
 type SoftwareConfigObservation struct {
@@ -1221,6 +1396,10 @@ type SoftwareConfigObservation struct {
 	// +mapType=granular
 	AirflowConfigOverrides map[string]*string `json:"airflowConfigOverrides,omitempty" tf:"airflow_config_overrides,omitempty"`
 
+	// The configuration for Cloud Data Lineage integration. Structure is
+	// documented below.
+	CloudDataLineageIntegration *CloudDataLineageIntegrationObservation `json:"cloudDataLineageIntegration,omitempty" tf:"cloud_data_lineage_integration,omitempty"`
+
 	// Additional environment variables to provide to the Apache Airflow scheduler, worker, and webserver processes.
 	// Environment variable names must match the regular expression [a-zA-Z_][a-zA-Z0-9_]*.
 	// They cannot specify Apache Airflow software configuration overrides (they cannot match the regular expression
@@ -1244,6 +1423,9 @@ type SoftwareConfigObservation struct {
 
 	// The number of schedulers for Airflow.
 	SchedulerCount *float64 `json:"schedulerCount,omitempty" tf:"scheduler_count,omitempty"`
+
+	// Web server plugins configuration. Can be either 'ENABLED' or 'DISABLED'. Defaults to 'ENABLED'.
+	WebServerPluginsMode *string `json:"webServerPluginsMode,omitempty" tf:"web_server_plugins_mode,omitempty"`
 }
 
 type SoftwareConfigParameters struct {
@@ -1254,6 +1436,11 @@ type SoftwareConfigParameters struct {
 	// +mapType=granular
 	AirflowConfigOverrides map[string]*string `json:"airflowConfigOverrides,omitempty" tf:"airflow_config_overrides,omitempty"`
 
+	// The configuration for Cloud Data Lineage integration. Structure is
+	// documented below.
+	// +kubebuilder:validation:Optional
+	CloudDataLineageIntegration *CloudDataLineageIntegrationParameters `json:"cloudDataLineageIntegration,omitempty" tf:"cloud_data_lineage_integration,omitempty"`
+
 	// Additional environment variables to provide to the Apache Airflow scheduler, worker, and webserver processes.
 	// Environment variable names must match the regular expression [a-zA-Z_][a-zA-Z0-9_]*.
 	// They cannot specify Apache Airflow software configuration overrides (they cannot match the regular expression
@@ -1282,6 +1469,10 @@ type SoftwareConfigParameters struct {
 	// The number of schedulers for Airflow.
 	// +kubebuilder:validation:Optional
 	SchedulerCount *float64 `json:"schedulerCount,omitempty" tf:"scheduler_count,omitempty"`
+
+	// Web server plugins configuration. Can be either 'ENABLED' or 'DISABLED'. Defaults to 'ENABLED'.
+	// +kubebuilder:validation:Optional
+	WebServerPluginsMode *string `json:"webServerPluginsMode,omitempty" tf:"web_server_plugins_mode,omitempty"`
 }
 
 type StorageConfigInitParameters struct {
@@ -1467,7 +1658,7 @@ type WorkerInitParameters struct {
 	MemoryGb *float64 `json:"memoryGb,omitempty" tf:"memory_gb,omitempty"`
 
 	// The minimum number of Airflow workers that the environment can run. The number of workers in the
-	// environment does not go above this number, even if a lower number of workers can handle the load.
+	// environment does not go below this number, even if a lower number of workers can handle the load.
 	MinCount *float64 `json:"minCount,omitempty" tf:"min_count,omitempty"`
 
 	// The amount of storage (GB) for a single Airflow worker.
@@ -1488,7 +1679,7 @@ type WorkerObservation struct {
 	MemoryGb *float64 `json:"memoryGb,omitempty" tf:"memory_gb,omitempty"`
 
 	// The minimum number of Airflow workers that the environment can run. The number of workers in the
-	// environment does not go above this number, even if a lower number of workers can handle the load.
+	// environment does not go below this number, even if a lower number of workers can handle the load.
 	MinCount *float64 `json:"minCount,omitempty" tf:"min_count,omitempty"`
 
 	// The amount of storage (GB) for a single Airflow worker.
@@ -1512,7 +1703,7 @@ type WorkerParameters struct {
 	MemoryGb *float64 `json:"memoryGb,omitempty" tf:"memory_gb,omitempty"`
 
 	// The minimum number of Airflow workers that the environment can run. The number of workers in the
-	// environment does not go above this number, even if a lower number of workers can handle the load.
+	// environment does not go below this number, even if a lower number of workers can handle the load.
 	// +kubebuilder:validation:Optional
 	MinCount *float64 `json:"minCount,omitempty" tf:"min_count,omitempty"`
 
@@ -1522,6 +1713,9 @@ type WorkerParameters struct {
 }
 
 type WorkloadsConfigInitParameters struct {
+
+	// Configuration for resources used by DAG processor.
+	DagProcessor *DagProcessorInitParameters `json:"dagProcessor,omitempty" tf:"dag_processor,omitempty"`
 
 	// Configuration for resources used by Airflow schedulers.
 	Scheduler *SchedulerInitParameters `json:"scheduler,omitempty" tf:"scheduler,omitempty"`
@@ -1538,6 +1732,9 @@ type WorkloadsConfigInitParameters struct {
 
 type WorkloadsConfigObservation struct {
 
+	// Configuration for resources used by DAG processor.
+	DagProcessor *DagProcessorObservation `json:"dagProcessor,omitempty" tf:"dag_processor,omitempty"`
+
 	// Configuration for resources used by Airflow schedulers.
 	Scheduler *SchedulerObservation `json:"scheduler,omitempty" tf:"scheduler,omitempty"`
 
@@ -1552,6 +1749,10 @@ type WorkloadsConfigObservation struct {
 }
 
 type WorkloadsConfigParameters struct {
+
+	// Configuration for resources used by DAG processor.
+	// +kubebuilder:validation:Optional
+	DagProcessor *DagProcessorParameters `json:"dagProcessor,omitempty" tf:"dag_processor,omitempty"`
 
 	// Configuration for resources used by Airflow schedulers.
 	// +kubebuilder:validation:Optional

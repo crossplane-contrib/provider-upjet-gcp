@@ -10,16 +10,21 @@ spec:
   forProvider:
     destination:
     - cloudRunService:
-      - region: europe-west1
+      - region: us-central1
         serviceSelector:
           matchLabels:
             testing.upbound.io/example-name: default
     labels:
       foo: bar
-    location: europe-west1
+    location: us-central1
     matchingCriteria:
     - attribute: type
       value: google.cloud.pubsub.topic.v1.messagePublished
+    transport:
+    - pubsub:
+      - topicSelector:
+          matchLabels:
+            testing.upbound.io/example-name: foo
 
 ---
 
@@ -33,11 +38,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    location: europe-west1
-    metadata:
-    - namespaceSelector:
-        matchLabels:
-          testing.upbound.io/example-name: example
+    location: us-central1
     template:
     - spec:
       - containerConcurrency: 50

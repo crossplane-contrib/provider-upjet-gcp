@@ -18,7 +18,8 @@ type GoogleChannelConfigInitParameters struct {
 	// Optional. Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt their event data. It must match the pattern projects/*/locations/*/keyRings/*/cryptoKeys/*.
 	CryptoKeyName *string `json:"cryptoKeyName,omitempty" tf:"crypto_key_name,omitempty"`
 
-	// The project for the resource
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
@@ -33,7 +34,8 @@ type GoogleChannelConfigObservation struct {
 	// The location for the resource
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
-	// The project for the resource
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Output only. The last-modified time.
@@ -50,7 +52,8 @@ type GoogleChannelConfigParameters struct {
 	// +kubebuilder:validation:Required
 	Location *string `json:"location" tf:"location,omitempty"`
 
-	// The project for the resource
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }

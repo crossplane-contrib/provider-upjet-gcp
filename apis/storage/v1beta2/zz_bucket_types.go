@@ -95,6 +95,9 @@ type BucketInitParameters struct {
 	// boolean option will delete all contained objects.
 	ForceDestroy *bool `json:"forceDestroy,omitempty" tf:"force_destroy,omitempty"`
 
+	// The bucket's hierarchical namespace policy, which defines the bucket capability to handle folders in logical structure. Structure is documented below. To use this configuration, uniform_bucket_level_access must be enabled on bucket.
+	HierarchicalNamespace *HierarchicalNamespaceInitParameters `json:"hierarchicalNamespace,omitempty" tf:"hierarchical_namespace,omitempty"`
+
 	// A map of key/value label pairs to assign to the bucket.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
@@ -112,7 +115,7 @@ type BucketInitParameters struct {
 	// is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// Prevents public access to a bucket. Acceptable values are "inherited" or "enforced". If "inherited", the bucket uses public access prevention. only if the bucket is subject to the public access prevention organization policy constraint. Defaults to "inherited".
+	// Prevents public access to a bucket. Acceptable values are "inherited" or "enforced". If "inherited", the bucket uses public access prevention only if the bucket is subject to the public access prevention organization policy constraint. Defaults to "inherited".
 	PublicAccessPrevention *string `json:"publicAccessPrevention,omitempty" tf:"public_access_prevention,omitempty"`
 
 	// Enables Requester Pays on a storage bucket.
@@ -168,6 +171,9 @@ type BucketObservation struct {
 	// boolean option will delete all contained objects.
 	ForceDestroy *bool `json:"forceDestroy,omitempty" tf:"force_destroy,omitempty"`
 
+	// The bucket's hierarchical namespace policy, which defines the bucket capability to handle folders in logical structure. Structure is documented below. To use this configuration, uniform_bucket_level_access must be enabled on bucket.
+	HierarchicalNamespace *HierarchicalNamespaceObservation `json:"hierarchicalNamespace,omitempty" tf:"hierarchical_namespace,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// A map of key/value label pairs to assign to the bucket.
@@ -189,7 +195,7 @@ type BucketObservation struct {
 
 	ProjectNumber *float64 `json:"projectNumber,omitempty" tf:"project_number,omitempty"`
 
-	// Prevents public access to a bucket. Acceptable values are "inherited" or "enforced". If "inherited", the bucket uses public access prevention. only if the bucket is subject to the public access prevention organization policy constraint. Defaults to "inherited".
+	// Prevents public access to a bucket. Acceptable values are "inherited" or "enforced". If "inherited", the bucket uses public access prevention only if the bucket is subject to the public access prevention organization policy constraint. Defaults to "inherited".
 	PublicAccessPrevention *string `json:"publicAccessPrevention,omitempty" tf:"public_access_prevention,omitempty"`
 
 	// Enables Requester Pays on a storage bucket.
@@ -214,11 +220,17 @@ type BucketObservation struct {
 	// +mapType=granular
 	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
+	// (Computed) The creation time of the bucket in RFC 3339 format.
+	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
+
 	// The base URL of the bucket, in the format gs://<bucket-name>.
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
 
 	// Enables Uniform bucket-level access access to a bucket.
 	UniformBucketLevelAccess *bool `json:"uniformBucketLevelAccess,omitempty" tf:"uniform_bucket_level_access,omitempty"`
+
+	// (Computed) The time at which the bucket's metadata or IAM policy was last updated, in RFC 3339 format.
+	Updated *string `json:"updated,omitempty" tf:"updated,omitempty"`
 
 	// The bucket's Versioning configuration.  Structure is documented below.
 	Versioning *VersioningObservation `json:"versioning,omitempty" tf:"versioning,omitempty"`
@@ -258,6 +270,10 @@ type BucketParameters struct {
 	// +kubebuilder:validation:Optional
 	ForceDestroy *bool `json:"forceDestroy,omitempty" tf:"force_destroy,omitempty"`
 
+	// The bucket's hierarchical namespace policy, which defines the bucket capability to handle folders in logical structure. Structure is documented below. To use this configuration, uniform_bucket_level_access must be enabled on bucket.
+	// +kubebuilder:validation:Optional
+	HierarchicalNamespace *HierarchicalNamespaceParameters `json:"hierarchicalNamespace,omitempty" tf:"hierarchical_namespace,omitempty"`
+
 	// A map of key/value label pairs to assign to the bucket.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
@@ -280,7 +296,7 @@ type BucketParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// Prevents public access to a bucket. Acceptable values are "inherited" or "enforced". If "inherited", the bucket uses public access prevention. only if the bucket is subject to the public access prevention organization policy constraint. Defaults to "inherited".
+	// Prevents public access to a bucket. Acceptable values are "inherited" or "enforced". If "inherited", the bucket uses public access prevention only if the bucket is subject to the public access prevention organization policy constraint. Defaults to "inherited".
 	// +kubebuilder:validation:Optional
 	PublicAccessPrevention *string `json:"publicAccessPrevention,omitempty" tf:"public_access_prevention,omitempty"`
 
@@ -319,7 +335,7 @@ type BucketParameters struct {
 
 type ConditionInitParameters struct {
 
-	// Minimum age of an object in days to satisfy this condition. If not supplied alongside another condition and without setting no_age to true, a default age of 0 will be set.
+	// Minimum age of an object in days to satisfy this condition. Note To set 0 value of age, send_age_if_zero should be set true otherwise 0 value of age field will be ignored.
 	Age *float64 `json:"age,omitempty" tf:"age,omitempty"`
 
 	// A date in the RFC 3339 format YYYY-MM-DD. This condition is satisfied when an object is created before midnight of the specified date in UTC.
@@ -342,9 +358,6 @@ type ConditionInitParameters struct {
 
 	// One or more matching name suffixes to satisfy this condition.
 	MatchesSuffix []*string `json:"matchesSuffix,omitempty" tf:"matches_suffix,omitempty"`
-
-	// While set true, age value will be omitted from requests. This prevents a default age of 0 from being applied, and if you do not have an age value set, setting this to true is strongly recommended. When unset and other conditions are set to zero values, this can result in a rule that applies your action to all files in the bucket. no_age is deprecated and will be removed in a future major release. Use send_age_if_zero instead.
-	NoAge *bool `json:"noAge,omitempty" tf:"no_age,omitempty"`
 
 	// Relevant only for versioned objects. The date in RFC 3339 (e.g. 2017-06-13) when the object became nonconcurrent. When set to 0 it will be ignored, and your state will treat it as though you supplied no noncurrent_time_before condition.
 	NoncurrentTimeBefore *string `json:"noncurrentTimeBefore,omitempty" tf:"noncurrent_time_before,omitempty"`
@@ -370,7 +383,7 @@ type ConditionInitParameters struct {
 
 type ConditionObservation struct {
 
-	// Minimum age of an object in days to satisfy this condition. If not supplied alongside another condition and without setting no_age to true, a default age of 0 will be set.
+	// Minimum age of an object in days to satisfy this condition. Note To set 0 value of age, send_age_if_zero should be set true otherwise 0 value of age field will be ignored.
 	Age *float64 `json:"age,omitempty" tf:"age,omitempty"`
 
 	// A date in the RFC 3339 format YYYY-MM-DD. This condition is satisfied when an object is created before midnight of the specified date in UTC.
@@ -393,9 +406,6 @@ type ConditionObservation struct {
 
 	// One or more matching name suffixes to satisfy this condition.
 	MatchesSuffix []*string `json:"matchesSuffix,omitempty" tf:"matches_suffix,omitempty"`
-
-	// While set true, age value will be omitted from requests. This prevents a default age of 0 from being applied, and if you do not have an age value set, setting this to true is strongly recommended. When unset and other conditions are set to zero values, this can result in a rule that applies your action to all files in the bucket. no_age is deprecated and will be removed in a future major release. Use send_age_if_zero instead.
-	NoAge *bool `json:"noAge,omitempty" tf:"no_age,omitempty"`
 
 	// Relevant only for versioned objects. The date in RFC 3339 (e.g. 2017-06-13) when the object became nonconcurrent. When set to 0 it will be ignored, and your state will treat it as though you supplied no noncurrent_time_before condition.
 	NoncurrentTimeBefore *string `json:"noncurrentTimeBefore,omitempty" tf:"noncurrent_time_before,omitempty"`
@@ -421,7 +431,7 @@ type ConditionObservation struct {
 
 type ConditionParameters struct {
 
-	// Minimum age of an object in days to satisfy this condition. If not supplied alongside another condition and without setting no_age to true, a default age of 0 will be set.
+	// Minimum age of an object in days to satisfy this condition. Note To set 0 value of age, send_age_if_zero should be set true otherwise 0 value of age field will be ignored.
 	// +kubebuilder:validation:Optional
 	Age *float64 `json:"age,omitempty" tf:"age,omitempty"`
 
@@ -452,10 +462,6 @@ type ConditionParameters struct {
 	// One or more matching name suffixes to satisfy this condition.
 	// +kubebuilder:validation:Optional
 	MatchesSuffix []*string `json:"matchesSuffix,omitempty" tf:"matches_suffix,omitempty"`
-
-	// While set true, age value will be omitted from requests. This prevents a default age of 0 from being applied, and if you do not have an age value set, setting this to true is strongly recommended. When unset and other conditions are set to zero values, this can result in a rule that applies your action to all files in the bucket. no_age is deprecated and will be removed in a future major release. Use send_age_if_zero instead.
-	// +kubebuilder:validation:Optional
-	NoAge *bool `json:"noAge,omitempty" tf:"no_age,omitempty"`
 
 	// Relevant only for versioned objects. The date in RFC 3339 (e.g. 2017-06-13) when the object became nonconcurrent. When set to 0 it will be ignored, and your state will treat it as though you supplied no noncurrent_time_before condition.
 	// +kubebuilder:validation:Optional
@@ -580,6 +586,25 @@ type EncryptionParameters struct {
 	// See the docs for more details.
 	// +kubebuilder:validation:Optional
 	DefaultKMSKeyName *string `json:"defaultKmsKeyName" tf:"default_kms_key_name,omitempty"`
+}
+
+type HierarchicalNamespaceInitParameters struct {
+
+	// Enables hierarchical namespace for the bucket.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type HierarchicalNamespaceObservation struct {
+
+	// Enables hierarchical namespace for the bucket.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type HierarchicalNamespaceParameters struct {
+
+	// Enables hierarchical namespace for the bucket.
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 }
 
 type LifecycleRuleInitParameters struct {

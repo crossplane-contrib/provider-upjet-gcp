@@ -80,7 +80,7 @@ spec:
                   jobType:
                     description: 'Types of job, which could be specified when using
                       the reservation. Possible values: JOB_TYPE_UNSPECIFIED, PIPELINE,
-                      QUERY'
+                      QUERY, CONTINUOUS'
                     type: string
                   location:
                     description: The location for the resource
@@ -190,7 +190,7 @@ spec:
                   jobType:
                     description: 'Types of job, which could be specified when using
                       the reservation. Possible values: JOB_TYPE_UNSPECIFIED, PIPELINE,
-                      QUERY'
+                      QUERY, CONTINUOUS'
                     type: string
                   location:
                     description: The location for the resource
@@ -393,7 +393,7 @@ spec:
                   jobType:
                     description: 'Types of job, which could be specified when using
                       the reservation. Possible values: JOB_TYPE_UNSPECIFIED, PIPELINE,
-                      QUERY'
+                      QUERY, CONTINUOUS'
                     type: string
                   location:
                     description: The location for the resource

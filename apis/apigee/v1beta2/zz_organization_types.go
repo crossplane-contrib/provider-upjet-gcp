@@ -66,7 +66,7 @@ type OrganizationInitParameters struct {
 
 	// Properties defined in the Apigee organization profile.
 	// Structure is documented below.
-	Properties *PropertiesInitParameters `json:"properties,omitempty" tf:"properties,omitempty"`
+	Properties *OrganizationPropertiesInitParameters `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// Optional. This setting is applicable only for organizations that are soft-deleted (i.e., BillingType
 	// is not EVALUATION). It controls how long Organization data will be retained after the initial delete
@@ -154,7 +154,7 @@ type OrganizationObservation struct {
 
 	// Properties defined in the Apigee organization profile.
 	// Structure is documented below.
-	Properties *PropertiesObservation `json:"properties,omitempty" tf:"properties,omitempty"`
+	Properties *OrganizationPropertiesObservation `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// Optional. This setting is applicable only for organizations that are soft-deleted (i.e., BillingType
 	// is not EVALUATION). It controls how long Organization data will be retained after the initial delete
@@ -244,7 +244,7 @@ type OrganizationParameters struct {
 	// Properties defined in the Apigee organization profile.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Properties *PropertiesParameters `json:"properties,omitempty" tf:"properties,omitempty"`
+	Properties *OrganizationPropertiesParameters `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// Optional. This setting is applicable only for organizations that are soft-deleted (i.e., BillingType
 	// is not EVALUATION). It controls how long Organization data will be retained after the initial delete
@@ -279,29 +279,29 @@ type OrganizationParameters struct {
 	RuntimeType *string `json:"runtimeType,omitempty" tf:"runtime_type,omitempty"`
 }
 
-type PropertiesInitParameters struct {
+type OrganizationPropertiesInitParameters struct {
 
 	// List of all properties in the object.
 	// Structure is documented below.
-	Property []PropertyInitParameters `json:"property,omitempty" tf:"property,omitempty"`
+	Property []PropertiesPropertyInitParameters `json:"property,omitempty" tf:"property,omitempty"`
 }
 
-type PropertiesObservation struct {
+type OrganizationPropertiesObservation struct {
 
 	// List of all properties in the object.
 	// Structure is documented below.
-	Property []PropertyObservation `json:"property,omitempty" tf:"property,omitempty"`
+	Property []PropertiesPropertyObservation `json:"property,omitempty" tf:"property,omitempty"`
 }
 
-type PropertiesParameters struct {
+type OrganizationPropertiesParameters struct {
 
 	// List of all properties in the object.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Property []PropertyParameters `json:"property,omitempty" tf:"property,omitempty"`
+	Property []PropertiesPropertyParameters `json:"property,omitempty" tf:"property,omitempty"`
 }
 
-type PropertyInitParameters struct {
+type PropertiesPropertyInitParameters struct {
 
 	// Name of the property.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -310,7 +310,7 @@ type PropertyInitParameters struct {
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
-type PropertyObservation struct {
+type PropertiesPropertyObservation struct {
 
 	// Name of the property.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -319,7 +319,7 @@ type PropertyObservation struct {
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
-type PropertyParameters struct {
+type PropertiesPropertyParameters struct {
 
 	// Name of the property.
 	// +kubebuilder:validation:Optional

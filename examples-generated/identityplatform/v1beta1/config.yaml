@@ -1,0 +1,84 @@
+apiVersion: identityplatform.gcp.upbound.io/v1beta1
+kind: Config
+metadata:
+  annotations:
+    meta.upbound.io/example-id: identityplatform/v1beta1/config
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    authorizedDomains:
+    - localhost
+    - my-project.firebaseapp.com
+    - my-project.web.app
+    autodeleteAnonymousUsers: true
+    blockingFunctions:
+    - forwardInboundCredentials:
+      - accessToken: true
+        idToken: true
+        refreshToken: true
+      triggers:
+      - eventType: beforeSignIn
+        functionUri: https://us-east1-my-project.cloudfunctions.net/before-sign-in
+    projectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    quota:
+    - signUpQuotaConfig:
+      - quota: 1000
+        quotaDuration: 7200s
+        startTime: "2014-10-02T15:01:23Z"
+    signIn:
+    - allowDuplicateEmails: true
+      anonymous:
+      - enabled: true
+      email:
+      - enabled: true
+        passwordRequired: false
+      phoneNumber:
+      - enabled: true
+        testPhoneNumbers:
+          "+11231231234": "000000"
+    smsRegionConfig:
+    - allowlistOnly:
+      - allowedRegions:
+        - US
+        - CA
+
+---
+
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: identityplatform/v1beta1/config
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    billingAccount: 000000-0000000-0000000-000000
+    deletionPolicy: DELETE
+    labels:
+      firebase: enabled
+    name: my-project
+    orgId: "123456789"
+    projectId: my-project
+
+---
+
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: ProjectService
+metadata:
+  annotations:
+    meta.upbound.io/example-id: identityplatform/v1beta1/config
+  labels:
+    testing.upbound.io/example-name: identitytoolkit
+  name: identitytoolkit
+spec:
+  forProvider:
+    projectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    service: identitytoolkit.googleapis.com

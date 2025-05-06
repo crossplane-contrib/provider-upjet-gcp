@@ -1161,24 +1161,9 @@ func (in *ClusterInitParameters) DeepCopyInto(out *ClusterInitParameters) {
 		*out = new(MaintenanceUpdatePolicyInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
-	if in.Network != nil {
-		in, out := &in.Network, &out.Network
-		*out = new(string)
-		**out = **in
-	}
 	if in.NetworkConfig != nil {
 		in, out := &in.NetworkConfig, &out.NetworkConfig
 		*out = new(NetworkConfigInitParameters)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.NetworkRef != nil {
-		in, out := &in.NetworkRef, &out.NetworkRef
-		*out = new(v1.Reference)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.NetworkSelector != nil {
-		in, out := &in.NetworkSelector, &out.NetworkSelector
-		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Project != nil {
@@ -1205,6 +1190,16 @@ func (in *ClusterInitParameters) DeepCopyInto(out *ClusterInitParameters) {
 		in, out := &in.SecondaryConfig, &out.SecondaryConfig
 		*out = new(SecondaryConfigInitParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.SkipAwaitMajorVersionUpgrade != nil {
+		in, out := &in.SkipAwaitMajorVersionUpgrade, &out.SkipAwaitMajorVersionUpgrade
+		*out = new(bool)
+		**out = **in
+	}
+	if in.SubscriptionType != nil {
+		in, out := &in.SubscriptionType, &out.SubscriptionType
+		*out = new(string)
+		**out = **in
 	}
 }
 
@@ -1410,11 +1405,6 @@ func (in *ClusterObservation) DeepCopyInto(out *ClusterObservation) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.Network != nil {
-		in, out := &in.Network, &out.Network
-		*out = new(string)
-		**out = **in
-	}
 	if in.NetworkConfig != nil {
 		in, out := &in.NetworkConfig, &out.NetworkConfig
 		*out = new(NetworkConfigObservation)
@@ -1450,8 +1440,18 @@ func (in *ClusterObservation) DeepCopyInto(out *ClusterObservation) {
 		*out = new(SecondaryConfigObservation)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.SkipAwaitMajorVersionUpgrade != nil {
+		in, out := &in.SkipAwaitMajorVersionUpgrade, &out.SkipAwaitMajorVersionUpgrade
+		*out = new(bool)
+		**out = **in
+	}
 	if in.State != nil {
 		in, out := &in.State, &out.State
+		*out = new(string)
+		**out = **in
+	}
+	if in.SubscriptionType != nil {
+		in, out := &in.SubscriptionType, &out.SubscriptionType
 		*out = new(string)
 		**out = **in
 	}
@@ -1469,6 +1469,13 @@ func (in *ClusterObservation) DeepCopyInto(out *ClusterObservation) {
 				**out = **in
 			}
 			(*out)[key] = outVal
+		}
+	}
+	if in.TrialMetadata != nil {
+		in, out := &in.TrialMetadata, &out.TrialMetadata
+		*out = make([]TrialMetadataObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.UID != nil {
@@ -1578,24 +1585,9 @@ func (in *ClusterParameters) DeepCopyInto(out *ClusterParameters) {
 		*out = new(MaintenanceUpdatePolicyParameters)
 		(*in).DeepCopyInto(*out)
 	}
-	if in.Network != nil {
-		in, out := &in.Network, &out.Network
-		*out = new(string)
-		**out = **in
-	}
 	if in.NetworkConfig != nil {
 		in, out := &in.NetworkConfig, &out.NetworkConfig
 		*out = new(NetworkConfigParameters)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.NetworkRef != nil {
-		in, out := &in.NetworkRef, &out.NetworkRef
-		*out = new(v1.Reference)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.NetworkSelector != nil {
-		in, out := &in.NetworkSelector, &out.NetworkSelector
-		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Project != nil {
@@ -1622,6 +1614,16 @@ func (in *ClusterParameters) DeepCopyInto(out *ClusterParameters) {
 		in, out := &in.SecondaryConfig, &out.SecondaryConfig
 		*out = new(SecondaryConfigParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.SkipAwaitMajorVersionUpgrade != nil {
+		in, out := &in.SkipAwaitMajorVersionUpgrade, &out.SkipAwaitMajorVersionUpgrade
+		*out = new(bool)
+		**out = **in
+	}
+	if in.SubscriptionType != nil {
+		in, out := &in.SubscriptionType, &out.SubscriptionType
+		*out = new(string)
+		**out = **in
 	}
 }
 
@@ -2384,6 +2386,11 @@ func (in *InstanceNetworkConfigInitParameters) DeepCopyInto(out *InstanceNetwork
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.EnableOutboundPublicIP != nil {
+		in, out := &in.EnableOutboundPublicIP, &out.EnableOutboundPublicIP
+		*out = new(bool)
+		**out = **in
+	}
 	if in.EnablePublicIP != nil {
 		in, out := &in.EnablePublicIP, &out.EnablePublicIP
 		*out = new(bool)
@@ -2411,6 +2418,11 @@ func (in *InstanceNetworkConfigObservation) DeepCopyInto(out *InstanceNetworkCon
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.EnableOutboundPublicIP != nil {
+		in, out := &in.EnableOutboundPublicIP, &out.EnableOutboundPublicIP
+		*out = new(bool)
+		**out = **in
+	}
 	if in.EnablePublicIP != nil {
 		in, out := &in.EnablePublicIP, &out.EnablePublicIP
 		*out = new(bool)
@@ -2437,6 +2449,11 @@ func (in *InstanceNetworkConfigParameters) DeepCopyInto(out *InstanceNetworkConf
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.EnableOutboundPublicIP != nil {
+		in, out := &in.EnableOutboundPublicIP, &out.EnableOutboundPublicIP
+		*out = new(bool)
+		**out = **in
 	}
 	if in.EnablePublicIP != nil {
 		in, out := &in.EnablePublicIP, &out.EnablePublicIP
@@ -2597,6 +2614,17 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 		in, out := &in.NetworkConfig, &out.NetworkConfig
 		*out = new(InstanceNetworkConfigObservation)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.OutboundPublicIPAddresses != nil {
+		in, out := &in.OutboundPublicIPAddresses, &out.OutboundPublicIPAddresses
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
 	}
 	if in.PscInstanceConfig != nil {
 		in, out := &in.PscInstanceConfig, &out.PscInstanceConfig
@@ -2847,6 +2875,11 @@ func (in *MachineConfigInitParameters) DeepCopyInto(out *MachineConfigInitParame
 		*out = new(float64)
 		**out = **in
 	}
+	if in.MachineType != nil {
+		in, out := &in.MachineType, &out.MachineType
+		*out = new(string)
+		**out = **in
+	}
 }
 
 // DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new MachineConfigInitParameters.
@@ -2867,6 +2900,11 @@ func (in *MachineConfigObservation) DeepCopyInto(out *MachineConfigObservation) 
 		*out = new(float64)
 		**out = **in
 	}
+	if in.MachineType != nil {
+		in, out := &in.MachineType, &out.MachineType
+		*out = new(string)
+		**out = **in
+	}
 }
 
 // DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new MachineConfigObservation.
@@ -2885,6 +2923,11 @@ func (in *MachineConfigParameters) DeepCopyInto(out *MachineConfigParameters) {
 	if in.CPUCount != nil {
 		in, out := &in.CPUCount, &out.CPUCount
 		*out = new(float64)
+		**out = **in
+	}
+	if in.MachineType != nil {
+		in, out := &in.MachineType, &out.MachineType
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -3223,6 +3266,11 @@ func (in *PscConfigObservation) DeepCopyInto(out *PscConfigObservation) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.ServiceOwnedProjectNumber != nil {
+		in, out := &in.ServiceOwnedProjectNumber, &out.ServiceOwnedProjectNumber
+		*out = new(float64)
+		**out = **in
+	}
 }
 
 // DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new PscConfigObservation.
@@ -3269,6 +3317,13 @@ func (in *PscInstanceConfigInitParameters) DeepCopyInto(out *PscInstanceConfigIn
 			}
 		}
 	}
+	if in.PscInterfaceConfigs != nil {
+		in, out := &in.PscInterfaceConfigs, &out.PscInterfaceConfigs
+		*out = make([]PscInterfaceConfigsInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
 }
 
 // DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new PscInstanceConfigInitParameters.
@@ -3299,6 +3354,13 @@ func (in *PscInstanceConfigObservation) DeepCopyInto(out *PscInstanceConfigObser
 		in, out := &in.PscDNSName, &out.PscDNSName
 		*out = new(string)
 		**out = **in
+	}
+	if in.PscInterfaceConfigs != nil {
+		in, out := &in.PscInterfaceConfigs, &out.PscInterfaceConfigs
+		*out = make([]PscInterfaceConfigsObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.ServiceAttachmentLink != nil {
 		in, out := &in.ServiceAttachmentLink, &out.ServiceAttachmentLink
@@ -3331,6 +3393,13 @@ func (in *PscInstanceConfigParameters) DeepCopyInto(out *PscInstanceConfigParame
 			}
 		}
 	}
+	if in.PscInterfaceConfigs != nil {
+		in, out := &in.PscInterfaceConfigs, &out.PscInterfaceConfigs
+		*out = make([]PscInterfaceConfigsParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
 }
 
 // DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new PscInstanceConfigParameters.
@@ -3339,6 +3408,66 @@ func (in *PscInstanceConfigParameters) DeepCopy() *PscInstanceConfigParameters {
 		return nil
 	}
 	out := new(PscInstanceConfigParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *PscInterfaceConfigsInitParameters) DeepCopyInto(out *PscInterfaceConfigsInitParameters) {
+	*out = *in
+	if in.NetworkAttachmentResource != nil {
+		in, out := &in.NetworkAttachmentResource, &out.NetworkAttachmentResource
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new PscInterfaceConfigsInitParameters.
+func (in *PscInterfaceConfigsInitParameters) DeepCopy() *PscInterfaceConfigsInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(PscInterfaceConfigsInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *PscInterfaceConfigsObservation) DeepCopyInto(out *PscInterfaceConfigsObservation) {
+	*out = *in
+	if in.NetworkAttachmentResource != nil {
+		in, out := &in.NetworkAttachmentResource, &out.NetworkAttachmentResource
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new PscInterfaceConfigsObservation.
+func (in *PscInterfaceConfigsObservation) DeepCopy() *PscInterfaceConfigsObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(PscInterfaceConfigsObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *PscInterfaceConfigsParameters) DeepCopyInto(out *PscInterfaceConfigsParameters) {
+	*out = *in
+	if in.NetworkAttachmentResource != nil {
+		in, out := &in.NetworkAttachmentResource, &out.NetworkAttachmentResource
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new PscInterfaceConfigsParameters.
+func (in *PscInterfaceConfigsParameters) DeepCopy() *PscInterfaceConfigsParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(PscInterfaceConfigsParameters)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -4149,6 +4278,71 @@ func (in *TimeBasedRetentionParameters) DeepCopy() *TimeBasedRetentionParameters
 		return nil
 	}
 	out := new(TimeBasedRetentionParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *TrialMetadataInitParameters) DeepCopyInto(out *TrialMetadataInitParameters) {
+	*out = *in
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new TrialMetadataInitParameters.
+func (in *TrialMetadataInitParameters) DeepCopy() *TrialMetadataInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(TrialMetadataInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *TrialMetadataObservation) DeepCopyInto(out *TrialMetadataObservation) {
+	*out = *in
+	if in.EndTime != nil {
+		in, out := &in.EndTime, &out.EndTime
+		*out = new(string)
+		**out = **in
+	}
+	if in.GraceEndTime != nil {
+		in, out := &in.GraceEndTime, &out.GraceEndTime
+		*out = new(string)
+		**out = **in
+	}
+	if in.StartTime != nil {
+		in, out := &in.StartTime, &out.StartTime
+		*out = new(string)
+		**out = **in
+	}
+	if in.UpgradeTime != nil {
+		in, out := &in.UpgradeTime, &out.UpgradeTime
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new TrialMetadataObservation.
+func (in *TrialMetadataObservation) DeepCopy() *TrialMetadataObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(TrialMetadataObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *TrialMetadataParameters) DeepCopyInto(out *TrialMetadataParameters) {
+	*out = *in
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new TrialMetadataParameters.
+func (in *TrialMetadataParameters) DeepCopy() *TrialMetadataParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(TrialMetadataParameters)
 	in.DeepCopyInto(out)
 	return out
 }

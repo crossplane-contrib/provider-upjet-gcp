@@ -21,7 +21,7 @@ func (mg *Image) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this Image
 func (tr *Image) GetConnectionDetailsMapping() map[string]string {
-	return nil
+	return map[string]string{"image_encryption_key[*].raw_key": "imageEncryptionKey[*].rawKeySecretRef", "image_encryption_key[*].rsa_encrypted_key": "imageEncryptionKey[*].rsaEncryptedKeySecretRef", "source_disk_encryption_key[*].raw_key": "sourceDiskEncryptionKey[*].rawKeySecretRef", "source_disk_encryption_key[*].rsa_encrypted_key": "sourceDiskEncryptionKey[*].rsaEncryptedKeySecretRef", "source_image_encryption_key[*].raw_key": "sourceImageEncryptionKey[*].rawKeySecretRef", "source_image_encryption_key[*].rsa_encrypted_key": "sourceImageEncryptionKey[*].rsaEncryptedKeySecretRef", "source_snapshot_encryption_key[*].raw_key": "sourceSnapshotEncryptionKey[*].rawKeySecretRef", "source_snapshot_encryption_key[*].rsa_encrypted_key": "sourceSnapshotEncryptionKey[*].rsaEncryptedKeySecretRef"}
 }
 
 // GetObservation of this Image

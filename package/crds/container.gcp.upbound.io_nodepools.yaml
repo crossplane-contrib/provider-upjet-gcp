@@ -2651,6 +2651,8 @@ spec:
                         type: boolean
                       ephemeralStorageLocalSsdConfig:
                         properties:
+                          dataCacheCount:
+                            type: number
                           localSsdCount:
                             type: number
                         type: object
@@ -2715,11 +2717,27 @@ spec:
                         type: string
                       kubeletConfig:
                         properties:
+                          allowedUnsafeSysctls:
+                            items:
+                              type: string
+                            type: array
+                          containerLogMaxFiles:
+                            type: number
+                          containerLogMaxSize:
+                            type: string
                           cpuCfsQuota:
                             type: boolean
                           cpuCfsQuotaPeriod:
                             type: string
                           cpuManagerPolicy:
+                            type: string
+                          imageGcHighThresholdPercent:
+                            type: number
+                          imageGcLowThresholdPercent:
+                            type: number
+                          imageMaximumGcAge:
+                            type: string
+                          imageMinimumGcAge:
                             type: string
                           insecureKubeletReadonlyPortEnabled:
                             type: string
@@ -2738,6 +2756,13 @@ spec:
                         properties:
                           cgroupMode:
                             type: string
+                          hugepagesConfig:
+                            properties:
+                              hugepageSize1G:
+                                type: number
+                              hugepageSize2M:
+                                type: number
+                            type: object
                           sysctls:
                             additionalProperties:
                               type: string
@@ -2751,9 +2776,16 @@ spec:
                         type: object
                       localSsdCount:
                         type: number
+                      localSsdEncryptionMode:
+                        description: |-
+                          Possible Local SSD encryption modes:
+                          Accepted values are:
+                        type: string
                       loggingVariant:
                         type: string
                       machineType:
+                        type: string
+                      maxRunDuration:
                         type: string
                       metadata:
                         additionalProperties:
@@ -2917,6 +2949,10 @@ spec:
                         type: object
                       spot:
                         type: boolean
+                      storagePools:
+                        items:
+                          type: string
+                        type: array
                       tags:
                         items:
                           type: string
@@ -2934,6 +2970,18 @@ spec:
                               type: string
                           type: object
                         type: array
+                      windowsNodeConfig:
+                        description: |-
+                          Parameters used in creating the node pool. See
+                          google_container_cluster for schema.
+                        properties:
+                          osversion:
+                            description: |-
+                              The Kubernetes version for the nodes in this pool. Note that if this field
+                              and auto_upgrade are both specified, they will fight each other for what the node version should
+                              be, so setting both is highly discouraged.
+                            type: string
+                        type: object
                       workloadMetadataConfig:
                         properties:
                           mode:
@@ -3264,6 +3312,8 @@ spec:
                         type: boolean
                       ephemeralStorageLocalSsdConfig:
                         properties:
+                          dataCacheCount:
+                            type: number
                           localSsdCount:
                             type: number
                         type: object
@@ -3328,11 +3378,27 @@ spec:
                         type: string
                       kubeletConfig:
                         properties:
+                          allowedUnsafeSysctls:
+                            items:
+                              type: string
+                            type: array
+                          containerLogMaxFiles:
+                            type: number
+                          containerLogMaxSize:
+                            type: string
                           cpuCfsQuota:
                             type: boolean
                           cpuCfsQuotaPeriod:
                             type: string
                           cpuManagerPolicy:
+                            type: string
+                          imageGcHighThresholdPercent:
+                            type: number
+                          imageGcLowThresholdPercent:
+                            type: number
+                          imageMaximumGcAge:
+                            type: string
+                          imageMinimumGcAge:
                             type: string
                           insecureKubeletReadonlyPortEnabled:
                             type: string
@@ -3351,6 +3417,13 @@ spec:
                         properties:
                           cgroupMode:
                             type: string
+                          hugepagesConfig:
+                            properties:
+                              hugepageSize1G:
+                                type: number
+                              hugepageSize2M:
+                                type: number
+                            type: object
                           sysctls:
                             additionalProperties:
                               type: string
@@ -3364,9 +3437,16 @@ spec:
                         type: object
                       localSsdCount:
                         type: number
+                      localSsdEncryptionMode:
+                        description: |-
+                          Possible Local SSD encryption modes:
+                          Accepted values are:
+                        type: string
                       loggingVariant:
                         type: string
                       machineType:
+                        type: string
+                      maxRunDuration:
                         type: string
                       metadata:
                         additionalProperties:
@@ -3530,6 +3610,10 @@ spec:
                         type: object
                       spot:
                         type: boolean
+                      storagePools:
+                        items:
+                          type: string
+                        type: array
                       tags:
                         items:
                           type: string
@@ -3547,6 +3631,18 @@ spec:
                               type: string
                           type: object
                         type: array
+                      windowsNodeConfig:
+                        description: |-
+                          Parameters used in creating the node pool. See
+                          google_container_cluster for schema.
+                        properties:
+                          osversion:
+                            description: |-
+                              The Kubernetes version for the nodes in this pool. Note that if this field
+                              and auto_upgrade are both specified, they will fight each other for what the node version should
+                              be, so setting both is highly discouraged.
+                            type: string
+                        type: object
                       workloadMetadataConfig:
                         properties:
                           mode:
@@ -4073,6 +4169,8 @@ spec:
                         type: boolean
                       ephemeralStorageLocalSsdConfig:
                         properties:
+                          dataCacheCount:
+                            type: number
                           localSsdCount:
                             type: number
                         type: object
@@ -4137,11 +4235,27 @@ spec:
                         type: string
                       kubeletConfig:
                         properties:
+                          allowedUnsafeSysctls:
+                            items:
+                              type: string
+                            type: array
+                          containerLogMaxFiles:
+                            type: number
+                          containerLogMaxSize:
+                            type: string
                           cpuCfsQuota:
                             type: boolean
                           cpuCfsQuotaPeriod:
                             type: string
                           cpuManagerPolicy:
+                            type: string
+                          imageGcHighThresholdPercent:
+                            type: number
+                          imageGcLowThresholdPercent:
+                            type: number
+                          imageMaximumGcAge:
+                            type: string
+                          imageMinimumGcAge:
                             type: string
                           insecureKubeletReadonlyPortEnabled:
                             type: string
@@ -4160,6 +4274,13 @@ spec:
                         properties:
                           cgroupMode:
                             type: string
+                          hugepagesConfig:
+                            properties:
+                              hugepageSize1G:
+                                type: number
+                              hugepageSize2M:
+                                type: number
+                            type: object
                           sysctls:
                             additionalProperties:
                               type: string
@@ -4173,9 +4294,16 @@ spec:
                         type: object
                       localSsdCount:
                         type: number
+                      localSsdEncryptionMode:
+                        description: |-
+                          Possible Local SSD encryption modes:
+                          Accepted values are:
+                        type: string
                       loggingVariant:
                         type: string
                       machineType:
+                        type: string
+                      maxRunDuration:
                         type: string
                       metadata:
                         additionalProperties:
@@ -4263,6 +4391,10 @@ spec:
                         type: object
                       spot:
                         type: boolean
+                      storagePools:
+                        items:
+                          type: string
+                        type: array
                       tags:
                         items:
                           type: string
@@ -4280,6 +4412,18 @@ spec:
                               type: string
                           type: object
                         type: array
+                      windowsNodeConfig:
+                        description: |-
+                          Parameters used in creating the node pool. See
+                          google_container_cluster for schema.
+                        properties:
+                          osversion:
+                            description: |-
+                              The Kubernetes version for the nodes in this pool. Note that if this field
+                              and auto_upgrade are both specified, they will fight each other for what the node version should
+                              be, so setting both is highly discouraged.
+                            type: string
+                        type: object
                       workloadMetadataConfig:
                         properties:
                           mode:

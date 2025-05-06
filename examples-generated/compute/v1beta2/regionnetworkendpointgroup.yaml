@@ -30,7 +30,7 @@ spec:
     availableMemoryMb: 128
     description: My function
     entryPoint: helloGET
-    runtime: nodejs10
+    runtime: nodejs20
     sourceArchiveBucketSelector:
       matchLabels:
         testing.upbound.io/example-name: example

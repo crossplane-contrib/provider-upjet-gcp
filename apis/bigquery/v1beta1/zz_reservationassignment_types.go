@@ -18,7 +18,7 @@ type ReservationAssignmentInitParameters struct {
 	// The resource which will use the reservation. E.g. projects/myproject, folders/123, organizations/456.
 	Assignee *string `json:"assignee,omitempty" tf:"assignee,omitempty"`
 
-	// Types of job, which could be specified when using the reservation. Possible values: JOB_TYPE_UNSPECIFIED, PIPELINE, QUERY
+	// Types of job, which could be specified when using the reservation. Possible values: JOB_TYPE_UNSPECIFIED, PIPELINE, QUERY, CONTINUOUS
 	JobType *string `json:"jobType,omitempty" tf:"job_type,omitempty"`
 
 	// The location for the resource
@@ -37,7 +37,7 @@ type ReservationAssignmentObservation struct {
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/reservations/{{reservation}}/assignments/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// Types of job, which could be specified when using the reservation. Possible values: JOB_TYPE_UNSPECIFIED, PIPELINE, QUERY
+	// Types of job, which could be specified when using the reservation. Possible values: JOB_TYPE_UNSPECIFIED, PIPELINE, QUERY, CONTINUOUS
 	JobType *string `json:"jobType,omitempty" tf:"job_type,omitempty"`
 
 	// The location for the resource
@@ -64,7 +64,7 @@ type ReservationAssignmentParameters struct {
 	// +kubebuilder:validation:Optional
 	Assignee *string `json:"assignee,omitempty" tf:"assignee,omitempty"`
 
-	// Types of job, which could be specified when using the reservation. Possible values: JOB_TYPE_UNSPECIFIED, PIPELINE, QUERY
+	// Types of job, which could be specified when using the reservation. Possible values: JOB_TYPE_UNSPECIFIED, PIPELINE, QUERY, CONTINUOUS
 	// +kubebuilder:validation:Optional
 	JobType *string `json:"jobType,omitempty" tf:"job_type,omitempty"`
 

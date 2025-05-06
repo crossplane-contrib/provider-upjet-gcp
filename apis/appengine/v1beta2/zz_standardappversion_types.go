@@ -687,6 +687,7 @@ type StandardAppVersionParameters struct {
 type StandardSchedulerSettingsInitParameters struct {
 
 	// Maximum number of instances to run for this version. Set to zero to disable maxInstances configuration.
+	// Note: Starting from March 2025, App Engine sets the maxInstances default for standard environment deployments to 20. This change doesn't impact existing apps. To override the default, specify a new value between 0 and 2147483647, and deploy a new version or redeploy over an existing version. To disable the maxInstances default configuration setting, specify the maximum permitted value 2147483647.
 	MaxInstances *float64 `json:"maxInstances,omitempty" tf:"max_instances,omitempty"`
 
 	// Minimum number of instances to run for this version. Set to zero to disable minInstances configuration.
@@ -702,6 +703,7 @@ type StandardSchedulerSettingsInitParameters struct {
 type StandardSchedulerSettingsObservation struct {
 
 	// Maximum number of instances to run for this version. Set to zero to disable maxInstances configuration.
+	// Note: Starting from March 2025, App Engine sets the maxInstances default for standard environment deployments to 20. This change doesn't impact existing apps. To override the default, specify a new value between 0 and 2147483647, and deploy a new version or redeploy over an existing version. To disable the maxInstances default configuration setting, specify the maximum permitted value 2147483647.
 	MaxInstances *float64 `json:"maxInstances,omitempty" tf:"max_instances,omitempty"`
 
 	// Minimum number of instances to run for this version. Set to zero to disable minInstances configuration.
@@ -717,6 +719,7 @@ type StandardSchedulerSettingsObservation struct {
 type StandardSchedulerSettingsParameters struct {
 
 	// Maximum number of instances to run for this version. Set to zero to disable maxInstances configuration.
+	// Note: Starting from March 2025, App Engine sets the maxInstances default for standard environment deployments to 20. This change doesn't impact existing apps. To override the default, specify a new value between 0 and 2147483647, and deploy a new version or redeploy over an existing version. To disable the maxInstances default configuration setting, specify the maximum permitted value 2147483647.
 	// +kubebuilder:validation:Optional
 	MaxInstances *float64 `json:"maxInstances,omitempty" tf:"max_instances,omitempty"`
 

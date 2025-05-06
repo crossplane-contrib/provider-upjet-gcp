@@ -36,6 +36,12 @@ type ServicePerimeterResourceInitParameters struct {
 
 type ServicePerimeterResourceObservation struct {
 
+	// The name of the Access Policy this resource belongs to.
+	AccessPolicyID *string `json:"accessPolicyId,omitempty" tf:"access_policy_id,omitempty"`
+
+	// The perimeter etag is internally used to prevent overwriting the list of perimeter resources on PATCH calls. It is retrieved from the same GET perimeter API call that's used to get the current list of resources. The resource to add or remove is merged into that list and then this etag is sent with the PATCH call along with the updated resource list.
+	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
+
 	// an identifier for the resource with format {{perimeter_name}}/{{resource}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 

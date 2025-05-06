@@ -20,15 +20,13 @@ type DatabaseInitParameters struct {
 	// Possible values are: GOOGLE_STANDARD_SQL, POSTGRESQL.
 	DatabaseDialect *string `json:"databaseDialect,omitempty" tf:"database_dialect,omitempty"`
 
-	// An optional list of DDL statements to run inside the newly created
-	// database. Statements can create tables, indexes, etc. These statements
-	// execute atomically with the creation of the database: if there is an
-	// error in any statement, the database is not created.
+	// An optional list of DDL statements to run inside the database. Statements can create
+	// tables, indexes, etc.
+	// During creation these statements execute atomically with the creation of the database
+	// and if there is an error in any statement, the database is not created. Limited updates to this field are supported, and
+	// newly appended DDL statements can be executed in an update. However, modifications
+	// to prior statements will create a plan that marks the resource for recreation.
 	Ddl []*string `json:"ddl,omitempty" tf:"ddl,omitempty"`
-
-	// Defaults to true.
-	// When the field is set to false, deleting the database is allowed.
-	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// Whether drop protection is enabled for this database. Defaults to false.
 	// whereas setting “enableDropProtection” to true protects the database from deletions in all interfaces.
@@ -59,10 +57,12 @@ type DatabaseObservation struct {
 	// Possible values are: GOOGLE_STANDARD_SQL, POSTGRESQL.
 	DatabaseDialect *string `json:"databaseDialect,omitempty" tf:"database_dialect,omitempty"`
 
-	// An optional list of DDL statements to run inside the newly created
-	// database. Statements can create tables, indexes, etc. These statements
-	// execute atomically with the creation of the database: if there is an
-	// error in any statement, the database is not created.
+	// An optional list of DDL statements to run inside the database. Statements can create
+	// tables, indexes, etc.
+	// During creation these statements execute atomically with the creation of the database
+	// and if there is an error in any statement, the database is not created. Limited updates to this field are supported, and
+	// newly appended DDL statements can be executed in an update. However, modifications
+	// to prior statements will create a plan that marks the resource for recreation.
 	Ddl []*string `json:"ddl,omitempty" tf:"ddl,omitempty"`
 
 	// Defaults to true.
@@ -108,17 +108,14 @@ type DatabaseParameters struct {
 	// +kubebuilder:validation:Optional
 	DatabaseDialect *string `json:"databaseDialect,omitempty" tf:"database_dialect,omitempty"`
 
-	// An optional list of DDL statements to run inside the newly created
-	// database. Statements can create tables, indexes, etc. These statements
-	// execute atomically with the creation of the database: if there is an
-	// error in any statement, the database is not created.
+	// An optional list of DDL statements to run inside the database. Statements can create
+	// tables, indexes, etc.
+	// During creation these statements execute atomically with the creation of the database
+	// and if there is an error in any statement, the database is not created. Limited updates to this field are supported, and
+	// newly appended DDL statements can be executed in an update. However, modifications
+	// to prior statements will create a plan that marks the resource for recreation.
 	// +kubebuilder:validation:Optional
 	Ddl []*string `json:"ddl,omitempty" tf:"ddl,omitempty"`
-
-	// Defaults to true.
-	// When the field is set to false, deleting the database is allowed.
-	// +kubebuilder:validation:Optional
-	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// Whether drop protection is enabled for this database. Defaults to false.
 	// whereas setting “enableDropProtection” to true protects the database from deletions in all interfaces.
@@ -164,6 +161,10 @@ type EncryptionConfigInitParameters struct {
 	// Fully qualified name of the KMS key to use to encrypt this database. This key must exist
 	// in the same location as the Spanner Database.
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+
+	// Fully qualified name of the KMS keys to use to encrypt this database. The keys must exist
+	// in the same locations as the Spanner Database.
+	KMSKeyNames []*string `json:"kmsKeyNames,omitempty" tf:"kms_key_names,omitempty"`
 }
 
 type EncryptionConfigObservation struct {
@@ -171,6 +172,10 @@ type EncryptionConfigObservation struct {
 	// Fully qualified name of the KMS key to use to encrypt this database. This key must exist
 	// in the same location as the Spanner Database.
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+
+	// Fully qualified name of the KMS keys to use to encrypt this database. The keys must exist
+	// in the same locations as the Spanner Database.
+	KMSKeyNames []*string `json:"kmsKeyNames,omitempty" tf:"kms_key_names,omitempty"`
 }
 
 type EncryptionConfigParameters struct {
@@ -178,7 +183,12 @@ type EncryptionConfigParameters struct {
 	// Fully qualified name of the KMS key to use to encrypt this database. This key must exist
 	// in the same location as the Spanner Database.
 	// +kubebuilder:validation:Optional
-	KMSKeyName *string `json:"kmsKeyName" tf:"kms_key_name,omitempty"`
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+
+	// Fully qualified name of the KMS keys to use to encrypt this database. The keys must exist
+	// in the same locations as the Spanner Database.
+	// +kubebuilder:validation:Optional
+	KMSKeyNames []*string `json:"kmsKeyNames,omitempty" tf:"kms_key_names,omitempty"`
 }
 
 // DatabaseSpec defines the desired state of Database

@@ -9,6 +9,8 @@ metadata:
 spec:
   forProvider:
     edgeAvailabilityDomain: AVAILABILITY_DOMAIN_1
+    labels:
+      mykey: myvalue
     mtu: 1500
     routerSelector:
       matchLabels:

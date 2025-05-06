@@ -1367,7 +1367,7 @@ spec:
                         properties:
                           maxScaledInReplicas:
                             description: |-
-                              A nested object resource
+                              A nested object resource.
                               Structure is documented below.
                             properties:
                               fixed:
@@ -1677,7 +1677,7 @@ spec:
                         properties:
                           maxScaledInReplicas:
                             description: |-
-                              A nested object resource
+                              A nested object resource.
                               Structure is documented below.
                             properties:
                               fixed:
@@ -2146,7 +2146,7 @@ spec:
                         properties:
                           maxScaledInReplicas:
                             description: |-
-                              A nested object resource
+                              A nested object resource.
                               Structure is documented below.
                             properties:
                               fixed:

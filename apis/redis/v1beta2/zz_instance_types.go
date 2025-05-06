@@ -128,6 +128,12 @@ type InstanceInitParameters struct {
 	// range associated with the private service access connection, or "auto".
 	SecondaryIPRange *string `json:"secondaryIpRange,omitempty" tf:"secondary_ip_range,omitempty"`
 
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_key_value}.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
 	// The service tier of the instance. Must be one of these values:
 	Tier *string `json:"tier,omitempty" tf:"tier,omitempty"`
 
@@ -284,6 +290,12 @@ type InstanceObservation struct {
 	// Structure is documented below.
 	ServerCACerts []ServerCACertsObservation `json:"serverCaCerts,omitempty" tf:"server_ca_certs,omitempty"`
 
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_key_value}.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
 	// The combination of labels configured directly on the resource
 	// and default labels configured on the provider.
 	// +mapType=granular
@@ -433,6 +445,13 @@ type InstanceParameters struct {
 	// range associated with the private service access connection, or "auto".
 	// +kubebuilder:validation:Optional
 	SecondaryIPRange *string `json:"secondaryIpRange,omitempty" tf:"secondary_ip_range,omitempty"`
+
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_key_value}.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// The service tier of the instance. Must be one of these values:
 	// +kubebuilder:validation:Optional

@@ -21,7 +21,7 @@ func (mg *RegionDisk) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this RegionDisk
 func (tr *RegionDisk) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"disk_encryption_key[*].raw_key": "diskEncryptionKey[*].rawKeySecretRef"}
+	return map[string]string{"disk_encryption_key[*].raw_key": "diskEncryptionKey[*].rawKeySecretRef", "disk_encryption_key[*].rsa_encrypted_key": "diskEncryptionKey[*].rsaEncryptedKeySecretRef"}
 }
 
 // GetObservation of this RegionDisk

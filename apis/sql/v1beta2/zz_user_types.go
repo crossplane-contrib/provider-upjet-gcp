@@ -124,15 +124,26 @@ type UserInitParameters struct {
 	// and CLOUD_IAM_SERVICE_ACCOUNT user types for any Cloud SQL instance.
 	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
+	// The password for the user. Can be updated. For Postgres
+	// instances this is a Required field, unless type is set to either CLOUD_IAM_USER
+	// or CLOUD_IAM_SERVICE_ACCOUNT. Don't set this field for CLOUD_IAM_USER
+	// and CLOUD_IAM_SERVICE_ACCOUNT user types for any Cloud SQL instance.
+	// Note: This property is write-only and will not be read from the API.
+	PasswordWo *string `json:"passwordWo,omitempty" tf:"password_wo,omitempty"`
+
+	// The version of the password_wo. For more info see updating write-only attributes.
+	PasswordWoVersion *float64 `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
+
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The user type. It determines the method to authenticate the
 	// user during login. The default is the database's built-in user type. Flags
-	// include "BUILT_IN", "CLOUD_IAM_USER", and "CLOUD_IAM_SERVICE_ACCOUNT" for both
-	// Postgres and MySQL.
-	// MySQL also includes "CLOUD_IAM_GROUP", "CLOUD_IAM_GROUP_USER" and "CLOUD_IAM_GROUP_SERVICE_ACCOUNT".
+	// include "BUILT_IN", "CLOUD_IAM_USER", "CLOUD_IAM_SERVICE_ACCOUNT", "CLOUD_IAM_GROUP",
+	// "CLOUD_IAM_GROUP_USER" and "CLOUD_IAM_GROUP_SERVICE_ACCOUNT" for
+	// Postgres
+	// and MySQL.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -156,6 +167,16 @@ type UserObservation struct {
 
 	PasswordPolicy *PasswordPolicyObservation `json:"passwordPolicy,omitempty" tf:"password_policy,omitempty"`
 
+	// The password for the user. Can be updated. For Postgres
+	// instances this is a Required field, unless type is set to either CLOUD_IAM_USER
+	// or CLOUD_IAM_SERVICE_ACCOUNT. Don't set this field for CLOUD_IAM_USER
+	// and CLOUD_IAM_SERVICE_ACCOUNT user types for any Cloud SQL instance.
+	// Note: This property is write-only and will not be read from the API.
+	PasswordWo *string `json:"passwordWo,omitempty" tf:"password_wo,omitempty"`
+
+	// The version of the password_wo. For more info see updating write-only attributes.
+	PasswordWoVersion *float64 `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
+
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -164,9 +185,10 @@ type UserObservation struct {
 
 	// The user type. It determines the method to authenticate the
 	// user during login. The default is the database's built-in user type. Flags
-	// include "BUILT_IN", "CLOUD_IAM_USER", and "CLOUD_IAM_SERVICE_ACCOUNT" for both
-	// Postgres and MySQL.
-	// MySQL also includes "CLOUD_IAM_GROUP", "CLOUD_IAM_GROUP_USER" and "CLOUD_IAM_GROUP_SERVICE_ACCOUNT".
+	// include "BUILT_IN", "CLOUD_IAM_USER", "CLOUD_IAM_SERVICE_ACCOUNT", "CLOUD_IAM_GROUP",
+	// "CLOUD_IAM_GROUP_USER" and "CLOUD_IAM_GROUP_SERVICE_ACCOUNT" for
+	// Postgres
+	// and MySQL.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -208,6 +230,18 @@ type UserParameters struct {
 	// +kubebuilder:validation:Optional
 	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
+	// The password for the user. Can be updated. For Postgres
+	// instances this is a Required field, unless type is set to either CLOUD_IAM_USER
+	// or CLOUD_IAM_SERVICE_ACCOUNT. Don't set this field for CLOUD_IAM_USER
+	// and CLOUD_IAM_SERVICE_ACCOUNT user types for any Cloud SQL instance.
+	// Note: This property is write-only and will not be read from the API.
+	// +kubebuilder:validation:Optional
+	PasswordWo *string `json:"passwordWo,omitempty" tf:"password_wo,omitempty"`
+
+	// The version of the password_wo. For more info see updating write-only attributes.
+	// +kubebuilder:validation:Optional
+	PasswordWoVersion *float64 `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
+
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
@@ -215,9 +249,10 @@ type UserParameters struct {
 
 	// The user type. It determines the method to authenticate the
 	// user during login. The default is the database's built-in user type. Flags
-	// include "BUILT_IN", "CLOUD_IAM_USER", and "CLOUD_IAM_SERVICE_ACCOUNT" for both
-	// Postgres and MySQL.
-	// MySQL also includes "CLOUD_IAM_GROUP", "CLOUD_IAM_GROUP_USER" and "CLOUD_IAM_GROUP_SERVICE_ACCOUNT".
+	// include "BUILT_IN", "CLOUD_IAM_USER", "CLOUD_IAM_SERVICE_ACCOUNT", "CLOUD_IAM_GROUP",
+	// "CLOUD_IAM_GROUP_USER" and "CLOUD_IAM_GROUP_SERVICE_ACCOUNT" for
+	// Postgres
+	// and MySQL.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }

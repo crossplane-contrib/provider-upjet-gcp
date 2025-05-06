@@ -1976,8 +1976,14 @@ spec:
                     properties:
                       enableNestedVirtualization:
                         type: boolean
+                      enableUefiNetworking:
+                        type: boolean
+                      performanceMonitoringUnit:
+                        type: string
                       threadsPerCore:
                         type: number
+                      turboMode:
+                        type: string
                       visibleCoreCount:
                         type: number
                     type: object
@@ -1992,9 +1998,43 @@ spec:
                             A unique name for the resource, required by GCE.
                             Changing this forces a new resource to be created.
                           type: string
-                        diskEncryptionKeyRaw:
-                          type: string
-                        diskEncryptionKeySha256:
+                        diskEncryptionKeyRawSecretRef:
+                          description: A SecretKeySelector is a reference to a secret
+                            key in an arbitrary namespace.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                        diskEncryptionKeyRsaSecretRef:
+                          description: A SecretKeySelector is a reference to a secret
+                            key in an arbitrary namespace.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                        diskEncryptionServiceAccount:
                           type: string
                         kmsKeySelfLink:
                           type: string
@@ -2032,8 +2072,34 @@ spec:
                         - name
                         - namespace
                         type: object
+                      diskEncryptionKeyRsaSecretRef:
+                        description: A SecretKeySelector is a reference to a secret
+                          key in an arbitrary namespace.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
+                      diskEncryptionServiceAccount:
+                        type: string
+                      guestOsFeatures:
+                        items:
+                          type: string
+                        type: array
                       initializeParams:
                         properties:
+                          architecture:
+                            type: string
                           enableConfidentialCompute:
                             type: boolean
                           image:
@@ -2051,13 +2117,107 @@ spec:
                               type: string
                             type: object
                             x-kubernetes-map-type: granular
+                          resourcePolicies:
+                            items:
+                              type: string
+                            type: array
                           size:
                             type: number
+                          snapshot:
+                            type: string
+                          sourceImageEncryptionKey:
+                            properties:
+                              kmsKeySelfLink:
+                                type: string
+                              kmsKeyServiceAccount:
+                                type: string
+                              rawKeySecretRef:
+                                description: A SecretKeySelector is a reference to
+                                  a secret key in an arbitrary namespace.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                              rsaEncryptedKeySecretRef:
+                                description: A SecretKeySelector is a reference to
+                                  a secret key in an arbitrary namespace.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                            type: object
+                          sourceSnapshotEncryptionKey:
+                            properties:
+                              kmsKeySelfLink:
+                                type: string
+                              kmsKeyServiceAccount:
+                                type: string
+                              rawKeySecretRef:
+                                description: A SecretKeySelector is a reference to
+                                  a secret key in an arbitrary namespace.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                              rsaEncryptedKeySecretRef:
+                                description: A SecretKeySelector is a reference to
+                                  a secret key in an arbitrary namespace.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                            type: object
                           storagePool:
                             type: string
                           type:
                             type: string
                         type: object
+                      interface:
+                        type: string
                       kmsKeySelfLink:
                         type: string
                       mode:
@@ -2074,8 +2234,6 @@ spec:
                       enableConfidentialCompute:
                         type: boolean
                     type: object
-                  deletionProtection:
-                    type: boolean
                   description:
                     type: string
                   desiredStatus:
@@ -2095,6 +2253,15 @@ spec:
                     description: |-
                       A unique name for the resource, required by GCE.
                       Changing this forces a new resource to be created.
+                    type: string
+                  instanceEncryptionKey:
+                    properties:
+                      kmsKeySelfLink:
+                        type: string
+                      kmsKeyServiceAccount:
+                        type: string
+                    type: object
+                  keyRevocationActionType:
                     type: string
                   labels:
                     additionalProperties:
@@ -2171,6 +2338,8 @@ spec:
                         ipv6Address:
                           type: string
                         network:
+                          type: string
+                        networkAttachment:
                           type: string
                         networkIp:
                           type: string
@@ -2375,6 +2544,8 @@ spec:
                     properties:
                       automaticRestart:
                         type: boolean
+                      availabilityDomain:
+                        type: number
                       instanceTerminationAction:
                         type: string
                       localSsdRecoveryTimeout:
@@ -2417,6 +2588,8 @@ spec:
                       preemptible:
                         type: boolean
                       provisioningModel:
+                        type: string
+                      terminationTime:
                         type: string
                     type: object
                   scratchDisk:
@@ -2562,8 +2735,14 @@ spec:
                     properties:
                       enableNestedVirtualization:
                         type: boolean
+                      enableUefiNetworking:
+                        type: boolean
+                      performanceMonitoringUnit:
+                        type: string
                       threadsPerCore:
                         type: number
+                      turboMode:
+                        type: string
                       visibleCoreCount:
                         type: number
                     type: object
@@ -2578,9 +2757,43 @@ spec:
                             A unique name for the resource, required by GCE.
                             Changing this forces a new resource to be created.
                           type: string
-                        diskEncryptionKeyRaw:
-                          type: string
-                        diskEncryptionKeySha256:
+                        diskEncryptionKeyRawSecretRef:
+                          description: A SecretKeySelector is a reference to a secret
+                            key in an arbitrary namespace.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                        diskEncryptionKeyRsaSecretRef:
+                          description: A SecretKeySelector is a reference to a secret
+                            key in an arbitrary namespace.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                        diskEncryptionServiceAccount:
                           type: string
                         kmsKeySelfLink:
                           type: string
@@ -2618,8 +2831,34 @@ spec:
                         - name
                         - namespace
                         type: object
+                      diskEncryptionKeyRsaSecretRef:
+                        description: A SecretKeySelector is a reference to a secret
+                          key in an arbitrary namespace.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
+                      diskEncryptionServiceAccount:
+                        type: string
+                      guestOsFeatures:
+                        items:
+                          type: string
+                        type: array
                       initializeParams:
                         properties:
+                          architecture:
+                            type: string
                           enableConfidentialCompute:
                             type: boolean
                           image:
@@ -2637,13 +2876,107 @@ spec:
                               type: string
                             type: object
                             x-kubernetes-map-type: granular
+                          resourcePolicies:
+                            items:
+                              type: string
+                            type: array
                           size:
                             type: number
+                          snapshot:
+                            type: string
+                          sourceImageEncryptionKey:
+                            properties:
+                              kmsKeySelfLink:
+                                type: string
+                              kmsKeyServiceAccount:
+                                type: string
+                              rawKeySecretRef:
+                                description: A SecretKeySelector is a reference to
+                                  a secret key in an arbitrary namespace.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                              rsaEncryptedKeySecretRef:
+                                description: A SecretKeySelector is a reference to
+                                  a secret key in an arbitrary namespace.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                            type: object
+                          sourceSnapshotEncryptionKey:
+                            properties:
+                              kmsKeySelfLink:
+                                type: string
+                              kmsKeyServiceAccount:
+                                type: string
+                              rawKeySecretRef:
+                                description: A SecretKeySelector is a reference to
+                                  a secret key in an arbitrary namespace.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                              rsaEncryptedKeySecretRef:
+                                description: A SecretKeySelector is a reference to
+                                  a secret key in an arbitrary namespace.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                            type: object
                           storagePool:
                             type: string
                           type:
                             type: string
                         type: object
+                      interface:
+                        type: string
                       kmsKeySelfLink:
                         type: string
                       mode:
@@ -2660,8 +2993,6 @@ spec:
                       enableConfidentialCompute:
                         type: boolean
                     type: object
-                  deletionProtection:
-                    type: boolean
                   description:
                     type: string
                   desiredStatus:
@@ -2681,6 +3012,15 @@ spec:
                     description: |-
                       A unique name for the resource, required by GCE.
                       Changing this forces a new resource to be created.
+                    type: string
+                  instanceEncryptionKey:
+                    properties:
+                      kmsKeySelfLink:
+                        type: string
+                      kmsKeyServiceAccount:
+                        type: string
+                    type: object
+                  keyRevocationActionType:
                     type: string
                   labels:
                     additionalProperties:
@@ -2757,6 +3097,8 @@ spec:
                         ipv6Address:
                           type: string
                         network:
+                          type: string
+                        networkAttachment:
                           type: string
                         networkIp:
                           type: string
@@ -2961,6 +3303,8 @@ spec:
                     properties:
                       automaticRestart:
                         type: boolean
+                      availabilityDomain:
+                        type: number
                       instanceTerminationAction:
                         type: string
                       localSsdRecoveryTimeout:
@@ -3003,6 +3347,8 @@ spec:
                       preemptible:
                         type: boolean
                       provisioningModel:
+                        type: string
+                      terminationTime:
                         type: string
                     type: object
                   scratchDisk:
@@ -3313,8 +3659,14 @@ spec:
                     properties:
                       enableNestedVirtualization:
                         type: boolean
+                      enableUefiNetworking:
+                        type: boolean
+                      performanceMonitoringUnit:
+                        type: string
                       threadsPerCore:
                         type: number
+                      turboMode:
+                        type: string
                       visibleCoreCount:
                         type: number
                     type: object
@@ -3329,9 +3681,9 @@ spec:
                             A unique name for the resource, required by GCE.
                             Changing this forces a new resource to be created.
                           type: string
-                        diskEncryptionKeyRaw:
-                          type: string
                         diskEncryptionKeySha256:
+                          type: string
+                        diskEncryptionServiceAccount:
                           type: string
                         kmsKeySelfLink:
                           type: string
@@ -3353,8 +3705,16 @@ spec:
                         type: string
                       diskEncryptionKeySha256:
                         type: string
+                      diskEncryptionServiceAccount:
+                        type: string
+                      guestOsFeatures:
+                        items:
+                          type: string
+                        type: array
                       initializeParams:
                         properties:
+                          architecture:
+                            type: string
                           enableConfidentialCompute:
                             type: boolean
                           image:
@@ -3372,13 +3732,39 @@ spec:
                               type: string
                             type: object
                             x-kubernetes-map-type: granular
+                          resourcePolicies:
+                            items:
+                              type: string
+                            type: array
                           size:
                             type: number
+                          snapshot:
+                            type: string
+                          sourceImageEncryptionKey:
+                            properties:
+                              kmsKeySelfLink:
+                                type: string
+                              kmsKeyServiceAccount:
+                                type: string
+                              sha256:
+                                type: string
+                            type: object
+                          sourceSnapshotEncryptionKey:
+                            properties:
+                              kmsKeySelfLink:
+                                type: string
+                              kmsKeyServiceAccount:
+                                type: string
+                              sha256:
+                                type: string
+                            type: object
                           storagePool:
                             type: string
                           type:
                             type: string
                         type: object
+                      interface:
+                        type: string
                       kmsKeySelfLink:
                         type: string
                       mode:
@@ -3396,6 +3782,8 @@ spec:
                         type: boolean
                     type: object
                   cpuPlatform:
+                    type: string
+                  creationTimestamp:
                     type: string
                   currentStatus:
                     type: string
@@ -3428,7 +3816,18 @@ spec:
                     type: string
                   id:
                     type: string
+                  instanceEncryptionKey:
+                    properties:
+                      kmsKeySelfLink:
+                        type: string
+                      kmsKeyServiceAccount:
+                        type: string
+                      sha256:
+                        type: string
+                    type: object
                   instanceId:
+                    type: string
+                  keyRevocationActionType:
                     type: string
                   labelFingerprint:
                     type: string
@@ -3517,6 +3916,8 @@ spec:
                           type: string
                         network:
                           type: string
+                        networkAttachment:
+                          type: string
                         networkIp:
                           type: string
                         nicType:
@@ -3568,6 +3969,8 @@ spec:
                     properties:
                       automaticRestart:
                         type: boolean
+                      availabilityDomain:
+                        type: number
                       instanceTerminationAction:
                         type: string
                       localSsdRecoveryTimeout:
@@ -3610,6 +4013,8 @@ spec:
                       preemptible:
                         type: boolean
                       provisioningModel:
+                        type: string
+                      terminationTime:
                         type: string
                     type: object
                   scratchDisk:

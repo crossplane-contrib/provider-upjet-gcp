@@ -180,6 +180,22 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
 		*out = new(string)
@@ -436,6 +452,22 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.TerraformLabels != nil {
 		in, out := &in.TerraformLabels, &out.TerraformLabels
 		*out = make(map[string]*string, len(*in))
@@ -618,6 +650,22 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 		in, out := &in.SecondaryIPRange, &out.SecondaryIPRange
 		*out = new(string)
 		**out = **in
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier

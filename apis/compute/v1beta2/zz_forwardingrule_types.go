@@ -69,6 +69,13 @@ type ForwardingRuleInitParameters struct {
 	// +kubebuilder:validation:Optional
 	IPAddressSelector *v1.Selector `json:"ipAddressSelector,omitempty" tf:"-"`
 
+	// Resource reference of a PublicDelegatedPrefix. The PDP must be a sub-PDP
+	// in EXTERNAL_IPV6_FORWARDING_RULE_CREATION mode.
+	// Use one of the following formats to specify a sub-PDP when creating an
+	// IPv6 NetLB forwarding rule using BYOIP:
+	// Full resource URL, as in:
+	IPCollection *string `json:"ipCollection,omitempty" tf:"ip_collection,omitempty"`
+
 	// The IP protocol to which this rule applies.
 	// For protocol forwarding, valid
 	// options are TCP, UDP, ESP,
@@ -268,6 +275,13 @@ type ForwardingRuleObservation struct {
 	// While creating a forwarding rule, specifying an IPAddress is
 	// required under the following circumstances:
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// Resource reference of a PublicDelegatedPrefix. The PDP must be a sub-PDP
+	// in EXTERNAL_IPV6_FORWARDING_RULE_CREATION mode.
+	// Use one of the following formats to specify a sub-PDP when creating an
+	// IPv6 NetLB forwarding rule using BYOIP:
+	// Full resource URL, as in:
+	IPCollection *string `json:"ipCollection,omitempty" tf:"ip_collection,omitempty"`
 
 	// The IP protocol to which this rule applies.
 	// For protocol forwarding, valid
@@ -474,6 +488,14 @@ type ForwardingRuleParameters struct {
 	// Selector for a Address in compute to populate ipAddress.
 	// +kubebuilder:validation:Optional
 	IPAddressSelector *v1.Selector `json:"ipAddressSelector,omitempty" tf:"-"`
+
+	// Resource reference of a PublicDelegatedPrefix. The PDP must be a sub-PDP
+	// in EXTERNAL_IPV6_FORWARDING_RULE_CREATION mode.
+	// Use one of the following formats to specify a sub-PDP when creating an
+	// IPv6 NetLB forwarding rule using BYOIP:
+	// Full resource URL, as in:
+	// +kubebuilder:validation:Optional
+	IPCollection *string `json:"ipCollection,omitempty" tf:"ip_collection,omitempty"`
 
 	// The IP protocol to which this rule applies.
 	// For protocol forwarding, valid

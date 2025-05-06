@@ -7828,6 +7828,27 @@ spec:
                                 type: number
                             type: object
                         type: object
+                      maxStreamDuration:
+                        description: |-
+                          Specifies the maximum duration (timeout) for streams on the selected route.
+                          Unlike the Timeout field where the timeout duration starts from the time the request
+                          has been fully processed (known as end-of-stream), the duration in this field
+                          is computed from the beginning of the stream until the response has been processed,
+                          including all retries. A stream that does not complete in this duration is closed.
+                          Structure is documented below.
+                        properties:
+                          nanos:
+                            description: |-
+                              Span of time that's a fraction of a second at nanosecond resolution. Durations
+                              less than one second are represented with a 0 seconds field and a positive
+                              nanos field. Must be from 0 to 999,999,999 inclusive.
+                            type: number
+                          seconds:
+                            description: |-
+                              Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+                              inclusive.
+                            type: string
+                        type: object
                       requestMirrorPolicy:
                         description: |-
                           Specifies the policy on how requests intended for the route's backends are shadowed to a separate mirrored backend service.
@@ -8356,6 +8377,27 @@ spec:
                                         100.0 inclusive.
                                       type: number
                                   type: object
+                              type: object
+                            maxStreamDuration:
+                              description: |-
+                                Specifies the maximum duration (timeout) for streams on the selected route.
+                                Unlike the Timeout field where the timeout duration starts from the time the request
+                                has been fully processed (known as end-of-stream), the duration in this field
+                                is computed from the beginning of the stream until the response has been processed,
+                                including all retries. A stream that does not complete in this duration is closed.
+                                Structure is documented below.
+                              properties:
+                                nanos:
+                                  description: |-
+                                    Span of time that's a fraction of a second at nanosecond resolution. Durations
+                                    less than one second are represented with a 0 seconds field and a positive
+                                    nanos field. Must be from 0 to 999,999,999 inclusive.
+                                  type: number
+                                seconds:
+                                  description: |-
+                                    Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+                                    inclusive.
+                                  type: string
                               type: object
                             requestMirrorPolicy:
                               description: |-
@@ -8887,6 +8929,27 @@ spec:
                                               100.0 inclusive.
                                             type: number
                                         type: object
+                                    type: object
+                                  maxStreamDuration:
+                                    description: |-
+                                      Specifies the maximum duration (timeout) for streams on the selected route.
+                                      Unlike the Timeout field where the timeout duration starts from the time the request
+                                      has been fully processed (known as end-of-stream), the duration in this field
+                                      is computed from the beginning of the stream until the response has been processed,
+                                      including all retries. A stream that does not complete in this duration is closed.
+                                      Structure is documented below.
+                                    properties:
+                                      nanos:
+                                        description: |-
+                                          Span of time that's a fraction of a second at nanosecond resolution. Durations
+                                          less than one second are represented with a 0 seconds field and a positive
+                                          nanos field. Must be from 0 to 999,999,999 inclusive.
+                                        type: number
+                                      seconds:
+                                        description: |-
+                                          Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+                                          inclusive.
+                                        type: string
                                     type: object
                                   requestMirrorPolicy:
                                     description: |-
@@ -9764,6 +9827,27 @@ spec:
                                               100.0 inclusive.
                                             type: number
                                         type: object
+                                    type: object
+                                  maxStreamDuration:
+                                    description: |-
+                                      Specifies the maximum duration (timeout) for streams on the selected route.
+                                      Unlike the Timeout field where the timeout duration starts from the time the request
+                                      has been fully processed (known as end-of-stream), the duration in this field
+                                      is computed from the beginning of the stream until the response has been processed,
+                                      including all retries. A stream that does not complete in this duration is closed.
+                                      Structure is documented below.
+                                    properties:
+                                      nanos:
+                                        description: |-
+                                          Span of time that's a fraction of a second at nanosecond resolution. Durations
+                                          less than one second are represented with a 0 seconds field and a positive
+                                          nanos field. Must be from 0 to 999,999,999 inclusive.
+                                        type: number
+                                      seconds:
+                                        description: |-
+                                          Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+                                          inclusive.
+                                        type: string
                                     type: object
                                   requestMirrorPolicy:
                                     description: |-
@@ -10336,6 +10420,27 @@ spec:
                                 type: number
                             type: object
                         type: object
+                      maxStreamDuration:
+                        description: |-
+                          Specifies the maximum duration (timeout) for streams on the selected route.
+                          Unlike the Timeout field where the timeout duration starts from the time the request
+                          has been fully processed (known as end-of-stream), the duration in this field
+                          is computed from the beginning of the stream until the response has been processed,
+                          including all retries. A stream that does not complete in this duration is closed.
+                          Structure is documented below.
+                        properties:
+                          nanos:
+                            description: |-
+                              Span of time that's a fraction of a second at nanosecond resolution. Durations
+                              less than one second are represented with a 0 seconds field and a positive
+                              nanos field. Must be from 0 to 999,999,999 inclusive.
+                            type: number
+                          seconds:
+                            description: |-
+                              Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+                              inclusive.
+                            type: string
+                        type: object
                       requestMirrorPolicy:
                         description: |-
                           Specifies the policy on how requests intended for the route's backends are shadowed to a separate mirrored backend service.
@@ -10864,6 +10969,27 @@ spec:
                                         100.0 inclusive.
                                       type: number
                                   type: object
+                              type: object
+                            maxStreamDuration:
+                              description: |-
+                                Specifies the maximum duration (timeout) for streams on the selected route.
+                                Unlike the Timeout field where the timeout duration starts from the time the request
+                                has been fully processed (known as end-of-stream), the duration in this field
+                                is computed from the beginning of the stream until the response has been processed,
+                                including all retries. A stream that does not complete in this duration is closed.
+                                Structure is documented below.
+                              properties:
+                                nanos:
+                                  description: |-
+                                    Span of time that's a fraction of a second at nanosecond resolution. Durations
+                                    less than one second are represented with a 0 seconds field and a positive
+                                    nanos field. Must be from 0 to 999,999,999 inclusive.
+                                  type: number
+                                seconds:
+                                  description: |-
+                                    Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+                                    inclusive.
+                                  type: string
                               type: object
                             requestMirrorPolicy:
                               description: |-
@@ -11395,6 +11521,27 @@ spec:
                                               100.0 inclusive.
                                             type: number
                                         type: object
+                                    type: object
+                                  maxStreamDuration:
+                                    description: |-
+                                      Specifies the maximum duration (timeout) for streams on the selected route.
+                                      Unlike the Timeout field where the timeout duration starts from the time the request
+                                      has been fully processed (known as end-of-stream), the duration in this field
+                                      is computed from the beginning of the stream until the response has been processed,
+                                      including all retries. A stream that does not complete in this duration is closed.
+                                      Structure is documented below.
+                                    properties:
+                                      nanos:
+                                        description: |-
+                                          Span of time that's a fraction of a second at nanosecond resolution. Durations
+                                          less than one second are represented with a 0 seconds field and a positive
+                                          nanos field. Must be from 0 to 999,999,999 inclusive.
+                                        type: number
+                                      seconds:
+                                        description: |-
+                                          Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+                                          inclusive.
+                                        type: string
                                     type: object
                                   requestMirrorPolicy:
                                     description: |-
@@ -12272,6 +12419,27 @@ spec:
                                               100.0 inclusive.
                                             type: number
                                         type: object
+                                    type: object
+                                  maxStreamDuration:
+                                    description: |-
+                                      Specifies the maximum duration (timeout) for streams on the selected route.
+                                      Unlike the Timeout field where the timeout duration starts from the time the request
+                                      has been fully processed (known as end-of-stream), the duration in this field
+                                      is computed from the beginning of the stream until the response has been processed,
+                                      including all retries. A stream that does not complete in this duration is closed.
+                                      Structure is documented below.
+                                    properties:
+                                      nanos:
+                                        description: |-
+                                          Span of time that's a fraction of a second at nanosecond resolution. Durations
+                                          less than one second are represented with a 0 seconds field and a positive
+                                          nanos field. Must be from 0 to 999,999,999 inclusive.
+                                        type: number
+                                      seconds:
+                                        description: |-
+                                          Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+                                          inclusive.
+                                        type: string
                                     type: object
                                   requestMirrorPolicy:
                                     description: |-
@@ -13006,6 +13174,27 @@ spec:
                                 type: number
                             type: object
                         type: object
+                      maxStreamDuration:
+                        description: |-
+                          Specifies the maximum duration (timeout) for streams on the selected route.
+                          Unlike the Timeout field where the timeout duration starts from the time the request
+                          has been fully processed (known as end-of-stream), the duration in this field
+                          is computed from the beginning of the stream until the response has been processed,
+                          including all retries. A stream that does not complete in this duration is closed.
+                          Structure is documented below.
+                        properties:
+                          nanos:
+                            description: |-
+                              Span of time that's a fraction of a second at nanosecond resolution. Durations
+                              less than one second are represented with a 0 seconds field and a positive
+                              nanos field. Must be from 0 to 999,999,999 inclusive.
+                            type: number
+                          seconds:
+                            description: |-
+                              Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+                              inclusive.
+                            type: string
+                        type: object
                       requestMirrorPolicy:
                         description: |-
                           Specifies the policy on how requests intended for the route's backends are shadowed to a separate mirrored backend service.
@@ -13470,6 +13659,27 @@ spec:
                                       type: number
                                   type: object
                               type: object
+                            maxStreamDuration:
+                              description: |-
+                                Specifies the maximum duration (timeout) for streams on the selected route.
+                                Unlike the Timeout field where the timeout duration starts from the time the request
+                                has been fully processed (known as end-of-stream), the duration in this field
+                                is computed from the beginning of the stream until the response has been processed,
+                                including all retries. A stream that does not complete in this duration is closed.
+                                Structure is documented below.
+                              properties:
+                                nanos:
+                                  description: |-
+                                    Span of time that's a fraction of a second at nanosecond resolution. Durations
+                                    less than one second are represented with a 0 seconds field and a positive
+                                    nanos field. Must be from 0 to 999,999,999 inclusive.
+                                  type: number
+                                seconds:
+                                  description: |-
+                                    Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+                                    inclusive.
+                                  type: string
+                              type: object
                             requestMirrorPolicy:
                               description: |-
                                 Specifies the policy on how requests intended for the route's backends are
@@ -13924,6 +14134,27 @@ spec:
                                               100.0 inclusive.
                                             type: number
                                         type: object
+                                    type: object
+                                  maxStreamDuration:
+                                    description: |-
+                                      Specifies the maximum duration (timeout) for streams on the selected route.
+                                      Unlike the Timeout field where the timeout duration starts from the time the request
+                                      has been fully processed (known as end-of-stream), the duration in this field
+                                      is computed from the beginning of the stream until the response has been processed,
+                                      including all retries. A stream that does not complete in this duration is closed.
+                                      Structure is documented below.
+                                    properties:
+                                      nanos:
+                                        description: |-
+                                          Span of time that's a fraction of a second at nanosecond resolution. Durations
+                                          less than one second are represented with a 0 seconds field and a positive
+                                          nanos field. Must be from 0 to 999,999,999 inclusive.
+                                        type: number
+                                      seconds:
+                                        description: |-
+                                          Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+                                          inclusive.
+                                        type: string
                                     type: object
                                   requestMirrorPolicy:
                                     description: |-
@@ -14572,6 +14803,27 @@ spec:
                                               100.0 inclusive.
                                             type: number
                                         type: object
+                                    type: object
+                                  maxStreamDuration:
+                                    description: |-
+                                      Specifies the maximum duration (timeout) for streams on the selected route.
+                                      Unlike the Timeout field where the timeout duration starts from the time the request
+                                      has been fully processed (known as end-of-stream), the duration in this field
+                                      is computed from the beginning of the stream until the response has been processed,
+                                      including all retries. A stream that does not complete in this duration is closed.
+                                      Structure is documented below.
+                                    properties:
+                                      nanos:
+                                        description: |-
+                                          Span of time that's a fraction of a second at nanosecond resolution. Durations
+                                          less than one second are represented with a 0 seconds field and a positive
+                                          nanos field. Must be from 0 to 999,999,999 inclusive.
+                                        type: number
+                                      seconds:
+                                        description: |-
+                                          Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+                                          inclusive.
+                                        type: string
                                     type: object
                                   requestMirrorPolicy:
                                     description: |-

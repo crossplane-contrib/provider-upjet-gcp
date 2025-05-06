@@ -9,6 +9,7 @@ package v1beta2
 import (
 	"context"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
+	resource "github.com/crossplane/upjet/pkg/resource"
 	errors "github.com/pkg/errors"
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
@@ -49,6 +50,29 @@ func (mg *Trigger) ResolveReferences(ctx context.Context, c client.Reader) error
 
 		}
 	}
+	if mg.Spec.ForProvider.Transport != nil {
+		if mg.Spec.ForProvider.Transport.Pubsub != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("pubsub.gcp.upbound.io", "v1beta2", "Topic", "TopicList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Transport.Pubsub.Topic),
+					Extract:      resource.ExtractResourceID(),
+					Reference:    mg.Spec.ForProvider.Transport.Pubsub.TopicRef,
+					Selector:     mg.Spec.ForProvider.Transport.Pubsub.TopicSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.Transport.Pubsub.Topic")
+			}
+			mg.Spec.ForProvider.Transport.Pubsub.Topic = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Transport.Pubsub.TopicRef = rsp.ResolvedReference
+
+		}
+	}
 	if mg.Spec.InitProvider.Destination != nil {
 		if mg.Spec.InitProvider.Destination.CloudRunService != nil {
 			{
@@ -69,6 +93,29 @@ func (mg *Trigger) ResolveReferences(ctx context.Context, c client.Reader) error
 			}
 			mg.Spec.InitProvider.Destination.CloudRunService.Service = reference.ToPtrValue(rsp.ResolvedValue)
 			mg.Spec.InitProvider.Destination.CloudRunService.ServiceRef = rsp.ResolvedReference
+
+		}
+	}
+	if mg.Spec.InitProvider.Transport != nil {
+		if mg.Spec.InitProvider.Transport.Pubsub != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("pubsub.gcp.upbound.io", "v1beta2", "Topic", "TopicList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Transport.Pubsub.Topic),
+					Extract:      resource.ExtractResourceID(),
+					Reference:    mg.Spec.InitProvider.Transport.Pubsub.TopicRef,
+					Selector:     mg.Spec.InitProvider.Transport.Pubsub.TopicSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.Transport.Pubsub.Topic")
+			}
+			mg.Spec.InitProvider.Transport.Pubsub.Topic = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Transport.Pubsub.TopicRef = rsp.ResolvedReference
 
 		}
 	}

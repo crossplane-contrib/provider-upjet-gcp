@@ -1450,6 +1450,11 @@ func (in *ServiceConfigInitParameters) DeepCopyInto(out *ServiceConfigInitParame
 		*out = new(string)
 		**out = **in
 	}
+	if in.BinaryAuthorizationPolicy != nil {
+		in, out := &in.BinaryAuthorizationPolicy, &out.BinaryAuthorizationPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.EnvironmentVariables != nil {
 		in, out := &in.EnvironmentVariables, &out.EnvironmentVariables
 		*out = make(map[string]*string, len(*in))
@@ -1565,6 +1570,11 @@ func (in *ServiceConfigObservation) DeepCopyInto(out *ServiceConfigObservation) 
 		*out = new(string)
 		**out = **in
 	}
+	if in.BinaryAuthorizationPolicy != nil {
+		in, out := &in.BinaryAuthorizationPolicy, &out.BinaryAuthorizationPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.EnvironmentVariables != nil {
 		in, out := &in.EnvironmentVariables, &out.EnvironmentVariables
 		*out = make(map[string]*string, len(*in))
@@ -1677,6 +1687,11 @@ func (in *ServiceConfigParameters) DeepCopyInto(out *ServiceConfigParameters) {
 	}
 	if in.AvailableMemory != nil {
 		in, out := &in.AvailableMemory, &out.AvailableMemory
+		*out = new(string)
+		**out = **in
+	}
+	if in.BinaryAuthorizationPolicy != nil {
+		in, out := &in.BinaryAuthorizationPolicy, &out.BinaryAuthorizationPolicy
 		*out = new(string)
 		**out = **in
 	}

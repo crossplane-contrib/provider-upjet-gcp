@@ -31,12 +31,34 @@ type ActionInitParameters struct {
 	// +kubebuilder:validation:Optional
 	SourceNATActiveIpsSelector *v1.Selector `json:"sourceNatActiveIpsSelector,omitempty" tf:"-"`
 
+	// A list of URLs of the subnetworks used as source ranges for this NAT Rule.
+	// These subnetworks must have purpose set to PRIVATE_NAT.
+	// This field is used for private NAT.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
+	// +listType=set
+	SourceNATActiveRanges []*string `json:"sourceNatActiveRanges,omitempty" tf:"source_nat_active_ranges,omitempty"`
+
+	// References to Subnetwork in compute to populate sourceNatActiveRanges.
+	// +kubebuilder:validation:Optional
+	SourceNATActiveRangesRefs []v1.Reference `json:"sourceNatActiveRangesRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Subnetwork in compute to populate sourceNatActiveRanges.
+	// +kubebuilder:validation:Optional
+	SourceNATActiveRangesSelector *v1.Selector `json:"sourceNatActiveRangesSelector,omitempty" tf:"-"`
+
 	// A list of URLs of the IP resources to be drained.
 	// These IPs must be valid static external IPs that have been assigned to the NAT.
 	// These IPs should be used for updating/patching a NAT rule only.
 	// This field is used for public NAT.
 	// +listType=set
 	SourceNATDrainIps []*string `json:"sourceNatDrainIps,omitempty" tf:"source_nat_drain_ips,omitempty"`
+
+	// A list of URLs of subnetworks representing source ranges to be drained.
+	// This is only supported on patch/update, and these subnetworks must have previously been used as active ranges in this NAT Rule.
+	// This field is used for private NAT.
+	// +listType=set
+	SourceNATDrainRanges []*string `json:"sourceNatDrainRanges,omitempty" tf:"source_nat_drain_ranges,omitempty"`
 }
 
 type ActionObservation struct {
@@ -47,12 +69,24 @@ type ActionObservation struct {
 	// +listType=set
 	SourceNATActiveIps []*string `json:"sourceNatActiveIps,omitempty" tf:"source_nat_active_ips,omitempty"`
 
+	// A list of URLs of the subnetworks used as source ranges for this NAT Rule.
+	// These subnetworks must have purpose set to PRIVATE_NAT.
+	// This field is used for private NAT.
+	// +listType=set
+	SourceNATActiveRanges []*string `json:"sourceNatActiveRanges,omitempty" tf:"source_nat_active_ranges,omitempty"`
+
 	// A list of URLs of the IP resources to be drained.
 	// These IPs must be valid static external IPs that have been assigned to the NAT.
 	// These IPs should be used for updating/patching a NAT rule only.
 	// This field is used for public NAT.
 	// +listType=set
 	SourceNATDrainIps []*string `json:"sourceNatDrainIps,omitempty" tf:"source_nat_drain_ips,omitempty"`
+
+	// A list of URLs of subnetworks representing source ranges to be drained.
+	// This is only supported on patch/update, and these subnetworks must have previously been used as active ranges in this NAT Rule.
+	// This field is used for private NAT.
+	// +listType=set
+	SourceNATDrainRanges []*string `json:"sourceNatDrainRanges,omitempty" tf:"source_nat_drain_ranges,omitempty"`
 }
 
 type ActionParameters struct {
@@ -74,6 +108,23 @@ type ActionParameters struct {
 	// +kubebuilder:validation:Optional
 	SourceNATActiveIpsSelector *v1.Selector `json:"sourceNatActiveIpsSelector,omitempty" tf:"-"`
 
+	// A list of URLs of the subnetworks used as source ranges for this NAT Rule.
+	// These subnetworks must have purpose set to PRIVATE_NAT.
+	// This field is used for private NAT.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	SourceNATActiveRanges []*string `json:"sourceNatActiveRanges,omitempty" tf:"source_nat_active_ranges,omitempty"`
+
+	// References to Subnetwork in compute to populate sourceNatActiveRanges.
+	// +kubebuilder:validation:Optional
+	SourceNATActiveRangesRefs []v1.Reference `json:"sourceNatActiveRangesRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Subnetwork in compute to populate sourceNatActiveRanges.
+	// +kubebuilder:validation:Optional
+	SourceNATActiveRangesSelector *v1.Selector `json:"sourceNatActiveRangesSelector,omitempty" tf:"-"`
+
 	// A list of URLs of the IP resources to be drained.
 	// These IPs must be valid static external IPs that have been assigned to the NAT.
 	// These IPs should be used for updating/patching a NAT rule only.
@@ -81,6 +132,13 @@ type ActionParameters struct {
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	SourceNATDrainIps []*string `json:"sourceNatDrainIps,omitempty" tf:"source_nat_drain_ips,omitempty"`
+
+	// A list of URLs of subnetworks representing source ranges to be drained.
+	// This is only supported on patch/update, and these subnetworks must have previously been used as active ranges in this NAT Rule.
+	// This field is used for private NAT.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	SourceNATDrainRanges []*string `json:"sourceNatDrainRanges,omitempty" tf:"source_nat_drain_ranges,omitempty"`
 }
 
 type RouterNATInitParameters struct {
@@ -117,6 +175,11 @@ type RouterNATInitParameters struct {
 	// Timeout (in seconds) for ICMP connections. Defaults to 30s if not set.
 	IcmpIdleTimeoutSec *float64 `json:"icmpIdleTimeoutSec,omitempty" tf:"icmp_idle_timeout_sec,omitempty"`
 
+	// Self-links of NAT IPs to be used as initial value for creation alongside a RouterNatAddress resource.
+	// Conflicts with natIps and drainNatIps. Only valid if natIpAllocateOption is set to MANUAL_ONLY.
+	// +listType=set
+	InitialNATIps []*string `json:"initialNatIps,omitempty" tf:"initial_nat_ips,omitempty"`
+
 	// Configuration for logging on NAT
 	// Structure is documented below.
 	LogConfig *RouterNATLogConfigInitParameters `json:"logConfig,omitempty" tf:"log_config,omitempty"`
@@ -136,6 +199,9 @@ type RouterNATInitParameters struct {
 
 	// Self-links of NAT IPs. Only valid if natIpAllocateOption
 	// is set to MANUAL_ONLY.
+	// If this field is used alongside with a count created list of address resources google_compute_address.foobar.*.self_link,
+	// the access level resource for the address resource must have a lifecycle block with create_before_destroy = true so
+	// the number of resources can be increased/decreased without triggering the resourceInUseByAnotherResource error.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Address
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
 	// +listType=set
@@ -186,6 +252,14 @@ type RouterNATInitParameters struct {
 	// Timeout (in seconds) for TCP transitory connections.
 	// Defaults to 30s if not set.
 	TCPTransitoryIdleTimeoutSec *float64 `json:"tcpTransitoryIdleTimeoutSec,omitempty" tf:"tcp_transitory_idle_timeout_sec,omitempty"`
+
+	// Indicates whether this NAT is used for public or private IP translation.
+	// If unspecified, it defaults to PUBLIC.
+	// If PUBLIC NAT used for public IP translation.
+	// If PRIVATE NAT used for private IP translation.
+	// Default value is PUBLIC.
+	// Possible values are: PUBLIC, PRIVATE.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// Timeout (in seconds) for UDP connections. Defaults to 30s if not set.
 	UDPIdleTimeoutSec *float64 `json:"udpIdleTimeoutSec,omitempty" tf:"udp_idle_timeout_sec,omitempty"`
@@ -260,6 +334,11 @@ type RouterNATObservation struct {
 	// Timeout (in seconds) for ICMP connections. Defaults to 30s if not set.
 	IcmpIdleTimeoutSec *float64 `json:"icmpIdleTimeoutSec,omitempty" tf:"icmp_idle_timeout_sec,omitempty"`
 
+	// Self-links of NAT IPs to be used as initial value for creation alongside a RouterNatAddress resource.
+	// Conflicts with natIps and drainNatIps. Only valid if natIpAllocateOption is set to MANUAL_ONLY.
+	// +listType=set
+	InitialNATIps []*string `json:"initialNatIps,omitempty" tf:"initial_nat_ips,omitempty"`
+
 	// Configuration for logging on NAT
 	// Structure is documented below.
 	LogConfig *RouterNATLogConfigObservation `json:"logConfig,omitempty" tf:"log_config,omitempty"`
@@ -279,6 +358,9 @@ type RouterNATObservation struct {
 
 	// Self-links of NAT IPs. Only valid if natIpAllocateOption
 	// is set to MANUAL_ONLY.
+	// If this field is used alongside with a count created list of address resources google_compute_address.foobar.*.self_link,
+	// the access level resource for the address resource must have a lifecycle block with create_before_destroy = true so
+	// the number of resources can be increased/decreased without triggering the resourceInUseByAnotherResource error.
 	// +listType=set
 	NATIps []*string `json:"natIps,omitempty" tf:"nat_ips,omitempty"`
 
@@ -326,6 +408,14 @@ type RouterNATObservation struct {
 	// Defaults to 30s if not set.
 	TCPTransitoryIdleTimeoutSec *float64 `json:"tcpTransitoryIdleTimeoutSec,omitempty" tf:"tcp_transitory_idle_timeout_sec,omitempty"`
 
+	// Indicates whether this NAT is used for public or private IP translation.
+	// If unspecified, it defaults to PUBLIC.
+	// If PUBLIC NAT used for public IP translation.
+	// If PRIVATE NAT used for private IP translation.
+	// Default value is PUBLIC.
+	// Possible values are: PUBLIC, PRIVATE.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+
 	// Timeout (in seconds) for UDP connections. Defaults to 30s if not set.
 	UDPIdleTimeoutSec *float64 `json:"udpIdleTimeoutSec,omitempty" tf:"udp_idle_timeout_sec,omitempty"`
 }
@@ -370,6 +460,12 @@ type RouterNATParameters struct {
 	// +kubebuilder:validation:Optional
 	IcmpIdleTimeoutSec *float64 `json:"icmpIdleTimeoutSec,omitempty" tf:"icmp_idle_timeout_sec,omitempty"`
 
+	// Self-links of NAT IPs to be used as initial value for creation alongside a RouterNatAddress resource.
+	// Conflicts with natIps and drainNatIps. Only valid if natIpAllocateOption is set to MANUAL_ONLY.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	InitialNATIps []*string `json:"initialNatIps,omitempty" tf:"initial_nat_ips,omitempty"`
+
 	// Configuration for logging on NAT
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -393,6 +489,9 @@ type RouterNATParameters struct {
 
 	// Self-links of NAT IPs. Only valid if natIpAllocateOption
 	// is set to MANUAL_ONLY.
+	// If this field is used alongside with a count created list of address resources google_compute_address.foobar.*.self_link,
+	// the access level resource for the address resource must have a lifecycle block with create_before_destroy = true so
+	// the number of resources can be increased/decreased without triggering the resourceInUseByAnotherResource error.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Address
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
@@ -468,6 +567,15 @@ type RouterNATParameters struct {
 	// Defaults to 30s if not set.
 	// +kubebuilder:validation:Optional
 	TCPTransitoryIdleTimeoutSec *float64 `json:"tcpTransitoryIdleTimeoutSec,omitempty" tf:"tcp_transitory_idle_timeout_sec,omitempty"`
+
+	// Indicates whether this NAT is used for public or private IP translation.
+	// If unspecified, it defaults to PUBLIC.
+	// If PUBLIC NAT used for public IP translation.
+	// If PRIVATE NAT used for private IP translation.
+	// Default value is PUBLIC.
+	// Possible values are: PUBLIC, PRIVATE.
+	// +kubebuilder:validation:Optional
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// Timeout (in seconds) for UDP connections. Defaults to 30s if not set.
 	// +kubebuilder:validation:Optional

@@ -33,10 +33,13 @@ type TargetHTTPSProxyInitParameters struct {
 
 	// Specifies how long to keep a connection open, after completing a response,
 	// while there is no matching traffic (in seconds). If an HTTP keepalive is
-	// not specified, a default value (610 seconds) will be used. For Global
-	// external HTTP(S) load balancer, the minimum allowed value is 5 seconds and
-	// the maximum allowed value is 1200 seconds. For Global external HTTP(S)
-	// load balancer (classic), this option is not available publicly.
+	// not specified, a default value will be used. For Global
+	// external HTTP(S) load balancer, the default value is 610 seconds, the
+	// minimum allowed value is 5 seconds and the maximum allowed value is 1200
+	// seconds. For cross-region internal HTTP(S) load balancer, the default
+	// value is 600 seconds, the minimum allowed value is 5 seconds, and the
+	// maximum allowed value is 600 seconds. For Global external HTTP(S) load
+	// balancer (classic), this option is not available publicly.
 	HTTPKeepAliveTimeoutSec *float64 `json:"httpKeepAliveTimeoutSec,omitempty" tf:"http_keep_alive_timeout_sec,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -83,13 +86,17 @@ type TargetHTTPSProxyInitParameters struct {
 	// INTERNAL_SELF_MANAGED and which with EXTERNAL, EXTERNAL_MANAGED
 	// loadBalancingScheme consult ServerTlsPolicy documentation.
 	// If left blank, communications are not encrypted.
+	// If you remove this field from your configuration at the same time as
+	// deleting or recreating a referenced ServerTlsPolicy resource, you will
+	// receive a resourceInUseByAnotherResource error. Use lifecycle.create_before_destroy
+	// within the ServerTlsPolicy resource to avoid this.
 	ServerTLSPolicy *string `json:"serverTlsPolicy,omitempty" tf:"server_tls_policy,omitempty"`
 
 	// Specifies whether TLS 1.3 0-RTT Data (“Early Data”) should be accepted for this service.
 	// Early Data allows a TLS resumption handshake to include the initial application payload
 	// (a HTTP request) alongside the handshake, reducing the effective round trips to “zero”.
 	// This applies to TLS 1.3 connections over TCP (HTTP/2) as well as over UDP (QUIC/h3).
-	// Possible values are: STRICT, PERMISSIVE, DISABLED.
+	// Possible values are: STRICT, PERMISSIVE, UNRESTRICTED, DISABLED.
 	TLSEarlyData *string `json:"tlsEarlyData,omitempty" tf:"tls_early_data,omitempty"`
 
 	// A reference to the UrlMap resource that defines the mapping from URL
@@ -130,10 +137,13 @@ type TargetHTTPSProxyObservation struct {
 
 	// Specifies how long to keep a connection open, after completing a response,
 	// while there is no matching traffic (in seconds). If an HTTP keepalive is
-	// not specified, a default value (610 seconds) will be used. For Global
-	// external HTTP(S) load balancer, the minimum allowed value is 5 seconds and
-	// the maximum allowed value is 1200 seconds. For Global external HTTP(S)
-	// load balancer (classic), this option is not available publicly.
+	// not specified, a default value will be used. For Global
+	// external HTTP(S) load balancer, the default value is 610 seconds, the
+	// minimum allowed value is 5 seconds and the maximum allowed value is 1200
+	// seconds. For cross-region internal HTTP(S) load balancer, the default
+	// value is 600 seconds, the minimum allowed value is 5 seconds, and the
+	// maximum allowed value is 600 seconds. For Global external HTTP(S) load
+	// balancer (classic), this option is not available publicly.
 	HTTPKeepAliveTimeoutSec *float64 `json:"httpKeepAliveTimeoutSec,omitempty" tf:"http_keep_alive_timeout_sec,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/global/targetHttpsProxies/{{name}}
@@ -180,13 +190,17 @@ type TargetHTTPSProxyObservation struct {
 	// INTERNAL_SELF_MANAGED and which with EXTERNAL, EXTERNAL_MANAGED
 	// loadBalancingScheme consult ServerTlsPolicy documentation.
 	// If left blank, communications are not encrypted.
+	// If you remove this field from your configuration at the same time as
+	// deleting or recreating a referenced ServerTlsPolicy resource, you will
+	// receive a resourceInUseByAnotherResource error. Use lifecycle.create_before_destroy
+	// within the ServerTlsPolicy resource to avoid this.
 	ServerTLSPolicy *string `json:"serverTlsPolicy,omitempty" tf:"server_tls_policy,omitempty"`
 
 	// Specifies whether TLS 1.3 0-RTT Data (“Early Data”) should be accepted for this service.
 	// Early Data allows a TLS resumption handshake to include the initial application payload
 	// (a HTTP request) alongside the handshake, reducing the effective round trips to “zero”.
 	// This applies to TLS 1.3 connections over TCP (HTTP/2) as well as over UDP (QUIC/h3).
-	// Possible values are: STRICT, PERMISSIVE, DISABLED.
+	// Possible values are: STRICT, PERMISSIVE, UNRESTRICTED, DISABLED.
 	TLSEarlyData *string `json:"tlsEarlyData,omitempty" tf:"tls_early_data,omitempty"`
 
 	// A reference to the UrlMap resource that defines the mapping from URL
@@ -217,10 +231,13 @@ type TargetHTTPSProxyParameters struct {
 
 	// Specifies how long to keep a connection open, after completing a response,
 	// while there is no matching traffic (in seconds). If an HTTP keepalive is
-	// not specified, a default value (610 seconds) will be used. For Global
-	// external HTTP(S) load balancer, the minimum allowed value is 5 seconds and
-	// the maximum allowed value is 1200 seconds. For Global external HTTP(S)
-	// load balancer (classic), this option is not available publicly.
+	// not specified, a default value will be used. For Global
+	// external HTTP(S) load balancer, the default value is 610 seconds, the
+	// minimum allowed value is 5 seconds and the maximum allowed value is 1200
+	// seconds. For cross-region internal HTTP(S) load balancer, the default
+	// value is 600 seconds, the minimum allowed value is 5 seconds, and the
+	// maximum allowed value is 600 seconds. For Global external HTTP(S) load
+	// balancer (classic), this option is not available publicly.
 	// +kubebuilder:validation:Optional
 	HTTPKeepAliveTimeoutSec *float64 `json:"httpKeepAliveTimeoutSec,omitempty" tf:"http_keep_alive_timeout_sec,omitempty"`
 
@@ -273,6 +290,10 @@ type TargetHTTPSProxyParameters struct {
 	// INTERNAL_SELF_MANAGED and which with EXTERNAL, EXTERNAL_MANAGED
 	// loadBalancingScheme consult ServerTlsPolicy documentation.
 	// If left blank, communications are not encrypted.
+	// If you remove this field from your configuration at the same time as
+	// deleting or recreating a referenced ServerTlsPolicy resource, you will
+	// receive a resourceInUseByAnotherResource error. Use lifecycle.create_before_destroy
+	// within the ServerTlsPolicy resource to avoid this.
 	// +kubebuilder:validation:Optional
 	ServerTLSPolicy *string `json:"serverTlsPolicy,omitempty" tf:"server_tls_policy,omitempty"`
 
@@ -280,7 +301,7 @@ type TargetHTTPSProxyParameters struct {
 	// Early Data allows a TLS resumption handshake to include the initial application payload
 	// (a HTTP request) alongside the handshake, reducing the effective round trips to “zero”.
 	// This applies to TLS 1.3 connections over TCP (HTTP/2) as well as over UDP (QUIC/h3).
-	// Possible values are: STRICT, PERMISSIVE, DISABLED.
+	// Possible values are: STRICT, PERMISSIVE, UNRESTRICTED, DISABLED.
 	// +kubebuilder:validation:Optional
 	TLSEarlyData *string `json:"tlsEarlyData,omitempty" tf:"tls_early_data,omitempty"`
 

@@ -36,7 +36,6 @@ spec:
     addonsConfig:
       gkeBackupAgentConfig:
         enabled: true
-    deletionProtection: false
     initialNodeCount: 1
     location: us-central1
     removeDefaultNodePool: false

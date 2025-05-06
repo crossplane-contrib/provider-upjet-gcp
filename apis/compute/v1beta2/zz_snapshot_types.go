@@ -26,6 +26,11 @@ type SnapshotEncryptionKeyInitParameters struct {
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+
+	// Specifies an encryption key stored in Google Cloud KMS, encoded in
+	// RFC 4648 base64 to either encrypt or decrypt this resource.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type SnapshotEncryptionKeyObservation struct {
@@ -59,6 +64,12 @@ type SnapshotEncryptionKeyParameters struct {
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
 	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+
+	// Specifies an encryption key stored in Google Cloud KMS, encoded in
+	// RFC 4648 base64 to either encrypt or decrypt this resource.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Optional
+	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type SnapshotInitParameters struct {
@@ -106,7 +117,7 @@ type SnapshotInitParameters struct {
 	// if the source snapshot is protected by a customer-supplied encryption
 	// key.
 	// Structure is documented below.
-	SourceDiskEncryptionKey *SourceDiskEncryptionKeyInitParameters `json:"sourceDiskEncryptionKey,omitempty" tf:"source_disk_encryption_key,omitempty"`
+	SourceDiskEncryptionKey *SnapshotSourceDiskEncryptionKeyInitParameters `json:"sourceDiskEncryptionKey,omitempty" tf:"source_disk_encryption_key,omitempty"`
 
 	// Reference to a Disk in compute to populate sourceDisk.
 	// +kubebuilder:validation:Optional
@@ -194,7 +205,7 @@ type SnapshotObservation struct {
 	// if the source snapshot is protected by a customer-supplied encryption
 	// key.
 	// Structure is documented below.
-	SourceDiskEncryptionKey *SourceDiskEncryptionKeyObservation `json:"sourceDiskEncryptionKey,omitempty" tf:"source_disk_encryption_key,omitempty"`
+	SourceDiskEncryptionKey *SnapshotSourceDiskEncryptionKeyObservation `json:"sourceDiskEncryptionKey,omitempty" tf:"source_disk_encryption_key,omitempty"`
 
 	// A size of the storage used by the snapshot. As snapshots share
 	// storage, this number is expected to change with snapshot
@@ -265,7 +276,7 @@ type SnapshotParameters struct {
 	// key.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	SourceDiskEncryptionKey *SourceDiskEncryptionKeyParameters `json:"sourceDiskEncryptionKey,omitempty" tf:"source_disk_encryption_key,omitempty"`
+	SourceDiskEncryptionKey *SnapshotSourceDiskEncryptionKeyParameters `json:"sourceDiskEncryptionKey,omitempty" tf:"source_disk_encryption_key,omitempty"`
 
 	// Reference to a Disk in compute to populate sourceDisk.
 	// +kubebuilder:validation:Optional
@@ -284,7 +295,10 @@ type SnapshotParameters struct {
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
 
-type SourceDiskEncryptionKeyInitParameters struct {
+type SnapshotSourceDiskEncryptionKeyInitParameters struct {
+
+	// The name of the encryption key that is stored in Google Cloud KMS.
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
 
 	// The service account used for the encryption request for the given KMS key.
 	// If absent, the Compute Engine Service Agent service account is used.
@@ -294,16 +308,28 @@ type SourceDiskEncryptionKeyInitParameters struct {
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+
+	// Specifies an encryption key stored in Google Cloud KMS, encoded in
+	// RFC 4648 base64 to either encrypt or decrypt this resource.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
-type SourceDiskEncryptionKeyObservation struct {
+type SnapshotSourceDiskEncryptionKeyObservation struct {
+
+	// The name of the encryption key that is stored in Google Cloud KMS.
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
 
 	// The service account used for the encryption request for the given KMS key.
 	// If absent, the Compute Engine Service Agent service account is used.
 	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
 }
 
-type SourceDiskEncryptionKeyParameters struct {
+type SnapshotSourceDiskEncryptionKeyParameters struct {
+
+	// The name of the encryption key that is stored in Google Cloud KMS.
+	// +kubebuilder:validation:Optional
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
 
 	// The service account used for the encryption request for the given KMS key.
 	// If absent, the Compute Engine Service Agent service account is used.
@@ -315,6 +341,12 @@ type SourceDiskEncryptionKeyParameters struct {
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
 	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+
+	// Specifies an encryption key stored in Google Cloud KMS, encoded in
+	// RFC 4648 base64 to either encrypt or decrypt this resource.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Optional
+	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 // SnapshotSpec defines the desired state of Snapshot

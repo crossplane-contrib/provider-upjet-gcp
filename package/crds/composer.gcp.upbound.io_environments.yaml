@@ -2687,9 +2687,27 @@ spec:
                     properties:
                       dataRetentionConfig:
                         description: |-
-                          Configuration setting for Airflow database retention mechanism. Structure is
+                          Configuration setting for airflow data rentention mechanism. Structure is
                           documented below.
                         properties:
+                          airflowMetadataRetentionConfig:
+                            description: |-
+                              The retention policy for airflow metadata database. Structure is
+                              documented below.
+                            items:
+                              properties:
+                                retentionDays:
+                                  description: How many days data should be retained
+                                    for.
+                                  type: number
+                                retentionMode:
+                                  description: |-
+                                    Retention can be either enabled or disabled. Values for retention_mode are
+                                    RETENTION_MODE_ENABLED to enable retention and RETENTION_MODE_DISABLED
+                                    to disable retention.
+                                  type: string
+                              type: object
+                            type: array
                           taskLogsRetentionConfig:
                             description: |-
                               The configuration setting for Task Logs. Structure is
@@ -2725,6 +2743,15 @@ spec:
                               belong to the enclosing environment's project and region.
                             type: string
                         type: object
+                      enablePrivateBuildsOnly:
+                        description: |-
+                          If true, builds performed during operations that install Python packages have only private connectivity to Google services.
+                          If false, the builds also have access to the internet.
+                        type: boolean
+                      enablePrivateEnvironment:
+                        description: If true, a private Composer environment will
+                          be created.
+                        type: boolean
                       encryptionConfig:
                         description: |-
                           The encryption options for the Cloud Composer environment and its
@@ -2798,6 +2825,17 @@ spec:
                         description: The configuration used for the Kubernetes Engine
                           cluster.  Structure is documented below.
                         properties:
+                          composerInternalIpv4CidrBlock:
+                            description: |-
+                              /20 IPv4 cidr range that will be used by Composer internal components.
+                              Cannot be updated.
+                            type: string
+                          composerNetworkAttachment:
+                            description: |-
+                              PSC (Private Service Connect) Network entry point. Customers can pre-create the Network Attachment
+                              and point Cloud Composer environment to use. It is possible to share network attachment among many environments,
+                              provided enough IP addresses are available.
+                            type: string
                           diskSizeGb:
                             description: |-
                               The disk size in GB used for node VMs. Minimum size is 20GB.
@@ -3236,6 +3274,17 @@ spec:
                               separated by a hyphen, for example "core-dags_are_paused_at_creation".
                             type: object
                             x-kubernetes-map-type: granular
+                          cloudDataLineageIntegration:
+                            description: |-
+                              The configuration for Cloud Data Lineage integration. Structure is
+                              documented below.
+                            properties:
+                              enabled:
+                                description: When enabled, Cloud Composer periodically
+                                  saves snapshots of your environment to a Cloud Storage
+                                  bucket.
+                                type: boolean
+                            type: object
                           envVariables:
                             additionalProperties:
                               type: string
@@ -3269,6 +3318,10 @@ spec:
                           schedulerCount:
                             description: The number of schedulers for Airflow.
                             type: number
+                          webServerPluginsMode:
+                            description: Web server plugins configuration. Can be
+                              either 'ENABLED' or 'DISABLED'. Defaults to 'ENABLED'.
+                            type: string
                         type: object
                       webServerConfig:
                         description: The configuration settings for the Airflow web
@@ -3310,6 +3363,25 @@ spec:
                           The Kubernetes workloads configuration for GKE cluster associated with the
                           Cloud Composer environment.
                         properties:
+                          dagProcessor:
+                            description: Configuration for resources used by DAG processor.
+                            properties:
+                              count:
+                                description: The number of Airflow triggerers.
+                                type: number
+                              cpu:
+                                description: The number of CPUs for a single Airflow
+                                  worker.
+                                type: number
+                              memoryGb:
+                                description: The amount of memory (GB) for a single
+                                  Airflow worker.
+                                type: number
+                              storageGb:
+                                description: The amount of storage (GB) for a single
+                                  Airflow worker.
+                                type: number
+                            type: object
                           scheduler:
                             description: Configuration for resources used by Airflow
                               schedulers.
@@ -3384,7 +3456,7 @@ spec:
                               minCount:
                                 description: |-
                                   The minimum number of Airflow workers that the environment can run. The number of workers in the
-                                  environment does not go above this number, even if a lower number of workers can handle the load.
+                                  environment does not go below this number, even if a lower number of workers can handle the load.
                                 type: number
                               storageGb:
                                 description: The amount of storage (GB) for a single
@@ -3523,9 +3595,27 @@ spec:
                     properties:
                       dataRetentionConfig:
                         description: |-
-                          Configuration setting for Airflow database retention mechanism. Structure is
+                          Configuration setting for airflow data rentention mechanism. Structure is
                           documented below.
                         properties:
+                          airflowMetadataRetentionConfig:
+                            description: |-
+                              The retention policy for airflow metadata database. Structure is
+                              documented below.
+                            items:
+                              properties:
+                                retentionDays:
+                                  description: How many days data should be retained
+                                    for.
+                                  type: number
+                                retentionMode:
+                                  description: |-
+                                    Retention can be either enabled or disabled. Values for retention_mode are
+                                    RETENTION_MODE_ENABLED to enable retention and RETENTION_MODE_DISABLED
+                                    to disable retention.
+                                  type: string
+                              type: object
+                            type: array
                           taskLogsRetentionConfig:
                             description: |-
                               The configuration setting for Task Logs. Structure is
@@ -3561,6 +3651,15 @@ spec:
                               belong to the enclosing environment's project and region.
                             type: string
                         type: object
+                      enablePrivateBuildsOnly:
+                        description: |-
+                          If true, builds performed during operations that install Python packages have only private connectivity to Google services.
+                          If false, the builds also have access to the internet.
+                        type: boolean
+                      enablePrivateEnvironment:
+                        description: If true, a private Composer environment will
+                          be created.
+                        type: boolean
                       encryptionConfig:
                         description: |-
                           The encryption options for the Cloud Composer environment and its
@@ -3634,6 +3733,17 @@ spec:
                         description: The configuration used for the Kubernetes Engine
                           cluster.  Structure is documented below.
                         properties:
+                          composerInternalIpv4CidrBlock:
+                            description: |-
+                              /20 IPv4 cidr range that will be used by Composer internal components.
+                              Cannot be updated.
+                            type: string
+                          composerNetworkAttachment:
+                            description: |-
+                              PSC (Private Service Connect) Network entry point. Customers can pre-create the Network Attachment
+                              and point Cloud Composer environment to use. It is possible to share network attachment among many environments,
+                              provided enough IP addresses are available.
+                            type: string
                           diskSizeGb:
                             description: |-
                               The disk size in GB used for node VMs. Minimum size is 20GB.
@@ -4072,6 +4182,17 @@ spec:
                               separated by a hyphen, for example "core-dags_are_paused_at_creation".
                             type: object
                             x-kubernetes-map-type: granular
+                          cloudDataLineageIntegration:
+                            description: |-
+                              The configuration for Cloud Data Lineage integration. Structure is
+                              documented below.
+                            properties:
+                              enabled:
+                                description: When enabled, Cloud Composer periodically
+                                  saves snapshots of your environment to a Cloud Storage
+                                  bucket.
+                                type: boolean
+                            type: object
                           envVariables:
                             additionalProperties:
                               type: string
@@ -4105,6 +4226,10 @@ spec:
                           schedulerCount:
                             description: The number of schedulers for Airflow.
                             type: number
+                          webServerPluginsMode:
+                            description: Web server plugins configuration. Can be
+                              either 'ENABLED' or 'DISABLED'. Defaults to 'ENABLED'.
+                            type: string
                         type: object
                       webServerConfig:
                         description: The configuration settings for the Airflow web
@@ -4146,6 +4271,25 @@ spec:
                           The Kubernetes workloads configuration for GKE cluster associated with the
                           Cloud Composer environment.
                         properties:
+                          dagProcessor:
+                            description: Configuration for resources used by DAG processor.
+                            properties:
+                              count:
+                                description: The number of Airflow triggerers.
+                                type: number
+                              cpu:
+                                description: The number of CPUs for a single Airflow
+                                  worker.
+                                type: number
+                              memoryGb:
+                                description: The amount of memory (GB) for a single
+                                  Airflow worker.
+                                type: number
+                              storageGb:
+                                description: The amount of storage (GB) for a single
+                                  Airflow worker.
+                                type: number
+                            type: object
                           scheduler:
                             description: Configuration for resources used by Airflow
                               schedulers.
@@ -4220,7 +4364,7 @@ spec:
                               minCount:
                                 description: |-
                                   The minimum number of Airflow workers that the environment can run. The number of workers in the
-                                  environment does not go above this number, even if a lower number of workers can handle the load.
+                                  environment does not go below this number, even if a lower number of workers can handle the load.
                                 type: number
                               storageGb:
                                 description: The amount of storage (GB) for a single
@@ -4526,9 +4670,27 @@ spec:
                         type: string
                       dataRetentionConfig:
                         description: |-
-                          Configuration setting for Airflow database retention mechanism. Structure is
+                          Configuration setting for airflow data rentention mechanism. Structure is
                           documented below.
                         properties:
+                          airflowMetadataRetentionConfig:
+                            description: |-
+                              The retention policy for airflow metadata database. Structure is
+                              documented below.
+                            items:
+                              properties:
+                                retentionDays:
+                                  description: How many days data should be retained
+                                    for.
+                                  type: number
+                                retentionMode:
+                                  description: |-
+                                    Retention can be either enabled or disabled. Values for retention_mode are
+                                    RETENTION_MODE_ENABLED to enable retention and RETENTION_MODE_DISABLED
+                                    to disable retention.
+                                  type: string
+                              type: object
+                            type: array
                           taskLogsRetentionConfig:
                             description: |-
                               The configuration setting for Task Logs. Structure is
@@ -4564,6 +4726,15 @@ spec:
                               belong to the enclosing environment's project and region.
                             type: string
                         type: object
+                      enablePrivateBuildsOnly:
+                        description: |-
+                          If true, builds performed during operations that install Python packages have only private connectivity to Google services.
+                          If false, the builds also have access to the internet.
+                        type: boolean
+                      enablePrivateEnvironment:
+                        description: If true, a private Composer environment will
+                          be created.
+                        type: boolean
                       encryptionConfig:
                         description: |-
                           The encryption options for the Cloud Composer environment and its
@@ -4641,6 +4812,17 @@ spec:
                         description: The configuration used for the Kubernetes Engine
                           cluster.  Structure is documented below.
                         properties:
+                          composerInternalIpv4CidrBlock:
+                            description: |-
+                              /20 IPv4 cidr range that will be used by Composer internal components.
+                              Cannot be updated.
+                            type: string
+                          composerNetworkAttachment:
+                            description: |-
+                              PSC (Private Service Connect) Network entry point. Customers can pre-create the Network Attachment
+                              and point Cloud Composer environment to use. It is possible to share network attachment among many environments,
+                              provided enough IP addresses are available.
+                            type: string
                           diskSizeGb:
                             description: |-
                               The disk size in GB used for node VMs. Minimum size is 20GB.
@@ -4851,6 +5033,17 @@ spec:
                               separated by a hyphen, for example "core-dags_are_paused_at_creation".
                             type: object
                             x-kubernetes-map-type: granular
+                          cloudDataLineageIntegration:
+                            description: |-
+                              The configuration for Cloud Data Lineage integration. Structure is
+                              documented below.
+                            properties:
+                              enabled:
+                                description: When enabled, Cloud Composer periodically
+                                  saves snapshots of your environment to a Cloud Storage
+                                  bucket.
+                                type: boolean
+                            type: object
                           envVariables:
                             additionalProperties:
                               type: string
@@ -4884,6 +5077,10 @@ spec:
                           schedulerCount:
                             description: The number of schedulers for Airflow.
                             type: number
+                          webServerPluginsMode:
+                            description: Web server plugins configuration. Can be
+                              either 'ENABLED' or 'DISABLED'. Defaults to 'ENABLED'.
+                            type: string
                         type: object
                       webServerConfig:
                         description: The configuration settings for the Airflow web
@@ -4925,6 +5122,25 @@ spec:
                           The Kubernetes workloads configuration for GKE cluster associated with the
                           Cloud Composer environment.
                         properties:
+                          dagProcessor:
+                            description: Configuration for resources used by DAG processor.
+                            properties:
+                              count:
+                                description: The number of Airflow triggerers.
+                                type: number
+                              cpu:
+                                description: The number of CPUs for a single Airflow
+                                  worker.
+                                type: number
+                              memoryGb:
+                                description: The amount of memory (GB) for a single
+                                  Airflow worker.
+                                type: number
+                              storageGb:
+                                description: The amount of storage (GB) for a single
+                                  Airflow worker.
+                                type: number
+                            type: object
                           scheduler:
                             description: Configuration for resources used by Airflow
                               schedulers.
@@ -4999,7 +5215,7 @@ spec:
                               minCount:
                                 description: |-
                                   The minimum number of Airflow workers that the environment can run. The number of workers in the
-                                  environment does not go above this number, even if a lower number of workers can handle the load.
+                                  environment does not go below this number, even if a lower number of workers can handle the load.
                                 type: number
                               storageGb:
                                 description: The amount of storage (GB) for a single
