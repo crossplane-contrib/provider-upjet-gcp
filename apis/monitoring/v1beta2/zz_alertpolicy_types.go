@@ -551,6 +551,28 @@ type AlertStrategyParameters struct {
 	NotificationRateLimit *NotificationRateLimitParameters `json:"notificationRateLimit,omitempty" tf:"notification_rate_limit,omitempty"`
 }
 
+type BooleanTestInitParameters struct {
+
+	// The name of the column containing the boolean value. If the value in a row is
+	// NULL, that row is ignored.
+	Column *string `json:"column,omitempty" tf:"column,omitempty"`
+}
+
+type BooleanTestObservation struct {
+
+	// The name of the column containing the boolean value. If the value in a row is
+	// NULL, that row is ignored.
+	Column *string `json:"column,omitempty" tf:"column,omitempty"`
+}
+
+type BooleanTestParameters struct {
+
+	// The name of the column containing the boolean value. If the value in a row is
+	// NULL, that row is ignored.
+	// +kubebuilder:validation:Optional
+	Column *string `json:"column" tf:"column,omitempty"`
+}
+
 type ConditionAbsentInitParameters struct {
 
 	// Specifies the alignment of data points in
@@ -846,9 +868,11 @@ type ConditionMonitoringQueryLanguageInitParameters struct {
 	// Possible values are: EVALUATION_MISSING_DATA_INACTIVE, EVALUATION_MISSING_DATA_ACTIVE, EVALUATION_MISSING_DATA_NO_OP.
 	EvaluationMissingData *string `json:"evaluationMissingData,omitempty" tf:"evaluation_missing_data,omitempty"`
 
-	// The PromQL expression to evaluate. Every evaluation cycle this
-	// expression is evaluated at the current time, and all resultant time
-	// series become pending/firing alerts. This field must not be empty.
+	// The Log Analytics SQL query to run, as a string.  The query must
+	// conform to the required shape. Specifically, the query must not try to
+	// filter the input by time.  A filter will automatically be applied
+	// to filter the input so that the query receives all rows received
+	// since the last time the query was run.
 	Query *string `json:"query,omitempty" tf:"query,omitempty"`
 
 	// The number/percent of time series for which
@@ -888,9 +912,11 @@ type ConditionMonitoringQueryLanguageObservation struct {
 	// Possible values are: EVALUATION_MISSING_DATA_INACTIVE, EVALUATION_MISSING_DATA_ACTIVE, EVALUATION_MISSING_DATA_NO_OP.
 	EvaluationMissingData *string `json:"evaluationMissingData,omitempty" tf:"evaluation_missing_data,omitempty"`
 
-	// The PromQL expression to evaluate. Every evaluation cycle this
-	// expression is evaluated at the current time, and all resultant time
-	// series become pending/firing alerts. This field must not be empty.
+	// The Log Analytics SQL query to run, as a string.  The query must
+	// conform to the required shape. Specifically, the query must not try to
+	// filter the input by time.  A filter will automatically be applied
+	// to filter the input so that the query receives all rows received
+	// since the last time the query was run.
 	Query *string `json:"query,omitempty" tf:"query,omitempty"`
 
 	// The number/percent of time series for which
@@ -932,9 +958,11 @@ type ConditionMonitoringQueryLanguageParameters struct {
 	// +kubebuilder:validation:Optional
 	EvaluationMissingData *string `json:"evaluationMissingData,omitempty" tf:"evaluation_missing_data,omitempty"`
 
-	// The PromQL expression to evaluate. Every evaluation cycle this
-	// expression is evaluated at the current time, and all resultant time
-	// series become pending/firing alerts. This field must not be empty.
+	// The Log Analytics SQL query to run, as a string.  The query must
+	// conform to the required shape. Specifically, the query must not try to
+	// filter the input by time.  A filter will automatically be applied
+	// to filter the input so that the query receives all rows received
+	// since the last time the query was run.
 	// +kubebuilder:validation:Optional
 	Query *string `json:"query" tf:"query,omitempty"`
 
@@ -1037,15 +1065,18 @@ type ConditionPrometheusQueryLanguageInitParameters struct {
 	// Labels to add to or overwrite in the PromQL query result. Label names
 	// must be valid.
 	// Label values can be templatized by using variables. The only available
-	// variable names are the names of the labels in the PromQL result, including
-	// "name" and "value". "labels" may be empty. This field is intended to be
-	// used for organizing and identifying the AlertPolicy
+	// variable names are the names of the labels in the PromQL result,
+	// although label names beginning with __ (two "_") are reserved for
+	// internal use. "labels" may be empty. This field is intended to be used
+	// for organizing and identifying the AlertPolicy.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
-	// The PromQL expression to evaluate. Every evaluation cycle this
-	// expression is evaluated at the current time, and all resultant time
-	// series become pending/firing alerts. This field must not be empty.
+	// The Log Analytics SQL query to run, as a string.  The query must
+	// conform to the required shape. Specifically, the query must not try to
+	// filter the input by time.  A filter will automatically be applied
+	// to filter the input so that the query receives all rows received
+	// since the last time the query was run.
 	Query *string `json:"query,omitempty" tf:"query,omitempty"`
 
 	// The rule group name of this alert in the corresponding Prometheus
@@ -1103,15 +1134,18 @@ type ConditionPrometheusQueryLanguageObservation struct {
 	// Labels to add to or overwrite in the PromQL query result. Label names
 	// must be valid.
 	// Label values can be templatized by using variables. The only available
-	// variable names are the names of the labels in the PromQL result, including
-	// "name" and "value". "labels" may be empty. This field is intended to be
-	// used for organizing and identifying the AlertPolicy
+	// variable names are the names of the labels in the PromQL result,
+	// although label names beginning with __ (two "_") are reserved for
+	// internal use. "labels" may be empty. This field is intended to be used
+	// for organizing and identifying the AlertPolicy.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
-	// The PromQL expression to evaluate. Every evaluation cycle this
-	// expression is evaluated at the current time, and all resultant time
-	// series become pending/firing alerts. This field must not be empty.
+	// The Log Analytics SQL query to run, as a string.  The query must
+	// conform to the required shape. Specifically, the query must not try to
+	// filter the input by time.  A filter will automatically be applied
+	// to filter the input so that the query receives all rows received
+	// since the last time the query was run.
 	Query *string `json:"query,omitempty" tf:"query,omitempty"`
 
 	// The rule group name of this alert in the corresponding Prometheus
@@ -1173,16 +1207,19 @@ type ConditionPrometheusQueryLanguageParameters struct {
 	// Labels to add to or overwrite in the PromQL query result. Label names
 	// must be valid.
 	// Label values can be templatized by using variables. The only available
-	// variable names are the names of the labels in the PromQL result, including
-	// "name" and "value". "labels" may be empty. This field is intended to be
-	// used for organizing and identifying the AlertPolicy
+	// variable names are the names of the labels in the PromQL result,
+	// although label names beginning with __ (two "_") are reserved for
+	// internal use. "labels" may be empty. This field is intended to be used
+	// for organizing and identifying the AlertPolicy.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
-	// The PromQL expression to evaluate. Every evaluation cycle this
-	// expression is evaluated at the current time, and all resultant time
-	// series become pending/firing alerts. This field must not be empty.
+	// The Log Analytics SQL query to run, as a string.  The query must
+	// conform to the required shape. Specifically, the query must not try to
+	// filter the input by time.  A filter will automatically be applied
+	// to filter the input so that the query receives all rows received
+	// since the last time the query was run.
 	// +kubebuilder:validation:Optional
 	Query *string `json:"query" tf:"query,omitempty"`
 
@@ -1195,6 +1232,102 @@ type ConditionPrometheusQueryLanguageParameters struct {
 	// in the future. This field is optional.
 	// +kubebuilder:validation:Optional
 	RuleGroup *string `json:"ruleGroup,omitempty" tf:"rule_group,omitempty"`
+}
+
+type ConditionSQLInitParameters struct {
+
+	// A test that uses an alerting result in a boolean column produced by the SQL query.
+	// Structure is documented below.
+	BooleanTest *BooleanTestInitParameters `json:"booleanTest,omitempty" tf:"boolean_test,omitempty"`
+
+	// Used to schedule the query to run every so many days.
+	// Structure is documented below.
+	Daily *DailyInitParameters `json:"daily,omitempty" tf:"daily,omitempty"`
+
+	// Used to schedule the query to run every so many hours.
+	// Structure is documented below.
+	Hourly *HourlyInitParameters `json:"hourly,omitempty" tf:"hourly,omitempty"`
+
+	// Minutes of an hour. Must be greater than or equal to 0 and
+	// less than or equal to 59.
+	Minutes *MinutesInitParameters `json:"minutes,omitempty" tf:"minutes,omitempty"`
+
+	// The Log Analytics SQL query to run, as a string.  The query must
+	// conform to the required shape. Specifically, the query must not try to
+	// filter the input by time.  A filter will automatically be applied
+	// to filter the input so that the query receives all rows received
+	// since the last time the query was run.
+	Query *string `json:"query,omitempty" tf:"query,omitempty"`
+
+	// A test that checks if the number of rows in the result set violates some threshold.
+	// Structure is documented below.
+	RowCountTest *RowCountTestInitParameters `json:"rowCountTest,omitempty" tf:"row_count_test,omitempty"`
+}
+
+type ConditionSQLObservation struct {
+
+	// A test that uses an alerting result in a boolean column produced by the SQL query.
+	// Structure is documented below.
+	BooleanTest *BooleanTestObservation `json:"booleanTest,omitempty" tf:"boolean_test,omitempty"`
+
+	// Used to schedule the query to run every so many days.
+	// Structure is documented below.
+	Daily *DailyObservation `json:"daily,omitempty" tf:"daily,omitempty"`
+
+	// Used to schedule the query to run every so many hours.
+	// Structure is documented below.
+	Hourly *HourlyObservation `json:"hourly,omitempty" tf:"hourly,omitempty"`
+
+	// Minutes of an hour. Must be greater than or equal to 0 and
+	// less than or equal to 59.
+	Minutes *MinutesObservation `json:"minutes,omitempty" tf:"minutes,omitempty"`
+
+	// The Log Analytics SQL query to run, as a string.  The query must
+	// conform to the required shape. Specifically, the query must not try to
+	// filter the input by time.  A filter will automatically be applied
+	// to filter the input so that the query receives all rows received
+	// since the last time the query was run.
+	Query *string `json:"query,omitempty" tf:"query,omitempty"`
+
+	// A test that checks if the number of rows in the result set violates some threshold.
+	// Structure is documented below.
+	RowCountTest *RowCountTestObservation `json:"rowCountTest,omitempty" tf:"row_count_test,omitempty"`
+}
+
+type ConditionSQLParameters struct {
+
+	// A test that uses an alerting result in a boolean column produced by the SQL query.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	BooleanTest *BooleanTestParameters `json:"booleanTest,omitempty" tf:"boolean_test,omitempty"`
+
+	// Used to schedule the query to run every so many days.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Daily *DailyParameters `json:"daily,omitempty" tf:"daily,omitempty"`
+
+	// Used to schedule the query to run every so many hours.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Hourly *HourlyParameters `json:"hourly,omitempty" tf:"hourly,omitempty"`
+
+	// Minutes of an hour. Must be greater than or equal to 0 and
+	// less than or equal to 59.
+	// +kubebuilder:validation:Optional
+	Minutes *MinutesParameters `json:"minutes,omitempty" tf:"minutes,omitempty"`
+
+	// The Log Analytics SQL query to run, as a string.  The query must
+	// conform to the required shape. Specifically, the query must not try to
+	// filter the input by time.  A filter will automatically be applied
+	// to filter the input so that the query receives all rows received
+	// since the last time the query was run.
+	// +kubebuilder:validation:Optional
+	Query *string `json:"query" tf:"query,omitempty"`
+
+	// A test that checks if the number of rows in the result set violates some threshold.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RowCountTest *RowCountTestParameters `json:"rowCountTest,omitempty" tf:"row_count_test,omitempty"`
 }
 
 type ConditionThresholdAggregationsInitParameters struct {
@@ -1914,6 +2047,12 @@ type ConditionsInitParameters struct {
 	// Structure is documented below.
 	ConditionPrometheusQueryLanguage *ConditionPrometheusQueryLanguageInitParameters `json:"conditionPrometheusQueryLanguage,omitempty" tf:"condition_prometheus_query_language,omitempty"`
 
+	// A condition that allows alerting policies to be defined using GoogleSQL.
+	// SQL conditions examine a sliding window of logs using GoogleSQL.
+	// Alert policies with SQL conditions may incur additional billing.
+	// Structure is documented below.
+	ConditionSQL *ConditionSQLInitParameters `json:"conditionSql,omitempty" tf:"condition_sql,omitempty"`
+
 	// A condition that compares a time series against a
 	// threshold.
 	// Structure is documented below.
@@ -1949,6 +2088,12 @@ type ConditionsObservation struct {
 	// from a Prometheus alerting rule and its associated rule group.
 	// Structure is documented below.
 	ConditionPrometheusQueryLanguage *ConditionPrometheusQueryLanguageObservation `json:"conditionPrometheusQueryLanguage,omitempty" tf:"condition_prometheus_query_language,omitempty"`
+
+	// A condition that allows alerting policies to be defined using GoogleSQL.
+	// SQL conditions examine a sliding window of logs using GoogleSQL.
+	// Alert policies with SQL conditions may incur additional billing.
+	// Structure is documented below.
+	ConditionSQL *ConditionSQLObservation `json:"conditionSql,omitempty" tf:"condition_sql,omitempty"`
 
 	// A condition that compares a time series against a
 	// threshold.
@@ -1999,6 +2144,13 @@ type ConditionsParameters struct {
 	// +kubebuilder:validation:Optional
 	ConditionPrometheusQueryLanguage *ConditionPrometheusQueryLanguageParameters `json:"conditionPrometheusQueryLanguage,omitempty" tf:"condition_prometheus_query_language,omitempty"`
 
+	// A condition that allows alerting policies to be defined using GoogleSQL.
+	// SQL conditions examine a sliding window of logs using GoogleSQL.
+	// Alert policies with SQL conditions may incur additional billing.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ConditionSQL *ConditionSQLParameters `json:"conditionSql,omitempty" tf:"condition_sql,omitempty"`
+
 	// A condition that compares a time series against a
 	// threshold.
 	// Structure is documented below.
@@ -2029,6 +2181,47 @@ type CreationRecordObservation struct {
 }
 
 type CreationRecordParameters struct {
+}
+
+type DailyInitParameters struct {
+
+	// The time of day (in UTC) at which the query should run. If left
+	// unspecified, the server picks an arbitrary time of day and runs
+	// the query at the same time each day.
+	// Structure is documented below.
+	ExecutionTime *ExecutionTimeInitParameters `json:"executionTime,omitempty" tf:"execution_time,omitempty"`
+
+	// Number of minutes between runs. The interval must be greater than or
+	// equal to 5 minutes and less than or equal to 1440 minutes.
+	Periodicity *float64 `json:"periodicity,omitempty" tf:"periodicity,omitempty"`
+}
+
+type DailyObservation struct {
+
+	// The time of day (in UTC) at which the query should run. If left
+	// unspecified, the server picks an arbitrary time of day and runs
+	// the query at the same time each day.
+	// Structure is documented below.
+	ExecutionTime *ExecutionTimeObservation `json:"executionTime,omitempty" tf:"execution_time,omitempty"`
+
+	// Number of minutes between runs. The interval must be greater than or
+	// equal to 5 minutes and less than or equal to 1440 minutes.
+	Periodicity *float64 `json:"periodicity,omitempty" tf:"periodicity,omitempty"`
+}
+
+type DailyParameters struct {
+
+	// The time of day (in UTC) at which the query should run. If left
+	// unspecified, the server picks an arbitrary time of day and runs
+	// the query at the same time each day.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ExecutionTime *ExecutionTimeParameters `json:"executionTime,omitempty" tf:"execution_time,omitempty"`
+
+	// Number of minutes between runs. The interval must be greater than or
+	// equal to 5 minutes and less than or equal to 1440 minutes.
+	// +kubebuilder:validation:Optional
+	Periodicity *float64 `json:"periodicity" tf:"periodicity,omitempty"`
 }
 
 type DenominatorAggregationsInitParameters struct {
@@ -2366,6 +2559,76 @@ type DocumentationParameters struct {
 	Subject *string `json:"subject,omitempty" tf:"subject,omitempty"`
 }
 
+type ExecutionTimeInitParameters struct {
+
+	// Hours of a day in 24 hour format. Must be greater than or equal
+	// to 0 and typically must be less than or equal to 23. An API may
+	// choose to allow the value "24:00:00" for scenarios like business
+	// closing time.
+	Hours *float64 `json:"hours,omitempty" tf:"hours,omitempty"`
+
+	// Minutes of an hour. Must be greater than or equal to 0 and
+	// less than or equal to 59.
+	Minutes *float64 `json:"minutes,omitempty" tf:"minutes,omitempty"`
+
+	// Fractions of seconds, in nanoseconds. Must be greater than or
+	// equal to 0 and less than or equal to 999,999,999.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Seconds of a minute. Must be greater than or equal to 0 and
+	// typically must be less than or equal to 59. An API may allow the
+	// value 60 if it allows leap-seconds.
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type ExecutionTimeObservation struct {
+
+	// Hours of a day in 24 hour format. Must be greater than or equal
+	// to 0 and typically must be less than or equal to 23. An API may
+	// choose to allow the value "24:00:00" for scenarios like business
+	// closing time.
+	Hours *float64 `json:"hours,omitempty" tf:"hours,omitempty"`
+
+	// Minutes of an hour. Must be greater than or equal to 0 and
+	// less than or equal to 59.
+	Minutes *float64 `json:"minutes,omitempty" tf:"minutes,omitempty"`
+
+	// Fractions of seconds, in nanoseconds. Must be greater than or
+	// equal to 0 and less than or equal to 999,999,999.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Seconds of a minute. Must be greater than or equal to 0 and
+	// typically must be less than or equal to 59. An API may allow the
+	// value 60 if it allows leap-seconds.
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type ExecutionTimeParameters struct {
+
+	// Hours of a day in 24 hour format. Must be greater than or equal
+	// to 0 and typically must be less than or equal to 23. An API may
+	// choose to allow the value "24:00:00" for scenarios like business
+	// closing time.
+	// +kubebuilder:validation:Optional
+	Hours *float64 `json:"hours,omitempty" tf:"hours,omitempty"`
+
+	// Minutes of an hour. Must be greater than or equal to 0 and
+	// less than or equal to 59.
+	// +kubebuilder:validation:Optional
+	Minutes *float64 `json:"minutes,omitempty" tf:"minutes,omitempty"`
+
+	// Fractions of seconds, in nanoseconds. Must be greater than or
+	// equal to 0 and less than or equal to 999,999,999.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Seconds of a minute. Must be greater than or equal to 0 and
+	// typically must be less than or equal to 59. An API may allow the
+	// value 60 if it allows leap-seconds.
+	// +kubebuilder:validation:Optional
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
 type ForecastOptionsInitParameters struct {
 
 	// The length of time into the future to forecast
@@ -2400,6 +2663,44 @@ type ForecastOptionsParameters struct {
 	ForecastHorizon *string `json:"forecastHorizon" tf:"forecast_horizon,omitempty"`
 }
 
+type HourlyInitParameters struct {
+
+	// The number of minutes after the hour (in UTC) to run the query.
+	// Must be greater than or equal to 0 minutes and less than or equal to
+	// 59 minutes.  If left unspecified, then an arbitrary offset is used.
+	MinuteOffset *float64 `json:"minuteOffset,omitempty" tf:"minute_offset,omitempty"`
+
+	// Number of minutes between runs. The interval must be greater than or
+	// equal to 5 minutes and less than or equal to 1440 minutes.
+	Periodicity *float64 `json:"periodicity,omitempty" tf:"periodicity,omitempty"`
+}
+
+type HourlyObservation struct {
+
+	// The number of minutes after the hour (in UTC) to run the query.
+	// Must be greater than or equal to 0 minutes and less than or equal to
+	// 59 minutes.  If left unspecified, then an arbitrary offset is used.
+	MinuteOffset *float64 `json:"minuteOffset,omitempty" tf:"minute_offset,omitempty"`
+
+	// Number of minutes between runs. The interval must be greater than or
+	// equal to 5 minutes and less than or equal to 1440 minutes.
+	Periodicity *float64 `json:"periodicity,omitempty" tf:"periodicity,omitempty"`
+}
+
+type HourlyParameters struct {
+
+	// The number of minutes after the hour (in UTC) to run the query.
+	// Must be greater than or equal to 0 minutes and less than or equal to
+	// 59 minutes.  If left unspecified, then an arbitrary offset is used.
+	// +kubebuilder:validation:Optional
+	MinuteOffset *float64 `json:"minuteOffset,omitempty" tf:"minute_offset,omitempty"`
+
+	// Number of minutes between runs. The interval must be greater than or
+	// equal to 5 minutes and less than or equal to 1440 minutes.
+	// +kubebuilder:validation:Optional
+	Periodicity *float64 `json:"periodicity" tf:"periodicity,omitempty"`
+}
+
 type LinksInitParameters struct {
 
 	// A short display name for the link. The display name must not be empty or exceed 63 characters. Example: "playbook".
@@ -2427,6 +2728,28 @@ type LinksParameters struct {
 	// The url of a webpage. A url can be templatized by using variables in the path or the query parameters. The total length of a URL should not exceed 2083 characters before and after variable expansion. Example: "https://my_domain.com/playbook?name=${resource.name}".
 	// +kubebuilder:validation:Optional
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
+}
+
+type MinutesInitParameters struct {
+
+	// Number of minutes between runs. The interval must be greater than or
+	// equal to 5 minutes and less than or equal to 1440 minutes.
+	Periodicity *float64 `json:"periodicity,omitempty" tf:"periodicity,omitempty"`
+}
+
+type MinutesObservation struct {
+
+	// Number of minutes between runs. The interval must be greater than or
+	// equal to 5 minutes and less than or equal to 1440 minutes.
+	Periodicity *float64 `json:"periodicity,omitempty" tf:"periodicity,omitempty"`
+}
+
+type MinutesParameters struct {
+
+	// Number of minutes between runs. The interval must be greater than or
+	// equal to 5 minutes and less than or equal to 1440 minutes.
+	// +kubebuilder:validation:Optional
+	Periodicity *float64 `json:"periodicity" tf:"periodicity,omitempty"`
 }
 
 type NotificationChannelStrategyInitParameters struct {
@@ -2487,6 +2810,59 @@ type NotificationRateLimitParameters struct {
 	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example "60.5s".
 	// +kubebuilder:validation:Optional
 	Period *string `json:"period,omitempty" tf:"period,omitempty"`
+}
+
+type RowCountTestInitParameters struct {
+
+	// The comparison to apply between the time
+	// series (indicated by filter and aggregation)
+	// and the threshold (indicated by
+	// threshold_value). The comparison is applied
+	// on each time series, with the time series on
+	// the left-hand side and the threshold on the
+	// right-hand side. Only COMPARISON_LT and
+	// COMPARISON_GT are supported currently.
+	// Possible values are: COMPARISON_GT, COMPARISON_GE, COMPARISON_LT, COMPARISON_LE, COMPARISON_EQ, COMPARISON_NE.
+	Comparison *string `json:"comparison,omitempty" tf:"comparison,omitempty"`
+
+	// The value against which to compare the row count.
+	Threshold *float64 `json:"threshold,omitempty" tf:"threshold,omitempty"`
+}
+
+type RowCountTestObservation struct {
+
+	// The comparison to apply between the time
+	// series (indicated by filter and aggregation)
+	// and the threshold (indicated by
+	// threshold_value). The comparison is applied
+	// on each time series, with the time series on
+	// the left-hand side and the threshold on the
+	// right-hand side. Only COMPARISON_LT and
+	// COMPARISON_GT are supported currently.
+	// Possible values are: COMPARISON_GT, COMPARISON_GE, COMPARISON_LT, COMPARISON_LE, COMPARISON_EQ, COMPARISON_NE.
+	Comparison *string `json:"comparison,omitempty" tf:"comparison,omitempty"`
+
+	// The value against which to compare the row count.
+	Threshold *float64 `json:"threshold,omitempty" tf:"threshold,omitempty"`
+}
+
+type RowCountTestParameters struct {
+
+	// The comparison to apply between the time
+	// series (indicated by filter and aggregation)
+	// and the threshold (indicated by
+	// threshold_value). The comparison is applied
+	// on each time series, with the time series on
+	// the left-hand side and the threshold on the
+	// right-hand side. Only COMPARISON_LT and
+	// COMPARISON_GT are supported currently.
+	// Possible values are: COMPARISON_GT, COMPARISON_GE, COMPARISON_LT, COMPARISON_LE, COMPARISON_EQ, COMPARISON_NE.
+	// +kubebuilder:validation:Optional
+	Comparison *string `json:"comparison" tf:"comparison,omitempty"`
+
+	// The value against which to compare the row count.
+	// +kubebuilder:validation:Optional
+	Threshold *float64 `json:"threshold" tf:"threshold,omitempty"`
 }
 
 type TriggerInitParameters struct {
