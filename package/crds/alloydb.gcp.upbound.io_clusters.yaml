@@ -2422,9 +2422,9 @@ spec:
                         type: number
                     type: object
                   databaseVersion:
-                    description: The database engine major version. This is an optional
-                      field and it's populated at the Cluster creation time. This
-                      field cannot be changed after cluster creation.
+                    description: |-
+                      The database engine major version. This is an optional field and it's populated at the Cluster creation time.
+                      Note: Changing this field to a higer version results in upgrading the AlloyDB cluster which is an irreversible change.
                     type: string
                   deletionPolicy:
                     description: |-
@@ -2904,6 +2904,12 @@ spec:
                             type: object
                         type: object
                     type: object
+                  skipAwaitMajorVersionUpgrade:
+                    description: |-
+                      Set to true to skip awaiting on the major version upgrade of the cluster.
+                      Possible values: true, false
+                      Default value: "true"
+                    type: boolean
                   subscriptionType:
                     description: |-
                       The subscrition type of cluster.
@@ -3059,9 +3065,9 @@ spec:
                         type: number
                     type: object
                   databaseVersion:
-                    description: The database engine major version. This is an optional
-                      field and it's populated at the Cluster creation time. This
-                      field cannot be changed after cluster creation.
+                    description: |-
+                      The database engine major version. This is an optional field and it's populated at the Cluster creation time.
+                      Note: Changing this field to a higer version results in upgrading the AlloyDB cluster which is an irreversible change.
                     type: string
                   deletionPolicy:
                     description: |-
@@ -3540,6 +3546,12 @@ spec:
                             type: object
                         type: object
                     type: object
+                  skipAwaitMajorVersionUpgrade:
+                    description: |-
+                      Set to true to skip awaiting on the major version upgrade of the cluster.
+                      Possible values: true, false
+                      Default value: "true"
+                    type: boolean
                   subscriptionType:
                     description: |-
                       The subscrition type of cluster.
@@ -3914,9 +3926,9 @@ spec:
                       type: object
                     type: array
                   databaseVersion:
-                    description: The database engine major version. This is an optional
-                      field and it's populated at the Cluster creation time. This
-                      field cannot be changed after cluster creation.
+                    description: |-
+                      The database engine major version. This is an optional field and it's populated at the Cluster creation time.
+                      Note: Changing this field to a higer version results in upgrading the AlloyDB cluster which is an irreversible change.
                     type: string
                   deletionPolicy:
                     description: |-
@@ -4093,6 +4105,12 @@ spec:
                         description: Create an instance that allows connections from
                           Private Service Connect endpoints to the instance.
                         type: boolean
+                      serviceOwnedProjectNumber:
+                        description: |-
+                          (Output)
+                          The project number that needs to be allowlisted on the network attachment to enable outbound connectivity, if the network attachment is configured to ACCEPT_MANUAL connections.
+                          In case the network attachment is configured to ACCEPT_AUTOMATIC, this project number does not need to be allowlisted explicitly.
+                        type: number
                     type: object
                   reconciling:
                     description: |-
@@ -4135,6 +4153,12 @@ spec:
                           'projects/{project}/locations/{location}/clusters/{cluster_id}'
                         type: string
                     type: object
+                  skipAwaitMajorVersionUpgrade:
+                    description: |-
+                      Set to true to skip awaiting on the major version upgrade of the cluster.
+                      Possible values: true, false
+                      Default value: "true"
+                    type: boolean
                   state:
                     description: Output only. The current serving state of the cluster.
                     type: string

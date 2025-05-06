@@ -1219,10 +1219,10 @@ spec:
                     description: |-
                       'Availability type of an Instance. Defaults to REGIONAL for both primary and read instances.
                       Note that primary and read instances can have different availability types.
-                      Only READ_POOL instance supports ZONAL type. Users can't specify the zone for READ_POOL instance.
-                      Zone is automatically chosen from the list of zones in the region specified.
-                      Read pool of size 1 can only have zonal availability. Read pools with node count of 2 or more
-                      can have regional availability (nodes are present in 2 or more zones in a region).'
+                      Primary instances can be either ZONAL or REGIONAL. Read Pool instances can also be either ZONAL or REGIONAL.
+                      Read pools of size 1 can only have zonal availability. Read pools with a node count of 2 or more
+                      can have regional availability (nodes are present in 2 or more zones in a region).
+                      Possible values are: AVAILABILITY_TYPE_UNSPECIFIED, ZONAL, REGIONAL.'
                       Possible values are: AVAILABILITY_TYPE_UNSPECIFIED, ZONAL, REGIONAL.
                     type: string
                   clientConnectionConfig:
@@ -1447,6 +1447,12 @@ spec:
                       cpuCount:
                         description: The number of CPU's in the VM instance.
                         type: number
+                      machineType:
+                        description: |-
+                          Machine type of the VM instance.
+                          E.g. "n2-highmem-4", "n2-highmem-8", "c4a-highmem-4-lssd".
+                          cpu_count must match the number of vCPUs in the machine type.
+                        type: string
                     type: object
                   networkConfig:
                     description: |-
@@ -1488,6 +1494,21 @@ spec:
                           These should be specified as project numbers only.
                         items:
                           type: string
+                        type: array
+                      pscInterfaceConfigs:
+                        description: |-
+                          Configurations for setting up PSC interfaces attached to the instance
+                          which are used for outbound connectivity. Currently, AlloyDB supports only 0 or 1 PSC interface.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            networkAttachmentResource:
+                              description: |-
+                                The network attachment resource created in the consumer project to which the PSC interface will be linked.
+                                This is of the format: "projects/${CONSUMER_PROJECT}/regions/${REGION}/networkAttachments/${NETWORK_ATTACHMENT_NAME}".
+                                The network attachment must be in the same region as the instance.
+                              type: string
+                          type: object
                         type: array
                     type: object
                   queryInsightsConfig:
@@ -1551,10 +1572,10 @@ spec:
                     description: |-
                       'Availability type of an Instance. Defaults to REGIONAL for both primary and read instances.
                       Note that primary and read instances can have different availability types.
-                      Only READ_POOL instance supports ZONAL type. Users can't specify the zone for READ_POOL instance.
-                      Zone is automatically chosen from the list of zones in the region specified.
-                      Read pool of size 1 can only have zonal availability. Read pools with node count of 2 or more
-                      can have regional availability (nodes are present in 2 or more zones in a region).'
+                      Primary instances can be either ZONAL or REGIONAL. Read Pool instances can also be either ZONAL or REGIONAL.
+                      Read pools of size 1 can only have zonal availability. Read pools with a node count of 2 or more
+                      can have regional availability (nodes are present in 2 or more zones in a region).
+                      Possible values are: AVAILABILITY_TYPE_UNSPECIFIED, ZONAL, REGIONAL.'
                       Possible values are: AVAILABILITY_TYPE_UNSPECIFIED, ZONAL, REGIONAL.
                     type: string
                   clientConnectionConfig:
@@ -1700,6 +1721,12 @@ spec:
                       cpuCount:
                         description: The number of CPU's in the VM instance.
                         type: number
+                      machineType:
+                        description: |-
+                          Machine type of the VM instance.
+                          E.g. "n2-highmem-4", "n2-highmem-8", "c4a-highmem-4-lssd".
+                          cpu_count must match the number of vCPUs in the machine type.
+                        type: string
                     type: object
                   networkConfig:
                     description: |-
@@ -1741,6 +1768,21 @@ spec:
                           These should be specified as project numbers only.
                         items:
                           type: string
+                        type: array
+                      pscInterfaceConfigs:
+                        description: |-
+                          Configurations for setting up PSC interfaces attached to the instance
+                          which are used for outbound connectivity. Currently, AlloyDB supports only 0 or 1 PSC interface.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            networkAttachmentResource:
+                              description: |-
+                                The network attachment resource created in the consumer project to which the PSC interface will be linked.
+                                This is of the format: "projects/${CONSUMER_PROJECT}/regions/${REGION}/networkAttachments/${NETWORK_ATTACHMENT_NAME}".
+                                The network attachment must be in the same region as the instance.
+                              type: string
+                          type: object
                         type: array
                     type: object
                   queryInsightsConfig:
@@ -1963,10 +2005,10 @@ spec:
                     description: |-
                       'Availability type of an Instance. Defaults to REGIONAL for both primary and read instances.
                       Note that primary and read instances can have different availability types.
-                      Only READ_POOL instance supports ZONAL type. Users can't specify the zone for READ_POOL instance.
-                      Zone is automatically chosen from the list of zones in the region specified.
-                      Read pool of size 1 can only have zonal availability. Read pools with node count of 2 or more
-                      can have regional availability (nodes are present in 2 or more zones in a region).'
+                      Primary instances can be either ZONAL or REGIONAL. Read Pool instances can also be either ZONAL or REGIONAL.
+                      Read pools of size 1 can only have zonal availability. Read pools with a node count of 2 or more
+                      can have regional availability (nodes are present in 2 or more zones in a region).
+                      Possible values are: AVAILABILITY_TYPE_UNSPECIFIED, ZONAL, REGIONAL.'
                       Possible values are: AVAILABILITY_TYPE_UNSPECIFIED, ZONAL, REGIONAL.
                     type: string
                   clientConnectionConfig:
@@ -2063,6 +2105,12 @@ spec:
                       cpuCount:
                         description: The number of CPU's in the VM instance.
                         type: number
+                      machineType:
+                        description: |-
+                          Machine type of the VM instance.
+                          E.g. "n2-highmem-4", "n2-highmem-8", "c4a-highmem-4-lssd".
+                          cpu_count must match the number of vCPUs in the machine type.
+                        type: string
                     type: object
                   name:
                     description: The name of the instance resource.
@@ -2122,6 +2170,21 @@ spec:
                           The DNS name of the instance for PSC connectivity.
                           Name convention: ...alloydb-psc.goog
                         type: string
+                      pscInterfaceConfigs:
+                        description: |-
+                          Configurations for setting up PSC interfaces attached to the instance
+                          which are used for outbound connectivity. Currently, AlloyDB supports only 0 or 1 PSC interface.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            networkAttachmentResource:
+                              description: |-
+                                The network attachment resource created in the consumer project to which the PSC interface will be linked.
+                                This is of the format: "projects/${CONSUMER_PROJECT}/regions/${REGION}/networkAttachments/${NETWORK_ATTACHMENT_NAME}".
+                                The network attachment must be in the same region as the instance.
+                              type: string
+                          type: object
+                        type: array
                       serviceAttachmentLink:
                         description: |-
                           (Output)

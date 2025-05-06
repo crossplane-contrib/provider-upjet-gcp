@@ -74,10 +74,10 @@ type InstanceInitParameters struct {
 
 	// 'Availability type of an Instance. Defaults to REGIONAL for both primary and read instances.
 	// Note that primary and read instances can have different availability types.
-	// Only READ_POOL instance supports ZONAL type. Users can't specify the zone for READ_POOL instance.
-	// Zone is automatically chosen from the list of zones in the region specified.
-	// Read pool of size 1 can only have zonal availability. Read pools with node count of 2 or more
-	// can have regional availability (nodes are present in 2 or more zones in a region).'
+	// Primary instances can be either ZONAL or REGIONAL. Read Pool instances can also be either ZONAL or REGIONAL.
+	// Read pools of size 1 can only have zonal availability. Read pools with a node count of 2 or more
+	// can have regional availability (nodes are present in 2 or more zones in a region).
+	// Possible values are: AVAILABILITY_TYPE_UNSPECIFIED, ZONAL, REGIONAL.'
 	// Possible values are: AVAILABILITY_TYPE_UNSPECIFIED, ZONAL, REGIONAL.
 	AvailabilityType *string `json:"availabilityType,omitempty" tf:"availability_type,omitempty"`
 
@@ -204,10 +204,10 @@ type InstanceObservation struct {
 
 	// 'Availability type of an Instance. Defaults to REGIONAL for both primary and read instances.
 	// Note that primary and read instances can have different availability types.
-	// Only READ_POOL instance supports ZONAL type. Users can't specify the zone for READ_POOL instance.
-	// Zone is automatically chosen from the list of zones in the region specified.
-	// Read pool of size 1 can only have zonal availability. Read pools with node count of 2 or more
-	// can have regional availability (nodes are present in 2 or more zones in a region).'
+	// Primary instances can be either ZONAL or REGIONAL. Read Pool instances can also be either ZONAL or REGIONAL.
+	// Read pools of size 1 can only have zonal availability. Read pools with a node count of 2 or more
+	// can have regional availability (nodes are present in 2 or more zones in a region).
+	// Possible values are: AVAILABILITY_TYPE_UNSPECIFIED, ZONAL, REGIONAL.'
 	// Possible values are: AVAILABILITY_TYPE_UNSPECIFIED, ZONAL, REGIONAL.
 	AvailabilityType *string `json:"availabilityType,omitempty" tf:"availability_type,omitempty"`
 
@@ -320,10 +320,10 @@ type InstanceParameters struct {
 
 	// 'Availability type of an Instance. Defaults to REGIONAL for both primary and read instances.
 	// Note that primary and read instances can have different availability types.
-	// Only READ_POOL instance supports ZONAL type. Users can't specify the zone for READ_POOL instance.
-	// Zone is automatically chosen from the list of zones in the region specified.
-	// Read pool of size 1 can only have zonal availability. Read pools with node count of 2 or more
-	// can have regional availability (nodes are present in 2 or more zones in a region).'
+	// Primary instances can be either ZONAL or REGIONAL. Read Pool instances can also be either ZONAL or REGIONAL.
+	// Read pools of size 1 can only have zonal availability. Read pools with a node count of 2 or more
+	// can have regional availability (nodes are present in 2 or more zones in a region).
+	// Possible values are: AVAILABILITY_TYPE_UNSPECIFIED, ZONAL, REGIONAL.'
 	// Possible values are: AVAILABILITY_TYPE_UNSPECIFIED, ZONAL, REGIONAL.
 	// +kubebuilder:validation:Optional
 	AvailabilityType *string `json:"availabilityType,omitempty" tf:"availability_type,omitempty"`
@@ -417,12 +417,22 @@ type MachineConfigInitParameters struct {
 
 	// The number of CPU's in the VM instance.
 	CPUCount *float64 `json:"cpuCount,omitempty" tf:"cpu_count,omitempty"`
+
+	// Machine type of the VM instance.
+	// E.g. "n2-highmem-4", "n2-highmem-8", "c4a-highmem-4-lssd".
+	// cpu_count must match the number of vCPUs in the machine type.
+	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 }
 
 type MachineConfigObservation struct {
 
 	// The number of CPU's in the VM instance.
 	CPUCount *float64 `json:"cpuCount,omitempty" tf:"cpu_count,omitempty"`
+
+	// Machine type of the VM instance.
+	// E.g. "n2-highmem-4", "n2-highmem-8", "c4a-highmem-4-lssd".
+	// cpu_count must match the number of vCPUs in the machine type.
+	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 }
 
 type MachineConfigParameters struct {
@@ -430,6 +440,12 @@ type MachineConfigParameters struct {
 	// The number of CPU's in the VM instance.
 	// +kubebuilder:validation:Optional
 	CPUCount *float64 `json:"cpuCount,omitempty" tf:"cpu_count,omitempty"`
+
+	// Machine type of the VM instance.
+	// E.g. "n2-highmem-4", "n2-highmem-8", "c4a-highmem-4-lssd".
+	// cpu_count must match the number of vCPUs in the machine type.
+	// +kubebuilder:validation:Optional
+	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 }
 
 type PscInstanceConfigInitParameters struct {
@@ -437,6 +453,11 @@ type PscInstanceConfigInitParameters struct {
 	// List of consumer projects that are allowed to create PSC endpoints to service-attachments to this instance.
 	// These should be specified as project numbers only.
 	AllowedConsumerProjects []*string `json:"allowedConsumerProjects,omitempty" tf:"allowed_consumer_projects,omitempty"`
+
+	// Configurations for setting up PSC interfaces attached to the instance
+	// which are used for outbound connectivity. Currently, AlloyDB supports only 0 or 1 PSC interface.
+	// Structure is documented below.
+	PscInterfaceConfigs []PscInterfaceConfigsInitParameters `json:"pscInterfaceConfigs,omitempty" tf:"psc_interface_configs,omitempty"`
 }
 
 type PscInstanceConfigObservation struct {
@@ -449,6 +470,11 @@ type PscInstanceConfigObservation struct {
 	// The DNS name of the instance for PSC connectivity.
 	// Name convention: ...alloydb-psc.goog
 	PscDNSName *string `json:"pscDnsName,omitempty" tf:"psc_dns_name,omitempty"`
+
+	// Configurations for setting up PSC interfaces attached to the instance
+	// which are used for outbound connectivity. Currently, AlloyDB supports only 0 or 1 PSC interface.
+	// Structure is documented below.
+	PscInterfaceConfigs []PscInterfaceConfigsObservation `json:"pscInterfaceConfigs,omitempty" tf:"psc_interface_configs,omitempty"`
 
 	// (Output)
 	// The service attachment created when Private Service Connect (PSC) is enabled for the instance.
@@ -463,6 +489,37 @@ type PscInstanceConfigParameters struct {
 	// These should be specified as project numbers only.
 	// +kubebuilder:validation:Optional
 	AllowedConsumerProjects []*string `json:"allowedConsumerProjects,omitempty" tf:"allowed_consumer_projects,omitempty"`
+
+	// Configurations for setting up PSC interfaces attached to the instance
+	// which are used for outbound connectivity. Currently, AlloyDB supports only 0 or 1 PSC interface.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PscInterfaceConfigs []PscInterfaceConfigsParameters `json:"pscInterfaceConfigs,omitempty" tf:"psc_interface_configs,omitempty"`
+}
+
+type PscInterfaceConfigsInitParameters struct {
+
+	// The network attachment resource created in the consumer project to which the PSC interface will be linked.
+	// This is of the format: "projects/${CONSUMER_PROJECT}/regions/${REGION}/networkAttachments/${NETWORK_ATTACHMENT_NAME}".
+	// The network attachment must be in the same region as the instance.
+	NetworkAttachmentResource *string `json:"networkAttachmentResource,omitempty" tf:"network_attachment_resource,omitempty"`
+}
+
+type PscInterfaceConfigsObservation struct {
+
+	// The network attachment resource created in the consumer project to which the PSC interface will be linked.
+	// This is of the format: "projects/${CONSUMER_PROJECT}/regions/${REGION}/networkAttachments/${NETWORK_ATTACHMENT_NAME}".
+	// The network attachment must be in the same region as the instance.
+	NetworkAttachmentResource *string `json:"networkAttachmentResource,omitempty" tf:"network_attachment_resource,omitempty"`
+}
+
+type PscInterfaceConfigsParameters struct {
+
+	// The network attachment resource created in the consumer project to which the PSC interface will be linked.
+	// This is of the format: "projects/${CONSUMER_PROJECT}/regions/${REGION}/networkAttachments/${NETWORK_ATTACHMENT_NAME}".
+	// The network attachment must be in the same region as the instance.
+	// +kubebuilder:validation:Optional
+	NetworkAttachmentResource *string `json:"networkAttachmentResource,omitempty" tf:"network_attachment_resource,omitempty"`
 }
 
 type QueryInsightsConfigInitParameters struct {

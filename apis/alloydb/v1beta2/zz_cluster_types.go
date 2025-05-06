@@ -208,7 +208,8 @@ type ClusterInitParameters struct {
 	// Structure is documented below.
 	ContinuousBackupConfig *ContinuousBackupConfigInitParameters `json:"continuousBackupConfig,omitempty" tf:"continuous_backup_config,omitempty"`
 
-	// The database engine major version. This is an optional field and it's populated at the Cluster creation time. This field cannot be changed after cluster creation.
+	// The database engine major version. This is an optional field and it's populated at the Cluster creation time.
+	// Note: Changing this field to a higer version results in upgrading the AlloyDB cluster which is an irreversible change.
 	DatabaseVersion *string `json:"databaseVersion,omitempty" tf:"database_version,omitempty"`
 
 	// Policy to determine if the cluster should be deleted forcefully.
@@ -265,6 +266,11 @@ type ClusterInitParameters struct {
 	// Structure is documented below.
 	SecondaryConfig *SecondaryConfigInitParameters `json:"secondaryConfig,omitempty" tf:"secondary_config,omitempty"`
 
+	// Set to true to skip awaiting on the major version upgrade of the cluster.
+	// Possible values: true, false
+	// Default value: "true"
+	SkipAwaitMajorVersionUpgrade *bool `json:"skipAwaitMajorVersionUpgrade,omitempty" tf:"skip_await_major_version_upgrade,omitempty"`
+
 	// The subscrition type of cluster.
 	// Possible values are: TRIAL, STANDARD.
 	SubscriptionType *string `json:"subscriptionType,omitempty" tf:"subscription_type,omitempty"`
@@ -299,7 +305,8 @@ type ClusterObservation struct {
 	// Structure is documented below.
 	ContinuousBackupInfo []ContinuousBackupInfoObservation `json:"continuousBackupInfo,omitempty" tf:"continuous_backup_info,omitempty"`
 
-	// The database engine major version. This is an optional field and it's populated at the Cluster creation time. This field cannot be changed after cluster creation.
+	// The database engine major version. This is an optional field and it's populated at the Cluster creation time.
+	// Note: Changing this field to a higer version results in upgrading the AlloyDB cluster which is an irreversible change.
 	DatabaseVersion *string `json:"databaseVersion,omitempty" tf:"database_version,omitempty"`
 
 	// Policy to determine if the cluster should be deleted forcefully.
@@ -385,6 +392,11 @@ type ClusterObservation struct {
 	// Structure is documented below.
 	SecondaryConfig *SecondaryConfigObservation `json:"secondaryConfig,omitempty" tf:"secondary_config,omitempty"`
 
+	// Set to true to skip awaiting on the major version upgrade of the cluster.
+	// Possible values: true, false
+	// Default value: "true"
+	SkipAwaitMajorVersionUpgrade *bool `json:"skipAwaitMajorVersionUpgrade,omitempty" tf:"skip_await_major_version_upgrade,omitempty"`
+
 	// Output only. The current serving state of the cluster.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
@@ -430,7 +442,8 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	ContinuousBackupConfig *ContinuousBackupConfigParameters `json:"continuousBackupConfig,omitempty" tf:"continuous_backup_config,omitempty"`
 
-	// The database engine major version. This is an optional field and it's populated at the Cluster creation time. This field cannot be changed after cluster creation.
+	// The database engine major version. This is an optional field and it's populated at the Cluster creation time.
+	// Note: Changing this field to a higer version results in upgrading the AlloyDB cluster which is an irreversible change.
 	// +kubebuilder:validation:Optional
 	DatabaseVersion *string `json:"databaseVersion,omitempty" tf:"database_version,omitempty"`
 
@@ -504,6 +517,12 @@ type ClusterParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SecondaryConfig *SecondaryConfigParameters `json:"secondaryConfig,omitempty" tf:"secondary_config,omitempty"`
+
+	// Set to true to skip awaiting on the major version upgrade of the cluster.
+	// Possible values: true, false
+	// Default value: "true"
+	// +kubebuilder:validation:Optional
+	SkipAwaitMajorVersionUpgrade *bool `json:"skipAwaitMajorVersionUpgrade,omitempty" tf:"skip_await_major_version_upgrade,omitempty"`
 
 	// The subscrition type of cluster.
 	// Possible values are: TRIAL, STANDARD.
@@ -786,6 +805,11 @@ type PscConfigObservation struct {
 
 	// Create an instance that allows connections from Private Service Connect endpoints to the instance.
 	PscEnabled *bool `json:"pscEnabled,omitempty" tf:"psc_enabled,omitempty"`
+
+	// (Output)
+	// The project number that needs to be allowlisted on the network attachment to enable outbound connectivity, if the network attachment is configured to ACCEPT_MANUAL connections.
+	// In case the network attachment is configured to ACCEPT_AUTOMATIC, this project number does not need to be allowlisted explicitly.
+	ServiceOwnedProjectNumber *float64 `json:"serviceOwnedProjectNumber,omitempty" tf:"service_owned_project_number,omitempty"`
 }
 
 type PscConfigParameters struct {
