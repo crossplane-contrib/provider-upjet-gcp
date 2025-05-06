@@ -2691,13 +2691,20 @@ spec:
                           documented below.
                         properties:
                           airflowMetadataRetentionConfig:
-                            description: Configuration parameters for this environment  Structure
-                              is documented below.
+                            description: |-
+                              The retention policy for airflow metadata database. Structure is
+                              documented below.
                             items:
                               properties:
                                 retentionDays:
+                                  description: How many days data should be retained
+                                    for.
                                   type: number
                                 retentionMode:
+                                  description: |-
+                                    Retention can be either enabled or disabled. Values for retention_mode are
+                                    RETENTION_MODE_ENABLED to enable retention and RETENTION_MODE_DISABLED
+                                    to disable retention.
                                   type: string
                               type: object
                             type: array
@@ -3449,7 +3456,7 @@ spec:
                               minCount:
                                 description: |-
                                   The minimum number of Airflow workers that the environment can run. The number of workers in the
-                                  environment does not go above this number, even if a lower number of workers can handle the load.
+                                  environment does not go below this number, even if a lower number of workers can handle the load.
                                 type: number
                               storageGb:
                                 description: The amount of storage (GB) for a single
@@ -3592,13 +3599,20 @@ spec:
                           documented below.
                         properties:
                           airflowMetadataRetentionConfig:
-                            description: Configuration parameters for this environment  Structure
-                              is documented below.
+                            description: |-
+                              The retention policy for airflow metadata database. Structure is
+                              documented below.
                             items:
                               properties:
                                 retentionDays:
+                                  description: How many days data should be retained
+                                    for.
                                   type: number
                                 retentionMode:
+                                  description: |-
+                                    Retention can be either enabled or disabled. Values for retention_mode are
+                                    RETENTION_MODE_ENABLED to enable retention and RETENTION_MODE_DISABLED
+                                    to disable retention.
                                   type: string
                               type: object
                             type: array
@@ -4350,7 +4364,7 @@ spec:
                               minCount:
                                 description: |-
                                   The minimum number of Airflow workers that the environment can run. The number of workers in the
-                                  environment does not go above this number, even if a lower number of workers can handle the load.
+                                  environment does not go below this number, even if a lower number of workers can handle the load.
                                 type: number
                               storageGb:
                                 description: The amount of storage (GB) for a single
@@ -4660,13 +4674,20 @@ spec:
                           documented below.
                         properties:
                           airflowMetadataRetentionConfig:
-                            description: Configuration parameters for this environment  Structure
-                              is documented below.
+                            description: |-
+                              The retention policy for airflow metadata database. Structure is
+                              documented below.
                             items:
                               properties:
                                 retentionDays:
+                                  description: How many days data should be retained
+                                    for.
                                   type: number
                                 retentionMode:
+                                  description: |-
+                                    Retention can be either enabled or disabled. Values for retention_mode are
+                                    RETENTION_MODE_ENABLED to enable retention and RETENTION_MODE_DISABLED
+                                    to disable retention.
                                   type: string
                               type: object
                             type: array
@@ -5194,7 +5215,7 @@ spec:
                               minCount:
                                 description: |-
                                   The minimum number of Airflow workers that the environment can run. The number of workers in the
-                                  environment does not go above this number, even if a lower number of workers can handle the load.
+                                  environment does not go below this number, even if a lower number of workers can handle the load.
                                 type: number
                               storageGb:
                                 description: The amount of storage (GB) for a single

@@ -14,22 +14,36 @@ import (
 )
 
 type AirflowMetadataRetentionConfigInitParameters struct {
+
+	// How many days data should be retained for.
 	RetentionDays *float64 `json:"retentionDays,omitempty" tf:"retention_days,omitempty"`
 
+	// Retention can be either enabled or disabled. Values for retention_mode are
+	// RETENTION_MODE_ENABLED to enable retention and RETENTION_MODE_DISABLED
+	// to disable retention.
 	RetentionMode *string `json:"retentionMode,omitempty" tf:"retention_mode,omitempty"`
 }
 
 type AirflowMetadataRetentionConfigObservation struct {
+
+	// How many days data should be retained for.
 	RetentionDays *float64 `json:"retentionDays,omitempty" tf:"retention_days,omitempty"`
 
+	// Retention can be either enabled or disabled. Values for retention_mode are
+	// RETENTION_MODE_ENABLED to enable retention and RETENTION_MODE_DISABLED
+	// to disable retention.
 	RetentionMode *string `json:"retentionMode,omitempty" tf:"retention_mode,omitempty"`
 }
 
 type AirflowMetadataRetentionConfigParameters struct {
 
+	// How many days data should be retained for.
 	// +kubebuilder:validation:Optional
 	RetentionDays *float64 `json:"retentionDays,omitempty" tf:"retention_days,omitempty"`
 
+	// Retention can be either enabled or disabled. Values for retention_mode are
+	// RETENTION_MODE_ENABLED to enable retention and RETENTION_MODE_DISABLED
+	// to disable retention.
 	// +kubebuilder:validation:Optional
 	RetentionMode *string `json:"retentionMode,omitempty" tf:"retention_mode,omitempty"`
 }
@@ -412,7 +426,8 @@ type DagProcessorParameters struct {
 
 type DataRetentionConfigInitParameters struct {
 
-	// Configuration parameters for this environment  Structure is documented below.
+	// The retention policy for airflow metadata database. Structure is
+	// documented below.
 	AirflowMetadataRetentionConfig []AirflowMetadataRetentionConfigInitParameters `json:"airflowMetadataRetentionConfig,omitempty" tf:"airflow_metadata_retention_config,omitempty"`
 
 	// The configuration setting for Task Logs. Structure is
@@ -422,7 +437,8 @@ type DataRetentionConfigInitParameters struct {
 
 type DataRetentionConfigObservation struct {
 
-	// Configuration parameters for this environment  Structure is documented below.
+	// The retention policy for airflow metadata database. Structure is
+	// documented below.
 	AirflowMetadataRetentionConfig []AirflowMetadataRetentionConfigObservation `json:"airflowMetadataRetentionConfig,omitempty" tf:"airflow_metadata_retention_config,omitempty"`
 
 	// The configuration setting for Task Logs. Structure is
@@ -432,7 +448,8 @@ type DataRetentionConfigObservation struct {
 
 type DataRetentionConfigParameters struct {
 
-	// Configuration parameters for this environment  Structure is documented below.
+	// The retention policy for airflow metadata database. Structure is
+	// documented below.
 	// +kubebuilder:validation:Optional
 	AirflowMetadataRetentionConfig []AirflowMetadataRetentionConfigParameters `json:"airflowMetadataRetentionConfig,omitempty" tf:"airflow_metadata_retention_config,omitempty"`
 
@@ -1641,7 +1658,7 @@ type WorkerInitParameters struct {
 	MemoryGb *float64 `json:"memoryGb,omitempty" tf:"memory_gb,omitempty"`
 
 	// The minimum number of Airflow workers that the environment can run. The number of workers in the
-	// environment does not go above this number, even if a lower number of workers can handle the load.
+	// environment does not go below this number, even if a lower number of workers can handle the load.
 	MinCount *float64 `json:"minCount,omitempty" tf:"min_count,omitempty"`
 
 	// The amount of storage (GB) for a single Airflow worker.
@@ -1662,7 +1679,7 @@ type WorkerObservation struct {
 	MemoryGb *float64 `json:"memoryGb,omitempty" tf:"memory_gb,omitempty"`
 
 	// The minimum number of Airflow workers that the environment can run. The number of workers in the
-	// environment does not go above this number, even if a lower number of workers can handle the load.
+	// environment does not go below this number, even if a lower number of workers can handle the load.
 	MinCount *float64 `json:"minCount,omitempty" tf:"min_count,omitempty"`
 
 	// The amount of storage (GB) for a single Airflow worker.
@@ -1686,7 +1703,7 @@ type WorkerParameters struct {
 	MemoryGb *float64 `json:"memoryGb,omitempty" tf:"memory_gb,omitempty"`
 
 	// The minimum number of Airflow workers that the environment can run. The number of workers in the
-	// environment does not go above this number, even if a lower number of workers can handle the load.
+	// environment does not go below this number, even if a lower number of workers can handle the load.
 	// +kubebuilder:validation:Optional
 	MinCount *float64 `json:"minCount,omitempty" tf:"min_count,omitempty"`
 
