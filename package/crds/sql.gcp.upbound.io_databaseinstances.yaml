@@ -2551,6 +2551,14 @@ spec:
                     items:
                       type: string
                     type: array
+                  replicationCluster:
+                    properties:
+                      failoverDrReplicaName:
+                        description: project:your-instance". You can also set this
+                          field to "your-instance", but cloud SQL backend will convert
+                          it to the aforementioned standard format.
+                        type: string
+                    type: object
                   restoreBackupContext:
                     description: |-
                       The context needed to restore the database to a backup run. The configuration is detailed below. Adding or modifying this
@@ -2653,6 +2661,8 @@ spec:
                             description: True if Point-in-time recovery is enabled.
                               Will restart database if enabled after instance creation.
                               Valid only for PostgreSQL and SQL Server instances.
+                              Enabled by default for PostgreSQL Enterprise Plus and
+                              SQL Server Enterprise Plus instances.
                             type: boolean
                           startTime:
                             description: |-
@@ -2662,8 +2672,9 @@ spec:
                           transactionLogRetentionDays:
                             description: The number of days of transaction logs we
                               retain for point in time restore, from 1-7. For PostgreSQL
-                              Enterprise Plus instances, the number of days of retained
-                              transaction logs can be set from 1 to 35.
+                              Enterprise Plus and SQL Server Enterprise Plus instances,
+                              the number of days of retained transaction logs can
+                              be set from 1 to 35.
                             type: number
                         type: object
                       collation:
@@ -2739,13 +2750,14 @@ spec:
                       diskSize:
                         description: The size of data disk, in GB. Size of a running
                           instance cannot be reduced but can be increased. The minimum
-                          value is 10GB. Note that this value will override the resizing
-                          from disk_autoresize if that feature is enabled. To avoid
-                          this, set lifecycle.ignore_changes on this field.
+                          value is 10GB for PD_SSD, PD_HDD and 20GB for HYPERDISK_BALANCED.
+                          Note that this value will override the resizing from disk_autoresize
+                          if that feature is enabled. To avoid this, set lifecycle.ignore_changes
+                          on this field.
                         type: number
                       diskType:
-                        description: 'The type of data disk: PD_SSD or PD_HDD. Defaults
-                          to PD_SSD.'
+                        description: 'The type of data disk: PD_SSD, PD_HDD, or HYPERDISK_BALANCED.
+                          Defaults to PD_SSD. HYPERDISK_BALANCED is preview.'
                         type: string
                       edition:
                         description: The edition of the instance, can be ENTERPRISE
@@ -2817,6 +2829,13 @@ spec:
                                   type: string
                               type: object
                             type: array
+                          customSubjectAlternativeNames:
+                            description: The custom subject alternative names for
+                              an instance with CUSTOMER_MANAGED_CAS_CA as the server_ca_mode.
+                            items:
+                              type: string
+                            type: array
+                            x-kubernetes-list-type: set
                           enablePrivatePathForGoogleCloudServices:
                             description: Whether Google Cloud services such as BigQuery
                               are allowed to access data in this Cloud SQL instance
@@ -3036,6 +3055,13 @@ spec:
                       pricingPlan:
                         description: Pricing plan for this instance, can only be PER_USE.
                         type: string
+                      retainBackupsOnDelete:
+                        description: When this parameter is set to true, Cloud SQL
+                          retains backups of the instance even after the instance
+                          is deleted. The ON_DEMAND backup will be retained until
+                          customer deletes the backup or the project. The AUTOMATED
+                          backup will be retained based on the backups retention setting.
+                        type: boolean
                       sqlServerAuditConfig:
                         properties:
                           bucket:
@@ -3248,6 +3274,14 @@ spec:
                     items:
                       type: string
                     type: array
+                  replicationCluster:
+                    properties:
+                      failoverDrReplicaName:
+                        description: project:your-instance". You can also set this
+                          field to "your-instance", but cloud SQL backend will convert
+                          it to the aforementioned standard format.
+                        type: string
+                    type: object
                   restoreBackupContext:
                     description: |-
                       The context needed to restore the database to a backup run. The configuration is detailed below. Adding or modifying this
@@ -3350,6 +3384,8 @@ spec:
                             description: True if Point-in-time recovery is enabled.
                               Will restart database if enabled after instance creation.
                               Valid only for PostgreSQL and SQL Server instances.
+                              Enabled by default for PostgreSQL Enterprise Plus and
+                              SQL Server Enterprise Plus instances.
                             type: boolean
                           startTime:
                             description: |-
@@ -3359,8 +3395,9 @@ spec:
                           transactionLogRetentionDays:
                             description: The number of days of transaction logs we
                               retain for point in time restore, from 1-7. For PostgreSQL
-                              Enterprise Plus instances, the number of days of retained
-                              transaction logs can be set from 1 to 35.
+                              Enterprise Plus and SQL Server Enterprise Plus instances,
+                              the number of days of retained transaction logs can
+                              be set from 1 to 35.
                             type: number
                         type: object
                       collation:
@@ -3436,13 +3473,14 @@ spec:
                       diskSize:
                         description: The size of data disk, in GB. Size of a running
                           instance cannot be reduced but can be increased. The minimum
-                          value is 10GB. Note that this value will override the resizing
-                          from disk_autoresize if that feature is enabled. To avoid
-                          this, set lifecycle.ignore_changes on this field.
+                          value is 10GB for PD_SSD, PD_HDD and 20GB for HYPERDISK_BALANCED.
+                          Note that this value will override the resizing from disk_autoresize
+                          if that feature is enabled. To avoid this, set lifecycle.ignore_changes
+                          on this field.
                         type: number
                       diskType:
-                        description: 'The type of data disk: PD_SSD or PD_HDD. Defaults
-                          to PD_SSD.'
+                        description: 'The type of data disk: PD_SSD, PD_HDD, or HYPERDISK_BALANCED.
+                          Defaults to PD_SSD. HYPERDISK_BALANCED is preview.'
                         type: string
                       edition:
                         description: The edition of the instance, can be ENTERPRISE
@@ -3514,6 +3552,13 @@ spec:
                                   type: string
                               type: object
                             type: array
+                          customSubjectAlternativeNames:
+                            description: The custom subject alternative names for
+                              an instance with CUSTOMER_MANAGED_CAS_CA as the server_ca_mode.
+                            items:
+                              type: string
+                            type: array
+                            x-kubernetes-list-type: set
                           enablePrivatePathForGoogleCloudServices:
                             description: Whether Google Cloud services such as BigQuery
                               are allowed to access data in this Cloud SQL instance
@@ -3733,6 +3778,13 @@ spec:
                       pricingPlan:
                         description: Pricing plan for this instance, can only be PER_USE.
                         type: string
+                      retainBackupsOnDelete:
+                        description: When this parameter is set to true, Cloud SQL
+                          retains backups of the instance even after the instance
+                          is deleted. The ON_DEMAND backup will be retained until
+                          customer deletes the backup or the project. The AUTOMATED
+                          backup will be retained based on the backups retention setting.
+                        type: boolean
                       sqlServerAuditConfig:
                         properties:
                           bucket:
@@ -4012,6 +4064,25 @@ spec:
                     description: The DNS name of the instance. See Connect to an instance
                       using Private Service Connect for more details.
                     type: string
+                  dnsNames:
+                    description: The list of DNS names used by this instance. Different
+                      connection types for an instance may have different DNS names.
+                      DNS names can apply to an individual instance or a cluster of
+                      instances.
+                    items:
+                      properties:
+                        connectionType:
+                          description: The connection type of the DNS name. Can be
+                            either PUBLIC, PRIVATE_SERVICES_ACCESS, or PRIVATE_SERVICE_CONNECT.
+                          type: string
+                        dnsScope:
+                          description: The scope that the DNS name applies to.
+                          type: string
+                        name:
+                          description: A name for this whitelist entry.
+                          type: string
+                      type: object
+                    type: array
                   encryptionKeyName:
                     description: |-
                       The full path to the encryption key used for the CMEK disk encryption.
@@ -4148,6 +4219,18 @@ spec:
                     items:
                       type: string
                     type: array
+                  replicationCluster:
+                    properties:
+                      drReplica:
+                        description: only field that indicates whether the replica
+                          is a DR replica.
+                        type: boolean
+                      failoverDrReplicaName:
+                        description: project:your-instance". You can also set this
+                          field to "your-instance", but cloud SQL backend will convert
+                          it to the aforementioned standard format.
+                        type: string
+                    type: object
                   restoreBackupContext:
                     description: |-
                       The context needed to restore the database to a backup run. The configuration is detailed below. Adding or modifying this
@@ -4240,6 +4323,8 @@ spec:
                             description: True if Point-in-time recovery is enabled.
                               Will restart database if enabled after instance creation.
                               Valid only for PostgreSQL and SQL Server instances.
+                              Enabled by default for PostgreSQL Enterprise Plus and
+                              SQL Server Enterprise Plus instances.
                             type: boolean
                           startTime:
                             description: |-
@@ -4249,8 +4334,9 @@ spec:
                           transactionLogRetentionDays:
                             description: The number of days of transaction logs we
                               retain for point in time restore, from 1-7. For PostgreSQL
-                              Enterprise Plus instances, the number of days of retained
-                              transaction logs can be set from 1 to 35.
+                              Enterprise Plus and SQL Server Enterprise Plus instances,
+                              the number of days of retained transaction logs can
+                              be set from 1 to 35.
                             type: number
                         type: object
                       collation:
@@ -4326,13 +4412,14 @@ spec:
                       diskSize:
                         description: The size of data disk, in GB. Size of a running
                           instance cannot be reduced but can be increased. The minimum
-                          value is 10GB. Note that this value will override the resizing
-                          from disk_autoresize if that feature is enabled. To avoid
-                          this, set lifecycle.ignore_changes on this field.
+                          value is 10GB for PD_SSD, PD_HDD and 20GB for HYPERDISK_BALANCED.
+                          Note that this value will override the resizing from disk_autoresize
+                          if that feature is enabled. To avoid this, set lifecycle.ignore_changes
+                          on this field.
                         type: number
                       diskType:
-                        description: 'The type of data disk: PD_SSD or PD_HDD. Defaults
-                          to PD_SSD.'
+                        description: 'The type of data disk: PD_SSD, PD_HDD, or HYPERDISK_BALANCED.
+                          Defaults to PD_SSD. HYPERDISK_BALANCED is preview.'
                         type: string
                       edition:
                         description: The edition of the instance, can be ENTERPRISE
@@ -4404,6 +4491,13 @@ spec:
                                   type: string
                               type: object
                             type: array
+                          customSubjectAlternativeNames:
+                            description: The custom subject alternative names for
+                              an instance with CUSTOMER_MANAGED_CAS_CA as the server_ca_mode.
+                            items:
+                              type: string
+                            type: array
+                            x-kubernetes-list-type: set
                           enablePrivatePathForGoogleCloudServices:
                             description: Whether Google Cloud services such as BigQuery
                               are allowed to access data in this Cloud SQL instance
@@ -4547,6 +4641,13 @@ spec:
                       pricingPlan:
                         description: Pricing plan for this instance, can only be PER_USE.
                         type: string
+                      retainBackupsOnDelete:
+                        description: When this parameter is set to true, Cloud SQL
+                          retains backups of the instance even after the instance
+                          is deleted. The ON_DEMAND backup will be retained until
+                          customer deletes the backup or the project. The AUTOMATED
+                          backup will be retained based on the backups retention setting.
+                        type: boolean
                       sqlServerAuditConfig:
                         properties:
                           bucket:

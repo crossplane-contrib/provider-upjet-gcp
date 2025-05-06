@@ -117,14 +117,14 @@ type BackupConfigurationInitParameters struct {
 	// The region where the backup will be stored
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
-	// True if Point-in-time recovery is enabled. Will restart database if enabled after instance creation. Valid only for PostgreSQL and SQL Server instances.
+	// True if Point-in-time recovery is enabled. Will restart database if enabled after instance creation. Valid only for PostgreSQL and SQL Server instances. Enabled by default for PostgreSQL Enterprise Plus and SQL Server Enterprise Plus instances.
 	PointInTimeRecoveryEnabled *bool `json:"pointInTimeRecoveryEnabled,omitempty" tf:"point_in_time_recovery_enabled,omitempty"`
 
 	// HH:MM format time indicating when backup
 	// configuration starts.
 	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
 
-	// The number of days of transaction logs we retain for point in time restore, from 1-7. For PostgreSQL Enterprise Plus instances, the number of days of retained transaction logs can be set from 1 to 35.
+	// The number of days of transaction logs we retain for point in time restore, from 1-7. For PostgreSQL Enterprise Plus and SQL Server Enterprise Plus instances, the number of days of retained transaction logs can be set from 1 to 35.
 	TransactionLogRetentionDays *float64 `json:"transactionLogRetentionDays,omitempty" tf:"transaction_log_retention_days,omitempty"`
 }
 
@@ -143,14 +143,14 @@ type BackupConfigurationObservation struct {
 	// The region where the backup will be stored
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
-	// True if Point-in-time recovery is enabled. Will restart database if enabled after instance creation. Valid only for PostgreSQL and SQL Server instances.
+	// True if Point-in-time recovery is enabled. Will restart database if enabled after instance creation. Valid only for PostgreSQL and SQL Server instances. Enabled by default for PostgreSQL Enterprise Plus and SQL Server Enterprise Plus instances.
 	PointInTimeRecoveryEnabled *bool `json:"pointInTimeRecoveryEnabled,omitempty" tf:"point_in_time_recovery_enabled,omitempty"`
 
 	// HH:MM format time indicating when backup
 	// configuration starts.
 	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
 
-	// The number of days of transaction logs we retain for point in time restore, from 1-7. For PostgreSQL Enterprise Plus instances, the number of days of retained transaction logs can be set from 1 to 35.
+	// The number of days of transaction logs we retain for point in time restore, from 1-7. For PostgreSQL Enterprise Plus and SQL Server Enterprise Plus instances, the number of days of retained transaction logs can be set from 1 to 35.
 	TransactionLogRetentionDays *float64 `json:"transactionLogRetentionDays,omitempty" tf:"transaction_log_retention_days,omitempty"`
 }
 
@@ -173,7 +173,7 @@ type BackupConfigurationParameters struct {
 	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
-	// True if Point-in-time recovery is enabled. Will restart database if enabled after instance creation. Valid only for PostgreSQL and SQL Server instances.
+	// True if Point-in-time recovery is enabled. Will restart database if enabled after instance creation. Valid only for PostgreSQL and SQL Server instances. Enabled by default for PostgreSQL Enterprise Plus and SQL Server Enterprise Plus instances.
 	// +kubebuilder:validation:Optional
 	PointInTimeRecoveryEnabled *bool `json:"pointInTimeRecoveryEnabled,omitempty" tf:"point_in_time_recovery_enabled,omitempty"`
 
@@ -182,7 +182,7 @@ type BackupConfigurationParameters struct {
 	// +kubebuilder:validation:Optional
 	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
 
-	// The number of days of transaction logs we retain for point in time restore, from 1-7. For PostgreSQL Enterprise Plus instances, the number of days of retained transaction logs can be set from 1 to 35.
+	// The number of days of transaction logs we retain for point in time restore, from 1-7. For PostgreSQL Enterprise Plus and SQL Server Enterprise Plus instances, the number of days of retained transaction logs can be set from 1 to 35.
 	// +kubebuilder:validation:Optional
 	TransactionLogRetentionDays *float64 `json:"transactionLogRetentionDays,omitempty" tf:"transaction_log_retention_days,omitempty"`
 }
@@ -276,6 +276,24 @@ type CloneParameters struct {
 	// Name of the source instance which will be cloned.
 	// +kubebuilder:validation:Optional
 	SourceInstanceName *string `json:"sourceInstanceName" tf:"source_instance_name,omitempty"`
+}
+
+type DNSNamesInitParameters struct {
+}
+
+type DNSNamesObservation struct {
+
+	// The connection type of the DNS name. Can be either PUBLIC, PRIVATE_SERVICES_ACCESS, or PRIVATE_SERVICE_CONNECT.
+	ConnectionType *string `json:"connectionType,omitempty" tf:"connection_type,omitempty"`
+
+	// The scope that the DNS name applies to.
+	DNSScope *string `json:"dnsScope,omitempty" tf:"dns_scope,omitempty"`
+
+	// A name for this whitelist entry.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type DNSNamesParameters struct {
 }
 
 type DataCacheConfigInitParameters struct {
@@ -381,6 +399,8 @@ type DatabaseInstanceInitParameters struct {
 	// List of replica names. Can be updated.
 	ReplicaNames []*string `json:"replicaNames,omitempty" tf:"replica_names,omitempty"`
 
+	ReplicationCluster *ReplicationClusterInitParameters `json:"replicationCluster,omitempty" tf:"replication_cluster,omitempty"`
+
 	// The context needed to restore the database to a backup run. The configuration is detailed below. Adding or modifying this
 	// block during resource creation/update will trigger the restore action after the resource is created/updated.
 	RestoreBackupContext *RestoreBackupContextInitParameters `json:"restoreBackupContext,omitempty" tf:"restore_backup_context,omitempty"`
@@ -408,6 +428,9 @@ type DatabaseInstanceObservation struct {
 
 	// The DNS name of the instance. See Connect to an instance using Private Service Connect for more details.
 	DNSName *string `json:"dnsName,omitempty" tf:"dns_name,omitempty"`
+
+	// The list of DNS names used by this instance. Different connection types for an instance may have different DNS names. DNS names can apply to an individual instance or a cluster of instances.
+	DNSNames []DNSNamesObservation `json:"dnsNames,omitempty" tf:"dns_names,omitempty"`
 
 	// The MySQL, PostgreSQL or
 	// SQL Server version to use. Supported values include MYSQL_5_6,
@@ -474,6 +497,8 @@ type DatabaseInstanceObservation struct {
 
 	// List of replica names. Can be updated.
 	ReplicaNames []*string `json:"replicaNames,omitempty" tf:"replica_names,omitempty"`
+
+	ReplicationCluster *ReplicationClusterObservation `json:"replicationCluster,omitempty" tf:"replication_cluster,omitempty"`
 
 	// The context needed to restore the database to a backup run. The configuration is detailed below. Adding or modifying this
 	// block during resource creation/update will trigger the restore action after the resource is created/updated.
@@ -548,6 +573,9 @@ type DatabaseInstanceParameters struct {
 	// List of replica names. Can be updated.
 	// +kubebuilder:validation:Optional
 	ReplicaNames []*string `json:"replicaNames,omitempty" tf:"replica_names,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ReplicationCluster *ReplicationClusterParameters `json:"replicationCluster,omitempty" tf:"replication_cluster,omitempty"`
 
 	// The context needed to restore the database to a backup run. The configuration is detailed below. Adding or modifying this
 	// block during resource creation/update will trigger the restore action after the resource is created/updated.
@@ -629,6 +657,10 @@ type IPConfigurationInitParameters struct {
 
 	AuthorizedNetworks []AuthorizedNetworksInitParameters `json:"authorizedNetworks,omitempty" tf:"authorized_networks,omitempty"`
 
+	// The custom subject alternative names for an instance with CUSTOMER_MANAGED_CAS_CA as the server_ca_mode.
+	// +listType=set
+	CustomSubjectAlternativeNames []*string `json:"customSubjectAlternativeNames,omitempty" tf:"custom_subject_alternative_names,omitempty"`
+
 	// Whether Google Cloud services such as BigQuery are allowed to access data in this Cloud SQL instance over a private IP connection. SQLSERVER database type is not supported.
 	EnablePrivatePathForGoogleCloudServices *bool `json:"enablePrivatePathForGoogleCloudServices,omitempty" tf:"enable_private_path_for_google_cloud_services,omitempty"`
 
@@ -673,6 +705,10 @@ type IPConfigurationObservation struct {
 
 	AuthorizedNetworks []AuthorizedNetworksObservation `json:"authorizedNetworks,omitempty" tf:"authorized_networks,omitempty"`
 
+	// The custom subject alternative names for an instance with CUSTOMER_MANAGED_CAS_CA as the server_ca_mode.
+	// +listType=set
+	CustomSubjectAlternativeNames []*string `json:"customSubjectAlternativeNames,omitempty" tf:"custom_subject_alternative_names,omitempty"`
+
 	// Whether Google Cloud services such as BigQuery are allowed to access data in this Cloud SQL instance over a private IP connection. SQLSERVER database type is not supported.
 	EnablePrivatePathForGoogleCloudServices *bool `json:"enablePrivatePathForGoogleCloudServices,omitempty" tf:"enable_private_path_for_google_cloud_services,omitempty"`
 
@@ -708,6 +744,11 @@ type IPConfigurationParameters struct {
 
 	// +kubebuilder:validation:Optional
 	AuthorizedNetworks []AuthorizedNetworksParameters `json:"authorizedNetworks,omitempty" tf:"authorized_networks,omitempty"`
+
+	// The custom subject alternative names for an instance with CUSTOMER_MANAGED_CAS_CA as the server_ca_mode.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	CustomSubjectAlternativeNames []*string `json:"customSubjectAlternativeNames,omitempty" tf:"custom_subject_alternative_names,omitempty"`
 
 	// Whether Google Cloud services such as BigQuery are allowed to access data in this Cloud SQL instance over a private IP connection. SQLSERVER database type is not supported.
 	// +kubebuilder:validation:Optional
@@ -1198,6 +1239,28 @@ type ReplicaConfigurationParameters struct {
 	VerifyServerCertificate *bool `json:"verifyServerCertificate,omitempty" tf:"verify_server_certificate,omitempty"`
 }
 
+type ReplicationClusterInitParameters struct {
+
+	// project:your-instance". You can also set this field to "your-instance", but cloud SQL backend will convert it to the aforementioned standard format.
+	FailoverDrReplicaName *string `json:"failoverDrReplicaName,omitempty" tf:"failover_dr_replica_name,omitempty"`
+}
+
+type ReplicationClusterObservation struct {
+
+	// only field that indicates whether the replica is a DR replica.
+	DrReplica *bool `json:"drReplica,omitempty" tf:"dr_replica,omitempty"`
+
+	// project:your-instance". You can also set this field to "your-instance", but cloud SQL backend will convert it to the aforementioned standard format.
+	FailoverDrReplicaName *string `json:"failoverDrReplicaName,omitempty" tf:"failover_dr_replica_name,omitempty"`
+}
+
+type ReplicationClusterParameters struct {
+
+	// project:your-instance". You can also set this field to "your-instance", but cloud SQL backend will convert it to the aforementioned standard format.
+	// +kubebuilder:validation:Optional
+	FailoverDrReplicaName *string `json:"failoverDrReplicaName,omitempty" tf:"failover_dr_replica_name,omitempty"`
+}
+
 type RestoreBackupContextInitParameters struct {
 
 	// The ID of the backup run to restore from.
@@ -1345,10 +1408,10 @@ type SettingsInitParameters struct {
 	// The maximum size to which storage capacity can be automatically increased. The default value is 0, which specifies that there is no limit.
 	DiskAutoresizeLimit *float64 `json:"diskAutoresizeLimit,omitempty" tf:"disk_autoresize_limit,omitempty"`
 
-	// The size of data disk, in GB. Size of a running instance cannot be reduced but can be increased. The minimum value is 10GB. Note that this value will override the resizing from disk_autoresize if that feature is enabled. To avoid this, set lifecycle.ignore_changes on this field.
+	// The size of data disk, in GB. Size of a running instance cannot be reduced but can be increased. The minimum value is 10GB for PD_SSD, PD_HDD and 20GB for HYPERDISK_BALANCED. Note that this value will override the resizing from disk_autoresize if that feature is enabled. To avoid this, set lifecycle.ignore_changes on this field.
 	DiskSize *float64 `json:"diskSize,omitempty" tf:"disk_size,omitempty"`
 
-	// The type of data disk: PD_SSD or PD_HDD. Defaults to PD_SSD.
+	// The type of data disk: PD_SSD, PD_HDD, or HYPERDISK_BALANCED. Defaults to PD_SSD. HYPERDISK_BALANCED is preview.
 	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
 
 	// The edition of the instance, can be ENTERPRISE or ENTERPRISE_PLUS.
@@ -1372,6 +1435,9 @@ type SettingsInitParameters struct {
 
 	// Pricing plan for this instance, can only be PER_USE.
 	PricingPlan *string `json:"pricingPlan,omitempty" tf:"pricing_plan,omitempty"`
+
+	// When this parameter is set to true, Cloud SQL retains backups of the instance even after the instance is deleted. The ON_DEMAND backup will be retained until customer deletes the backup or the project. The AUTOMATED backup will be retained based on the backups retention setting.
+	RetainBackupsOnDelete *bool `json:"retainBackupsOnDelete,omitempty" tf:"retain_backups_on_delete,omitempty"`
 
 	SQLServerAuditConfig *SQLServerAuditConfigInitParameters `json:"sqlServerAuditConfig,omitempty" tf:"sql_server_audit_config,omitempty"`
 
@@ -1429,10 +1495,10 @@ type SettingsObservation struct {
 	// The maximum size to which storage capacity can be automatically increased. The default value is 0, which specifies that there is no limit.
 	DiskAutoresizeLimit *float64 `json:"diskAutoresizeLimit,omitempty" tf:"disk_autoresize_limit,omitempty"`
 
-	// The size of data disk, in GB. Size of a running instance cannot be reduced but can be increased. The minimum value is 10GB. Note that this value will override the resizing from disk_autoresize if that feature is enabled. To avoid this, set lifecycle.ignore_changes on this field.
+	// The size of data disk, in GB. Size of a running instance cannot be reduced but can be increased. The minimum value is 10GB for PD_SSD, PD_HDD and 20GB for HYPERDISK_BALANCED. Note that this value will override the resizing from disk_autoresize if that feature is enabled. To avoid this, set lifecycle.ignore_changes on this field.
 	DiskSize *float64 `json:"diskSize,omitempty" tf:"disk_size,omitempty"`
 
-	// The type of data disk: PD_SSD or PD_HDD. Defaults to PD_SSD.
+	// The type of data disk: PD_SSD, PD_HDD, or HYPERDISK_BALANCED. Defaults to PD_SSD. HYPERDISK_BALANCED is preview.
 	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
 
 	// The edition of the instance, can be ENTERPRISE or ENTERPRISE_PLUS.
@@ -1456,6 +1522,9 @@ type SettingsObservation struct {
 
 	// Pricing plan for this instance, can only be PER_USE.
 	PricingPlan *string `json:"pricingPlan,omitempty" tf:"pricing_plan,omitempty"`
+
+	// When this parameter is set to true, Cloud SQL retains backups of the instance even after the instance is deleted. The ON_DEMAND backup will be retained until customer deletes the backup or the project. The AUTOMATED backup will be retained based on the backups retention setting.
+	RetainBackupsOnDelete *bool `json:"retainBackupsOnDelete,omitempty" tf:"retain_backups_on_delete,omitempty"`
 
 	SQLServerAuditConfig *SQLServerAuditConfigObservation `json:"sqlServerAuditConfig,omitempty" tf:"sql_server_audit_config,omitempty"`
 
@@ -1530,11 +1599,11 @@ type SettingsParameters struct {
 	// +kubebuilder:validation:Optional
 	DiskAutoresizeLimit *float64 `json:"diskAutoresizeLimit,omitempty" tf:"disk_autoresize_limit,omitempty"`
 
-	// The size of data disk, in GB. Size of a running instance cannot be reduced but can be increased. The minimum value is 10GB. Note that this value will override the resizing from disk_autoresize if that feature is enabled. To avoid this, set lifecycle.ignore_changes on this field.
+	// The size of data disk, in GB. Size of a running instance cannot be reduced but can be increased. The minimum value is 10GB for PD_SSD, PD_HDD and 20GB for HYPERDISK_BALANCED. Note that this value will override the resizing from disk_autoresize if that feature is enabled. To avoid this, set lifecycle.ignore_changes on this field.
 	// +kubebuilder:validation:Optional
 	DiskSize *float64 `json:"diskSize,omitempty" tf:"disk_size,omitempty"`
 
-	// The type of data disk: PD_SSD or PD_HDD. Defaults to PD_SSD.
+	// The type of data disk: PD_SSD, PD_HDD, or HYPERDISK_BALANCED. Defaults to PD_SSD. HYPERDISK_BALANCED is preview.
 	// +kubebuilder:validation:Optional
 	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
 
@@ -1568,6 +1637,10 @@ type SettingsParameters struct {
 	// Pricing plan for this instance, can only be PER_USE.
 	// +kubebuilder:validation:Optional
 	PricingPlan *string `json:"pricingPlan,omitempty" tf:"pricing_plan,omitempty"`
+
+	// When this parameter is set to true, Cloud SQL retains backups of the instance even after the instance is deleted. The ON_DEMAND backup will be retained until customer deletes the backup or the project. The AUTOMATED backup will be retained based on the backups retention setting.
+	// +kubebuilder:validation:Optional
+	RetainBackupsOnDelete *bool `json:"retainBackupsOnDelete,omitempty" tf:"retain_backups_on_delete,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	SQLServerAuditConfig *SQLServerAuditConfigParameters `json:"sqlServerAuditConfig,omitempty" tf:"sql_server_audit_config,omitempty"`
