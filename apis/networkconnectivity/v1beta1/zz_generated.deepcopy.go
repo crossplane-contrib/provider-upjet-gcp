@@ -222,6 +222,11 @@ func (in *HubInitParameters) DeepCopyInto(out *HubInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.PolicyMode != nil {
+		in, out := &in.PolicyMode, &out.PolicyMode
+		*out = new(string)
+		**out = **in
+	}
 	if in.PresetTopology != nil {
 		in, out := &in.PresetTopology, &out.PresetTopology
 		*out = new(string)
@@ -336,6 +341,11 @@ func (in *HubObservation) DeepCopyInto(out *HubObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.PolicyMode != nil {
+		in, out := &in.PolicyMode, &out.PolicyMode
+		*out = new(string)
+		**out = **in
+	}
 	if in.PresetTopology != nil {
 		in, out := &in.PresetTopology, &out.PresetTopology
 		*out = new(string)
@@ -427,6 +437,11 @@ func (in *HubParameters) DeepCopyInto(out *HubParameters) {
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
+	if in.PolicyMode != nil {
+		in, out := &in.PolicyMode, &out.PolicyMode
 		*out = new(string)
 		**out = **in
 	}

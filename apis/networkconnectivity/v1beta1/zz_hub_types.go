@@ -30,6 +30,10 @@ type HubInitParameters struct {
 	// Immutable. The name of the hub. Hub names must be unique. They use the following form: projects/{project_number}/locations/global/hubs/{hub_id}
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// Optional. The policy mode of this hub. This field can be either PRESET or CUSTOM. If unspecified, the policyMode defaults to PRESET.
+	// Possible values are: CUSTOM, PRESET.
+	PolicyMode *string `json:"policyMode,omitempty" tf:"policy_mode,omitempty"`
+
 	// Optional. The topology implemented in this hub. Currently, this field is only used when policyMode = PRESET. The available preset topologies are MESH and STAR. If presetTopology is unspecified and policyMode = PRESET, the presetTopology defaults to MESH. When policyMode = CUSTOM, the presetTopology is set to PRESET_TOPOLOGY_UNSPECIFIED.
 	// Possible values are: MESH, STAR.
 	PresetTopology *string `json:"presetTopology,omitempty" tf:"preset_topology,omitempty"`
@@ -64,6 +68,10 @@ type HubObservation struct {
 
 	// Immutable. The name of the hub. Hub names must be unique. They use the following form: projects/{project_number}/locations/global/hubs/{hub_id}
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Optional. The policy mode of this hub. This field can be either PRESET or CUSTOM. If unspecified, the policyMode defaults to PRESET.
+	// Possible values are: CUSTOM, PRESET.
+	PolicyMode *string `json:"policyMode,omitempty" tf:"policy_mode,omitempty"`
 
 	// Optional. The topology implemented in this hub. Currently, this field is only used when policyMode = PRESET. The available preset topologies are MESH and STAR. If presetTopology is unspecified and policyMode = PRESET, the presetTopology defaults to MESH. When policyMode = CUSTOM, the presetTopology is set to PRESET_TOPOLOGY_UNSPECIFIED.
 	// Possible values are: MESH, STAR.
@@ -112,6 +120,11 @@ type HubParameters struct {
 	// Immutable. The name of the hub. Hub names must be unique. They use the following form: projects/{project_number}/locations/global/hubs/{hub_id}
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Optional. The policy mode of this hub. This field can be either PRESET or CUSTOM. If unspecified, the policyMode defaults to PRESET.
+	// Possible values are: CUSTOM, PRESET.
+	// +kubebuilder:validation:Optional
+	PolicyMode *string `json:"policyMode,omitempty" tf:"policy_mode,omitempty"`
 
 	// Optional. The topology implemented in this hub. Currently, this field is only used when policyMode = PRESET. The available preset topologies are MESH and STAR. If presetTopology is unspecified and policyMode = PRESET, the presetTopology defaults to MESH. When policyMode = CUSTOM, the presetTopology is set to PRESET_TOPOLOGY_UNSPECIFIED.
 	// Possible values are: MESH, STAR.
