@@ -3073,6 +3073,18 @@ spec:
                                           Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
                                           If * is specified, then all IngressSources will be allowed.
                                         type: string
+                                      resource:
+                                        description: |-
+                                          A Google Cloud resource that is allowed to ingress the perimeter.
+                                          Requests from these resources will be allowed to access perimeter data.
+                                          Currently only projects and VPCs are allowed.
+                                          Project format: projects/{projectNumber}
+                                          VPC network format:
+                                          //compute.googleapis.com/projects/{PROJECT_ID}/global/networks/{NAME}.
+                                          The project may be in any Google Cloud organization, not just the
+                                          organization that the perimeter is defined in. * is not allowed, the case
+                                          of allowing all Google Cloud resources only is not supported.
+                                        type: string
                                     type: object
                                   type: array
                               type: object
@@ -3137,7 +3149,19 @@ spec:
                                     type: string
                                   type: array
                                   x-kubernetes-list-type: set
+                                roles:
+                                  description: |-
+                                    A list of IAM roles that represent the set of operations that the sources
+                                    specified in the corresponding IngressFrom
+                                    are allowed to perform.
+                                  items:
+                                    type: string
+                                  type: array
                               type: object
+                            title:
+                              description: Human readable title. Must be unique within
+                                the Policy.
+                              type: string
                           type: object
                         type: array
                       ingressPolicies:
@@ -3257,7 +3281,19 @@ spec:
                                     type: string
                                   type: array
                                   x-kubernetes-list-type: set
+                                roles:
+                                  description: |-
+                                    A list of IAM roles that represent the set of operations that the sources
+                                    specified in the corresponding IngressFrom
+                                    are allowed to perform.
+                                  items:
+                                    type: string
+                                  type: array
                               type: object
+                            title:
+                              description: Human readable title. Must be unique within
+                                the Policy.
+                              type: string
                           type: object
                         type: array
                       resources:
@@ -3456,6 +3492,18 @@ spec:
                                           Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
                                           If * is specified, then all IngressSources will be allowed.
                                         type: string
+                                      resource:
+                                        description: |-
+                                          A Google Cloud resource that is allowed to ingress the perimeter.
+                                          Requests from these resources will be allowed to access perimeter data.
+                                          Currently only projects and VPCs are allowed.
+                                          Project format: projects/{projectNumber}
+                                          VPC network format:
+                                          //compute.googleapis.com/projects/{PROJECT_ID}/global/networks/{NAME}.
+                                          The project may be in any Google Cloud organization, not just the
+                                          organization that the perimeter is defined in. * is not allowed, the case
+                                          of allowing all Google Cloud resources only is not supported.
+                                        type: string
                                     type: object
                                   type: array
                               type: object
@@ -3520,7 +3568,19 @@ spec:
                                     type: string
                                   type: array
                                   x-kubernetes-list-type: set
+                                roles:
+                                  description: |-
+                                    A list of IAM roles that represent the set of operations that the sources
+                                    specified in the corresponding IngressFrom
+                                    are allowed to perform.
+                                  items:
+                                    type: string
+                                  type: array
                               type: object
+                            title:
+                              description: Human readable title. Must be unique within
+                                the Policy.
+                              type: string
                           type: object
                         type: array
                       ingressPolicies:
@@ -3716,7 +3776,19 @@ spec:
                                     type: string
                                   type: array
                                   x-kubernetes-list-type: set
+                                roles:
+                                  description: |-
+                                    A list of IAM roles that represent the set of operations that the sources
+                                    specified in the corresponding IngressFrom
+                                    are allowed to perform.
+                                  items:
+                                    type: string
+                                  type: array
                               type: object
+                            title:
+                              description: Human readable title. Must be unique within
+                                the Policy.
+                              type: string
                           type: object
                         type: array
                       resources:
@@ -3980,6 +4052,18 @@ spec:
                                           Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
                                           If * is specified, then all IngressSources will be allowed.
                                         type: string
+                                      resource:
+                                        description: |-
+                                          A Google Cloud resource that is allowed to ingress the perimeter.
+                                          Requests from these resources will be allowed to access perimeter data.
+                                          Currently only projects and VPCs are allowed.
+                                          Project format: projects/{projectNumber}
+                                          VPC network format:
+                                          //compute.googleapis.com/projects/{PROJECT_ID}/global/networks/{NAME}.
+                                          The project may be in any Google Cloud organization, not just the
+                                          organization that the perimeter is defined in. * is not allowed, the case
+                                          of allowing all Google Cloud resources only is not supported.
+                                        type: string
                                     type: object
                                   type: array
                               type: object
@@ -4044,7 +4128,19 @@ spec:
                                     type: string
                                   type: array
                                   x-kubernetes-list-type: set
+                                roles:
+                                  description: |-
+                                    A list of IAM roles that represent the set of operations that the sources
+                                    specified in the corresponding IngressFrom
+                                    are allowed to perform.
+                                  items:
+                                    type: string
+                                  type: array
                               type: object
+                            title:
+                              description: Human readable title. Must be unique within
+                                the Policy.
+                              type: string
                           type: object
                         type: array
                       ingressPolicies:
@@ -4164,7 +4260,19 @@ spec:
                                     type: string
                                   type: array
                                   x-kubernetes-list-type: set
+                                roles:
+                                  description: |-
+                                    A list of IAM roles that represent the set of operations that the sources
+                                    specified in the corresponding IngressFrom
+                                    are allowed to perform.
+                                  items:
+                                    type: string
+                                  type: array
                               type: object
+                            title:
+                              description: Human readable title. Must be unique within
+                                the Policy.
+                              type: string
                           type: object
                         type: array
                       resources:
@@ -4363,6 +4471,18 @@ spec:
                                           Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
                                           If * is specified, then all IngressSources will be allowed.
                                         type: string
+                                      resource:
+                                        description: |-
+                                          A Google Cloud resource that is allowed to ingress the perimeter.
+                                          Requests from these resources will be allowed to access perimeter data.
+                                          Currently only projects and VPCs are allowed.
+                                          Project format: projects/{projectNumber}
+                                          VPC network format:
+                                          //compute.googleapis.com/projects/{PROJECT_ID}/global/networks/{NAME}.
+                                          The project may be in any Google Cloud organization, not just the
+                                          organization that the perimeter is defined in. * is not allowed, the case
+                                          of allowing all Google Cloud resources only is not supported.
+                                        type: string
                                     type: object
                                   type: array
                               type: object
@@ -4427,7 +4547,19 @@ spec:
                                     type: string
                                   type: array
                                   x-kubernetes-list-type: set
+                                roles:
+                                  description: |-
+                                    A list of IAM roles that represent the set of operations that the sources
+                                    specified in the corresponding IngressFrom
+                                    are allowed to perform.
+                                  items:
+                                    type: string
+                                  type: array
                               type: object
+                            title:
+                              description: Human readable title. Must be unique within
+                                the Policy.
+                              type: string
                           type: object
                         type: array
                       ingressPolicies:
@@ -4623,7 +4755,19 @@ spec:
                                     type: string
                                   type: array
                                   x-kubernetes-list-type: set
+                                roles:
+                                  description: |-
+                                    A list of IAM roles that represent the set of operations that the sources
+                                    specified in the corresponding IngressFrom
+                                    are allowed to perform.
+                                  items:
+                                    type: string
+                                  type: array
                               type: object
+                            title:
+                              description: Human readable title. Must be unique within
+                                the Policy.
+                              type: string
                           type: object
                         type: array
                       resources:
@@ -4986,6 +5130,18 @@ spec:
                                           Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
                                           If * is specified, then all IngressSources will be allowed.
                                         type: string
+                                      resource:
+                                        description: |-
+                                          A Google Cloud resource that is allowed to ingress the perimeter.
+                                          Requests from these resources will be allowed to access perimeter data.
+                                          Currently only projects and VPCs are allowed.
+                                          Project format: projects/{projectNumber}
+                                          VPC network format:
+                                          //compute.googleapis.com/projects/{PROJECT_ID}/global/networks/{NAME}.
+                                          The project may be in any Google Cloud organization, not just the
+                                          organization that the perimeter is defined in. * is not allowed, the case
+                                          of allowing all Google Cloud resources only is not supported.
+                                        type: string
                                     type: object
                                   type: array
                               type: object
@@ -5050,7 +5206,19 @@ spec:
                                     type: string
                                   type: array
                                   x-kubernetes-list-type: set
+                                roles:
+                                  description: |-
+                                    A list of IAM roles that represent the set of operations that the sources
+                                    specified in the corresponding IngressFrom
+                                    are allowed to perform.
+                                  items:
+                                    type: string
+                                  type: array
                               type: object
+                            title:
+                              description: Human readable title. Must be unique within
+                                the Policy.
+                              type: string
                           type: object
                         type: array
                       ingressPolicies:
@@ -5170,7 +5338,19 @@ spec:
                                     type: string
                                   type: array
                                   x-kubernetes-list-type: set
+                                roles:
+                                  description: |-
+                                    A list of IAM roles that represent the set of operations that the sources
+                                    specified in the corresponding IngressFrom
+                                    are allowed to perform.
+                                  items:
+                                    type: string
+                                  type: array
                               type: object
+                            title:
+                              description: Human readable title. Must be unique within
+                                the Policy.
+                              type: string
                           type: object
                         type: array
                       resources:
@@ -5290,6 +5470,18 @@ spec:
                                           Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
                                           If * is specified, then all IngressSources will be allowed.
                                         type: string
+                                      resource:
+                                        description: |-
+                                          A Google Cloud resource that is allowed to ingress the perimeter.
+                                          Requests from these resources will be allowed to access perimeter data.
+                                          Currently only projects and VPCs are allowed.
+                                          Project format: projects/{projectNumber}
+                                          VPC network format:
+                                          //compute.googleapis.com/projects/{PROJECT_ID}/global/networks/{NAME}.
+                                          The project may be in any Google Cloud organization, not just the
+                                          organization that the perimeter is defined in. * is not allowed, the case
+                                          of allowing all Google Cloud resources only is not supported.
+                                        type: string
                                     type: object
                                   type: array
                               type: object
@@ -5354,7 +5546,19 @@ spec:
                                     type: string
                                   type: array
                                   x-kubernetes-list-type: set
+                                roles:
+                                  description: |-
+                                    A list of IAM roles that represent the set of operations that the sources
+                                    specified in the corresponding IngressFrom
+                                    are allowed to perform.
+                                  items:
+                                    type: string
+                                  type: array
                               type: object
+                            title:
+                              description: Human readable title. Must be unique within
+                                the Policy.
+                              type: string
                           type: object
                         type: array
                       ingressPolicies:
@@ -5474,7 +5678,19 @@ spec:
                                     type: string
                                   type: array
                                   x-kubernetes-list-type: set
+                                roles:
+                                  description: |-
+                                    A list of IAM roles that represent the set of operations that the sources
+                                    specified in the corresponding IngressFrom
+                                    are allowed to perform.
+                                  items:
+                                    type: string
+                                  type: array
                               type: object
+                            title:
+                              description: Human readable title. Must be unique within
+                                the Policy.
+                              type: string
                           type: object
                         type: array
                       resources:
