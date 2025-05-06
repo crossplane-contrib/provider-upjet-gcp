@@ -469,6 +469,8 @@ spec:
                       A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z".
                     type: string
                   deletionProtection:
+                    description: When the field is set to false, deleting the folder
+                      is allowed. Default value is true.
                     type: boolean
                   displayName:
                     description: |-
