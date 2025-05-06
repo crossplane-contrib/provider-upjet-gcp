@@ -2767,6 +2767,25 @@ spec:
                       Default value is SELF_SIGNED.
                       Possible values are: SELF_SIGNED, SUBORDINATE.
                     type: string
+                  userDefinedAccessUrls:
+                    description: |-
+                      Custom URLs for accessing content published by this CA, such as the CA certificate and CRLs,
+                      that can be specified by users.
+                      Structure is documented below.
+                    properties:
+                      aiaIssuingCertificateUrls:
+                        description: A list of URLs where this CertificateAuthority's
+                          CA certificate is published that is specified by users.
+                        items:
+                          type: string
+                        type: array
+                      crlAccessUrls:
+                        description: A list of URLs where this CertificateAuthority's
+                          CRLs are published that is specified by users.
+                        items:
+                          type: string
+                        type: array
+                    type: object
                 required:
                 - location
                 type: object
@@ -3303,6 +3322,25 @@ spec:
                       Default value is SELF_SIGNED.
                       Possible values are: SELF_SIGNED, SUBORDINATE.
                     type: string
+                  userDefinedAccessUrls:
+                    description: |-
+                      Custom URLs for accessing content published by this CA, such as the CA certificate and CRLs,
+                      that can be specified by users.
+                      Structure is documented below.
+                    properties:
+                      aiaIssuingCertificateUrls:
+                        description: A list of URLs where this CertificateAuthority's
+                          CA certificate is published that is specified by users.
+                        items:
+                          type: string
+                        type: array
+                      crlAccessUrls:
+                        description: A list of URLs where this CertificateAuthority's
+                          CRLs are published that is specified by users.
+                        items:
+                          type: string
+                        type: array
+                    type: object
                 type: object
               managementPolicies:
                 default:
@@ -4010,6 +4048,25 @@ spec:
                       A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine
                       fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
                     type: string
+                  userDefinedAccessUrls:
+                    description: |-
+                      Custom URLs for accessing content published by this CA, such as the CA certificate and CRLs,
+                      that can be specified by users.
+                      Structure is documented below.
+                    properties:
+                      aiaIssuingCertificateUrls:
+                        description: A list of URLs where this CertificateAuthority's
+                          CA certificate is published that is specified by users.
+                        items:
+                          type: string
+                        type: array
+                      crlAccessUrls:
+                        description: A list of URLs where this CertificateAuthority's
+                          CRLs are published that is specified by users.
+                        items:
+                          type: string
+                        type: array
+                    type: object
                 type: object
               conditions:
                 description: Conditions of the resource.
