@@ -1868,6 +1868,30 @@ spec:
                       Represents the scaling configuration of a metastore service.
                       Structure is documented below.
                     properties:
+                      autoscalingConfig:
+                        description: |-
+                          Represents the autoscaling configuration of a metastore service.
+                          Structure is documented below.
+                        properties:
+                          autoscalingEnabled:
+                            description: Defines whether autoscaling is enabled. The
+                              default value is false.
+                            type: boolean
+                          limitConfig:
+                            description: |-
+                              Represents the limit configuration of a metastore service.
+                              Structure is documented below.
+                            properties:
+                              maxScalingFactor:
+                                description: The maximum scaling factor that the service
+                                  will autoscale to. The default value is 6.0.
+                                type: number
+                              minScalingFactor:
+                                description: The minimum scaling factor that the service
+                                  will autoscale to. The default value is 0.1.
+                                type: number
+                            type: object
+                        type: object
                       instanceSize:
                         description: |-
                           Metastore instance sizes.
@@ -1906,6 +1930,15 @@ spec:
                           the default is UTC.
                         type: string
                     type: object
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      A map of resource manager tags.
+                      Resource manager tag keys and values have the same definition as resource manager tags.
+                      Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
+                    type: object
+                    x-kubernetes-map-type: granular
                   telemetryConfig:
                     description: |-
                       The configuration specifying telemetry settings for the Dataproc Metastore service. If unspecified defaults to JSON.
@@ -2272,6 +2305,30 @@ spec:
                       Represents the scaling configuration of a metastore service.
                       Structure is documented below.
                     properties:
+                      autoscalingConfig:
+                        description: |-
+                          Represents the autoscaling configuration of a metastore service.
+                          Structure is documented below.
+                        properties:
+                          autoscalingEnabled:
+                            description: Defines whether autoscaling is enabled. The
+                              default value is false.
+                            type: boolean
+                          limitConfig:
+                            description: |-
+                              Represents the limit configuration of a metastore service.
+                              Structure is documented below.
+                            properties:
+                              maxScalingFactor:
+                                description: The maximum scaling factor that the service
+                                  will autoscale to. The default value is 6.0.
+                                type: number
+                              minScalingFactor:
+                                description: The minimum scaling factor that the service
+                                  will autoscale to. The default value is 0.1.
+                                type: number
+                            type: object
+                        type: object
                       instanceSize:
                         description: |-
                           Metastore instance sizes.
@@ -2310,6 +2367,15 @@ spec:
                           the default is UTC.
                         type: string
                     type: object
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      A map of resource manager tags.
+                      Resource manager tag keys and values have the same definition as resource manager tags.
+                      Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
+                    type: object
+                    x-kubernetes-map-type: granular
                   telemetryConfig:
                     description: |-
                       The configuration specifying telemetry settings for the Dataproc Metastore service. If unspecified defaults to JSON.
@@ -2503,6 +2569,10 @@ spec:
                   artifactGcsUri:
                     description: A Cloud Storage URI (starting with gs://) that specifies
                       where artifacts related to the metastore service are stored.
+                    type: string
+                  createTime:
+                    description: Output only. The time when the metastore service
+                      was created.
                     type: string
                   databaseType:
                     description: |-
@@ -2717,6 +2787,35 @@ spec:
                       Represents the scaling configuration of a metastore service.
                       Structure is documented below.
                     properties:
+                      autoscalingConfig:
+                        description: |-
+                          Represents the autoscaling configuration of a metastore service.
+                          Structure is documented below.
+                        properties:
+                          autoscalingEnabled:
+                            description: Defines whether autoscaling is enabled. The
+                              default value is false.
+                            type: boolean
+                          autoscalingFactor:
+                            description: |-
+                              (Output)
+                              Output only. The scaling factor of a service with autoscaling enabled.
+                            type: number
+                          limitConfig:
+                            description: |-
+                              Represents the limit configuration of a metastore service.
+                              Structure is documented below.
+                            properties:
+                              maxScalingFactor:
+                                description: The maximum scaling factor that the service
+                                  will autoscale to. The default value is 6.0.
+                                type: number
+                              minScalingFactor:
+                                description: The minimum scaling factor that the service
+                                  will autoscale to. The default value is 0.1.
+                                type: number
+                            type: object
+                        type: object
                       instanceSize:
                         description: |-
                           Metastore instance sizes.
@@ -2762,6 +2861,15 @@ spec:
                     description: Additional information about the current state of
                       the metastore service, if available.
                     type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      A map of resource manager tags.
+                      Resource manager tag keys and values have the same definition as resource manager tags.
+                      Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
+                    type: object
+                    x-kubernetes-map-type: granular
                   telemetryConfig:
                     description: |-
                       The configuration specifying telemetry settings for the Dataproc Metastore service. If unspecified defaults to JSON.
@@ -2790,6 +2898,10 @@ spec:
                   uid:
                     description: The globally unique resource identifier of the metastore
                       service.
+                    type: string
+                  updateTime:
+                    description: Output only. The time when the metastore service
+                      was last updated.
                     type: string
                 type: object
               conditions:

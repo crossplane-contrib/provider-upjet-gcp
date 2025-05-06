@@ -281,6 +281,35 @@ type KeytabParameters struct {
 	CloudSecret *string `json:"cloudSecret" tf:"cloud_secret,omitempty"`
 }
 
+type LimitConfigInitParameters struct {
+
+	// The maximum scaling factor that the service will autoscale to. The default value is 6.0.
+	MaxScalingFactor *float64 `json:"maxScalingFactor,omitempty" tf:"max_scaling_factor,omitempty"`
+
+	// The minimum scaling factor that the service will autoscale to. The default value is 0.1.
+	MinScalingFactor *float64 `json:"minScalingFactor,omitempty" tf:"min_scaling_factor,omitempty"`
+}
+
+type LimitConfigObservation struct {
+
+	// The maximum scaling factor that the service will autoscale to. The default value is 6.0.
+	MaxScalingFactor *float64 `json:"maxScalingFactor,omitempty" tf:"max_scaling_factor,omitempty"`
+
+	// The minimum scaling factor that the service will autoscale to. The default value is 0.1.
+	MinScalingFactor *float64 `json:"minScalingFactor,omitempty" tf:"min_scaling_factor,omitempty"`
+}
+
+type LimitConfigParameters struct {
+
+	// The maximum scaling factor that the service will autoscale to. The default value is 6.0.
+	// +kubebuilder:validation:Optional
+	MaxScalingFactor *float64 `json:"maxScalingFactor,omitempty" tf:"max_scaling_factor,omitempty"`
+
+	// The minimum scaling factor that the service will autoscale to. The default value is 0.1.
+	// +kubebuilder:validation:Optional
+	MinScalingFactor *float64 `json:"minScalingFactor,omitempty" tf:"min_scaling_factor,omitempty"`
+}
+
 type MaintenanceWindowInitParameters struct {
 
 	// The day of week, when the window starts.
@@ -437,6 +466,12 @@ type MetastoreServiceInitParameters struct {
 	// Structure is documented below.
 	ScheduledBackup *ScheduledBackupInitParameters `json:"scheduledBackup,omitempty" tf:"scheduled_backup,omitempty"`
 
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
 	// The configuration specifying telemetry settings for the Dataproc Metastore service. If unspecified defaults to JSON.
 	// Structure is documented below.
 	TelemetryConfig *TelemetryConfigInitParameters `json:"telemetryConfig,omitempty" tf:"telemetry_config,omitempty"`
@@ -450,6 +485,9 @@ type MetastoreServiceObservation struct {
 
 	// A Cloud Storage URI (starting with gs://) that specifies where artifacts related to the metastore service are stored.
 	ArtifactGcsURI *string `json:"artifactGcsUri,omitempty" tf:"artifact_gcs_uri,omitempty"`
+
+	// Output only. The time when the metastore service was created.
+	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
 	// The database type that the Metastore service stores its data.
 	// Default value is MYSQL.
@@ -534,6 +572,12 @@ type MetastoreServiceObservation struct {
 	// Additional information about the current state of the metastore service, if available.
 	StateMessage *string `json:"stateMessage,omitempty" tf:"state_message,omitempty"`
 
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
 	// The configuration specifying telemetry settings for the Dataproc Metastore service. If unspecified defaults to JSON.
 	// Structure is documented below.
 	TelemetryConfig *TelemetryConfigObservation `json:"telemetryConfig,omitempty" tf:"telemetry_config,omitempty"`
@@ -549,6 +593,9 @@ type MetastoreServiceObservation struct {
 
 	// The globally unique resource identifier of the metastore service.
 	UID *string `json:"uid,omitempty" tf:"uid,omitempty"`
+
+	// Output only. The time when the metastore service was last updated.
+	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`
 }
 
 type MetastoreServiceParameters struct {
@@ -629,6 +676,13 @@ type MetastoreServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	ScheduledBackup *ScheduledBackupParameters `json:"scheduledBackup,omitempty" tf:"scheduled_backup,omitempty"`
 
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
 	// The configuration specifying telemetry settings for the Dataproc Metastore service. If unspecified defaults to JSON.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -662,7 +716,47 @@ type NetworkConfigParameters struct {
 	Consumers []ConsumersParameters `json:"consumers" tf:"consumers,omitempty"`
 }
 
+type ScalingConfigAutoscalingConfigInitParameters struct {
+
+	// Defines whether autoscaling is enabled. The default value is false.
+	AutoscalingEnabled *bool `json:"autoscalingEnabled,omitempty" tf:"autoscaling_enabled,omitempty"`
+
+	// Represents the limit configuration of a metastore service.
+	// Structure is documented below.
+	LimitConfig *LimitConfigInitParameters `json:"limitConfig,omitempty" tf:"limit_config,omitempty"`
+}
+
+type ScalingConfigAutoscalingConfigObservation struct {
+
+	// Defines whether autoscaling is enabled. The default value is false.
+	AutoscalingEnabled *bool `json:"autoscalingEnabled,omitempty" tf:"autoscaling_enabled,omitempty"`
+
+	// (Output)
+	// Output only. The scaling factor of a service with autoscaling enabled.
+	AutoscalingFactor *float64 `json:"autoscalingFactor,omitempty" tf:"autoscaling_factor,omitempty"`
+
+	// Represents the limit configuration of a metastore service.
+	// Structure is documented below.
+	LimitConfig *LimitConfigObservation `json:"limitConfig,omitempty" tf:"limit_config,omitempty"`
+}
+
+type ScalingConfigAutoscalingConfigParameters struct {
+
+	// Defines whether autoscaling is enabled. The default value is false.
+	// +kubebuilder:validation:Optional
+	AutoscalingEnabled *bool `json:"autoscalingEnabled,omitempty" tf:"autoscaling_enabled,omitempty"`
+
+	// Represents the limit configuration of a metastore service.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	LimitConfig *LimitConfigParameters `json:"limitConfig,omitempty" tf:"limit_config,omitempty"`
+}
+
 type ScalingConfigInitParameters struct {
+
+	// Represents the autoscaling configuration of a metastore service.
+	// Structure is documented below.
+	AutoscalingConfig *ScalingConfigAutoscalingConfigInitParameters `json:"autoscalingConfig,omitempty" tf:"autoscaling_config,omitempty"`
 
 	// Metastore instance sizes.
 	// Possible values are: EXTRA_SMALL, SMALL, MEDIUM, LARGE, EXTRA_LARGE.
@@ -674,6 +768,10 @@ type ScalingConfigInitParameters struct {
 
 type ScalingConfigObservation struct {
 
+	// Represents the autoscaling configuration of a metastore service.
+	// Structure is documented below.
+	AutoscalingConfig *ScalingConfigAutoscalingConfigObservation `json:"autoscalingConfig,omitempty" tf:"autoscaling_config,omitempty"`
+
 	// Metastore instance sizes.
 	// Possible values are: EXTRA_SMALL, SMALL, MEDIUM, LARGE, EXTRA_LARGE.
 	InstanceSize *string `json:"instanceSize,omitempty" tf:"instance_size,omitempty"`
@@ -683,6 +781,11 @@ type ScalingConfigObservation struct {
 }
 
 type ScalingConfigParameters struct {
+
+	// Represents the autoscaling configuration of a metastore service.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AutoscalingConfig *ScalingConfigAutoscalingConfigParameters `json:"autoscalingConfig,omitempty" tf:"autoscaling_config,omitempty"`
 
 	// Metastore instance sizes.
 	// Possible values are: EXTRA_SMALL, SMALL, MEDIUM, LARGE, EXTRA_LARGE.
