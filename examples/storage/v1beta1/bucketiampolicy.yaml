@@ -1,8 +1,13 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: storage.gcp.upbound.io/v1beta1
 kind: BucketIAMPolicy
 metadata:
   annotations:
     meta.upbound.io/example-id: storage/v1beta1/bucketiampolicy
+    upjet.upbound.io/manual-intervention: "Policy data refers to an existing user account"
   labels:
     testing.upbound.io/example-name: bucket-iam-policy
   name: bucket-iam-policy
@@ -27,6 +32,7 @@ kind: Bucket
 metadata:
   annotations:
     meta.upbound.io/example-id: storage/v1beta1/bucketiampolicy
+    upjet.upbound.io/manual-intervention: "Dependent resource skipped: Policy data refers to an existing user account"
   labels:
     testing.upbound.io/example-name: bucket
   name: bucket-iam-${Rand.RFC1123Subdomain}
