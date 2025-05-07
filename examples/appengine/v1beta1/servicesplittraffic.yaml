@@ -30,7 +30,7 @@ spec:
     deleteServiceOnDestroy: true
     deployment:
       zip:
-        sourceUrl: https://storage.googleapis.com/bucket-crosspla-sandbox-infrasec-1601/test.zip
+        sourceUrl: https://storage.googleapis.com/${data.bucket_name}/${data.object_name}
     entrypoint:
       shell: npm run start
     envVariables:
@@ -52,9 +52,9 @@ spec:
   forProvider:
     deployment:
       zip:
-        sourceUrl: https://storage.googleapis.com/bucket-crosspla-sandbox-infrasec-1601/test.zip
+        sourceUrl: https://storage.googleapis.com/${data.bucket_name}/${data.object_name}
     entrypoint:
-      shell: node app.js
+      shell: node ./app.js
     envVariables:
       port: "8080"
     noopOnDestroy: true
@@ -70,8 +70,8 @@ metadata:
     meta.upbound.io/example-id: appengine/v1beta1/servicesplittraffic
     upjet.upbound.io/manual-intervention: A nodejs server files compiled as a zip object needs to be set up and uploaded to the bucket from above. The StandardAppVersion resources will reference this same zip file."
   labels:
-    testing.upbound.io/example-name: bucket
-  name: bucket
+    testing.upbound.io/example-name: ${data.bucket_name}
+  name: ${data.bucket_name}
 spec:
   forProvider:
     location: US
@@ -90,6 +90,6 @@ spec:
   forProvider:
     bucketSelector:
       matchLabels:
-        testing.upbound.io/example-name: bucket
-    name: hello-world.zip
-    source: ./test-fixtures/hello-world.zip
+        testing.upbound.io/example-name: ${data.bucket_name}
+    name: ${data.object_name}
+    source: ${data.object_name}
