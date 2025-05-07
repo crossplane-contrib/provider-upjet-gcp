@@ -127,6 +127,7 @@ kind: BucketObject
 metadata:
   annotations:
     meta.upbound.io/example-id: appengine/v1beta1/flexibleappversion
+    upjet.upbound.io/manual-intervention: A nodejs server files compiled as a zip object needs to be set up and uploaded to the bucket from above. The FlexibleAppVersion resources will reference this same zip file."
   labels:
     testing.upbound.io/example-name: node-js-project
   name: node-js-project
