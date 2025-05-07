@@ -978,6 +978,16 @@ func (in *AppEngineInitParameters) DeepCopyInto(out *AppEngineInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ServiceRef != nil {
+		in, out := &in.ServiceRef, &out.ServiceRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ServiceSelector != nil {
+		in, out := &in.ServiceSelector, &out.ServiceSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.URLMask != nil {
 		in, out := &in.URLMask, &out.URLMask
 		*out = new(string)
@@ -987,6 +997,16 @@ func (in *AppEngineInitParameters) DeepCopyInto(out *AppEngineInitParameters) {
 		in, out := &in.Version, &out.Version
 		*out = new(string)
 		**out = **in
+	}
+	if in.VersionRef != nil {
+		in, out := &in.VersionRef, &out.VersionRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.VersionSelector != nil {
+		in, out := &in.VersionSelector, &out.VersionSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -1038,6 +1058,16 @@ func (in *AppEngineParameters) DeepCopyInto(out *AppEngineParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ServiceRef != nil {
+		in, out := &in.ServiceRef, &out.ServiceRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ServiceSelector != nil {
+		in, out := &in.ServiceSelector, &out.ServiceSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.URLMask != nil {
 		in, out := &in.URLMask, &out.URLMask
 		*out = new(string)
@@ -1047,6 +1077,16 @@ func (in *AppEngineParameters) DeepCopyInto(out *AppEngineParameters) {
 		in, out := &in.Version, &out.Version
 		*out = new(string)
 		**out = **in
+	}
+	if in.VersionRef != nil {
+		in, out := &in.VersionRef, &out.VersionRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.VersionSelector != nil {
+		in, out := &in.VersionSelector, &out.VersionSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 }
 
