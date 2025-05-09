@@ -13,6 +13,7 @@ import (
 	errors "github.com/pkg/errors"
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 
 	// ResolveReferences of this Function.
@@ -33,7 +34,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SourceArchiveBucket),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.SourceArchiveBucket, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.SourceArchiveBucketRef,
 			Selector:     mg.Spec.ForProvider.SourceArchiveBucketSelector,
@@ -43,7 +44,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.SourceArchiveBucket")
 	}
-	mg.Spec.ForProvider.SourceArchiveBucket = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.SourceArchiveBucket = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.SourceArchiveBucketRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta1", "BucketObject", "BucketObjectList")
@@ -52,7 +53,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SourceArchiveObject),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.SourceArchiveObject, ""),
 			Extract:      resource.ExtractParamPath("name", false),
 			Reference:    mg.Spec.ForProvider.SourceArchiveObjectRef,
 			Selector:     mg.Spec.ForProvider.SourceArchiveObjectSelector,
@@ -62,7 +63,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.SourceArchiveObject")
 	}
-	mg.Spec.ForProvider.SourceArchiveObject = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.SourceArchiveObject = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.SourceArchiveObjectRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta1", "Bucket", "BucketList")
@@ -71,7 +72,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SourceArchiveBucket),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.SourceArchiveBucket, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.SourceArchiveBucketRef,
 			Selector:     mg.Spec.InitProvider.SourceArchiveBucketSelector,
@@ -81,7 +82,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.SourceArchiveBucket")
 	}
-	mg.Spec.InitProvider.SourceArchiveBucket = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.SourceArchiveBucket = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.SourceArchiveBucketRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta1", "BucketObject", "BucketObjectList")
@@ -90,7 +91,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SourceArchiveObject),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.SourceArchiveObject, ""),
 			Extract:      resource.ExtractParamPath("name", false),
 			Reference:    mg.Spec.InitProvider.SourceArchiveObjectRef,
 			Selector:     mg.Spec.InitProvider.SourceArchiveObjectSelector,
@@ -100,7 +101,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.SourceArchiveObject")
 	}
-	mg.Spec.InitProvider.SourceArchiveObject = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.SourceArchiveObject = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.SourceArchiveObjectRef = rsp.ResolvedReference
 
 	return nil
@@ -121,7 +122,7 @@ func (mg *FunctionIAMMember) ResolveReferences(ctx context.Context, c client.Rea
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CloudFunction),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.CloudFunction, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.CloudFunctionRef,
 			Selector:     mg.Spec.ForProvider.CloudFunctionSelector,
@@ -131,7 +132,7 @@ func (mg *FunctionIAMMember) ResolveReferences(ctx context.Context, c client.Rea
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.CloudFunction")
 	}
-	mg.Spec.ForProvider.CloudFunction = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.CloudFunction = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.CloudFunctionRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("cloudfunctions.gcp.upbound.io", "v1beta1", "Function", "FunctionList")
@@ -140,7 +141,7 @@ func (mg *FunctionIAMMember) ResolveReferences(ctx context.Context, c client.Rea
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CloudFunction),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.CloudFunction, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.CloudFunctionRef,
 			Selector:     mg.Spec.InitProvider.CloudFunctionSelector,
@@ -150,7 +151,7 @@ func (mg *FunctionIAMMember) ResolveReferences(ctx context.Context, c client.Rea
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.CloudFunction")
 	}
-	mg.Spec.InitProvider.CloudFunction = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CloudFunction = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.CloudFunctionRef = rsp.ResolvedReference
 
 	return nil

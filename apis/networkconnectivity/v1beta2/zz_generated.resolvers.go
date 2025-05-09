@@ -13,6 +13,7 @@ import (
 	errors "github.com/pkg/errors"
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 
 	// ResolveReferences of this Spoke.
@@ -33,7 +34,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Hub),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Hub, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.HubRef,
 			Selector:     mg.Spec.ForProvider.HubSelector,
@@ -43,7 +44,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Hub")
 	}
-	mg.Spec.ForProvider.Hub = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Hub = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.HubRef = rsp.ResolvedReference
 
 	if mg.Spec.ForProvider.LinkedRouterApplianceInstances != nil {
@@ -54,7 +55,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.LinkedRouterApplianceInstances.Instances[i4].VirtualMachine),
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.LinkedRouterApplianceInstances.Instances[i4].VirtualMachine, ""),
 					Extract:      resource.ExtractParamPath("self_link", true),
 					Reference:    mg.Spec.ForProvider.LinkedRouterApplianceInstances.Instances[i4].VirtualMachineRef,
 					Selector:     mg.Spec.ForProvider.LinkedRouterApplianceInstances.Instances[i4].VirtualMachineSelector,
@@ -64,7 +65,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.ForProvider.LinkedRouterApplianceInstances.Instances[i4].VirtualMachine")
 			}
-			mg.Spec.ForProvider.LinkedRouterApplianceInstances.Instances[i4].VirtualMachine = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.LinkedRouterApplianceInstances.Instances[i4].VirtualMachine = ptr.To(rsp.ResolvedValue)
 			mg.Spec.ForProvider.LinkedRouterApplianceInstances.Instances[i4].VirtualMachineRef = rsp.ResolvedReference
 
 		}
@@ -76,7 +77,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.LinkedVPCNetwork.URI),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.LinkedVPCNetwork.URI, ""),
 				Extract:      resource.ExtractParamPath("self_link", true),
 				Reference:    mg.Spec.ForProvider.LinkedVPCNetwork.URIRef,
 				Selector:     mg.Spec.ForProvider.LinkedVPCNetwork.URISelector,
@@ -86,7 +87,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.LinkedVPCNetwork.URI")
 		}
-		mg.Spec.ForProvider.LinkedVPCNetwork.URI = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.LinkedVPCNetwork.URI = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.LinkedVPCNetwork.URIRef = rsp.ResolvedReference
 
 	}
@@ -96,7 +97,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Hub),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Hub, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.HubRef,
 			Selector:     mg.Spec.InitProvider.HubSelector,
@@ -106,7 +107,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Hub")
 	}
-	mg.Spec.InitProvider.Hub = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Hub = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.HubRef = rsp.ResolvedReference
 
 	if mg.Spec.InitProvider.LinkedRouterApplianceInstances != nil {
@@ -117,7 +118,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.LinkedRouterApplianceInstances.Instances[i4].VirtualMachine),
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.LinkedRouterApplianceInstances.Instances[i4].VirtualMachine, ""),
 					Extract:      resource.ExtractParamPath("self_link", true),
 					Reference:    mg.Spec.InitProvider.LinkedRouterApplianceInstances.Instances[i4].VirtualMachineRef,
 					Selector:     mg.Spec.InitProvider.LinkedRouterApplianceInstances.Instances[i4].VirtualMachineSelector,
@@ -127,7 +128,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.InitProvider.LinkedRouterApplianceInstances.Instances[i4].VirtualMachine")
 			}
-			mg.Spec.InitProvider.LinkedRouterApplianceInstances.Instances[i4].VirtualMachine = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.LinkedRouterApplianceInstances.Instances[i4].VirtualMachine = ptr.To(rsp.ResolvedValue)
 			mg.Spec.InitProvider.LinkedRouterApplianceInstances.Instances[i4].VirtualMachineRef = rsp.ResolvedReference
 
 		}
@@ -139,7 +140,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.LinkedVPCNetwork.URI),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.LinkedVPCNetwork.URI, ""),
 				Extract:      resource.ExtractParamPath("self_link", true),
 				Reference:    mg.Spec.InitProvider.LinkedVPCNetwork.URIRef,
 				Selector:     mg.Spec.InitProvider.LinkedVPCNetwork.URISelector,
@@ -149,7 +150,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.LinkedVPCNetwork.URI")
 		}
-		mg.Spec.InitProvider.LinkedVPCNetwork.URI = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.LinkedVPCNetwork.URI = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.LinkedVPCNetwork.URIRef = rsp.ResolvedReference
 
 	}

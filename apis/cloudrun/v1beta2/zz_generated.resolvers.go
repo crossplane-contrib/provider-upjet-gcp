@@ -9,11 +9,13 @@ package v1beta2
 import (
 	"context"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
+	helper "github.com/crossplane/crossplane-tools/pkg/helpers"
 	resource "github.com/crossplane/upjet/pkg/resource"
 	errors "github.com/pkg/errors"
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -33,7 +35,7 @@ func (mg *DomainMapping) ResolveReferences( // ResolveReferences of this DomainM
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Metadata.Namespace),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.Metadata.Namespace, ""),
 				Extract:      reference.ExternalName(),
 				Reference:    mg.Spec.ForProvider.Metadata.NamespaceRef,
 				Selector:     mg.Spec.ForProvider.Metadata.NamespaceSelector,
@@ -43,7 +45,7 @@ func (mg *DomainMapping) ResolveReferences( // ResolveReferences of this DomainM
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.Metadata.Namespace")
 		}
-		mg.Spec.ForProvider.Metadata.Namespace = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.Metadata.Namespace = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.Metadata.NamespaceRef = rsp.ResolvedReference
 
 	}
@@ -54,7 +56,7 @@ func (mg *DomainMapping) ResolveReferences( // ResolveReferences of this DomainM
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Spec.RouteName),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.Spec.RouteName, ""),
 				Extract:      reference.ExternalName(),
 				Reference:    mg.Spec.ForProvider.Spec.RouteNameRef,
 				Selector:     mg.Spec.ForProvider.Spec.RouteNameSelector,
@@ -64,7 +66,7 @@ func (mg *DomainMapping) ResolveReferences( // ResolveReferences of this DomainM
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.Spec.RouteName")
 		}
-		mg.Spec.ForProvider.Spec.RouteName = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.Spec.RouteName = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.Spec.RouteNameRef = rsp.ResolvedReference
 
 	}
@@ -75,7 +77,7 @@ func (mg *DomainMapping) ResolveReferences( // ResolveReferences of this DomainM
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Metadata.Namespace),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.Metadata.Namespace, ""),
 				Extract:      reference.ExternalName(),
 				Reference:    mg.Spec.InitProvider.Metadata.NamespaceRef,
 				Selector:     mg.Spec.InitProvider.Metadata.NamespaceSelector,
@@ -85,7 +87,7 @@ func (mg *DomainMapping) ResolveReferences( // ResolveReferences of this DomainM
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.Metadata.Namespace")
 		}
-		mg.Spec.InitProvider.Metadata.Namespace = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Metadata.Namespace = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.Metadata.NamespaceRef = rsp.ResolvedReference
 
 	}
@@ -96,7 +98,7 @@ func (mg *DomainMapping) ResolveReferences( // ResolveReferences of this DomainM
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Spec.RouteName),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.Spec.RouteName, ""),
 				Extract:      reference.ExternalName(),
 				Reference:    mg.Spec.InitProvider.Spec.RouteNameRef,
 				Selector:     mg.Spec.InitProvider.Spec.RouteNameSelector,
@@ -106,7 +108,7 @@ func (mg *DomainMapping) ResolveReferences( // ResolveReferences of this DomainM
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.Spec.RouteName")
 		}
-		mg.Spec.InitProvider.Spec.RouteName = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Spec.RouteName = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.Spec.RouteNameRef = rsp.ResolvedReference
 
 	}
@@ -130,7 +132,7 @@ func (mg *Service) ResolveReferences(ctx context.Context, c client.Reader) error
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Metadata.Namespace),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.Metadata.Namespace, ""),
 				Extract:      reference.ExternalName(),
 				Reference:    mg.Spec.ForProvider.Metadata.NamespaceRef,
 				Selector:     mg.Spec.ForProvider.Metadata.NamespaceSelector,
@@ -140,7 +142,7 @@ func (mg *Service) ResolveReferences(ctx context.Context, c client.Reader) error
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.Metadata.Namespace")
 		}
-		mg.Spec.ForProvider.Metadata.Namespace = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.Metadata.Namespace = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.Metadata.NamespaceRef = rsp.ResolvedReference
 
 	}
@@ -156,7 +158,7 @@ func (mg *Service) ResolveReferences(ctx context.Context, c client.Reader) error
 									return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 								}
 								rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-									CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Template.Spec.Containers[i5].Env[i6].ValueFrom.SecretKeyRef.Name),
+									CurrentValue: ptr.Deref(mg.Spec.ForProvider.Template.Spec.Containers[i5].Env[i6].ValueFrom.SecretKeyRef.Name, ""),
 									Extract:      reference.ExternalName(),
 									Reference:    mg.Spec.ForProvider.Template.Spec.Containers[i5].Env[i6].ValueFrom.SecretKeyRef.NameRef,
 									Selector:     mg.Spec.ForProvider.Template.Spec.Containers[i5].Env[i6].ValueFrom.SecretKeyRef.NameSelector,
@@ -166,7 +168,7 @@ func (mg *Service) ResolveReferences(ctx context.Context, c client.Reader) error
 							if err != nil {
 								return errors.Wrap(err, "mg.Spec.ForProvider.Template.Spec.Containers[i5].Env[i6].ValueFrom.SecretKeyRef.Name")
 							}
-							mg.Spec.ForProvider.Template.Spec.Containers[i5].Env[i6].ValueFrom.SecretKeyRef.Name = reference.ToPtrValue(rsp.ResolvedValue)
+							mg.Spec.ForProvider.Template.Spec.Containers[i5].Env[i6].ValueFrom.SecretKeyRef.Name = ptr.To(rsp.ResolvedValue)
 							mg.Spec.ForProvider.Template.Spec.Containers[i5].Env[i6].ValueFrom.SecretKeyRef.NameRef = rsp.ResolvedReference
 
 						}
@@ -185,7 +187,7 @@ func (mg *Service) ResolveReferences(ctx context.Context, c client.Reader) error
 							return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 						}
 						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-							CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Template.Spec.Volumes[i5].Secret.SecretName),
+							CurrentValue: ptr.Deref(mg.Spec.ForProvider.Template.Spec.Volumes[i5].Secret.SecretName, ""),
 							Extract:      reference.ExternalName(),
 							Reference:    mg.Spec.ForProvider.Template.Spec.Volumes[i5].Secret.SecretNameRef,
 							Selector:     mg.Spec.ForProvider.Template.Spec.Volumes[i5].Secret.SecretNameSelector,
@@ -195,7 +197,7 @@ func (mg *Service) ResolveReferences(ctx context.Context, c client.Reader) error
 					if err != nil {
 						return errors.Wrap(err, "mg.Spec.ForProvider.Template.Spec.Volumes[i5].Secret.SecretName")
 					}
-					mg.Spec.ForProvider.Template.Spec.Volumes[i5].Secret.SecretName = reference.ToPtrValue(rsp.ResolvedValue)
+					mg.Spec.ForProvider.Template.Spec.Volumes[i5].Secret.SecretName = ptr.To(rsp.ResolvedValue)
 					mg.Spec.ForProvider.Template.Spec.Volumes[i5].Secret.SecretNameRef = rsp.ResolvedReference
 
 				}
@@ -209,7 +211,7 @@ func (mg *Service) ResolveReferences(ctx context.Context, c client.Reader) error
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Metadata.Namespace),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.Metadata.Namespace, ""),
 				Extract:      reference.ExternalName(),
 				Reference:    mg.Spec.InitProvider.Metadata.NamespaceRef,
 				Selector:     mg.Spec.InitProvider.Metadata.NamespaceSelector,
@@ -219,7 +221,7 @@ func (mg *Service) ResolveReferences(ctx context.Context, c client.Reader) error
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.Metadata.Namespace")
 		}
-		mg.Spec.InitProvider.Metadata.Namespace = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Metadata.Namespace = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.Metadata.NamespaceRef = rsp.ResolvedReference
 
 	}
@@ -235,7 +237,7 @@ func (mg *Service) ResolveReferences(ctx context.Context, c client.Reader) error
 									return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 								}
 								rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-									CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Template.Spec.Containers[i5].Env[i6].ValueFrom.SecretKeyRef.Name),
+									CurrentValue: ptr.Deref(mg.Spec.InitProvider.Template.Spec.Containers[i5].Env[i6].ValueFrom.SecretKeyRef.Name, ""),
 									Extract:      reference.ExternalName(),
 									Reference:    mg.Spec.InitProvider.Template.Spec.Containers[i5].Env[i6].ValueFrom.SecretKeyRef.NameRef,
 									Selector:     mg.Spec.InitProvider.Template.Spec.Containers[i5].Env[i6].ValueFrom.SecretKeyRef.NameSelector,
@@ -245,7 +247,7 @@ func (mg *Service) ResolveReferences(ctx context.Context, c client.Reader) error
 							if err != nil {
 								return errors.Wrap(err, "mg.Spec.InitProvider.Template.Spec.Containers[i5].Env[i6].ValueFrom.SecretKeyRef.Name")
 							}
-							mg.Spec.InitProvider.Template.Spec.Containers[i5].Env[i6].ValueFrom.SecretKeyRef.Name = reference.ToPtrValue(rsp.ResolvedValue)
+							mg.Spec.InitProvider.Template.Spec.Containers[i5].Env[i6].ValueFrom.SecretKeyRef.Name = ptr.To(rsp.ResolvedValue)
 							mg.Spec.InitProvider.Template.Spec.Containers[i5].Env[i6].ValueFrom.SecretKeyRef.NameRef = rsp.ResolvedReference
 
 						}
@@ -264,7 +266,7 @@ func (mg *Service) ResolveReferences(ctx context.Context, c client.Reader) error
 							return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 						}
 						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-							CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Template.Spec.Volumes[i5].Secret.SecretName),
+							CurrentValue: ptr.Deref(mg.Spec.InitProvider.Template.Spec.Volumes[i5].Secret.SecretName, ""),
 							Extract:      reference.ExternalName(),
 							Reference:    mg.Spec.InitProvider.Template.Spec.Volumes[i5].Secret.SecretNameRef,
 							Selector:     mg.Spec.InitProvider.Template.Spec.Volumes[i5].Secret.SecretNameSelector,
@@ -274,7 +276,7 @@ func (mg *Service) ResolveReferences(ctx context.Context, c client.Reader) error
 					if err != nil {
 						return errors.Wrap(err, "mg.Spec.InitProvider.Template.Spec.Volumes[i5].Secret.SecretName")
 					}
-					mg.Spec.InitProvider.Template.Spec.Volumes[i5].Secret.SecretName = reference.ToPtrValue(rsp.ResolvedValue)
+					mg.Spec.InitProvider.Template.Spec.Volumes[i5].Secret.SecretName = ptr.To(rsp.ResolvedValue)
 					mg.Spec.InitProvider.Template.Spec.Volumes[i5].Secret.SecretNameRef = rsp.ResolvedReference
 
 				}
@@ -300,7 +302,7 @@ func (mg *ServiceIAMMember) ResolveReferences(ctx context.Context, c client.Read
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Project, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.ProjectRef,
 			Selector:     mg.Spec.ForProvider.ProjectSelector,
@@ -310,7 +312,7 @@ func (mg *ServiceIAMMember) ResolveReferences(ctx context.Context, c client.Read
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Project")
 	}
-	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Project = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("cloudrun.gcp.upbound.io", "v1beta2", "Service", "ServiceList")
@@ -319,7 +321,7 @@ func (mg *ServiceIAMMember) ResolveReferences(ctx context.Context, c client.Read
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Service),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Service, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.ServiceRef,
 			Selector:     mg.Spec.ForProvider.ServiceSelector,
@@ -329,7 +331,7 @@ func (mg *ServiceIAMMember) ResolveReferences(ctx context.Context, c client.Read
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Service")
 	}
-	mg.Spec.ForProvider.Service = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Service = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ServiceRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "Project", "ProjectList")
@@ -338,7 +340,7 @@ func (mg *ServiceIAMMember) ResolveReferences(ctx context.Context, c client.Read
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Project),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Project, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.ProjectRef,
 			Selector:     mg.Spec.InitProvider.ProjectSelector,
@@ -348,7 +350,7 @@ func (mg *ServiceIAMMember) ResolveReferences(ctx context.Context, c client.Read
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Project")
 	}
-	mg.Spec.InitProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Project = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ProjectRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("cloudrun.gcp.upbound.io", "v1beta2", "Service", "ServiceList")
@@ -357,7 +359,7 @@ func (mg *ServiceIAMMember) ResolveReferences(ctx context.Context, c client.Read
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Service),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Service, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.ServiceRef,
 			Selector:     mg.Spec.InitProvider.ServiceSelector,
@@ -367,7 +369,7 @@ func (mg *ServiceIAMMember) ResolveReferences(ctx context.Context, c client.Read
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Service")
 	}
-	mg.Spec.InitProvider.Service = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Service = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ServiceRef = rsp.ResolvedReference
 
 	return nil
@@ -395,7 +397,7 @@ func (mg *V2Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 									return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 								}
 								rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-									CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Template.Template.Containers[i5].Env[i6].ValueSource.SecretKeyRef.Secret),
+									CurrentValue: ptr.Deref(mg.Spec.ForProvider.Template.Template.Containers[i5].Env[i6].ValueSource.SecretKeyRef.Secret, ""),
 									Extract:      reference.ExternalName(),
 									Reference:    mg.Spec.ForProvider.Template.Template.Containers[i5].Env[i6].ValueSource.SecretKeyRef.SecretRef,
 									Selector:     mg.Spec.ForProvider.Template.Template.Containers[i5].Env[i6].ValueSource.SecretKeyRef.SecretSelector,
@@ -405,7 +407,7 @@ func (mg *V2Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 							if err != nil {
 								return errors.Wrap(err, "mg.Spec.ForProvider.Template.Template.Containers[i5].Env[i6].ValueSource.SecretKeyRef.Secret")
 							}
-							mg.Spec.ForProvider.Template.Template.Containers[i5].Env[i6].ValueSource.SecretKeyRef.Secret = reference.ToPtrValue(rsp.ResolvedValue)
+							mg.Spec.ForProvider.Template.Template.Containers[i5].Env[i6].ValueSource.SecretKeyRef.Secret = ptr.To(rsp.ResolvedValue)
 							mg.Spec.ForProvider.Template.Template.Containers[i5].Env[i6].ValueSource.SecretKeyRef.SecretRef = rsp.ResolvedReference
 
 						}
@@ -424,7 +426,7 @@ func (mg *V2Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 							return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 						}
 						mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
-							CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.Template.Template.Volumes[i5].CloudSQLInstance.Instances),
+							CurrentValues: helper.FromPtrValues(mg.Spec.ForProvider.Template.Template.Volumes[i5].CloudSQLInstance.Instances),
 							Extract:       resource.ExtractParamPath("connection_name", true),
 							References:    mg.Spec.ForProvider.Template.Template.Volumes[i5].CloudSQLInstance.InstancesRefs,
 							Selector:      mg.Spec.ForProvider.Template.Template.Volumes[i5].CloudSQLInstance.InstancesSelector,
@@ -434,7 +436,7 @@ func (mg *V2Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 					if err != nil {
 						return errors.Wrap(err, "mg.Spec.ForProvider.Template.Template.Volumes[i5].CloudSQLInstance.Instances")
 					}
-					mg.Spec.ForProvider.Template.Template.Volumes[i5].CloudSQLInstance.Instances = reference.ToPtrValues(mrsp.ResolvedValues)
+					mg.Spec.ForProvider.Template.Template.Volumes[i5].CloudSQLInstance.Instances = helper.ToPtrValues(mrsp.ResolvedValues)
 					mg.Spec.ForProvider.Template.Template.Volumes[i5].CloudSQLInstance.InstancesRefs = mrsp.ResolvedReferences
 
 				}
@@ -451,7 +453,7 @@ func (mg *V2Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 							return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 						}
 						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-							CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Template.Template.Volumes[i5].Secret.Secret),
+							CurrentValue: ptr.Deref(mg.Spec.ForProvider.Template.Template.Volumes[i5].Secret.Secret, ""),
 							Extract:      reference.ExternalName(),
 							Reference:    mg.Spec.ForProvider.Template.Template.Volumes[i5].Secret.SecretRef,
 							Selector:     mg.Spec.ForProvider.Template.Template.Volumes[i5].Secret.SecretSelector,
@@ -461,7 +463,7 @@ func (mg *V2Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 					if err != nil {
 						return errors.Wrap(err, "mg.Spec.ForProvider.Template.Template.Volumes[i5].Secret.Secret")
 					}
-					mg.Spec.ForProvider.Template.Template.Volumes[i5].Secret.Secret = reference.ToPtrValue(rsp.ResolvedValue)
+					mg.Spec.ForProvider.Template.Template.Volumes[i5].Secret.Secret = ptr.To(rsp.ResolvedValue)
 					mg.Spec.ForProvider.Template.Template.Volumes[i5].Secret.SecretRef = rsp.ResolvedReference
 
 				}
@@ -480,7 +482,7 @@ func (mg *V2Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 									return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 								}
 								rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-									CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Template.Template.Containers[i5].Env[i6].ValueSource.SecretKeyRef.Secret),
+									CurrentValue: ptr.Deref(mg.Spec.InitProvider.Template.Template.Containers[i5].Env[i6].ValueSource.SecretKeyRef.Secret, ""),
 									Extract:      reference.ExternalName(),
 									Reference:    mg.Spec.InitProvider.Template.Template.Containers[i5].Env[i6].ValueSource.SecretKeyRef.SecretRef,
 									Selector:     mg.Spec.InitProvider.Template.Template.Containers[i5].Env[i6].ValueSource.SecretKeyRef.SecretSelector,
@@ -490,7 +492,7 @@ func (mg *V2Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 							if err != nil {
 								return errors.Wrap(err, "mg.Spec.InitProvider.Template.Template.Containers[i5].Env[i6].ValueSource.SecretKeyRef.Secret")
 							}
-							mg.Spec.InitProvider.Template.Template.Containers[i5].Env[i6].ValueSource.SecretKeyRef.Secret = reference.ToPtrValue(rsp.ResolvedValue)
+							mg.Spec.InitProvider.Template.Template.Containers[i5].Env[i6].ValueSource.SecretKeyRef.Secret = ptr.To(rsp.ResolvedValue)
 							mg.Spec.InitProvider.Template.Template.Containers[i5].Env[i6].ValueSource.SecretKeyRef.SecretRef = rsp.ResolvedReference
 
 						}
@@ -509,7 +511,7 @@ func (mg *V2Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 							return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 						}
 						mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
-							CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.Template.Template.Volumes[i5].CloudSQLInstance.Instances),
+							CurrentValues: helper.FromPtrValues(mg.Spec.InitProvider.Template.Template.Volumes[i5].CloudSQLInstance.Instances),
 							Extract:       resource.ExtractParamPath("connection_name", true),
 							References:    mg.Spec.InitProvider.Template.Template.Volumes[i5].CloudSQLInstance.InstancesRefs,
 							Selector:      mg.Spec.InitProvider.Template.Template.Volumes[i5].CloudSQLInstance.InstancesSelector,
@@ -519,7 +521,7 @@ func (mg *V2Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 					if err != nil {
 						return errors.Wrap(err, "mg.Spec.InitProvider.Template.Template.Volumes[i5].CloudSQLInstance.Instances")
 					}
-					mg.Spec.InitProvider.Template.Template.Volumes[i5].CloudSQLInstance.Instances = reference.ToPtrValues(mrsp.ResolvedValues)
+					mg.Spec.InitProvider.Template.Template.Volumes[i5].CloudSQLInstance.Instances = helper.ToPtrValues(mrsp.ResolvedValues)
 					mg.Spec.InitProvider.Template.Template.Volumes[i5].CloudSQLInstance.InstancesRefs = mrsp.ResolvedReferences
 
 				}
@@ -536,7 +538,7 @@ func (mg *V2Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 							return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 						}
 						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-							CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Template.Template.Volumes[i5].Secret.Secret),
+							CurrentValue: ptr.Deref(mg.Spec.InitProvider.Template.Template.Volumes[i5].Secret.Secret, ""),
 							Extract:      reference.ExternalName(),
 							Reference:    mg.Spec.InitProvider.Template.Template.Volumes[i5].Secret.SecretRef,
 							Selector:     mg.Spec.InitProvider.Template.Template.Volumes[i5].Secret.SecretSelector,
@@ -546,7 +548,7 @@ func (mg *V2Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 					if err != nil {
 						return errors.Wrap(err, "mg.Spec.InitProvider.Template.Template.Volumes[i5].Secret.Secret")
 					}
-					mg.Spec.InitProvider.Template.Template.Volumes[i5].Secret.Secret = reference.ToPtrValue(rsp.ResolvedValue)
+					mg.Spec.InitProvider.Template.Template.Volumes[i5].Secret.Secret = ptr.To(rsp.ResolvedValue)
 					mg.Spec.InitProvider.Template.Template.Volumes[i5].Secret.SecretRef = rsp.ResolvedReference
 
 				}
@@ -578,7 +580,7 @@ func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) err
 								return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 							}
 							rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-								CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Template.Containers[i4].Env[i5].ValueSource.SecretKeyRef.Secret),
+								CurrentValue: ptr.Deref(mg.Spec.ForProvider.Template.Containers[i4].Env[i5].ValueSource.SecretKeyRef.Secret, ""),
 								Extract:      reference.ExternalName(),
 								Reference:    mg.Spec.ForProvider.Template.Containers[i4].Env[i5].ValueSource.SecretKeyRef.SecretRef,
 								Selector:     mg.Spec.ForProvider.Template.Containers[i4].Env[i5].ValueSource.SecretKeyRef.SecretSelector,
@@ -588,7 +590,7 @@ func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) err
 						if err != nil {
 							return errors.Wrap(err, "mg.Spec.ForProvider.Template.Containers[i4].Env[i5].ValueSource.SecretKeyRef.Secret")
 						}
-						mg.Spec.ForProvider.Template.Containers[i4].Env[i5].ValueSource.SecretKeyRef.Secret = reference.ToPtrValue(rsp.ResolvedValue)
+						mg.Spec.ForProvider.Template.Containers[i4].Env[i5].ValueSource.SecretKeyRef.Secret = ptr.To(rsp.ResolvedValue)
 						mg.Spec.ForProvider.Template.Containers[i4].Env[i5].ValueSource.SecretKeyRef.SecretRef = rsp.ResolvedReference
 
 					}
@@ -605,7 +607,7 @@ func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) err
 						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 					}
 					mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
-						CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.Template.Volumes[i4].CloudSQLInstance.Instances),
+						CurrentValues: helper.FromPtrValues(mg.Spec.ForProvider.Template.Volumes[i4].CloudSQLInstance.Instances),
 						Extract:       resource.ExtractParamPath("connection_name", true),
 						References:    mg.Spec.ForProvider.Template.Volumes[i4].CloudSQLInstance.InstancesRefs,
 						Selector:      mg.Spec.ForProvider.Template.Volumes[i4].CloudSQLInstance.InstancesSelector,
@@ -615,7 +617,7 @@ func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) err
 				if err != nil {
 					return errors.Wrap(err, "mg.Spec.ForProvider.Template.Volumes[i4].CloudSQLInstance.Instances")
 				}
-				mg.Spec.ForProvider.Template.Volumes[i4].CloudSQLInstance.Instances = reference.ToPtrValues(mrsp.ResolvedValues)
+				mg.Spec.ForProvider.Template.Volumes[i4].CloudSQLInstance.Instances = helper.ToPtrValues(mrsp.ResolvedValues)
 				mg.Spec.ForProvider.Template.Volumes[i4].CloudSQLInstance.InstancesRefs = mrsp.ResolvedReferences
 
 			}
@@ -630,7 +632,7 @@ func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) err
 						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 					}
 					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-						CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Template.Volumes[i4].Gcs.Bucket),
+						CurrentValue: ptr.Deref(mg.Spec.ForProvider.Template.Volumes[i4].Gcs.Bucket, ""),
 						Extract:      reference.ExternalName(),
 						Reference:    mg.Spec.ForProvider.Template.Volumes[i4].Gcs.BucketRef,
 						Selector:     mg.Spec.ForProvider.Template.Volumes[i4].Gcs.BucketSelector,
@@ -640,7 +642,7 @@ func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) err
 				if err != nil {
 					return errors.Wrap(err, "mg.Spec.ForProvider.Template.Volumes[i4].Gcs.Bucket")
 				}
-				mg.Spec.ForProvider.Template.Volumes[i4].Gcs.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.ForProvider.Template.Volumes[i4].Gcs.Bucket = ptr.To(rsp.ResolvedValue)
 				mg.Spec.ForProvider.Template.Volumes[i4].Gcs.BucketRef = rsp.ResolvedReference
 
 			}
@@ -655,7 +657,7 @@ func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) err
 						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 					}
 					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-						CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Template.Volumes[i4].Secret.Secret),
+						CurrentValue: ptr.Deref(mg.Spec.ForProvider.Template.Volumes[i4].Secret.Secret, ""),
 						Extract:      reference.ExternalName(),
 						Reference:    mg.Spec.ForProvider.Template.Volumes[i4].Secret.SecretRef,
 						Selector:     mg.Spec.ForProvider.Template.Volumes[i4].Secret.SecretSelector,
@@ -665,7 +667,7 @@ func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) err
 				if err != nil {
 					return errors.Wrap(err, "mg.Spec.ForProvider.Template.Volumes[i4].Secret.Secret")
 				}
-				mg.Spec.ForProvider.Template.Volumes[i4].Secret.Secret = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.ForProvider.Template.Volumes[i4].Secret.Secret = ptr.To(rsp.ResolvedValue)
 				mg.Spec.ForProvider.Template.Volumes[i4].Secret.SecretRef = rsp.ResolvedReference
 
 			}
@@ -682,7 +684,7 @@ func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) err
 								return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 							}
 							rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-								CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Template.Containers[i4].Env[i5].ValueSource.SecretKeyRef.Secret),
+								CurrentValue: ptr.Deref(mg.Spec.InitProvider.Template.Containers[i4].Env[i5].ValueSource.SecretKeyRef.Secret, ""),
 								Extract:      reference.ExternalName(),
 								Reference:    mg.Spec.InitProvider.Template.Containers[i4].Env[i5].ValueSource.SecretKeyRef.SecretRef,
 								Selector:     mg.Spec.InitProvider.Template.Containers[i4].Env[i5].ValueSource.SecretKeyRef.SecretSelector,
@@ -692,7 +694,7 @@ func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) err
 						if err != nil {
 							return errors.Wrap(err, "mg.Spec.InitProvider.Template.Containers[i4].Env[i5].ValueSource.SecretKeyRef.Secret")
 						}
-						mg.Spec.InitProvider.Template.Containers[i4].Env[i5].ValueSource.SecretKeyRef.Secret = reference.ToPtrValue(rsp.ResolvedValue)
+						mg.Spec.InitProvider.Template.Containers[i4].Env[i5].ValueSource.SecretKeyRef.Secret = ptr.To(rsp.ResolvedValue)
 						mg.Spec.InitProvider.Template.Containers[i4].Env[i5].ValueSource.SecretKeyRef.SecretRef = rsp.ResolvedReference
 
 					}
@@ -709,7 +711,7 @@ func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) err
 						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 					}
 					mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
-						CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.Template.Volumes[i4].CloudSQLInstance.Instances),
+						CurrentValues: helper.FromPtrValues(mg.Spec.InitProvider.Template.Volumes[i4].CloudSQLInstance.Instances),
 						Extract:       resource.ExtractParamPath("connection_name", true),
 						References:    mg.Spec.InitProvider.Template.Volumes[i4].CloudSQLInstance.InstancesRefs,
 						Selector:      mg.Spec.InitProvider.Template.Volumes[i4].CloudSQLInstance.InstancesSelector,
@@ -719,7 +721,7 @@ func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) err
 				if err != nil {
 					return errors.Wrap(err, "mg.Spec.InitProvider.Template.Volumes[i4].CloudSQLInstance.Instances")
 				}
-				mg.Spec.InitProvider.Template.Volumes[i4].CloudSQLInstance.Instances = reference.ToPtrValues(mrsp.ResolvedValues)
+				mg.Spec.InitProvider.Template.Volumes[i4].CloudSQLInstance.Instances = helper.ToPtrValues(mrsp.ResolvedValues)
 				mg.Spec.InitProvider.Template.Volumes[i4].CloudSQLInstance.InstancesRefs = mrsp.ResolvedReferences
 
 			}
@@ -734,7 +736,7 @@ func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) err
 						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 					}
 					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-						CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Template.Volumes[i4].Gcs.Bucket),
+						CurrentValue: ptr.Deref(mg.Spec.InitProvider.Template.Volumes[i4].Gcs.Bucket, ""),
 						Extract:      reference.ExternalName(),
 						Reference:    mg.Spec.InitProvider.Template.Volumes[i4].Gcs.BucketRef,
 						Selector:     mg.Spec.InitProvider.Template.Volumes[i4].Gcs.BucketSelector,
@@ -744,7 +746,7 @@ func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) err
 				if err != nil {
 					return errors.Wrap(err, "mg.Spec.InitProvider.Template.Volumes[i4].Gcs.Bucket")
 				}
-				mg.Spec.InitProvider.Template.Volumes[i4].Gcs.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.InitProvider.Template.Volumes[i4].Gcs.Bucket = ptr.To(rsp.ResolvedValue)
 				mg.Spec.InitProvider.Template.Volumes[i4].Gcs.BucketRef = rsp.ResolvedReference
 
 			}
@@ -759,7 +761,7 @@ func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) err
 						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 					}
 					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-						CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Template.Volumes[i4].Secret.Secret),
+						CurrentValue: ptr.Deref(mg.Spec.InitProvider.Template.Volumes[i4].Secret.Secret, ""),
 						Extract:      reference.ExternalName(),
 						Reference:    mg.Spec.InitProvider.Template.Volumes[i4].Secret.SecretRef,
 						Selector:     mg.Spec.InitProvider.Template.Volumes[i4].Secret.SecretSelector,
@@ -769,7 +771,7 @@ func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) err
 				if err != nil {
 					return errors.Wrap(err, "mg.Spec.InitProvider.Template.Volumes[i4].Secret.Secret")
 				}
-				mg.Spec.InitProvider.Template.Volumes[i4].Secret.Secret = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.InitProvider.Template.Volumes[i4].Secret.Secret = ptr.To(rsp.ResolvedValue)
 				mg.Spec.InitProvider.Template.Volumes[i4].Secret.SecretRef = rsp.ResolvedReference
 
 			}

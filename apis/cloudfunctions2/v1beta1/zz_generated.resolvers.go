@@ -13,6 +13,7 @@ import (
 	errors "github.com/pkg/errors"
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 
 	// ResolveReferences of this Function.
@@ -34,7 +35,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.BuildConfig[i3].DockerRepository),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.BuildConfig[i3].DockerRepository, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.ForProvider.BuildConfig[i3].DockerRepositoryRef,
 				Selector:     mg.Spec.ForProvider.BuildConfig[i3].DockerRepositorySelector,
@@ -44,7 +45,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.BuildConfig[i3].DockerRepository")
 		}
-		mg.Spec.ForProvider.BuildConfig[i3].DockerRepository = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.BuildConfig[i3].DockerRepository = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.BuildConfig[i3].DockerRepositoryRef = rsp.ResolvedReference
 
 	}
@@ -55,7 +56,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.BuildConfig[i3].ServiceAccount),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.BuildConfig[i3].ServiceAccount, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.ForProvider.BuildConfig[i3].ServiceAccountRef,
 				Selector:     mg.Spec.ForProvider.BuildConfig[i3].ServiceAccountSelector,
@@ -65,7 +66,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.BuildConfig[i3].ServiceAccount")
 		}
-		mg.Spec.ForProvider.BuildConfig[i3].ServiceAccount = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.BuildConfig[i3].ServiceAccount = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.BuildConfig[i3].ServiceAccountRef = rsp.ResolvedReference
 
 	}
@@ -78,7 +79,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 					}
 					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-						CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.BuildConfig[i3].Source[i4].StorageSource[i5].Bucket),
+						CurrentValue: ptr.Deref(mg.Spec.ForProvider.BuildConfig[i3].Source[i4].StorageSource[i5].Bucket, ""),
 						Extract:      reference.ExternalName(),
 						Reference:    mg.Spec.ForProvider.BuildConfig[i3].Source[i4].StorageSource[i5].BucketRef,
 						Selector:     mg.Spec.ForProvider.BuildConfig[i3].Source[i4].StorageSource[i5].BucketSelector,
@@ -88,7 +89,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 				if err != nil {
 					return errors.Wrap(err, "mg.Spec.ForProvider.BuildConfig[i3].Source[i4].StorageSource[i5].Bucket")
 				}
-				mg.Spec.ForProvider.BuildConfig[i3].Source[i4].StorageSource[i5].Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.ForProvider.BuildConfig[i3].Source[i4].StorageSource[i5].Bucket = ptr.To(rsp.ResolvedValue)
 				mg.Spec.ForProvider.BuildConfig[i3].Source[i4].StorageSource[i5].BucketRef = rsp.ResolvedReference
 
 			}
@@ -103,7 +104,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 					}
 					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-						CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.BuildConfig[i3].Source[i4].StorageSource[i5].Object),
+						CurrentValue: ptr.Deref(mg.Spec.ForProvider.BuildConfig[i3].Source[i4].StorageSource[i5].Object, ""),
 						Extract:      resource.ExtractParamPath("name", false),
 						Reference:    mg.Spec.ForProvider.BuildConfig[i3].Source[i4].StorageSource[i5].ObjectRef,
 						Selector:     mg.Spec.ForProvider.BuildConfig[i3].Source[i4].StorageSource[i5].ObjectSelector,
@@ -113,7 +114,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 				if err != nil {
 					return errors.Wrap(err, "mg.Spec.ForProvider.BuildConfig[i3].Source[i4].StorageSource[i5].Object")
 				}
-				mg.Spec.ForProvider.BuildConfig[i3].Source[i4].StorageSource[i5].Object = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.ForProvider.BuildConfig[i3].Source[i4].StorageSource[i5].Object = ptr.To(rsp.ResolvedValue)
 				mg.Spec.ForProvider.BuildConfig[i3].Source[i4].StorageSource[i5].ObjectRef = rsp.ResolvedReference
 
 			}
@@ -126,7 +127,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.BuildConfig[i3].WorkerPool),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.BuildConfig[i3].WorkerPool, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.ForProvider.BuildConfig[i3].WorkerPoolRef,
 				Selector:     mg.Spec.ForProvider.BuildConfig[i3].WorkerPoolSelector,
@@ -136,7 +137,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.BuildConfig[i3].WorkerPool")
 		}
-		mg.Spec.ForProvider.BuildConfig[i3].WorkerPool = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.BuildConfig[i3].WorkerPool = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.BuildConfig[i3].WorkerPoolRef = rsp.ResolvedReference
 
 	}
@@ -148,7 +149,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.EventTrigger[i3].EventFilters[i4].Value),
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.EventTrigger[i3].EventFilters[i4].Value, ""),
 					Extract:      reference.ExternalName(),
 					Reference:    mg.Spec.ForProvider.EventTrigger[i3].EventFilters[i4].ValueRef,
 					Selector:     mg.Spec.ForProvider.EventTrigger[i3].EventFilters[i4].ValueSelector,
@@ -158,7 +159,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.ForProvider.EventTrigger[i3].EventFilters[i4].Value")
 			}
-			mg.Spec.ForProvider.EventTrigger[i3].EventFilters[i4].Value = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.EventTrigger[i3].EventFilters[i4].Value = ptr.To(rsp.ResolvedValue)
 			mg.Spec.ForProvider.EventTrigger[i3].EventFilters[i4].ValueRef = rsp.ResolvedReference
 
 		}
@@ -170,7 +171,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.EventTrigger[i3].PubsubTopic),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.EventTrigger[i3].PubsubTopic, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.ForProvider.EventTrigger[i3].PubsubTopicRef,
 				Selector:     mg.Spec.ForProvider.EventTrigger[i3].PubsubTopicSelector,
@@ -180,7 +181,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.EventTrigger[i3].PubsubTopic")
 		}
-		mg.Spec.ForProvider.EventTrigger[i3].PubsubTopic = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.EventTrigger[i3].PubsubTopic = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.EventTrigger[i3].PubsubTopicRef = rsp.ResolvedReference
 
 	}
@@ -191,7 +192,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.EventTrigger[i3].ServiceAccountEmail),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.EventTrigger[i3].ServiceAccountEmail, ""),
 				Extract:      resource.ExtractParamPath("email", true),
 				Reference:    mg.Spec.ForProvider.EventTrigger[i3].ServiceAccountEmailRef,
 				Selector:     mg.Spec.ForProvider.EventTrigger[i3].ServiceAccountEmailSelector,
@@ -201,7 +202,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.EventTrigger[i3].ServiceAccountEmail")
 		}
-		mg.Spec.ForProvider.EventTrigger[i3].ServiceAccountEmail = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.EventTrigger[i3].ServiceAccountEmail = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.EventTrigger[i3].ServiceAccountEmailRef = rsp.ResolvedReference
 
 	}
@@ -213,7 +214,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ServiceConfig[i3].SecretEnvironmentVariables[i4].Secret),
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.ServiceConfig[i3].SecretEnvironmentVariables[i4].Secret, ""),
 					Extract:      reference.ExternalName(),
 					Reference:    mg.Spec.ForProvider.ServiceConfig[i3].SecretEnvironmentVariables[i4].SecretRef,
 					Selector:     mg.Spec.ForProvider.ServiceConfig[i3].SecretEnvironmentVariables[i4].SecretSelector,
@@ -223,7 +224,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.ForProvider.ServiceConfig[i3].SecretEnvironmentVariables[i4].Secret")
 			}
-			mg.Spec.ForProvider.ServiceConfig[i3].SecretEnvironmentVariables[i4].Secret = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.ServiceConfig[i3].SecretEnvironmentVariables[i4].Secret = ptr.To(rsp.ResolvedValue)
 			mg.Spec.ForProvider.ServiceConfig[i3].SecretEnvironmentVariables[i4].SecretRef = rsp.ResolvedReference
 
 		}
@@ -236,7 +237,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ServiceConfig[i3].SecretVolumes[i4].Secret),
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.ServiceConfig[i3].SecretVolumes[i4].Secret, ""),
 					Extract:      reference.ExternalName(),
 					Reference:    mg.Spec.ForProvider.ServiceConfig[i3].SecretVolumes[i4].SecretRef,
 					Selector:     mg.Spec.ForProvider.ServiceConfig[i3].SecretVolumes[i4].SecretSelector,
@@ -246,7 +247,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.ForProvider.ServiceConfig[i3].SecretVolumes[i4].Secret")
 			}
-			mg.Spec.ForProvider.ServiceConfig[i3].SecretVolumes[i4].Secret = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.ServiceConfig[i3].SecretVolumes[i4].Secret = ptr.To(rsp.ResolvedValue)
 			mg.Spec.ForProvider.ServiceConfig[i3].SecretVolumes[i4].SecretRef = rsp.ResolvedReference
 
 		}
@@ -258,7 +259,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ServiceConfig[i3].ServiceAccountEmail),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.ServiceConfig[i3].ServiceAccountEmail, ""),
 				Extract:      resource.ExtractParamPath("email", true),
 				Reference:    mg.Spec.ForProvider.ServiceConfig[i3].ServiceAccountEmailRef,
 				Selector:     mg.Spec.ForProvider.ServiceConfig[i3].ServiceAccountEmailSelector,
@@ -268,7 +269,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.ServiceConfig[i3].ServiceAccountEmail")
 		}
-		mg.Spec.ForProvider.ServiceConfig[i3].ServiceAccountEmail = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.ServiceConfig[i3].ServiceAccountEmail = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.ServiceConfig[i3].ServiceAccountEmailRef = rsp.ResolvedReference
 
 	}
@@ -279,7 +280,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.BuildConfig[i3].DockerRepository),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.BuildConfig[i3].DockerRepository, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.InitProvider.BuildConfig[i3].DockerRepositoryRef,
 				Selector:     mg.Spec.InitProvider.BuildConfig[i3].DockerRepositorySelector,
@@ -289,7 +290,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.BuildConfig[i3].DockerRepository")
 		}
-		mg.Spec.InitProvider.BuildConfig[i3].DockerRepository = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.BuildConfig[i3].DockerRepository = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.BuildConfig[i3].DockerRepositoryRef = rsp.ResolvedReference
 
 	}
@@ -300,7 +301,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.BuildConfig[i3].ServiceAccount),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.BuildConfig[i3].ServiceAccount, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.InitProvider.BuildConfig[i3].ServiceAccountRef,
 				Selector:     mg.Spec.InitProvider.BuildConfig[i3].ServiceAccountSelector,
@@ -310,7 +311,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.BuildConfig[i3].ServiceAccount")
 		}
-		mg.Spec.InitProvider.BuildConfig[i3].ServiceAccount = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.BuildConfig[i3].ServiceAccount = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.BuildConfig[i3].ServiceAccountRef = rsp.ResolvedReference
 
 	}
@@ -323,7 +324,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 					}
 					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-						CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.BuildConfig[i3].Source[i4].StorageSource[i5].Bucket),
+						CurrentValue: ptr.Deref(mg.Spec.InitProvider.BuildConfig[i3].Source[i4].StorageSource[i5].Bucket, ""),
 						Extract:      reference.ExternalName(),
 						Reference:    mg.Spec.InitProvider.BuildConfig[i3].Source[i4].StorageSource[i5].BucketRef,
 						Selector:     mg.Spec.InitProvider.BuildConfig[i3].Source[i4].StorageSource[i5].BucketSelector,
@@ -333,7 +334,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 				if err != nil {
 					return errors.Wrap(err, "mg.Spec.InitProvider.BuildConfig[i3].Source[i4].StorageSource[i5].Bucket")
 				}
-				mg.Spec.InitProvider.BuildConfig[i3].Source[i4].StorageSource[i5].Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.InitProvider.BuildConfig[i3].Source[i4].StorageSource[i5].Bucket = ptr.To(rsp.ResolvedValue)
 				mg.Spec.InitProvider.BuildConfig[i3].Source[i4].StorageSource[i5].BucketRef = rsp.ResolvedReference
 
 			}
@@ -348,7 +349,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 					}
 					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-						CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.BuildConfig[i3].Source[i4].StorageSource[i5].Object),
+						CurrentValue: ptr.Deref(mg.Spec.InitProvider.BuildConfig[i3].Source[i4].StorageSource[i5].Object, ""),
 						Extract:      resource.ExtractParamPath("name", false),
 						Reference:    mg.Spec.InitProvider.BuildConfig[i3].Source[i4].StorageSource[i5].ObjectRef,
 						Selector:     mg.Spec.InitProvider.BuildConfig[i3].Source[i4].StorageSource[i5].ObjectSelector,
@@ -358,7 +359,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 				if err != nil {
 					return errors.Wrap(err, "mg.Spec.InitProvider.BuildConfig[i3].Source[i4].StorageSource[i5].Object")
 				}
-				mg.Spec.InitProvider.BuildConfig[i3].Source[i4].StorageSource[i5].Object = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.InitProvider.BuildConfig[i3].Source[i4].StorageSource[i5].Object = ptr.To(rsp.ResolvedValue)
 				mg.Spec.InitProvider.BuildConfig[i3].Source[i4].StorageSource[i5].ObjectRef = rsp.ResolvedReference
 
 			}
@@ -371,7 +372,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.BuildConfig[i3].WorkerPool),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.BuildConfig[i3].WorkerPool, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.InitProvider.BuildConfig[i3].WorkerPoolRef,
 				Selector:     mg.Spec.InitProvider.BuildConfig[i3].WorkerPoolSelector,
@@ -381,7 +382,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.BuildConfig[i3].WorkerPool")
 		}
-		mg.Spec.InitProvider.BuildConfig[i3].WorkerPool = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.BuildConfig[i3].WorkerPool = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.BuildConfig[i3].WorkerPoolRef = rsp.ResolvedReference
 
 	}
@@ -393,7 +394,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.EventTrigger[i3].EventFilters[i4].Value),
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.EventTrigger[i3].EventFilters[i4].Value, ""),
 					Extract:      reference.ExternalName(),
 					Reference:    mg.Spec.InitProvider.EventTrigger[i3].EventFilters[i4].ValueRef,
 					Selector:     mg.Spec.InitProvider.EventTrigger[i3].EventFilters[i4].ValueSelector,
@@ -403,7 +404,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.InitProvider.EventTrigger[i3].EventFilters[i4].Value")
 			}
-			mg.Spec.InitProvider.EventTrigger[i3].EventFilters[i4].Value = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.EventTrigger[i3].EventFilters[i4].Value = ptr.To(rsp.ResolvedValue)
 			mg.Spec.InitProvider.EventTrigger[i3].EventFilters[i4].ValueRef = rsp.ResolvedReference
 
 		}
@@ -415,7 +416,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.EventTrigger[i3].PubsubTopic),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.EventTrigger[i3].PubsubTopic, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.InitProvider.EventTrigger[i3].PubsubTopicRef,
 				Selector:     mg.Spec.InitProvider.EventTrigger[i3].PubsubTopicSelector,
@@ -425,7 +426,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.EventTrigger[i3].PubsubTopic")
 		}
-		mg.Spec.InitProvider.EventTrigger[i3].PubsubTopic = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.EventTrigger[i3].PubsubTopic = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.EventTrigger[i3].PubsubTopicRef = rsp.ResolvedReference
 
 	}
@@ -436,7 +437,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.EventTrigger[i3].ServiceAccountEmail),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.EventTrigger[i3].ServiceAccountEmail, ""),
 				Extract:      resource.ExtractParamPath("email", true),
 				Reference:    mg.Spec.InitProvider.EventTrigger[i3].ServiceAccountEmailRef,
 				Selector:     mg.Spec.InitProvider.EventTrigger[i3].ServiceAccountEmailSelector,
@@ -446,7 +447,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.EventTrigger[i3].ServiceAccountEmail")
 		}
-		mg.Spec.InitProvider.EventTrigger[i3].ServiceAccountEmail = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.EventTrigger[i3].ServiceAccountEmail = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.EventTrigger[i3].ServiceAccountEmailRef = rsp.ResolvedReference
 
 	}
@@ -458,7 +459,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ServiceConfig[i3].SecretEnvironmentVariables[i4].Secret),
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.ServiceConfig[i3].SecretEnvironmentVariables[i4].Secret, ""),
 					Extract:      reference.ExternalName(),
 					Reference:    mg.Spec.InitProvider.ServiceConfig[i3].SecretEnvironmentVariables[i4].SecretRef,
 					Selector:     mg.Spec.InitProvider.ServiceConfig[i3].SecretEnvironmentVariables[i4].SecretSelector,
@@ -468,7 +469,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.InitProvider.ServiceConfig[i3].SecretEnvironmentVariables[i4].Secret")
 			}
-			mg.Spec.InitProvider.ServiceConfig[i3].SecretEnvironmentVariables[i4].Secret = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.ServiceConfig[i3].SecretEnvironmentVariables[i4].Secret = ptr.To(rsp.ResolvedValue)
 			mg.Spec.InitProvider.ServiceConfig[i3].SecretEnvironmentVariables[i4].SecretRef = rsp.ResolvedReference
 
 		}
@@ -481,7 +482,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ServiceConfig[i3].SecretVolumes[i4].Secret),
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.ServiceConfig[i3].SecretVolumes[i4].Secret, ""),
 					Extract:      reference.ExternalName(),
 					Reference:    mg.Spec.InitProvider.ServiceConfig[i3].SecretVolumes[i4].SecretRef,
 					Selector:     mg.Spec.InitProvider.ServiceConfig[i3].SecretVolumes[i4].SecretSelector,
@@ -491,7 +492,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.InitProvider.ServiceConfig[i3].SecretVolumes[i4].Secret")
 			}
-			mg.Spec.InitProvider.ServiceConfig[i3].SecretVolumes[i4].Secret = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.ServiceConfig[i3].SecretVolumes[i4].Secret = ptr.To(rsp.ResolvedValue)
 			mg.Spec.InitProvider.ServiceConfig[i3].SecretVolumes[i4].SecretRef = rsp.ResolvedReference
 
 		}
@@ -503,7 +504,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ServiceConfig[i3].ServiceAccountEmail),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.ServiceConfig[i3].ServiceAccountEmail, ""),
 				Extract:      resource.ExtractParamPath("email", true),
 				Reference:    mg.Spec.InitProvider.ServiceConfig[i3].ServiceAccountEmailRef,
 				Selector:     mg.Spec.InitProvider.ServiceConfig[i3].ServiceAccountEmailSelector,
@@ -513,7 +514,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.ServiceConfig[i3].ServiceAccountEmail")
 		}
-		mg.Spec.InitProvider.ServiceConfig[i3].ServiceAccountEmail = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.ServiceConfig[i3].ServiceAccountEmail = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.ServiceConfig[i3].ServiceAccountEmailRef = rsp.ResolvedReference
 
 	}
