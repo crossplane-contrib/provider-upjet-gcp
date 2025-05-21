@@ -1048,6 +1048,9 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_tags_tag_key": config.IdentifierFromProvider,
 	// Imported by using the following tagValues/{{name}}
 	"google_tags_tag_value": config.IdentifierFromProvider,
+
+	// cloudquotas
+	"google_cloud_quotas_quota_preference": config.TemplatedStringAsIdentifier("name", "{{ .parameters.parent }}/locations/global/quotaPreferences/{{ .external_name }}"),
 }
 
 // cliReconciledExternalNameConfigs contains all external name configurations
