@@ -645,6 +645,14 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	//
 	// Imported by using the following {{parent}}/locations/{{location}}/addressGroups/{{name}}
 	"google_network_security_address_group": config.TemplatedStringAsIdentifier("name", "{{ .parameters.parent }}/locations/{{ .parameters.location }}/addressGroups/{{ .external_name }}"),
+	// Imported by using projects/{{project}}/locations/{{location}}/gatewaySecurityPolicies/{{name}}
+	"google_network_security_gateway_security_policy": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/gatewaySecurityPolicies/{{ .external_name }}"),
+	// Imported by using projects/{{project}}/locations/{{location}}/gatewaySecurityPolicies/{{gateway_security_policy}}/rules/{{name}}
+	"google_network_security_gateway_security_policy_rule": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/gatewaySecurityPolicies/{{ .parameters.gateway_security_policy }}/rules/{{ .external_name }}"),
+	// Imported by using projects/{{project}}/locations/{{location}}/tlsInspectionPolicies/{{name}}
+	"google_network_security_tls_inspection_policy": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/tlsInspectionPolicies/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/urlLists/{{name}}
+	"google_network_security_url_lists": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/urlLists/{{ .external_name }}"),
 
 	// mlengine
 	//
@@ -1048,6 +1056,11 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_tags_tag_key": config.IdentifierFromProvider,
 	// Imported by using the following tagValues/{{name}}
 	"google_tags_tag_value": config.IdentifierFromProvider,
+
+	// network services
+	//
+	// Imported by using projects/{{project}}/locations/{{location}}/gateways/{{name}}
+	"google_network_services_gateway": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/gateways/{{ .external_name }}"),
 }
 
 // cliReconciledExternalNameConfigs contains all external name configurations

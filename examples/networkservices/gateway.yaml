@@ -1,0 +1,83 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: networkservices.gcp.upbound.io/v1beta1
+kind: Gateway
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkservices/v1beta1/gateway
+  labels:
+    testing.upbound.io/example-name: uptest
+  name: uptest
+spec:
+  forProvider:
+    addresses:
+    - "10.128.0.99"
+    location: us-central1
+    ports:
+    - 443
+    scope: default-scope-basic
+    type: SECURE_WEB_GATEWAY
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: gateway
+    subnetworkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    deleteSwgAutogenRouterOnDestroy: true
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/network
+  labels:
+    testing.upbound.io/example-name: gateway
+  name: gateway
+spec:
+  forProvider:
+    autoCreateSubnetworks: false
+    routingMode: "REGIONAL"
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Subnetwork
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/subnetwork
+  labels:
+    testing.upbound.io/example-name: default
+  name: my-subnetwork-name
+spec:
+  forProvider:
+    purpose: "PRIVATE"
+    ipCidrRange: "10.128.0.0/20"
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: gateway
+    region: us-central1
+    role: "ACTIVE"
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Subnetwork
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/subnetwork
+  labels:
+    testing.upbound.io/example-name: proxy
+  name: my-proxy-only-subnetwork
+spec:
+  forProvider:
+    purpose: "REGIONAL_MANAGED_PROXY"
+    ipCidrRange: "192.168.0.0/23"
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: gateway
+    region: us-central1
+    role: "ACTIVE"

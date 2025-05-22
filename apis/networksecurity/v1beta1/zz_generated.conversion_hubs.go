@@ -8,3 +8,15 @@ package v1beta1
 
 // Hub marks this type as a conversion hub.
 func (tr *AddressGroup) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *GatewaySecurityPolicy) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *GatewaySecurityPolicyRule) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *TLSInspectionPolicy) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *URLLists) Hub() {}
