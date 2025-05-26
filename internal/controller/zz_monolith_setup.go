@@ -361,6 +361,7 @@ import (
 	bucketaccesscontrol "github.com/upbound/provider-gcp/internal/controller/storage/bucketaccesscontrol"
 	bucketacl "github.com/upbound/provider-gcp/internal/controller/storage/bucketacl"
 	bucketiammember "github.com/upbound/provider-gcp/internal/controller/storage/bucketiammember"
+	bucketiampolicy "github.com/upbound/provider-gcp/internal/controller/storage/bucketiampolicy"
 	bucketobject "github.com/upbound/provider-gcp/internal/controller/storage/bucketobject"
 	defaultobjectaccesscontrol "github.com/upbound/provider-gcp/internal/controller/storage/defaultobjectaccesscontrol"
 	defaultobjectacl "github.com/upbound/provider-gcp/internal/controller/storage/defaultobjectacl"
@@ -738,6 +739,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		bucketaccesscontrol.Setup,
 		bucketacl.Setup,
 		bucketiammember.Setup,
+		bucketiampolicy.Setup,
 		bucketobject.Setup,
 		defaultobjectaccesscontrol.Setup,
 		defaultobjectacl.Setup,

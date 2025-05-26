@@ -792,6 +792,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_storage_bucket_acl": config.IdentifierFromProvider,
 	// Imported by using the following format: b/{{bucket}} roles/storage.objectViewer user:jane@example.com
 	"google_storage_bucket_iam_member": config.IdentifierFromProvider,
+	// Imported by using the following format: b/{{bucket}} roles/storage.objectViewer user:jane@example.com
+	"google_storage_bucket_iam_policy": config.IdentifierFromProvider,
 	// This resource does not support import.
 	"google_storage_bucket_object": config.IdentifierFromProvider,
 	// Imported using the following format: id which should be the format of {{bucket}}/{{entity}}
