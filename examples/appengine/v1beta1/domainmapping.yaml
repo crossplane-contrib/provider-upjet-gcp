@@ -8,5 +8,6 @@ metadata:
   name: domain-mapping
 spec:
   forProvider:
+    domainName: "domain-name"
     sslSettings:
-    - sslManagementType: AUTOMATIC
+      sslManagementType: AUTOMATIC

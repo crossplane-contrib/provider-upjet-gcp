@@ -10,9 +10,9 @@ spec:
   forProvider:
     migrateTraffic: false
     split:
-    - allocations:
-        ${(google_app_engine_standard_app_version.liveapp_v1.version_id)}: 0.75
-        ${(google_app_engine_standard_app_version.liveapp_v2.version_id)}: 0.25
+      allocations:
+        liveapp-v3: "0.50"
+        liveapp-v4: "0.50"
       shardBy: IP
 
 ---
@@ -23,16 +23,16 @@ metadata:
   annotations:
     meta.upbound.io/example-id: appengine/v1beta1/servicesplittraffic
   labels:
-    testing.upbound.io/example-name: liveapp_v1
-  name: liveapp-v1
+    testing.upbound.io/example-name: liveapp_v3
+  name: liveapp-v3
 spec:
   forProvider:
     deleteServiceOnDestroy: true
     deployment:
-    - zip:
-      - sourceUrl: https://storage.googleapis.com/${google_storage_bucket.bucket.name}/${google_storage_bucket_object.object.name}
+      zip:
+        sourceUrl: https://storage.googleapis.com/${data.bucket_name}/${data.object_name}
     entrypoint:
-    - shell: node ./app.js
+      shell: npm run start
     envVariables:
       port: "8080"
     runtime: nodejs20
@@ -46,15 +46,15 @@ metadata:
   annotations:
     meta.upbound.io/example-id: appengine/v1beta1/servicesplittraffic
   labels:
-    testing.upbound.io/example-name: liveapp_v2
-  name: liveapp-v2
+    testing.upbound.io/example-name: liveapp_v4
+  name: liveapp-v4
 spec:
   forProvider:
     deployment:
-    - zip:
-      - sourceUrl: https://storage.googleapis.com/${google_storage_bucket.bucket.name}/${google_storage_bucket_object.object.name}
+      zip:
+        sourceUrl: https://storage.googleapis.com/${data.bucket_name}/${data.object_name}
     entrypoint:
-    - shell: node ./app.js
+      shell: node ./app.js
     envVariables:
       port: "8080"
     noopOnDestroy: true
@@ -68,9 +68,10 @@ kind: Bucket
 metadata:
   annotations:
     meta.upbound.io/example-id: appengine/v1beta1/servicesplittraffic
+    upjet.upbound.io/manual-intervention: A nodejs server files compiled as a zip object needs to be set up and uploaded to the bucket from above. The StandardAppVersion resources will reference this same zip file."
   labels:
-    testing.upbound.io/example-name: bucket
-  name: bucket
+    testing.upbound.io/example-name: ${data.bucket_name}
+  name: ${data.bucket_name}
 spec:
   forProvider:
     location: US
@@ -89,6 +90,6 @@ spec:
   forProvider:
     bucketSelector:
       matchLabels:
-        testing.upbound.io/example-name: bucket
-    name: hello-world.zip
-    source: ./test-fixtures/hello-world.zip
+        testing.upbound.io/example-name: ${data.bucket_name}
+    name: ${data.object_name}
+    source: ${data.object_name}

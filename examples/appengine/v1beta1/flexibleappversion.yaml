@@ -9,40 +9,36 @@ metadata:
 spec:
   forProvider:
     automaticScaling:
-    - coolDownPeriod: 120s
+      coolDownPeriod: 120s
       cpuUtilization:
-      - targetUtilization: 0.5
+        targetUtilization: 0.5
     deployment:
-    - zip:
-      - sourceUrl: https://storage.googleapis.com/${google_storage_bucket.bucket.name}/${google_storage_bucket_object.object.name}
+      zip:
+        sourceUrl: https://storage.googleapis.com/${data.bucket_name}/${data.object_name}
     entrypoint:
-    - shell: node ./app.js
+      shell: node app.js
     envVariables:
       port: "8080"
     flexibleRuntimeSettings:
-    - operatingSystem: ubuntu22
+      operatingSystem: ubuntu22
       runtimeVersion: "20"
     handlers:
     - authFailAction: AUTH_FAIL_ACTION_REDIRECT
       login: LOGIN_REQUIRED
       securityLevel: SECURE_ALWAYS
       staticFiles:
-      - path: my-other-path
+        path: my-other-path
         uploadPathRegex: .*\/my-path\/*
       urlRegex: .*\/my-path\/*
     livenessCheck:
-    - path: /
+      path: /
     noopOnDestroy: true
-    projectSelector:
-      matchLabels:
-        testing.upbound.io/example-name: gae_api
+    project: appeng-flex
     readinessCheck:
-    - path: /
+      path: /
     runtime: nodejs
     service: default
-    serviceAccountSelector:
-      matchLabels:
-        testing.upbound.io/example-name: custom_service_account
+    serviceAccount: ${data.service_account_name}@appeng-flex.iam.gserviceaccount.com
 
 ---
 
@@ -57,9 +53,7 @@ metadata:
 spec:
   forProvider:
     locationId: us-central
-    projectSelector:
-      matchLabels:
-        testing.upbound.io/example-name: my_project
+    project: appeng-flex
 
 ---
 
@@ -104,8 +98,8 @@ metadata:
   annotations:
     meta.upbound.io/example-id: appengine/v1beta1/flexibleappversion
   labels:
-    testing.upbound.io/example-name: custom_service_account
-  name: custom-service-account
+    testing.upbound.io/example-name: ${data.service_account_name}
+  name: ${data.service_account_name}
 spec:
   forProvider:
     displayName: Custom Service Account
@@ -119,8 +113,8 @@ metadata:
   annotations:
     meta.upbound.io/example-id: appengine/v1beta1/flexibleappversion
   labels:
-    testing.upbound.io/example-name: bucket
-  name: bucket
+    testing.upbound.io/example-name: ${data.bucket_name}
+  name: ${data.bucket_name}
 spec:
   forProvider:
     location: US
@@ -133,13 +127,14 @@ kind: BucketObject
 metadata:
   annotations:
     meta.upbound.io/example-id: appengine/v1beta1/flexibleappversion
+    upjet.upbound.io/manual-intervention: A nodejs server files compiled as a zip object needs to be set up and uploaded to the bucket from above. The FlexibleAppVersion resources will reference this same zip file."
   labels:
-    testing.upbound.io/example-name: object
-  name: object
+    testing.upbound.io/example-name: node-js-project
+  name: node-js-project
 spec:
   forProvider:
     bucketSelector:
       matchLabels:
-        testing.upbound.io/example-name: bucket
-    name: hello-world.zip
-    source: ./test-fixtures/hello-world.zip
+        testing.upbound.io/example-name: ${data.bucket_name}
+    name: ${data.object_name}
+    source: ${data.object_source_path}
