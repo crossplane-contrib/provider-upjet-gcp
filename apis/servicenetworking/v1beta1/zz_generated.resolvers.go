@@ -9,11 +9,13 @@ package v1beta1
 import (
 	"context"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
+	helper "github.com/crossplane/crossplane-tools/pkg/helpers"
 	resource "github.com/crossplane/upjet/pkg/resource"
 	errors "github.com/pkg/errors"
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -33,7 +35,7 @@ func (mg *Connection) ResolveReferences( // ResolveReferences of this Connection
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Network),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Network, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.NetworkRef,
 			Selector:     mg.Spec.ForProvider.NetworkSelector,
@@ -43,7 +45,7 @@ func (mg *Connection) ResolveReferences( // ResolveReferences of this Connection
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Network")
 	}
-	mg.Spec.ForProvider.Network = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Network = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.NetworkRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "GlobalAddress", "GlobalAddressList")
@@ -52,7 +54,7 @@ func (mg *Connection) ResolveReferences( // ResolveReferences of this Connection
 		}
 
 		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
-			CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.ReservedPeeringRanges),
+			CurrentValues: helper.FromPtrValues(mg.Spec.ForProvider.ReservedPeeringRanges),
 			Extract:       reference.ExternalName(),
 			References:    mg.Spec.ForProvider.ReservedPeeringRangesRefs,
 			Selector:      mg.Spec.ForProvider.ReservedPeeringRangesSelector,
@@ -62,7 +64,7 @@ func (mg *Connection) ResolveReferences( // ResolveReferences of this Connection
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.ReservedPeeringRanges")
 	}
-	mg.Spec.ForProvider.ReservedPeeringRanges = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.ForProvider.ReservedPeeringRanges = helper.ToPtrValues(mrsp.ResolvedValues)
 	mg.Spec.ForProvider.ReservedPeeringRangesRefs = mrsp.ResolvedReferences
 	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Network", "NetworkList")
@@ -71,7 +73,7 @@ func (mg *Connection) ResolveReferences( // ResolveReferences of this Connection
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Network),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Network, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.NetworkRef,
 			Selector:     mg.Spec.InitProvider.NetworkSelector,
@@ -81,7 +83,7 @@ func (mg *Connection) ResolveReferences( // ResolveReferences of this Connection
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Network")
 	}
-	mg.Spec.InitProvider.Network = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Network = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.NetworkRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "GlobalAddress", "GlobalAddressList")
@@ -90,7 +92,7 @@ func (mg *Connection) ResolveReferences( // ResolveReferences of this Connection
 		}
 
 		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
-			CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.ReservedPeeringRanges),
+			CurrentValues: helper.FromPtrValues(mg.Spec.InitProvider.ReservedPeeringRanges),
 			Extract:       reference.ExternalName(),
 			References:    mg.Spec.InitProvider.ReservedPeeringRangesRefs,
 			Selector:      mg.Spec.InitProvider.ReservedPeeringRangesSelector,
@@ -100,7 +102,7 @@ func (mg *Connection) ResolveReferences( // ResolveReferences of this Connection
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.ReservedPeeringRanges")
 	}
-	mg.Spec.InitProvider.ReservedPeeringRanges = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.InitProvider.ReservedPeeringRanges = helper.ToPtrValues(mrsp.ResolvedValues)
 	mg.Spec.InitProvider.ReservedPeeringRangesRefs = mrsp.ResolvedReferences
 
 	return nil

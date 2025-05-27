@@ -13,6 +13,7 @@ import (
 	errors "github.com/pkg/errors"
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 
 	// ResolveReferences of this Entry.
@@ -33,7 +34,7 @@ func (mg *Entry) ResolveReferences(ctx context.Context, c client.Reader) error {
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.EntryGroup),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.EntryGroup, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.EntryGroupRef,
 			Selector:     mg.Spec.ForProvider.EntryGroupSelector,
@@ -43,7 +44,7 @@ func (mg *Entry) ResolveReferences(ctx context.Context, c client.Reader) error {
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.EntryGroup")
 	}
-	mg.Spec.ForProvider.EntryGroup = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.EntryGroup = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.EntryGroupRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("datacatalog.gcp.upbound.io", "v1beta1", "EntryGroup", "EntryGroupList")
@@ -52,7 +53,7 @@ func (mg *Entry) ResolveReferences(ctx context.Context, c client.Reader) error {
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.EntryGroup),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.EntryGroup, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.EntryGroupRef,
 			Selector:     mg.Spec.InitProvider.EntryGroupSelector,
@@ -62,7 +63,7 @@ func (mg *Entry) ResolveReferences(ctx context.Context, c client.Reader) error {
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.EntryGroup")
 	}
-	mg.Spec.InitProvider.EntryGroup = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.EntryGroup = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.EntryGroupRef = rsp.ResolvedReference
 
 	return nil

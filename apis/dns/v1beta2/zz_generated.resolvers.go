@@ -15,6 +15,7 @@ import (
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	common "github.com/upbound/provider-gcp/config/common"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -35,7 +36,7 @@ func (mg *ManagedZone) ResolveReferences( // ResolveReferences of this ManagedZo
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PeeringConfig.TargetNetwork.NetworkURL),
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.PeeringConfig.TargetNetwork.NetworkURL, ""),
 					Extract:      common.SelfLinkExtractor(),
 					Reference:    mg.Spec.ForProvider.PeeringConfig.TargetNetwork.NetworkURLRef,
 					Selector:     mg.Spec.ForProvider.PeeringConfig.TargetNetwork.NetworkURLSelector,
@@ -45,7 +46,7 @@ func (mg *ManagedZone) ResolveReferences( // ResolveReferences of this ManagedZo
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.ForProvider.PeeringConfig.TargetNetwork.NetworkURL")
 			}
-			mg.Spec.ForProvider.PeeringConfig.TargetNetwork.NetworkURL = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.PeeringConfig.TargetNetwork.NetworkURL = ptr.To(rsp.ResolvedValue)
 			mg.Spec.ForProvider.PeeringConfig.TargetNetwork.NetworkURLRef = rsp.ResolvedReference
 
 		}
@@ -58,7 +59,7 @@ func (mg *ManagedZone) ResolveReferences( // ResolveReferences of this ManagedZo
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PrivateVisibilityConfig.GkeClusters[i4].GkeClusterName),
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.PrivateVisibilityConfig.GkeClusters[i4].GkeClusterName, ""),
 					Extract:      resource.ExtractResourceID(),
 					Reference:    mg.Spec.ForProvider.PrivateVisibilityConfig.GkeClusters[i4].GkeClusterNameRef,
 					Selector:     mg.Spec.ForProvider.PrivateVisibilityConfig.GkeClusters[i4].GkeClusterNameSelector,
@@ -68,7 +69,7 @@ func (mg *ManagedZone) ResolveReferences( // ResolveReferences of this ManagedZo
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.ForProvider.PrivateVisibilityConfig.GkeClusters[i4].GkeClusterName")
 			}
-			mg.Spec.ForProvider.PrivateVisibilityConfig.GkeClusters[i4].GkeClusterName = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.PrivateVisibilityConfig.GkeClusters[i4].GkeClusterName = ptr.To(rsp.ResolvedValue)
 			mg.Spec.ForProvider.PrivateVisibilityConfig.GkeClusters[i4].GkeClusterNameRef = rsp.ResolvedReference
 
 		}
@@ -81,7 +82,7 @@ func (mg *ManagedZone) ResolveReferences( // ResolveReferences of this ManagedZo
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PrivateVisibilityConfig.Networks[i4].NetworkURL),
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.PrivateVisibilityConfig.Networks[i4].NetworkURL, ""),
 					Extract:      common.SelfLinkExtractor(),
 					Reference:    mg.Spec.ForProvider.PrivateVisibilityConfig.Networks[i4].NetworkURLRef,
 					Selector:     mg.Spec.ForProvider.PrivateVisibilityConfig.Networks[i4].NetworkURLSelector,
@@ -91,7 +92,7 @@ func (mg *ManagedZone) ResolveReferences( // ResolveReferences of this ManagedZo
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.ForProvider.PrivateVisibilityConfig.Networks[i4].NetworkURL")
 			}
-			mg.Spec.ForProvider.PrivateVisibilityConfig.Networks[i4].NetworkURL = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.PrivateVisibilityConfig.Networks[i4].NetworkURL = ptr.To(rsp.ResolvedValue)
 			mg.Spec.ForProvider.PrivateVisibilityConfig.Networks[i4].NetworkURLRef = rsp.ResolvedReference
 
 		}
@@ -104,7 +105,7 @@ func (mg *ManagedZone) ResolveReferences( // ResolveReferences of this ManagedZo
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PeeringConfig.TargetNetwork.NetworkURL),
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.PeeringConfig.TargetNetwork.NetworkURL, ""),
 					Extract:      common.SelfLinkExtractor(),
 					Reference:    mg.Spec.InitProvider.PeeringConfig.TargetNetwork.NetworkURLRef,
 					Selector:     mg.Spec.InitProvider.PeeringConfig.TargetNetwork.NetworkURLSelector,
@@ -114,7 +115,7 @@ func (mg *ManagedZone) ResolveReferences( // ResolveReferences of this ManagedZo
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.InitProvider.PeeringConfig.TargetNetwork.NetworkURL")
 			}
-			mg.Spec.InitProvider.PeeringConfig.TargetNetwork.NetworkURL = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.PeeringConfig.TargetNetwork.NetworkURL = ptr.To(rsp.ResolvedValue)
 			mg.Spec.InitProvider.PeeringConfig.TargetNetwork.NetworkURLRef = rsp.ResolvedReference
 
 		}
@@ -127,7 +128,7 @@ func (mg *ManagedZone) ResolveReferences( // ResolveReferences of this ManagedZo
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PrivateVisibilityConfig.GkeClusters[i4].GkeClusterName),
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.PrivateVisibilityConfig.GkeClusters[i4].GkeClusterName, ""),
 					Extract:      resource.ExtractResourceID(),
 					Reference:    mg.Spec.InitProvider.PrivateVisibilityConfig.GkeClusters[i4].GkeClusterNameRef,
 					Selector:     mg.Spec.InitProvider.PrivateVisibilityConfig.GkeClusters[i4].GkeClusterNameSelector,
@@ -137,7 +138,7 @@ func (mg *ManagedZone) ResolveReferences( // ResolveReferences of this ManagedZo
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.InitProvider.PrivateVisibilityConfig.GkeClusters[i4].GkeClusterName")
 			}
-			mg.Spec.InitProvider.PrivateVisibilityConfig.GkeClusters[i4].GkeClusterName = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.PrivateVisibilityConfig.GkeClusters[i4].GkeClusterName = ptr.To(rsp.ResolvedValue)
 			mg.Spec.InitProvider.PrivateVisibilityConfig.GkeClusters[i4].GkeClusterNameRef = rsp.ResolvedReference
 
 		}
@@ -150,7 +151,7 @@ func (mg *ManagedZone) ResolveReferences( // ResolveReferences of this ManagedZo
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PrivateVisibilityConfig.Networks[i4].NetworkURL),
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.PrivateVisibilityConfig.Networks[i4].NetworkURL, ""),
 					Extract:      common.SelfLinkExtractor(),
 					Reference:    mg.Spec.InitProvider.PrivateVisibilityConfig.Networks[i4].NetworkURLRef,
 					Selector:     mg.Spec.InitProvider.PrivateVisibilityConfig.Networks[i4].NetworkURLSelector,
@@ -160,7 +161,7 @@ func (mg *ManagedZone) ResolveReferences( // ResolveReferences of this ManagedZo
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.InitProvider.PrivateVisibilityConfig.Networks[i4].NetworkURL")
 			}
-			mg.Spec.InitProvider.PrivateVisibilityConfig.Networks[i4].NetworkURL = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.PrivateVisibilityConfig.Networks[i4].NetworkURL = ptr.To(rsp.ResolvedValue)
 			mg.Spec.InitProvider.PrivateVisibilityConfig.Networks[i4].NetworkURLRef = rsp.ResolvedReference
 
 		}
@@ -185,7 +186,7 @@ func (mg *Policy) ResolveReferences(ctx context.Context, c client.Reader) error 
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Networks[i3].NetworkURL),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.Networks[i3].NetworkURL, ""),
 				Extract:      common.ExtractResourceID(),
 				Reference:    mg.Spec.ForProvider.Networks[i3].NetworkRef,
 				Selector:     mg.Spec.ForProvider.Networks[i3].NetworkSelector,
@@ -195,7 +196,7 @@ func (mg *Policy) ResolveReferences(ctx context.Context, c client.Reader) error 
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.Networks[i3].NetworkURL")
 		}
-		mg.Spec.ForProvider.Networks[i3].NetworkURL = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.Networks[i3].NetworkURL = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.Networks[i3].NetworkRef = rsp.ResolvedReference
 
 	}
@@ -206,7 +207,7 @@ func (mg *Policy) ResolveReferences(ctx context.Context, c client.Reader) error 
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Networks[i3].NetworkURL),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.Networks[i3].NetworkURL, ""),
 				Extract:      common.ExtractResourceID(),
 				Reference:    mg.Spec.InitProvider.Networks[i3].NetworkRef,
 				Selector:     mg.Spec.InitProvider.Networks[i3].NetworkSelector,
@@ -216,7 +217,7 @@ func (mg *Policy) ResolveReferences(ctx context.Context, c client.Reader) error 
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.Networks[i3].NetworkURL")
 		}
-		mg.Spec.InitProvider.Networks[i3].NetworkURL = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Networks[i3].NetworkURL = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.Networks[i3].NetworkRef = rsp.ResolvedReference
 
 	}
@@ -239,7 +240,7 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ManagedZone),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.ManagedZone, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.ManagedZoneRef,
 			Selector:     mg.Spec.ForProvider.ManagedZoneSelector,
@@ -249,7 +250,7 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.ManagedZone")
 	}
-	mg.Spec.ForProvider.ManagedZone = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ManagedZone = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ManagedZoneRef = rsp.ResolvedReference
 
 	if mg.Spec.ForProvider.RoutingPolicy != nil {
@@ -262,7 +263,7 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 							return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 						}
 						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-							CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].IPAddress),
+							CurrentValue: ptr.Deref(mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].IPAddress, ""),
 							Extract:      resource.ExtractParamPath("ip_address", false),
 							Reference:    mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].IPAddressRef,
 							Selector:     mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].IPAddressSelector,
@@ -272,7 +273,7 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 					if err != nil {
 						return errors.Wrap(err, "mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].IPAddress")
 					}
-					mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].IPAddress = reference.ToPtrValue(rsp.ResolvedValue)
+					mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].IPAddress = ptr.To(rsp.ResolvedValue)
 					mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].IPAddressRef = rsp.ResolvedReference
 
 				}
@@ -289,7 +290,7 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 							return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 						}
 						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-							CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].NetworkURL),
+							CurrentValue: ptr.Deref(mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].NetworkURL, ""),
 							Extract:      resource.ExtractResourceID(),
 							Reference:    mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].NetworkURLRef,
 							Selector:     mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].NetworkURLSelector,
@@ -299,7 +300,7 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 					if err != nil {
 						return errors.Wrap(err, "mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].NetworkURL")
 					}
-					mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].NetworkURL = reference.ToPtrValue(rsp.ResolvedValue)
+					mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].NetworkURL = ptr.To(rsp.ResolvedValue)
 					mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].NetworkURLRef = rsp.ResolvedReference
 
 				}
@@ -316,7 +317,7 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 							return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 						}
 						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-							CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].Project),
+							CurrentValue: ptr.Deref(mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].Project, ""),
 							Extract:      resource.ExtractParamPath("project", false),
 							Reference:    mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].ProjectRef,
 							Selector:     mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].ProjectSelector,
@@ -326,7 +327,7 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 					if err != nil {
 						return errors.Wrap(err, "mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].Project")
 					}
-					mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].Project = reference.ToPtrValue(rsp.ResolvedValue)
+					mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].Project = ptr.To(rsp.ResolvedValue)
 					mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].ProjectRef = rsp.ResolvedReference
 
 				}
@@ -343,7 +344,7 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 							return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 						}
 						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-							CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].Region),
+							CurrentValue: ptr.Deref(mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].Region, ""),
 							Extract:      resource.ExtractParamPath("region", false),
 							Reference:    mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].RegionRef,
 							Selector:     mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].RegionSelector,
@@ -353,7 +354,7 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 					if err != nil {
 						return errors.Wrap(err, "mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].Region")
 					}
-					mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].Region = reference.ToPtrValue(rsp.ResolvedValue)
+					mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].Region = ptr.To(rsp.ResolvedValue)
 					mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].RegionRef = rsp.ResolvedReference
 
 				}
@@ -366,7 +367,7 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ManagedZone),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.ManagedZone, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.ManagedZoneRef,
 			Selector:     mg.Spec.InitProvider.ManagedZoneSelector,
@@ -376,7 +377,7 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.ManagedZone")
 	}
-	mg.Spec.InitProvider.ManagedZone = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ManagedZone = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ManagedZoneRef = rsp.ResolvedReference
 
 	if mg.Spec.InitProvider.RoutingPolicy != nil {
@@ -389,7 +390,7 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 							return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 						}
 						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-							CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].IPAddress),
+							CurrentValue: ptr.Deref(mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].IPAddress, ""),
 							Extract:      resource.ExtractParamPath("ip_address", false),
 							Reference:    mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].IPAddressRef,
 							Selector:     mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].IPAddressSelector,
@@ -399,7 +400,7 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 					if err != nil {
 						return errors.Wrap(err, "mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].IPAddress")
 					}
-					mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].IPAddress = reference.ToPtrValue(rsp.ResolvedValue)
+					mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].IPAddress = ptr.To(rsp.ResolvedValue)
 					mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].IPAddressRef = rsp.ResolvedReference
 
 				}
@@ -416,7 +417,7 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 							return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 						}
 						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-							CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].NetworkURL),
+							CurrentValue: ptr.Deref(mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].NetworkURL, ""),
 							Extract:      resource.ExtractResourceID(),
 							Reference:    mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].NetworkURLRef,
 							Selector:     mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].NetworkURLSelector,
@@ -426,7 +427,7 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 					if err != nil {
 						return errors.Wrap(err, "mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].NetworkURL")
 					}
-					mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].NetworkURL = reference.ToPtrValue(rsp.ResolvedValue)
+					mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].NetworkURL = ptr.To(rsp.ResolvedValue)
 					mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].NetworkURLRef = rsp.ResolvedReference
 
 				}
@@ -443,7 +444,7 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 							return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 						}
 						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-							CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].Project),
+							CurrentValue: ptr.Deref(mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].Project, ""),
 							Extract:      resource.ExtractParamPath("project", false),
 							Reference:    mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].ProjectRef,
 							Selector:     mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].ProjectSelector,
@@ -453,7 +454,7 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 					if err != nil {
 						return errors.Wrap(err, "mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].Project")
 					}
-					mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].Project = reference.ToPtrValue(rsp.ResolvedValue)
+					mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].Project = ptr.To(rsp.ResolvedValue)
 					mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].ProjectRef = rsp.ResolvedReference
 
 				}
@@ -470,7 +471,7 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 							return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 						}
 						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-							CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].Region),
+							CurrentValue: ptr.Deref(mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].Region, ""),
 							Extract:      resource.ExtractParamPath("region", false),
 							Reference:    mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].RegionRef,
 							Selector:     mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].RegionSelector,
@@ -480,7 +481,7 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 					if err != nil {
 						return errors.Wrap(err, "mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].Region")
 					}
-					mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].Region = reference.ToPtrValue(rsp.ResolvedValue)
+					mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].Region = ptr.To(rsp.ResolvedValue)
 					mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].RegionRef = rsp.ResolvedReference
 
 				}

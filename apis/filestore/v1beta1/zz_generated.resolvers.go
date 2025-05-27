@@ -13,6 +13,7 @@ import (
 	errors "github.com/pkg/errors"
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 
 	// ResolveReferences of this Backup.
@@ -33,7 +34,7 @@ func (mg *Backup) ResolveReferences(ctx context.Context, c client.Reader) error 
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SourceInstance),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.SourceInstance, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.SourceInstanceRef,
 			Selector:     mg.Spec.ForProvider.SourceInstanceSelector,
@@ -43,7 +44,7 @@ func (mg *Backup) ResolveReferences(ctx context.Context, c client.Reader) error 
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.SourceInstance")
 	}
-	mg.Spec.ForProvider.SourceInstance = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.SourceInstance = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.SourceInstanceRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("filestore.gcp.upbound.io", "v1beta2", "Instance", "InstanceList")
@@ -52,7 +53,7 @@ func (mg *Backup) ResolveReferences(ctx context.Context, c client.Reader) error 
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SourceInstance),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.SourceInstance, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.SourceInstanceRef,
 			Selector:     mg.Spec.InitProvider.SourceInstanceSelector,
@@ -62,7 +63,7 @@ func (mg *Backup) ResolveReferences(ctx context.Context, c client.Reader) error 
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.SourceInstance")
 	}
-	mg.Spec.InitProvider.SourceInstance = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.SourceInstance = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.SourceInstanceRef = rsp.ResolvedReference
 
 	return nil
@@ -83,7 +84,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.KMSKeyName),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.KMSKeyName, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.KMSKeyNameRef,
 			Selector:     mg.Spec.ForProvider.KMSKeyNameSelector,
@@ -93,7 +94,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.KMSKeyName")
 	}
-	mg.Spec.ForProvider.KMSKeyName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.KMSKeyName = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.KMSKeyNameRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("kms.gcp.upbound.io", "v1beta1", "CryptoKey", "CryptoKeyList")
@@ -102,7 +103,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.KMSKeyName),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.KMSKeyName, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.KMSKeyNameRef,
 			Selector:     mg.Spec.InitProvider.KMSKeyNameSelector,
@@ -112,7 +113,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.KMSKeyName")
 	}
-	mg.Spec.InitProvider.KMSKeyName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.KMSKeyName = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.KMSKeyNameRef = rsp.ResolvedReference
 
 	return nil
@@ -133,7 +134,7 @@ func (mg *Snapshot) ResolveReferences(ctx context.Context, c client.Reader) erro
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Instance),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Instance, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.InstanceRef,
 			Selector:     mg.Spec.ForProvider.InstanceSelector,
@@ -143,7 +144,7 @@ func (mg *Snapshot) ResolveReferences(ctx context.Context, c client.Reader) erro
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Instance")
 	}
-	mg.Spec.ForProvider.Instance = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Instance = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.InstanceRef = rsp.ResolvedReference
 
 	return nil

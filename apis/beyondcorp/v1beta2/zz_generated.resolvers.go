@@ -9,11 +9,13 @@ package v1beta2
 import (
 	"context"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
+	helper "github.com/crossplane/crossplane-tools/pkg/helpers"
 	resource "github.com/crossplane/upjet/pkg/resource"
 	errors "github.com/pkg/errors"
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -33,7 +35,7 @@ func (mg *AppConnection) ResolveReferences( // ResolveReferences of this AppConn
 		}
 
 		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
-			CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.Connectors),
+			CurrentValues: helper.FromPtrValues(mg.Spec.ForProvider.Connectors),
 			Extract:       resource.ExtractResourceID(),
 			References:    mg.Spec.ForProvider.ConnectorsRefs,
 			Selector:      mg.Spec.ForProvider.ConnectorsSelector,
@@ -43,7 +45,7 @@ func (mg *AppConnection) ResolveReferences( // ResolveReferences of this AppConn
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Connectors")
 	}
-	mg.Spec.ForProvider.Connectors = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.ForProvider.Connectors = helper.ToPtrValues(mrsp.ResolvedValues)
 	mg.Spec.ForProvider.ConnectorsRefs = mrsp.ResolvedReferences
 
 	if mg.Spec.ForProvider.Gateway != nil {
@@ -53,7 +55,7 @@ func (mg *AppConnection) ResolveReferences( // ResolveReferences of this AppConn
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Gateway.AppGateway),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.Gateway.AppGateway, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.ForProvider.Gateway.AppGatewayRef,
 				Selector:     mg.Spec.ForProvider.Gateway.AppGatewaySelector,
@@ -63,7 +65,7 @@ func (mg *AppConnection) ResolveReferences( // ResolveReferences of this AppConn
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.Gateway.AppGateway")
 		}
-		mg.Spec.ForProvider.Gateway.AppGateway = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.Gateway.AppGateway = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.Gateway.AppGatewayRef = rsp.ResolvedReference
 
 	}
@@ -73,7 +75,7 @@ func (mg *AppConnection) ResolveReferences( // ResolveReferences of this AppConn
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
-			CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.Connectors),
+			CurrentValues: helper.FromPtrValues(mg.Spec.InitProvider.Connectors),
 			Extract:       resource.ExtractResourceID(),
 			References:    mg.Spec.InitProvider.ConnectorsRefs,
 			Selector:      mg.Spec.InitProvider.ConnectorsSelector,
@@ -83,7 +85,7 @@ func (mg *AppConnection) ResolveReferences( // ResolveReferences of this AppConn
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Connectors")
 	}
-	mg.Spec.InitProvider.Connectors = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.InitProvider.Connectors = helper.ToPtrValues(mrsp.ResolvedValues)
 	mg.Spec.InitProvider.ConnectorsRefs = mrsp.ResolvedReferences
 
 	if mg.Spec.InitProvider.Gateway != nil {
@@ -93,7 +95,7 @@ func (mg *AppConnection) ResolveReferences( // ResolveReferences of this AppConn
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Gateway.AppGateway),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.Gateway.AppGateway, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.InitProvider.Gateway.AppGatewayRef,
 				Selector:     mg.Spec.InitProvider.Gateway.AppGatewaySelector,
@@ -103,7 +105,7 @@ func (mg *AppConnection) ResolveReferences( // ResolveReferences of this AppConn
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.Gateway.AppGateway")
 		}
-		mg.Spec.InitProvider.Gateway.AppGateway = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Gateway.AppGateway = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.Gateway.AppGatewayRef = rsp.ResolvedReference
 
 	}
@@ -128,7 +130,7 @@ func (mg *AppConnector) ResolveReferences(ctx context.Context, c client.Reader) 
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PrincipalInfo.ServiceAccount.Email),
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.PrincipalInfo.ServiceAccount.Email, ""),
 					Extract:      resource.ExtractParamPath("email", true),
 					Reference:    mg.Spec.ForProvider.PrincipalInfo.ServiceAccount.EmailRef,
 					Selector:     mg.Spec.ForProvider.PrincipalInfo.ServiceAccount.EmailSelector,
@@ -138,7 +140,7 @@ func (mg *AppConnector) ResolveReferences(ctx context.Context, c client.Reader) 
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.ForProvider.PrincipalInfo.ServiceAccount.Email")
 			}
-			mg.Spec.ForProvider.PrincipalInfo.ServiceAccount.Email = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.PrincipalInfo.ServiceAccount.Email = ptr.To(rsp.ResolvedValue)
 			mg.Spec.ForProvider.PrincipalInfo.ServiceAccount.EmailRef = rsp.ResolvedReference
 
 		}
@@ -151,7 +153,7 @@ func (mg *AppConnector) ResolveReferences(ctx context.Context, c client.Reader) 
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PrincipalInfo.ServiceAccount.Email),
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.PrincipalInfo.ServiceAccount.Email, ""),
 					Extract:      resource.ExtractParamPath("email", true),
 					Reference:    mg.Spec.InitProvider.PrincipalInfo.ServiceAccount.EmailRef,
 					Selector:     mg.Spec.InitProvider.PrincipalInfo.ServiceAccount.EmailSelector,
@@ -161,7 +163,7 @@ func (mg *AppConnector) ResolveReferences(ctx context.Context, c client.Reader) 
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.InitProvider.PrincipalInfo.ServiceAccount.Email")
 			}
-			mg.Spec.InitProvider.PrincipalInfo.ServiceAccount.Email = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.PrincipalInfo.ServiceAccount.Email = ptr.To(rsp.ResolvedValue)
 			mg.Spec.InitProvider.PrincipalInfo.ServiceAccount.EmailRef = rsp.ResolvedReference
 
 		}

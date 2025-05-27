@@ -14,6 +14,7 @@ import (
 	errors "github.com/pkg/errors"
 	common "github.com/upbound/provider-gcp/config/common"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -32,7 +33,7 @@ func (mg *CAPoolIAMMember) ResolveReferences( // ResolveReferences of this CAPoo
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CAPool),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.CAPool, ""),
 			Extract:      common.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.CAPoolRef,
 			Selector:     mg.Spec.ForProvider.CAPoolSelector,
@@ -42,7 +43,7 @@ func (mg *CAPoolIAMMember) ResolveReferences( // ResolveReferences of this CAPoo
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.CAPool")
 	}
-	mg.Spec.ForProvider.CAPool = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.CAPool = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.CAPoolRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("privateca.gcp.upbound.io", "v1beta2", "CAPool", "CAPoolList")
@@ -51,7 +52,7 @@ func (mg *CAPoolIAMMember) ResolveReferences( // ResolveReferences of this CAPoo
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CAPool),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.CAPool, ""),
 			Extract:      common.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.CAPoolRef,
 			Selector:     mg.Spec.InitProvider.CAPoolSelector,
@@ -61,7 +62,7 @@ func (mg *CAPoolIAMMember) ResolveReferences( // ResolveReferences of this CAPoo
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.CAPool")
 	}
-	mg.Spec.InitProvider.CAPool = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CAPool = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.CAPoolRef = rsp.ResolvedReference
 
 	return nil
@@ -82,7 +83,7 @@ func (mg *Certificate) ResolveReferences(ctx context.Context, c client.Reader) e
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CertificateAuthority),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.CertificateAuthority, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.CertificateAuthorityRef,
 			Selector:     mg.Spec.ForProvider.CertificateAuthoritySelector,
@@ -92,7 +93,7 @@ func (mg *Certificate) ResolveReferences(ctx context.Context, c client.Reader) e
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.CertificateAuthority")
 	}
-	mg.Spec.ForProvider.CertificateAuthority = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.CertificateAuthority = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.CertificateAuthorityRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("privateca.gcp.upbound.io", "v1beta2", "CertificateTemplate", "CertificateTemplateList")
@@ -101,7 +102,7 @@ func (mg *Certificate) ResolveReferences(ctx context.Context, c client.Reader) e
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CertificateTemplate),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.CertificateTemplate, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.CertificateTemplateRef,
 			Selector:     mg.Spec.ForProvider.CertificateTemplateSelector,
@@ -111,7 +112,7 @@ func (mg *Certificate) ResolveReferences(ctx context.Context, c client.Reader) e
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.CertificateTemplate")
 	}
-	mg.Spec.ForProvider.CertificateTemplate = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.CertificateTemplate = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.CertificateTemplateRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("privateca.gcp.upbound.io", "v1beta2", "CAPool", "CAPoolList")
@@ -120,7 +121,7 @@ func (mg *Certificate) ResolveReferences(ctx context.Context, c client.Reader) e
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Pool),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Pool, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.PoolRef,
 			Selector:     mg.Spec.ForProvider.PoolSelector,
@@ -130,7 +131,7 @@ func (mg *Certificate) ResolveReferences(ctx context.Context, c client.Reader) e
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Pool")
 	}
-	mg.Spec.ForProvider.Pool = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Pool = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.PoolRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("privateca.gcp.upbound.io", "v1beta2", "CertificateAuthority", "CertificateAuthorityList")
@@ -139,7 +140,7 @@ func (mg *Certificate) ResolveReferences(ctx context.Context, c client.Reader) e
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CertificateAuthority),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.CertificateAuthority, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.CertificateAuthorityRef,
 			Selector:     mg.Spec.InitProvider.CertificateAuthoritySelector,
@@ -149,7 +150,7 @@ func (mg *Certificate) ResolveReferences(ctx context.Context, c client.Reader) e
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.CertificateAuthority")
 	}
-	mg.Spec.InitProvider.CertificateAuthority = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CertificateAuthority = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.CertificateAuthorityRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("privateca.gcp.upbound.io", "v1beta2", "CertificateTemplate", "CertificateTemplateList")
@@ -158,7 +159,7 @@ func (mg *Certificate) ResolveReferences(ctx context.Context, c client.Reader) e
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CertificateTemplate),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.CertificateTemplate, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.CertificateTemplateRef,
 			Selector:     mg.Spec.InitProvider.CertificateTemplateSelector,
@@ -168,7 +169,7 @@ func (mg *Certificate) ResolveReferences(ctx context.Context, c client.Reader) e
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.CertificateTemplate")
 	}
-	mg.Spec.InitProvider.CertificateTemplate = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CertificateTemplate = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.CertificateTemplateRef = rsp.ResolvedReference
 
 	return nil
@@ -189,7 +190,7 @@ func (mg *CertificateAuthority) ResolveReferences(ctx context.Context, c client.
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Pool),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Pool, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.PoolRef,
 			Selector:     mg.Spec.ForProvider.PoolSelector,
@@ -199,7 +200,7 @@ func (mg *CertificateAuthority) ResolveReferences(ctx context.Context, c client.
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Pool")
 	}
-	mg.Spec.ForProvider.Pool = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Pool = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.PoolRef = rsp.ResolvedReference
 
 	if mg.Spec.ForProvider.SubordinateConfig != nil {
@@ -209,7 +210,7 @@ func (mg *CertificateAuthority) ResolveReferences(ctx context.Context, c client.
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SubordinateConfig.CertificateAuthority),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.SubordinateConfig.CertificateAuthority, ""),
 				Extract:      resource.ExtractParamPath("name", true),
 				Reference:    mg.Spec.ForProvider.SubordinateConfig.CertificateAuthorityRef,
 				Selector:     mg.Spec.ForProvider.SubordinateConfig.CertificateAuthoritySelector,
@@ -219,7 +220,7 @@ func (mg *CertificateAuthority) ResolveReferences(ctx context.Context, c client.
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.SubordinateConfig.CertificateAuthority")
 		}
-		mg.Spec.ForProvider.SubordinateConfig.CertificateAuthority = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.SubordinateConfig.CertificateAuthority = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.SubordinateConfig.CertificateAuthorityRef = rsp.ResolvedReference
 
 	}
@@ -230,7 +231,7 @@ func (mg *CertificateAuthority) ResolveReferences(ctx context.Context, c client.
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SubordinateConfig.CertificateAuthority),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.SubordinateConfig.CertificateAuthority, ""),
 				Extract:      resource.ExtractParamPath("name", true),
 				Reference:    mg.Spec.InitProvider.SubordinateConfig.CertificateAuthorityRef,
 				Selector:     mg.Spec.InitProvider.SubordinateConfig.CertificateAuthoritySelector,
@@ -240,7 +241,7 @@ func (mg *CertificateAuthority) ResolveReferences(ctx context.Context, c client.
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.SubordinateConfig.CertificateAuthority")
 		}
-		mg.Spec.InitProvider.SubordinateConfig.CertificateAuthority = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.SubordinateConfig.CertificateAuthority = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.SubordinateConfig.CertificateAuthorityRef = rsp.ResolvedReference
 
 	}
@@ -263,7 +264,7 @@ func (mg *CertificateTemplateIAMMember) ResolveReferences(ctx context.Context, c
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CertificateTemplate),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.CertificateTemplate, ""),
 			Extract:      common.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.CertificateTemplateRef,
 			Selector:     mg.Spec.ForProvider.CertificateTemplateSelector,
@@ -273,7 +274,7 @@ func (mg *CertificateTemplateIAMMember) ResolveReferences(ctx context.Context, c
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.CertificateTemplate")
 	}
-	mg.Spec.ForProvider.CertificateTemplate = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.CertificateTemplate = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.CertificateTemplateRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("privateca.gcp.upbound.io", "v1beta2", "CertificateTemplate", "CertificateTemplateList")
@@ -282,7 +283,7 @@ func (mg *CertificateTemplateIAMMember) ResolveReferences(ctx context.Context, c
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CertificateTemplate),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.CertificateTemplate, ""),
 			Extract:      common.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.CertificateTemplateRef,
 			Selector:     mg.Spec.InitProvider.CertificateTemplateSelector,
@@ -292,7 +293,7 @@ func (mg *CertificateTemplateIAMMember) ResolveReferences(ctx context.Context, c
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.CertificateTemplate")
 	}
-	mg.Spec.InitProvider.CertificateTemplate = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CertificateTemplate = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.CertificateTemplateRef = rsp.ResolvedReference
 
 	return nil

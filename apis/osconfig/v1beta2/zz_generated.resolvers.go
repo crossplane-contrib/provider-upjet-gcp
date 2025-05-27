@@ -9,6 +9,7 @@ package v1beta2
 import (
 	"context"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
+	helper "github.com/crossplane/crossplane-tools/pkg/helpers"
 	resource "github.com/crossplane/upjet/pkg/resource"
 	errors "github.com/pkg/errors"
 
@@ -33,7 +34,7 @@ func (mg *PatchDeployment) ResolveReferences( // ResolveReferences of this Patch
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
-				CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.InstanceFilter.Instances),
+				CurrentValues: helper.FromPtrValues(mg.Spec.ForProvider.InstanceFilter.Instances),
 				Extract:       resource.ExtractResourceID(),
 				References:    mg.Spec.ForProvider.InstanceFilter.InstancesRefs,
 				Selector:      mg.Spec.ForProvider.InstanceFilter.InstancesSelector,
@@ -43,7 +44,7 @@ func (mg *PatchDeployment) ResolveReferences( // ResolveReferences of this Patch
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.InstanceFilter.Instances")
 		}
-		mg.Spec.ForProvider.InstanceFilter.Instances = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.ForProvider.InstanceFilter.Instances = helper.ToPtrValues(mrsp.ResolvedValues)
 		mg.Spec.ForProvider.InstanceFilter.InstancesRefs = mrsp.ResolvedReferences
 
 	}
@@ -54,7 +55,7 @@ func (mg *PatchDeployment) ResolveReferences( // ResolveReferences of this Patch
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
-				CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.InstanceFilter.Instances),
+				CurrentValues: helper.FromPtrValues(mg.Spec.InitProvider.InstanceFilter.Instances),
 				Extract:       resource.ExtractResourceID(),
 				References:    mg.Spec.InitProvider.InstanceFilter.InstancesRefs,
 				Selector:      mg.Spec.InitProvider.InstanceFilter.InstancesSelector,
@@ -64,7 +65,7 @@ func (mg *PatchDeployment) ResolveReferences( // ResolveReferences of this Patch
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.InstanceFilter.Instances")
 		}
-		mg.Spec.InitProvider.InstanceFilter.Instances = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.InitProvider.InstanceFilter.Instances = helper.ToPtrValues(mrsp.ResolvedValues)
 		mg.Spec.InitProvider.InstanceFilter.InstancesRefs = mrsp.ResolvedReferences
 
 	}

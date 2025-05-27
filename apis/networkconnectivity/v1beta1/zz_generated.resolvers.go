@@ -9,11 +9,13 @@ package v1beta1
 import (
 	"context"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
+	helper "github.com/crossplane/crossplane-tools/pkg/helpers"
 	resource "github.com/crossplane/upjet/pkg/resource"
 	errors "github.com/pkg/errors"
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -33,7 +35,7 @@ func (mg *ServiceConnectionPolicy) ResolveReferences( // ResolveReferences of th
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Network),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Network, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.NetworkRef,
 			Selector:     mg.Spec.ForProvider.NetworkSelector,
@@ -43,7 +45,7 @@ func (mg *ServiceConnectionPolicy) ResolveReferences( // ResolveReferences of th
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Network")
 	}
-	mg.Spec.ForProvider.Network = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Network = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.NetworkRef = rsp.ResolvedReference
 
 	if mg.Spec.ForProvider.PscConfig != nil {
@@ -53,7 +55,7 @@ func (mg *ServiceConnectionPolicy) ResolveReferences( // ResolveReferences of th
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
-				CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.PscConfig.Subnetworks),
+				CurrentValues: helper.FromPtrValues(mg.Spec.ForProvider.PscConfig.Subnetworks),
 				Extract:       resource.ExtractResourceID(),
 				References:    mg.Spec.ForProvider.PscConfig.SubnetworksRefs,
 				Selector:      mg.Spec.ForProvider.PscConfig.SubnetworksSelector,
@@ -63,7 +65,7 @@ func (mg *ServiceConnectionPolicy) ResolveReferences( // ResolveReferences of th
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.PscConfig.Subnetworks")
 		}
-		mg.Spec.ForProvider.PscConfig.Subnetworks = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.ForProvider.PscConfig.Subnetworks = helper.ToPtrValues(mrsp.ResolvedValues)
 		mg.Spec.ForProvider.PscConfig.SubnetworksRefs = mrsp.ResolvedReferences
 
 	}
@@ -73,7 +75,7 @@ func (mg *ServiceConnectionPolicy) ResolveReferences( // ResolveReferences of th
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Network),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Network, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.NetworkRef,
 			Selector:     mg.Spec.InitProvider.NetworkSelector,
@@ -83,7 +85,7 @@ func (mg *ServiceConnectionPolicy) ResolveReferences( // ResolveReferences of th
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Network")
 	}
-	mg.Spec.InitProvider.Network = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Network = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.NetworkRef = rsp.ResolvedReference
 
 	if mg.Spec.InitProvider.PscConfig != nil {
@@ -93,7 +95,7 @@ func (mg *ServiceConnectionPolicy) ResolveReferences( // ResolveReferences of th
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
-				CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.PscConfig.Subnetworks),
+				CurrentValues: helper.FromPtrValues(mg.Spec.InitProvider.PscConfig.Subnetworks),
 				Extract:       resource.ExtractResourceID(),
 				References:    mg.Spec.InitProvider.PscConfig.SubnetworksRefs,
 				Selector:      mg.Spec.InitProvider.PscConfig.SubnetworksSelector,
@@ -103,7 +105,7 @@ func (mg *ServiceConnectionPolicy) ResolveReferences( // ResolveReferences of th
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.PscConfig.Subnetworks")
 		}
-		mg.Spec.InitProvider.PscConfig.Subnetworks = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.InitProvider.PscConfig.Subnetworks = helper.ToPtrValues(mrsp.ResolvedValues)
 		mg.Spec.InitProvider.PscConfig.SubnetworksRefs = mrsp.ResolvedReferences
 
 	}
@@ -126,7 +128,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Hub),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Hub, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.HubRef,
 			Selector:     mg.Spec.ForProvider.HubSelector,
@@ -136,7 +138,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Hub")
 	}
-	mg.Spec.ForProvider.Hub = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Hub = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.HubRef = rsp.ResolvedReference
 
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.LinkedRouterApplianceInstances); i3++ {
@@ -147,7 +149,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.LinkedRouterApplianceInstances[i3].Instances[i4].VirtualMachine),
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.LinkedRouterApplianceInstances[i3].Instances[i4].VirtualMachine, ""),
 					Extract:      resource.ExtractParamPath("self_link", true),
 					Reference:    mg.Spec.ForProvider.LinkedRouterApplianceInstances[i3].Instances[i4].VirtualMachineRef,
 					Selector:     mg.Spec.ForProvider.LinkedRouterApplianceInstances[i3].Instances[i4].VirtualMachineSelector,
@@ -157,7 +159,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.ForProvider.LinkedRouterApplianceInstances[i3].Instances[i4].VirtualMachine")
 			}
-			mg.Spec.ForProvider.LinkedRouterApplianceInstances[i3].Instances[i4].VirtualMachine = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.LinkedRouterApplianceInstances[i3].Instances[i4].VirtualMachine = ptr.To(rsp.ResolvedValue)
 			mg.Spec.ForProvider.LinkedRouterApplianceInstances[i3].Instances[i4].VirtualMachineRef = rsp.ResolvedReference
 
 		}
@@ -169,7 +171,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.LinkedVPCNetwork[i3].URI),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.LinkedVPCNetwork[i3].URI, ""),
 				Extract:      resource.ExtractParamPath("self_link", true),
 				Reference:    mg.Spec.ForProvider.LinkedVPCNetwork[i3].URIRef,
 				Selector:     mg.Spec.ForProvider.LinkedVPCNetwork[i3].URISelector,
@@ -179,7 +181,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.LinkedVPCNetwork[i3].URI")
 		}
-		mg.Spec.ForProvider.LinkedVPCNetwork[i3].URI = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.LinkedVPCNetwork[i3].URI = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.LinkedVPCNetwork[i3].URIRef = rsp.ResolvedReference
 
 	}
@@ -189,7 +191,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Hub),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Hub, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.HubRef,
 			Selector:     mg.Spec.InitProvider.HubSelector,
@@ -199,7 +201,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Hub")
 	}
-	mg.Spec.InitProvider.Hub = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Hub = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.HubRef = rsp.ResolvedReference
 
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.LinkedRouterApplianceInstances); i3++ {
@@ -210,7 +212,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.LinkedRouterApplianceInstances[i3].Instances[i4].VirtualMachine),
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.LinkedRouterApplianceInstances[i3].Instances[i4].VirtualMachine, ""),
 					Extract:      resource.ExtractParamPath("self_link", true),
 					Reference:    mg.Spec.InitProvider.LinkedRouterApplianceInstances[i3].Instances[i4].VirtualMachineRef,
 					Selector:     mg.Spec.InitProvider.LinkedRouterApplianceInstances[i3].Instances[i4].VirtualMachineSelector,
@@ -220,7 +222,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.InitProvider.LinkedRouterApplianceInstances[i3].Instances[i4].VirtualMachine")
 			}
-			mg.Spec.InitProvider.LinkedRouterApplianceInstances[i3].Instances[i4].VirtualMachine = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.LinkedRouterApplianceInstances[i3].Instances[i4].VirtualMachine = ptr.To(rsp.ResolvedValue)
 			mg.Spec.InitProvider.LinkedRouterApplianceInstances[i3].Instances[i4].VirtualMachineRef = rsp.ResolvedReference
 
 		}
@@ -232,7 +234,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.LinkedVPCNetwork[i3].URI),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.LinkedVPCNetwork[i3].URI, ""),
 				Extract:      resource.ExtractParamPath("self_link", true),
 				Reference:    mg.Spec.InitProvider.LinkedVPCNetwork[i3].URIRef,
 				Selector:     mg.Spec.InitProvider.LinkedVPCNetwork[i3].URISelector,
@@ -242,7 +244,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.LinkedVPCNetwork[i3].URI")
 		}
-		mg.Spec.InitProvider.LinkedVPCNetwork[i3].URI = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.LinkedVPCNetwork[i3].URI = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.LinkedVPCNetwork[i3].URIRef = rsp.ResolvedReference
 
 	}
