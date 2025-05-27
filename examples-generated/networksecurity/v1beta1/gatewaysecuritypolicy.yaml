@@ -1,0 +1,12 @@
+apiVersion: networksecurity.gcp.upbound.io/v1beta1
+kind: GatewaySecurityPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networksecurity/v1beta1/gatewaysecuritypolicy
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    description: my description
+    location: us-central1

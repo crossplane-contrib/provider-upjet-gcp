@@ -313,6 +313,11 @@ import (
 	spoke "github.com/upbound/provider-gcp/internal/controller/networkconnectivity/spoke"
 	connectivitytest "github.com/upbound/provider-gcp/internal/controller/networkmanagement/connectivitytest"
 	addressgroup "github.com/upbound/provider-gcp/internal/controller/networksecurity/addressgroup"
+	gatewaysecuritypolicy "github.com/upbound/provider-gcp/internal/controller/networksecurity/gatewaysecuritypolicy"
+	gatewaysecuritypolicyrule "github.com/upbound/provider-gcp/internal/controller/networksecurity/gatewaysecuritypolicyrule"
+	tlsinspectionpolicy "github.com/upbound/provider-gcp/internal/controller/networksecurity/tlsinspectionpolicy"
+	urllists "github.com/upbound/provider-gcp/internal/controller/networksecurity/urllists"
+	gateway "github.com/upbound/provider-gcp/internal/controller/networkservices/gateway"
 	environmentnotebooks "github.com/upbound/provider-gcp/internal/controller/notebooks/environment"
 	instancenotebooks "github.com/upbound/provider-gcp/internal/controller/notebooks/instance"
 	instanceiammembernotebooks "github.com/upbound/provider-gcp/internal/controller/notebooks/instanceiammember"
@@ -688,6 +693,11 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		spoke.Setup,
 		connectivitytest.Setup,
 		addressgroup.Setup,
+		gatewaysecuritypolicy.Setup,
+		gatewaysecuritypolicyrule.Setup,
+		tlsinspectionpolicy.Setup,
+		urllists.Setup,
+		gateway.Setup,
 		environmentnotebooks.Setup,
 		instancenotebooks.Setup,
 		instanceiammembernotebooks.Setup,

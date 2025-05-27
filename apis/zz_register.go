@@ -113,6 +113,7 @@ import (
 	v1beta1networkmanagement "github.com/upbound/provider-gcp/apis/networkmanagement/v1beta1"
 	v1beta2networkmanagement "github.com/upbound/provider-gcp/apis/networkmanagement/v1beta2"
 	v1beta1networksecurity "github.com/upbound/provider-gcp/apis/networksecurity/v1beta1"
+	v1beta1networkservices "github.com/upbound/provider-gcp/apis/networkservices/v1beta1"
 	v1beta1notebooks "github.com/upbound/provider-gcp/apis/notebooks/v1beta1"
 	v1beta2notebooks "github.com/upbound/provider-gcp/apis/notebooks/v1beta2"
 	v1beta1orgpolicy "github.com/upbound/provider-gcp/apis/orgpolicy/v1beta1"
@@ -256,6 +257,7 @@ func init() {
 		v1beta1networkmanagement.SchemeBuilder.AddToScheme,
 		v1beta2networkmanagement.SchemeBuilder.AddToScheme,
 		v1beta1networksecurity.SchemeBuilder.AddToScheme,
+		v1beta1networkservices.SchemeBuilder.AddToScheme,
 		v1beta1notebooks.SchemeBuilder.AddToScheme,
 		v1beta2notebooks.SchemeBuilder.AddToScheme,
 		v1beta1orgpolicy.SchemeBuilder.AddToScheme,
