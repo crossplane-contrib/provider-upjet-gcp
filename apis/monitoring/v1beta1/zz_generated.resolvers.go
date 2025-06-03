@@ -13,6 +13,7 @@ import (
 	errors "github.com/pkg/errors"
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 
 	// ResolveReferences of this Group.
@@ -33,7 +34,7 @@ func (mg *Group) ResolveReferences(ctx context.Context, c client.Reader) error {
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ParentName),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.ParentName, ""),
 			Extract:      resource.ExtractParamPath("name", true),
 			Reference:    mg.Spec.ForProvider.ParentNameRef,
 			Selector:     mg.Spec.ForProvider.ParentNameSelector,
@@ -43,7 +44,7 @@ func (mg *Group) ResolveReferences(ctx context.Context, c client.Reader) error {
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.ParentName")
 	}
-	mg.Spec.ForProvider.ParentName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ParentName = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ParentNameRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("monitoring.gcp.upbound.io", "v1beta1", "Group", "GroupList")
@@ -52,7 +53,7 @@ func (mg *Group) ResolveReferences(ctx context.Context, c client.Reader) error {
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ParentName),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.ParentName, ""),
 			Extract:      resource.ExtractParamPath("name", true),
 			Reference:    mg.Spec.InitProvider.ParentNameRef,
 			Selector:     mg.Spec.InitProvider.ParentNameSelector,
@@ -62,7 +63,7 @@ func (mg *Group) ResolveReferences(ctx context.Context, c client.Reader) error {
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.ParentName")
 	}
-	mg.Spec.InitProvider.ParentName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ParentName = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ParentNameRef = rsp.ResolvedReference
 
 	return nil
@@ -83,7 +84,7 @@ func (mg *SLO) ResolveReferences(ctx context.Context, c client.Reader) error {
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Service),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Service, ""),
 			Extract:      resource.ExtractParamPath("service_id", false),
 			Reference:    mg.Spec.ForProvider.ServiceRef,
 			Selector:     mg.Spec.ForProvider.ServiceSelector,
@@ -93,7 +94,7 @@ func (mg *SLO) ResolveReferences(ctx context.Context, c client.Reader) error {
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Service")
 	}
-	mg.Spec.ForProvider.Service = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Service = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ServiceRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("monitoring.gcp.upbound.io", "v1beta1", "CustomService", "CustomServiceList")
@@ -102,7 +103,7 @@ func (mg *SLO) ResolveReferences(ctx context.Context, c client.Reader) error {
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Service),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Service, ""),
 			Extract:      resource.ExtractParamPath("service_id", false),
 			Reference:    mg.Spec.InitProvider.ServiceRef,
 			Selector:     mg.Spec.InitProvider.ServiceSelector,
@@ -112,7 +113,7 @@ func (mg *SLO) ResolveReferences(ctx context.Context, c client.Reader) error {
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Service")
 	}
-	mg.Spec.InitProvider.Service = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Service = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ServiceRef = rsp.ResolvedReference
 
 	return nil
@@ -134,7 +135,7 @@ func (mg *UptimeCheckConfig) ResolveReferences(ctx context.Context, c client.Rea
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ResourceGroup[i3].GroupID),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.ResourceGroup[i3].GroupID, ""),
 				Extract:      resource.ExtractParamPath("name", true),
 				Reference:    mg.Spec.ForProvider.ResourceGroup[i3].GroupIDRef,
 				Selector:     mg.Spec.ForProvider.ResourceGroup[i3].GroupIDSelector,
@@ -144,7 +145,7 @@ func (mg *UptimeCheckConfig) ResolveReferences(ctx context.Context, c client.Rea
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.ResourceGroup[i3].GroupID")
 		}
-		mg.Spec.ForProvider.ResourceGroup[i3].GroupID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.ResourceGroup[i3].GroupID = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.ResourceGroup[i3].GroupIDRef = rsp.ResolvedReference
 
 	}
@@ -156,7 +157,7 @@ func (mg *UptimeCheckConfig) ResolveReferences(ctx context.Context, c client.Rea
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SyntheticMonitor[i3].CloudFunctionV2[i4].Name),
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.SyntheticMonitor[i3].CloudFunctionV2[i4].Name, ""),
 					Extract:      resource.ExtractResourceID(),
 					Reference:    mg.Spec.ForProvider.SyntheticMonitor[i3].CloudFunctionV2[i4].NameRef,
 					Selector:     mg.Spec.ForProvider.SyntheticMonitor[i3].CloudFunctionV2[i4].NameSelector,
@@ -166,7 +167,7 @@ func (mg *UptimeCheckConfig) ResolveReferences(ctx context.Context, c client.Rea
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.ForProvider.SyntheticMonitor[i3].CloudFunctionV2[i4].Name")
 			}
-			mg.Spec.ForProvider.SyntheticMonitor[i3].CloudFunctionV2[i4].Name = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.SyntheticMonitor[i3].CloudFunctionV2[i4].Name = ptr.To(rsp.ResolvedValue)
 			mg.Spec.ForProvider.SyntheticMonitor[i3].CloudFunctionV2[i4].NameRef = rsp.ResolvedReference
 
 		}
@@ -178,7 +179,7 @@ func (mg *UptimeCheckConfig) ResolveReferences(ctx context.Context, c client.Rea
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ResourceGroup[i3].GroupID),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.ResourceGroup[i3].GroupID, ""),
 				Extract:      resource.ExtractParamPath("name", true),
 				Reference:    mg.Spec.InitProvider.ResourceGroup[i3].GroupIDRef,
 				Selector:     mg.Spec.InitProvider.ResourceGroup[i3].GroupIDSelector,
@@ -188,7 +189,7 @@ func (mg *UptimeCheckConfig) ResolveReferences(ctx context.Context, c client.Rea
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.ResourceGroup[i3].GroupID")
 		}
-		mg.Spec.InitProvider.ResourceGroup[i3].GroupID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.ResourceGroup[i3].GroupID = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.ResourceGroup[i3].GroupIDRef = rsp.ResolvedReference
 
 	}
@@ -200,7 +201,7 @@ func (mg *UptimeCheckConfig) ResolveReferences(ctx context.Context, c client.Rea
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SyntheticMonitor[i3].CloudFunctionV2[i4].Name),
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.SyntheticMonitor[i3].CloudFunctionV2[i4].Name, ""),
 					Extract:      resource.ExtractResourceID(),
 					Reference:    mg.Spec.InitProvider.SyntheticMonitor[i3].CloudFunctionV2[i4].NameRef,
 					Selector:     mg.Spec.InitProvider.SyntheticMonitor[i3].CloudFunctionV2[i4].NameSelector,
@@ -210,7 +211,7 @@ func (mg *UptimeCheckConfig) ResolveReferences(ctx context.Context, c client.Rea
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.InitProvider.SyntheticMonitor[i3].CloudFunctionV2[i4].Name")
 			}
-			mg.Spec.InitProvider.SyntheticMonitor[i3].CloudFunctionV2[i4].Name = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.SyntheticMonitor[i3].CloudFunctionV2[i4].Name = ptr.To(rsp.ResolvedValue)
 			mg.Spec.InitProvider.SyntheticMonitor[i3].CloudFunctionV2[i4].NameRef = rsp.ResolvedReference
 
 		}

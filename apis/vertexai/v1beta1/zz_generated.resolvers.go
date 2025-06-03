@@ -13,6 +13,7 @@ import (
 	resource "github.com/crossplane/upjet/pkg/resource"
 	errors "github.com/pkg/errors"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -31,7 +32,7 @@ func (mg *FeaturestoreEntitytype) ResolveReferences( // ResolveReferences of thi
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Featurestore),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Featurestore, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.FeaturestoreRef,
 			Selector:     mg.Spec.ForProvider.FeaturestoreSelector,
@@ -41,7 +42,7 @@ func (mg *FeaturestoreEntitytype) ResolveReferences( // ResolveReferences of thi
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Featurestore")
 	}
-	mg.Spec.ForProvider.Featurestore = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Featurestore = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.FeaturestoreRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("vertexai.gcp.upbound.io", "v1beta1", "Featurestore", "FeaturestoreList")
@@ -50,7 +51,7 @@ func (mg *FeaturestoreEntitytype) ResolveReferences( // ResolveReferences of thi
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Featurestore),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Featurestore, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.FeaturestoreRef,
 			Selector:     mg.Spec.InitProvider.FeaturestoreSelector,
@@ -60,7 +61,7 @@ func (mg *FeaturestoreEntitytype) ResolveReferences( // ResolveReferences of thi
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Featurestore")
 	}
-	mg.Spec.InitProvider.Featurestore = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Featurestore = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.FeaturestoreRef = rsp.ResolvedReference
 
 	return nil

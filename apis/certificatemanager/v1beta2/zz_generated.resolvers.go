@@ -9,6 +9,7 @@ package v1beta2
 import (
 	"context"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
+	helper "github.com/crossplane/crossplane-tools/pkg/helpers"
 	resource "github.com/crossplane/upjet/pkg/resource"
 	errors "github.com/pkg/errors"
 
@@ -33,7 +34,7 @@ func (mg *Certificate) ResolveReferences( // ResolveReferences of this Certifica
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
-				CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.Managed.DNSAuthorizations),
+				CurrentValues: helper.FromPtrValues(mg.Spec.ForProvider.Managed.DNSAuthorizations),
 				Extract:       resource.ExtractResourceID(),
 				References:    mg.Spec.ForProvider.Managed.DNSAuthorizationsRefs,
 				Selector:      mg.Spec.ForProvider.Managed.DNSAuthorizationsSelector,
@@ -43,7 +44,7 @@ func (mg *Certificate) ResolveReferences( // ResolveReferences of this Certifica
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.Managed.DNSAuthorizations")
 		}
-		mg.Spec.ForProvider.Managed.DNSAuthorizations = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.ForProvider.Managed.DNSAuthorizations = helper.ToPtrValues(mrsp.ResolvedValues)
 		mg.Spec.ForProvider.Managed.DNSAuthorizationsRefs = mrsp.ResolvedReferences
 
 	}
@@ -54,7 +55,7 @@ func (mg *Certificate) ResolveReferences( // ResolveReferences of this Certifica
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
-				CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.Managed.Domains),
+				CurrentValues: helper.FromPtrValues(mg.Spec.ForProvider.Managed.Domains),
 				Extract:       resource.ExtractParamPath("domain", false),
 				References:    mg.Spec.ForProvider.Managed.DomainsRefs,
 				Selector:      mg.Spec.ForProvider.Managed.DomainsSelector,
@@ -64,7 +65,7 @@ func (mg *Certificate) ResolveReferences( // ResolveReferences of this Certifica
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.Managed.Domains")
 		}
-		mg.Spec.ForProvider.Managed.Domains = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.ForProvider.Managed.Domains = helper.ToPtrValues(mrsp.ResolvedValues)
 		mg.Spec.ForProvider.Managed.DomainsRefs = mrsp.ResolvedReferences
 
 	}
@@ -75,7 +76,7 @@ func (mg *Certificate) ResolveReferences( // ResolveReferences of this Certifica
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
-				CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.Managed.DNSAuthorizations),
+				CurrentValues: helper.FromPtrValues(mg.Spec.InitProvider.Managed.DNSAuthorizations),
 				Extract:       resource.ExtractResourceID(),
 				References:    mg.Spec.InitProvider.Managed.DNSAuthorizationsRefs,
 				Selector:      mg.Spec.InitProvider.Managed.DNSAuthorizationsSelector,
@@ -85,7 +86,7 @@ func (mg *Certificate) ResolveReferences( // ResolveReferences of this Certifica
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.Managed.DNSAuthorizations")
 		}
-		mg.Spec.InitProvider.Managed.DNSAuthorizations = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.InitProvider.Managed.DNSAuthorizations = helper.ToPtrValues(mrsp.ResolvedValues)
 		mg.Spec.InitProvider.Managed.DNSAuthorizationsRefs = mrsp.ResolvedReferences
 
 	}
@@ -96,7 +97,7 @@ func (mg *Certificate) ResolveReferences( // ResolveReferences of this Certifica
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
-				CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.Managed.Domains),
+				CurrentValues: helper.FromPtrValues(mg.Spec.InitProvider.Managed.Domains),
 				Extract:       resource.ExtractParamPath("domain", false),
 				References:    mg.Spec.InitProvider.Managed.DomainsRefs,
 				Selector:      mg.Spec.InitProvider.Managed.DomainsSelector,
@@ -106,7 +107,7 @@ func (mg *Certificate) ResolveReferences( // ResolveReferences of this Certifica
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.Managed.Domains")
 		}
-		mg.Spec.InitProvider.Managed.Domains = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.InitProvider.Managed.Domains = helper.ToPtrValues(mrsp.ResolvedValues)
 		mg.Spec.InitProvider.Managed.DomainsRefs = mrsp.ResolvedReferences
 
 	}

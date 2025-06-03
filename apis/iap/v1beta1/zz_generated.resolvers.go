@@ -13,6 +13,7 @@ import (
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -31,7 +32,7 @@ func (mg *WebBackendServiceIAMMember) ResolveReferences( // ResolveReferences of
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.WebBackendService),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.WebBackendService, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.WebBackendServiceRef,
 			Selector:     mg.Spec.ForProvider.WebBackendServiceSelector,
@@ -41,7 +42,7 @@ func (mg *WebBackendServiceIAMMember) ResolveReferences( // ResolveReferences of
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.WebBackendService")
 	}
-	mg.Spec.ForProvider.WebBackendService = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.WebBackendService = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.WebBackendServiceRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "BackendService", "BackendServiceList")
@@ -50,7 +51,7 @@ func (mg *WebBackendServiceIAMMember) ResolveReferences( // ResolveReferences of
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.WebBackendService),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.WebBackendService, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.WebBackendServiceRef,
 			Selector:     mg.Spec.InitProvider.WebBackendServiceSelector,
@@ -60,7 +61,7 @@ func (mg *WebBackendServiceIAMMember) ResolveReferences( // ResolveReferences of
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.WebBackendService")
 	}
-	mg.Spec.InitProvider.WebBackendService = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.WebBackendService = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.WebBackendServiceRef = rsp.ResolvedReference
 
 	return nil
@@ -81,7 +82,7 @@ func (mg *WebTypeAppEngineIAMMember) ResolveReferences(ctx context.Context, c cl
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.AppID),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.AppID, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.AppIDRef,
 			Selector:     mg.Spec.ForProvider.AppIDSelector,
@@ -91,7 +92,7 @@ func (mg *WebTypeAppEngineIAMMember) ResolveReferences(ctx context.Context, c cl
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.AppID")
 	}
-	mg.Spec.ForProvider.AppID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.AppID = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.AppIDRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("appengine.gcp.upbound.io", "v1beta1", "Application", "ApplicationList")
@@ -100,7 +101,7 @@ func (mg *WebTypeAppEngineIAMMember) ResolveReferences(ctx context.Context, c cl
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.AppID),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.AppID, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.AppIDRef,
 			Selector:     mg.Spec.InitProvider.AppIDSelector,
@@ -110,7 +111,7 @@ func (mg *WebTypeAppEngineIAMMember) ResolveReferences(ctx context.Context, c cl
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.AppID")
 	}
-	mg.Spec.InitProvider.AppID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.AppID = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.AppIDRef = rsp.ResolvedReference
 
 	return nil

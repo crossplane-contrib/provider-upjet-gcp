@@ -14,6 +14,7 @@ import (
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -35,7 +36,7 @@ func (mg *RegistryRepository) ResolveReferences( // ResolveReferences of this Re
 						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 					}
 					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-						CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RemoteRepositoryConfig.UpstreamCredentials.UsernamePasswordCredentials.PasswordSecretVersion),
+						CurrentValue: ptr.Deref(mg.Spec.ForProvider.RemoteRepositoryConfig.UpstreamCredentials.UsernamePasswordCredentials.PasswordSecretVersion, ""),
 						Extract:      resource.ExtractParamPath("name", true),
 						Reference:    mg.Spec.ForProvider.RemoteRepositoryConfig.UpstreamCredentials.UsernamePasswordCredentials.PasswordSecretVersionRef,
 						Selector:     mg.Spec.ForProvider.RemoteRepositoryConfig.UpstreamCredentials.UsernamePasswordCredentials.PasswordSecretVersionSelector,
@@ -45,7 +46,7 @@ func (mg *RegistryRepository) ResolveReferences( // ResolveReferences of this Re
 				if err != nil {
 					return errors.Wrap(err, "mg.Spec.ForProvider.RemoteRepositoryConfig.UpstreamCredentials.UsernamePasswordCredentials.PasswordSecretVersion")
 				}
-				mg.Spec.ForProvider.RemoteRepositoryConfig.UpstreamCredentials.UsernamePasswordCredentials.PasswordSecretVersion = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.ForProvider.RemoteRepositoryConfig.UpstreamCredentials.UsernamePasswordCredentials.PasswordSecretVersion = ptr.To(rsp.ResolvedValue)
 				mg.Spec.ForProvider.RemoteRepositoryConfig.UpstreamCredentials.UsernamePasswordCredentials.PasswordSecretVersionRef = rsp.ResolvedReference
 
 			}
@@ -59,7 +60,7 @@ func (mg *RegistryRepository) ResolveReferences( // ResolveReferences of this Re
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.VirtualRepositoryConfig.UpstreamPolicies[i4].Repository),
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.VirtualRepositoryConfig.UpstreamPolicies[i4].Repository, ""),
 					Extract:      resource.ExtractResourceID(),
 					Reference:    mg.Spec.ForProvider.VirtualRepositoryConfig.UpstreamPolicies[i4].RepositoryRef,
 					Selector:     mg.Spec.ForProvider.VirtualRepositoryConfig.UpstreamPolicies[i4].RepositorySelector,
@@ -69,7 +70,7 @@ func (mg *RegistryRepository) ResolveReferences( // ResolveReferences of this Re
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.ForProvider.VirtualRepositoryConfig.UpstreamPolicies[i4].Repository")
 			}
-			mg.Spec.ForProvider.VirtualRepositoryConfig.UpstreamPolicies[i4].Repository = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.VirtualRepositoryConfig.UpstreamPolicies[i4].Repository = ptr.To(rsp.ResolvedValue)
 			mg.Spec.ForProvider.VirtualRepositoryConfig.UpstreamPolicies[i4].RepositoryRef = rsp.ResolvedReference
 
 		}
@@ -83,7 +84,7 @@ func (mg *RegistryRepository) ResolveReferences( // ResolveReferences of this Re
 						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 					}
 					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-						CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RemoteRepositoryConfig.UpstreamCredentials.UsernamePasswordCredentials.PasswordSecretVersion),
+						CurrentValue: ptr.Deref(mg.Spec.InitProvider.RemoteRepositoryConfig.UpstreamCredentials.UsernamePasswordCredentials.PasswordSecretVersion, ""),
 						Extract:      resource.ExtractParamPath("name", true),
 						Reference:    mg.Spec.InitProvider.RemoteRepositoryConfig.UpstreamCredentials.UsernamePasswordCredentials.PasswordSecretVersionRef,
 						Selector:     mg.Spec.InitProvider.RemoteRepositoryConfig.UpstreamCredentials.UsernamePasswordCredentials.PasswordSecretVersionSelector,
@@ -93,7 +94,7 @@ func (mg *RegistryRepository) ResolveReferences( // ResolveReferences of this Re
 				if err != nil {
 					return errors.Wrap(err, "mg.Spec.InitProvider.RemoteRepositoryConfig.UpstreamCredentials.UsernamePasswordCredentials.PasswordSecretVersion")
 				}
-				mg.Spec.InitProvider.RemoteRepositoryConfig.UpstreamCredentials.UsernamePasswordCredentials.PasswordSecretVersion = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.InitProvider.RemoteRepositoryConfig.UpstreamCredentials.UsernamePasswordCredentials.PasswordSecretVersion = ptr.To(rsp.ResolvedValue)
 				mg.Spec.InitProvider.RemoteRepositoryConfig.UpstreamCredentials.UsernamePasswordCredentials.PasswordSecretVersionRef = rsp.ResolvedReference
 
 			}
@@ -107,7 +108,7 @@ func (mg *RegistryRepository) ResolveReferences( // ResolveReferences of this Re
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.VirtualRepositoryConfig.UpstreamPolicies[i4].Repository),
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.VirtualRepositoryConfig.UpstreamPolicies[i4].Repository, ""),
 					Extract:      resource.ExtractResourceID(),
 					Reference:    mg.Spec.InitProvider.VirtualRepositoryConfig.UpstreamPolicies[i4].RepositoryRef,
 					Selector:     mg.Spec.InitProvider.VirtualRepositoryConfig.UpstreamPolicies[i4].RepositorySelector,
@@ -117,7 +118,7 @@ func (mg *RegistryRepository) ResolveReferences( // ResolveReferences of this Re
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.InitProvider.VirtualRepositoryConfig.UpstreamPolicies[i4].Repository")
 			}
-			mg.Spec.InitProvider.VirtualRepositoryConfig.UpstreamPolicies[i4].Repository = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.VirtualRepositoryConfig.UpstreamPolicies[i4].Repository = ptr.To(rsp.ResolvedValue)
 			mg.Spec.InitProvider.VirtualRepositoryConfig.UpstreamPolicies[i4].RepositoryRef = rsp.ResolvedReference
 
 		}

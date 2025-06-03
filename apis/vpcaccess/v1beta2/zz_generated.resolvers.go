@@ -13,6 +13,7 @@ import (
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -31,7 +32,7 @@ func (mg *Connector) ResolveReferences( // ResolveReferences of this Connector.
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Network),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Network, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.NetworkRef,
 			Selector:     mg.Spec.ForProvider.NetworkSelector,
@@ -41,7 +42,7 @@ func (mg *Connector) ResolveReferences( // ResolveReferences of this Connector.
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Network")
 	}
-	mg.Spec.ForProvider.Network = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Network = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.NetworkRef = rsp.ResolvedReference
 
 	if mg.Spec.ForProvider.Subnet != nil {
@@ -51,7 +52,7 @@ func (mg *Connector) ResolveReferences( // ResolveReferences of this Connector.
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Subnet.Name),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.Subnet.Name, ""),
 				Extract:      reference.ExternalName(),
 				Reference:    mg.Spec.ForProvider.Subnet.NameRef,
 				Selector:     mg.Spec.ForProvider.Subnet.NameSelector,
@@ -61,7 +62,7 @@ func (mg *Connector) ResolveReferences( // ResolveReferences of this Connector.
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.Subnet.Name")
 		}
-		mg.Spec.ForProvider.Subnet.Name = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.Subnet.Name = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.Subnet.NameRef = rsp.ResolvedReference
 
 	}
@@ -71,7 +72,7 @@ func (mg *Connector) ResolveReferences( // ResolveReferences of this Connector.
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Network),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Network, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.NetworkRef,
 			Selector:     mg.Spec.InitProvider.NetworkSelector,
@@ -81,7 +82,7 @@ func (mg *Connector) ResolveReferences( // ResolveReferences of this Connector.
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Network")
 	}
-	mg.Spec.InitProvider.Network = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Network = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.NetworkRef = rsp.ResolvedReference
 
 	if mg.Spec.InitProvider.Subnet != nil {
@@ -91,7 +92,7 @@ func (mg *Connector) ResolveReferences( // ResolveReferences of this Connector.
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Subnet.Name),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.Subnet.Name, ""),
 				Extract:      reference.ExternalName(),
 				Reference:    mg.Spec.InitProvider.Subnet.NameRef,
 				Selector:     mg.Spec.InitProvider.Subnet.NameSelector,
@@ -101,7 +102,7 @@ func (mg *Connector) ResolveReferences( // ResolveReferences of this Connector.
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.Subnet.Name")
 		}
-		mg.Spec.InitProvider.Subnet.Name = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Subnet.Name = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.Subnet.NameRef = rsp.ResolvedReference
 
 	}

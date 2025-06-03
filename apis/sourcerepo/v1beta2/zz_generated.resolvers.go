@@ -13,6 +13,7 @@ import (
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -31,7 +32,7 @@ func (mg *RepositoryIAMMember) ResolveReferences( // ResolveReferences of this R
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Repository),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Repository, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.RepositoryRef,
 			Selector:     mg.Spec.ForProvider.RepositorySelector,
@@ -41,7 +42,7 @@ func (mg *RepositoryIAMMember) ResolveReferences( // ResolveReferences of this R
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Repository")
 	}
-	mg.Spec.ForProvider.Repository = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Repository = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.RepositoryRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("sourcerepo.gcp.upbound.io", "v1beta1", "Repository", "RepositoryList")
@@ -50,7 +51,7 @@ func (mg *RepositoryIAMMember) ResolveReferences( // ResolveReferences of this R
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Repository),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Repository, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.RepositoryRef,
 			Selector:     mg.Spec.InitProvider.RepositorySelector,
@@ -60,7 +61,7 @@ func (mg *RepositoryIAMMember) ResolveReferences( // ResolveReferences of this R
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Repository")
 	}
-	mg.Spec.InitProvider.Repository = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Repository = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.RepositoryRef = rsp.ResolvedReference
 
 	return nil
