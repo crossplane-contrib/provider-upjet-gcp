@@ -1,0 +1,145 @@
+apiVersion: appengine.gcp.upbound.io/v1beta1
+kind: FlexibleAppVersion
+metadata:
+  annotations:
+    meta.upbound.io/example-id: appengine/v1beta1/flexibleappversion
+  labels:
+    testing.upbound.io/example-name: myapp_v1
+  name: myapp-v1
+spec:
+  forProvider:
+    automaticScaling:
+    - coolDownPeriod: 120s
+      cpuUtilization:
+      - targetUtilization: 0.5
+    deployment:
+    - zip:
+      - sourceUrl: https://storage.googleapis.com/${google_storage_bucket.bucket.name}/${google_storage_bucket_object.object.name}
+    entrypoint:
+    - shell: node ./app.js
+    envVariables:
+      port: "8080"
+    flexibleRuntimeSettings:
+    - operatingSystem: ubuntu22
+      runtimeVersion: "20"
+    handlers:
+    - authFailAction: AUTH_FAIL_ACTION_REDIRECT
+      login: LOGIN_REQUIRED
+      securityLevel: SECURE_ALWAYS
+      staticFiles:
+      - path: my-other-path
+        uploadPathRegex: .*\/my-path\/*
+      urlRegex: .*\/my-path\/*
+    livenessCheck:
+    - path: /
+    noopOnDestroy: true
+    projectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: gae_api
+    readinessCheck:
+    - path: /
+    runtime: nodejs
+    service: default
+    serviceAccountSelector:
+      matchLabels:
+        testing.upbound.io/example-name: custom_service_account
+
+---
+
+apiVersion: appengine.gcp.upbound.io/v1beta2
+kind: Application
+metadata:
+  annotations:
+    meta.upbound.io/example-id: appengine/v1beta1/flexibleappversion
+  labels:
+    testing.upbound.io/example-name: app
+  name: app
+spec:
+  forProvider:
+    locationId: us-central
+    projectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: my_project
+
+---
+
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: appengine/v1beta1/flexibleappversion
+  labels:
+    testing.upbound.io/example-name: my_project
+  name: my-project
+spec:
+  forProvider:
+    billingAccount: 000000-0000000-0000000-000000
+    name: appeng-flex
+    orgId: "123456789"
+    projectId: appeng-flex
+
+---
+
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: ProjectService
+metadata:
+  annotations:
+    meta.upbound.io/example-id: appengine/v1beta1/flexibleappversion
+  labels:
+    testing.upbound.io/example-name: service
+  name: service
+spec:
+  forProvider:
+    disableDependentServices: false
+    projectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    service: appengineflex.googleapis.com
+
+---
+
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: ServiceAccount
+metadata:
+  annotations:
+    meta.upbound.io/example-id: appengine/v1beta1/flexibleappversion
+  labels:
+    testing.upbound.io/example-name: custom_service_account
+  name: custom-service-account
+spec:
+  forProvider:
+    displayName: Custom Service Account
+    project: appeng-flex
+
+---
+
+apiVersion: storage.gcp.upbound.io/v1beta2
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: appengine/v1beta1/flexibleappversion
+  labels:
+    testing.upbound.io/example-name: bucket
+  name: bucket
+spec:
+  forProvider:
+    location: US
+    project: appeng-flex
+
+---
+
+apiVersion: storage.gcp.upbound.io/v1beta2
+kind: BucketObject
+metadata:
+  annotations:
+    meta.upbound.io/example-id: appengine/v1beta1/flexibleappversion
+  labels:
+    testing.upbound.io/example-name: object
+  name: object
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: bucket
+    name: hello-world.zip
+    source: ./test-fixtures/hello-world.zip
