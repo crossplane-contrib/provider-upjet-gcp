@@ -151,6 +151,8 @@ func TerraformSetupBuilder(tfProvider *schema.Provider) terraform.SetupFn { //no
 			ps.Configuration[keyCredentials] = string(data)
 		}
 
+		// deliberately not using the caller context as context used to configure terraform is stored
+		// nolint:contextcheck
 		return ps, errors.Wrap(configureNoForkGCPClient(&ps, *tfProvider), "failed to configure the no-fork GCP client")
 	}
 }
