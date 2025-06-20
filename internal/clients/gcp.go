@@ -8,6 +8,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"time"
 
 	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 	"github.com/crossplane/crossplane-runtime/pkg/fieldpath"
@@ -150,18 +151,32 @@ func TerraformSetupBuilder(tfProvider *schema.Provider) terraform.SetupFn { //no
 			ps.Configuration[keyCredentials] = string(data)
 		}
 
-		return ps, errors.Wrap(configureNoForkGCPClient(ctx, &ps, *tfProvider), "failed to configure the no-fork GCP client")
+		// deliberately not using the caller context as context used to configure terraform is stored
+		// nolint:contextcheck
+		return ps, errors.Wrap(configureNoForkGCPClient(&ps, *tfProvider), "failed to configure the no-fork GCP client")
 	}
 }
 
-func configureNoForkGCPClient(ctx context.Context, ps *terraform.Setup, p schema.Provider) error {
+func configureNoForkGCPClient(ps *terraform.Setup, p schema.Provider) error {
 	// Please be aware that this implementation relies on the schema.Provider
 	// parameter `p` being a non-pointer. This is because normally
 	// the Terraform plugin SDK normally configures the provider
 	// only once and using a pointer argument here will cause
 	// race conditions between resources referring to different
 	// ProviderConfigs.
-	diag := p.Configure(context.WithoutCancel(ctx), &tfsdk.ResourceConfig{
+
+	// Terraform provider stores the context used for its configuration
+	// - the context needs to stay active for a longer period of time than terraform plugin sdk operations
+	// - the context needs to be eventually cancelled otherwise google provider resources are leaked
+	const (
+		terraformPluginSDKAsyncTimeout = time.Hour
+		gracePeriod                    = 10 * time.Minute
+		providerTimeout                = terraformPluginSDKAsyncTimeout + gracePeriod
+	)
+	ctx, cancel := context.WithCancel(context.Background())
+	time.AfterFunc(providerTimeout, cancel)
+
+	diag := p.Configure(ctx, &tfsdk.ResourceConfig{
 		Config: ps.Configuration,
 	})
 	if diag != nil && diag.HasError() {
