@@ -12,6 +12,7 @@ import (
 	errors "github.com/pkg/errors"
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 
 	// ResolveReferences of this Trigger.
@@ -34,7 +35,7 @@ func (mg *Trigger) ResolveReferences(ctx context.Context, c client.Reader) error
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Destination.CloudRunService.Service),
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.Destination.CloudRunService.Service, ""),
 					Extract:      reference.ExternalName(),
 					Reference:    mg.Spec.ForProvider.Destination.CloudRunService.ServiceRef,
 					Selector:     mg.Spec.ForProvider.Destination.CloudRunService.ServiceSelector,
@@ -44,7 +45,7 @@ func (mg *Trigger) ResolveReferences(ctx context.Context, c client.Reader) error
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.ForProvider.Destination.CloudRunService.Service")
 			}
-			mg.Spec.ForProvider.Destination.CloudRunService.Service = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Destination.CloudRunService.Service = ptr.To(rsp.ResolvedValue)
 			mg.Spec.ForProvider.Destination.CloudRunService.ServiceRef = rsp.ResolvedReference
 
 		}
@@ -57,7 +58,7 @@ func (mg *Trigger) ResolveReferences(ctx context.Context, c client.Reader) error
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Destination.CloudRunService.Service),
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.Destination.CloudRunService.Service, ""),
 					Extract:      reference.ExternalName(),
 					Reference:    mg.Spec.InitProvider.Destination.CloudRunService.ServiceRef,
 					Selector:     mg.Spec.InitProvider.Destination.CloudRunService.ServiceSelector,
@@ -67,7 +68,7 @@ func (mg *Trigger) ResolveReferences(ctx context.Context, c client.Reader) error
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.InitProvider.Destination.CloudRunService.Service")
 			}
-			mg.Spec.InitProvider.Destination.CloudRunService.Service = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Destination.CloudRunService.Service = ptr.To(rsp.ResolvedValue)
 			mg.Spec.InitProvider.Destination.CloudRunService.ServiceRef = rsp.ResolvedReference
 
 		}

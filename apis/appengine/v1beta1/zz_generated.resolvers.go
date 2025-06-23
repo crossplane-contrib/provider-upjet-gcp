@@ -14,6 +14,7 @@ import (
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -32,7 +33,7 @@ func (mg *Application) ResolveReferences( // ResolveReferences of this Applicati
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Project, ""),
 			Extract:      resource.ExtractParamPath("project_id", false),
 			Reference:    mg.Spec.ForProvider.ProjectRef,
 			Selector:     mg.Spec.ForProvider.ProjectSelector,
@@ -42,7 +43,7 @@ func (mg *Application) ResolveReferences( // ResolveReferences of this Applicati
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Project")
 	}
-	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Project = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "Project", "ProjectList")
@@ -51,7 +52,7 @@ func (mg *Application) ResolveReferences( // ResolveReferences of this Applicati
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Project),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Project, ""),
 			Extract:      resource.ExtractParamPath("project_id", false),
 			Reference:    mg.Spec.InitProvider.ProjectRef,
 			Selector:     mg.Spec.InitProvider.ProjectSelector,
@@ -61,7 +62,7 @@ func (mg *Application) ResolveReferences( // ResolveReferences of this Applicati
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Project")
 	}
-	mg.Spec.InitProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Project = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ProjectRef = rsp.ResolvedReference
 
 	return nil
@@ -83,7 +84,7 @@ func (mg *ApplicationURLDispatchRules) ResolveReferences(ctx context.Context, c 
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DispatchRules[i3].Service),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.DispatchRules[i3].Service, ""),
 				Extract:      resource.ExtractParamPath("service", false),
 				Reference:    mg.Spec.ForProvider.DispatchRules[i3].ServiceRef,
 				Selector:     mg.Spec.ForProvider.DispatchRules[i3].ServiceSelector,
@@ -93,7 +94,7 @@ func (mg *ApplicationURLDispatchRules) ResolveReferences(ctx context.Context, c 
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.DispatchRules[i3].Service")
 		}
-		mg.Spec.ForProvider.DispatchRules[i3].Service = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.DispatchRules[i3].Service = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.DispatchRules[i3].ServiceRef = rsp.ResolvedReference
 
 	}
@@ -104,7 +105,7 @@ func (mg *ApplicationURLDispatchRules) ResolveReferences(ctx context.Context, c 
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DispatchRules[i3].Service),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.DispatchRules[i3].Service, ""),
 				Extract:      resource.ExtractParamPath("service", false),
 				Reference:    mg.Spec.InitProvider.DispatchRules[i3].ServiceRef,
 				Selector:     mg.Spec.InitProvider.DispatchRules[i3].ServiceSelector,
@@ -114,7 +115,7 @@ func (mg *ApplicationURLDispatchRules) ResolveReferences(ctx context.Context, c 
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.DispatchRules[i3].Service")
 		}
-		mg.Spec.InitProvider.DispatchRules[i3].Service = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.DispatchRules[i3].Service = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.DispatchRules[i3].ServiceRef = rsp.ResolvedReference
 
 	}
@@ -137,7 +138,7 @@ func (mg *FirewallRule) ResolveReferences(ctx context.Context, c client.Reader) 
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Project, ""),
 			Extract:      resource.ExtractParamPath("project", false),
 			Reference:    mg.Spec.ForProvider.ProjectRef,
 			Selector:     mg.Spec.ForProvider.ProjectSelector,
@@ -147,7 +148,7 @@ func (mg *FirewallRule) ResolveReferences(ctx context.Context, c client.Reader) 
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Project")
 	}
-	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Project = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("appengine.gcp.upbound.io", "v1beta2", "Application", "ApplicationList")
@@ -156,7 +157,7 @@ func (mg *FirewallRule) ResolveReferences(ctx context.Context, c client.Reader) 
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Project),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Project, ""),
 			Extract:      resource.ExtractParamPath("project", false),
 			Reference:    mg.Spec.InitProvider.ProjectRef,
 			Selector:     mg.Spec.InitProvider.ProjectSelector,
@@ -166,7 +167,7 @@ func (mg *FirewallRule) ResolveReferences(ctx context.Context, c client.Reader) 
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Project")
 	}
-	mg.Spec.InitProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Project = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ProjectRef = rsp.ResolvedReference
 
 	return nil
@@ -187,7 +188,7 @@ func (mg *ServiceNetworkSettings) ResolveReferences(ctx context.Context, c clien
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Service),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Service, ""),
 			Extract:      resource.ExtractParamPath("service", false),
 			Reference:    mg.Spec.ForProvider.ServiceRef,
 			Selector:     mg.Spec.ForProvider.ServiceSelector,
@@ -197,7 +198,7 @@ func (mg *ServiceNetworkSettings) ResolveReferences(ctx context.Context, c clien
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Service")
 	}
-	mg.Spec.ForProvider.Service = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Service = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ServiceRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("appengine.gcp.upbound.io", "v1beta1", "StandardAppVersion", "StandardAppVersionList")
@@ -206,7 +207,7 @@ func (mg *ServiceNetworkSettings) ResolveReferences(ctx context.Context, c clien
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Service),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Service, ""),
 			Extract:      resource.ExtractParamPath("service", false),
 			Reference:    mg.Spec.InitProvider.ServiceRef,
 			Selector:     mg.Spec.InitProvider.ServiceSelector,
@@ -216,7 +217,7 @@ func (mg *ServiceNetworkSettings) ResolveReferences(ctx context.Context, c clien
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Service")
 	}
-	mg.Spec.InitProvider.Service = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Service = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ServiceRef = rsp.ResolvedReference
 
 	return nil
@@ -237,7 +238,7 @@ func (mg *StandardAppVersion) ResolveReferences(ctx context.Context, c client.Re
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ServiceAccount),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.ServiceAccount, ""),
 			Extract:      resource.ExtractParamPath("email", true),
 			Reference:    mg.Spec.ForProvider.ServiceAccountRef,
 			Selector:     mg.Spec.ForProvider.ServiceAccountSelector,
@@ -247,7 +248,7 @@ func (mg *StandardAppVersion) ResolveReferences(ctx context.Context, c client.Re
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.ServiceAccount")
 	}
-	mg.Spec.ForProvider.ServiceAccount = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ServiceAccount = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ServiceAccountRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "ServiceAccount", "ServiceAccountList")
@@ -256,7 +257,7 @@ func (mg *StandardAppVersion) ResolveReferences(ctx context.Context, c client.Re
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ServiceAccount),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.ServiceAccount, ""),
 			Extract:      resource.ExtractParamPath("email", true),
 			Reference:    mg.Spec.InitProvider.ServiceAccountRef,
 			Selector:     mg.Spec.InitProvider.ServiceAccountSelector,
@@ -266,7 +267,7 @@ func (mg *StandardAppVersion) ResolveReferences(ctx context.Context, c client.Re
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.ServiceAccount")
 	}
-	mg.Spec.InitProvider.ServiceAccount = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ServiceAccount = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ServiceAccountRef = rsp.ResolvedReference
 
 	return nil

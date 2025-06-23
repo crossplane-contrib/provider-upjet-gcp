@@ -14,6 +14,7 @@ import (
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -32,7 +33,7 @@ func (mg *AnalyticsHubDataExchangeIAMMember) ResolveReferences( // ResolveRefere
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DataExchangeID),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.DataExchangeID, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.DataExchangeIDRef,
 			Selector:     mg.Spec.ForProvider.DataExchangeIDSelector,
@@ -42,7 +43,7 @@ func (mg *AnalyticsHubDataExchangeIAMMember) ResolveReferences( // ResolveRefere
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.DataExchangeID")
 	}
-	mg.Spec.ForProvider.DataExchangeID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.DataExchangeID = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.DataExchangeIDRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta1", "AnalyticsHubDataExchange", "AnalyticsHubDataExchangeList")
@@ -51,7 +52,7 @@ func (mg *AnalyticsHubDataExchangeIAMMember) ResolveReferences( // ResolveRefere
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DataExchangeID),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.DataExchangeID, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.DataExchangeIDRef,
 			Selector:     mg.Spec.InitProvider.DataExchangeIDSelector,
@@ -61,7 +62,7 @@ func (mg *AnalyticsHubDataExchangeIAMMember) ResolveReferences( // ResolveRefere
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.DataExchangeID")
 	}
-	mg.Spec.InitProvider.DataExchangeID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.DataExchangeID = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.DataExchangeIDRef = rsp.ResolvedReference
 
 	return nil
@@ -83,7 +84,7 @@ func (mg *AnalyticsHubListing) ResolveReferences(ctx context.Context, c client.R
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.BigqueryDataset.Dataset),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.BigqueryDataset.Dataset, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.ForProvider.BigqueryDataset.DatasetRef,
 				Selector:     mg.Spec.ForProvider.BigqueryDataset.DatasetSelector,
@@ -93,7 +94,7 @@ func (mg *AnalyticsHubListing) ResolveReferences(ctx context.Context, c client.R
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.BigqueryDataset.Dataset")
 		}
-		mg.Spec.ForProvider.BigqueryDataset.Dataset = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.BigqueryDataset.Dataset = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.BigqueryDataset.DatasetRef = rsp.ResolvedReference
 
 	}
@@ -103,7 +104,7 @@ func (mg *AnalyticsHubListing) ResolveReferences(ctx context.Context, c client.R
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DataExchangeID),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.DataExchangeID, ""),
 			Extract:      resource.ExtractParamPath("data_exchange_id", false),
 			Reference:    mg.Spec.ForProvider.DataExchangeIDRef,
 			Selector:     mg.Spec.ForProvider.DataExchangeIDSelector,
@@ -113,7 +114,7 @@ func (mg *AnalyticsHubListing) ResolveReferences(ctx context.Context, c client.R
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.DataExchangeID")
 	}
-	mg.Spec.ForProvider.DataExchangeID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.DataExchangeID = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.DataExchangeIDRef = rsp.ResolvedReference
 
 	if mg.Spec.InitProvider.BigqueryDataset != nil {
@@ -123,7 +124,7 @@ func (mg *AnalyticsHubListing) ResolveReferences(ctx context.Context, c client.R
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.BigqueryDataset.Dataset),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.BigqueryDataset.Dataset, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.InitProvider.BigqueryDataset.DatasetRef,
 				Selector:     mg.Spec.InitProvider.BigqueryDataset.DatasetSelector,
@@ -133,7 +134,7 @@ func (mg *AnalyticsHubListing) ResolveReferences(ctx context.Context, c client.R
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.BigqueryDataset.Dataset")
 		}
-		mg.Spec.InitProvider.BigqueryDataset.Dataset = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.BigqueryDataset.Dataset = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.BigqueryDataset.DatasetRef = rsp.ResolvedReference
 
 	}
@@ -158,7 +159,7 @@ func (mg *Connection) ResolveReferences(ctx context.Context, c client.Reader) er
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CloudSQL.Credential.Username),
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.CloudSQL.Credential.Username, ""),
 					Extract:      reference.ExternalName(),
 					Reference:    mg.Spec.ForProvider.CloudSQL.Credential.UsernameRef,
 					Selector:     mg.Spec.ForProvider.CloudSQL.Credential.UsernameSelector,
@@ -168,7 +169,7 @@ func (mg *Connection) ResolveReferences(ctx context.Context, c client.Reader) er
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.ForProvider.CloudSQL.Credential.Username")
 			}
-			mg.Spec.ForProvider.CloudSQL.Credential.Username = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.CloudSQL.Credential.Username = ptr.To(rsp.ResolvedValue)
 			mg.Spec.ForProvider.CloudSQL.Credential.UsernameRef = rsp.ResolvedReference
 
 		}
@@ -180,7 +181,7 @@ func (mg *Connection) ResolveReferences(ctx context.Context, c client.Reader) er
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CloudSQL.Database),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.CloudSQL.Database, ""),
 				Extract:      reference.ExternalName(),
 				Reference:    mg.Spec.ForProvider.CloudSQL.DatabaseRef,
 				Selector:     mg.Spec.ForProvider.CloudSQL.DatabaseSelector,
@@ -190,7 +191,7 @@ func (mg *Connection) ResolveReferences(ctx context.Context, c client.Reader) er
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.CloudSQL.Database")
 		}
-		mg.Spec.ForProvider.CloudSQL.Database = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.CloudSQL.Database = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.CloudSQL.DatabaseRef = rsp.ResolvedReference
 
 	}
@@ -201,7 +202,7 @@ func (mg *Connection) ResolveReferences(ctx context.Context, c client.Reader) er
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CloudSQL.InstanceID),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.CloudSQL.InstanceID, ""),
 				Extract:      resource.ExtractParamPath("connection_name", true),
 				Reference:    mg.Spec.ForProvider.CloudSQL.InstanceIDRef,
 				Selector:     mg.Spec.ForProvider.CloudSQL.InstanceIDSelector,
@@ -211,7 +212,7 @@ func (mg *Connection) ResolveReferences(ctx context.Context, c client.Reader) er
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.CloudSQL.InstanceID")
 		}
-		mg.Spec.ForProvider.CloudSQL.InstanceID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.CloudSQL.InstanceID = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.CloudSQL.InstanceIDRef = rsp.ResolvedReference
 
 	}
@@ -223,7 +224,7 @@ func (mg *Connection) ResolveReferences(ctx context.Context, c client.Reader) er
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Spark.SparkHistoryServerConfig.DataprocCluster),
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.Spark.SparkHistoryServerConfig.DataprocCluster, ""),
 					Extract:      resource.ExtractResourceID(),
 					Reference:    mg.Spec.ForProvider.Spark.SparkHistoryServerConfig.DataprocClusterRef,
 					Selector:     mg.Spec.ForProvider.Spark.SparkHistoryServerConfig.DataprocClusterSelector,
@@ -233,7 +234,7 @@ func (mg *Connection) ResolveReferences(ctx context.Context, c client.Reader) er
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.ForProvider.Spark.SparkHistoryServerConfig.DataprocCluster")
 			}
-			mg.Spec.ForProvider.Spark.SparkHistoryServerConfig.DataprocCluster = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Spark.SparkHistoryServerConfig.DataprocCluster = ptr.To(rsp.ResolvedValue)
 			mg.Spec.ForProvider.Spark.SparkHistoryServerConfig.DataprocClusterRef = rsp.ResolvedReference
 
 		}
@@ -246,7 +247,7 @@ func (mg *Connection) ResolveReferences(ctx context.Context, c client.Reader) er
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CloudSQL.Credential.Username),
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.CloudSQL.Credential.Username, ""),
 					Extract:      reference.ExternalName(),
 					Reference:    mg.Spec.InitProvider.CloudSQL.Credential.UsernameRef,
 					Selector:     mg.Spec.InitProvider.CloudSQL.Credential.UsernameSelector,
@@ -256,7 +257,7 @@ func (mg *Connection) ResolveReferences(ctx context.Context, c client.Reader) er
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.InitProvider.CloudSQL.Credential.Username")
 			}
-			mg.Spec.InitProvider.CloudSQL.Credential.Username = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.CloudSQL.Credential.Username = ptr.To(rsp.ResolvedValue)
 			mg.Spec.InitProvider.CloudSQL.Credential.UsernameRef = rsp.ResolvedReference
 
 		}
@@ -268,7 +269,7 @@ func (mg *Connection) ResolveReferences(ctx context.Context, c client.Reader) er
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CloudSQL.Database),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.CloudSQL.Database, ""),
 				Extract:      reference.ExternalName(),
 				Reference:    mg.Spec.InitProvider.CloudSQL.DatabaseRef,
 				Selector:     mg.Spec.InitProvider.CloudSQL.DatabaseSelector,
@@ -278,7 +279,7 @@ func (mg *Connection) ResolveReferences(ctx context.Context, c client.Reader) er
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.CloudSQL.Database")
 		}
-		mg.Spec.InitProvider.CloudSQL.Database = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.CloudSQL.Database = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.CloudSQL.DatabaseRef = rsp.ResolvedReference
 
 	}
@@ -289,7 +290,7 @@ func (mg *Connection) ResolveReferences(ctx context.Context, c client.Reader) er
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CloudSQL.InstanceID),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.CloudSQL.InstanceID, ""),
 				Extract:      resource.ExtractParamPath("connection_name", true),
 				Reference:    mg.Spec.InitProvider.CloudSQL.InstanceIDRef,
 				Selector:     mg.Spec.InitProvider.CloudSQL.InstanceIDSelector,
@@ -299,7 +300,7 @@ func (mg *Connection) ResolveReferences(ctx context.Context, c client.Reader) er
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.CloudSQL.InstanceID")
 		}
-		mg.Spec.InitProvider.CloudSQL.InstanceID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.CloudSQL.InstanceID = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.CloudSQL.InstanceIDRef = rsp.ResolvedReference
 
 	}
@@ -311,7 +312,7 @@ func (mg *Connection) ResolveReferences(ctx context.Context, c client.Reader) er
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Spark.SparkHistoryServerConfig.DataprocCluster),
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.Spark.SparkHistoryServerConfig.DataprocCluster, ""),
 					Extract:      resource.ExtractResourceID(),
 					Reference:    mg.Spec.InitProvider.Spark.SparkHistoryServerConfig.DataprocClusterRef,
 					Selector:     mg.Spec.InitProvider.Spark.SparkHistoryServerConfig.DataprocClusterSelector,
@@ -321,7 +322,7 @@ func (mg *Connection) ResolveReferences(ctx context.Context, c client.Reader) er
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.InitProvider.Spark.SparkHistoryServerConfig.DataprocCluster")
 			}
-			mg.Spec.InitProvider.Spark.SparkHistoryServerConfig.DataprocCluster = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Spark.SparkHistoryServerConfig.DataprocCluster = ptr.To(rsp.ResolvedValue)
 			mg.Spec.InitProvider.Spark.SparkHistoryServerConfig.DataprocClusterRef = rsp.ResolvedReference
 
 		}
@@ -345,7 +346,7 @@ func (mg *DataTransferConfig) ResolveReferences(ctx context.Context, c client.Re
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DestinationDatasetID),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.DestinationDatasetID, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.DestinationDatasetIDRef,
 			Selector:     mg.Spec.ForProvider.DestinationDatasetIDSelector,
@@ -355,7 +356,7 @@ func (mg *DataTransferConfig) ResolveReferences(ctx context.Context, c client.Re
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.DestinationDatasetID")
 	}
-	mg.Spec.ForProvider.DestinationDatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.DestinationDatasetID = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.DestinationDatasetIDRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta2", "Dataset", "DatasetList")
@@ -364,7 +365,7 @@ func (mg *DataTransferConfig) ResolveReferences(ctx context.Context, c client.Re
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DestinationDatasetID),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.DestinationDatasetID, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.DestinationDatasetIDRef,
 			Selector:     mg.Spec.InitProvider.DestinationDatasetIDSelector,
@@ -374,7 +375,7 @@ func (mg *DataTransferConfig) ResolveReferences(ctx context.Context, c client.Re
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.DestinationDatasetID")
 	}
-	mg.Spec.InitProvider.DestinationDatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.DestinationDatasetID = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.DestinationDatasetIDRef = rsp.ResolvedReference
 
 	return nil
@@ -398,7 +399,7 @@ func (mg *Dataset) ResolveReferences(ctx context.Context, c client.Reader) error
 						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 					}
 					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-						CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Access[i3].Dataset.Dataset.DatasetID),
+						CurrentValue: ptr.Deref(mg.Spec.ForProvider.Access[i3].Dataset.Dataset.DatasetID, ""),
 						Extract:      reference.ExternalName(),
 						Reference:    mg.Spec.ForProvider.Access[i3].Dataset.Dataset.DatasetIDRef,
 						Selector:     mg.Spec.ForProvider.Access[i3].Dataset.Dataset.DatasetIDSelector,
@@ -408,7 +409,7 @@ func (mg *Dataset) ResolveReferences(ctx context.Context, c client.Reader) error
 				if err != nil {
 					return errors.Wrap(err, "mg.Spec.ForProvider.Access[i3].Dataset.Dataset.DatasetID")
 				}
-				mg.Spec.ForProvider.Access[i3].Dataset.Dataset.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.ForProvider.Access[i3].Dataset.Dataset.DatasetID = ptr.To(rsp.ResolvedValue)
 				mg.Spec.ForProvider.Access[i3].Dataset.Dataset.DatasetIDRef = rsp.ResolvedReference
 
 			}
@@ -422,7 +423,7 @@ func (mg *Dataset) ResolveReferences(ctx context.Context, c client.Reader) error
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Access[i3].Routine.DatasetID),
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.Access[i3].Routine.DatasetID, ""),
 					Extract:      resource.ExtractParamPath("dataset_id", false),
 					Reference:    mg.Spec.ForProvider.Access[i3].Routine.DatasetIDRef,
 					Selector:     mg.Spec.ForProvider.Access[i3].Routine.DatasetIDSelector,
@@ -432,7 +433,7 @@ func (mg *Dataset) ResolveReferences(ctx context.Context, c client.Reader) error
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.ForProvider.Access[i3].Routine.DatasetID")
 			}
-			mg.Spec.ForProvider.Access[i3].Routine.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Access[i3].Routine.DatasetID = ptr.To(rsp.ResolvedValue)
 			mg.Spec.ForProvider.Access[i3].Routine.DatasetIDRef = rsp.ResolvedReference
 
 		}
@@ -445,7 +446,7 @@ func (mg *Dataset) ResolveReferences(ctx context.Context, c client.Reader) error
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Access[i3].Routine.ProjectID),
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.Access[i3].Routine.ProjectID, ""),
 					Extract:      resource.ExtractParamPath("project", false),
 					Reference:    mg.Spec.ForProvider.Access[i3].Routine.ProjectIDRef,
 					Selector:     mg.Spec.ForProvider.Access[i3].Routine.ProjectIDSelector,
@@ -455,7 +456,7 @@ func (mg *Dataset) ResolveReferences(ctx context.Context, c client.Reader) error
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.ForProvider.Access[i3].Routine.ProjectID")
 			}
-			mg.Spec.ForProvider.Access[i3].Routine.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Access[i3].Routine.ProjectID = ptr.To(rsp.ResolvedValue)
 			mg.Spec.ForProvider.Access[i3].Routine.ProjectIDRef = rsp.ResolvedReference
 
 		}
@@ -468,7 +469,7 @@ func (mg *Dataset) ResolveReferences(ctx context.Context, c client.Reader) error
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Access[i3].Routine.RoutineID),
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.Access[i3].Routine.RoutineID, ""),
 					Extract:      reference.ExternalName(),
 					Reference:    mg.Spec.ForProvider.Access[i3].Routine.RoutineIDRef,
 					Selector:     mg.Spec.ForProvider.Access[i3].Routine.RoutineIDSelector,
@@ -478,7 +479,7 @@ func (mg *Dataset) ResolveReferences(ctx context.Context, c client.Reader) error
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.ForProvider.Access[i3].Routine.RoutineID")
 			}
-			mg.Spec.ForProvider.Access[i3].Routine.RoutineID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Access[i3].Routine.RoutineID = ptr.To(rsp.ResolvedValue)
 			mg.Spec.ForProvider.Access[i3].Routine.RoutineIDRef = rsp.ResolvedReference
 
 		}
@@ -490,7 +491,7 @@ func (mg *Dataset) ResolveReferences(ctx context.Context, c client.Reader) error
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Access[i3].UserByEmail),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.Access[i3].UserByEmail, ""),
 				Extract:      resource.ExtractParamPath("email", true),
 				Reference:    mg.Spec.ForProvider.Access[i3].UserByEmailRef,
 				Selector:     mg.Spec.ForProvider.Access[i3].UserByEmailSelector,
@@ -500,7 +501,7 @@ func (mg *Dataset) ResolveReferences(ctx context.Context, c client.Reader) error
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.Access[i3].UserByEmail")
 		}
-		mg.Spec.ForProvider.Access[i3].UserByEmail = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.Access[i3].UserByEmail = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.Access[i3].UserByEmailRef = rsp.ResolvedReference
 
 	}
@@ -511,7 +512,7 @@ func (mg *Dataset) ResolveReferences(ctx context.Context, c client.Reader) error
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DefaultEncryptionConfiguration.KMSKeyName),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.DefaultEncryptionConfiguration.KMSKeyName, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.ForProvider.DefaultEncryptionConfiguration.KMSKeyNameRef,
 				Selector:     mg.Spec.ForProvider.DefaultEncryptionConfiguration.KMSKeyNameSelector,
@@ -521,7 +522,7 @@ func (mg *Dataset) ResolveReferences(ctx context.Context, c client.Reader) error
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.DefaultEncryptionConfiguration.KMSKeyName")
 		}
-		mg.Spec.ForProvider.DefaultEncryptionConfiguration.KMSKeyName = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.DefaultEncryptionConfiguration.KMSKeyName = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.DefaultEncryptionConfiguration.KMSKeyNameRef = rsp.ResolvedReference
 
 	}
@@ -534,7 +535,7 @@ func (mg *Dataset) ResolveReferences(ctx context.Context, c client.Reader) error
 						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 					}
 					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-						CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Access[i3].Dataset.Dataset.DatasetID),
+						CurrentValue: ptr.Deref(mg.Spec.InitProvider.Access[i3].Dataset.Dataset.DatasetID, ""),
 						Extract:      reference.ExternalName(),
 						Reference:    mg.Spec.InitProvider.Access[i3].Dataset.Dataset.DatasetIDRef,
 						Selector:     mg.Spec.InitProvider.Access[i3].Dataset.Dataset.DatasetIDSelector,
@@ -544,7 +545,7 @@ func (mg *Dataset) ResolveReferences(ctx context.Context, c client.Reader) error
 				if err != nil {
 					return errors.Wrap(err, "mg.Spec.InitProvider.Access[i3].Dataset.Dataset.DatasetID")
 				}
-				mg.Spec.InitProvider.Access[i3].Dataset.Dataset.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.InitProvider.Access[i3].Dataset.Dataset.DatasetID = ptr.To(rsp.ResolvedValue)
 				mg.Spec.InitProvider.Access[i3].Dataset.Dataset.DatasetIDRef = rsp.ResolvedReference
 
 			}
@@ -558,7 +559,7 @@ func (mg *Dataset) ResolveReferences(ctx context.Context, c client.Reader) error
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Access[i3].Routine.DatasetID),
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.Access[i3].Routine.DatasetID, ""),
 					Extract:      resource.ExtractParamPath("dataset_id", false),
 					Reference:    mg.Spec.InitProvider.Access[i3].Routine.DatasetIDRef,
 					Selector:     mg.Spec.InitProvider.Access[i3].Routine.DatasetIDSelector,
@@ -568,7 +569,7 @@ func (mg *Dataset) ResolveReferences(ctx context.Context, c client.Reader) error
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.InitProvider.Access[i3].Routine.DatasetID")
 			}
-			mg.Spec.InitProvider.Access[i3].Routine.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Access[i3].Routine.DatasetID = ptr.To(rsp.ResolvedValue)
 			mg.Spec.InitProvider.Access[i3].Routine.DatasetIDRef = rsp.ResolvedReference
 
 		}
@@ -581,7 +582,7 @@ func (mg *Dataset) ResolveReferences(ctx context.Context, c client.Reader) error
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Access[i3].Routine.ProjectID),
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.Access[i3].Routine.ProjectID, ""),
 					Extract:      resource.ExtractParamPath("project", false),
 					Reference:    mg.Spec.InitProvider.Access[i3].Routine.ProjectIDRef,
 					Selector:     mg.Spec.InitProvider.Access[i3].Routine.ProjectIDSelector,
@@ -591,7 +592,7 @@ func (mg *Dataset) ResolveReferences(ctx context.Context, c client.Reader) error
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.InitProvider.Access[i3].Routine.ProjectID")
 			}
-			mg.Spec.InitProvider.Access[i3].Routine.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Access[i3].Routine.ProjectID = ptr.To(rsp.ResolvedValue)
 			mg.Spec.InitProvider.Access[i3].Routine.ProjectIDRef = rsp.ResolvedReference
 
 		}
@@ -604,7 +605,7 @@ func (mg *Dataset) ResolveReferences(ctx context.Context, c client.Reader) error
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Access[i3].Routine.RoutineID),
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.Access[i3].Routine.RoutineID, ""),
 					Extract:      reference.ExternalName(),
 					Reference:    mg.Spec.InitProvider.Access[i3].Routine.RoutineIDRef,
 					Selector:     mg.Spec.InitProvider.Access[i3].Routine.RoutineIDSelector,
@@ -614,7 +615,7 @@ func (mg *Dataset) ResolveReferences(ctx context.Context, c client.Reader) error
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.InitProvider.Access[i3].Routine.RoutineID")
 			}
-			mg.Spec.InitProvider.Access[i3].Routine.RoutineID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Access[i3].Routine.RoutineID = ptr.To(rsp.ResolvedValue)
 			mg.Spec.InitProvider.Access[i3].Routine.RoutineIDRef = rsp.ResolvedReference
 
 		}
@@ -626,7 +627,7 @@ func (mg *Dataset) ResolveReferences(ctx context.Context, c client.Reader) error
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Access[i3].UserByEmail),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.Access[i3].UserByEmail, ""),
 				Extract:      resource.ExtractParamPath("email", true),
 				Reference:    mg.Spec.InitProvider.Access[i3].UserByEmailRef,
 				Selector:     mg.Spec.InitProvider.Access[i3].UserByEmailSelector,
@@ -636,7 +637,7 @@ func (mg *Dataset) ResolveReferences(ctx context.Context, c client.Reader) error
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.Access[i3].UserByEmail")
 		}
-		mg.Spec.InitProvider.Access[i3].UserByEmail = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Access[i3].UserByEmail = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.Access[i3].UserByEmailRef = rsp.ResolvedReference
 
 	}
@@ -647,7 +648,7 @@ func (mg *Dataset) ResolveReferences(ctx context.Context, c client.Reader) error
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DefaultEncryptionConfiguration.KMSKeyName),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.DefaultEncryptionConfiguration.KMSKeyName, ""),
 				Extract:      resource.ExtractResourceID(),
 				Reference:    mg.Spec.InitProvider.DefaultEncryptionConfiguration.KMSKeyNameRef,
 				Selector:     mg.Spec.InitProvider.DefaultEncryptionConfiguration.KMSKeyNameSelector,
@@ -657,7 +658,7 @@ func (mg *Dataset) ResolveReferences(ctx context.Context, c client.Reader) error
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.DefaultEncryptionConfiguration.KMSKeyName")
 		}
-		mg.Spec.InitProvider.DefaultEncryptionConfiguration.KMSKeyName = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.DefaultEncryptionConfiguration.KMSKeyName = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.DefaultEncryptionConfiguration.KMSKeyNameRef = rsp.ResolvedReference
 
 	}
@@ -682,7 +683,7 @@ func (mg *DatasetAccess) ResolveReferences(ctx context.Context, c client.Reader)
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Dataset.Dataset.DatasetID),
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.Dataset.Dataset.DatasetID, ""),
 					Extract:      reference.ExternalName(),
 					Reference:    mg.Spec.ForProvider.Dataset.Dataset.DatasetIDRef,
 					Selector:     mg.Spec.ForProvider.Dataset.Dataset.DatasetIDSelector,
@@ -692,7 +693,7 @@ func (mg *DatasetAccess) ResolveReferences(ctx context.Context, c client.Reader)
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.ForProvider.Dataset.Dataset.DatasetID")
 			}
-			mg.Spec.ForProvider.Dataset.Dataset.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Dataset.Dataset.DatasetID = ptr.To(rsp.ResolvedValue)
 			mg.Spec.ForProvider.Dataset.Dataset.DatasetIDRef = rsp.ResolvedReference
 
 		}
@@ -703,7 +704,7 @@ func (mg *DatasetAccess) ResolveReferences(ctx context.Context, c client.Reader)
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DatasetID),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.DatasetID, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.DatasetIDRef,
 			Selector:     mg.Spec.ForProvider.DatasetIDSelector,
@@ -713,7 +714,7 @@ func (mg *DatasetAccess) ResolveReferences(ctx context.Context, c client.Reader)
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.DatasetID")
 	}
-	mg.Spec.ForProvider.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.DatasetID = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.DatasetIDRef = rsp.ResolvedReference
 
 	if mg.Spec.ForProvider.Routine != nil {
@@ -723,7 +724,7 @@ func (mg *DatasetAccess) ResolveReferences(ctx context.Context, c client.Reader)
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Routine.DatasetID),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.Routine.DatasetID, ""),
 				Extract:      resource.ExtractParamPath("dataset_id", false),
 				Reference:    mg.Spec.ForProvider.Routine.DatasetIDRef,
 				Selector:     mg.Spec.ForProvider.Routine.DatasetIDSelector,
@@ -733,7 +734,7 @@ func (mg *DatasetAccess) ResolveReferences(ctx context.Context, c client.Reader)
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.Routine.DatasetID")
 		}
-		mg.Spec.ForProvider.Routine.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.Routine.DatasetID = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.Routine.DatasetIDRef = rsp.ResolvedReference
 
 	}
@@ -744,7 +745,7 @@ func (mg *DatasetAccess) ResolveReferences(ctx context.Context, c client.Reader)
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Routine.ProjectID),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.Routine.ProjectID, ""),
 				Extract:      resource.ExtractParamPath("project", false),
 				Reference:    mg.Spec.ForProvider.Routine.ProjectIDRef,
 				Selector:     mg.Spec.ForProvider.Routine.ProjectIDSelector,
@@ -754,7 +755,7 @@ func (mg *DatasetAccess) ResolveReferences(ctx context.Context, c client.Reader)
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.Routine.ProjectID")
 		}
-		mg.Spec.ForProvider.Routine.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.Routine.ProjectID = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.Routine.ProjectIDRef = rsp.ResolvedReference
 
 	}
@@ -765,7 +766,7 @@ func (mg *DatasetAccess) ResolveReferences(ctx context.Context, c client.Reader)
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Routine.RoutineID),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.Routine.RoutineID, ""),
 				Extract:      reference.ExternalName(),
 				Reference:    mg.Spec.ForProvider.Routine.RoutineIDRef,
 				Selector:     mg.Spec.ForProvider.Routine.RoutineIDSelector,
@@ -775,7 +776,7 @@ func (mg *DatasetAccess) ResolveReferences(ctx context.Context, c client.Reader)
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.Routine.RoutineID")
 		}
-		mg.Spec.ForProvider.Routine.RoutineID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.Routine.RoutineID = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.Routine.RoutineIDRef = rsp.ResolvedReference
 
 	}
@@ -785,7 +786,7 @@ func (mg *DatasetAccess) ResolveReferences(ctx context.Context, c client.Reader)
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.UserByEmail),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.UserByEmail, ""),
 			Extract:      resource.ExtractParamPath("email", true),
 			Reference:    mg.Spec.ForProvider.UserByEmailRef,
 			Selector:     mg.Spec.ForProvider.UserByEmailSelector,
@@ -795,7 +796,7 @@ func (mg *DatasetAccess) ResolveReferences(ctx context.Context, c client.Reader)
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.UserByEmail")
 	}
-	mg.Spec.ForProvider.UserByEmail = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.UserByEmail = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.UserByEmailRef = rsp.ResolvedReference
 
 	if mg.Spec.ForProvider.View != nil {
@@ -805,7 +806,7 @@ func (mg *DatasetAccess) ResolveReferences(ctx context.Context, c client.Reader)
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.View.DatasetID),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.View.DatasetID, ""),
 				Extract:      reference.ExternalName(),
 				Reference:    mg.Spec.ForProvider.View.DatasetIDRef,
 				Selector:     mg.Spec.ForProvider.View.DatasetIDSelector,
@@ -815,7 +816,7 @@ func (mg *DatasetAccess) ResolveReferences(ctx context.Context, c client.Reader)
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.View.DatasetID")
 		}
-		mg.Spec.ForProvider.View.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.View.DatasetID = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.View.DatasetIDRef = rsp.ResolvedReference
 
 	}
@@ -826,7 +827,7 @@ func (mg *DatasetAccess) ResolveReferences(ctx context.Context, c client.Reader)
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.View.TableID),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.View.TableID, ""),
 				Extract:      reference.ExternalName(),
 				Reference:    mg.Spec.ForProvider.View.TableIDRef,
 				Selector:     mg.Spec.ForProvider.View.TableIDSelector,
@@ -836,7 +837,7 @@ func (mg *DatasetAccess) ResolveReferences(ctx context.Context, c client.Reader)
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.View.TableID")
 		}
-		mg.Spec.ForProvider.View.TableID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.View.TableID = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.View.TableIDRef = rsp.ResolvedReference
 
 	}
@@ -848,7 +849,7 @@ func (mg *DatasetAccess) ResolveReferences(ctx context.Context, c client.Reader)
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Dataset.Dataset.DatasetID),
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.Dataset.Dataset.DatasetID, ""),
 					Extract:      reference.ExternalName(),
 					Reference:    mg.Spec.InitProvider.Dataset.Dataset.DatasetIDRef,
 					Selector:     mg.Spec.InitProvider.Dataset.Dataset.DatasetIDSelector,
@@ -858,7 +859,7 @@ func (mg *DatasetAccess) ResolveReferences(ctx context.Context, c client.Reader)
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.InitProvider.Dataset.Dataset.DatasetID")
 			}
-			mg.Spec.InitProvider.Dataset.Dataset.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Dataset.Dataset.DatasetID = ptr.To(rsp.ResolvedValue)
 			mg.Spec.InitProvider.Dataset.Dataset.DatasetIDRef = rsp.ResolvedReference
 
 		}
@@ -869,7 +870,7 @@ func (mg *DatasetAccess) ResolveReferences(ctx context.Context, c client.Reader)
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DatasetID),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.DatasetID, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.DatasetIDRef,
 			Selector:     mg.Spec.InitProvider.DatasetIDSelector,
@@ -879,7 +880,7 @@ func (mg *DatasetAccess) ResolveReferences(ctx context.Context, c client.Reader)
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.DatasetID")
 	}
-	mg.Spec.InitProvider.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.DatasetID = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.DatasetIDRef = rsp.ResolvedReference
 
 	if mg.Spec.InitProvider.Routine != nil {
@@ -889,7 +890,7 @@ func (mg *DatasetAccess) ResolveReferences(ctx context.Context, c client.Reader)
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Routine.DatasetID),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.Routine.DatasetID, ""),
 				Extract:      resource.ExtractParamPath("dataset_id", false),
 				Reference:    mg.Spec.InitProvider.Routine.DatasetIDRef,
 				Selector:     mg.Spec.InitProvider.Routine.DatasetIDSelector,
@@ -899,7 +900,7 @@ func (mg *DatasetAccess) ResolveReferences(ctx context.Context, c client.Reader)
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.Routine.DatasetID")
 		}
-		mg.Spec.InitProvider.Routine.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Routine.DatasetID = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.Routine.DatasetIDRef = rsp.ResolvedReference
 
 	}
@@ -910,7 +911,7 @@ func (mg *DatasetAccess) ResolveReferences(ctx context.Context, c client.Reader)
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Routine.ProjectID),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.Routine.ProjectID, ""),
 				Extract:      resource.ExtractParamPath("project", false),
 				Reference:    mg.Spec.InitProvider.Routine.ProjectIDRef,
 				Selector:     mg.Spec.InitProvider.Routine.ProjectIDSelector,
@@ -920,7 +921,7 @@ func (mg *DatasetAccess) ResolveReferences(ctx context.Context, c client.Reader)
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.Routine.ProjectID")
 		}
-		mg.Spec.InitProvider.Routine.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Routine.ProjectID = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.Routine.ProjectIDRef = rsp.ResolvedReference
 
 	}
@@ -931,7 +932,7 @@ func (mg *DatasetAccess) ResolveReferences(ctx context.Context, c client.Reader)
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Routine.RoutineID),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.Routine.RoutineID, ""),
 				Extract:      reference.ExternalName(),
 				Reference:    mg.Spec.InitProvider.Routine.RoutineIDRef,
 				Selector:     mg.Spec.InitProvider.Routine.RoutineIDSelector,
@@ -941,7 +942,7 @@ func (mg *DatasetAccess) ResolveReferences(ctx context.Context, c client.Reader)
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.Routine.RoutineID")
 		}
-		mg.Spec.InitProvider.Routine.RoutineID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Routine.RoutineID = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.Routine.RoutineIDRef = rsp.ResolvedReference
 
 	}
@@ -951,7 +952,7 @@ func (mg *DatasetAccess) ResolveReferences(ctx context.Context, c client.Reader)
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.UserByEmail),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.UserByEmail, ""),
 			Extract:      resource.ExtractParamPath("email", true),
 			Reference:    mg.Spec.InitProvider.UserByEmailRef,
 			Selector:     mg.Spec.InitProvider.UserByEmailSelector,
@@ -961,7 +962,7 @@ func (mg *DatasetAccess) ResolveReferences(ctx context.Context, c client.Reader)
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.UserByEmail")
 	}
-	mg.Spec.InitProvider.UserByEmail = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.UserByEmail = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.UserByEmailRef = rsp.ResolvedReference
 
 	if mg.Spec.InitProvider.View != nil {
@@ -971,7 +972,7 @@ func (mg *DatasetAccess) ResolveReferences(ctx context.Context, c client.Reader)
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.View.DatasetID),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.View.DatasetID, ""),
 				Extract:      reference.ExternalName(),
 				Reference:    mg.Spec.InitProvider.View.DatasetIDRef,
 				Selector:     mg.Spec.InitProvider.View.DatasetIDSelector,
@@ -981,7 +982,7 @@ func (mg *DatasetAccess) ResolveReferences(ctx context.Context, c client.Reader)
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.View.DatasetID")
 		}
-		mg.Spec.InitProvider.View.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.View.DatasetID = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.View.DatasetIDRef = rsp.ResolvedReference
 
 	}
@@ -992,7 +993,7 @@ func (mg *DatasetAccess) ResolveReferences(ctx context.Context, c client.Reader)
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.View.TableID),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.View.TableID, ""),
 				Extract:      reference.ExternalName(),
 				Reference:    mg.Spec.InitProvider.View.TableIDRef,
 				Selector:     mg.Spec.InitProvider.View.TableIDSelector,
@@ -1002,7 +1003,7 @@ func (mg *DatasetAccess) ResolveReferences(ctx context.Context, c client.Reader)
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.View.TableID")
 		}
-		mg.Spec.InitProvider.View.TableID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.View.TableID = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.View.TableIDRef = rsp.ResolvedReference
 
 	}
@@ -1025,7 +1026,7 @@ func (mg *DatasetIAMBinding) ResolveReferences(ctx context.Context, c client.Rea
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DatasetID),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.DatasetID, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.DatasetIDRef,
 			Selector:     mg.Spec.ForProvider.DatasetIDSelector,
@@ -1035,7 +1036,7 @@ func (mg *DatasetIAMBinding) ResolveReferences(ctx context.Context, c client.Rea
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.DatasetID")
 	}
-	mg.Spec.ForProvider.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.DatasetID = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.DatasetIDRef = rsp.ResolvedReference
 
 	return nil
@@ -1056,7 +1057,7 @@ func (mg *DatasetIAMMember) ResolveReferences(ctx context.Context, c client.Read
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DatasetID),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.DatasetID, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.DatasetIDRef,
 			Selector:     mg.Spec.ForProvider.DatasetIDSelector,
@@ -1066,7 +1067,7 @@ func (mg *DatasetIAMMember) ResolveReferences(ctx context.Context, c client.Read
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.DatasetID")
 	}
-	mg.Spec.ForProvider.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.DatasetID = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.DatasetIDRef = rsp.ResolvedReference
 
 	return nil
@@ -1089,7 +1090,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Copy.DestinationEncryptionConfiguration.KMSKeyName),
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.Copy.DestinationEncryptionConfiguration.KMSKeyName, ""),
 					Extract:      resource.ExtractResourceID(),
 					Reference:    mg.Spec.ForProvider.Copy.DestinationEncryptionConfiguration.KMSKeyNameRef,
 					Selector:     mg.Spec.ForProvider.Copy.DestinationEncryptionConfiguration.KMSKeyNameSelector,
@@ -1099,7 +1100,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.ForProvider.Copy.DestinationEncryptionConfiguration.KMSKeyName")
 			}
-			mg.Spec.ForProvider.Copy.DestinationEncryptionConfiguration.KMSKeyName = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Copy.DestinationEncryptionConfiguration.KMSKeyName = ptr.To(rsp.ResolvedValue)
 			mg.Spec.ForProvider.Copy.DestinationEncryptionConfiguration.KMSKeyNameRef = rsp.ResolvedReference
 
 		}
@@ -1112,7 +1113,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Copy.DestinationTable.DatasetID),
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.Copy.DestinationTable.DatasetID, ""),
 					Extract:      reference.ExternalName(),
 					Reference:    mg.Spec.ForProvider.Copy.DestinationTable.DatasetIDRef,
 					Selector:     mg.Spec.ForProvider.Copy.DestinationTable.DatasetIDSelector,
@@ -1122,7 +1123,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.ForProvider.Copy.DestinationTable.DatasetID")
 			}
-			mg.Spec.ForProvider.Copy.DestinationTable.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Copy.DestinationTable.DatasetID = ptr.To(rsp.ResolvedValue)
 			mg.Spec.ForProvider.Copy.DestinationTable.DatasetIDRef = rsp.ResolvedReference
 
 		}
@@ -1135,7 +1136,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Copy.DestinationTable.TableID),
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.Copy.DestinationTable.TableID, ""),
 					Extract:      resource.ExtractResourceID(),
 					Reference:    mg.Spec.ForProvider.Copy.DestinationTable.TableIDRef,
 					Selector:     mg.Spec.ForProvider.Copy.DestinationTable.TableIDSelector,
@@ -1145,8 +1146,77 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.ForProvider.Copy.DestinationTable.TableID")
 			}
-			mg.Spec.ForProvider.Copy.DestinationTable.TableID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Copy.DestinationTable.TableID = ptr.To(rsp.ResolvedValue)
 			mg.Spec.ForProvider.Copy.DestinationTable.TableIDRef = rsp.ResolvedReference
+
+		}
+	}
+	if mg.Spec.ForProvider.Copy != nil {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.Copy.SourceTables); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta2", "Table", "TableList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.Copy.SourceTables[i4].DatasetID, ""),
+					Extract:      resource.ExtractParamPath("dataset_id", false),
+					Reference:    mg.Spec.ForProvider.Copy.SourceTables[i4].DatasetIDRef,
+					Selector:     mg.Spec.ForProvider.Copy.SourceTables[i4].DatasetIDSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.Copy.SourceTables[i4].DatasetID")
+			}
+			mg.Spec.ForProvider.Copy.SourceTables[i4].DatasetID = ptr.To(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Copy.SourceTables[i4].DatasetIDRef = rsp.ResolvedReference
+
+		}
+	}
+	if mg.Spec.ForProvider.Copy != nil {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.Copy.SourceTables); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta2", "Table", "TableList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.Copy.SourceTables[i4].ProjectID, ""),
+					Extract:      resource.ExtractParamPath("project", false),
+					Reference:    mg.Spec.ForProvider.Copy.SourceTables[i4].ProjectIDRef,
+					Selector:     mg.Spec.ForProvider.Copy.SourceTables[i4].ProjectIDSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.Copy.SourceTables[i4].ProjectID")
+			}
+			mg.Spec.ForProvider.Copy.SourceTables[i4].ProjectID = ptr.To(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Copy.SourceTables[i4].ProjectIDRef = rsp.ResolvedReference
+
+		}
+	}
+	if mg.Spec.ForProvider.Copy != nil {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.Copy.SourceTables); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta2", "Table", "TableList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.Copy.SourceTables[i4].TableID, ""),
+					Extract:      reference.ExternalName(),
+					Reference:    mg.Spec.ForProvider.Copy.SourceTables[i4].TableIDRef,
+					Selector:     mg.Spec.ForProvider.Copy.SourceTables[i4].TableIDSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.Copy.SourceTables[i4].TableID")
+			}
+			mg.Spec.ForProvider.Copy.SourceTables[i4].TableID = ptr.To(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Copy.SourceTables[i4].TableIDRef = rsp.ResolvedReference
 
 		}
 	}
@@ -1158,7 +1228,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Extract.SourceTable.DatasetID),
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.Extract.SourceTable.DatasetID, ""),
 					Extract:      reference.ExternalName(),
 					Reference:    mg.Spec.ForProvider.Extract.SourceTable.DatasetIDRef,
 					Selector:     mg.Spec.ForProvider.Extract.SourceTable.DatasetIDSelector,
@@ -1168,7 +1238,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.ForProvider.Extract.SourceTable.DatasetID")
 			}
-			mg.Spec.ForProvider.Extract.SourceTable.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Extract.SourceTable.DatasetID = ptr.To(rsp.ResolvedValue)
 			mg.Spec.ForProvider.Extract.SourceTable.DatasetIDRef = rsp.ResolvedReference
 
 		}
@@ -1181,7 +1251,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Extract.SourceTable.TableID),
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.Extract.SourceTable.TableID, ""),
 					Extract:      resource.ExtractResourceID(),
 					Reference:    mg.Spec.ForProvider.Extract.SourceTable.TableIDRef,
 					Selector:     mg.Spec.ForProvider.Extract.SourceTable.TableIDSelector,
@@ -1191,7 +1261,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.ForProvider.Extract.SourceTable.TableID")
 			}
-			mg.Spec.ForProvider.Extract.SourceTable.TableID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Extract.SourceTable.TableID = ptr.To(rsp.ResolvedValue)
 			mg.Spec.ForProvider.Extract.SourceTable.TableIDRef = rsp.ResolvedReference
 
 		}
@@ -1204,7 +1274,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Load.DestinationTable.DatasetID),
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.Load.DestinationTable.DatasetID, ""),
 					Extract:      reference.ExternalName(),
 					Reference:    mg.Spec.ForProvider.Load.DestinationTable.DatasetIDRef,
 					Selector:     mg.Spec.ForProvider.Load.DestinationTable.DatasetIDSelector,
@@ -1214,7 +1284,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.ForProvider.Load.DestinationTable.DatasetID")
 			}
-			mg.Spec.ForProvider.Load.DestinationTable.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Load.DestinationTable.DatasetID = ptr.To(rsp.ResolvedValue)
 			mg.Spec.ForProvider.Load.DestinationTable.DatasetIDRef = rsp.ResolvedReference
 
 		}
@@ -1227,7 +1297,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Load.DestinationTable.TableID),
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.Load.DestinationTable.TableID, ""),
 					Extract:      resource.ExtractResourceID(),
 					Reference:    mg.Spec.ForProvider.Load.DestinationTable.TableIDRef,
 					Selector:     mg.Spec.ForProvider.Load.DestinationTable.TableIDSelector,
@@ -1237,7 +1307,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.ForProvider.Load.DestinationTable.TableID")
 			}
-			mg.Spec.ForProvider.Load.DestinationTable.TableID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Load.DestinationTable.TableID = ptr.To(rsp.ResolvedValue)
 			mg.Spec.ForProvider.Load.DestinationTable.TableIDRef = rsp.ResolvedReference
 
 		}
@@ -1250,7 +1320,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Query.DefaultDataset.DatasetID),
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.Query.DefaultDataset.DatasetID, ""),
 					Extract:      resource.ExtractResourceID(),
 					Reference:    mg.Spec.ForProvider.Query.DefaultDataset.DatasetIDRef,
 					Selector:     mg.Spec.ForProvider.Query.DefaultDataset.DatasetIDSelector,
@@ -1260,7 +1330,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.ForProvider.Query.DefaultDataset.DatasetID")
 			}
-			mg.Spec.ForProvider.Query.DefaultDataset.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Query.DefaultDataset.DatasetID = ptr.To(rsp.ResolvedValue)
 			mg.Spec.ForProvider.Query.DefaultDataset.DatasetIDRef = rsp.ResolvedReference
 
 		}
@@ -1273,7 +1343,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Query.DestinationTable.DatasetID),
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.Query.DestinationTable.DatasetID, ""),
 					Extract:      reference.ExternalName(),
 					Reference:    mg.Spec.ForProvider.Query.DestinationTable.DatasetIDRef,
 					Selector:     mg.Spec.ForProvider.Query.DestinationTable.DatasetIDSelector,
@@ -1283,7 +1353,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.ForProvider.Query.DestinationTable.DatasetID")
 			}
-			mg.Spec.ForProvider.Query.DestinationTable.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Query.DestinationTable.DatasetID = ptr.To(rsp.ResolvedValue)
 			mg.Spec.ForProvider.Query.DestinationTable.DatasetIDRef = rsp.ResolvedReference
 
 		}
@@ -1296,7 +1366,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Query.DestinationTable.TableID),
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.Query.DestinationTable.TableID, ""),
 					Extract:      resource.ExtractResourceID(),
 					Reference:    mg.Spec.ForProvider.Query.DestinationTable.TableIDRef,
 					Selector:     mg.Spec.ForProvider.Query.DestinationTable.TableIDSelector,
@@ -1306,7 +1376,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.ForProvider.Query.DestinationTable.TableID")
 			}
-			mg.Spec.ForProvider.Query.DestinationTable.TableID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Query.DestinationTable.TableID = ptr.To(rsp.ResolvedValue)
 			mg.Spec.ForProvider.Query.DestinationTable.TableIDRef = rsp.ResolvedReference
 
 		}
@@ -1319,7 +1389,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Copy.DestinationEncryptionConfiguration.KMSKeyName),
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.Copy.DestinationEncryptionConfiguration.KMSKeyName, ""),
 					Extract:      resource.ExtractResourceID(),
 					Reference:    mg.Spec.InitProvider.Copy.DestinationEncryptionConfiguration.KMSKeyNameRef,
 					Selector:     mg.Spec.InitProvider.Copy.DestinationEncryptionConfiguration.KMSKeyNameSelector,
@@ -1329,7 +1399,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.InitProvider.Copy.DestinationEncryptionConfiguration.KMSKeyName")
 			}
-			mg.Spec.InitProvider.Copy.DestinationEncryptionConfiguration.KMSKeyName = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Copy.DestinationEncryptionConfiguration.KMSKeyName = ptr.To(rsp.ResolvedValue)
 			mg.Spec.InitProvider.Copy.DestinationEncryptionConfiguration.KMSKeyNameRef = rsp.ResolvedReference
 
 		}
@@ -1342,7 +1412,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Copy.DestinationTable.DatasetID),
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.Copy.DestinationTable.DatasetID, ""),
 					Extract:      reference.ExternalName(),
 					Reference:    mg.Spec.InitProvider.Copy.DestinationTable.DatasetIDRef,
 					Selector:     mg.Spec.InitProvider.Copy.DestinationTable.DatasetIDSelector,
@@ -1352,7 +1422,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.InitProvider.Copy.DestinationTable.DatasetID")
 			}
-			mg.Spec.InitProvider.Copy.DestinationTable.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Copy.DestinationTable.DatasetID = ptr.To(rsp.ResolvedValue)
 			mg.Spec.InitProvider.Copy.DestinationTable.DatasetIDRef = rsp.ResolvedReference
 
 		}
@@ -1365,7 +1435,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Copy.DestinationTable.TableID),
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.Copy.DestinationTable.TableID, ""),
 					Extract:      resource.ExtractResourceID(),
 					Reference:    mg.Spec.InitProvider.Copy.DestinationTable.TableIDRef,
 					Selector:     mg.Spec.InitProvider.Copy.DestinationTable.TableIDSelector,
@@ -1375,8 +1445,77 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.InitProvider.Copy.DestinationTable.TableID")
 			}
-			mg.Spec.InitProvider.Copy.DestinationTable.TableID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Copy.DestinationTable.TableID = ptr.To(rsp.ResolvedValue)
 			mg.Spec.InitProvider.Copy.DestinationTable.TableIDRef = rsp.ResolvedReference
+
+		}
+	}
+	if mg.Spec.InitProvider.Copy != nil {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Copy.SourceTables); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta2", "Table", "TableList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.Copy.SourceTables[i4].DatasetID, ""),
+					Extract:      resource.ExtractParamPath("dataset_id", false),
+					Reference:    mg.Spec.InitProvider.Copy.SourceTables[i4].DatasetIDRef,
+					Selector:     mg.Spec.InitProvider.Copy.SourceTables[i4].DatasetIDSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.Copy.SourceTables[i4].DatasetID")
+			}
+			mg.Spec.InitProvider.Copy.SourceTables[i4].DatasetID = ptr.To(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Copy.SourceTables[i4].DatasetIDRef = rsp.ResolvedReference
+
+		}
+	}
+	if mg.Spec.InitProvider.Copy != nil {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Copy.SourceTables); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta2", "Table", "TableList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.Copy.SourceTables[i4].ProjectID, ""),
+					Extract:      resource.ExtractParamPath("project", false),
+					Reference:    mg.Spec.InitProvider.Copy.SourceTables[i4].ProjectIDRef,
+					Selector:     mg.Spec.InitProvider.Copy.SourceTables[i4].ProjectIDSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.Copy.SourceTables[i4].ProjectID")
+			}
+			mg.Spec.InitProvider.Copy.SourceTables[i4].ProjectID = ptr.To(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Copy.SourceTables[i4].ProjectIDRef = rsp.ResolvedReference
+
+		}
+	}
+	if mg.Spec.InitProvider.Copy != nil {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Copy.SourceTables); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta2", "Table", "TableList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.Copy.SourceTables[i4].TableID, ""),
+					Extract:      reference.ExternalName(),
+					Reference:    mg.Spec.InitProvider.Copy.SourceTables[i4].TableIDRef,
+					Selector:     mg.Spec.InitProvider.Copy.SourceTables[i4].TableIDSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.Copy.SourceTables[i4].TableID")
+			}
+			mg.Spec.InitProvider.Copy.SourceTables[i4].TableID = ptr.To(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Copy.SourceTables[i4].TableIDRef = rsp.ResolvedReference
 
 		}
 	}
@@ -1388,7 +1527,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Extract.SourceTable.DatasetID),
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.Extract.SourceTable.DatasetID, ""),
 					Extract:      reference.ExternalName(),
 					Reference:    mg.Spec.InitProvider.Extract.SourceTable.DatasetIDRef,
 					Selector:     mg.Spec.InitProvider.Extract.SourceTable.DatasetIDSelector,
@@ -1398,7 +1537,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.InitProvider.Extract.SourceTable.DatasetID")
 			}
-			mg.Spec.InitProvider.Extract.SourceTable.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Extract.SourceTable.DatasetID = ptr.To(rsp.ResolvedValue)
 			mg.Spec.InitProvider.Extract.SourceTable.DatasetIDRef = rsp.ResolvedReference
 
 		}
@@ -1411,7 +1550,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Extract.SourceTable.TableID),
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.Extract.SourceTable.TableID, ""),
 					Extract:      resource.ExtractResourceID(),
 					Reference:    mg.Spec.InitProvider.Extract.SourceTable.TableIDRef,
 					Selector:     mg.Spec.InitProvider.Extract.SourceTable.TableIDSelector,
@@ -1421,7 +1560,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.InitProvider.Extract.SourceTable.TableID")
 			}
-			mg.Spec.InitProvider.Extract.SourceTable.TableID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Extract.SourceTable.TableID = ptr.To(rsp.ResolvedValue)
 			mg.Spec.InitProvider.Extract.SourceTable.TableIDRef = rsp.ResolvedReference
 
 		}
@@ -1434,7 +1573,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Load.DestinationTable.DatasetID),
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.Load.DestinationTable.DatasetID, ""),
 					Extract:      reference.ExternalName(),
 					Reference:    mg.Spec.InitProvider.Load.DestinationTable.DatasetIDRef,
 					Selector:     mg.Spec.InitProvider.Load.DestinationTable.DatasetIDSelector,
@@ -1444,7 +1583,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.InitProvider.Load.DestinationTable.DatasetID")
 			}
-			mg.Spec.InitProvider.Load.DestinationTable.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Load.DestinationTable.DatasetID = ptr.To(rsp.ResolvedValue)
 			mg.Spec.InitProvider.Load.DestinationTable.DatasetIDRef = rsp.ResolvedReference
 
 		}
@@ -1457,7 +1596,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Load.DestinationTable.TableID),
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.Load.DestinationTable.TableID, ""),
 					Extract:      resource.ExtractResourceID(),
 					Reference:    mg.Spec.InitProvider.Load.DestinationTable.TableIDRef,
 					Selector:     mg.Spec.InitProvider.Load.DestinationTable.TableIDSelector,
@@ -1467,7 +1606,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.InitProvider.Load.DestinationTable.TableID")
 			}
-			mg.Spec.InitProvider.Load.DestinationTable.TableID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Load.DestinationTable.TableID = ptr.To(rsp.ResolvedValue)
 			mg.Spec.InitProvider.Load.DestinationTable.TableIDRef = rsp.ResolvedReference
 
 		}
@@ -1480,7 +1619,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Query.DefaultDataset.DatasetID),
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.Query.DefaultDataset.DatasetID, ""),
 					Extract:      resource.ExtractResourceID(),
 					Reference:    mg.Spec.InitProvider.Query.DefaultDataset.DatasetIDRef,
 					Selector:     mg.Spec.InitProvider.Query.DefaultDataset.DatasetIDSelector,
@@ -1490,7 +1629,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.InitProvider.Query.DefaultDataset.DatasetID")
 			}
-			mg.Spec.InitProvider.Query.DefaultDataset.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Query.DefaultDataset.DatasetID = ptr.To(rsp.ResolvedValue)
 			mg.Spec.InitProvider.Query.DefaultDataset.DatasetIDRef = rsp.ResolvedReference
 
 		}
@@ -1503,7 +1642,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Query.DestinationTable.DatasetID),
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.Query.DestinationTable.DatasetID, ""),
 					Extract:      reference.ExternalName(),
 					Reference:    mg.Spec.InitProvider.Query.DestinationTable.DatasetIDRef,
 					Selector:     mg.Spec.InitProvider.Query.DestinationTable.DatasetIDSelector,
@@ -1513,7 +1652,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.InitProvider.Query.DestinationTable.DatasetID")
 			}
-			mg.Spec.InitProvider.Query.DestinationTable.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Query.DestinationTable.DatasetID = ptr.To(rsp.ResolvedValue)
 			mg.Spec.InitProvider.Query.DestinationTable.DatasetIDRef = rsp.ResolvedReference
 
 		}
@@ -1526,7 +1665,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Query.DestinationTable.TableID),
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.Query.DestinationTable.TableID, ""),
 					Extract:      resource.ExtractResourceID(),
 					Reference:    mg.Spec.InitProvider.Query.DestinationTable.TableIDRef,
 					Selector:     mg.Spec.InitProvider.Query.DestinationTable.TableIDSelector,
@@ -1536,7 +1675,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.InitProvider.Query.DestinationTable.TableID")
 			}
-			mg.Spec.InitProvider.Query.DestinationTable.TableID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Query.DestinationTable.TableID = ptr.To(rsp.ResolvedValue)
 			mg.Spec.InitProvider.Query.DestinationTable.TableIDRef = rsp.ResolvedReference
 
 		}
@@ -1560,7 +1699,7 @@ func (mg *Routine) ResolveReferences(ctx context.Context, c client.Reader) error
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DatasetID),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.DatasetID, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.DatasetIDRef,
 			Selector:     mg.Spec.ForProvider.DatasetIDSelector,
@@ -1570,7 +1709,7 @@ func (mg *Routine) ResolveReferences(ctx context.Context, c client.Reader) error
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.DatasetID")
 	}
-	mg.Spec.ForProvider.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.DatasetID = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.DatasetIDRef = rsp.ResolvedReference
 
 	if mg.Spec.ForProvider.RemoteFunctionOptions != nil {
@@ -1580,7 +1719,7 @@ func (mg *Routine) ResolveReferences(ctx context.Context, c client.Reader) error
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RemoteFunctionOptions.Connection),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.RemoteFunctionOptions.Connection, ""),
 				Extract:      resource.ExtractParamPath("name", true),
 				Reference:    mg.Spec.ForProvider.RemoteFunctionOptions.ConnectionRef,
 				Selector:     mg.Spec.ForProvider.RemoteFunctionOptions.ConnectionSelector,
@@ -1590,7 +1729,7 @@ func (mg *Routine) ResolveReferences(ctx context.Context, c client.Reader) error
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.RemoteFunctionOptions.Connection")
 		}
-		mg.Spec.ForProvider.RemoteFunctionOptions.Connection = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.RemoteFunctionOptions.Connection = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.RemoteFunctionOptions.ConnectionRef = rsp.ResolvedReference
 
 	}
@@ -1601,7 +1740,7 @@ func (mg *Routine) ResolveReferences(ctx context.Context, c client.Reader) error
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SparkOptions.Connection),
+				CurrentValue: ptr.Deref(mg.Spec.ForProvider.SparkOptions.Connection, ""),
 				Extract:      resource.ExtractParamPath("name", true),
 				Reference:    mg.Spec.ForProvider.SparkOptions.ConnectionRef,
 				Selector:     mg.Spec.ForProvider.SparkOptions.ConnectionSelector,
@@ -1611,7 +1750,7 @@ func (mg *Routine) ResolveReferences(ctx context.Context, c client.Reader) error
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.ForProvider.SparkOptions.Connection")
 		}
-		mg.Spec.ForProvider.SparkOptions.Connection = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.SparkOptions.Connection = ptr.To(rsp.ResolvedValue)
 		mg.Spec.ForProvider.SparkOptions.ConnectionRef = rsp.ResolvedReference
 
 	}
@@ -1622,7 +1761,7 @@ func (mg *Routine) ResolveReferences(ctx context.Context, c client.Reader) error
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RemoteFunctionOptions.Connection),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.RemoteFunctionOptions.Connection, ""),
 				Extract:      resource.ExtractParamPath("name", true),
 				Reference:    mg.Spec.InitProvider.RemoteFunctionOptions.ConnectionRef,
 				Selector:     mg.Spec.InitProvider.RemoteFunctionOptions.ConnectionSelector,
@@ -1632,7 +1771,7 @@ func (mg *Routine) ResolveReferences(ctx context.Context, c client.Reader) error
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.RemoteFunctionOptions.Connection")
 		}
-		mg.Spec.InitProvider.RemoteFunctionOptions.Connection = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.RemoteFunctionOptions.Connection = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.RemoteFunctionOptions.ConnectionRef = rsp.ResolvedReference
 
 	}
@@ -1643,7 +1782,7 @@ func (mg *Routine) ResolveReferences(ctx context.Context, c client.Reader) error
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SparkOptions.Connection),
+				CurrentValue: ptr.Deref(mg.Spec.InitProvider.SparkOptions.Connection, ""),
 				Extract:      resource.ExtractParamPath("name", true),
 				Reference:    mg.Spec.InitProvider.SparkOptions.ConnectionRef,
 				Selector:     mg.Spec.InitProvider.SparkOptions.ConnectionSelector,
@@ -1653,7 +1792,7 @@ func (mg *Routine) ResolveReferences(ctx context.Context, c client.Reader) error
 		if err != nil {
 			return errors.Wrap(err, "mg.Spec.InitProvider.SparkOptions.Connection")
 		}
-		mg.Spec.InitProvider.SparkOptions.Connection = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.SparkOptions.Connection = ptr.To(rsp.ResolvedValue)
 		mg.Spec.InitProvider.SparkOptions.ConnectionRef = rsp.ResolvedReference
 
 	}
@@ -1676,7 +1815,7 @@ func (mg *Table) ResolveReferences(ctx context.Context, c client.Reader) error {
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DatasetID),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.DatasetID, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.DatasetIDRef,
 			Selector:     mg.Spec.ForProvider.DatasetIDSelector,
@@ -1686,7 +1825,7 @@ func (mg *Table) ResolveReferences(ctx context.Context, c client.Reader) error {
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.DatasetID")
 	}
-	mg.Spec.ForProvider.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.DatasetID = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.DatasetIDRef = rsp.ResolvedReference
 
 	return nil
@@ -1707,7 +1846,7 @@ func (mg *TableIAMBinding) ResolveReferences(ctx context.Context, c client.Reade
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DatasetID),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.DatasetID, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.DatasetIDRef,
 			Selector:     mg.Spec.ForProvider.DatasetIDSelector,
@@ -1717,7 +1856,7 @@ func (mg *TableIAMBinding) ResolveReferences(ctx context.Context, c client.Reade
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.DatasetID")
 	}
-	mg.Spec.ForProvider.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.DatasetID = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.DatasetIDRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta2", "Table", "TableList")
@@ -1726,7 +1865,7 @@ func (mg *TableIAMBinding) ResolveReferences(ctx context.Context, c client.Reade
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.TableID),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.TableID, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.TableIDRef,
 			Selector:     mg.Spec.ForProvider.TableIDSelector,
@@ -1736,7 +1875,7 @@ func (mg *TableIAMBinding) ResolveReferences(ctx context.Context, c client.Reade
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.TableID")
 	}
-	mg.Spec.ForProvider.TableID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.TableID = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.TableIDRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta2", "Dataset", "DatasetList")
@@ -1745,7 +1884,7 @@ func (mg *TableIAMBinding) ResolveReferences(ctx context.Context, c client.Reade
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DatasetID),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.DatasetID, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.DatasetIDRef,
 			Selector:     mg.Spec.InitProvider.DatasetIDSelector,
@@ -1755,7 +1894,7 @@ func (mg *TableIAMBinding) ResolveReferences(ctx context.Context, c client.Reade
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.DatasetID")
 	}
-	mg.Spec.InitProvider.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.DatasetID = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.DatasetIDRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta2", "Table", "TableList")
@@ -1764,7 +1903,7 @@ func (mg *TableIAMBinding) ResolveReferences(ctx context.Context, c client.Reade
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.TableID),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.TableID, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.TableIDRef,
 			Selector:     mg.Spec.InitProvider.TableIDSelector,
@@ -1774,7 +1913,7 @@ func (mg *TableIAMBinding) ResolveReferences(ctx context.Context, c client.Reade
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.TableID")
 	}
-	mg.Spec.InitProvider.TableID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.TableID = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.TableIDRef = rsp.ResolvedReference
 
 	return nil
@@ -1795,7 +1934,7 @@ func (mg *TableIAMMember) ResolveReferences(ctx context.Context, c client.Reader
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DatasetID),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.DatasetID, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.DatasetIDRef,
 			Selector:     mg.Spec.ForProvider.DatasetIDSelector,
@@ -1805,7 +1944,7 @@ func (mg *TableIAMMember) ResolveReferences(ctx context.Context, c client.Reader
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.DatasetID")
 	}
-	mg.Spec.ForProvider.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.DatasetID = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.DatasetIDRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta2", "Table", "TableList")
@@ -1814,7 +1953,7 @@ func (mg *TableIAMMember) ResolveReferences(ctx context.Context, c client.Reader
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.TableID),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.TableID, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.TableIDRef,
 			Selector:     mg.Spec.ForProvider.TableIDSelector,
@@ -1824,7 +1963,7 @@ func (mg *TableIAMMember) ResolveReferences(ctx context.Context, c client.Reader
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.TableID")
 	}
-	mg.Spec.ForProvider.TableID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.TableID = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.TableIDRef = rsp.ResolvedReference
 
 	return nil

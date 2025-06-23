@@ -14,6 +14,7 @@ import (
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -32,7 +33,7 @@ func (mg *TenantInboundSAMLConfig) ResolveReferences( // ResolveReferences of th
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Tenant),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Tenant, ""),
 			Extract:      resource.ExtractParamPath("name", true),
 			Reference:    mg.Spec.ForProvider.TenantRef,
 			Selector:     mg.Spec.ForProvider.TenantSelector,
@@ -42,7 +43,7 @@ func (mg *TenantInboundSAMLConfig) ResolveReferences( // ResolveReferences of th
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Tenant")
 	}
-	mg.Spec.ForProvider.Tenant = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Tenant = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.TenantRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("identityplatform.gcp.upbound.io", "v1beta1", "Tenant", "TenantList")
@@ -51,7 +52,7 @@ func (mg *TenantInboundSAMLConfig) ResolveReferences( // ResolveReferences of th
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Tenant),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Tenant, ""),
 			Extract:      resource.ExtractParamPath("name", true),
 			Reference:    mg.Spec.InitProvider.TenantRef,
 			Selector:     mg.Spec.InitProvider.TenantSelector,
@@ -61,7 +62,7 @@ func (mg *TenantInboundSAMLConfig) ResolveReferences( // ResolveReferences of th
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Tenant")
 	}
-	mg.Spec.InitProvider.Tenant = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Tenant = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.TenantRef = rsp.ResolvedReference
 
 	return nil

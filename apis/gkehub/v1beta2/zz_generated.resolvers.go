@@ -14,6 +14,7 @@ import (
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -34,7 +35,7 @@ func (mg *Membership) ResolveReferences( // ResolveReferences of this Membership
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Endpoint.GkeCluster.ResourceLink),
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.Endpoint.GkeCluster.ResourceLink, ""),
 					Extract:      resource.ExtractResourceID(),
 					Reference:    mg.Spec.ForProvider.Endpoint.GkeCluster.ResourceLinkRef,
 					Selector:     mg.Spec.ForProvider.Endpoint.GkeCluster.ResourceLinkSelector,
@@ -44,7 +45,7 @@ func (mg *Membership) ResolveReferences( // ResolveReferences of this Membership
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.ForProvider.Endpoint.GkeCluster.ResourceLink")
 			}
-			mg.Spec.ForProvider.Endpoint.GkeCluster.ResourceLink = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Endpoint.GkeCluster.ResourceLink = ptr.To(rsp.ResolvedValue)
 			mg.Spec.ForProvider.Endpoint.GkeCluster.ResourceLinkRef = rsp.ResolvedReference
 
 		}
@@ -57,7 +58,7 @@ func (mg *Membership) ResolveReferences( // ResolveReferences of this Membership
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Endpoint.GkeCluster.ResourceLink),
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.Endpoint.GkeCluster.ResourceLink, ""),
 					Extract:      resource.ExtractResourceID(),
 					Reference:    mg.Spec.InitProvider.Endpoint.GkeCluster.ResourceLinkRef,
 					Selector:     mg.Spec.InitProvider.Endpoint.GkeCluster.ResourceLinkSelector,
@@ -67,7 +68,7 @@ func (mg *Membership) ResolveReferences( // ResolveReferences of this Membership
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.InitProvider.Endpoint.GkeCluster.ResourceLink")
 			}
-			mg.Spec.InitProvider.Endpoint.GkeCluster.ResourceLink = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Endpoint.GkeCluster.ResourceLink = ptr.To(rsp.ResolvedValue)
 			mg.Spec.InitProvider.Endpoint.GkeCluster.ResourceLinkRef = rsp.ResolvedReference
 
 		}
@@ -91,7 +92,7 @@ func (mg *MembershipIAMMember) ResolveReferences(ctx context.Context, c client.R
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.MembershipID),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.MembershipID, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.MembershipIDRef,
 			Selector:     mg.Spec.ForProvider.MembershipIDSelector,
@@ -101,7 +102,7 @@ func (mg *MembershipIAMMember) ResolveReferences(ctx context.Context, c client.R
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.MembershipID")
 	}
-	mg.Spec.ForProvider.MembershipID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.MembershipID = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.MembershipIDRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("gkehub.gcp.upbound.io", "v1beta2", "Membership", "MembershipList")
@@ -110,7 +111,7 @@ func (mg *MembershipIAMMember) ResolveReferences(ctx context.Context, c client.R
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.MembershipID),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.MembershipID, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.MembershipIDRef,
 			Selector:     mg.Spec.InitProvider.MembershipIDSelector,
@@ -120,7 +121,7 @@ func (mg *MembershipIAMMember) ResolveReferences(ctx context.Context, c client.R
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.MembershipID")
 	}
-	mg.Spec.InitProvider.MembershipID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.MembershipID = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.MembershipIDRef = rsp.ResolvedReference
 
 	return nil

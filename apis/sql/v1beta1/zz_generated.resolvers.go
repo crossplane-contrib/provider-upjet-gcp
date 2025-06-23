@@ -13,6 +13,7 @@ import (
 	errors "github.com/pkg/errors"
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 
 	// ResolveReferences of this Database.
@@ -33,7 +34,7 @@ func (mg *Database) ResolveReferences(ctx context.Context, c client.Reader) erro
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Instance),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Instance, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.InstanceRef,
 			Selector:     mg.Spec.ForProvider.InstanceSelector,
@@ -43,7 +44,7 @@ func (mg *Database) ResolveReferences(ctx context.Context, c client.Reader) erro
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Instance")
 	}
-	mg.Spec.ForProvider.Instance = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Instance = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.InstanceRef = rsp.ResolvedReference
 
 	return nil
@@ -66,7 +67,7 @@ func (mg *DatabaseInstance) ResolveReferences(ctx context.Context, c client.Read
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Settings[i3].IPConfiguration[i4].PrivateNetwork),
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.Settings[i3].IPConfiguration[i4].PrivateNetwork, ""),
 					Extract:      resource.ExtractResourceID(),
 					Reference:    mg.Spec.ForProvider.Settings[i3].IPConfiguration[i4].PrivateNetworkRef,
 					Selector:     mg.Spec.ForProvider.Settings[i3].IPConfiguration[i4].PrivateNetworkSelector,
@@ -76,7 +77,7 @@ func (mg *DatabaseInstance) ResolveReferences(ctx context.Context, c client.Read
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.ForProvider.Settings[i3].IPConfiguration[i4].PrivateNetwork")
 			}
-			mg.Spec.ForProvider.Settings[i3].IPConfiguration[i4].PrivateNetwork = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Settings[i3].IPConfiguration[i4].PrivateNetwork = ptr.To(rsp.ResolvedValue)
 			mg.Spec.ForProvider.Settings[i3].IPConfiguration[i4].PrivateNetworkRef = rsp.ResolvedReference
 
 		}
@@ -89,7 +90,7 @@ func (mg *DatabaseInstance) ResolveReferences(ctx context.Context, c client.Read
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Settings[i3].IPConfiguration[i4].PrivateNetwork),
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.Settings[i3].IPConfiguration[i4].PrivateNetwork, ""),
 					Extract:      resource.ExtractResourceID(),
 					Reference:    mg.Spec.InitProvider.Settings[i3].IPConfiguration[i4].PrivateNetworkRef,
 					Selector:     mg.Spec.InitProvider.Settings[i3].IPConfiguration[i4].PrivateNetworkSelector,
@@ -99,7 +100,7 @@ func (mg *DatabaseInstance) ResolveReferences(ctx context.Context, c client.Read
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.InitProvider.Settings[i3].IPConfiguration[i4].PrivateNetwork")
 			}
-			mg.Spec.InitProvider.Settings[i3].IPConfiguration[i4].PrivateNetwork = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Settings[i3].IPConfiguration[i4].PrivateNetwork = ptr.To(rsp.ResolvedValue)
 			mg.Spec.InitProvider.Settings[i3].IPConfiguration[i4].PrivateNetworkRef = rsp.ResolvedReference
 
 		}
@@ -123,7 +124,7 @@ func (mg *SSLCert) ResolveReferences(ctx context.Context, c client.Reader) error
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Instance),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Instance, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.InstanceRef,
 			Selector:     mg.Spec.ForProvider.InstanceSelector,
@@ -133,7 +134,7 @@ func (mg *SSLCert) ResolveReferences(ctx context.Context, c client.Reader) error
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Instance")
 	}
-	mg.Spec.ForProvider.Instance = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Instance = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.InstanceRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("sql.gcp.upbound.io", "v1beta2", "DatabaseInstance", "DatabaseInstanceList")
@@ -142,7 +143,7 @@ func (mg *SSLCert) ResolveReferences(ctx context.Context, c client.Reader) error
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Instance),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Instance, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.InstanceRef,
 			Selector:     mg.Spec.InitProvider.InstanceSelector,
@@ -152,7 +153,7 @@ func (mg *SSLCert) ResolveReferences(ctx context.Context, c client.Reader) error
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Instance")
 	}
-	mg.Spec.InitProvider.Instance = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Instance = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.InstanceRef = rsp.ResolvedReference
 
 	return nil
@@ -173,7 +174,7 @@ func (mg *User) ResolveReferences(ctx context.Context, c client.Reader) error {
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Instance),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Instance, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.ForProvider.InstanceRef,
 			Selector:     mg.Spec.ForProvider.InstanceSelector,
@@ -183,7 +184,7 @@ func (mg *User) ResolveReferences(ctx context.Context, c client.Reader) error {
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Instance")
 	}
-	mg.Spec.ForProvider.Instance = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Instance = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.InstanceRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("sql.gcp.upbound.io", "v1beta1", "DatabaseInstance", "DatabaseInstanceList")
@@ -192,7 +193,7 @@ func (mg *User) ResolveReferences(ctx context.Context, c client.Reader) error {
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Instance),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Instance, ""),
 			Extract:      reference.ExternalName(),
 			Reference:    mg.Spec.InitProvider.InstanceRef,
 			Selector:     mg.Spec.InitProvider.InstanceSelector,
@@ -202,7 +203,7 @@ func (mg *User) ResolveReferences(ctx context.Context, c client.Reader) error {
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Instance")
 	}
-	mg.Spec.InitProvider.Instance = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Instance = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.InstanceRef = rsp.ResolvedReference
 
 	return nil

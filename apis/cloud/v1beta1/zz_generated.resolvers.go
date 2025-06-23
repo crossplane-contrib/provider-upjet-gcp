@@ -14,6 +14,7 @@ import (
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -32,7 +33,7 @@ func (mg *IdsEndpoint) ResolveReferences( // ResolveReferences of this IdsEndpoi
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Network),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Network, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.NetworkRef,
 			Selector:     mg.Spec.ForProvider.NetworkSelector,
@@ -42,7 +43,7 @@ func (mg *IdsEndpoint) ResolveReferences( // ResolveReferences of this IdsEndpoi
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Network")
 	}
-	mg.Spec.ForProvider.Network = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Network = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.NetworkRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Network", "NetworkList")
@@ -51,7 +52,7 @@ func (mg *IdsEndpoint) ResolveReferences( // ResolveReferences of this IdsEndpoi
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Network),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Network, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.NetworkRef,
 			Selector:     mg.Spec.InitProvider.NetworkSelector,
@@ -61,7 +62,7 @@ func (mg *IdsEndpoint) ResolveReferences( // ResolveReferences of this IdsEndpoi
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Network")
 	}
-	mg.Spec.InitProvider.Network = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Network = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.NetworkRef = rsp.ResolvedReference
 
 	return nil

@@ -14,6 +14,7 @@ import (
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
+	ptr "k8s.io/utils/ptr"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -34,7 +35,7 @@ func (mg *BackupBackupPlan) ResolveReferences( // ResolveReferences of this Back
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.BackupConfig.EncryptionKey.GCPKMSEncryptionKey),
+					CurrentValue: ptr.Deref(mg.Spec.ForProvider.BackupConfig.EncryptionKey.GCPKMSEncryptionKey, ""),
 					Extract:      resource.ExtractResourceID(),
 					Reference:    mg.Spec.ForProvider.BackupConfig.EncryptionKey.GCPKMSEncryptionKeyRef,
 					Selector:     mg.Spec.ForProvider.BackupConfig.EncryptionKey.GCPKMSEncryptionKeySelector,
@@ -44,7 +45,7 @@ func (mg *BackupBackupPlan) ResolveReferences( // ResolveReferences of this Back
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.ForProvider.BackupConfig.EncryptionKey.GCPKMSEncryptionKey")
 			}
-			mg.Spec.ForProvider.BackupConfig.EncryptionKey.GCPKMSEncryptionKey = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.BackupConfig.EncryptionKey.GCPKMSEncryptionKey = ptr.To(rsp.ResolvedValue)
 			mg.Spec.ForProvider.BackupConfig.EncryptionKey.GCPKMSEncryptionKeyRef = rsp.ResolvedReference
 
 		}
@@ -55,7 +56,7 @@ func (mg *BackupBackupPlan) ResolveReferences( // ResolveReferences of this Back
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Cluster),
+			CurrentValue: ptr.Deref(mg.Spec.ForProvider.Cluster, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.ForProvider.ClusterRef,
 			Selector:     mg.Spec.ForProvider.ClusterSelector,
@@ -65,7 +66,7 @@ func (mg *BackupBackupPlan) ResolveReferences( // ResolveReferences of this Back
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.Cluster")
 	}
-	mg.Spec.ForProvider.Cluster = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.Cluster = ptr.To(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ClusterRef = rsp.ResolvedReference
 
 	if mg.Spec.InitProvider.BackupConfig != nil {
@@ -76,7 +77,7 @@ func (mg *BackupBackupPlan) ResolveReferences( // ResolveReferences of this Back
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.BackupConfig.EncryptionKey.GCPKMSEncryptionKey),
+					CurrentValue: ptr.Deref(mg.Spec.InitProvider.BackupConfig.EncryptionKey.GCPKMSEncryptionKey, ""),
 					Extract:      resource.ExtractResourceID(),
 					Reference:    mg.Spec.InitProvider.BackupConfig.EncryptionKey.GCPKMSEncryptionKeyRef,
 					Selector:     mg.Spec.InitProvider.BackupConfig.EncryptionKey.GCPKMSEncryptionKeySelector,
@@ -86,7 +87,7 @@ func (mg *BackupBackupPlan) ResolveReferences( // ResolveReferences of this Back
 			if err != nil {
 				return errors.Wrap(err, "mg.Spec.InitProvider.BackupConfig.EncryptionKey.GCPKMSEncryptionKey")
 			}
-			mg.Spec.InitProvider.BackupConfig.EncryptionKey.GCPKMSEncryptionKey = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.BackupConfig.EncryptionKey.GCPKMSEncryptionKey = ptr.To(rsp.ResolvedValue)
 			mg.Spec.InitProvider.BackupConfig.EncryptionKey.GCPKMSEncryptionKeyRef = rsp.ResolvedReference
 
 		}
@@ -97,7 +98,7 @@ func (mg *BackupBackupPlan) ResolveReferences( // ResolveReferences of this Back
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Cluster),
+			CurrentValue: ptr.Deref(mg.Spec.InitProvider.Cluster, ""),
 			Extract:      resource.ExtractResourceID(),
 			Reference:    mg.Spec.InitProvider.ClusterRef,
 			Selector:     mg.Spec.InitProvider.ClusterSelector,
@@ -107,7 +108,7 @@ func (mg *BackupBackupPlan) ResolveReferences( // ResolveReferences of this Back
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.Cluster")
 	}
-	mg.Spec.InitProvider.Cluster = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.Cluster = ptr.To(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ClusterRef = rsp.ResolvedReference
 
 	return nil
