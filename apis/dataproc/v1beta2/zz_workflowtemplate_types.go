@@ -2495,10 +2495,32 @@ type WorkerConfigManagedGroupConfigObservation struct {
 type WorkerConfigManagedGroupConfigParameters struct {
 }
 
+type WorkflowTemplateEncryptionConfigInitParameters struct {
+
+	// The uri of the KMS key used to encrypt various sensitive files.
+	KMSKey *string `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
+}
+
+type WorkflowTemplateEncryptionConfigObservation struct {
+
+	// The uri of the KMS key used to encrypt various sensitive files.
+	KMSKey *string `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
+}
+
+type WorkflowTemplateEncryptionConfigParameters struct {
+
+	// The uri of the KMS key used to encrypt various sensitive files.
+	// +kubebuilder:validation:Optional
+	KMSKey *string `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
+}
+
 type WorkflowTemplateInitParameters struct {
 
 	// (Beta only) Optional. Timeout duration for the DAG of jobs. You can use "s", "m", "h", and "d" suffixes for second, minute, hour, and day duration values, respectively. The timeout duration must be from 10 minutes ("10m") to 24 hours ("24h" or "1d"). The timer begins when the first job is submitted. If the workflow is running at the end of the timeout period, any remaining jobs are cancelled, the workflow is ended, and if the workflow was running on a (/dataproc/docs/concepts/workflows/using-workflows#configuring_or_selecting_a_cluster), the cluster is deleted.
 	DagTimeout *string `json:"dagTimeout,omitempty" tf:"dag_timeout,omitempty"`
+
+	// Encryption settings for the cluster.
+	EncryptionConfig *WorkflowTemplateEncryptionConfigInitParameters `json:"encryptionConfig,omitempty" tf:"encryption_config,omitempty"`
 
 	// Required. The Directed Acyclic Graph of Jobs to submit.
 	Jobs []JobsInitParameters `json:"jobs,omitempty" tf:"jobs,omitempty"`
@@ -2530,6 +2552,9 @@ type WorkflowTemplateObservation struct {
 
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
+	// Encryption settings for the cluster.
+	EncryptionConfig *WorkflowTemplateEncryptionConfigObservation `json:"encryptionConfig,omitempty" tf:"encryption_config,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/workflowTemplates/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -2568,6 +2593,10 @@ type WorkflowTemplateParameters struct {
 	// (Beta only) Optional. Timeout duration for the DAG of jobs. You can use "s", "m", "h", and "d" suffixes for second, minute, hour, and day duration values, respectively. The timeout duration must be from 10 minutes ("10m") to 24 hours ("24h" or "1d"). The timer begins when the first job is submitted. If the workflow is running at the end of the timeout period, any remaining jobs are cancelled, the workflow is ended, and if the workflow was running on a (/dataproc/docs/concepts/workflows/using-workflows#configuring_or_selecting_a_cluster), the cluster is deleted.
 	// +kubebuilder:validation:Optional
 	DagTimeout *string `json:"dagTimeout,omitempty" tf:"dag_timeout,omitempty"`
+
+	// Encryption settings for the cluster.
+	// +kubebuilder:validation:Optional
+	EncryptionConfig *WorkflowTemplateEncryptionConfigParameters `json:"encryptionConfig,omitempty" tf:"encryption_config,omitempty"`
 
 	// Required. The Directed Acyclic Graph of Jobs to submit.
 	// +kubebuilder:validation:Optional

@@ -36,6 +36,32 @@ type AutoscaleParameters struct {
 	MaxSlots *float64 `json:"maxSlots,omitempty" tf:"max_slots,omitempty"`
 }
 
+type ErrorInitParameters struct {
+}
+
+type ErrorObservation struct {
+	Code *float64 `json:"code,omitempty" tf:"code,omitempty"`
+
+	Message *string `json:"message,omitempty" tf:"message,omitempty"`
+}
+
+type ErrorParameters struct {
+}
+
+type ReplicationStatusInitParameters struct {
+}
+
+type ReplicationStatusObservation struct {
+	Error []ErrorObservation `json:"error,omitempty" tf:"error,omitempty"`
+
+	LastErrorTime *string `json:"lastErrorTime,omitempty" tf:"last_error_time,omitempty"`
+
+	LastReplicationTime *string `json:"lastReplicationTime,omitempty" tf:"last_replication_time,omitempty"`
+}
+
+type ReplicationStatusParameters struct {
+}
+
 type ReservationInitParameters struct {
 
 	// The configuration parameters for the auto scaling feature.
@@ -53,9 +79,9 @@ type ReservationInitParameters struct {
 	// capacity specified above at most.
 	IgnoreIdleSlots *bool `json:"ignoreIdleSlots,omitempty" tf:"ignore_idle_slots,omitempty"`
 
-	// Applicable only for reservations located within one of the BigQuery multi-regions (US or EU).
-	// If set to true, this reservation is placed in the organization's secondary region which is designated for disaster recovery purposes. If false, this reservation is placed in the organization's default region.
-	MultiRegionAuxiliary *bool `json:"multiRegionAuxiliary,omitempty" tf:"multi_region_auxiliary,omitempty"`
+	// The geographic location where the transfer config should reside.
+	// Examples: US, EU, asia-northeast1. The default value is US.
+	SecondaryLocation *string `json:"secondaryLocation,omitempty" tf:"secondary_location,omitempty"`
 
 	// Minimum slots available to this reservation. A slot is a unit of computational power in BigQuery, and serves as the
 	// unit of parallelism. Queries using this reservation might use more slots during runtime if ignoreIdleSlots is set to false.
@@ -86,13 +112,23 @@ type ReservationObservation struct {
 	// Examples: US, EU, asia-northeast1. The default value is US.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
-	// Applicable only for reservations located within one of the BigQuery multi-regions (US or EU).
-	// If set to true, this reservation is placed in the organization's secondary region which is designated for disaster recovery purposes. If false, this reservation is placed in the organization's default region.
-	MultiRegionAuxiliary *bool `json:"multiRegionAuxiliary,omitempty" tf:"multi_region_auxiliary,omitempty"`
+	// The geographic location where the transfer config should reside.
+	// Examples: US, EU, asia-northeast1. The default value is US.
+	OriginalPrimaryLocation *string `json:"originalPrimaryLocation,omitempty" tf:"original_primary_location,omitempty"`
+
+	// The geographic location where the transfer config should reside.
+	// Examples: US, EU, asia-northeast1. The default value is US.
+	PrimaryLocation *string `json:"primaryLocation,omitempty" tf:"primary_location,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	ReplicationStatus []ReplicationStatusObservation `json:"replicationStatus,omitempty" tf:"replication_status,omitempty"`
+
+	// The geographic location where the transfer config should reside.
+	// Examples: US, EU, asia-northeast1. The default value is US.
+	SecondaryLocation *string `json:"secondaryLocation,omitempty" tf:"secondary_location,omitempty"`
 
 	// Minimum slots available to this reservation. A slot is a unit of computational power in BigQuery, and serves as the
 	// unit of parallelism. Queries using this reservation might use more slots during runtime if ignoreIdleSlots is set to false.
@@ -125,15 +161,15 @@ type ReservationParameters struct {
 	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
-	// Applicable only for reservations located within one of the BigQuery multi-regions (US or EU).
-	// If set to true, this reservation is placed in the organization's secondary region which is designated for disaster recovery purposes. If false, this reservation is placed in the organization's default region.
-	// +kubebuilder:validation:Optional
-	MultiRegionAuxiliary *bool `json:"multiRegionAuxiliary,omitempty" tf:"multi_region_auxiliary,omitempty"`
-
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The geographic location where the transfer config should reside.
+	// Examples: US, EU, asia-northeast1. The default value is US.
+	// +kubebuilder:validation:Optional
+	SecondaryLocation *string `json:"secondaryLocation,omitempty" tf:"secondary_location,omitempty"`
 
 	// Minimum slots available to this reservation. A slot is a unit of computational power in BigQuery, and serves as the
 	// unit of parallelism. Queries using this reservation might use more slots during runtime if ignoreIdleSlots is set to false.

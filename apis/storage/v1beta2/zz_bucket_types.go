@@ -95,6 +95,10 @@ type BucketInitParameters struct {
 	// boolean option will delete all contained objects.
 	ForceDestroy *bool `json:"forceDestroy,omitempty" tf:"force_destroy,omitempty"`
 
+	HierarchicalNamespace *HierarchicalNamespaceInitParameters `json:"hierarchicalNamespace,omitempty" tf:"hierarchical_namespace,omitempty"`
+
+	IPFilter *IPFilterInitParameters `json:"ipFilter,omitempty" tf:"ip_filter,omitempty"`
+
 	// A map of key/value label pairs to assign to the bucket.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
@@ -168,7 +172,11 @@ type BucketObservation struct {
 	// boolean option will delete all contained objects.
 	ForceDestroy *bool `json:"forceDestroy,omitempty" tf:"force_destroy,omitempty"`
 
+	HierarchicalNamespace *HierarchicalNamespaceObservation `json:"hierarchicalNamespace,omitempty" tf:"hierarchical_namespace,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	IPFilter *IPFilterObservation `json:"ipFilter,omitempty" tf:"ip_filter,omitempty"`
 
 	// A map of key/value label pairs to assign to the bucket.
 	// +mapType=granular
@@ -214,11 +222,15 @@ type BucketObservation struct {
 	// +mapType=granular
 	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
+	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
+
 	// The base URL of the bucket, in the format gs://<bucket-name>.
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
 
 	// Enables Uniform bucket-level access access to a bucket.
 	UniformBucketLevelAccess *bool `json:"uniformBucketLevelAccess,omitempty" tf:"uniform_bucket_level_access,omitempty"`
+
+	Updated *string `json:"updated,omitempty" tf:"updated,omitempty"`
 
 	// The bucket's Versioning configuration.  Structure is documented below.
 	Versioning *VersioningObservation `json:"versioning,omitempty" tf:"versioning,omitempty"`
@@ -257,6 +269,12 @@ type BucketParameters struct {
 	// boolean option will delete all contained objects.
 	// +kubebuilder:validation:Optional
 	ForceDestroy *bool `json:"forceDestroy,omitempty" tf:"force_destroy,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	HierarchicalNamespace *HierarchicalNamespaceParameters `json:"hierarchicalNamespace,omitempty" tf:"hierarchical_namespace,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IPFilter *IPFilterParameters `json:"ipFilter,omitempty" tf:"ip_filter,omitempty"`
 
 	// A map of key/value label pairs to assign to the bucket.
 	// +kubebuilder:validation:Optional
@@ -343,9 +361,6 @@ type ConditionInitParameters struct {
 	// One or more matching name suffixes to satisfy this condition.
 	MatchesSuffix []*string `json:"matchesSuffix,omitempty" tf:"matches_suffix,omitempty"`
 
-	// While set true, age value will be omitted from requests. This prevents a default age of 0 from being applied, and if you do not have an age value set, setting this to true is strongly recommended. When unset and other conditions are set to zero values, this can result in a rule that applies your action to all files in the bucket. no_age is deprecated and will be removed in a future major release. Use send_age_if_zero instead.
-	NoAge *bool `json:"noAge,omitempty" tf:"no_age,omitempty"`
-
 	// Relevant only for versioned objects. The date in RFC 3339 (e.g. 2017-06-13) when the object became nonconcurrent. When set to 0 it will be ignored, and your state will treat it as though you supplied no noncurrent_time_before condition.
 	NoncurrentTimeBefore *string `json:"noncurrentTimeBefore,omitempty" tf:"noncurrent_time_before,omitempty"`
 
@@ -393,9 +408,6 @@ type ConditionObservation struct {
 
 	// One or more matching name suffixes to satisfy this condition.
 	MatchesSuffix []*string `json:"matchesSuffix,omitempty" tf:"matches_suffix,omitempty"`
-
-	// While set true, age value will be omitted from requests. This prevents a default age of 0 from being applied, and if you do not have an age value set, setting this to true is strongly recommended. When unset and other conditions are set to zero values, this can result in a rule that applies your action to all files in the bucket. no_age is deprecated and will be removed in a future major release. Use send_age_if_zero instead.
-	NoAge *bool `json:"noAge,omitempty" tf:"no_age,omitempty"`
 
 	// Relevant only for versioned objects. The date in RFC 3339 (e.g. 2017-06-13) when the object became nonconcurrent. When set to 0 it will be ignored, and your state will treat it as though you supplied no noncurrent_time_before condition.
 	NoncurrentTimeBefore *string `json:"noncurrentTimeBefore,omitempty" tf:"noncurrent_time_before,omitempty"`
@@ -452,10 +464,6 @@ type ConditionParameters struct {
 	// One or more matching name suffixes to satisfy this condition.
 	// +kubebuilder:validation:Optional
 	MatchesSuffix []*string `json:"matchesSuffix,omitempty" tf:"matches_suffix,omitempty"`
-
-	// While set true, age value will be omitted from requests. This prevents a default age of 0 from being applied, and if you do not have an age value set, setting this to true is strongly recommended. When unset and other conditions are set to zero values, this can result in a rule that applies your action to all files in the bucket. no_age is deprecated and will be removed in a future major release. Use send_age_if_zero instead.
-	// +kubebuilder:validation:Optional
-	NoAge *bool `json:"noAge,omitempty" tf:"no_age,omitempty"`
 
 	// Relevant only for versioned objects. The date in RFC 3339 (e.g. 2017-06-13) when the object became nonconcurrent. When set to 0 it will be ignored, and your state will treat it as though you supplied no noncurrent_time_before condition.
 	// +kubebuilder:validation:Optional
@@ -582,6 +590,53 @@ type EncryptionParameters struct {
 	DefaultKMSKeyName *string `json:"defaultKmsKeyName" tf:"default_kms_key_name,omitempty"`
 }
 
+type HierarchicalNamespaceInitParameters struct {
+
+	// While set to true, versioning is fully enabled for this bucket.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type HierarchicalNamespaceObservation struct {
+
+	// While set to true, versioning is fully enabled for this bucket.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type HierarchicalNamespaceParameters struct {
+
+	// While set to true, versioning is fully enabled for this bucket.
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+}
+
+type IPFilterInitParameters struct {
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	PublicNetworkSource *PublicNetworkSourceInitParameters `json:"publicNetworkSource,omitempty" tf:"public_network_source,omitempty"`
+
+	VPCNetworkSources []VPCNetworkSourcesInitParameters `json:"vpcNetworkSources,omitempty" tf:"vpc_network_sources,omitempty"`
+}
+
+type IPFilterObservation struct {
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	PublicNetworkSource *PublicNetworkSourceObservation `json:"publicNetworkSource,omitempty" tf:"public_network_source,omitempty"`
+
+	VPCNetworkSources []VPCNetworkSourcesObservation `json:"vpcNetworkSources,omitempty" tf:"vpc_network_sources,omitempty"`
+}
+
+type IPFilterParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Mode *string `json:"mode" tf:"mode,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	PublicNetworkSource *PublicNetworkSourceParameters `json:"publicNetworkSource,omitempty" tf:"public_network_source,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	VPCNetworkSources []VPCNetworkSourcesParameters `json:"vpcNetworkSources,omitempty" tf:"vpc_network_sources,omitempty"`
+}
+
 type LifecycleRuleInitParameters struct {
 
 	// The Lifecycle Rule's action configuration. A single block of this type is supported. Structure is documented below.
@@ -643,6 +698,20 @@ type LoggingParameters struct {
 	LogObjectPrefix *string `json:"logObjectPrefix,omitempty" tf:"log_object_prefix,omitempty"`
 }
 
+type PublicNetworkSourceInitParameters struct {
+	AllowedIPCidrRanges []*string `json:"allowedIpCidrRanges,omitempty" tf:"allowed_ip_cidr_ranges,omitempty"`
+}
+
+type PublicNetworkSourceObservation struct {
+	AllowedIPCidrRanges []*string `json:"allowedIpCidrRanges,omitempty" tf:"allowed_ip_cidr_ranges,omitempty"`
+}
+
+type PublicNetworkSourceParameters struct {
+
+	// +kubebuilder:validation:Optional
+	AllowedIPCidrRanges []*string `json:"allowedIpCidrRanges" tf:"allowed_ip_cidr_ranges,omitempty"`
+}
+
 type RetentionPolicyInitParameters struct {
 
 	// If set to true, the bucket will be locked and permanently restrict edits to the bucket's retention policy.  Caution: Locking a bucket is an irreversible action.
@@ -692,6 +761,27 @@ type SoftDeletePolicyParameters struct {
 	// The duration in seconds that soft-deleted objects in the bucket will be retained and cannot be permanently deleted. Default value is 604800. The value must be in between 604800(7 days) and 7776000(90 days). Note: To disable the soft delete policy on a bucket, This field must be set to 0.
 	// +kubebuilder:validation:Optional
 	RetentionDurationSeconds *float64 `json:"retentionDurationSeconds,omitempty" tf:"retention_duration_seconds,omitempty"`
+}
+
+type VPCNetworkSourcesInitParameters struct {
+	AllowedIPCidrRanges []*string `json:"allowedIpCidrRanges,omitempty" tf:"allowed_ip_cidr_ranges,omitempty"`
+
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+}
+
+type VPCNetworkSourcesObservation struct {
+	AllowedIPCidrRanges []*string `json:"allowedIpCidrRanges,omitempty" tf:"allowed_ip_cidr_ranges,omitempty"`
+
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+}
+
+type VPCNetworkSourcesParameters struct {
+
+	// +kubebuilder:validation:Optional
+	AllowedIPCidrRanges []*string `json:"allowedIpCidrRanges" tf:"allowed_ip_cidr_ranges,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Network *string `json:"network" tf:"network,omitempty"`
 }
 
 type VersioningInitParameters struct {

@@ -36,6 +36,8 @@ type OAuthIdPConfigInitParameters struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	ResponseType *ResponseTypeInitParameters `json:"responseType,omitempty" tf:"response_type,omitempty"`
 }
 
 type OAuthIdPConfigObservation struct {
@@ -58,6 +60,8 @@ type OAuthIdPConfigObservation struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	ResponseType *ResponseTypeObservation `json:"responseType,omitempty" tf:"response_type,omitempty"`
 }
 
 type OAuthIdPConfigParameters struct {
@@ -90,6 +94,30 @@ type OAuthIdPConfigParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ResponseType *ResponseTypeParameters `json:"responseType,omitempty" tf:"response_type,omitempty"`
+}
+
+type ResponseTypeInitParameters struct {
+	Code *bool `json:"code,omitempty" tf:"code,omitempty"`
+
+	IDToken *bool `json:"idToken,omitempty" tf:"id_token,omitempty"`
+}
+
+type ResponseTypeObservation struct {
+	Code *bool `json:"code,omitempty" tf:"code,omitempty"`
+
+	IDToken *bool `json:"idToken,omitempty" tf:"id_token,omitempty"`
+}
+
+type ResponseTypeParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Code *bool `json:"code,omitempty" tf:"code,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IDToken *bool `json:"idToken,omitempty" tf:"id_token,omitempty"`
 }
 
 // OAuthIdPConfigSpec defines the desired state of OAuthIdPConfig

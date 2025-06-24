@@ -13,7 +13,50 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AppEngineVersionInitParameters struct {
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+}
+
+type AppEngineVersionObservation struct {
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+}
+
+type AppEngineVersionParameters struct {
+
+	// +kubebuilder:validation:Optional
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+}
+
+type CloudFunctionInitParameters struct {
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+}
+
+type CloudFunctionObservation struct {
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+}
+
+type CloudFunctionParameters struct {
+
+	// +kubebuilder:validation:Optional
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+}
+
+type CloudRunRevisionInitParameters struct {
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+}
+
+type CloudRunRevisionObservation struct {
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+}
+
+type CloudRunRevisionParameters struct {
+
+	// +kubebuilder:validation:Optional
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+}
+
 type ConnectivityTestInitParameters struct {
+	BypassFirewallChecks *bool `json:"bypassFirewallChecks,omitempty" tf:"bypass_firewall_checks,omitempty"`
 
 	// The user-supplied description of the Connectivity Test.
 	// Maximum of 512 characters.
@@ -55,6 +98,8 @@ type ConnectivityTestInitParameters struct {
 	// boundaries.
 	RelatedProjects []*string `json:"relatedProjects,omitempty" tf:"related_projects,omitempty"`
 
+	RoundTrip *bool `json:"roundTrip,omitempty" tf:"round_trip,omitempty"`
+
 	// Required. Source specification of the Connectivity Test.
 	// You can use a combination of source IP address, virtual machine
 	// (VM) instance, or Compute Engine network to uniquely identify the
@@ -78,6 +123,7 @@ type ConnectivityTestInitParameters struct {
 }
 
 type ConnectivityTestObservation struct {
+	BypassFirewallChecks *bool `json:"bypassFirewallChecks,omitempty" tf:"bypass_firewall_checks,omitempty"`
 
 	// The user-supplied description of the Connectivity Test.
 	// Maximum of 512 characters.
@@ -125,6 +171,8 @@ type ConnectivityTestObservation struct {
 	// boundaries.
 	RelatedProjects []*string `json:"relatedProjects,omitempty" tf:"related_projects,omitempty"`
 
+	RoundTrip *bool `json:"roundTrip,omitempty" tf:"round_trip,omitempty"`
+
 	// Required. Source specification of the Connectivity Test.
 	// You can use a combination of source IP address, virtual machine
 	// (VM) instance, or Compute Engine network to uniquely identify the
@@ -153,6 +201,9 @@ type ConnectivityTestObservation struct {
 }
 
 type ConnectivityTestParameters struct {
+
+	// +kubebuilder:validation:Optional
+	BypassFirewallChecks *bool `json:"bypassFirewallChecks,omitempty" tf:"bypass_firewall_checks,omitempty"`
 
 	// The user-supplied description of the Connectivity Test.
 	// Maximum of 512 characters.
@@ -201,6 +252,9 @@ type ConnectivityTestParameters struct {
 	// +kubebuilder:validation:Optional
 	RelatedProjects []*string `json:"relatedProjects,omitempty" tf:"related_projects,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	RoundTrip *bool `json:"roundTrip,omitempty" tf:"round_trip,omitempty"`
+
 	// Required. Source specification of the Connectivity Test.
 	// You can use a combination of source IP address, virtual machine
 	// (VM) instance, or Compute Engine network to uniquely identify the
@@ -225,6 +279,13 @@ type ConnectivityTestParameters struct {
 }
 
 type DestinationInitParameters struct {
+	CloudSQLInstance *string `json:"cloudSqlInstance,omitempty" tf:"cloud_sql_instance,omitempty"`
+
+	ForwardingRule *string `json:"forwardingRule,omitempty" tf:"forwarding_rule,omitempty"`
+
+	Fqdn *string `json:"fqdn,omitempty" tf:"fqdn,omitempty"`
+
+	GkeMasterCluster *string `json:"gkeMasterCluster,omitempty" tf:"gke_master_cluster,omitempty"`
 
 	// The IP address of the endpoint, which can be an external or
 	// internal IP. An IPv6 address is only allowed when the test's
@@ -285,9 +346,20 @@ type DestinationInitParameters struct {
 	// Selector for a Address in compute to populate projectId.
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+
+	RedisCluster *string `json:"redisCluster,omitempty" tf:"redis_cluster,omitempty"`
+
+	RedisInstance *string `json:"redisInstance,omitempty" tf:"redis_instance,omitempty"`
 }
 
 type DestinationObservation struct {
+	CloudSQLInstance *string `json:"cloudSqlInstance,omitempty" tf:"cloud_sql_instance,omitempty"`
+
+	ForwardingRule *string `json:"forwardingRule,omitempty" tf:"forwarding_rule,omitempty"`
+
+	Fqdn *string `json:"fqdn,omitempty" tf:"fqdn,omitempty"`
+
+	GkeMasterCluster *string `json:"gkeMasterCluster,omitempty" tf:"gke_master_cluster,omitempty"`
 
 	// The IP address of the endpoint, which can be an external or
 	// internal IP. An IPv6 address is only allowed when the test's
@@ -308,10 +380,26 @@ type DestinationObservation struct {
 	// derived from the URI if you provide a VM instance or network URI.
 	// The following are two cases where you must provide the project ID:
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	RedisCluster *string `json:"redisCluster,omitempty" tf:"redis_cluster,omitempty"`
+
+	RedisInstance *string `json:"redisInstance,omitempty" tf:"redis_instance,omitempty"`
 }
 
 type DestinationParameters struct {
 
+	// +kubebuilder:validation:Optional
+	CloudSQLInstance *string `json:"cloudSqlInstance,omitempty" tf:"cloud_sql_instance,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ForwardingRule *string `json:"forwardingRule,omitempty" tf:"forwarding_rule,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Fqdn *string `json:"fqdn,omitempty" tf:"fqdn,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	GkeMasterCluster *string `json:"gkeMasterCluster,omitempty" tf:"gke_master_cluster,omitempty"`
+
 	// The IP address of the endpoint, which can be an external or
 	// internal IP. An IPv6 address is only allowed when the test's
 	// destination is a global load balancer VIP.
@@ -376,9 +464,24 @@ type DestinationParameters struct {
 	// Selector for a Address in compute to populate projectId.
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	RedisCluster *string `json:"redisCluster,omitempty" tf:"redis_cluster,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	RedisInstance *string `json:"redisInstance,omitempty" tf:"redis_instance,omitempty"`
 }
 
 type SourceInitParameters struct {
+	AppEngineVersion *AppEngineVersionInitParameters `json:"appEngineVersion,omitempty" tf:"app_engine_version,omitempty"`
+
+	CloudFunction *CloudFunctionInitParameters `json:"cloudFunction,omitempty" tf:"cloud_function,omitempty"`
+
+	CloudRunRevision *CloudRunRevisionInitParameters `json:"cloudRunRevision,omitempty" tf:"cloud_run_revision,omitempty"`
+
+	CloudSQLInstance *string `json:"cloudSqlInstance,omitempty" tf:"cloud_sql_instance,omitempty"`
+
+	GkeMasterCluster *string `json:"gkeMasterCluster,omitempty" tf:"gke_master_cluster,omitempty"`
 
 	// The IP address of the endpoint, which can be an external or
 	// internal IP. An IPv6 address is only allowed when the test's
@@ -446,6 +549,15 @@ type SourceInitParameters struct {
 }
 
 type SourceObservation struct {
+	AppEngineVersion *AppEngineVersionObservation `json:"appEngineVersion,omitempty" tf:"app_engine_version,omitempty"`
+
+	CloudFunction *CloudFunctionObservation `json:"cloudFunction,omitempty" tf:"cloud_function,omitempty"`
+
+	CloudRunRevision *CloudRunRevisionObservation `json:"cloudRunRevision,omitempty" tf:"cloud_run_revision,omitempty"`
+
+	CloudSQLInstance *string `json:"cloudSqlInstance,omitempty" tf:"cloud_sql_instance,omitempty"`
+
+	GkeMasterCluster *string `json:"gkeMasterCluster,omitempty" tf:"gke_master_cluster,omitempty"`
 
 	// The IP address of the endpoint, which can be an external or
 	// internal IP. An IPv6 address is only allowed when the test's
@@ -473,6 +585,21 @@ type SourceObservation struct {
 }
 
 type SourceParameters struct {
+
+	// +kubebuilder:validation:Optional
+	AppEngineVersion *AppEngineVersionParameters `json:"appEngineVersion,omitempty" tf:"app_engine_version,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	CloudFunction *CloudFunctionParameters `json:"cloudFunction,omitempty" tf:"cloud_function,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	CloudRunRevision *CloudRunRevisionParameters `json:"cloudRunRevision,omitempty" tf:"cloud_run_revision,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	CloudSQLInstance *string `json:"cloudSqlInstance,omitempty" tf:"cloud_sql_instance,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	GkeMasterCluster *string `json:"gkeMasterCluster,omitempty" tf:"gke_master_cluster,omitempty"`
 
 	// The IP address of the endpoint, which can be an external or
 	// internal IP. An IPv6 address is only allowed when the test's

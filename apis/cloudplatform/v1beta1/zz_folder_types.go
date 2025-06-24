@@ -14,6 +14,7 @@ import (
 )
 
 type FolderInitParameters struct {
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// The folder’s display name.
 	// A folder’s display name must be unique amongst its siblings, e.g. no two folders with the same parent can share the same display name. The display name must start and end with a letter or digit, may contain letters, digits, spaces, hyphens and underscores and can be no longer than 30 characters.
@@ -32,6 +33,9 @@ type FolderInitParameters struct {
 	// Selector for a Folder in cloudplatform to populate parent.
 	// +kubebuilder:validation:Optional
 	ParentSelector *v1.Selector `json:"parentSelector,omitempty" tf:"-"`
+
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
 type FolderObservation struct {
@@ -39,6 +43,8 @@ type FolderObservation struct {
 	// Timestamp when the Folder was created. Assigned by the server.
 	// A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z".
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// The folder’s display name.
 	// A folder’s display name must be unique amongst its siblings, e.g. no two folders with the same parent can share the same display name. The display name must start and end with a letter or digit, may contain letters, digits, spaces, hyphens and underscores and can be no longer than 30 characters.
@@ -58,9 +64,15 @@ type FolderObservation struct {
 	// The resource name of the parent Folder or Organization.
 	// Must be of the form folders/{folder_id} or organizations/{org_id}.
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
+
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
 type FolderParameters struct {
+
+	// +kubebuilder:validation:Optional
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// The folder’s display name.
 	// A folder’s display name must be unique amongst its siblings, e.g. no two folders with the same parent can share the same display name. The display name must start and end with a letter or digit, may contain letters, digits, spaces, hyphens and underscores and can be no longer than 30 characters.
@@ -81,6 +93,10 @@ type FolderParameters struct {
 	// Selector for a Folder in cloudplatform to populate parent.
 	// +kubebuilder:validation:Optional
 	ParentSelector *v1.Selector `json:"parentSelector,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
 // FolderSpec defines the desired state of Folder

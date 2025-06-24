@@ -61,6 +61,8 @@ type RegionDiskDiskEncryptionKeyInitParameters struct {
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+
+	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type RegionDiskDiskEncryptionKeyObservation struct {
@@ -85,6 +87,9 @@ type RegionDiskDiskEncryptionKeyParameters struct {
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
 	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type RegionDiskGuestOsFeaturesInitParameters struct {
@@ -114,6 +119,10 @@ type RegionDiskInitParameters struct {
 	// A nested object resource
 	// Structure is documented below.
 	AsyncPrimaryDisk *RegionDiskAsyncPrimaryDiskInitParameters `json:"asyncPrimaryDisk,omitempty" tf:"async_primary_disk,omitempty"`
+
+	CreateSnapshotBeforeDestroy *bool `json:"createSnapshotBeforeDestroy,omitempty" tf:"create_snapshot_before_destroy,omitempty"`
+
+	CreateSnapshotBeforeDestroyPrefix *string `json:"createSnapshotBeforeDestroyPrefix,omitempty" tf:"create_snapshot_before_destroy_prefix,omitempty"`
 
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
@@ -202,6 +211,10 @@ type RegionDiskObservation struct {
 	// Structure is documented below.
 	AsyncPrimaryDisk *RegionDiskAsyncPrimaryDiskObservation `json:"asyncPrimaryDisk,omitempty" tf:"async_primary_disk,omitempty"`
 
+	CreateSnapshotBeforeDestroy *bool `json:"createSnapshotBeforeDestroy,omitempty" tf:"create_snapshot_before_destroy,omitempty"`
+
+	CreateSnapshotBeforeDestroyPrefix *string `json:"createSnapshotBeforeDestroyPrefix,omitempty" tf:"create_snapshot_before_destroy_prefix,omitempty"`
+
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
@@ -220,6 +233,9 @@ type RegionDiskObservation struct {
 	// you do not need to provide a key to use the disk later.
 	// Structure is documented below.
 	DiskEncryptionKey *RegionDiskDiskEncryptionKeyObservation `json:"diskEncryptionKey,omitempty" tf:"disk_encryption_key,omitempty"`
+
+	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/disks/{{name}}
+	DiskID *string `json:"diskId,omitempty" tf:"disk_id,omitempty"`
 
 	// for all of the labels present on the resource.
 	// +mapType=granular
@@ -327,6 +343,12 @@ type RegionDiskParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AsyncPrimaryDisk *RegionDiskAsyncPrimaryDiskParameters `json:"asyncPrimaryDisk,omitempty" tf:"async_primary_disk,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	CreateSnapshotBeforeDestroy *bool `json:"createSnapshotBeforeDestroy,omitempty" tf:"create_snapshot_before_destroy,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	CreateSnapshotBeforeDestroyPrefix *string `json:"createSnapshotBeforeDestroyPrefix,omitempty" tf:"create_snapshot_before_destroy_prefix,omitempty"`
 
 	// An optional description of this resource. Provide this property when
 	// you create the resource.

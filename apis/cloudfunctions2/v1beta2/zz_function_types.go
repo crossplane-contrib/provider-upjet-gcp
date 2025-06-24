@@ -810,6 +810,8 @@ type ServiceConfigInitParameters struct {
 	// supplied the value is interpreted as bytes.
 	AvailableMemory *string `json:"availableMemory,omitempty" tf:"available_memory,omitempty"`
 
+	BinaryAuthorizationPolicy *string `json:"binaryAuthorizationPolicy,omitempty" tf:"binary_authorization_policy,omitempty"`
+
 	// Environment variables that shall be available during function execution.
 	// +mapType=granular
 	EnvironmentVariables map[string]*string `json:"environmentVariables,omitempty" tf:"environment_variables,omitempty"`
@@ -879,6 +881,8 @@ type ServiceConfigObservation struct {
 	// Defaults to 256M. Supported units are k, M, G, Mi, Gi. If no unit is
 	// supplied the value is interpreted as bytes.
 	AvailableMemory *string `json:"availableMemory,omitempty" tf:"available_memory,omitempty"`
+
+	BinaryAuthorizationPolicy *string `json:"binaryAuthorizationPolicy,omitempty" tf:"binary_authorization_policy,omitempty"`
 
 	// Environment variables that shall be available during function execution.
 	// +mapType=granular
@@ -950,6 +954,9 @@ type ServiceConfigParameters struct {
 	// supplied the value is interpreted as bytes.
 	// +kubebuilder:validation:Optional
 	AvailableMemory *string `json:"availableMemory,omitempty" tf:"available_memory,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	BinaryAuthorizationPolicy *string `json:"binaryAuthorizationPolicy,omitempty" tf:"binary_authorization_policy,omitempty"`
 
 	// Environment variables that shall be available during function execution.
 	// +kubebuilder:validation:Optional

@@ -38,6 +38,49 @@ type AvroOptionsParameters struct {
 	UseAvroLogicalTypes *bool `json:"useAvroLogicalTypes" tf:"use_avro_logical_types,omitempty"`
 }
 
+type BiglakeConfigurationInitParameters struct {
+
+	// level schema field
+	// documented above.
+	ConnectionID *string `json:"connectionId,omitempty" tf:"connection_id,omitempty"`
+
+	FileFormat *string `json:"fileFormat,omitempty" tf:"file_format,omitempty"`
+
+	StorageURI *string `json:"storageUri,omitempty" tf:"storage_uri,omitempty"`
+
+	TableFormat *string `json:"tableFormat,omitempty" tf:"table_format,omitempty"`
+}
+
+type BiglakeConfigurationObservation struct {
+
+	// level schema field
+	// documented above.
+	ConnectionID *string `json:"connectionId,omitempty" tf:"connection_id,omitempty"`
+
+	FileFormat *string `json:"fileFormat,omitempty" tf:"file_format,omitempty"`
+
+	StorageURI *string `json:"storageUri,omitempty" tf:"storage_uri,omitempty"`
+
+	TableFormat *string `json:"tableFormat,omitempty" tf:"table_format,omitempty"`
+}
+
+type BiglakeConfigurationParameters struct {
+
+	// level schema field
+	// documented above.
+	// +kubebuilder:validation:Optional
+	ConnectionID *string `json:"connectionId" tf:"connection_id,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	FileFormat *string `json:"fileFormat" tf:"file_format,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	StorageURI *string `json:"storageUri" tf:"storage_uri,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	TableFormat *string `json:"tableFormat" tf:"table_format,omitempty"`
+}
+
 type BigtableOptionsInitParameters struct {
 
 	// A list of column families to expose in the table schema along with their types. This list restricts the column families that can be referenced in queries and specifies their value types. You can use this list to do type conversions - see the 'type' field for more details. If you leave this list empty, all column families are present in the table schema and their values are read as BYTES. During a query only the column families referenced in that query are read from Bigtable.  Structure is documented below.
@@ -340,38 +383,43 @@ type CsvOptionsParameters struct {
 	SkipLeadingRows *float64 `json:"skipLeadingRows,omitempty" tf:"skip_leading_rows,omitempty"`
 }
 
-type EncryptionConfigurationInitParameters struct {
+type ExternalCatalogTableOptionsInitParameters struct {
 
-	// The self link or full name of a key which should be used to
-	// encrypt this table.  Note that the default bigquery service account will need to have
-	// encrypt/decrypt permissions on this key - you may want to see the
-	// google_bigquery_default_service_account datasource and the
-	// google_kms_crypto_key_iam_binding resource.
-	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+	// level schema field
+	// documented above.
+	ConnectionID *string `json:"connectionId,omitempty" tf:"connection_id,omitempty"`
+
+	// +mapType=granular
+	Parameters map[string]*string `json:"parameters,omitempty" tf:"parameters,omitempty"`
+
+	StorageDescriptor *StorageDescriptorInitParameters `json:"storageDescriptor,omitempty" tf:"storage_descriptor,omitempty"`
 }
 
-type EncryptionConfigurationObservation struct {
+type ExternalCatalogTableOptionsObservation struct {
 
-	// The self link or full name of a key which should be used to
-	// encrypt this table.  Note that the default bigquery service account will need to have
-	// encrypt/decrypt permissions on this key - you may want to see the
-	// google_bigquery_default_service_account datasource and the
-	// google_kms_crypto_key_iam_binding resource.
-	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+	// level schema field
+	// documented above.
+	ConnectionID *string `json:"connectionId,omitempty" tf:"connection_id,omitempty"`
 
-	// The self link or full name of the kms key version used to encrypt this table.
-	KMSKeyVersion *string `json:"kmsKeyVersion,omitempty" tf:"kms_key_version,omitempty"`
+	// +mapType=granular
+	Parameters map[string]*string `json:"parameters,omitempty" tf:"parameters,omitempty"`
+
+	StorageDescriptor *StorageDescriptorObservation `json:"storageDescriptor,omitempty" tf:"storage_descriptor,omitempty"`
 }
 
-type EncryptionConfigurationParameters struct {
+type ExternalCatalogTableOptionsParameters struct {
 
-	// The self link or full name of a key which should be used to
-	// encrypt this table.  Note that the default bigquery service account will need to have
-	// encrypt/decrypt permissions on this key - you may want to see the
-	// google_bigquery_default_service_account datasource and the
-	// google_kms_crypto_key_iam_binding resource.
+	// level schema field
+	// documented above.
 	// +kubebuilder:validation:Optional
-	KMSKeyName *string `json:"kmsKeyName" tf:"kms_key_name,omitempty"`
+	ConnectionID *string `json:"connectionId,omitempty" tf:"connection_id,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Parameters map[string]*string `json:"parameters,omitempty" tf:"parameters,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	StorageDescriptor *StorageDescriptorParameters `json:"storageDescriptor,omitempty" tf:"storage_descriptor,omitempty"`
 }
 
 type ExternalDataConfigurationInitParameters struct {
@@ -1090,6 +1138,91 @@ type ReferencedTableParameters struct {
 	TableID *string `json:"tableId" tf:"table_id,omitempty"`
 }
 
+type SchemaForeignTypeInfoInitParameters struct {
+	TypeSystem *string `json:"typeSystem,omitempty" tf:"type_system,omitempty"`
+}
+
+type SchemaForeignTypeInfoObservation struct {
+	TypeSystem *string `json:"typeSystem,omitempty" tf:"type_system,omitempty"`
+}
+
+type SchemaForeignTypeInfoParameters struct {
+
+	// +kubebuilder:validation:Optional
+	TypeSystem *string `json:"typeSystem" tf:"type_system,omitempty"`
+}
+
+type SerdeInfoInitParameters struct {
+
+	// :  Set only if the foreign key constraint is named.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// +mapType=granular
+	Parameters map[string]*string `json:"parameters,omitempty" tf:"parameters,omitempty"`
+
+	SerializationLibrary *string `json:"serializationLibrary,omitempty" tf:"serialization_library,omitempty"`
+}
+
+type SerdeInfoObservation struct {
+
+	// :  Set only if the foreign key constraint is named.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// +mapType=granular
+	Parameters map[string]*string `json:"parameters,omitempty" tf:"parameters,omitempty"`
+
+	SerializationLibrary *string `json:"serializationLibrary,omitempty" tf:"serialization_library,omitempty"`
+}
+
+type SerdeInfoParameters struct {
+
+	// :  Set only if the foreign key constraint is named.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Parameters map[string]*string `json:"parameters,omitempty" tf:"parameters,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	SerializationLibrary *string `json:"serializationLibrary" tf:"serialization_library,omitempty"`
+}
+
+type StorageDescriptorInitParameters struct {
+	InputFormat *string `json:"inputFormat,omitempty" tf:"input_format,omitempty"`
+
+	LocationURI *string `json:"locationUri,omitempty" tf:"location_uri,omitempty"`
+
+	OutputFormat *string `json:"outputFormat,omitempty" tf:"output_format,omitempty"`
+
+	SerdeInfo *SerdeInfoInitParameters `json:"serdeInfo,omitempty" tf:"serde_info,omitempty"`
+}
+
+type StorageDescriptorObservation struct {
+	InputFormat *string `json:"inputFormat,omitempty" tf:"input_format,omitempty"`
+
+	LocationURI *string `json:"locationUri,omitempty" tf:"location_uri,omitempty"`
+
+	OutputFormat *string `json:"outputFormat,omitempty" tf:"output_format,omitempty"`
+
+	SerdeInfo *SerdeInfoObservation `json:"serdeInfo,omitempty" tf:"serde_info,omitempty"`
+}
+
+type StorageDescriptorParameters struct {
+
+	// +kubebuilder:validation:Optional
+	InputFormat *string `json:"inputFormat,omitempty" tf:"input_format,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	LocationURI *string `json:"locationUri,omitempty" tf:"location_uri,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	OutputFormat *string `json:"outputFormat,omitempty" tf:"output_format,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	SerdeInfo *SerdeInfoParameters `json:"serdeInfo,omitempty" tf:"serde_info,omitempty"`
+}
+
 type TableConstraintsInitParameters struct {
 
 	// Present only if the table has a foreign key.
@@ -1134,12 +1267,42 @@ type TableConstraintsParameters struct {
 	PrimaryKey *PrimaryKeyParameters `json:"primaryKey,omitempty" tf:"primary_key,omitempty"`
 }
 
-type TableInitParameters struct {
+type TableEncryptionConfigurationInitParameters struct {
 
-	// If set to true, it allows table
-	// deletion when there are still resource tags attached. The default value is
-	// false.
-	AllowResourceTagsOnDeletion *bool `json:"allowResourceTagsOnDeletion,omitempty" tf:"allow_resource_tags_on_deletion,omitempty"`
+	// The self link or full name of a key which should be used to
+	// encrypt this table.  Note that the default bigquery service account will need to have
+	// encrypt/decrypt permissions on this key - you may want to see the
+	// google_bigquery_default_service_account datasource and the
+	// google_kms_crypto_key_iam_binding resource.
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+}
+
+type TableEncryptionConfigurationObservation struct {
+
+	// The self link or full name of a key which should be used to
+	// encrypt this table.  Note that the default bigquery service account will need to have
+	// encrypt/decrypt permissions on this key - you may want to see the
+	// google_bigquery_default_service_account datasource and the
+	// google_kms_crypto_key_iam_binding resource.
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+
+	// The self link or full name of the kms key version used to encrypt this table.
+	KMSKeyVersion *string `json:"kmsKeyVersion,omitempty" tf:"kms_key_version,omitempty"`
+}
+
+type TableEncryptionConfigurationParameters struct {
+
+	// The self link or full name of a key which should be used to
+	// encrypt this table.  Note that the default bigquery service account will need to have
+	// encrypt/decrypt permissions on this key - you may want to see the
+	// google_bigquery_default_service_account datasource and the
+	// google_kms_crypto_key_iam_binding resource.
+	// +kubebuilder:validation:Optional
+	KMSKeyName *string `json:"kmsKeyName" tf:"kms_key_name,omitempty"`
+}
+
+type TableInitParameters struct {
+	BiglakeConfiguration *BiglakeConfigurationInitParameters `json:"biglakeConfiguration,omitempty" tf:"biglake_configuration,omitempty"`
 
 	// Specifies column names to use for data clustering.
 	// Up to four top-level columns are allowed, and should be specified in
@@ -1155,13 +1318,15 @@ type TableInitParameters struct {
 	// Specifies how the table should be encrypted.
 	// If left blank, the table will be encrypted with a Google-managed key; that process
 	// is transparent to the user.  Structure is documented below.
-	EncryptionConfiguration *EncryptionConfigurationInitParameters `json:"encryptionConfiguration,omitempty" tf:"encryption_configuration,omitempty"`
+	EncryptionConfiguration *TableEncryptionConfigurationInitParameters `json:"encryptionConfiguration,omitempty" tf:"encryption_configuration,omitempty"`
 
 	// The time when this table expires, in
 	// milliseconds since the epoch. If not present, the table will persist
 	// indefinitely. Expired tables will be deleted and their storage
 	// reclaimed.
 	ExpirationTime *float64 `json:"expirationTime,omitempty" tf:"expiration_time,omitempty"`
+
+	ExternalCatalogTableOptions *ExternalCatalogTableOptionsInitParameters `json:"externalCatalogTableOptions,omitempty" tf:"external_catalog_table_options,omitempty"`
 
 	// Describes the data format,
 	// location, and other properties of a table stored outside of BigQuery.
@@ -1206,9 +1371,15 @@ type TableInitParameters struct {
 	// A JSON schema for the table.
 	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
 
+	SchemaForeignTypeInfo *SchemaForeignTypeInfoInitParameters `json:"schemaForeignTypeInfo,omitempty" tf:"schema_foreign_type_info,omitempty"`
+
 	// Defines the primary key and foreign keys.
 	// Structure is documented below.
 	TableConstraints *TableConstraintsInitParameters `json:"tableConstraints,omitempty" tf:"table_constraints,omitempty"`
+
+	// If specified, configures this table as a view.
+	// Structure is documented below.
+	TableMetadataView *string `json:"tableMetadataView,omitempty" tf:"table_metadata_view,omitempty"`
 
 	// Replication info of a table created
 	// using "AS REPLICA" DDL like:
@@ -1226,11 +1397,7 @@ type TableInitParameters struct {
 }
 
 type TableObservation struct {
-
-	// If set to true, it allows table
-	// deletion when there are still resource tags attached. The default value is
-	// false.
-	AllowResourceTagsOnDeletion *bool `json:"allowResourceTagsOnDeletion,omitempty" tf:"allow_resource_tags_on_deletion,omitempty"`
+	BiglakeConfiguration *BiglakeConfigurationObservation `json:"biglakeConfiguration,omitempty" tf:"biglake_configuration,omitempty"`
 
 	// Specifies column names to use for data clustering.
 	// Up to four top-level columns are allowed, and should be specified in
@@ -1256,7 +1423,7 @@ type TableObservation struct {
 	// Specifies how the table should be encrypted.
 	// If left blank, the table will be encrypted with a Google-managed key; that process
 	// is transparent to the user.  Structure is documented below.
-	EncryptionConfiguration *EncryptionConfigurationObservation `json:"encryptionConfiguration,omitempty" tf:"encryption_configuration,omitempty"`
+	EncryptionConfiguration *TableEncryptionConfigurationObservation `json:"encryptionConfiguration,omitempty" tf:"encryption_configuration,omitempty"`
 
 	// A hash of the resource.
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
@@ -1266,6 +1433,8 @@ type TableObservation struct {
 	// indefinitely. Expired tables will be deleted and their storage
 	// reclaimed.
 	ExpirationTime *float64 `json:"expirationTime,omitempty" tf:"expiration_time,omitempty"`
+
+	ExternalCatalogTableOptions *ExternalCatalogTableOptionsObservation `json:"externalCatalogTableOptions,omitempty" tf:"external_catalog_table_options,omitempty"`
 
 	// Describes the data format,
 	// location, and other properties of a table stored outside of BigQuery.
@@ -1332,12 +1501,18 @@ type TableObservation struct {
 	// A JSON schema for the table.
 	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
 
+	SchemaForeignTypeInfo *SchemaForeignTypeInfoObservation `json:"schemaForeignTypeInfo,omitempty" tf:"schema_foreign_type_info,omitempty"`
+
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
 	// Defines the primary key and foreign keys.
 	// Structure is documented below.
 	TableConstraints *TableConstraintsObservation `json:"tableConstraints,omitempty" tf:"table_constraints,omitempty"`
+
+	// If specified, configures this table as a view.
+	// Structure is documented below.
+	TableMetadataView *string `json:"tableMetadataView,omitempty" tf:"table_metadata_view,omitempty"`
 
 	// Replication info of a table created
 	// using "AS REPLICA" DDL like:
@@ -1363,11 +1538,8 @@ type TableObservation struct {
 
 type TableParameters struct {
 
-	// If set to true, it allows table
-	// deletion when there are still resource tags attached. The default value is
-	// false.
 	// +kubebuilder:validation:Optional
-	AllowResourceTagsOnDeletion *bool `json:"allowResourceTagsOnDeletion,omitempty" tf:"allow_resource_tags_on_deletion,omitempty"`
+	BiglakeConfiguration *BiglakeConfigurationParameters `json:"biglakeConfiguration,omitempty" tf:"biglake_configuration,omitempty"`
 
 	// Specifies column names to use for data clustering.
 	// Up to four top-level columns are allowed, and should be specified in
@@ -1401,7 +1573,7 @@ type TableParameters struct {
 	// If left blank, the table will be encrypted with a Google-managed key; that process
 	// is transparent to the user.  Structure is documented below.
 	// +kubebuilder:validation:Optional
-	EncryptionConfiguration *EncryptionConfigurationParameters `json:"encryptionConfiguration,omitempty" tf:"encryption_configuration,omitempty"`
+	EncryptionConfiguration *TableEncryptionConfigurationParameters `json:"encryptionConfiguration,omitempty" tf:"encryption_configuration,omitempty"`
 
 	// The time when this table expires, in
 	// milliseconds since the epoch. If not present, the table will persist
@@ -1409,6 +1581,9 @@ type TableParameters struct {
 	// reclaimed.
 	// +kubebuilder:validation:Optional
 	ExpirationTime *float64 `json:"expirationTime,omitempty" tf:"expiration_time,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ExternalCatalogTableOptions *ExternalCatalogTableOptionsParameters `json:"externalCatalogTableOptions,omitempty" tf:"external_catalog_table_options,omitempty"`
 
 	// Describes the data format,
 	// location, and other properties of a table stored outside of BigQuery.
@@ -1467,10 +1642,18 @@ type TableParameters struct {
 	// +kubebuilder:validation:Optional
 	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	SchemaForeignTypeInfo *SchemaForeignTypeInfoParameters `json:"schemaForeignTypeInfo,omitempty" tf:"schema_foreign_type_info,omitempty"`
+
 	// Defines the primary key and foreign keys.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	TableConstraints *TableConstraintsParameters `json:"tableConstraints,omitempty" tf:"table_constraints,omitempty"`
+
+	// If specified, configures this table as a view.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	TableMetadataView *string `json:"tableMetadataView,omitempty" tf:"table_metadata_view,omitempty"`
 
 	// Replication info of a table created
 	// using "AS REPLICA" DDL like:

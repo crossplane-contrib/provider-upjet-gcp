@@ -192,6 +192,9 @@ type InstanceInitParameters struct {
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
 	// Represents the type of Data Fusion instance. Each type is configured with
 	// the default settings for processing and memory.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
@@ -290,6 +293,9 @@ type InstanceObservation struct {
 	// Additional information about the current state of this Data Fusion instance if available.
 	StateMessage *string `json:"stateMessage,omitempty" tf:"state_message,omitempty"`
 
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
 	// The name of the tenant project.
 	TenantProjectID *string `json:"tenantProjectId,omitempty" tf:"tenant_project_id,omitempty"`
 
@@ -385,6 +391,10 @@ type InstanceParameters struct {
 	// The region of the Data Fusion instance.
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// Represents the type of Data Fusion instance. Each type is configured with
 	// the default settings for processing and memory.

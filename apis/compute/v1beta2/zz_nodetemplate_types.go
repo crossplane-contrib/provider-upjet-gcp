@@ -13,7 +13,57 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AcceleratorsInitParameters struct {
+	AcceleratorCount *float64 `json:"acceleratorCount,omitempty" tf:"accelerator_count,omitempty"`
+
+	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
+}
+
+type AcceleratorsObservation struct {
+	AcceleratorCount *float64 `json:"acceleratorCount,omitempty" tf:"accelerator_count,omitempty"`
+
+	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
+}
+
+type AcceleratorsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	AcceleratorCount *float64 `json:"acceleratorCount,omitempty" tf:"accelerator_count,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
+}
+
+type DisksInitParameters struct {
+	DiskCount *float64 `json:"diskCount,omitempty" tf:"disk_count,omitempty"`
+
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+}
+
+type DisksObservation struct {
+	DiskCount *float64 `json:"diskCount,omitempty" tf:"disk_count,omitempty"`
+
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+}
+
+type DisksParameters struct {
+
+	// +kubebuilder:validation:Optional
+	DiskCount *float64 `json:"diskCount,omitempty" tf:"disk_count,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+}
+
 type NodeTemplateInitParameters struct {
+	Accelerators []AcceleratorsInitParameters `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
 
 	// CPU overcommit.
 	// Default value is NONE.
@@ -22,6 +72,8 @@ type NodeTemplateInitParameters struct {
 
 	// An optional textual description of the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	Disks []DisksInitParameters `json:"disks,omitempty" tf:"disks,omitempty"`
 
 	// Labels to use for node affinity, which will be used in
 	// instance scheduling.
@@ -50,6 +102,7 @@ type NodeTemplateInitParameters struct {
 }
 
 type NodeTemplateObservation struct {
+	Accelerators []AcceleratorsObservation `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
 
 	// CPU overcommit.
 	// Default value is NONE.
@@ -61,6 +114,8 @@ type NodeTemplateObservation struct {
 
 	// An optional textual description of the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	Disks []DisksObservation `json:"disks,omitempty" tf:"disks,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/nodeTemplates/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -100,6 +155,9 @@ type NodeTemplateObservation struct {
 
 type NodeTemplateParameters struct {
 
+	// +kubebuilder:validation:Optional
+	Accelerators []AcceleratorsParameters `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
+
 	// CPU overcommit.
 	// Default value is NONE.
 	// Possible values are: ENABLED, NONE.
@@ -109,6 +167,9 @@ type NodeTemplateParameters struct {
 	// An optional textual description of the resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Disks []DisksParameters `json:"disks,omitempty" tf:"disks,omitempty"`
 
 	// Labels to use for node affinity, which will be used in
 	// instance scheduling.

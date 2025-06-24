@@ -13,6 +13,64 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type BackendCustomMetricsInitParameters struct {
+	DryRun *bool `json:"dryRun,omitempty" tf:"dry_run,omitempty"`
+
+	// Used when balancingMode is UTILIZATION. This ratio defines the
+	// CPU utilization target for the group. Valid range is [0.0, 1.0].
+	// Cannot be set for INTERNAL backend services.
+	MaxUtilization *float64 `json:"maxUtilization,omitempty" tf:"max_utilization,omitempty"`
+
+	// Name of the resource. Provided by the client when the resource is
+	// created. The name must be 1-63 characters long, and comply with
+	// RFC1035. Specifically, the name must be 1-63 characters long and match
+	// the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+	// first character must be a lowercase letter, and all following
+	// characters must be a dash, lowercase letter, or digit, except the last
+	// character, which cannot be a dash.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type BackendCustomMetricsObservation struct {
+	DryRun *bool `json:"dryRun,omitempty" tf:"dry_run,omitempty"`
+
+	// Used when balancingMode is UTILIZATION. This ratio defines the
+	// CPU utilization target for the group. Valid range is [0.0, 1.0].
+	// Cannot be set for INTERNAL backend services.
+	MaxUtilization *float64 `json:"maxUtilization,omitempty" tf:"max_utilization,omitempty"`
+
+	// Name of the resource. Provided by the client when the resource is
+	// created. The name must be 1-63 characters long, and comply with
+	// RFC1035. Specifically, the name must be 1-63 characters long and match
+	// the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+	// first character must be a lowercase letter, and all following
+	// characters must be a dash, lowercase letter, or digit, except the last
+	// character, which cannot be a dash.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type BackendCustomMetricsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	DryRun *bool `json:"dryRun" tf:"dry_run,omitempty"`
+
+	// Used when balancingMode is UTILIZATION. This ratio defines the
+	// CPU utilization target for the group. Valid range is [0.0, 1.0].
+	// Cannot be set for INTERNAL backend services.
+	// +kubebuilder:validation:Optional
+	MaxUtilization *float64 `json:"maxUtilization,omitempty" tf:"max_utilization,omitempty"`
+
+	// Name of the resource. Provided by the client when the resource is
+	// created. The name must be 1-63 characters long, and comply with
+	// RFC1035. Specifically, the name must be 1-63 characters long and match
+	// the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+	// first character must be a lowercase letter, and all following
+	// characters must be a dash, lowercase letter, or digit, except the last
+	// character, which cannot be a dash.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name" tf:"name,omitempty"`
+}
+
 type ConsistentHashHTTPCookieInitParameters struct {
 
 	// Name of the resource. Provided by the client when the resource is
@@ -306,6 +364,8 @@ type RegionBackendServiceBackendInitParameters struct {
 	// 0% of its available Capacity. Valid range is [0.0,1.0].
 	CapacityScaler *float64 `json:"capacityScaler,omitempty" tf:"capacity_scaler,omitempty"`
 
+	CustomMetrics []BackendCustomMetricsInitParameters `json:"customMetrics,omitempty" tf:"custom_metrics,omitempty"`
+
 	// An optional description of this resource.
 	// Provide this property when you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -416,6 +476,8 @@ type RegionBackendServiceBackendObservation struct {
 	// 0% of its available Capacity. Valid range is [0.0,1.0].
 	CapacityScaler *float64 `json:"capacityScaler,omitempty" tf:"capacity_scaler,omitempty"`
 
+	CustomMetrics []BackendCustomMetricsObservation `json:"customMetrics,omitempty" tf:"custom_metrics,omitempty"`
+
 	// An optional description of this resource.
 	// Provide this property when you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -517,6 +579,9 @@ type RegionBackendServiceBackendParameters struct {
 	// 0% of its available Capacity. Valid range is [0.0,1.0].
 	// +kubebuilder:validation:Optional
 	CapacityScaler *float64 `json:"capacityScaler,omitempty" tf:"capacity_scaler,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	CustomMetrics []BackendCustomMetricsParameters `json:"customMetrics,omitempty" tf:"custom_metrics,omitempty"`
 
 	// An optional description of this resource.
 	// Provide this property when you create the resource.
@@ -1044,17 +1109,61 @@ type RegionBackendServiceConsistentHashParameters struct {
 	MinimumRingSize *float64 `json:"minimumRingSize,omitempty" tf:"minimum_ring_size,omitempty"`
 }
 
+type RegionBackendServiceCustomMetricsInitParameters struct {
+	DryRun *bool `json:"dryRun,omitempty" tf:"dry_run,omitempty"`
+
+	// Name of the resource. Provided by the client when the resource is
+	// created. The name must be 1-63 characters long, and comply with
+	// RFC1035. Specifically, the name must be 1-63 characters long and match
+	// the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+	// first character must be a lowercase letter, and all following
+	// characters must be a dash, lowercase letter, or digit, except the last
+	// character, which cannot be a dash.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type RegionBackendServiceCustomMetricsObservation struct {
+	DryRun *bool `json:"dryRun,omitempty" tf:"dry_run,omitempty"`
+
+	// Name of the resource. Provided by the client when the resource is
+	// created. The name must be 1-63 characters long, and comply with
+	// RFC1035. Specifically, the name must be 1-63 characters long and match
+	// the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+	// first character must be a lowercase letter, and all following
+	// characters must be a dash, lowercase letter, or digit, except the last
+	// character, which cannot be a dash.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type RegionBackendServiceCustomMetricsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	DryRun *bool `json:"dryRun" tf:"dry_run,omitempty"`
+
+	// Name of the resource. Provided by the client when the resource is
+	// created. The name must be 1-63 characters long, and comply with
+	// RFC1035. Specifically, the name must be 1-63 characters long and match
+	// the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+	// first character must be a lowercase letter, and all following
+	// characters must be a dash, lowercase letter, or digit, except the last
+	// character, which cannot be a dash.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name" tf:"name,omitempty"`
+}
+
 type RegionBackendServiceIapInitParameters struct {
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
 	// OAuth2 Client ID for IAP
 	Oauth2ClientID *string `json:"oauth2ClientId,omitempty" tf:"oauth2_client_id,omitempty"`
 
 	// OAuth2 Client Secret for IAP
 	// Note: This property is sensitive and will not be displayed in the plan.
-	Oauth2ClientSecretSecretRef v1.SecretKeySelector `json:"oauth2ClientSecretSecretRef" tf:"-"`
+	Oauth2ClientSecretSecretRef *v1.SecretKeySelector `json:"oauth2ClientSecretSecretRef,omitempty" tf:"-"`
 }
 
 type RegionBackendServiceIapObservation struct {
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
 	// OAuth2 Client ID for IAP
 	Oauth2ClientID *string `json:"oauth2ClientId,omitempty" tf:"oauth2_client_id,omitempty"`
@@ -1062,14 +1171,17 @@ type RegionBackendServiceIapObservation struct {
 
 type RegionBackendServiceIapParameters struct {
 
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+
 	// OAuth2 Client ID for IAP
 	// +kubebuilder:validation:Optional
-	Oauth2ClientID *string `json:"oauth2ClientId" tf:"oauth2_client_id,omitempty"`
+	Oauth2ClientID *string `json:"oauth2ClientId,omitempty" tf:"oauth2_client_id,omitempty"`
 
 	// OAuth2 Client Secret for IAP
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	Oauth2ClientSecretSecretRef v1.SecretKeySelector `json:"oauth2ClientSecretSecretRef" tf:"-"`
+	Oauth2ClientSecretSecretRef *v1.SecretKeySelector `json:"oauth2ClientSecretSecretRef,omitempty" tf:"-"`
 }
 
 type RegionBackendServiceInitParameters struct {
@@ -1109,6 +1221,8 @@ type RegionBackendServiceInitParameters struct {
 	// This field only applies when all of the following are true -
 	ConsistentHash *RegionBackendServiceConsistentHashInitParameters `json:"consistentHash,omitempty" tf:"consistent_hash,omitempty"`
 
+	CustomMetrics []RegionBackendServiceCustomMetricsInitParameters `json:"customMetrics,omitempty" tf:"custom_metrics,omitempty"`
+
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -1136,6 +1250,8 @@ type RegionBackendServiceInitParameters struct {
 	// Selector for a list of RegionHealthCheck in compute to populate healthChecks.
 	// +kubebuilder:validation:Optional
 	HealthChecksSelector *v1.Selector `json:"healthChecksSelector,omitempty" tf:"-"`
+
+	IPAddressSelectionPolicy *string `json:"ipAddressSelectionPolicy,omitempty" tf:"ip_address_selection_policy,omitempty"`
 
 	// Settings for enabling Cloud Identity Aware Proxy
 	// Structure is documented below.
@@ -1186,6 +1302,8 @@ type RegionBackendServiceInitParameters struct {
 	// Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE, CLIENT_IP_NO_DESTINATION.
 	SessionAffinity *string `json:"sessionAffinity,omitempty" tf:"session_affinity,omitempty"`
 
+	StrongSessionAffinityCookie *RegionBackendServiceStrongSessionAffinityCookieInitParameters `json:"strongSessionAffinityCookie,omitempty" tf:"strong_session_affinity_cookie,omitempty"`
+
 	// The backend service timeout has a different meaning depending on the type of load balancer.
 	// For more information see, Backend service settings.
 	// The default is 30 seconds.
@@ -1197,6 +1315,10 @@ type RegionBackendServiceLogConfigInitParameters struct {
 
 	// Whether to enable logging for the load balancer traffic served by this backend service.
 	Enable *bool `json:"enable,omitempty" tf:"enable,omitempty"`
+
+	OptionalFields []*string `json:"optionalFields,omitempty" tf:"optional_fields,omitempty"`
+
+	OptionalMode *string `json:"optionalMode,omitempty" tf:"optional_mode,omitempty"`
 
 	// This field can only be specified if logging is enabled for this backend service. The value of
 	// the field must be in [0, 1]. This configures the sampling rate of requests to the load balancer
@@ -1210,6 +1332,10 @@ type RegionBackendServiceLogConfigObservation struct {
 	// Whether to enable logging for the load balancer traffic served by this backend service.
 	Enable *bool `json:"enable,omitempty" tf:"enable,omitempty"`
 
+	OptionalFields []*string `json:"optionalFields,omitempty" tf:"optional_fields,omitempty"`
+
+	OptionalMode *string `json:"optionalMode,omitempty" tf:"optional_mode,omitempty"`
+
 	// This field can only be specified if logging is enabled for this backend service. The value of
 	// the field must be in [0, 1]. This configures the sampling rate of requests to the load balancer
 	// where 1.0 means all logged requests are reported and 0.0 means no logged requests are reported.
@@ -1222,6 +1348,12 @@ type RegionBackendServiceLogConfigParameters struct {
 	// Whether to enable logging for the load balancer traffic served by this backend service.
 	// +kubebuilder:validation:Optional
 	Enable *bool `json:"enable,omitempty" tf:"enable,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	OptionalFields []*string `json:"optionalFields,omitempty" tf:"optional_fields,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	OptionalMode *string `json:"optionalMode,omitempty" tf:"optional_mode,omitempty"`
 
 	// This field can only be specified if logging is enabled for this backend service. The value of
 	// the field must be in [0, 1]. This configures the sampling rate of requests to the load balancer
@@ -1271,6 +1403,8 @@ type RegionBackendServiceObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	CustomMetrics []RegionBackendServiceCustomMetricsObservation `json:"customMetrics,omitempty" tf:"custom_metrics,omitempty"`
+
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -1298,6 +1432,8 @@ type RegionBackendServiceObservation struct {
 
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/backendServices/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	IPAddressSelectionPolicy *string `json:"ipAddressSelectionPolicy,omitempty" tf:"ip_address_selection_policy,omitempty"`
 
 	// Settings for enabling Cloud Identity Aware Proxy
 	// Structure is documented below.
@@ -1354,6 +1490,8 @@ type RegionBackendServiceObservation struct {
 	// not applicable if the protocol is UDP.
 	// Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE, CLIENT_IP_NO_DESTINATION.
 	SessionAffinity *string `json:"sessionAffinity,omitempty" tf:"session_affinity,omitempty"`
+
+	StrongSessionAffinityCookie *RegionBackendServiceStrongSessionAffinityCookieObservation `json:"strongSessionAffinityCookie,omitempty" tf:"strong_session_affinity_cookie,omitempty"`
 
 	// The backend service timeout has a different meaning depending on the type of load balancer.
 	// For more information see, Backend service settings.
@@ -1608,6 +1746,9 @@ type RegionBackendServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	ConsistentHash *RegionBackendServiceConsistentHashParameters `json:"consistentHash,omitempty" tf:"consistent_hash,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	CustomMetrics []RegionBackendServiceCustomMetricsParameters `json:"customMetrics,omitempty" tf:"custom_metrics,omitempty"`
+
 	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -1639,6 +1780,9 @@ type RegionBackendServiceParameters struct {
 	// Selector for a list of RegionHealthCheck in compute to populate healthChecks.
 	// +kubebuilder:validation:Optional
 	HealthChecksSelector *v1.Selector `json:"healthChecksSelector,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	IPAddressSelectionPolicy *string `json:"ipAddressSelectionPolicy,omitempty" tf:"ip_address_selection_policy,omitempty"`
 
 	// Settings for enabling Cloud Identity Aware Proxy
 	// Structure is documented below.
@@ -1704,12 +1848,116 @@ type RegionBackendServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	SessionAffinity *string `json:"sessionAffinity,omitempty" tf:"session_affinity,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	StrongSessionAffinityCookie *RegionBackendServiceStrongSessionAffinityCookieParameters `json:"strongSessionAffinityCookie,omitempty" tf:"strong_session_affinity_cookie,omitempty"`
+
 	// The backend service timeout has a different meaning depending on the type of load balancer.
 	// For more information see, Backend service settings.
 	// The default is 30 seconds.
 	// The full range of timeout values allowed goes from 1 through 2,147,483,647 seconds.
 	// +kubebuilder:validation:Optional
 	TimeoutSec *float64 `json:"timeoutSec,omitempty" tf:"timeout_sec,omitempty"`
+}
+
+type RegionBackendServiceStrongSessionAffinityCookieInitParameters struct {
+
+	// Name of the resource. Provided by the client when the resource is
+	// created. The name must be 1-63 characters long, and comply with
+	// RFC1035. Specifically, the name must be 1-63 characters long and match
+	// the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+	// first character must be a lowercase letter, and all following
+	// characters must be a dash, lowercase letter, or digit, except the last
+	// character, which cannot be a dash.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Path to set for the cookie.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// The TTL (in seconds) for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
+	// (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
+	TTL *RegionBackendServiceStrongSessionAffinityCookieTTLInitParameters `json:"ttl,omitempty" tf:"ttl,omitempty"`
+}
+
+type RegionBackendServiceStrongSessionAffinityCookieObservation struct {
+
+	// Name of the resource. Provided by the client when the resource is
+	// created. The name must be 1-63 characters long, and comply with
+	// RFC1035. Specifically, the name must be 1-63 characters long and match
+	// the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+	// first character must be a lowercase letter, and all following
+	// characters must be a dash, lowercase letter, or digit, except the last
+	// character, which cannot be a dash.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Path to set for the cookie.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// The TTL (in seconds) for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
+	// (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
+	TTL *RegionBackendServiceStrongSessionAffinityCookieTTLObservation `json:"ttl,omitempty" tf:"ttl,omitempty"`
+}
+
+type RegionBackendServiceStrongSessionAffinityCookieParameters struct {
+
+	// Name of the resource. Provided by the client when the resource is
+	// created. The name must be 1-63 characters long, and comply with
+	// RFC1035. Specifically, the name must be 1-63 characters long and match
+	// the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+	// first character must be a lowercase letter, and all following
+	// characters must be a dash, lowercase letter, or digit, except the last
+	// character, which cannot be a dash.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Path to set for the cookie.
+	// +kubebuilder:validation:Optional
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// The TTL (in seconds) for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
+	// (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
+	// +kubebuilder:validation:Optional
+	TTL *RegionBackendServiceStrongSessionAffinityCookieTTLParameters `json:"ttl,omitempty" tf:"ttl,omitempty"`
+}
+
+type RegionBackendServiceStrongSessionAffinityCookieTTLInitParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond
+	// resolution. Durations less than one second are represented
+	// with a 0 seconds field and a positive nanos field. Must
+	// be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second.
+	// Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type RegionBackendServiceStrongSessionAffinityCookieTTLObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond
+	// resolution. Durations less than one second are represented
+	// with a 0 seconds field and a positive nanos field. Must
+	// be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second.
+	// Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type RegionBackendServiceStrongSessionAffinityCookieTTLParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond
+	// resolution. Durations less than one second are represented
+	// with a 0 seconds field and a positive nanos field. Must
+	// be from 0 to 999,999,999 inclusive.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second.
+	// Must be from 0 to 315,576,000,000 inclusive.
+	// +kubebuilder:validation:Optional
+	Seconds *float64 `json:"seconds" tf:"seconds,omitempty"`
 }
 
 // RegionBackendServiceSpec defines the desired state of RegionBackendService

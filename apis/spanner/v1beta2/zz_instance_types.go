@@ -13,7 +13,93 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AsymmetricAutoscalingOptionsInitParameters struct {
+	Overrides *OverridesInitParameters `json:"overrides,omitempty" tf:"overrides,omitempty"`
+
+	ReplicaSelection *ReplicaSelectionInitParameters `json:"replicaSelection,omitempty" tf:"replica_selection,omitempty"`
+}
+
+type AsymmetricAutoscalingOptionsObservation struct {
+	Overrides *OverridesObservation `json:"overrides,omitempty" tf:"overrides,omitempty"`
+
+	ReplicaSelection *ReplicaSelectionObservation `json:"replicaSelection,omitempty" tf:"replica_selection,omitempty"`
+}
+
+type AsymmetricAutoscalingOptionsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Overrides *OverridesParameters `json:"overrides" tf:"overrides,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ReplicaSelection *ReplicaSelectionParameters `json:"replicaSelection" tf:"replica_selection,omitempty"`
+}
+
+type AutoscalingConfigAutoscalingLimitsInitParameters struct {
+
+	// Specifies maximum number of nodes allocated to the instance. If set, this number
+	// should be greater than or equal to min_nodes.
+	MaxNodes *float64 `json:"maxNodes,omitempty" tf:"max_nodes,omitempty"`
+
+	// Specifies maximum number of processing units allocated to the instance.
+	// If set, this number should be multiples of 1000 and be greater than or equal to
+	// min_processing_units.
+	MaxProcessingUnits *float64 `json:"maxProcessingUnits,omitempty" tf:"max_processing_units,omitempty"`
+
+	// Specifies number of nodes allocated to the instance. If set, this number
+	// should be greater than or equal to 1.
+	MinNodes *float64 `json:"minNodes,omitempty" tf:"min_nodes,omitempty"`
+
+	// Specifies minimum number of processing units allocated to the instance.
+	// If set, this number should be multiples of 1000.
+	MinProcessingUnits *float64 `json:"minProcessingUnits,omitempty" tf:"min_processing_units,omitempty"`
+}
+
+type AutoscalingConfigAutoscalingLimitsObservation struct {
+
+	// Specifies maximum number of nodes allocated to the instance. If set, this number
+	// should be greater than or equal to min_nodes.
+	MaxNodes *float64 `json:"maxNodes,omitempty" tf:"max_nodes,omitempty"`
+
+	// Specifies maximum number of processing units allocated to the instance.
+	// If set, this number should be multiples of 1000 and be greater than or equal to
+	// min_processing_units.
+	MaxProcessingUnits *float64 `json:"maxProcessingUnits,omitempty" tf:"max_processing_units,omitempty"`
+
+	// Specifies number of nodes allocated to the instance. If set, this number
+	// should be greater than or equal to 1.
+	MinNodes *float64 `json:"minNodes,omitempty" tf:"min_nodes,omitempty"`
+
+	// Specifies minimum number of processing units allocated to the instance.
+	// If set, this number should be multiples of 1000.
+	MinProcessingUnits *float64 `json:"minProcessingUnits,omitempty" tf:"min_processing_units,omitempty"`
+}
+
+type AutoscalingConfigAutoscalingLimitsParameters struct {
+
+	// Specifies maximum number of nodes allocated to the instance. If set, this number
+	// should be greater than or equal to min_nodes.
+	// +kubebuilder:validation:Optional
+	MaxNodes *float64 `json:"maxNodes,omitempty" tf:"max_nodes,omitempty"`
+
+	// Specifies maximum number of processing units allocated to the instance.
+	// If set, this number should be multiples of 1000 and be greater than or equal to
+	// min_processing_units.
+	// +kubebuilder:validation:Optional
+	MaxProcessingUnits *float64 `json:"maxProcessingUnits,omitempty" tf:"max_processing_units,omitempty"`
+
+	// Specifies number of nodes allocated to the instance. If set, this number
+	// should be greater than or equal to 1.
+	// +kubebuilder:validation:Optional
+	MinNodes *float64 `json:"minNodes,omitempty" tf:"min_nodes,omitempty"`
+
+	// Specifies minimum number of processing units allocated to the instance.
+	// If set, this number should be multiples of 1000.
+	// +kubebuilder:validation:Optional
+	MinProcessingUnits *float64 `json:"minProcessingUnits,omitempty" tf:"min_processing_units,omitempty"`
+}
+
 type AutoscalingConfigInitParameters struct {
+	AsymmetricAutoscalingOptions []AsymmetricAutoscalingOptionsInitParameters `json:"asymmetricAutoscalingOptions,omitempty" tf:"asymmetric_autoscaling_options,omitempty"`
 
 	// Defines scale in controls to reduce the risk of response latency
 	// and outages due to abrupt scale-in events. Users can define the minimum and
@@ -22,7 +108,7 @@ type AutoscalingConfigInitParameters struct {
 	// units to specify the limits, but should use the same unit to set both the
 	// min_limit and max_limit.
 	// Structure is documented below.
-	AutoscalingLimits *AutoscalingLimitsInitParameters `json:"autoscalingLimits,omitempty" tf:"autoscaling_limits,omitempty"`
+	AutoscalingLimits *AutoscalingConfigAutoscalingLimitsInitParameters `json:"autoscalingLimits,omitempty" tf:"autoscaling_limits,omitempty"`
 
 	// Defines scale in controls to reduce the risk of response latency
 	// and outages due to abrupt scale-in events
@@ -31,6 +117,7 @@ type AutoscalingConfigInitParameters struct {
 }
 
 type AutoscalingConfigObservation struct {
+	AsymmetricAutoscalingOptions []AsymmetricAutoscalingOptionsObservation `json:"asymmetricAutoscalingOptions,omitempty" tf:"asymmetric_autoscaling_options,omitempty"`
 
 	// Defines scale in controls to reduce the risk of response latency
 	// and outages due to abrupt scale-in events. Users can define the minimum and
@@ -39,7 +126,7 @@ type AutoscalingConfigObservation struct {
 	// units to specify the limits, but should use the same unit to set both the
 	// min_limit and max_limit.
 	// Structure is documented below.
-	AutoscalingLimits *AutoscalingLimitsObservation `json:"autoscalingLimits,omitempty" tf:"autoscaling_limits,omitempty"`
+	AutoscalingLimits *AutoscalingConfigAutoscalingLimitsObservation `json:"autoscalingLimits,omitempty" tf:"autoscaling_limits,omitempty"`
 
 	// Defines scale in controls to reduce the risk of response latency
 	// and outages due to abrupt scale-in events
@@ -49,6 +136,9 @@ type AutoscalingConfigObservation struct {
 
 type AutoscalingConfigParameters struct {
 
+	// +kubebuilder:validation:Optional
+	AsymmetricAutoscalingOptions []AsymmetricAutoscalingOptionsParameters `json:"asymmetricAutoscalingOptions,omitempty" tf:"asymmetric_autoscaling_options,omitempty"`
+
 	// Defines scale in controls to reduce the risk of response latency
 	// and outages due to abrupt scale-in events. Users can define the minimum and
 	// maximum compute capacity allocated to the instance, and the autoscaler will
@@ -57,7 +147,7 @@ type AutoscalingConfigParameters struct {
 	// min_limit and max_limit.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	AutoscalingLimits *AutoscalingLimitsParameters `json:"autoscalingLimits,omitempty" tf:"autoscaling_limits,omitempty"`
+	AutoscalingLimits *AutoscalingConfigAutoscalingLimitsParameters `json:"autoscalingLimits,omitempty" tf:"autoscaling_limits,omitempty"`
 
 	// Defines scale in controls to reduce the risk of response latency
 	// and outages due to abrupt scale-in events
@@ -72,18 +162,9 @@ type AutoscalingLimitsInitParameters struct {
 	// should be greater than or equal to min_nodes.
 	MaxNodes *float64 `json:"maxNodes,omitempty" tf:"max_nodes,omitempty"`
 
-	// Specifies maximum number of processing units allocated to the instance.
-	// If set, this number should be multiples of 1000 and be greater than or equal to
-	// min_processing_units.
-	MaxProcessingUnits *float64 `json:"maxProcessingUnits,omitempty" tf:"max_processing_units,omitempty"`
-
 	// Specifies number of nodes allocated to the instance. If set, this number
 	// should be greater than or equal to 1.
 	MinNodes *float64 `json:"minNodes,omitempty" tf:"min_nodes,omitempty"`
-
-	// Specifies minimum number of processing units allocated to the instance.
-	// If set, this number should be multiples of 1000.
-	MinProcessingUnits *float64 `json:"minProcessingUnits,omitempty" tf:"min_processing_units,omitempty"`
 }
 
 type AutoscalingLimitsObservation struct {
@@ -92,18 +173,9 @@ type AutoscalingLimitsObservation struct {
 	// should be greater than or equal to min_nodes.
 	MaxNodes *float64 `json:"maxNodes,omitempty" tf:"max_nodes,omitempty"`
 
-	// Specifies maximum number of processing units allocated to the instance.
-	// If set, this number should be multiples of 1000 and be greater than or equal to
-	// min_processing_units.
-	MaxProcessingUnits *float64 `json:"maxProcessingUnits,omitempty" tf:"max_processing_units,omitempty"`
-
 	// Specifies number of nodes allocated to the instance. If set, this number
 	// should be greater than or equal to 1.
 	MinNodes *float64 `json:"minNodes,omitempty" tf:"min_nodes,omitempty"`
-
-	// Specifies minimum number of processing units allocated to the instance.
-	// If set, this number should be multiples of 1000.
-	MinProcessingUnits *float64 `json:"minProcessingUnits,omitempty" tf:"min_processing_units,omitempty"`
 }
 
 type AutoscalingLimitsParameters struct {
@@ -111,23 +183,12 @@ type AutoscalingLimitsParameters struct {
 	// Specifies maximum number of nodes allocated to the instance. If set, this number
 	// should be greater than or equal to min_nodes.
 	// +kubebuilder:validation:Optional
-	MaxNodes *float64 `json:"maxNodes,omitempty" tf:"max_nodes,omitempty"`
-
-	// Specifies maximum number of processing units allocated to the instance.
-	// If set, this number should be multiples of 1000 and be greater than or equal to
-	// min_processing_units.
-	// +kubebuilder:validation:Optional
-	MaxProcessingUnits *float64 `json:"maxProcessingUnits,omitempty" tf:"max_processing_units,omitempty"`
+	MaxNodes *float64 `json:"maxNodes" tf:"max_nodes,omitempty"`
 
 	// Specifies number of nodes allocated to the instance. If set, this number
 	// should be greater than or equal to 1.
 	// +kubebuilder:validation:Optional
-	MinNodes *float64 `json:"minNodes,omitempty" tf:"min_nodes,omitempty"`
-
-	// Specifies minimum number of processing units allocated to the instance.
-	// If set, this number should be multiples of 1000.
-	// +kubebuilder:validation:Optional
-	MinProcessingUnits *float64 `json:"minProcessingUnits,omitempty" tf:"min_processing_units,omitempty"`
+	MinNodes *float64 `json:"minNodes" tf:"min_nodes,omitempty"`
 }
 
 type AutoscalingTargetsInitParameters struct {
@@ -198,9 +259,13 @@ type InstanceInitParameters struct {
 	// unique per project and between 4 and 30 characters in length.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	Edition *string `json:"edition,omitempty" tf:"edition,omitempty"`
+
 	// When deleting a spanner instance, this boolean option will delete all backups of this instance.
 	// This must be set to true if you created a backup manually in the console.
 	ForceDestroy *bool `json:"forceDestroy,omitempty" tf:"force_destroy,omitempty"`
+
+	InstanceType *string `json:"instanceType,omitempty" tf:"instance_type,omitempty"`
 
 	// An object containing a list of "key": value pairs.
 	// Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
@@ -245,6 +310,8 @@ type InstanceObservation struct {
 	// unique per project and between 4 and 30 characters in length.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	Edition *string `json:"edition,omitempty" tf:"edition,omitempty"`
+
 	// for all of the labels present on the resource.
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
@@ -255,6 +322,8 @@ type InstanceObservation struct {
 
 	// an identifier for the resource with format {{project}}/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	InstanceType *string `json:"instanceType,omitempty" tf:"instance_type,omitempty"`
 
 	// An object containing a list of "key": value pairs.
 	// Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
@@ -311,10 +380,16 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	Edition *string `json:"edition,omitempty" tf:"edition,omitempty"`
+
 	// When deleting a spanner instance, this boolean option will delete all backups of this instance.
 	// This must be set to true if you created a backup manually in the console.
 	// +kubebuilder:validation:Optional
 	ForceDestroy *bool `json:"forceDestroy,omitempty" tf:"force_destroy,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	InstanceType *string `json:"instanceType,omitempty" tf:"instance_type,omitempty"`
 
 	// An object containing a list of "key": value pairs.
 	// Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
@@ -334,6 +409,57 @@ type InstanceParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+}
+
+type OverridesInitParameters struct {
+
+	// Defines scale in controls to reduce the risk of response latency
+	// and outages due to abrupt scale-in events. Users can define the minimum and
+	// maximum compute capacity allocated to the instance, and the autoscaler will
+	// only scale within that range. Users can either use nodes or processing
+	// units to specify the limits, but should use the same unit to set both the
+	// min_limit and max_limit.
+	// Structure is documented below.
+	AutoscalingLimits *AutoscalingLimitsInitParameters `json:"autoscalingLimits,omitempty" tf:"autoscaling_limits,omitempty"`
+}
+
+type OverridesObservation struct {
+
+	// Defines scale in controls to reduce the risk of response latency
+	// and outages due to abrupt scale-in events. Users can define the minimum and
+	// maximum compute capacity allocated to the instance, and the autoscaler will
+	// only scale within that range. Users can either use nodes or processing
+	// units to specify the limits, but should use the same unit to set both the
+	// min_limit and max_limit.
+	// Structure is documented below.
+	AutoscalingLimits *AutoscalingLimitsObservation `json:"autoscalingLimits,omitempty" tf:"autoscaling_limits,omitempty"`
+}
+
+type OverridesParameters struct {
+
+	// Defines scale in controls to reduce the risk of response latency
+	// and outages due to abrupt scale-in events. Users can define the minimum and
+	// maximum compute capacity allocated to the instance, and the autoscaler will
+	// only scale within that range. Users can either use nodes or processing
+	// units to specify the limits, but should use the same unit to set both the
+	// min_limit and max_limit.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AutoscalingLimits *AutoscalingLimitsParameters `json:"autoscalingLimits" tf:"autoscaling_limits,omitempty"`
+}
+
+type ReplicaSelectionInitParameters struct {
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+}
+
+type ReplicaSelectionObservation struct {
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+}
+
+type ReplicaSelectionParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Location *string `json:"location" tf:"location,omitempty"`
 }
 
 // InstanceSpec defines the desired state of Instance

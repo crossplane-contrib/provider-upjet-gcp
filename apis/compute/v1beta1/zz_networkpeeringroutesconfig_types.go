@@ -18,8 +18,12 @@ type NetworkPeeringRoutesConfigInitParameters struct {
 	// Whether to export the custom routes to the peer network.
 	ExportCustomRoutes *bool `json:"exportCustomRoutes,omitempty" tf:"export_custom_routes,omitempty"`
 
+	ExportSubnetRoutesWithPublicIP *bool `json:"exportSubnetRoutesWithPublicIp,omitempty" tf:"export_subnet_routes_with_public_ip,omitempty"`
+
 	// Whether to import the custom routes to the peer network.
 	ImportCustomRoutes *bool `json:"importCustomRoutes,omitempty" tf:"import_custom_routes,omitempty"`
+
+	ImportSubnetRoutesWithPublicIP *bool `json:"importSubnetRoutesWithPublicIp,omitempty" tf:"import_subnet_routes_with_public_ip,omitempty"`
 
 	// The name of the primary network for the peering.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
@@ -55,11 +59,15 @@ type NetworkPeeringRoutesConfigObservation struct {
 	// Whether to export the custom routes to the peer network.
 	ExportCustomRoutes *bool `json:"exportCustomRoutes,omitempty" tf:"export_custom_routes,omitempty"`
 
+	ExportSubnetRoutesWithPublicIP *bool `json:"exportSubnetRoutesWithPublicIp,omitempty" tf:"export_subnet_routes_with_public_ip,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/global/networks/{{network}}/networkPeerings/{{peering}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Whether to import the custom routes to the peer network.
 	ImportCustomRoutes *bool `json:"importCustomRoutes,omitempty" tf:"import_custom_routes,omitempty"`
+
+	ImportSubnetRoutesWithPublicIP *bool `json:"importSubnetRoutesWithPublicIp,omitempty" tf:"import_subnet_routes_with_public_ip,omitempty"`
 
 	// The name of the primary network for the peering.
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
@@ -78,9 +86,15 @@ type NetworkPeeringRoutesConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	ExportCustomRoutes *bool `json:"exportCustomRoutes,omitempty" tf:"export_custom_routes,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	ExportSubnetRoutesWithPublicIP *bool `json:"exportSubnetRoutesWithPublicIp,omitempty" tf:"export_subnet_routes_with_public_ip,omitempty"`
+
 	// Whether to import the custom routes to the peer network.
 	// +kubebuilder:validation:Optional
 	ImportCustomRoutes *bool `json:"importCustomRoutes,omitempty" tf:"import_custom_routes,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ImportSubnetRoutesWithPublicIP *bool `json:"importSubnetRoutesWithPublicIp,omitempty" tf:"import_subnet_routes_with_public_ip,omitempty"`
 
 	// The name of the primary network for the peering.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network

@@ -97,6 +97,17 @@ type EgressFromSourcesInitParameters struct {
 	// Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
 	// If * is specified, then all IngressSources will be allowed.
 	AccessLevel *string `json:"accessLevel,omitempty" tf:"access_level,omitempty"`
+
+	// A Google Cloud resource that is allowed to ingress the perimeter.
+	// Requests from these resources will be allowed to access perimeter data.
+	// Currently only projects and VPCs are allowed.
+	// Project format: projects/{projectNumber}
+	// VPC network format:
+	// //compute.googleapis.com/projects/{PROJECT_ID}/global/networks/{NAME}.
+	// The project may be in any Google Cloud organization, not just the
+	// organization that the perimeter is defined in. * is not allowed, the case
+	// of allowing all Google Cloud resources only is not supported.
+	Resource *string `json:"resource,omitempty" tf:"resource,omitempty"`
 }
 
 type EgressFromSourcesObservation struct {
@@ -110,6 +121,17 @@ type EgressFromSourcesObservation struct {
 	// Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
 	// If * is specified, then all IngressSources will be allowed.
 	AccessLevel *string `json:"accessLevel,omitempty" tf:"access_level,omitempty"`
+
+	// A Google Cloud resource that is allowed to ingress the perimeter.
+	// Requests from these resources will be allowed to access perimeter data.
+	// Currently only projects and VPCs are allowed.
+	// Project format: projects/{projectNumber}
+	// VPC network format:
+	// //compute.googleapis.com/projects/{PROJECT_ID}/global/networks/{NAME}.
+	// The project may be in any Google Cloud organization, not just the
+	// organization that the perimeter is defined in. * is not allowed, the case
+	// of allowing all Google Cloud resources only is not supported.
+	Resource *string `json:"resource,omitempty" tf:"resource,omitempty"`
 }
 
 type EgressFromSourcesParameters struct {
@@ -124,6 +146,18 @@ type EgressFromSourcesParameters struct {
 	// If * is specified, then all IngressSources will be allowed.
 	// +kubebuilder:validation:Optional
 	AccessLevel *string `json:"accessLevel,omitempty" tf:"access_level,omitempty"`
+
+	// A Google Cloud resource that is allowed to ingress the perimeter.
+	// Requests from these resources will be allowed to access perimeter data.
+	// Currently only projects and VPCs are allowed.
+	// Project format: projects/{projectNumber}
+	// VPC network format:
+	// //compute.googleapis.com/projects/{PROJECT_ID}/global/networks/{NAME}.
+	// The project may be in any Google Cloud organization, not just the
+	// organization that the perimeter is defined in. * is not allowed, the case
+	// of allowing all Google Cloud resources only is not supported.
+	// +kubebuilder:validation:Optional
+	Resource *string `json:"resource,omitempty" tf:"resource,omitempty"`
 }
 
 type EgressPoliciesEgressFromInitParameters struct {
@@ -217,6 +251,8 @@ type EgressPoliciesEgressToInitParameters struct {
 	// Format: projects/{project_number}
 	// +listType=set
 	Resources []*string `json:"resources,omitempty" tf:"resources,omitempty"`
+
+	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 }
 
 type EgressPoliciesEgressToObservation struct {
@@ -237,6 +273,8 @@ type EgressPoliciesEgressToObservation struct {
 	// Format: projects/{project_number}
 	// +listType=set
 	Resources []*string `json:"resources,omitempty" tf:"resources,omitempty"`
+
+	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 }
 
 type EgressPoliciesEgressToParameters struct {
@@ -260,6 +298,9 @@ type EgressPoliciesEgressToParameters struct {
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	Resources []*string `json:"resources,omitempty" tf:"resources,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 }
 
 type EgressPoliciesInitParameters struct {
@@ -272,6 +313,9 @@ type EgressPoliciesInitParameters struct {
 	// cause this EgressPolicy to apply.
 	// Structure is documented below.
 	EgressTo *EgressToInitParameters `json:"egressTo,omitempty" tf:"egress_to,omitempty"`
+
+	// Human readable title. Must be unique within the Policy.
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
 type EgressPoliciesObservation struct {
@@ -284,6 +328,9 @@ type EgressPoliciesObservation struct {
 	// cause this EgressPolicy to apply.
 	// Structure is documented below.
 	EgressTo *EgressToObservation `json:"egressTo,omitempty" tf:"egress_to,omitempty"`
+
+	// Human readable title. Must be unique within the Policy.
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
 type EgressPoliciesParameters struct {
@@ -298,6 +345,10 @@ type EgressPoliciesParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	EgressTo *EgressToParameters `json:"egressTo,omitempty" tf:"egress_to,omitempty"`
+
+	// Human readable title. Must be unique within the Policy.
+	// +kubebuilder:validation:Optional
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
 type EgressToInitParameters struct {
@@ -318,6 +369,8 @@ type EgressToInitParameters struct {
 	// Format: projects/{project_number}
 	// +listType=set
 	Resources []*string `json:"resources,omitempty" tf:"resources,omitempty"`
+
+	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 }
 
 type EgressToObservation struct {
@@ -338,6 +391,8 @@ type EgressToObservation struct {
 	// Format: projects/{project_number}
 	// +listType=set
 	Resources []*string `json:"resources,omitempty" tf:"resources,omitempty"`
+
+	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 }
 
 type EgressToOperationsInitParameters struct {
@@ -446,6 +501,9 @@ type EgressToParameters struct {
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	Resources []*string `json:"resources,omitempty" tf:"resources,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 }
 
 type IngressFromInitParameters struct {
@@ -748,6 +806,8 @@ type IngressPoliciesIngressToInitParameters struct {
 	// Format: projects/{project_number}
 	// +listType=set
 	Resources []*string `json:"resources,omitempty" tf:"resources,omitempty"`
+
+	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 }
 
 type IngressPoliciesIngressToObservation struct {
@@ -762,6 +822,8 @@ type IngressPoliciesIngressToObservation struct {
 	// Format: projects/{project_number}
 	// +listType=set
 	Resources []*string `json:"resources,omitempty" tf:"resources,omitempty"`
+
+	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 }
 
 type IngressPoliciesIngressToOperationsInitParameters struct {
@@ -825,6 +887,9 @@ type IngressPoliciesIngressToParameters struct {
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	Resources []*string `json:"resources,omitempty" tf:"resources,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 }
 
 type IngressPoliciesInitParameters struct {
@@ -838,6 +903,9 @@ type IngressPoliciesInitParameters struct {
 	// this IngressPolicy to apply.
 	// Structure is documented below.
 	IngressTo *IngressToInitParameters `json:"ingressTo,omitempty" tf:"ingress_to,omitempty"`
+
+	// Human readable title. Must be unique within the Policy.
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
 type IngressPoliciesObservation struct {
@@ -851,6 +919,9 @@ type IngressPoliciesObservation struct {
 	// this IngressPolicy to apply.
 	// Structure is documented below.
 	IngressTo *IngressToObservation `json:"ingressTo,omitempty" tf:"ingress_to,omitempty"`
+
+	// Human readable title. Must be unique within the Policy.
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
 type IngressPoliciesParameters struct {
@@ -866,6 +937,10 @@ type IngressPoliciesParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	IngressTo *IngressToParameters `json:"ingressTo,omitempty" tf:"ingress_to,omitempty"`
+
+	// Human readable title. Must be unique within the Policy.
+	// +kubebuilder:validation:Optional
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
 type IngressToInitParameters struct {
@@ -880,6 +955,8 @@ type IngressToInitParameters struct {
 	// Format: projects/{project_number}
 	// +listType=set
 	Resources []*string `json:"resources,omitempty" tf:"resources,omitempty"`
+
+	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 }
 
 type IngressToObservation struct {
@@ -894,6 +971,8 @@ type IngressToObservation struct {
 	// Format: projects/{project_number}
 	// +listType=set
 	Resources []*string `json:"resources,omitempty" tf:"resources,omitempty"`
+
+	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 }
 
 type IngressToOperationsInitParameters struct {
@@ -995,6 +1074,9 @@ type IngressToParameters struct {
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	Resources []*string `json:"resources,omitempty" tf:"resources,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 }
 
 type MethodSelectorsInitParameters struct {
@@ -1331,6 +1413,17 @@ type SourcesInitParameters struct {
 	// Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
 	// If * is specified, then all IngressSources will be allowed.
 	AccessLevel *string `json:"accessLevel,omitempty" tf:"access_level,omitempty"`
+
+	// A Google Cloud resource that is allowed to ingress the perimeter.
+	// Requests from these resources will be allowed to access perimeter data.
+	// Currently only projects and VPCs are allowed.
+	// Project format: projects/{projectNumber}
+	// VPC network format:
+	// //compute.googleapis.com/projects/{PROJECT_ID}/global/networks/{NAME}.
+	// The project may be in any Google Cloud organization, not just the
+	// organization that the perimeter is defined in. * is not allowed, the case
+	// of allowing all Google Cloud resources only is not supported.
+	Resource *string `json:"resource,omitempty" tf:"resource,omitempty"`
 }
 
 type SourcesObservation struct {
@@ -1344,6 +1437,17 @@ type SourcesObservation struct {
 	// Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
 	// If * is specified, then all IngressSources will be allowed.
 	AccessLevel *string `json:"accessLevel,omitempty" tf:"access_level,omitempty"`
+
+	// A Google Cloud resource that is allowed to ingress the perimeter.
+	// Requests from these resources will be allowed to access perimeter data.
+	// Currently only projects and VPCs are allowed.
+	// Project format: projects/{projectNumber}
+	// VPC network format:
+	// //compute.googleapis.com/projects/{PROJECT_ID}/global/networks/{NAME}.
+	// The project may be in any Google Cloud organization, not just the
+	// organization that the perimeter is defined in. * is not allowed, the case
+	// of allowing all Google Cloud resources only is not supported.
+	Resource *string `json:"resource,omitempty" tf:"resource,omitempty"`
 }
 
 type SourcesParameters struct {
@@ -1358,6 +1462,18 @@ type SourcesParameters struct {
 	// If * is specified, then all IngressSources will be allowed.
 	// +kubebuilder:validation:Optional
 	AccessLevel *string `json:"accessLevel,omitempty" tf:"access_level,omitempty"`
+
+	// A Google Cloud resource that is allowed to ingress the perimeter.
+	// Requests from these resources will be allowed to access perimeter data.
+	// Currently only projects and VPCs are allowed.
+	// Project format: projects/{projectNumber}
+	// VPC network format:
+	// //compute.googleapis.com/projects/{PROJECT_ID}/global/networks/{NAME}.
+	// The project may be in any Google Cloud organization, not just the
+	// organization that the perimeter is defined in. * is not allowed, the case
+	// of allowing all Google Cloud resources only is not supported.
+	// +kubebuilder:validation:Optional
+	Resource *string `json:"resource,omitempty" tf:"resource,omitempty"`
 }
 
 type SpecInitParameters struct {
@@ -1538,6 +1654,9 @@ type StatusEgressPoliciesInitParameters struct {
 	// cause this EgressPolicy to apply.
 	// Structure is documented below.
 	EgressTo *EgressPoliciesEgressToInitParameters `json:"egressTo,omitempty" tf:"egress_to,omitempty"`
+
+	// Human readable title. Must be unique within the Policy.
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
 type StatusEgressPoliciesObservation struct {
@@ -1550,6 +1669,9 @@ type StatusEgressPoliciesObservation struct {
 	// cause this EgressPolicy to apply.
 	// Structure is documented below.
 	EgressTo *EgressPoliciesEgressToObservation `json:"egressTo,omitempty" tf:"egress_to,omitempty"`
+
+	// Human readable title. Must be unique within the Policy.
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
 type StatusEgressPoliciesParameters struct {
@@ -1564,6 +1686,10 @@ type StatusEgressPoliciesParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	EgressTo *EgressPoliciesEgressToParameters `json:"egressTo,omitempty" tf:"egress_to,omitempty"`
+
+	// Human readable title. Must be unique within the Policy.
+	// +kubebuilder:validation:Optional
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
 type StatusIngressPoliciesInitParameters struct {
@@ -1577,6 +1703,9 @@ type StatusIngressPoliciesInitParameters struct {
 	// this IngressPolicy to apply.
 	// Structure is documented below.
 	IngressTo *IngressPoliciesIngressToInitParameters `json:"ingressTo,omitempty" tf:"ingress_to,omitempty"`
+
+	// Human readable title. Must be unique within the Policy.
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
 type StatusIngressPoliciesObservation struct {
@@ -1590,6 +1719,9 @@ type StatusIngressPoliciesObservation struct {
 	// this IngressPolicy to apply.
 	// Structure is documented below.
 	IngressTo *IngressPoliciesIngressToObservation `json:"ingressTo,omitempty" tf:"ingress_to,omitempty"`
+
+	// Human readable title. Must be unique within the Policy.
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
 type StatusIngressPoliciesParameters struct {
@@ -1605,6 +1737,10 @@ type StatusIngressPoliciesParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	IngressTo *IngressPoliciesIngressToParameters `json:"ingressTo,omitempty" tf:"ingress_to,omitempty"`
+
+	// Human readable title. Must be unique within the Policy.
+	// +kubebuilder:validation:Optional
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
 type StatusInitParameters struct {

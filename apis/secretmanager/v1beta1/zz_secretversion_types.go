@@ -32,7 +32,12 @@ type SecretVersionInitParameters struct {
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
 	// The secret data. Must be no larger than 64KiB.
-	SecretDataSecretRef v1.SecretKeySelector `json:"secretDataSecretRef" tf:"-"`
+	SecretDataSecretRef *v1.SecretKeySelector `json:"secretDataSecretRef,omitempty" tf:"-"`
+
+	SecretDataWo *string `json:"secretDataWo,omitempty" tf:"secret_data_wo,omitempty"`
+
+	// The version of the Secret.
+	SecretDataWoVersion *float64 `json:"secretDataWoVersion,omitempty" tf:"secret_data_wo_version,omitempty"`
 
 	// Reference to a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
@@ -72,6 +77,11 @@ type SecretVersionObservation struct {
 	// Secret Manager secret resource
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
+	SecretDataWo *string `json:"secretDataWo,omitempty" tf:"secret_data_wo,omitempty"`
+
+	// The version of the Secret.
+	SecretDataWoVersion *float64 `json:"secretDataWoVersion,omitempty" tf:"secret_data_wo_version,omitempty"`
+
 	// The version of the Secret.
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
@@ -100,7 +110,14 @@ type SecretVersionParameters struct {
 
 	// The secret data. Must be no larger than 64KiB.
 	// +kubebuilder:validation:Optional
-	SecretDataSecretRef v1.SecretKeySelector `json:"secretDataSecretRef" tf:"-"`
+	SecretDataSecretRef *v1.SecretKeySelector `json:"secretDataSecretRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	SecretDataWo *string `json:"secretDataWo,omitempty" tf:"secret_data_wo,omitempty"`
+
+	// The version of the Secret.
+	// +kubebuilder:validation:Optional
+	SecretDataWoVersion *float64 `json:"secretDataWoVersion,omitempty" tf:"secret_data_wo_version,omitempty"`
 
 	// Reference to a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
@@ -147,9 +164,8 @@ type SecretVersionStatus struct {
 type SecretVersion struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.secretDataSecretRef)",message="spec.forProvider.secretDataSecretRef is a required parameter"
-	Spec   SecretVersionSpec   `json:"spec"`
-	Status SecretVersionStatus `json:"status,omitempty"`
+	Spec              SecretVersionSpec   `json:"spec"`
+	Status            SecretVersionStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

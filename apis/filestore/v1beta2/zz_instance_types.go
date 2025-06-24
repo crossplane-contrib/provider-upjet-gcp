@@ -13,6 +13,18 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type EffectiveReplicationInitParameters struct {
+}
+
+type EffectiveReplicationObservation struct {
+	Replicas []ReplicasObservation `json:"replicas,omitempty" tf:"replicas,omitempty"`
+
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
+}
+
+type EffectiveReplicationParameters struct {
+}
+
 type FileSharesInitParameters struct {
 
 	// File share capacity in GiB. This must be at least 1024 GiB
@@ -74,7 +86,59 @@ type FileSharesParameters struct {
 	SourceBackup *string `json:"sourceBackup,omitempty" tf:"source_backup,omitempty"`
 }
 
+type FixedIopsInitParameters struct {
+	MaxIops *float64 `json:"maxIops,omitempty" tf:"max_iops,omitempty"`
+}
+
+type FixedIopsObservation struct {
+	MaxIops *float64 `json:"maxIops,omitempty" tf:"max_iops,omitempty"`
+}
+
+type FixedIopsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	MaxIops *float64 `json:"maxIops,omitempty" tf:"max_iops,omitempty"`
+}
+
+type InitialReplicationInitParameters struct {
+	Replicas []InitialReplicationReplicasInitParameters `json:"replicas,omitempty" tf:"replicas,omitempty"`
+
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
+}
+
+type InitialReplicationObservation struct {
+	Replicas []InitialReplicationReplicasObservation `json:"replicas,omitempty" tf:"replicas,omitempty"`
+
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
+}
+
+type InitialReplicationParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Replicas []InitialReplicationReplicasParameters `json:"replicas,omitempty" tf:"replicas,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
+}
+
+type InitialReplicationReplicasInitParameters struct {
+	PeerInstance *string `json:"peerInstance,omitempty" tf:"peer_instance,omitempty"`
+}
+
+type InitialReplicationReplicasObservation struct {
+	PeerInstance *string `json:"peerInstance,omitempty" tf:"peer_instance,omitempty"`
+}
+
+type InitialReplicationReplicasParameters struct {
+
+	// +kubebuilder:validation:Optional
+	PeerInstance *string `json:"peerInstance" tf:"peer_instance,omitempty"`
+}
+
 type InstanceInitParameters struct {
+	DeletionProtectionEnabled *bool `json:"deletionProtectionEnabled,omitempty" tf:"deletion_protection_enabled,omitempty"`
+
+	DeletionProtectionReason *string `json:"deletionProtectionReason,omitempty" tf:"deletion_protection_reason,omitempty"`
 
 	// A description of the instance.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -83,6 +147,8 @@ type InstanceInitParameters struct {
 	// single file share is supported.
 	// Structure is documented below.
 	FileShares *FileSharesInitParameters `json:"fileShares,omitempty" tf:"file_shares,omitempty"`
+
+	InitialReplication *InitialReplicationInitParameters `json:"initialReplication,omitempty" tf:"initial_replication,omitempty"`
 
 	// KMS key name used for data encryption.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/kms/v1beta2.CryptoKey
@@ -106,9 +172,22 @@ type InstanceInitParameters struct {
 	// Structure is documented below.
 	Networks []NetworksInitParameters `json:"networks,omitempty" tf:"networks,omitempty"`
 
+	PerformanceConfig *PerformanceConfigInitParameters `json:"performanceConfig,omitempty" tf:"performance_config,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Either NFSv3, for using NFS version 3 as file sharing protocol,
+	// or NFSv4.1, for using NFS version 4.1 as file sharing protocol.
+	// NFSv4.1 can be used with HIGH_SCALE_SSD, ZONAL, REGIONAL and ENTERPRISE.
+	// The default is NFSv3.
+	// Default value is NFS_V3.
+	// Possible values are: NFS_V3, NFS_V4_1.
+	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
+
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// The service tier of the instance.
 	// Possible values include: STANDARD, PREMIUM, BASIC_HDD, BASIC_SSD, HIGH_SCALE_SSD, ZONAL, REGIONAL and ENTERPRISE
@@ -123,11 +202,17 @@ type InstanceObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	DeletionProtectionEnabled *bool `json:"deletionProtectionEnabled,omitempty" tf:"deletion_protection_enabled,omitempty"`
+
+	DeletionProtectionReason *string `json:"deletionProtectionReason,omitempty" tf:"deletion_protection_reason,omitempty"`
+
 	// A description of the instance.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
+	EffectiveReplication []EffectiveReplicationObservation `json:"effectiveReplication,omitempty" tf:"effective_replication,omitempty"`
 
 	// Server-specified ETag for the instance resource to prevent
 	// simultaneous updates from overwriting each other.
@@ -140,6 +225,8 @@ type InstanceObservation struct {
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/instances/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	InitialReplication *InitialReplicationObservation `json:"initialReplication,omitempty" tf:"initial_replication,omitempty"`
 
 	// KMS key name used for data encryption.
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
@@ -156,9 +243,22 @@ type InstanceObservation struct {
 	// Structure is documented below.
 	Networks []NetworksObservation `json:"networks,omitempty" tf:"networks,omitempty"`
 
+	PerformanceConfig *PerformanceConfigObservation `json:"performanceConfig,omitempty" tf:"performance_config,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Either NFSv3, for using NFS version 3 as file sharing protocol,
+	// or NFSv4.1, for using NFS version 4.1 as file sharing protocol.
+	// NFSv4.1 can be used with HIGH_SCALE_SSD, ZONAL, REGIONAL and ENTERPRISE.
+	// The default is NFSv3.
+	// Default value is NFS_V3.
+	// Possible values are: NFS_V3, NFS_V4_1.
+	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
+
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// The combination of labels configured directly on the resource
 	// and default labels configured on the provider.
@@ -175,6 +275,12 @@ type InstanceObservation struct {
 
 type InstanceParameters struct {
 
+	// +kubebuilder:validation:Optional
+	DeletionProtectionEnabled *bool `json:"deletionProtectionEnabled,omitempty" tf:"deletion_protection_enabled,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	DeletionProtectionReason *string `json:"deletionProtectionReason,omitempty" tf:"deletion_protection_reason,omitempty"`
+
 	// A description of the instance.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -184,6 +290,9 @@ type InstanceParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	FileShares *FileSharesParameters `json:"fileShares,omitempty" tf:"file_shares,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	InitialReplication *InitialReplicationParameters `json:"initialReplication,omitempty" tf:"initial_replication,omitempty"`
 
 	// KMS key name used for data encryption.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/kms/v1beta2.CryptoKey
@@ -214,10 +323,26 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	Networks []NetworksParameters `json:"networks,omitempty" tf:"networks,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	PerformanceConfig *PerformanceConfigParameters `json:"performanceConfig,omitempty" tf:"performance_config,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Either NFSv3, for using NFS version 3 as file sharing protocol,
+	// or NFSv4.1, for using NFS version 4.1 as file sharing protocol.
+	// NFSv4.1 can be used with HIGH_SCALE_SSD, ZONAL, REGIONAL and ENTERPRISE.
+	// The default is NFSv3.
+	// Default value is NFS_V3.
+	// Possible values are: NFS_V3, NFS_V4_1.
+	// +kubebuilder:validation:Optional
+	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// The service tier of the instance.
 	// Possible values include: STANDARD, PREMIUM, BASIC_HDD, BASIC_SSD, HIGH_SCALE_SSD, ZONAL, REGIONAL and ENTERPRISE
@@ -227,6 +352,20 @@ type InstanceParameters struct {
 	// The name of the Filestore zone of the instance.
 	// +kubebuilder:validation:Optional
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
+}
+
+type IopsPerTbInitParameters struct {
+	MaxIopsPerTb *float64 `json:"maxIopsPerTb,omitempty" tf:"max_iops_per_tb,omitempty"`
+}
+
+type IopsPerTbObservation struct {
+	MaxIopsPerTb *float64 `json:"maxIopsPerTb,omitempty" tf:"max_iops_per_tb,omitempty"`
+}
+
+type IopsPerTbParameters struct {
+
+	// +kubebuilder:validation:Optional
+	MaxIopsPerTb *float64 `json:"maxIopsPerTb,omitempty" tf:"max_iops_per_tb,omitempty"`
 }
 
 type NFSExportOptionsInitParameters struct {
@@ -399,6 +538,43 @@ type NetworksParameters struct {
 	// addresses reserved for this instance.
 	// +kubebuilder:validation:Optional
 	ReservedIPRange *string `json:"reservedIpRange,omitempty" tf:"reserved_ip_range,omitempty"`
+}
+
+type PerformanceConfigInitParameters struct {
+	FixedIops *FixedIopsInitParameters `json:"fixedIops,omitempty" tf:"fixed_iops,omitempty"`
+
+	IopsPerTb *IopsPerTbInitParameters `json:"iopsPerTb,omitempty" tf:"iops_per_tb,omitempty"`
+}
+
+type PerformanceConfigObservation struct {
+	FixedIops *FixedIopsObservation `json:"fixedIops,omitempty" tf:"fixed_iops,omitempty"`
+
+	IopsPerTb *IopsPerTbObservation `json:"iopsPerTb,omitempty" tf:"iops_per_tb,omitempty"`
+}
+
+type PerformanceConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	FixedIops *FixedIopsParameters `json:"fixedIops,omitempty" tf:"fixed_iops,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IopsPerTb *IopsPerTbParameters `json:"iopsPerTb,omitempty" tf:"iops_per_tb,omitempty"`
+}
+
+type ReplicasInitParameters struct {
+}
+
+type ReplicasObservation struct {
+	LastActiveSyncTime *string `json:"lastActiveSyncTime,omitempty" tf:"last_active_sync_time,omitempty"`
+
+	PeerInstance *string `json:"peerInstance,omitempty" tf:"peer_instance,omitempty"`
+
+	State *string `json:"state,omitempty" tf:"state,omitempty"`
+
+	StateReasons []*string `json:"stateReasons,omitempty" tf:"state_reasons,omitempty"`
+}
+
+type ReplicasParameters struct {
 }
 
 // InstanceSpec defines the desired state of Instance

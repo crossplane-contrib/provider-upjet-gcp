@@ -23,6 +23,8 @@ type RegionTargetHTTPSProxyInitParameters struct {
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	HTTPKeepAliveTimeoutSec *float64 `json:"httpKeepAliveTimeoutSec,omitempty" tf:"http_keep_alive_timeout_sec,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -89,6 +91,8 @@ type RegionTargetHTTPSProxyObservation struct {
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	HTTPKeepAliveTimeoutSec *float64 `json:"httpKeepAliveTimeoutSec,omitempty" tf:"http_keep_alive_timeout_sec,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/targetHttpsProxies/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -147,6 +151,9 @@ type RegionTargetHTTPSProxyParameters struct {
 	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	HTTPKeepAliveTimeoutSec *float64 `json:"httpKeepAliveTimeoutSec,omitempty" tf:"http_keep_alive_timeout_sec,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.

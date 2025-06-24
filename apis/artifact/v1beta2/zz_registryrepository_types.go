@@ -96,6 +96,25 @@ type CleanupPoliciesParameters struct {
 	MostRecentVersions *MostRecentVersionsParameters `json:"mostRecentVersions,omitempty" tf:"most_recent_versions,omitempty"`
 }
 
+type CommonRepositoryInitParameters struct {
+
+	// Specific uri to the registry, e.g. "https://registry-1.docker.io"
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+}
+
+type CommonRepositoryObservation struct {
+
+	// Specific uri to the registry, e.g. "https://registry-1.docker.io"
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+}
+
+type CommonRepositoryParameters struct {
+
+	// Specific uri to the registry, e.g. "https://registry-1.docker.io"
+	// +kubebuilder:validation:Optional
+	URI *string `json:"uri" tf:"uri,omitempty"`
+}
+
 type ConditionInitParameters struct {
 
 	// Match versions newer than a duration.
@@ -567,6 +586,8 @@ type RegistryRepositoryInitParameters struct {
 	// Configuration specific for a Virtual Repository.
 	// Structure is documented below.
 	VirtualRepositoryConfig *VirtualRepositoryConfigInitParameters `json:"virtualRepositoryConfig,omitempty" tf:"virtual_repository_config,omitempty"`
+
+	VulnerabilityScanningConfig *VulnerabilityScanningConfigInitParameters `json:"vulnerabilityScanningConfig,omitempty" tf:"vulnerability_scanning_config,omitempty"`
 }
 
 type RegistryRepositoryObservation struct {
@@ -656,6 +677,8 @@ type RegistryRepositoryObservation struct {
 	// Configuration specific for a Virtual Repository.
 	// Structure is documented below.
 	VirtualRepositoryConfig *VirtualRepositoryConfigObservation `json:"virtualRepositoryConfig,omitempty" tf:"virtual_repository_config,omitempty"`
+
+	VulnerabilityScanningConfig *VulnerabilityScanningConfigObservation `json:"vulnerabilityScanningConfig,omitempty" tf:"vulnerability_scanning_config,omitempty"`
 }
 
 type RegistryRepositoryParameters struct {
@@ -736,6 +759,9 @@ type RegistryRepositoryParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	VirtualRepositoryConfig *VirtualRepositoryConfigParameters `json:"virtualRepositoryConfig,omitempty" tf:"virtual_repository_config,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	VulnerabilityScanningConfig *VulnerabilityScanningConfigParameters `json:"vulnerabilityScanningConfig,omitempty" tf:"vulnerability_scanning_config,omitempty"`
 }
 
 type RemoteRepositoryConfigInitParameters struct {
@@ -743,6 +769,8 @@ type RemoteRepositoryConfigInitParameters struct {
 	// Specific settings for an Apt remote repository.
 	// Structure is documented below.
 	AptRepository *AptRepositoryInitParameters `json:"aptRepository,omitempty" tf:"apt_repository,omitempty"`
+
+	CommonRepository *CommonRepositoryInitParameters `json:"commonRepository,omitempty" tf:"common_repository,omitempty"`
 
 	// The description of the remote source.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -782,6 +810,8 @@ type RemoteRepositoryConfigObservation struct {
 	// Structure is documented below.
 	AptRepository *AptRepositoryObservation `json:"aptRepository,omitempty" tf:"apt_repository,omitempty"`
 
+	CommonRepository *CommonRepositoryObservation `json:"commonRepository,omitempty" tf:"common_repository,omitempty"`
+
 	// The description of the remote source.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -820,6 +850,9 @@ type RemoteRepositoryConfigParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AptRepository *AptRepositoryParameters `json:"aptRepository,omitempty" tf:"apt_repository,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	CommonRepository *CommonRepositoryParameters `json:"commonRepository,omitempty" tf:"common_repository,omitempty"`
 
 	// The description of the remote source.
 	// +kubebuilder:validation:Optional
@@ -1023,6 +1056,24 @@ type VirtualRepositoryConfigParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	UpstreamPolicies []UpstreamPoliciesParameters `json:"upstreamPolicies,omitempty" tf:"upstream_policies,omitempty"`
+}
+
+type VulnerabilityScanningConfigInitParameters struct {
+	EnablementConfig *string `json:"enablementConfig,omitempty" tf:"enablement_config,omitempty"`
+}
+
+type VulnerabilityScanningConfigObservation struct {
+	EnablementConfig *string `json:"enablementConfig,omitempty" tf:"enablement_config,omitempty"`
+
+	EnablementState *string `json:"enablementState,omitempty" tf:"enablement_state,omitempty"`
+
+	EnablementStateReason *string `json:"enablementStateReason,omitempty" tf:"enablement_state_reason,omitempty"`
+}
+
+type VulnerabilityScanningConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	EnablementConfig *string `json:"enablementConfig,omitempty" tf:"enablement_config,omitempty"`
 }
 
 type YumRepositoryInitParameters struct {

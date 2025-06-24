@@ -15,6 +15,10 @@ import (
 
 type AvroConfigInitParameters struct {
 
+	// When true, use the topic's schema as the columns to write to in BigQuery, if it exists.
+	// Only one of use_topic_schema and use_table_schema can be set.
+	UseTopicSchema *bool `json:"useTopicSchema,omitempty" tf:"use_topic_schema,omitempty"`
+
 	// When true, writes the Pub/Sub message metadata to
 	// x-goog-pubsub-<KEY>:<VAL> headers of the HTTP request. Writes the
 	// Pub/Sub message attributes to <KEY>:<VAL> headers of the HTTP request.
@@ -23,6 +27,10 @@ type AvroConfigInitParameters struct {
 
 type AvroConfigObservation struct {
 
+	// When true, use the topic's schema as the columns to write to in BigQuery, if it exists.
+	// Only one of use_topic_schema and use_table_schema can be set.
+	UseTopicSchema *bool `json:"useTopicSchema,omitempty" tf:"use_topic_schema,omitempty"`
+
 	// When true, writes the Pub/Sub message metadata to
 	// x-goog-pubsub-<KEY>:<VAL> headers of the HTTP request. Writes the
 	// Pub/Sub message attributes to <KEY>:<VAL> headers of the HTTP request.
@@ -30,6 +38,11 @@ type AvroConfigObservation struct {
 }
 
 type AvroConfigParameters struct {
+
+	// When true, use the topic's schema as the columns to write to in BigQuery, if it exists.
+	// Only one of use_topic_schema and use_table_schema can be set.
+	// +kubebuilder:validation:Optional
+	UseTopicSchema *bool `json:"useTopicSchema,omitempty" tf:"use_topic_schema,omitempty"`
 
 	// When true, writes the Pub/Sub message metadata to
 	// x-goog-pubsub-<KEY>:<VAL> headers of the HTTP request. Writes the
@@ -175,6 +188,8 @@ type CloudStorageConfigInitParameters struct {
 	// A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
 	MaxDuration *string `json:"maxDuration,omitempty" tf:"max_duration,omitempty"`
 
+	MaxMessages *float64 `json:"maxMessages,omitempty" tf:"max_messages,omitempty"`
+
 	// The service account to use to write to Cloud Storage. If not specified, the Pub/Sub
 	// service agent,
 	// service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com, is used.
@@ -217,6 +232,8 @@ type CloudStorageConfigObservation struct {
 	// May not exceed the subscription's acknowledgement deadline.
 	// A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
 	MaxDuration *string `json:"maxDuration,omitempty" tf:"max_duration,omitempty"`
+
+	MaxMessages *float64 `json:"maxMessages,omitempty" tf:"max_messages,omitempty"`
 
 	// The service account to use to write to Cloud Storage. If not specified, the Pub/Sub
 	// service agent,
@@ -261,6 +278,9 @@ type CloudStorageConfigParameters struct {
 	// A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
 	// +kubebuilder:validation:Optional
 	MaxDuration *string `json:"maxDuration,omitempty" tf:"max_duration,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	MaxMessages *float64 `json:"maxMessages,omitempty" tf:"max_messages,omitempty"`
 
 	// The service account to use to write to Cloud Storage. If not specified, the Pub/Sub
 	// service agent,
@@ -402,6 +422,51 @@ type ExpirationPolicyParameters struct {
 	// Example - "3.5s".
 	// +kubebuilder:validation:Optional
 	TTL *string `json:"ttl" tf:"ttl,omitempty"`
+}
+
+type JavascriptUdfInitParameters struct {
+	Code *string `json:"code,omitempty" tf:"code,omitempty"`
+
+	// Name of the subscription.
+	FunctionName *string `json:"functionName,omitempty" tf:"function_name,omitempty"`
+}
+
+type JavascriptUdfObservation struct {
+	Code *string `json:"code,omitempty" tf:"code,omitempty"`
+
+	// Name of the subscription.
+	FunctionName *string `json:"functionName,omitempty" tf:"function_name,omitempty"`
+}
+
+type JavascriptUdfParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Code *string `json:"code" tf:"code,omitempty"`
+
+	// Name of the subscription.
+	// +kubebuilder:validation:Optional
+	FunctionName *string `json:"functionName" tf:"function_name,omitempty"`
+}
+
+type MessageTransformsInitParameters struct {
+	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
+
+	JavascriptUdf *JavascriptUdfInitParameters `json:"javascriptUdf,omitempty" tf:"javascript_udf,omitempty"`
+}
+
+type MessageTransformsObservation struct {
+	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
+
+	JavascriptUdf *JavascriptUdfObservation `json:"javascriptUdf,omitempty" tf:"javascript_udf,omitempty"`
+}
+
+type MessageTransformsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	JavascriptUdf *JavascriptUdfParameters `json:"javascriptUdf,omitempty" tf:"javascript_udf,omitempty"`
 }
 
 type NoWrapperInitParameters struct {
@@ -712,6 +777,8 @@ type SubscriptionInitParameters struct {
 	// by 's'. Example: "600.5s".
 	MessageRetentionDuration *string `json:"messageRetentionDuration,omitempty" tf:"message_retention_duration,omitempty"`
 
+	MessageTransforms []MessageTransformsInitParameters `json:"messageTransforms,omitempty" tf:"message_transforms,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -836,6 +903,8 @@ type SubscriptionObservation struct {
 	// by 's'. Example: "600.5s".
 	MessageRetentionDuration *string `json:"messageRetentionDuration,omitempty" tf:"message_retention_duration,omitempty"`
 
+	MessageTransforms []MessageTransformsObservation `json:"messageTransforms,omitempty" tf:"message_transforms,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -958,6 +1027,9 @@ type SubscriptionParameters struct {
 	// by 's'. Example: "600.5s".
 	// +kubebuilder:validation:Optional
 	MessageRetentionDuration *string `json:"messageRetentionDuration,omitempty" tf:"message_retention_duration,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	MessageTransforms []MessageTransformsParameters `json:"messageTransforms,omitempty" tf:"message_transforms,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.

@@ -12,7 +12,6 @@ import (
 	defaultsupportedidpconfig "github.com/upbound/provider-gcp/internal/controller/identityplatform/defaultsupportedidpconfig"
 	inboundsamlconfig "github.com/upbound/provider-gcp/internal/controller/identityplatform/inboundsamlconfig"
 	oauthidpconfig "github.com/upbound/provider-gcp/internal/controller/identityplatform/oauthidpconfig"
-	projectdefaultconfig "github.com/upbound/provider-gcp/internal/controller/identityplatform/projectdefaultconfig"
 	tenant "github.com/upbound/provider-gcp/internal/controller/identityplatform/tenant"
 	tenantdefaultsupportedidpconfig "github.com/upbound/provider-gcp/internal/controller/identityplatform/tenantdefaultsupportedidpconfig"
 	tenantinboundsamlconfig "github.com/upbound/provider-gcp/internal/controller/identityplatform/tenantinboundsamlconfig"
@@ -26,7 +25,6 @@ func Setup_identityplatform(mgr ctrl.Manager, o controller.Options) error {
 		defaultsupportedidpconfig.Setup,
 		inboundsamlconfig.Setup,
 		oauthidpconfig.Setup,
-		projectdefaultconfig.Setup,
 		tenant.Setup,
 		tenantdefaultsupportedidpconfig.Setup,
 		tenantinboundsamlconfig.Setup,

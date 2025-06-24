@@ -73,6 +73,8 @@ type ClusterInitParameters struct {
 	// Describes the Cloud KMS encryption key that will be used to protect the destination Bigtable cluster. The requirements for this key are: 1) The Cloud Bigtable service account associated with the project that contains this cluster must be granted the cloudkms.cryptoKeyEncrypterDecrypter role on the CMEK key. 2) Only regional keys can be used and the region of the CMEK key must match the region of the cluster.
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
+	NodeScalingFactor *string `json:"nodeScalingFactor,omitempty" tf:"node_scaling_factor,omitempty"`
+
 	// The number of nodes in the cluster.
 	// If no value is set, Cloud Bigtable automatically allocates nodes based on your data footprint and optimized for 50% storage utilization.
 	NumNodes *float64 `json:"numNodes,omitempty" tf:"num_nodes,omitempty"`
@@ -97,6 +99,8 @@ type ClusterObservation struct {
 
 	// Describes the Cloud KMS encryption key that will be used to protect the destination Bigtable cluster. The requirements for this key are: 1) The Cloud Bigtable service account associated with the project that contains this cluster must be granted the cloudkms.cryptoKeyEncrypterDecrypter role on the CMEK key. 2) Only regional keys can be used and the region of the CMEK key must match the region of the cluster.
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+
+	NodeScalingFactor *string `json:"nodeScalingFactor,omitempty" tf:"node_scaling_factor,omitempty"`
 
 	// The number of nodes in the cluster.
 	// If no value is set, Cloud Bigtable automatically allocates nodes based on your data footprint and optimized for 50% storage utilization.
@@ -128,6 +132,9 @@ type ClusterParameters struct {
 	// Describes the Cloud KMS encryption key that will be used to protect the destination Bigtable cluster. The requirements for this key are: 1) The Cloud Bigtable service account associated with the project that contains this cluster must be granted the cloudkms.cryptoKeyEncrypterDecrypter role on the CMEK key. 2) Only regional keys can be used and the region of the CMEK key must match the region of the cluster.
 	// +kubebuilder:validation:Optional
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	NodeScalingFactor *string `json:"nodeScalingFactor,omitempty" tf:"node_scaling_factor,omitempty"`
 
 	// The number of nodes in the cluster.
 	// If no value is set, Cloud Bigtable automatically allocates nodes based on your data footprint and optimized for 50% storage utilization.

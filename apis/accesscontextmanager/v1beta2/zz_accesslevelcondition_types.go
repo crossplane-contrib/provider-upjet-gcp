@@ -172,6 +172,9 @@ type AccessLevelConditionObservation struct {
 	// The name of the Access Level to add this condition to.
 	AccessLevel *string `json:"accessLevel,omitempty" tf:"access_level,omitempty"`
 
+	// an identifier for the resource with format {{access_level}}
+	AccessPolicyID *string `json:"accessPolicyId,omitempty" tf:"access_policy_id,omitempty"`
+
 	// Device specific restrictions, all restrictions must hold for
 	// the Condition to be true. If not specified, all devices are
 	// allowed.

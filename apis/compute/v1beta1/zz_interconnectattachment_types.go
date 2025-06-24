@@ -84,6 +84,9 @@ type InterconnectAttachmentInitParameters struct {
 	// +kubebuilder:validation:Optional
 	IpsecInternalAddressesSelector *v1.Selector `json:"ipsecInternalAddressesSelector,omitempty" tf:"-"`
 
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
 	// Maximum Transmission Unit (MTU), in bytes, of packets passing through
 	// this interconnect attachment. Currently, only 1440 and 1500 are allowed. If not specified, the value will default to 1440.
 	Mtu *string `json:"mtu,omitempty" tf:"mtu,omitempty"`
@@ -139,6 +142,8 @@ type InterconnectAttachmentObservation struct {
 	// PARTNER type this will Pre-Activate the interconnect attachment
 	AdminEnabled *bool `json:"adminEnabled,omitempty" tf:"admin_enabled,omitempty"`
 
+	AttachmentGroup *string `json:"attachmentGroup,omitempty" tf:"attachment_group,omitempty"`
+
 	// Provisioned bandwidth capacity for the interconnect attachment.
 	// For attachments of type DEDICATED, the user can set the bandwidth.
 	// For attachments of type PARTNER, the Google Partner that is operating the interconnect must set the bandwidth.
@@ -186,6 +191,9 @@ type InterconnectAttachmentObservation struct {
 	// domain. If not specified, the value will default to AVAILABILITY_DOMAIN_ANY.
 	EdgeAvailabilityDomain *string `json:"edgeAvailabilityDomain,omitempty" tf:"edge_availability_domain,omitempty"`
 
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// Indicates the user-supplied encryption option of this interconnect
 	// attachment. Can only be specified at attachment creation for PARTNER or
 	// DEDICATED attachments.
@@ -219,6 +227,11 @@ type InterconnectAttachmentObservation struct {
 	// interconnect attachment, the HA VPN gateway's IP address will be
 	// allocated from regional external IP address pool.
 	IpsecInternalAddresses []*string `json:"ipsecInternalAddresses,omitempty" tf:"ipsec_internal_addresses,omitempty"`
+
+	LabelFingerprint *string `json:"labelFingerprint,omitempty" tf:"label_fingerprint,omitempty"`
+
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Maximum Transmission Unit (MTU), in bytes, of packets passing through
 	// this interconnect attachment. Currently, only 1440 and 1500 are allowed. If not specified, the value will default to 1440.
@@ -272,6 +285,9 @@ type InterconnectAttachmentObservation struct {
 	// requesting 29 returns an error. Where both 29 and 30 are allowed, 29 is preferred, because it
 	// gives Google Cloud Support more debugging visibility.
 	SubnetLength *float64 `json:"subnetLength,omitempty" tf:"subnet_length,omitempty"`
+
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// The type of InterconnectAttachment you wish to create. Defaults to
 	// DEDICATED.
@@ -361,6 +377,10 @@ type InterconnectAttachmentParameters struct {
 	// Selector for a list of Address in compute to populate ipsecInternalAddresses.
 	// +kubebuilder:validation:Optional
 	IpsecInternalAddressesSelector *v1.Selector `json:"ipsecInternalAddressesSelector,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Maximum Transmission Unit (MTU), in bytes, of packets passing through
 	// this interconnect attachment. Currently, only 1440 and 1500 are allowed. If not specified, the value will default to 1440.

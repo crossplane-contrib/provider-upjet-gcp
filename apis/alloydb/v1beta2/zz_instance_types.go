@@ -65,6 +65,7 @@ type ClientConnectionConfigParameters struct {
 }
 
 type InstanceInitParameters struct {
+	ActivationPolicy *string `json:"activationPolicy,omitempty" tf:"activation_policy,omitempty"`
 
 	// Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels.
 	// Note: This field is non-authoritative, and will only manage the annotations present in your configuration.
@@ -148,6 +149,8 @@ type InstanceNetworkConfigInitParameters struct {
 	// Structure is documented below.
 	AuthorizedExternalNetworks []AuthorizedExternalNetworksInitParameters `json:"authorizedExternalNetworks,omitempty" tf:"authorized_external_networks,omitempty"`
 
+	EnableOutboundPublicIP *bool `json:"enableOutboundPublicIp,omitempty" tf:"enable_outbound_public_ip,omitempty"`
+
 	// Enabling public ip for the instance. If a user wishes to disable this,
 	// please also clear the list of the authorized external networks set on
 	// the same instance.
@@ -161,6 +164,8 @@ type InstanceNetworkConfigObservation struct {
 	// true.
 	// Structure is documented below.
 	AuthorizedExternalNetworks []AuthorizedExternalNetworksObservation `json:"authorizedExternalNetworks,omitempty" tf:"authorized_external_networks,omitempty"`
+
+	EnableOutboundPublicIP *bool `json:"enableOutboundPublicIp,omitempty" tf:"enable_outbound_public_ip,omitempty"`
 
 	// Enabling public ip for the instance. If a user wishes to disable this,
 	// please also clear the list of the authorized external networks set on
@@ -177,6 +182,9 @@ type InstanceNetworkConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	AuthorizedExternalNetworks []AuthorizedExternalNetworksParameters `json:"authorizedExternalNetworks,omitempty" tf:"authorized_external_networks,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	EnableOutboundPublicIP *bool `json:"enableOutboundPublicIp,omitempty" tf:"enable_outbound_public_ip,omitempty"`
+
 	// Enabling public ip for the instance. If a user wishes to disable this,
 	// please also clear the list of the authorized external networks set on
 	// the same instance.
@@ -185,6 +193,7 @@ type InstanceNetworkConfigParameters struct {
 }
 
 type InstanceObservation struct {
+	ActivationPolicy *string `json:"activationPolicy,omitempty" tf:"activation_policy,omitempty"`
 
 	// Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels.
 	// Note: This field is non-authoritative, and will only manage the annotations present in your configuration.
@@ -259,6 +268,8 @@ type InstanceObservation struct {
 	// Structure is documented below.
 	NetworkConfig *InstanceNetworkConfigObservation `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
 
+	OutboundPublicIPAddresses []*string `json:"outboundPublicIpAddresses,omitempty" tf:"outbound_public_ip_addresses,omitempty"`
+
 	// Configuration for Private Service Connect (PSC) for the instance.
 	// Structure is documented below.
 	PscInstanceConfig *PscInstanceConfigObservation `json:"pscInstanceConfig,omitempty" tf:"psc_instance_config,omitempty"`
@@ -295,6 +306,9 @@ type InstanceObservation struct {
 }
 
 type InstanceParameters struct {
+
+	// +kubebuilder:validation:Optional
+	ActivationPolicy *string `json:"activationPolicy,omitempty" tf:"activation_policy,omitempty"`
 
 	// Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels.
 	// Note: This field is non-authoritative, and will only manage the annotations present in your configuration.
@@ -402,12 +416,16 @@ type MachineConfigInitParameters struct {
 
 	// The number of CPU's in the VM instance.
 	CPUCount *float64 `json:"cpuCount,omitempty" tf:"cpu_count,omitempty"`
+
+	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 }
 
 type MachineConfigObservation struct {
 
 	// The number of CPU's in the VM instance.
 	CPUCount *float64 `json:"cpuCount,omitempty" tf:"cpu_count,omitempty"`
+
+	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 }
 
 type MachineConfigParameters struct {
@@ -415,6 +433,37 @@ type MachineConfigParameters struct {
 	// The number of CPU's in the VM instance.
 	// +kubebuilder:validation:Optional
 	CPUCount *float64 `json:"cpuCount,omitempty" tf:"cpu_count,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
+}
+
+type PscAutoConnectionsInitParameters struct {
+	ConsumerNetwork *string `json:"consumerNetwork,omitempty" tf:"consumer_network,omitempty"`
+
+	ConsumerProject *string `json:"consumerProject,omitempty" tf:"consumer_project,omitempty"`
+}
+
+type PscAutoConnectionsObservation struct {
+	ConsumerNetwork *string `json:"consumerNetwork,omitempty" tf:"consumer_network,omitempty"`
+
+	ConsumerNetworkStatus *string `json:"consumerNetworkStatus,omitempty" tf:"consumer_network_status,omitempty"`
+
+	ConsumerProject *string `json:"consumerProject,omitempty" tf:"consumer_project,omitempty"`
+
+	// The IP address for the Instance. This is the connection endpoint for an end-user application.
+	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	Status *string `json:"status,omitempty" tf:"status,omitempty"`
+}
+
+type PscAutoConnectionsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	ConsumerNetwork *string `json:"consumerNetwork,omitempty" tf:"consumer_network,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ConsumerProject *string `json:"consumerProject,omitempty" tf:"consumer_project,omitempty"`
 }
 
 type PscInstanceConfigInitParameters struct {
@@ -422,6 +471,10 @@ type PscInstanceConfigInitParameters struct {
 	// List of consumer projects that are allowed to create PSC endpoints to service-attachments to this instance.
 	// These should be specified as project numbers only.
 	AllowedConsumerProjects []*string `json:"allowedConsumerProjects,omitempty" tf:"allowed_consumer_projects,omitempty"`
+
+	PscAutoConnections []PscAutoConnectionsInitParameters `json:"pscAutoConnections,omitempty" tf:"psc_auto_connections,omitempty"`
+
+	PscInterfaceConfigs []PscInterfaceConfigsInitParameters `json:"pscInterfaceConfigs,omitempty" tf:"psc_interface_configs,omitempty"`
 }
 
 type PscInstanceConfigObservation struct {
@@ -430,10 +483,14 @@ type PscInstanceConfigObservation struct {
 	// These should be specified as project numbers only.
 	AllowedConsumerProjects []*string `json:"allowedConsumerProjects,omitempty" tf:"allowed_consumer_projects,omitempty"`
 
+	PscAutoConnections []PscAutoConnectionsObservation `json:"pscAutoConnections,omitempty" tf:"psc_auto_connections,omitempty"`
+
 	// (Output)
 	// The DNS name of the instance for PSC connectivity.
 	// Name convention: ...alloydb-psc.goog
 	PscDNSName *string `json:"pscDnsName,omitempty" tf:"psc_dns_name,omitempty"`
+
+	PscInterfaceConfigs []PscInterfaceConfigsObservation `json:"pscInterfaceConfigs,omitempty" tf:"psc_interface_configs,omitempty"`
 
 	// (Output)
 	// The service attachment created when Private Service Connect (PSC) is enabled for the instance.
@@ -448,6 +505,26 @@ type PscInstanceConfigParameters struct {
 	// These should be specified as project numbers only.
 	// +kubebuilder:validation:Optional
 	AllowedConsumerProjects []*string `json:"allowedConsumerProjects,omitempty" tf:"allowed_consumer_projects,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	PscAutoConnections []PscAutoConnectionsParameters `json:"pscAutoConnections,omitempty" tf:"psc_auto_connections,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	PscInterfaceConfigs []PscInterfaceConfigsParameters `json:"pscInterfaceConfigs,omitempty" tf:"psc_interface_configs,omitempty"`
+}
+
+type PscInterfaceConfigsInitParameters struct {
+	NetworkAttachmentResource *string `json:"networkAttachmentResource,omitempty" tf:"network_attachment_resource,omitempty"`
+}
+
+type PscInterfaceConfigsObservation struct {
+	NetworkAttachmentResource *string `json:"networkAttachmentResource,omitempty" tf:"network_attachment_resource,omitempty"`
+}
+
+type PscInterfaceConfigsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	NetworkAttachmentResource *string `json:"networkAttachmentResource,omitempty" tf:"network_attachment_resource,omitempty"`
 }
 
 type QueryInsightsConfigInitParameters struct {

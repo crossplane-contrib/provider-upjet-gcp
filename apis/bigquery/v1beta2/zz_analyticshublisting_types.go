@@ -38,6 +38,8 @@ type AnalyticsHubListingInitParameters struct {
 	// Base64 encoded image representing the listing.
 	Icon *string `json:"icon,omitempty" tf:"icon,omitempty"`
 
+	LogLinkedDatasetQueryUserEmail *bool `json:"logLinkedDatasetQueryUserEmail,omitempty" tf:"log_linked_dataset_query_user_email,omitempty"`
+
 	// Email or URL of the listing publisher.
 	PrimaryContact *string `json:"primaryContact,omitempty" tf:"primary_contact,omitempty"`
 
@@ -90,6 +92,8 @@ type AnalyticsHubListingObservation struct {
 
 	// The name of the location this data exchange listing.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	LogLinkedDatasetQueryUserEmail *bool `json:"logLinkedDatasetQueryUserEmail,omitempty" tf:"log_linked_dataset_query_user_email,omitempty"`
 
 	// The resource name of the listing. e.g. "projects/myproject/locations/US/dataExchanges/123/listings/456"
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -163,6 +167,9 @@ type AnalyticsHubListingParameters struct {
 	// +kubebuilder:validation:Required
 	Location *string `json:"location" tf:"location,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	LogLinkedDatasetQueryUserEmail *bool `json:"logLinkedDatasetQueryUserEmail,omitempty" tf:"log_linked_dataset_query_user_email,omitempty"`
+
 	// Email or URL of the listing publisher.
 	// +kubebuilder:validation:Optional
 	PrimaryContact *string `json:"primaryContact,omitempty" tf:"primary_contact,omitempty"`
@@ -201,12 +208,16 @@ type BigqueryDatasetInitParameters struct {
 	// Selector for a Dataset in bigquery to populate dataset.
 	// +kubebuilder:validation:Optional
 	DatasetSelector *v1.Selector `json:"datasetSelector,omitempty" tf:"-"`
+
+	SelectedResources []SelectedResourcesInitParameters `json:"selectedResources,omitempty" tf:"selected_resources,omitempty"`
 }
 
 type BigqueryDatasetObservation struct {
 
 	// Resource name of the dataset source for this listing. e.g. projects/myproject/datasets/123
 	Dataset *string `json:"dataset,omitempty" tf:"dataset,omitempty"`
+
+	SelectedResources []SelectedResourcesObservation `json:"selectedResources,omitempty" tf:"selected_resources,omitempty"`
 }
 
 type BigqueryDatasetParameters struct {
@@ -224,6 +235,9 @@ type BigqueryDatasetParameters struct {
 	// Selector for a Dataset in bigquery to populate dataset.
 	// +kubebuilder:validation:Optional
 	DatasetSelector *v1.Selector `json:"datasetSelector,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	SelectedResources []SelectedResourcesParameters `json:"selectedResources,omitempty" tf:"selected_resources,omitempty"`
 }
 
 type DataProviderInitParameters struct {
@@ -298,6 +312,8 @@ type RestrictedExportConfigObservation struct {
 	// If true, enable restricted export.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
+	RestrictDirectTableAccess *bool `json:"restrictDirectTableAccess,omitempty" tf:"restrict_direct_table_access,omitempty"`
+
 	// If true, restrict export of query result derived from restricted linked dataset table.
 	RestrictQueryResult *bool `json:"restrictQueryResult,omitempty" tf:"restrict_query_result,omitempty"`
 }
@@ -311,6 +327,20 @@ type RestrictedExportConfigParameters struct {
 	// If true, restrict export of query result derived from restricted linked dataset table.
 	// +kubebuilder:validation:Optional
 	RestrictQueryResult *bool `json:"restrictQueryResult,omitempty" tf:"restrict_query_result,omitempty"`
+}
+
+type SelectedResourcesInitParameters struct {
+	Table *string `json:"table,omitempty" tf:"table,omitempty"`
+}
+
+type SelectedResourcesObservation struct {
+	Table *string `json:"table,omitempty" tf:"table,omitempty"`
+}
+
+type SelectedResourcesParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Table *string `json:"table,omitempty" tf:"table,omitempty"`
 }
 
 // AnalyticsHubListingSpec defines the desired state of AnalyticsHubListing

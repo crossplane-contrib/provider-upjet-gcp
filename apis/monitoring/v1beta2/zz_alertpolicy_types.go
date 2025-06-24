@@ -497,6 +497,8 @@ type AlertStrategyInitParameters struct {
 	// Structure is documented below.
 	NotificationChannelStrategy []NotificationChannelStrategyInitParameters `json:"notificationChannelStrategy,omitempty" tf:"notification_channel_strategy,omitempty"`
 
+	NotificationPrompts []*string `json:"notificationPrompts,omitempty" tf:"notification_prompts,omitempty"`
+
 	// Required for alert policies with a LogMatch condition.
 	// This limit is not implemented for alert policies that are not log-based.
 	// Structure is documented below.
@@ -512,6 +514,8 @@ type AlertStrategyObservation struct {
 	// are notified when this alert fires, on a per-channel basis.
 	// Structure is documented below.
 	NotificationChannelStrategy []NotificationChannelStrategyObservation `json:"notificationChannelStrategy,omitempty" tf:"notification_channel_strategy,omitempty"`
+
+	NotificationPrompts []*string `json:"notificationPrompts,omitempty" tf:"notification_prompts,omitempty"`
 
 	// Required for alert policies with a LogMatch condition.
 	// This limit is not implemented for alert policies that are not log-based.
@@ -531,11 +535,28 @@ type AlertStrategyParameters struct {
 	// +kubebuilder:validation:Optional
 	NotificationChannelStrategy []NotificationChannelStrategyParameters `json:"notificationChannelStrategy,omitempty" tf:"notification_channel_strategy,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	NotificationPrompts []*string `json:"notificationPrompts,omitempty" tf:"notification_prompts,omitempty"`
+
 	// Required for alert policies with a LogMatch condition.
 	// This limit is not implemented for alert policies that are not log-based.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	NotificationRateLimit *NotificationRateLimitParameters `json:"notificationRateLimit,omitempty" tf:"notification_rate_limit,omitempty"`
+}
+
+type BooleanTestInitParameters struct {
+	Column *string `json:"column,omitempty" tf:"column,omitempty"`
+}
+
+type BooleanTestObservation struct {
+	Column *string `json:"column,omitempty" tf:"column,omitempty"`
+}
+
+type BooleanTestParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Column *string `json:"column" tf:"column,omitempty"`
 }
 
 type ConditionAbsentInitParameters struct {
@@ -992,6 +1013,8 @@ type ConditionPrometheusQueryLanguageInitParameters struct {
 	// valid Prometheus label name.
 	AlertRule *string `json:"alertRule,omitempty" tf:"alert_rule,omitempty"`
 
+	DisableMetricValidation *bool `json:"disableMetricValidation,omitempty" tf:"disable_metric_validation,omitempty"`
+
 	// The amount of time that a time series must
 	// violate the threshold to be considered
 	// failing. Currently, only values that are a
@@ -1052,6 +1075,8 @@ type ConditionPrometheusQueryLanguageObservation struct {
 	// This field is optional. If this field is not empty, then it must be a
 	// valid Prometheus label name.
 	AlertRule *string `json:"alertRule,omitempty" tf:"alert_rule,omitempty"`
+
+	DisableMetricValidation *bool `json:"disableMetricValidation,omitempty" tf:"disable_metric_validation,omitempty"`
 
 	// The amount of time that a time series must
 	// violate the threshold to be considered
@@ -1115,6 +1140,9 @@ type ConditionPrometheusQueryLanguageParameters struct {
 	// +kubebuilder:validation:Optional
 	AlertRule *string `json:"alertRule,omitempty" tf:"alert_rule,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	DisableMetricValidation *bool `json:"disableMetricValidation,omitempty" tf:"disable_metric_validation,omitempty"`
+
 	// The amount of time that a time series must
 	// violate the threshold to be considered
 	// failing. Currently, only values that are a
@@ -1166,6 +1194,64 @@ type ConditionPrometheusQueryLanguageParameters struct {
 	// in the future. This field is optional.
 	// +kubebuilder:validation:Optional
 	RuleGroup *string `json:"ruleGroup,omitempty" tf:"rule_group,omitempty"`
+}
+
+type ConditionSQLInitParameters struct {
+	BooleanTest *BooleanTestInitParameters `json:"booleanTest,omitempty" tf:"boolean_test,omitempty"`
+
+	Daily *DailyInitParameters `json:"daily,omitempty" tf:"daily,omitempty"`
+
+	Hourly *HourlyInitParameters `json:"hourly,omitempty" tf:"hourly,omitempty"`
+
+	Minutes *MinutesInitParameters `json:"minutes,omitempty" tf:"minutes,omitempty"`
+
+	// The PromQL expression to evaluate. Every evaluation cycle this
+	// expression is evaluated at the current time, and all resultant time
+	// series become pending/firing alerts. This field must not be empty.
+	Query *string `json:"query,omitempty" tf:"query,omitempty"`
+
+	RowCountTest *RowCountTestInitParameters `json:"rowCountTest,omitempty" tf:"row_count_test,omitempty"`
+}
+
+type ConditionSQLObservation struct {
+	BooleanTest *BooleanTestObservation `json:"booleanTest,omitempty" tf:"boolean_test,omitempty"`
+
+	Daily *DailyObservation `json:"daily,omitempty" tf:"daily,omitempty"`
+
+	Hourly *HourlyObservation `json:"hourly,omitempty" tf:"hourly,omitempty"`
+
+	Minutes *MinutesObservation `json:"minutes,omitempty" tf:"minutes,omitempty"`
+
+	// The PromQL expression to evaluate. Every evaluation cycle this
+	// expression is evaluated at the current time, and all resultant time
+	// series become pending/firing alerts. This field must not be empty.
+	Query *string `json:"query,omitempty" tf:"query,omitempty"`
+
+	RowCountTest *RowCountTestObservation `json:"rowCountTest,omitempty" tf:"row_count_test,omitempty"`
+}
+
+type ConditionSQLParameters struct {
+
+	// +kubebuilder:validation:Optional
+	BooleanTest *BooleanTestParameters `json:"booleanTest,omitempty" tf:"boolean_test,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Daily *DailyParameters `json:"daily,omitempty" tf:"daily,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Hourly *HourlyParameters `json:"hourly,omitempty" tf:"hourly,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Minutes *MinutesParameters `json:"minutes,omitempty" tf:"minutes,omitempty"`
+
+	// The PromQL expression to evaluate. Every evaluation cycle this
+	// expression is evaluated at the current time, and all resultant time
+	// series become pending/firing alerts. This field must not be empty.
+	// +kubebuilder:validation:Optional
+	Query *string `json:"query" tf:"query,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	RowCountTest *RowCountTestParameters `json:"rowCountTest,omitempty" tf:"row_count_test,omitempty"`
 }
 
 type ConditionThresholdAggregationsInitParameters struct {
@@ -1885,6 +1971,8 @@ type ConditionsInitParameters struct {
 	// Structure is documented below.
 	ConditionPrometheusQueryLanguage *ConditionPrometheusQueryLanguageInitParameters `json:"conditionPrometheusQueryLanguage,omitempty" tf:"condition_prometheus_query_language,omitempty"`
 
+	ConditionSQL *ConditionSQLInitParameters `json:"conditionSql,omitempty" tf:"condition_sql,omitempty"`
+
 	// A condition that compares a time series against a
 	// threshold.
 	// Structure is documented below.
@@ -1920,6 +2008,8 @@ type ConditionsObservation struct {
 	// from a Prometheus alerting rule and its associated rule group.
 	// Structure is documented below.
 	ConditionPrometheusQueryLanguage *ConditionPrometheusQueryLanguageObservation `json:"conditionPrometheusQueryLanguage,omitempty" tf:"condition_prometheus_query_language,omitempty"`
+
+	ConditionSQL *ConditionSQLObservation `json:"conditionSql,omitempty" tf:"condition_sql,omitempty"`
 
 	// A condition that compares a time series against a
 	// threshold.
@@ -1970,6 +2060,9 @@ type ConditionsParameters struct {
 	// +kubebuilder:validation:Optional
 	ConditionPrometheusQueryLanguage *ConditionPrometheusQueryLanguageParameters `json:"conditionPrometheusQueryLanguage,omitempty" tf:"condition_prometheus_query_language,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	ConditionSQL *ConditionSQLParameters `json:"conditionSql,omitempty" tf:"condition_sql,omitempty"`
+
 	// A condition that compares a time series against a
 	// threshold.
 	// Structure is documented below.
@@ -2000,6 +2093,27 @@ type CreationRecordObservation struct {
 }
 
 type CreationRecordParameters struct {
+}
+
+type DailyInitParameters struct {
+	ExecutionTime *ExecutionTimeInitParameters `json:"executionTime,omitempty" tf:"execution_time,omitempty"`
+
+	Periodicity *float64 `json:"periodicity,omitempty" tf:"periodicity,omitempty"`
+}
+
+type DailyObservation struct {
+	ExecutionTime *ExecutionTimeObservation `json:"executionTime,omitempty" tf:"execution_time,omitempty"`
+
+	Periodicity *float64 `json:"periodicity,omitempty" tf:"periodicity,omitempty"`
+}
+
+type DailyParameters struct {
+
+	// +kubebuilder:validation:Optional
+	ExecutionTime *ExecutionTimeParameters `json:"executionTime,omitempty" tf:"execution_time,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Periodicity *float64 `json:"periodicity" tf:"periodicity,omitempty"`
 }
 
 type DenominatorAggregationsInitParameters struct {
@@ -2337,6 +2451,41 @@ type DocumentationParameters struct {
 	Subject *string `json:"subject,omitempty" tf:"subject,omitempty"`
 }
 
+type ExecutionTimeInitParameters struct {
+	Hours *float64 `json:"hours,omitempty" tf:"hours,omitempty"`
+
+	Minutes *float64 `json:"minutes,omitempty" tf:"minutes,omitempty"`
+
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type ExecutionTimeObservation struct {
+	Hours *float64 `json:"hours,omitempty" tf:"hours,omitempty"`
+
+	Minutes *float64 `json:"minutes,omitempty" tf:"minutes,omitempty"`
+
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type ExecutionTimeParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Hours *float64 `json:"hours,omitempty" tf:"hours,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Minutes *float64 `json:"minutes,omitempty" tf:"minutes,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
 type ForecastOptionsInitParameters struct {
 
 	// The length of time into the future to forecast
@@ -2371,6 +2520,27 @@ type ForecastOptionsParameters struct {
 	ForecastHorizon *string `json:"forecastHorizon" tf:"forecast_horizon,omitempty"`
 }
 
+type HourlyInitParameters struct {
+	MinuteOffset *float64 `json:"minuteOffset,omitempty" tf:"minute_offset,omitempty"`
+
+	Periodicity *float64 `json:"periodicity,omitempty" tf:"periodicity,omitempty"`
+}
+
+type HourlyObservation struct {
+	MinuteOffset *float64 `json:"minuteOffset,omitempty" tf:"minute_offset,omitempty"`
+
+	Periodicity *float64 `json:"periodicity,omitempty" tf:"periodicity,omitempty"`
+}
+
+type HourlyParameters struct {
+
+	// +kubebuilder:validation:Optional
+	MinuteOffset *float64 `json:"minuteOffset,omitempty" tf:"minute_offset,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Periodicity *float64 `json:"periodicity" tf:"periodicity,omitempty"`
+}
+
 type LinksInitParameters struct {
 
 	// A short display name for the link. The display name must not be empty or exceed 63 characters. Example: "playbook".
@@ -2398,6 +2568,20 @@ type LinksParameters struct {
 	// The url of a webpage. A url can be templatized by using variables in the path or the query parameters. The total length of a URL should not exceed 2083 characters before and after variable expansion. Example: "https://my_domain.com/playbook?name=${resource.name}".
 	// +kubebuilder:validation:Optional
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
+}
+
+type MinutesInitParameters struct {
+	Periodicity *float64 `json:"periodicity,omitempty" tf:"periodicity,omitempty"`
+}
+
+type MinutesObservation struct {
+	Periodicity *float64 `json:"periodicity,omitempty" tf:"periodicity,omitempty"`
+}
+
+type MinutesParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Periodicity *float64 `json:"periodicity" tf:"periodicity,omitempty"`
 }
 
 type NotificationChannelStrategyInitParameters struct {
@@ -2458,6 +2642,56 @@ type NotificationRateLimitParameters struct {
 	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example "60.5s".
 	// +kubebuilder:validation:Optional
 	Period *string `json:"period,omitempty" tf:"period,omitempty"`
+}
+
+type RowCountTestInitParameters struct {
+
+	// The comparison to apply between the time
+	// series (indicated by filter and aggregation)
+	// and the threshold (indicated by
+	// threshold_value). The comparison is applied
+	// on each time series, with the time series on
+	// the left-hand side and the threshold on the
+	// right-hand side. Only COMPARISON_LT and
+	// COMPARISON_GT are supported currently.
+	// Possible values are: COMPARISON_GT, COMPARISON_GE, COMPARISON_LT, COMPARISON_LE, COMPARISON_EQ, COMPARISON_NE.
+	Comparison *string `json:"comparison,omitempty" tf:"comparison,omitempty"`
+
+	Threshold *float64 `json:"threshold,omitempty" tf:"threshold,omitempty"`
+}
+
+type RowCountTestObservation struct {
+
+	// The comparison to apply between the time
+	// series (indicated by filter and aggregation)
+	// and the threshold (indicated by
+	// threshold_value). The comparison is applied
+	// on each time series, with the time series on
+	// the left-hand side and the threshold on the
+	// right-hand side. Only COMPARISON_LT and
+	// COMPARISON_GT are supported currently.
+	// Possible values are: COMPARISON_GT, COMPARISON_GE, COMPARISON_LT, COMPARISON_LE, COMPARISON_EQ, COMPARISON_NE.
+	Comparison *string `json:"comparison,omitempty" tf:"comparison,omitempty"`
+
+	Threshold *float64 `json:"threshold,omitempty" tf:"threshold,omitempty"`
+}
+
+type RowCountTestParameters struct {
+
+	// The comparison to apply between the time
+	// series (indicated by filter and aggregation)
+	// and the threshold (indicated by
+	// threshold_value). The comparison is applied
+	// on each time series, with the time series on
+	// the left-hand side and the threshold on the
+	// right-hand side. Only COMPARISON_LT and
+	// COMPARISON_GT are supported currently.
+	// Possible values are: COMPARISON_GT, COMPARISON_GE, COMPARISON_LT, COMPARISON_LE, COMPARISON_EQ, COMPARISON_NE.
+	// +kubebuilder:validation:Optional
+	Comparison *string `json:"comparison" tf:"comparison,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Threshold *float64 `json:"threshold" tf:"threshold,omitempty"`
 }
 
 type TriggerInitParameters struct {

@@ -45,7 +45,7 @@ type InstancesParameters struct {
 
 	// The IP address on the VM to use for peering.
 	// +kubebuilder:validation:Optional
-	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+	IPAddress *string `json:"ipAddress" tf:"ip_address,omitempty"`
 
 	// The URI of the virtual machine resource
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.Instance
@@ -63,6 +63,7 @@ type InstancesParameters struct {
 }
 
 type LinkedInterconnectAttachmentsInitParameters struct {
+	IncludeImportRanges []*string `json:"includeImportRanges,omitempty" tf:"include_import_ranges,omitempty"`
 
 	// A value that controls whether site-to-site data transfer is enabled for these resources. Note that data transfer is available only in supported locations.
 	SiteToSiteDataTransfer *bool `json:"siteToSiteDataTransfer,omitempty" tf:"site_to_site_data_transfer,omitempty"`
@@ -72,6 +73,7 @@ type LinkedInterconnectAttachmentsInitParameters struct {
 }
 
 type LinkedInterconnectAttachmentsObservation struct {
+	IncludeImportRanges []*string `json:"includeImportRanges,omitempty" tf:"include_import_ranges,omitempty"`
 
 	// A value that controls whether site-to-site data transfer is enabled for these resources. Note that data transfer is available only in supported locations.
 	SiteToSiteDataTransfer *bool `json:"siteToSiteDataTransfer,omitempty" tf:"site_to_site_data_transfer,omitempty"`
@@ -82,6 +84,9 @@ type LinkedInterconnectAttachmentsObservation struct {
 
 type LinkedInterconnectAttachmentsParameters struct {
 
+	// +kubebuilder:validation:Optional
+	IncludeImportRanges []*string `json:"includeImportRanges,omitempty" tf:"include_import_ranges,omitempty"`
+
 	// A value that controls whether site-to-site data transfer is enabled for these resources. Note that data transfer is available only in supported locations.
 	// +kubebuilder:validation:Optional
 	SiteToSiteDataTransfer *bool `json:"siteToSiteDataTransfer" tf:"site_to_site_data_transfer,omitempty"`
@@ -91,7 +96,50 @@ type LinkedInterconnectAttachmentsParameters struct {
 	Uris []*string `json:"uris" tf:"uris,omitempty"`
 }
 
+type LinkedProducerVPCNetworkInitParameters struct {
+
+	// IP ranges encompassing the subnets to be excluded from peering.
+	ExcludeExportRanges []*string `json:"excludeExportRanges,omitempty" tf:"exclude_export_ranges,omitempty"`
+
+	IncludeExportRanges []*string `json:"includeExportRanges,omitempty" tf:"include_export_ranges,omitempty"`
+
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	Peering *string `json:"peering,omitempty" tf:"peering,omitempty"`
+}
+
+type LinkedProducerVPCNetworkObservation struct {
+
+	// IP ranges encompassing the subnets to be excluded from peering.
+	ExcludeExportRanges []*string `json:"excludeExportRanges,omitempty" tf:"exclude_export_ranges,omitempty"`
+
+	IncludeExportRanges []*string `json:"includeExportRanges,omitempty" tf:"include_export_ranges,omitempty"`
+
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	Peering *string `json:"peering,omitempty" tf:"peering,omitempty"`
+
+	ProducerNetwork *string `json:"producerNetwork,omitempty" tf:"producer_network,omitempty"`
+}
+
+type LinkedProducerVPCNetworkParameters struct {
+
+	// IP ranges encompassing the subnets to be excluded from peering.
+	// +kubebuilder:validation:Optional
+	ExcludeExportRanges []*string `json:"excludeExportRanges,omitempty" tf:"exclude_export_ranges,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IncludeExportRanges []*string `json:"includeExportRanges,omitempty" tf:"include_export_ranges,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Network *string `json:"network" tf:"network,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Peering *string `json:"peering" tf:"peering,omitempty"`
+}
+
 type LinkedRouterApplianceInstancesInitParameters struct {
+	IncludeImportRanges []*string `json:"includeImportRanges,omitempty" tf:"include_import_ranges,omitempty"`
 
 	// The list of router appliance instances
 	// Structure is documented below.
@@ -102,6 +150,7 @@ type LinkedRouterApplianceInstancesInitParameters struct {
 }
 
 type LinkedRouterApplianceInstancesObservation struct {
+	IncludeImportRanges []*string `json:"includeImportRanges,omitempty" tf:"include_import_ranges,omitempty"`
 
 	// The list of router appliance instances
 	// Structure is documented below.
@@ -112,6 +161,9 @@ type LinkedRouterApplianceInstancesObservation struct {
 }
 
 type LinkedRouterApplianceInstancesParameters struct {
+
+	// +kubebuilder:validation:Optional
+	IncludeImportRanges []*string `json:"includeImportRanges,omitempty" tf:"include_import_ranges,omitempty"`
 
 	// The list of router appliance instances
 	// Structure is documented below.
@@ -127,6 +179,8 @@ type LinkedVPCNetworkInitParameters struct {
 
 	// IP ranges encompassing the subnets to be excluded from peering.
 	ExcludeExportRanges []*string `json:"excludeExportRanges,omitempty" tf:"exclude_export_ranges,omitempty"`
+
+	IncludeExportRanges []*string `json:"includeExportRanges,omitempty" tf:"include_export_ranges,omitempty"`
 
 	// The URI of the VPC network resource.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
@@ -147,6 +201,8 @@ type LinkedVPCNetworkObservation struct {
 	// IP ranges encompassing the subnets to be excluded from peering.
 	ExcludeExportRanges []*string `json:"excludeExportRanges,omitempty" tf:"exclude_export_ranges,omitempty"`
 
+	IncludeExportRanges []*string `json:"includeExportRanges,omitempty" tf:"include_export_ranges,omitempty"`
+
 	// The URI of the VPC network resource.
 	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
 }
@@ -156,6 +212,9 @@ type LinkedVPCNetworkParameters struct {
 	// IP ranges encompassing the subnets to be excluded from peering.
 	// +kubebuilder:validation:Optional
 	ExcludeExportRanges []*string `json:"excludeExportRanges,omitempty" tf:"exclude_export_ranges,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IncludeExportRanges []*string `json:"includeExportRanges,omitempty" tf:"include_export_ranges,omitempty"`
 
 	// The URI of the VPC network resource.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
@@ -173,6 +232,7 @@ type LinkedVPCNetworkParameters struct {
 }
 
 type LinkedVPNTunnelsInitParameters struct {
+	IncludeImportRanges []*string `json:"includeImportRanges,omitempty" tf:"include_import_ranges,omitempty"`
 
 	// A value that controls whether site-to-site data transfer is enabled for these resources. Note that data transfer is available only in supported locations.
 	SiteToSiteDataTransfer *bool `json:"siteToSiteDataTransfer,omitempty" tf:"site_to_site_data_transfer,omitempty"`
@@ -182,6 +242,7 @@ type LinkedVPNTunnelsInitParameters struct {
 }
 
 type LinkedVPNTunnelsObservation struct {
+	IncludeImportRanges []*string `json:"includeImportRanges,omitempty" tf:"include_import_ranges,omitempty"`
 
 	// A value that controls whether site-to-site data transfer is enabled for these resources. Note that data transfer is available only in supported locations.
 	SiteToSiteDataTransfer *bool `json:"siteToSiteDataTransfer,omitempty" tf:"site_to_site_data_transfer,omitempty"`
@@ -192,6 +253,9 @@ type LinkedVPNTunnelsObservation struct {
 
 type LinkedVPNTunnelsParameters struct {
 
+	// +kubebuilder:validation:Optional
+	IncludeImportRanges []*string `json:"includeImportRanges,omitempty" tf:"include_import_ranges,omitempty"`
+
 	// A value that controls whether site-to-site data transfer is enabled for these resources. Note that data transfer is available only in supported locations.
 	// +kubebuilder:validation:Optional
 	SiteToSiteDataTransfer *bool `json:"siteToSiteDataTransfer" tf:"site_to_site_data_transfer,omitempty"`
@@ -201,10 +265,26 @@ type LinkedVPNTunnelsParameters struct {
 	Uris []*string `json:"uris" tf:"uris,omitempty"`
 }
 
+type ReasonsInitParameters struct {
+}
+
+type ReasonsObservation struct {
+	Code *string `json:"code,omitempty" tf:"code,omitempty"`
+
+	Message *string `json:"message,omitempty" tf:"message,omitempty"`
+
+	UserDetails *string `json:"userDetails,omitempty" tf:"user_details,omitempty"`
+}
+
+type ReasonsParameters struct {
+}
+
 type SpokeInitParameters struct {
 
 	// An optional description of the spoke.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	Group *string `json:"group,omitempty" tf:"group,omitempty"`
 
 	// Immutable. The URI of the hub that this spoke is attached to.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/networkconnectivity/v1beta1.Hub
@@ -228,6 +308,8 @@ type SpokeInitParameters struct {
 	// A collection of VLAN attachment resources. These resources should be redundant attachments that all advertise the same prefixes to Google Cloud. Alternatively, in active/passive configurations, all attachments should be capable of advertising the same prefixes.
 	// Structure is documented below.
 	LinkedInterconnectAttachments *LinkedInterconnectAttachmentsInitParameters `json:"linkedInterconnectAttachments,omitempty" tf:"linked_interconnect_attachments,omitempty"`
+
+	LinkedProducerVPCNetwork *LinkedProducerVPCNetworkInitParameters `json:"linkedProducerVpcNetwork,omitempty" tf:"linked_producer_vpc_network,omitempty"`
 
 	// The URIs of linked Router appliance resources
 	// Structure is documented below.
@@ -263,6 +345,8 @@ type SpokeObservation struct {
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
 
+	Group *string `json:"group,omitempty" tf:"group,omitempty"`
+
 	// Immutable. The URI of the hub that this spoke is attached to.
 	Hub *string `json:"hub,omitempty" tf:"hub,omitempty"`
 
@@ -278,6 +362,8 @@ type SpokeObservation struct {
 	// A collection of VLAN attachment resources. These resources should be redundant attachments that all advertise the same prefixes to Google Cloud. Alternatively, in active/passive configurations, all attachments should be capable of advertising the same prefixes.
 	// Structure is documented below.
 	LinkedInterconnectAttachments *LinkedInterconnectAttachmentsObservation `json:"linkedInterconnectAttachments,omitempty" tf:"linked_interconnect_attachments,omitempty"`
+
+	LinkedProducerVPCNetwork *LinkedProducerVPCNetworkObservation `json:"linkedProducerVpcNetwork,omitempty" tf:"linked_producer_vpc_network,omitempty"`
 
 	// The URIs of linked Router appliance resources
 	// Structure is documented below.
@@ -301,6 +387,8 @@ type SpokeObservation struct {
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	Reasons []ReasonsObservation `json:"reasons,omitempty" tf:"reasons,omitempty"`
+
 	// Output only. The current lifecycle state of this spoke.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
@@ -321,6 +409,9 @@ type SpokeParameters struct {
 	// An optional description of the spoke.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Group *string `json:"group,omitempty" tf:"group,omitempty"`
 
 	// Immutable. The URI of the hub that this spoke is attached to.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/networkconnectivity/v1beta1.Hub
@@ -347,6 +438,9 @@ type SpokeParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	LinkedInterconnectAttachments *LinkedInterconnectAttachmentsParameters `json:"linkedInterconnectAttachments,omitempty" tf:"linked_interconnect_attachments,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	LinkedProducerVPCNetwork *LinkedProducerVPCNetworkParameters `json:"linkedProducerVpcNetwork,omitempty" tf:"linked_producer_vpc_network,omitempty"`
 
 	// The URIs of linked Router appliance resources
 	// Structure is documented below.

@@ -102,6 +102,7 @@ type PubsubConfigsParameters struct {
 }
 
 type RepositoryInitParameters struct {
+	CreateIgnoreAlreadyExists *bool `json:"createIgnoreAlreadyExists,omitempty" tf:"create_ignore_already_exists,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -114,6 +115,7 @@ type RepositoryInitParameters struct {
 }
 
 type RepositoryObservation struct {
+	CreateIgnoreAlreadyExists *bool `json:"createIgnoreAlreadyExists,omitempty" tf:"create_ignore_already_exists,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/repos/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -135,6 +137,9 @@ type RepositoryObservation struct {
 }
 
 type RepositoryParameters struct {
+
+	// +kubebuilder:validation:Optional
+	CreateIgnoreAlreadyExists *bool `json:"createIgnoreAlreadyExists,omitempty" tf:"create_ignore_already_exists,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.

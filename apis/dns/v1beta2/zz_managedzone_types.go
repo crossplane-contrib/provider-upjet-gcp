@@ -539,6 +539,10 @@ type PrivateVisibilityConfigParameters struct {
 
 type TargetNameServersInitParameters struct {
 
+	// User assigned name for this resource.
+	// Must be unique within the project.
+	DomainName *string `json:"domainName,omitempty" tf:"domain_name,omitempty"`
+
 	// Forwarding path for this TargetNameServer. If unset or default Cloud DNS will make forwarding
 	// decision based on address ranges, i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
 	// to the Internet. When set to private, Cloud DNS will always send queries through VPC for this target
@@ -550,6 +554,10 @@ type TargetNameServersInitParameters struct {
 }
 
 type TargetNameServersObservation struct {
+
+	// User assigned name for this resource.
+	// Must be unique within the project.
+	DomainName *string `json:"domainName,omitempty" tf:"domain_name,omitempty"`
 
 	// Forwarding path for this TargetNameServer. If unset or default Cloud DNS will make forwarding
 	// decision based on address ranges, i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
@@ -563,6 +571,11 @@ type TargetNameServersObservation struct {
 
 type TargetNameServersParameters struct {
 
+	// User assigned name for this resource.
+	// Must be unique within the project.
+	// +kubebuilder:validation:Optional
+	DomainName *string `json:"domainName,omitempty" tf:"domain_name,omitempty"`
+
 	// Forwarding path for this TargetNameServer. If unset or default Cloud DNS will make forwarding
 	// decision based on address ranges, i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
 	// to the Internet. When set to private, Cloud DNS will always send queries through VPC for this target
@@ -572,7 +585,7 @@ type TargetNameServersParameters struct {
 
 	// IPv4 address of a target name server.
 	// +kubebuilder:validation:Optional
-	IPv4Address *string `json:"ipv4Address" tf:"ipv4_address,omitempty"`
+	IPv4Address *string `json:"ipv4Address,omitempty" tf:"ipv4_address,omitempty"`
 }
 
 type TargetNetworkInitParameters struct {

@@ -119,6 +119,8 @@ type InterfaceInitParameters struct {
 	// your on-premise gateway or another Cloud provider's VPN gateway,
 	// it cannot be an IP address from Google Compute Engine.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
 }
 
 type InterfaceObservation struct {
@@ -132,6 +134,8 @@ type InterfaceObservation struct {
 	// your on-premise gateway or another Cloud provider's VPN gateway,
 	// it cannot be an IP address from Google Compute Engine.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
 }
 
 type InterfaceParameters struct {
@@ -147,6 +151,9 @@ type InterfaceParameters struct {
 	// it cannot be an IP address from Google Compute Engine.
 	// +kubebuilder:validation:Optional
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
 }
 
 // ExternalVPNGatewaySpec defines the desired state of ExternalVPNGateway

@@ -232,7 +232,6 @@ import (
 	jobdataproc "github.com/upbound/provider-gcp/internal/controller/dataproc/job"
 	metastoreservice "github.com/upbound/provider-gcp/internal/controller/dataproc/metastoreservice"
 	workflowtemplate "github.com/upbound/provider-gcp/internal/controller/dataproc/workflowtemplate"
-	index "github.com/upbound/provider-gcp/internal/controller/datastore/index"
 	connectionprofile "github.com/upbound/provider-gcp/internal/controller/datastream/connectionprofile"
 	privateconnection "github.com/upbound/provider-gcp/internal/controller/datastream/privateconnection"
 	agent "github.com/upbound/provider-gcp/internal/controller/dialogflowcx/agent"
@@ -277,7 +276,6 @@ import (
 	defaultsupportedidpconfig "github.com/upbound/provider-gcp/internal/controller/identityplatform/defaultsupportedidpconfig"
 	inboundsamlconfig "github.com/upbound/provider-gcp/internal/controller/identityplatform/inboundsamlconfig"
 	oauthidpconfig "github.com/upbound/provider-gcp/internal/controller/identityplatform/oauthidpconfig"
-	projectdefaultconfig "github.com/upbound/provider-gcp/internal/controller/identityplatform/projectdefaultconfig"
 	tenant "github.com/upbound/provider-gcp/internal/controller/identityplatform/tenant"
 	tenantdefaultsupportedidpconfig "github.com/upbound/provider-gcp/internal/controller/identityplatform/tenantdefaultsupportedidpconfig"
 	tenantinboundsamlconfig "github.com/upbound/provider-gcp/internal/controller/identityplatform/tenantinboundsamlconfig"
@@ -612,7 +610,6 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		jobdataproc.Setup,
 		metastoreservice.Setup,
 		workflowtemplate.Setup,
-		index.Setup,
 		connectionprofile.Setup,
 		privateconnection.Setup,
 		agent.Setup,
@@ -657,7 +654,6 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		defaultsupportedidpconfig.Setup,
 		inboundsamlconfig.Setup,
 		oauthidpconfig.Setup,
-		projectdefaultconfig.Setup,
 		tenant.Setup,
 		tenantdefaultsupportedidpconfig.Setup,
 		tenantinboundsamlconfig.Setup,

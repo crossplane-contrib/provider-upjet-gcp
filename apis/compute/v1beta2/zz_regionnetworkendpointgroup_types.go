@@ -240,6 +240,20 @@ type CloudRunParameters struct {
 	URLMask *string `json:"urlMask,omitempty" tf:"url_mask,omitempty"`
 }
 
+type PscDataInitParameters struct {
+	ProducerPort *string `json:"producerPort,omitempty" tf:"producer_port,omitempty"`
+}
+
+type PscDataObservation struct {
+	ProducerPort *string `json:"producerPort,omitempty" tf:"producer_port,omitempty"`
+}
+
+type PscDataParameters struct {
+
+	// +kubebuilder:validation:Optional
+	ProducerPort *string `json:"producerPort,omitempty" tf:"producer_port,omitempty"`
+}
+
 type RegionNetworkEndpointGroupInitParameters struct {
 
 	// This field is only used for SERVERLESS NEGs.
@@ -284,6 +298,8 @@ type RegionNetworkEndpointGroupInitParameters struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	PscData *PscDataInitParameters `json:"pscData,omitempty" tf:"psc_data,omitempty"`
 
 	// This field is only used for PSC and INTERNET NEGs.
 	// The target service url used to set up private service connection to
@@ -353,6 +369,8 @@ type RegionNetworkEndpointGroupObservation struct {
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	PscData *PscDataObservation `json:"pscData,omitempty" tf:"psc_data,omitempty"`
+
 	// This field is only used for PSC and INTERNET NEGs.
 	// The target service url used to set up private service connection to
 	// a Google API or a PSC Producer Service Attachment.
@@ -420,6 +438,9 @@ type RegionNetworkEndpointGroupParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	PscData *PscDataParameters `json:"pscData,omitempty" tf:"psc_data,omitempty"`
 
 	// This field is only used for PSC and INTERNET NEGs.
 	// The target service url used to set up private service connection to

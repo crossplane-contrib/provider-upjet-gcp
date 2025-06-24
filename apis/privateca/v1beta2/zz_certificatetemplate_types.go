@@ -344,6 +344,10 @@ type PredefinedValuesCAOptionsInitParameters struct {
 
 	// Optional. Refers to the path length restriction X.509 extension. For a CA certificate, this value describes the depth of subordinate CA certificates that are allowed. If this value is less than 0, the request will fail. If this value is missing, the max path length will be omitted from the CA certificate.
 	MaxIssuerPathLength *float64 `json:"maxIssuerPathLength,omitempty" tf:"max_issuer_path_length,omitempty"`
+
+	NullCA *bool `json:"nullCa,omitempty" tf:"null_ca,omitempty"`
+
+	ZeroMaxIssuerPathLength *bool `json:"zeroMaxIssuerPathLength,omitempty" tf:"zero_max_issuer_path_length,omitempty"`
 }
 
 type PredefinedValuesCAOptionsObservation struct {
@@ -353,6 +357,10 @@ type PredefinedValuesCAOptionsObservation struct {
 
 	// Optional. Refers to the path length restriction X.509 extension. For a CA certificate, this value describes the depth of subordinate CA certificates that are allowed. If this value is less than 0, the request will fail. If this value is missing, the max path length will be omitted from the CA certificate.
 	MaxIssuerPathLength *float64 `json:"maxIssuerPathLength,omitempty" tf:"max_issuer_path_length,omitempty"`
+
+	NullCA *bool `json:"nullCa,omitempty" tf:"null_ca,omitempty"`
+
+	ZeroMaxIssuerPathLength *bool `json:"zeroMaxIssuerPathLength,omitempty" tf:"zero_max_issuer_path_length,omitempty"`
 }
 
 type PredefinedValuesCAOptionsParameters struct {
@@ -364,6 +372,12 @@ type PredefinedValuesCAOptionsParameters struct {
 	// Optional. Refers to the path length restriction X.509 extension. For a CA certificate, this value describes the depth of subordinate CA certificates that are allowed. If this value is less than 0, the request will fail. If this value is missing, the max path length will be omitted from the CA certificate.
 	// +kubebuilder:validation:Optional
 	MaxIssuerPathLength *float64 `json:"maxIssuerPathLength,omitempty" tf:"max_issuer_path_length,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	NullCA *bool `json:"nullCa,omitempty" tf:"null_ca,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ZeroMaxIssuerPathLength *bool `json:"zeroMaxIssuerPathLength,omitempty" tf:"zero_max_issuer_path_length,omitempty"`
 }
 
 type PredefinedValuesInitParameters struct {
@@ -382,6 +396,8 @@ type PredefinedValuesInitParameters struct {
 	// Optional. Indicates the intended use for keys that correspond to a certificate.
 	// Structure is documented below.
 	KeyUsage *PredefinedValuesKeyUsageInitParameters `json:"keyUsage,omitempty" tf:"key_usage,omitempty"`
+
+	NameConstraints *PredefinedValuesNameConstraintsInitParameters `json:"nameConstraints,omitempty" tf:"name_constraints,omitempty"`
 
 	// Optional. Describes the X.509 certificate policy object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
 	// Structure is documented below.
@@ -623,6 +639,81 @@ type PredefinedValuesKeyUsageUnknownExtendedKeyUsagesParameters struct {
 	ObjectIDPath []*float64 `json:"objectIdPath" tf:"object_id_path,omitempty"`
 }
 
+type PredefinedValuesNameConstraintsInitParameters struct {
+
+	// Optional. Indicates whether or not this extension is critical (i.e., if the client does not know how to handle this extension, the client should consider this to be an error).
+	Critical *bool `json:"critical,omitempty" tf:"critical,omitempty"`
+
+	ExcludedDNSNames []*string `json:"excludedDnsNames,omitempty" tf:"excluded_dns_names,omitempty"`
+
+	ExcludedEmailAddresses []*string `json:"excludedEmailAddresses,omitempty" tf:"excluded_email_addresses,omitempty"`
+
+	ExcludedIPRanges []*string `json:"excludedIpRanges,omitempty" tf:"excluded_ip_ranges,omitempty"`
+
+	ExcludedUris []*string `json:"excludedUris,omitempty" tf:"excluded_uris,omitempty"`
+
+	PermittedDNSNames []*string `json:"permittedDnsNames,omitempty" tf:"permitted_dns_names,omitempty"`
+
+	PermittedEmailAddresses []*string `json:"permittedEmailAddresses,omitempty" tf:"permitted_email_addresses,omitempty"`
+
+	PermittedIPRanges []*string `json:"permittedIpRanges,omitempty" tf:"permitted_ip_ranges,omitempty"`
+
+	PermittedUris []*string `json:"permittedUris,omitempty" tf:"permitted_uris,omitempty"`
+}
+
+type PredefinedValuesNameConstraintsObservation struct {
+
+	// Optional. Indicates whether or not this extension is critical (i.e., if the client does not know how to handle this extension, the client should consider this to be an error).
+	Critical *bool `json:"critical,omitempty" tf:"critical,omitempty"`
+
+	ExcludedDNSNames []*string `json:"excludedDnsNames,omitempty" tf:"excluded_dns_names,omitempty"`
+
+	ExcludedEmailAddresses []*string `json:"excludedEmailAddresses,omitempty" tf:"excluded_email_addresses,omitempty"`
+
+	ExcludedIPRanges []*string `json:"excludedIpRanges,omitempty" tf:"excluded_ip_ranges,omitempty"`
+
+	ExcludedUris []*string `json:"excludedUris,omitempty" tf:"excluded_uris,omitempty"`
+
+	PermittedDNSNames []*string `json:"permittedDnsNames,omitempty" tf:"permitted_dns_names,omitempty"`
+
+	PermittedEmailAddresses []*string `json:"permittedEmailAddresses,omitempty" tf:"permitted_email_addresses,omitempty"`
+
+	PermittedIPRanges []*string `json:"permittedIpRanges,omitempty" tf:"permitted_ip_ranges,omitempty"`
+
+	PermittedUris []*string `json:"permittedUris,omitempty" tf:"permitted_uris,omitempty"`
+}
+
+type PredefinedValuesNameConstraintsParameters struct {
+
+	// Optional. Indicates whether or not this extension is critical (i.e., if the client does not know how to handle this extension, the client should consider this to be an error).
+	// +kubebuilder:validation:Optional
+	Critical *bool `json:"critical" tf:"critical,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ExcludedDNSNames []*string `json:"excludedDnsNames,omitempty" tf:"excluded_dns_names,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ExcludedEmailAddresses []*string `json:"excludedEmailAddresses,omitempty" tf:"excluded_email_addresses,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ExcludedIPRanges []*string `json:"excludedIpRanges,omitempty" tf:"excluded_ip_ranges,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ExcludedUris []*string `json:"excludedUris,omitempty" tf:"excluded_uris,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	PermittedDNSNames []*string `json:"permittedDnsNames,omitempty" tf:"permitted_dns_names,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	PermittedEmailAddresses []*string `json:"permittedEmailAddresses,omitempty" tf:"permitted_email_addresses,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	PermittedIPRanges []*string `json:"permittedIpRanges,omitempty" tf:"permitted_ip_ranges,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	PermittedUris []*string `json:"permittedUris,omitempty" tf:"permitted_uris,omitempty"`
+}
+
 type PredefinedValuesObservation struct {
 
 	// Optional. Describes custom X.509 extensions.
@@ -639,6 +730,8 @@ type PredefinedValuesObservation struct {
 	// Optional. Indicates the intended use for keys that correspond to a certificate.
 	// Structure is documented below.
 	KeyUsage *PredefinedValuesKeyUsageObservation `json:"keyUsage,omitempty" tf:"key_usage,omitempty"`
+
+	NameConstraints *PredefinedValuesNameConstraintsObservation `json:"nameConstraints,omitempty" tf:"name_constraints,omitempty"`
 
 	// Optional. Describes the X.509 certificate policy object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
 	// Structure is documented below.
@@ -665,6 +758,9 @@ type PredefinedValuesParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	KeyUsage *PredefinedValuesKeyUsageParameters `json:"keyUsage,omitempty" tf:"key_usage,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	NameConstraints *PredefinedValuesNameConstraintsParameters `json:"nameConstraints,omitempty" tf:"name_constraints,omitempty"`
 
 	// Optional. Describes the X.509 certificate policy object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
 	// Structure is documented below.

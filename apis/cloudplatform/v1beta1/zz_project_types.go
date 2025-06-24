@@ -70,11 +70,8 @@ type ProjectInitParameters struct {
 	// The project ID. Changing this forces a new project to be created.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
-	// skip_delete is deprecated and will be
-	// removed in 6.0.0. Please use deletion_policy instead. A skip_delete value of false
-	// can be changed to a deletion_policy value of DELETE and a skip_delete value of true
-	// to a deletion_policy value of ABANDON for equivalent behavior.
-	SkipDelete *bool `json:"skipDelete,omitempty" tf:"skip_delete,omitempty"`
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
 type ProjectObservation struct {
@@ -133,11 +130,8 @@ type ProjectObservation struct {
 	// The project ID. Changing this forces a new project to be created.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
-	// skip_delete is deprecated and will be
-	// removed in 6.0.0. Please use deletion_policy instead. A skip_delete value of false
-	// can be changed to a deletion_policy value of DELETE and a skip_delete value of true
-	// to a deletion_policy value of ABANDON for equivalent behavior.
-	SkipDelete *bool `json:"skipDelete,omitempty" tf:"skip_delete,omitempty"`
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// The combination of labels configured directly on the resource and default labels configured on the provider.
 	// +mapType=granular
@@ -209,12 +203,9 @@ type ProjectParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
-	// skip_delete is deprecated and will be
-	// removed in 6.0.0. Please use deletion_policy instead. A skip_delete value of false
-	// can be changed to a deletion_policy value of DELETE and a skip_delete value of true
-	// to a deletion_policy value of ABANDON for equivalent behavior.
 	// +kubebuilder:validation:Optional
-	SkipDelete *bool `json:"skipDelete,omitempty" tf:"skip_delete,omitempty"`
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
 // ProjectSpec defines the desired state of Project

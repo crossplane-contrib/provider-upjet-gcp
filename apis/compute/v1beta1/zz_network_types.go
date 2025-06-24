@@ -22,6 +22,12 @@ type NetworkInitParameters struct {
 	// the user can explicitly connect subnetwork resources.
 	AutoCreateSubnetworks *bool `json:"autoCreateSubnetworks,omitempty" tf:"auto_create_subnetworks,omitempty"`
 
+	BGPAlwaysCompareMed *bool `json:"bgpAlwaysCompareMed,omitempty" tf:"bgp_always_compare_med,omitempty"`
+
+	BGPBestPathSelectionMode *string `json:"bgpBestPathSelectionMode,omitempty" tf:"bgp_best_path_selection_mode,omitempty"`
+
+	BGPInterRegionCost *string `json:"bgpInterRegionCost,omitempty" tf:"bgp_inter_region_cost,omitempty"`
+
 	// If set to true, default routes (0.0.0.0/0) will be deleted
 	// immediately after network creation. Defaults to false.
 	DeleteDefaultRoutesOnCreate *bool `json:"deleteDefaultRoutesOnCreate,omitempty" tf:"delete_default_routes_on_create,omitempty"`
@@ -53,6 +59,8 @@ type NetworkInitParameters struct {
 	// Possible values are: BEFORE_CLASSIC_FIREWALL, AFTER_CLASSIC_FIREWALL.
 	NetworkFirewallPolicyEnforcementOrder *string `json:"networkFirewallPolicyEnforcementOrder,omitempty" tf:"network_firewall_policy_enforcement_order,omitempty"`
 
+	NetworkProfile *string `json:"networkProfile,omitempty" tf:"network_profile,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -74,6 +82,12 @@ type NetworkObservation struct {
 	// When set to false, the network is created in "custom subnet mode" so
 	// the user can explicitly connect subnetwork resources.
 	AutoCreateSubnetworks *bool `json:"autoCreateSubnetworks,omitempty" tf:"auto_create_subnetworks,omitempty"`
+
+	BGPAlwaysCompareMed *bool `json:"bgpAlwaysCompareMed,omitempty" tf:"bgp_always_compare_med,omitempty"`
+
+	BGPBestPathSelectionMode *string `json:"bgpBestPathSelectionMode,omitempty" tf:"bgp_best_path_selection_mode,omitempty"`
+
+	BGPInterRegionCost *string `json:"bgpInterRegionCost,omitempty" tf:"bgp_inter_region_cost,omitempty"`
 
 	// If set to true, default routes (0.0.0.0/0) will be deleted
 	// immediately after network creation. Defaults to false.
@@ -113,6 +127,11 @@ type NetworkObservation struct {
 	// Possible values are: BEFORE_CLASSIC_FIREWALL, AFTER_CLASSIC_FIREWALL.
 	NetworkFirewallPolicyEnforcementOrder *string `json:"networkFirewallPolicyEnforcementOrder,omitempty" tf:"network_firewall_policy_enforcement_order,omitempty"`
 
+	// an identifier for the resource with format projects/{{project}}/global/networks/{{name}}
+	NetworkID *string `json:"networkId,omitempty" tf:"network_id,omitempty"`
+
+	NetworkProfile *string `json:"networkProfile,omitempty" tf:"network_profile,omitempty"`
+
 	// The unique identifier for the resource. This identifier is defined by the server.
 	NumericID *string `json:"numericId,omitempty" tf:"numeric_id,omitempty"`
 
@@ -141,6 +160,15 @@ type NetworkParameters struct {
 	// the user can explicitly connect subnetwork resources.
 	// +kubebuilder:validation:Optional
 	AutoCreateSubnetworks *bool `json:"autoCreateSubnetworks,omitempty" tf:"auto_create_subnetworks,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	BGPAlwaysCompareMed *bool `json:"bgpAlwaysCompareMed,omitempty" tf:"bgp_always_compare_med,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	BGPBestPathSelectionMode *string `json:"bgpBestPathSelectionMode,omitempty" tf:"bgp_best_path_selection_mode,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	BGPInterRegionCost *string `json:"bgpInterRegionCost,omitempty" tf:"bgp_inter_region_cost,omitempty"`
 
 	// If set to true, default routes (0.0.0.0/0) will be deleted
 	// immediately after network creation. Defaults to false.
@@ -178,6 +206,9 @@ type NetworkParameters struct {
 	// Possible values are: BEFORE_CLASSIC_FIREWALL, AFTER_CLASSIC_FIREWALL.
 	// +kubebuilder:validation:Optional
 	NetworkFirewallPolicyEnforcementOrder *string `json:"networkFirewallPolicyEnforcementOrder,omitempty" tf:"network_firewall_policy_enforcement_order,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	NetworkProfile *string `json:"networkProfile,omitempty" tf:"network_profile,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.

@@ -17,10 +17,16 @@ type ConnectedEndpointsInitParameters struct {
 }
 
 type ConnectedEndpointsObservation struct {
+	ConsumerNetwork *string `json:"consumerNetwork,omitempty" tf:"consumer_network,omitempty"`
 
 	// (Output)
 	// The URL of the consumer forwarding rule.
 	Endpoint *string `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
+
+	PropagatedConnectionCount *float64 `json:"propagatedConnectionCount,omitempty" tf:"propagated_connection_count,omitempty"`
+
+	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/serviceAttachments/{{name}}
+	PscConnectionID *string `json:"pscConnectionId,omitempty" tf:"psc_connection_id,omitempty"`
 
 	// (Output)
 	// The status of the connection from the consumer forwarding rule to
@@ -144,6 +150,8 @@ type ServiceAttachmentInitParameters struct {
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	PropagatedConnectionLimit *float64 `json:"propagatedConnectionLimit,omitempty" tf:"propagated_connection_limit,omitempty"`
+
 	// This flag determines whether a consumer accept/reject list change can reconcile the statuses of existing ACCEPTED or REJECTED PSC endpoints.
 	// If false, connection policy update will only affect existing PENDING PSC endpoints. Existing ACCEPTED/REJECTED endpoints will remain untouched regardless how the connection policy is modified .
 	// If true, update will affect both PENDING and ACCEPTED/REJECTED PSC endpoints. For example, an ACCEPTED PSC endpoint will be moved to REJECTED if its project is added to the reject list.
@@ -210,6 +218,8 @@ type ServiceAttachmentObservation struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	PropagatedConnectionLimit *float64 `json:"propagatedConnectionLimit,omitempty" tf:"propagated_connection_limit,omitempty"`
 
 	// This flag determines whether a consumer accept/reject list change can reconcile the statuses of existing ACCEPTED or REJECTED PSC endpoints.
 	// If false, connection policy update will only affect existing PENDING PSC endpoints. Existing ACCEPTED/REJECTED endpoints will remain untouched regardless how the connection policy is modified .
@@ -278,6 +288,9 @@ type ServiceAttachmentParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	PropagatedConnectionLimit *float64 `json:"propagatedConnectionLimit,omitempty" tf:"propagated_connection_limit,omitempty"`
 
 	// This flag determines whether a consumer accept/reject list change can reconcile the statuses of existing ACCEPTED or REJECTED PSC endpoints.
 	// If false, connection policy update will only affect existing PENDING PSC endpoints. Existing ACCEPTED/REJECTED endpoints will remain untouched regardless how the connection policy is modified .

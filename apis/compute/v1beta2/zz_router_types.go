@@ -195,6 +195,45 @@ type BGPParameters struct {
 	KeepaliveInterval *float64 `json:"keepaliveInterval,omitempty" tf:"keepalive_interval,omitempty"`
 }
 
+type Md5AuthenticationKeysInitParameters struct {
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// Name of the resource. The name must be 1-63 characters long, and
+	// comply with RFC1035. Specifically, the name must be 1-63 characters
+	// long and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])?
+	// which means the first character must be a lowercase letter, and all
+	// following characters must be a dash, lowercase letter, or digit,
+	// except the last character, which cannot be a dash.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type Md5AuthenticationKeysObservation struct {
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// Name of the resource. The name must be 1-63 characters long, and
+	// comply with RFC1035. Specifically, the name must be 1-63 characters
+	// long and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])?
+	// which means the first character must be a lowercase letter, and all
+	// following characters must be a dash, lowercase letter, or digit,
+	// except the last character, which cannot be a dash.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type Md5AuthenticationKeysParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key" tf:"key,omitempty"`
+
+	// Name of the resource. The name must be 1-63 characters long, and
+	// comply with RFC1035. Specifically, the name must be 1-63 characters
+	// long and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])?
+	// which means the first character must be a lowercase letter, and all
+	// following characters must be a dash, lowercase letter, or digit,
+	// except the last character, which cannot be a dash.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name" tf:"name,omitempty"`
+}
+
 type RouterInitParameters struct {
 
 	// BGP information specific to this router.
@@ -207,6 +246,8 @@ type RouterInitParameters struct {
 	// Indicates if a router is dedicated for use with encrypted VLAN
 	// attachments (interconnectAttachments).
 	EncryptedInterconnectRouter *bool `json:"encryptedInterconnectRouter,omitempty" tf:"encrypted_interconnect_router,omitempty"`
+
+	Md5AuthenticationKeys *Md5AuthenticationKeysInitParameters `json:"md5AuthenticationKeys,omitempty" tf:"md5_authentication_keys,omitempty"`
 
 	// A reference to the network to which this router belongs.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
@@ -245,6 +286,8 @@ type RouterObservation struct {
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/routers/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	Md5AuthenticationKeys *Md5AuthenticationKeysObservation `json:"md5AuthenticationKeys,omitempty" tf:"md5_authentication_keys,omitempty"`
+
 	// A reference to the network to which this router belongs.
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
@@ -274,6 +317,9 @@ type RouterParameters struct {
 	// attachments (interconnectAttachments).
 	// +kubebuilder:validation:Optional
 	EncryptedInterconnectRouter *bool `json:"encryptedInterconnectRouter,omitempty" tf:"encrypted_interconnect_router,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Md5AuthenticationKeys *Md5AuthenticationKeysParameters `json:"md5AuthenticationKeys,omitempty" tf:"md5_authentication_keys,omitempty"`
 
 	// A reference to the network to which this router belongs.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
