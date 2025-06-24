@@ -771,18 +771,13 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// google_spanner_database_iam_member.database "project-name/instance-name/database-name roles/viewer user:foo@example.com"
 	"google_spanner_database_iam_member": config.IdentifierFromProvider,
 
-	// sql
+	// sql - MOVED TO cliReconciledExternalNameConfigs for selective regeneration
 	//
-	// Imported by using the following format: projects/{{project}}/instances/{{name}}
-	"google_sql_database_instance": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/instances/{{ .external_name }}"),
-	// Imported by using the following format: projects/{{project}}/instances/{{instance}}/databases/{{name}}
-	"google_sql_database": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/instances/{{ .parameters.instance }}/databases/{{ .external_name }}"),
-	// Imported by using the following format: projects/{{project}}/instances/{{name}}
-	"google_sql_source_representation_instance": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/instances/{{ .external_name }}"),
-	// Imported by using the following format: my-project/main-instance/me
-	"google_sql_user": config.TemplatedStringAsIdentifier("name", "{{ .setup.configuration.project }}/{{ .parameters.instance }}/{{ .external_name }}"),
-	// No import
-	"google_sql_ssl_cert": config.IdentifierFromProvider,
+	// "google_sql_database_instance": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/instances/{{ .external_name }}"),
+	// "google_sql_database": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/instances/{{ .parameters.instance }}/databases/{{ .external_name }}"),
+	// "google_sql_source_representation_instance": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/instances/{{ .external_name }}"),
+	// "google_sql_user": config.TemplatedStringAsIdentifier("name", "{{ .setup.configuration.project }}/{{ .parameters.instance }}/{{ .external_name }}"),
+	// "google_sql_ssl_cert": config.IdentifierFromProvider,
 
 	// storage
 	//
@@ -1066,7 +1061,15 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 // cliReconciledExternalNameConfigs contains all external name configurations
 // belonging to Terraform resources to be reconciled under the CLI-based
 // architecture for this provider.
-var cliReconciledExternalNameConfigs = map[string]config.ExternalName{}
+// TEMPORARY: Limited to SQL resources only for selective regeneration
+var cliReconciledExternalNameConfigs = map[string]config.ExternalName{
+	// sql
+	"google_sql_database_instance":               config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/instances/{{ .external_name }}"),
+	"google_sql_database":                        config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/instances/{{ .parameters.instance }}/databases/{{ .external_name }}"),
+	"google_sql_source_representation_instance": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/instances/{{ .external_name }}"),
+	"google_sql_user":                            config.TemplatedStringAsIdentifier("name", "{{ .setup.configuration.project }}/{{ .parameters.instance }}/{{ .external_name }}"),
+	"google_sql_ssl_cert":                        config.IdentifierFromProvider,
+}
 
 // TemplatedStringAsIdentifierWithNoName uses TemplatedStringAsIdentifier but
 // without the name initializer. This allows it to be used in cases where the ID

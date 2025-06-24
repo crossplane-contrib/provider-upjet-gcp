@@ -163,6 +163,10 @@ type CertificateAuthorityInitParameters struct {
 	// Default value is SELF_SIGNED.
 	// Possible values are: SELF_SIGNED, SUBORDINATE.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+
+	// URLs for accessing content published by this CA, such as the CA certificate and CRLs.
+	// Structure is documented below.
+	UserDefinedAccessUrls *UserDefinedAccessUrlsInitParameters `json:"userDefinedAccessUrls,omitempty" tf:"user_defined_access_urls,omitempty"`
 }
 
 type CertificateAuthorityObservation struct {
@@ -274,6 +278,10 @@ type CertificateAuthorityObservation struct {
 	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine
 	// fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`
+
+	// URLs for accessing content published by this CA, such as the CA certificate and CRLs.
+	// Structure is documented below.
+	UserDefinedAccessUrls *UserDefinedAccessUrlsObservation `json:"userDefinedAccessUrls,omitempty" tf:"user_defined_access_urls,omitempty"`
 }
 
 type CertificateAuthorityParameters struct {
@@ -371,6 +379,11 @@ type CertificateAuthorityParameters struct {
 	// Possible values are: SELF_SIGNED, SUBORDINATE.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+
+	// URLs for accessing content published by this CA, such as the CA certificate and CRLs.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	UserDefinedAccessUrls *UserDefinedAccessUrlsParameters `json:"userDefinedAccessUrls,omitempty" tf:"user_defined_access_urls,omitempty"`
 }
 
 type ConfigSubjectConfigInitParameters struct {
@@ -527,7 +540,7 @@ type ConfigSubjectConfigSubjectParameters struct {
 
 	// The organization of the subject.
 	// +kubebuilder:validation:Optional
-	Organization *string `json:"organization" tf:"organization,omitempty"`
+	Organization *string `json:"organization,omitempty" tf:"organization,omitempty"`
 
 	// The organizational unit of the subject.
 	// +kubebuilder:validation:Optional
@@ -1302,6 +1315,36 @@ type SubordinateConfigParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	PemIssuerChain *PemIssuerChainParameters `json:"pemIssuerChain,omitempty" tf:"pem_issuer_chain,omitempty"`
+}
+
+type UserDefinedAccessUrlsInitParameters struct {
+	AiaIssuingCertificateUrls []*string `json:"aiaIssuingCertificateUrls,omitempty" tf:"aia_issuing_certificate_urls,omitempty"`
+
+	// (Output)
+	// The URL where this CertificateAuthority's CRLs are published. This will only be set for
+	// CAs that have been activated.
+	CrlAccessUrls []*string `json:"crlAccessUrls,omitempty" tf:"crl_access_urls,omitempty"`
+}
+
+type UserDefinedAccessUrlsObservation struct {
+	AiaIssuingCertificateUrls []*string `json:"aiaIssuingCertificateUrls,omitempty" tf:"aia_issuing_certificate_urls,omitempty"`
+
+	// (Output)
+	// The URL where this CertificateAuthority's CRLs are published. This will only be set for
+	// CAs that have been activated.
+	CrlAccessUrls []*string `json:"crlAccessUrls,omitempty" tf:"crl_access_urls,omitempty"`
+}
+
+type UserDefinedAccessUrlsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	AiaIssuingCertificateUrls []*string `json:"aiaIssuingCertificateUrls,omitempty" tf:"aia_issuing_certificate_urls,omitempty"`
+
+	// (Output)
+	// The URL where this CertificateAuthority's CRLs are published. This will only be set for
+	// CAs that have been activated.
+	// +kubebuilder:validation:Optional
+	CrlAccessUrls []*string `json:"crlAccessUrls,omitempty" tf:"crl_access_urls,omitempty"`
 }
 
 // CertificateAuthoritySpec defines the desired state of CertificateAuthority

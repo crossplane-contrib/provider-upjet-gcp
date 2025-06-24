@@ -81,6 +81,10 @@ type GlobalForwardingRuleInitParameters struct {
 	// you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	ExternalManagedBackendBucketMigrationState *string `json:"externalManagedBackendBucketMigrationState,omitempty" tf:"external_managed_backend_bucket_migration_state,omitempty"`
+
+	ExternalManagedBackendBucketMigrationTestingPercentage *float64 `json:"externalManagedBackendBucketMigrationTestingPercentage,omitempty" tf:"external_managed_backend_bucket_migration_testing_percentage,omitempty"`
+
 	// IP address for which this forwarding rule accepts traffic. When a client
 	// sends traffic to this IP address, the forwarding rule directs the traffic
 	// to the referenced target.
@@ -161,6 +165,8 @@ type GlobalForwardingRuleInitParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
+	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
+
 	// This is used in PSC consumer ForwardingRule to control whether it should try to auto-generate a DNS zone or not. Non-PSC forwarding rules do not use this field.
 	NoAutomateDNSZone *bool `json:"noAutomateDnsZone,omitempty" tf:"no_automate_dns_zone,omitempty"`
 
@@ -238,6 +244,13 @@ type GlobalForwardingRuleObservation struct {
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
 
+	ExternalManagedBackendBucketMigrationState *string `json:"externalManagedBackendBucketMigrationState,omitempty" tf:"external_managed_backend_bucket_migration_state,omitempty"`
+
+	ExternalManagedBackendBucketMigrationTestingPercentage *float64 `json:"externalManagedBackendBucketMigrationTestingPercentage,omitempty" tf:"external_managed_backend_bucket_migration_testing_percentage,omitempty"`
+
+	// an identifier for the resource with format projects/{{project}}/global/forwardingRules/{{name}}
+	ForwardingRuleID *float64 `json:"forwardingRuleId,omitempty" tf:"forwarding_rule_id,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/global/forwardingRules/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -305,6 +318,8 @@ type GlobalForwardingRuleObservation struct {
 	// APIs, a network must be provided.
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
+	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
+
 	// This is used in PSC consumer ForwardingRule to control whether it should try to auto-generate a DNS zone or not. Non-PSC forwarding rules do not use this field.
 	NoAutomateDNSZone *bool `json:"noAutomateDnsZone,omitempty" tf:"no_automate_dns_zone,omitempty"`
 
@@ -359,6 +374,12 @@ type GlobalForwardingRuleParameters struct {
 	// you create the resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ExternalManagedBackendBucketMigrationState *string `json:"externalManagedBackendBucketMigrationState,omitempty" tf:"external_managed_backend_bucket_migration_state,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ExternalManagedBackendBucketMigrationTestingPercentage *float64 `json:"externalManagedBackendBucketMigrationTestingPercentage,omitempty" tf:"external_managed_backend_bucket_migration_testing_percentage,omitempty"`
 
 	// IP address for which this forwarding rule accepts traffic. When a client
 	// sends traffic to this IP address, the forwarding rule directs the traffic
@@ -446,6 +467,9 @@ type GlobalForwardingRuleParameters struct {
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
 
 	// This is used in PSC consumer ForwardingRule to control whether it should try to auto-generate a DNS zone or not. Non-PSC forwarding rules do not use this field.
 	// +kubebuilder:validation:Optional

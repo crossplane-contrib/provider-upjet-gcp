@@ -184,6 +184,114 @@ type ContainersResourcesParameters struct {
 	Limits map[string]*string `json:"limits,omitempty" tf:"limits,omitempty"`
 }
 
+type ContainersStartupProbeGRPCInitParameters struct {
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+}
+
+type ContainersStartupProbeGRPCObservation struct {
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+}
+
+type ContainersStartupProbeGRPCParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+}
+
+type ContainersStartupProbeHTTPGetInitParameters struct {
+	HTTPHeaders []StartupProbeHTTPGetHTTPHeadersInitParameters `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
+
+	// Path that is exported by the NFS server.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+}
+
+type ContainersStartupProbeHTTPGetObservation struct {
+	HTTPHeaders []StartupProbeHTTPGetHTTPHeadersObservation `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
+
+	// Path that is exported by the NFS server.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+}
+
+type ContainersStartupProbeHTTPGetParameters struct {
+
+	// +kubebuilder:validation:Optional
+	HTTPHeaders []StartupProbeHTTPGetHTTPHeadersParameters `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
+
+	// Path that is exported by the NFS server.
+	// +kubebuilder:validation:Optional
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+}
+
+type ContainersStartupProbeInitParameters struct {
+	FailureThreshold *float64 `json:"failureThreshold,omitempty" tf:"failure_threshold,omitempty"`
+
+	GRPC *ContainersStartupProbeGRPCInitParameters `json:"grpc,omitempty" tf:"grpc,omitempty"`
+
+	HTTPGet *ContainersStartupProbeHTTPGetInitParameters `json:"httpGet,omitempty" tf:"http_get,omitempty"`
+
+	InitialDelaySeconds *float64 `json:"initialDelaySeconds,omitempty" tf:"initial_delay_seconds,omitempty"`
+
+	PeriodSeconds *float64 `json:"periodSeconds,omitempty" tf:"period_seconds,omitempty"`
+
+	TCPSocket *StartupProbeTCPSocketInitParameters `json:"tcpSocket,omitempty" tf:"tcp_socket,omitempty"`
+
+	TimeoutSeconds *float64 `json:"timeoutSeconds,omitempty" tf:"timeout_seconds,omitempty"`
+}
+
+type ContainersStartupProbeObservation struct {
+	FailureThreshold *float64 `json:"failureThreshold,omitempty" tf:"failure_threshold,omitempty"`
+
+	GRPC *ContainersStartupProbeGRPCObservation `json:"grpc,omitempty" tf:"grpc,omitempty"`
+
+	HTTPGet *ContainersStartupProbeHTTPGetObservation `json:"httpGet,omitempty" tf:"http_get,omitempty"`
+
+	InitialDelaySeconds *float64 `json:"initialDelaySeconds,omitempty" tf:"initial_delay_seconds,omitempty"`
+
+	PeriodSeconds *float64 `json:"periodSeconds,omitempty" tf:"period_seconds,omitempty"`
+
+	TCPSocket *StartupProbeTCPSocketObservation `json:"tcpSocket,omitempty" tf:"tcp_socket,omitempty"`
+
+	TimeoutSeconds *float64 `json:"timeoutSeconds,omitempty" tf:"timeout_seconds,omitempty"`
+}
+
+type ContainersStartupProbeParameters struct {
+
+	// +kubebuilder:validation:Optional
+	FailureThreshold *float64 `json:"failureThreshold,omitempty" tf:"failure_threshold,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	GRPC *ContainersStartupProbeGRPCParameters `json:"grpc,omitempty" tf:"grpc,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	HTTPGet *ContainersStartupProbeHTTPGetParameters `json:"httpGet,omitempty" tf:"http_get,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	InitialDelaySeconds *float64 `json:"initialDelaySeconds,omitempty" tf:"initial_delay_seconds,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	PeriodSeconds *float64 `json:"periodSeconds,omitempty" tf:"period_seconds,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	TCPSocket *StartupProbeTCPSocketParameters `json:"tcpSocket,omitempty" tf:"tcp_socket,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	TimeoutSeconds *float64 `json:"timeoutSeconds,omitempty" tf:"timeout_seconds,omitempty"`
+}
+
 type ContainersVolumeMountsInitParameters struct {
 
 	// Path within the container at which the volume should be mounted. Must not contain ':'. For Cloud SQL volumes, it can be left empty, or must otherwise be /cloudsql. All instances defined in the Volume will be available as /cloudsql/[instance]. For more information on Cloud SQL volumes, visit https://cloud.google.com/sql/docs/mysql/connect-run
@@ -211,6 +319,35 @@ type ContainersVolumeMountsParameters struct {
 	// Volume's name.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name" tf:"name,omitempty"`
+}
+
+type GcsInitParameters struct {
+
+	// Name of the cloud storage bucket to back the volume. The resource service account must have permission to access the bucket.
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// If true, mount this volume as read-only in all mounts.
+	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
+}
+
+type GcsObservation struct {
+
+	// Name of the cloud storage bucket to back the volume. The resource service account must have permission to access the bucket.
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// If true, mount this volume as read-only in all mounts.
+	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
+}
+
+type GcsParameters struct {
+
+	// Name of the cloud storage bucket to back the volume. The resource service account must have permission to access the bucket.
+	// +kubebuilder:validation:Optional
+	Bucket *string `json:"bucket" tf:"bucket,omitempty"`
+
+	// If true, mount this volume as read-only in all mounts.
+	// +kubebuilder:validation:Optional
+	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
 }
 
 type LatestCreatedExecutionInitParameters struct {
@@ -326,6 +463,49 @@ type SecretItemsParameters struct {
 	Version *string `json:"version" tf:"version,omitempty"`
 }
 
+type StartupProbeHTTPGetHTTPHeadersInitParameters struct {
+
+	// Volume's name.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Literal value of the environment variable. Defaults to "" and the maximum allowed length is 32768 characters. Variable references are not supported in Cloud Run.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type StartupProbeHTTPGetHTTPHeadersObservation struct {
+
+	// Volume's name.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Literal value of the environment variable. Defaults to "" and the maximum allowed length is 32768 characters. Variable references are not supported in Cloud Run.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type StartupProbeHTTPGetHTTPHeadersParameters struct {
+
+	// Volume's name.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name" tf:"name,omitempty"`
+
+	// Literal value of the environment variable. Defaults to "" and the maximum allowed length is 32768 characters. Variable references are not supported in Cloud Run.
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type StartupProbeTCPSocketInitParameters struct {
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+}
+
+type StartupProbeTCPSocketObservation struct {
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+}
+
+type StartupProbeTCPSocketParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+}
+
 type TemplateContainersInitParameters struct {
 
 	// Arguments to the entrypoint. The docker image's CMD is used if this is not provided. Variable references are not supported in Cloud Run.
@@ -333,6 +513,8 @@ type TemplateContainersInitParameters struct {
 
 	// Entrypoint array. Not executed within a shell. The docker image's ENTRYPOINT is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. The $(VAR_NAME) syntax can be escaped with a double $$, ie: $$(VAR_NAME). Escaped references will never be expanded, regardless of whether the variable exists or not. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell
 	Command []*string `json:"command,omitempty" tf:"command,omitempty"`
+
+	DependsOn []*string `json:"dependsOn,omitempty" tf:"depends_on,omitempty"`
 
 	// List of environment variables to set in the container.
 	// Structure is documented below.
@@ -353,6 +535,8 @@ type TemplateContainersInitParameters struct {
 	// Structure is documented below.
 	Resources *ContainersResourcesInitParameters `json:"resources,omitempty" tf:"resources,omitempty"`
 
+	StartupProbe *ContainersStartupProbeInitParameters `json:"startupProbe,omitempty" tf:"startup_probe,omitempty"`
+
 	// Volume to mount into the container's filesystem.
 	// Structure is documented below.
 	VolumeMounts []ContainersVolumeMountsInitParameters `json:"volumeMounts,omitempty" tf:"volume_mounts,omitempty"`
@@ -368,6 +552,8 @@ type TemplateContainersObservation struct {
 
 	// Entrypoint array. Not executed within a shell. The docker image's ENTRYPOINT is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. The $(VAR_NAME) syntax can be escaped with a double $$, ie: $$(VAR_NAME). Escaped references will never be expanded, regardless of whether the variable exists or not. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell
 	Command []*string `json:"command,omitempty" tf:"command,omitempty"`
+
+	DependsOn []*string `json:"dependsOn,omitempty" tf:"depends_on,omitempty"`
 
 	// List of environment variables to set in the container.
 	// Structure is documented below.
@@ -388,6 +574,8 @@ type TemplateContainersObservation struct {
 	// Structure is documented below.
 	Resources *ContainersResourcesObservation `json:"resources,omitempty" tf:"resources,omitempty"`
 
+	StartupProbe *ContainersStartupProbeObservation `json:"startupProbe,omitempty" tf:"startup_probe,omitempty"`
+
 	// Volume to mount into the container's filesystem.
 	// Structure is documented below.
 	VolumeMounts []ContainersVolumeMountsObservation `json:"volumeMounts,omitempty" tf:"volume_mounts,omitempty"`
@@ -405,6 +593,9 @@ type TemplateContainersParameters struct {
 	// Entrypoint array. Not executed within a shell. The docker image's ENTRYPOINT is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. The $(VAR_NAME) syntax can be escaped with a double $$, ie: $$(VAR_NAME). Escaped references will never be expanded, regardless of whether the variable exists or not. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell
 	// +kubebuilder:validation:Optional
 	Command []*string `json:"command,omitempty" tf:"command,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	DependsOn []*string `json:"dependsOn,omitempty" tf:"depends_on,omitempty"`
 
 	// List of environment variables to set in the container.
 	// Structure is documented below.
@@ -429,6 +620,9 @@ type TemplateContainersParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Resources *ContainersResourcesParameters `json:"resources,omitempty" tf:"resources,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	StartupProbe *ContainersStartupProbeParameters `json:"startupProbe,omitempty" tf:"startup_probe,omitempty"`
 
 	// Volume to mount into the container's filesystem.
 	// Structure is documented below.
@@ -550,6 +744,18 @@ type TemplateVolumesInitParameters struct {
 	// Structure is documented below.
 	CloudSQLInstance *CloudSQLInstanceInitParameters `json:"cloudSqlInstance,omitempty" tf:"cloud_sql_instance,omitempty"`
 
+	// Ephemeral storage used as a shared volume.
+	// Structure is documented below.
+	EmptyDir *VolumesEmptyDirInitParameters `json:"emptyDir,omitempty" tf:"empty_dir,omitempty"`
+
+	// Cloud Storage bucket mounted as a volume using GCSFuse. This feature requires the launch stage to be set to ALPHA or BETA.
+	// Structure is documented below.
+	Gcs *GcsInitParameters `json:"gcs,omitempty" tf:"gcs,omitempty"`
+
+	// NFS share mounted as a volume. This feature requires the launch stage to be set to ALPHA or BETA.
+	// Structure is documented below.
+	NFS *VolumesNFSInitParameters `json:"nfs,omitempty" tf:"nfs,omitempty"`
+
 	// Volume's name.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
@@ -563,6 +769,18 @@ type TemplateVolumesObservation struct {
 	// For Cloud SQL volumes, contains the specific instances that should be mounted. Visit https://cloud.google.com/sql/docs/mysql/connect-run for more information on how to connect Cloud SQL and Cloud Run.
 	// Structure is documented below.
 	CloudSQLInstance *CloudSQLInstanceObservation `json:"cloudSqlInstance,omitempty" tf:"cloud_sql_instance,omitempty"`
+
+	// Ephemeral storage used as a shared volume.
+	// Structure is documented below.
+	EmptyDir *VolumesEmptyDirObservation `json:"emptyDir,omitempty" tf:"empty_dir,omitempty"`
+
+	// Cloud Storage bucket mounted as a volume using GCSFuse. This feature requires the launch stage to be set to ALPHA or BETA.
+	// Structure is documented below.
+	Gcs *GcsObservation `json:"gcs,omitempty" tf:"gcs,omitempty"`
+
+	// NFS share mounted as a volume. This feature requires the launch stage to be set to ALPHA or BETA.
+	// Structure is documented below.
+	NFS *VolumesNFSObservation `json:"nfs,omitempty" tf:"nfs,omitempty"`
 
 	// Volume's name.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -578,6 +796,21 @@ type TemplateVolumesParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	CloudSQLInstance *CloudSQLInstanceParameters `json:"cloudSqlInstance,omitempty" tf:"cloud_sql_instance,omitempty"`
+
+	// Ephemeral storage used as a shared volume.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	EmptyDir *VolumesEmptyDirParameters `json:"emptyDir,omitempty" tf:"empty_dir,omitempty"`
+
+	// Cloud Storage bucket mounted as a volume using GCSFuse. This feature requires the launch stage to be set to ALPHA or BETA.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Gcs *GcsParameters `json:"gcs,omitempty" tf:"gcs,omitempty"`
+
+	// NFS share mounted as a volume. This feature requires the launch stage to be set to ALPHA or BETA.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	NFS *VolumesNFSParameters `json:"nfs,omitempty" tf:"nfs,omitempty"`
 
 	// Volume's name.
 	// +kubebuilder:validation:Optional
@@ -692,6 +925,8 @@ type V2JobInitParameters struct {
 	// Arbitrary version identifier for the API client.
 	ClientVersion *string `json:"clientVersion,omitempty" tf:"client_version,omitempty"`
 
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
+
 	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter,
 	// or break down billing charges by team, component, environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or
 	// https://cloud.google.com/run/docs/configuring/labels.
@@ -746,6 +981,8 @@ type V2JobObservation struct {
 
 	// The deletion time.
 	DeleteTime *string `json:"deleteTime,omitempty" tf:"delete_time,omitempty"`
+
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// +mapType=granular
 	EffectiveAnnotations map[string]*string `json:"effectiveAnnotations,omitempty" tf:"effective_annotations,omitempty"`
@@ -847,6 +1084,9 @@ type V2JobParameters struct {
 	// Arbitrary version identifier for the API client.
 	// +kubebuilder:validation:Optional
 	ClientVersion *string `json:"clientVersion,omitempty" tf:"client_version,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter,
 	// or break down billing charges by team, component, environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or
@@ -1083,6 +1323,80 @@ type ValueSourceSecretKeyRefParameters struct {
 	// The Cloud Secret Manager secret version. Can be 'latest' for the latest value or an integer for a specific version.
 	// +kubebuilder:validation:Optional
 	Version *string `json:"version" tf:"version,omitempty"`
+}
+
+type VolumesEmptyDirInitParameters struct {
+
+	// The different types of medium supported for EmptyDir.
+	// Default value is MEMORY.
+	// Possible values are: MEMORY.
+	Medium *string `json:"medium,omitempty" tf:"medium,omitempty"`
+
+	// Limit on the storage usable by this EmptyDir volume. The size limit is also applicable for memory medium. The maximum usage on memory medium EmptyDir would be the minimum value between the SizeLimit specified here and the sum of memory limits of all containers in a pod. This field's values are of the 'Quantity' k8s type: https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/. The default is nil which means that the limit is undefined. More info: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir.
+	SizeLimit *string `json:"sizeLimit,omitempty" tf:"size_limit,omitempty"`
+}
+
+type VolumesEmptyDirObservation struct {
+
+	// The different types of medium supported for EmptyDir.
+	// Default value is MEMORY.
+	// Possible values are: MEMORY.
+	Medium *string `json:"medium,omitempty" tf:"medium,omitempty"`
+
+	// Limit on the storage usable by this EmptyDir volume. The size limit is also applicable for memory medium. The maximum usage on memory medium EmptyDir would be the minimum value between the SizeLimit specified here and the sum of memory limits of all containers in a pod. This field's values are of the 'Quantity' k8s type: https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/. The default is nil which means that the limit is undefined. More info: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir.
+	SizeLimit *string `json:"sizeLimit,omitempty" tf:"size_limit,omitempty"`
+}
+
+type VolumesEmptyDirParameters struct {
+
+	// The different types of medium supported for EmptyDir.
+	// Default value is MEMORY.
+	// Possible values are: MEMORY.
+	// +kubebuilder:validation:Optional
+	Medium *string `json:"medium,omitempty" tf:"medium,omitempty"`
+
+	// Limit on the storage usable by this EmptyDir volume. The size limit is also applicable for memory medium. The maximum usage on memory medium EmptyDir would be the minimum value between the SizeLimit specified here and the sum of memory limits of all containers in a pod. This field's values are of the 'Quantity' k8s type: https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/. The default is nil which means that the limit is undefined. More info: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir.
+	// +kubebuilder:validation:Optional
+	SizeLimit *string `json:"sizeLimit,omitempty" tf:"size_limit,omitempty"`
+}
+
+type VolumesNFSInitParameters struct {
+
+	// Path that is exported by the NFS server.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// If true, mount this volume as read-only in all mounts.
+	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
+
+	// Hostname or IP address of the NFS server.
+	Server *string `json:"server,omitempty" tf:"server,omitempty"`
+}
+
+type VolumesNFSObservation struct {
+
+	// Path that is exported by the NFS server.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// If true, mount this volume as read-only in all mounts.
+	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
+
+	// Hostname or IP address of the NFS server.
+	Server *string `json:"server,omitempty" tf:"server,omitempty"`
+}
+
+type VolumesNFSParameters struct {
+
+	// Path that is exported by the NFS server.
+	// +kubebuilder:validation:Optional
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// If true, mount this volume as read-only in all mounts.
+	// +kubebuilder:validation:Optional
+	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
+
+	// Hostname or IP address of the NFS server.
+	// +kubebuilder:validation:Optional
+	Server *string `json:"server" tf:"server,omitempty"`
 }
 
 type VolumesSecretInitParameters struct {

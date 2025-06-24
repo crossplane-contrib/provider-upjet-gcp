@@ -235,6 +235,8 @@ type NetworkFirewallPolicyRuleObservation struct {
 	// The Action to perform when the client connection triggers the rule. Valid actions are "allow", "deny", "goto_next" and "apply_security_profile_group".
 	Action *string `json:"action,omitempty" tf:"action,omitempty"`
 
+	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
 	// An optional description for this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -411,7 +413,7 @@ type TargetSecureTagsParameters struct {
 
 	// Name of the secure tag, created with TagManager's TagValue API. @pattern tagValues/[0-9]+
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name" tf:"name,omitempty"`
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 // NetworkFirewallPolicyRuleSpec defines the desired state of NetworkFirewallPolicyRule

@@ -32,6 +32,20 @@ type AwsParameters struct {
 	AccountID *string `json:"accountId" tf:"account_id,omitempty"`
 }
 
+type IntermediateCasInitParameters struct {
+	PemCertificate *string `json:"pemCertificate,omitempty" tf:"pem_certificate,omitempty"`
+}
+
+type IntermediateCasObservation struct {
+	PemCertificate *string `json:"pemCertificate,omitempty" tf:"pem_certificate,omitempty"`
+}
+
+type IntermediateCasParameters struct {
+
+	// +kubebuilder:validation:Optional
+	PemCertificate *string `json:"pemCertificate,omitempty" tf:"pem_certificate,omitempty"`
+}
+
 type OidcInitParameters struct {
 
 	// Acceptable values for the aud field (audience) in the OIDC token. Token exchange
@@ -123,6 +137,41 @@ type SAMLParameters struct {
 	IdPMetadataXML *string `json:"idpMetadataXml" tf:"idp_metadata_xml,omitempty"`
 }
 
+type TrustAnchorsInitParameters struct {
+	PemCertificate *string `json:"pemCertificate,omitempty" tf:"pem_certificate,omitempty"`
+}
+
+type TrustAnchorsObservation struct {
+	PemCertificate *string `json:"pemCertificate,omitempty" tf:"pem_certificate,omitempty"`
+}
+
+type TrustAnchorsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	PemCertificate *string `json:"pemCertificate,omitempty" tf:"pem_certificate,omitempty"`
+}
+
+type TrustStoreInitParameters struct {
+	IntermediateCas []IntermediateCasInitParameters `json:"intermediateCas,omitempty" tf:"intermediate_cas,omitempty"`
+
+	TrustAnchors []TrustAnchorsInitParameters `json:"trustAnchors,omitempty" tf:"trust_anchors,omitempty"`
+}
+
+type TrustStoreObservation struct {
+	IntermediateCas []IntermediateCasObservation `json:"intermediateCas,omitempty" tf:"intermediate_cas,omitempty"`
+
+	TrustAnchors []TrustAnchorsObservation `json:"trustAnchors,omitempty" tf:"trust_anchors,omitempty"`
+}
+
+type TrustStoreParameters struct {
+
+	// +kubebuilder:validation:Optional
+	IntermediateCas []IntermediateCasParameters `json:"intermediateCas,omitempty" tf:"intermediate_cas,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	TrustAnchors []TrustAnchorsParameters `json:"trustAnchors" tf:"trust_anchors,omitempty"`
+}
+
 type WorkloadIdentityPoolProviderInitParameters struct {
 
 	// A Common Expression Language expression, in
@@ -164,6 +213,8 @@ type WorkloadIdentityPoolProviderInitParameters struct {
 	// An SAML 2.0 identity provider. Not compatible with the property oidc or aws.
 	// Structure is documented below.
 	SAML *SAMLInitParameters `json:"saml,omitempty" tf:"saml,omitempty"`
+
+	X509 *X509InitParameters `json:"x509,omitempty" tf:"x509,omitempty"`
 }
 
 type WorkloadIdentityPoolProviderObservation struct {
@@ -222,6 +273,8 @@ type WorkloadIdentityPoolProviderObservation struct {
 	// value should be 4-32 characters, and may contain the characters [a-z0-9-]. The prefix
 	// gcp- is reserved for use by Google, and may not be specified.
 	WorkloadIdentityPoolID *string `json:"workloadIdentityPoolId,omitempty" tf:"workload_identity_pool_id,omitempty"`
+
+	X509 *X509Observation `json:"x509,omitempty" tf:"x509,omitempty"`
 }
 
 type WorkloadIdentityPoolProviderParameters struct {
@@ -289,6 +342,23 @@ type WorkloadIdentityPoolProviderParameters struct {
 	// Selector for a WorkloadIdentityPool in iam to populate workloadIdentityPoolId.
 	// +kubebuilder:validation:Optional
 	WorkloadIdentityPoolIDSelector *v1.Selector `json:"workloadIdentityPoolIdSelector,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	X509 *X509Parameters `json:"x509,omitempty" tf:"x509,omitempty"`
+}
+
+type X509InitParameters struct {
+	TrustStore *TrustStoreInitParameters `json:"trustStore,omitempty" tf:"trust_store,omitempty"`
+}
+
+type X509Observation struct {
+	TrustStore *TrustStoreObservation `json:"trustStore,omitempty" tf:"trust_store,omitempty"`
+}
+
+type X509Parameters struct {
+
+	// +kubebuilder:validation:Optional
+	TrustStore *TrustStoreParameters `json:"trustStore" tf:"trust_store,omitempty"`
 }
 
 // WorkloadIdentityPoolProviderSpec defines the desired state of WorkloadIdentityPoolProvider

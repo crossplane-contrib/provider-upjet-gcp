@@ -671,6 +671,8 @@ type IssuancePolicyInitParameters struct {
 	// Structure is documented below.
 	AllowedKeyTypes []AllowedKeyTypesInitParameters `json:"allowedKeyTypes,omitempty" tf:"allowed_key_types,omitempty"`
 
+	BackdateDuration *string `json:"backdateDuration,omitempty" tf:"backdate_duration,omitempty"`
+
 	// A set of X.509 values that will be applied to all certificates issued through this CaPool. If a certificate request
 	// includes conflicting values for the same properties, they will be overwritten by the values defined here. If a certificate
 	// request uses a CertificateTemplate that defines conflicting predefinedValues for the same properties, the certificate
@@ -698,6 +700,8 @@ type IssuancePolicyObservation struct {
 	// Otherwise, any key may be used.
 	// Structure is documented below.
 	AllowedKeyTypes []AllowedKeyTypesObservation `json:"allowedKeyTypes,omitempty" tf:"allowed_key_types,omitempty"`
+
+	BackdateDuration *string `json:"backdateDuration,omitempty" tf:"backdate_duration,omitempty"`
 
 	// A set of X.509 values that will be applied to all certificates issued through this CaPool. If a certificate request
 	// includes conflicting values for the same properties, they will be overwritten by the values defined here. If a certificate
@@ -728,6 +732,9 @@ type IssuancePolicyParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AllowedKeyTypes []AllowedKeyTypesParameters `json:"allowedKeyTypes,omitempty" tf:"allowed_key_types,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	BackdateDuration *string `json:"backdateDuration,omitempty" tf:"backdate_duration,omitempty"`
 
 	// A set of X.509 values that will be applied to all certificates issued through this CaPool. If a certificate request
 	// includes conflicting values for the same properties, they will be overwritten by the values defined here. If a certificate

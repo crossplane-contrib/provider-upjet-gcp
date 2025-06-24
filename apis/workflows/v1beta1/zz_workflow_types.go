@@ -25,8 +25,12 @@ type WorkflowInitParameters struct {
 	// Format: projects/{project}/locations/{location}/keyRings/{keyRing}/cryptoKeys/{cryptoKey}
 	CryptoKeyName *string `json:"cryptoKeyName,omitempty" tf:"crypto_key_name,omitempty"`
 
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
+
 	// Description of the workflow provided by the user. Must be at most 1000 unicode characters long.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	ExecutionHistoryLevel *string `json:"executionHistoryLevel,omitempty" tf:"execution_history_level,omitempty"`
 
 	// A set of key/value label pairs to assign to this Workflow.
 	// +mapType=granular
@@ -68,6 +72,9 @@ type WorkflowInitParameters struct {
 	// Workflow code to be executed. The size limit is 128KB.
 	SourceContents *string `json:"sourceContents,omitempty" tf:"source_contents,omitempty"`
 
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
 	// User-defined environment variables associated with this workflow revision. This map has a maximum length of 20. Each string can take up to 4KiB. Keys cannot be empty strings and cannot start with “GOOGLE” or “WORKFLOWS".
 	// +mapType=granular
 	UserEnvVars map[string]*string `json:"userEnvVars,omitempty" tf:"user_env_vars,omitempty"`
@@ -88,12 +95,16 @@ type WorkflowObservation struct {
 	// Format: projects/{project}/locations/{location}/keyRings/{keyRing}/cryptoKeys/{cryptoKey}
 	CryptoKeyName *string `json:"cryptoKeyName,omitempty" tf:"crypto_key_name,omitempty"`
 
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
+
 	// Description of the workflow provided by the user. Must be at most 1000 unicode characters long.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// for all of the labels present on the resource.
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
+	ExecutionHistoryLevel *string `json:"executionHistoryLevel,omitempty" tf:"execution_history_level,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{region}}/workflows/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -134,6 +145,9 @@ type WorkflowObservation struct {
 	// State of the workflow deployment.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
 	// The combination of labels configured directly on the resource
 	// and default labels configured on the provider.
 	// +mapType=granular
@@ -161,9 +175,15 @@ type WorkflowParameters struct {
 	// +kubebuilder:validation:Optional
 	CryptoKeyName *string `json:"cryptoKeyName,omitempty" tf:"crypto_key_name,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
+
 	// Description of the workflow provided by the user. Must be at most 1000 unicode characters long.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ExecutionHistoryLevel *string `json:"executionHistoryLevel,omitempty" tf:"execution_history_level,omitempty"`
 
 	// A set of key/value label pairs to assign to this Workflow.
 	// +kubebuilder:validation:Optional
@@ -211,6 +231,10 @@ type WorkflowParameters struct {
 	// Workflow code to be executed. The size limit is 128KB.
 	// +kubebuilder:validation:Optional
 	SourceContents *string `json:"sourceContents,omitempty" tf:"source_contents,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// User-defined environment variables associated with this workflow revision. This map has a maximum length of 20. Each string can take up to 4KiB. Keys cannot be empty strings and cannot start with “GOOGLE” or “WORKFLOWS".
 	// +kubebuilder:validation:Optional

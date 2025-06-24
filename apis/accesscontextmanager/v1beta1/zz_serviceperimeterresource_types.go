@@ -37,6 +37,11 @@ type ServicePerimeterResourceInitParameters struct {
 type ServicePerimeterResourceObservation struct {
 
 	// an identifier for the resource with format {{perimeter_name}}/{{resource}}
+	AccessPolicyID *string `json:"accessPolicyId,omitempty" tf:"access_policy_id,omitempty"`
+
+	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
+
+	// an identifier for the resource with format {{perimeter_name}}/{{resource}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The name of the Service Perimeter to add this resource to.

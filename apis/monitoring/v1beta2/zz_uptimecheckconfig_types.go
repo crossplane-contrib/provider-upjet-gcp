@@ -49,13 +49,20 @@ type AuthInfoInitParameters struct {
 
 	// The password to authenticate.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	PasswordSecretRef v1.SecretKeySelector `json:"passwordSecretRef" tf:"-"`
+	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+
+	PasswordWo *string `json:"passwordWo,omitempty" tf:"password_wo,omitempty"`
+
+	PasswordWoVersion *string `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
 
 	// The username to authenticate.
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
 
 type AuthInfoObservation struct {
+	PasswordWo *string `json:"passwordWo,omitempty" tf:"password_wo,omitempty"`
+
+	PasswordWoVersion *string `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
 
 	// The username to authenticate.
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
@@ -66,7 +73,13 @@ type AuthInfoParameters struct {
 	// The password to authenticate.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef v1.SecretKeySelector `json:"passwordSecretRef" tf:"-"`
+	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	PasswordWo *string `json:"passwordWo,omitempty" tf:"password_wo,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	PasswordWoVersion *string `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
 
 	// The username to authenticate.
 	// +kubebuilder:validation:Optional
@@ -583,6 +596,8 @@ type UptimeCheckConfigInitParameters struct {
 	// Structure is documented below.
 	HTTPCheck *HTTPCheckInitParameters `json:"httpCheck,omitempty" tf:"http_check,omitempty"`
 
+	LogCheckFailures *bool `json:"logCheckFailures,omitempty" tf:"log_check_failures,omitempty"`
+
 	// The [monitored resource]
 	// (https://cloud.google.com/monitoring/api/resources) associated with the
 	// configuration. The following monitored resource types are supported for
@@ -638,6 +653,8 @@ type UptimeCheckConfigObservation struct {
 
 	// an identifier for the resource with format {{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	LogCheckFailures *bool `json:"logCheckFailures,omitempty" tf:"log_check_failures,omitempty"`
 
 	// The [monitored resource]
 	// (https://cloud.google.com/monitoring/api/resources) associated with the
@@ -701,6 +718,9 @@ type UptimeCheckConfigParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	HTTPCheck *HTTPCheckParameters `json:"httpCheck,omitempty" tf:"http_check,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	LogCheckFailures *bool `json:"logCheckFailures,omitempty" tf:"log_check_failures,omitempty"`
 
 	// The [monitored resource]
 	// (https://cloud.google.com/monitoring/api/resources) associated with the

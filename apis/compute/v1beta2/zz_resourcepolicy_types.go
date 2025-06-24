@@ -112,6 +112,8 @@ type GroupPlacementPolicyInitParameters struct {
 	// Possible values are: COLLOCATED.
 	Collocation *string `json:"collocation,omitempty" tf:"collocation,omitempty"`
 
+	GpuTopology *string `json:"gpuTopology,omitempty" tf:"gpu_topology,omitempty"`
+
 	// Number of VMs in this placement group. Google does not recommend that you use this field
 	// unless you use a compact policy and you want your policy to work only if it contains this
 	// exact number of VMs.
@@ -130,6 +132,8 @@ type GroupPlacementPolicyObservation struct {
 	// attached.
 	// Possible values are: COLLOCATED.
 	Collocation *string `json:"collocation,omitempty" tf:"collocation,omitempty"`
+
+	GpuTopology *string `json:"gpuTopology,omitempty" tf:"gpu_topology,omitempty"`
 
 	// Number of VMs in this placement group. Google does not recommend that you use this field
 	// unless you use a compact policy and you want your policy to work only if it contains this
@@ -151,6 +155,9 @@ type GroupPlacementPolicyParameters struct {
 	// Possible values are: COLLOCATED.
 	// +kubebuilder:validation:Optional
 	Collocation *string `json:"collocation,omitempty" tf:"collocation,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	GpuTopology *string `json:"gpuTopology,omitempty" tf:"gpu_topology,omitempty"`
 
 	// Number of VMs in this placement group. Google does not recommend that you use this field
 	// unless you use a compact policy and you want your policy to work only if it contains this
@@ -283,6 +290,8 @@ type ResourcePolicyInitParameters struct {
 	// Policy for creating snapshots of persistent disks.
 	// Structure is documented below.
 	SnapshotSchedulePolicy *SnapshotSchedulePolicyInitParameters `json:"snapshotSchedulePolicy,omitempty" tf:"snapshot_schedule_policy,omitempty"`
+
+	WorkloadPolicy *WorkloadPolicyInitParameters `json:"workloadPolicy,omitempty" tf:"workload_policy,omitempty"`
 }
 
 type ResourcePolicyObservation struct {
@@ -318,6 +327,8 @@ type ResourcePolicyObservation struct {
 	// Policy for creating snapshots of persistent disks.
 	// Structure is documented below.
 	SnapshotSchedulePolicy *SnapshotSchedulePolicyObservation `json:"snapshotSchedulePolicy,omitempty" tf:"snapshot_schedule_policy,omitempty"`
+
+	WorkloadPolicy *WorkloadPolicyObservation `json:"workloadPolicy,omitempty" tf:"workload_policy,omitempty"`
 }
 
 type ResourcePolicyParameters struct {
@@ -354,6 +365,9 @@ type ResourcePolicyParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SnapshotSchedulePolicy *SnapshotSchedulePolicyParameters `json:"snapshotSchedulePolicy,omitempty" tf:"snapshot_schedule_policy,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	WorkloadPolicy *WorkloadPolicyParameters `json:"workloadPolicy,omitempty" tf:"workload_policy,omitempty"`
 }
 
 type RetentionPolicyInitParameters struct {
@@ -612,6 +626,34 @@ type WeeklyScheduleParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	DayOfWeeks []DayOfWeeksParameters `json:"dayOfWeeks" tf:"day_of_weeks,omitempty"`
+}
+
+type WorkloadPolicyInitParameters struct {
+	AcceleratorTopology *string `json:"acceleratorTopology,omitempty" tf:"accelerator_topology,omitempty"`
+
+	MaxTopologyDistance *string `json:"maxTopologyDistance,omitempty" tf:"max_topology_distance,omitempty"`
+
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type WorkloadPolicyObservation struct {
+	AcceleratorTopology *string `json:"acceleratorTopology,omitempty" tf:"accelerator_topology,omitempty"`
+
+	MaxTopologyDistance *string `json:"maxTopologyDistance,omitempty" tf:"max_topology_distance,omitempty"`
+
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type WorkloadPolicyParameters struct {
+
+	// +kubebuilder:validation:Optional
+	AcceleratorTopology *string `json:"acceleratorTopology,omitempty" tf:"accelerator_topology,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	MaxTopologyDistance *string `json:"maxTopologyDistance,omitempty" tf:"max_topology_distance,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 // ResourcePolicySpec defines the desired state of ResourcePolicy

@@ -14,9 +14,11 @@ import (
 )
 
 type NATAddressInitParameters struct {
+	Activate *bool `json:"activate,omitempty" tf:"activate,omitempty"`
 }
 
 type NATAddressObservation struct {
+	Activate *bool `json:"activate,omitempty" tf:"activate,omitempty"`
 
 	// an identifier for the resource with format {{instance_id}}/natAddresses/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -33,6 +35,9 @@ type NATAddressObservation struct {
 }
 
 type NATAddressParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Activate *bool `json:"activate,omitempty" tf:"activate,omitempty"`
 
 	// The Apigee instance associated with the Apigee environment,
 	// in the format organizations/{{org_name}}/instances/{{instance_name}}.

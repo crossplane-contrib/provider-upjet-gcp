@@ -30,6 +30,10 @@ type HubInitParameters struct {
 	// Immutable. The name of the hub. Hub names must be unique. They use the following form: projects/{project_number}/locations/global/hubs/{hub_id}
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	PolicyMode *string `json:"policyMode,omitempty" tf:"policy_mode,omitempty"`
+
+	PresetTopology *string `json:"presetTopology,omitempty" tf:"preset_topology,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -60,6 +64,10 @@ type HubObservation struct {
 
 	// Immutable. The name of the hub. Hub names must be unique. They use the following form: projects/{project_number}/locations/global/hubs/{hub_id}
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	PolicyMode *string `json:"policyMode,omitempty" tf:"policy_mode,omitempty"`
+
+	PresetTopology *string `json:"presetTopology,omitempty" tf:"preset_topology,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -104,6 +112,12 @@ type HubParameters struct {
 	// Immutable. The name of the hub. Hub names must be unique. They use the following form: projects/{project_number}/locations/global/hubs/{hub_id}
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	PolicyMode *string `json:"policyMode,omitempty" tf:"policy_mode,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	PresetTopology *string `json:"presetTopology,omitempty" tf:"preset_topology,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.

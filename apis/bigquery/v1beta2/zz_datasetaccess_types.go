@@ -13,6 +13,41 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type DatasetAccessConditionInitParameters struct {
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
+}
+
+type DatasetAccessConditionObservation struct {
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
+}
+
+type DatasetAccessConditionParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Expression *string `json:"expression" tf:"expression,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
+}
+
 type DatasetAccessDatasetDatasetInitParameters struct {
 
 	// The ID of the dataset containing this table.
@@ -96,6 +131,7 @@ type DatasetAccessDatasetParameters struct {
 }
 
 type DatasetAccessInitParameters struct {
+	Condition *DatasetAccessConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	// Grants all resources of particular types in a particular dataset read access to the current dataset.
 	// Structure is documented below.
@@ -175,6 +211,8 @@ type DatasetAccessInitParameters struct {
 type DatasetAccessObservation struct {
 	APIUpdatedMember *bool `json:"apiUpdatedMember,omitempty" tf:"api_updated_member,omitempty"`
 
+	Condition *DatasetAccessConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
+
 	// Grants all resources of particular types in a particular dataset read access to the current dataset.
 	// Structure is documented below.
 	Dataset *DatasetAccessDatasetObservation `json:"dataset,omitempty" tf:"dataset,omitempty"`
@@ -235,6 +273,9 @@ type DatasetAccessObservation struct {
 }
 
 type DatasetAccessParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Condition *DatasetAccessConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	// Grants all resources of particular types in a particular dataset read access to the current dataset.
 	// Structure is documented below.

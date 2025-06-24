@@ -13,6 +13,15 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AvroFormatInitParameters struct {
+}
+
+type AvroFormatObservation struct {
+}
+
+type AvroFormatParameters struct {
+}
+
 type AwsKinesisInitParameters struct {
 
 	// AWS role ARN to be used for Federated Identity authentication with
@@ -83,11 +92,267 @@ type AwsKinesisParameters struct {
 	StreamArn *string `json:"streamArn" tf:"stream_arn,omitempty"`
 }
 
+type AwsMskInitParameters struct {
+
+	// AWS role ARN to be used for Federated Identity authentication with
+	// Kinesis. Check the Pub/Sub docs for how to set up this role and the
+	// required permissions that need to be attached to it.
+	AwsRoleArn *string `json:"awsRoleArn,omitempty" tf:"aws_role_arn,omitempty"`
+
+	ClusterArn *string `json:"clusterArn,omitempty" tf:"cluster_arn,omitempty"`
+
+	// The GCP service account to be used for Federated Identity authentication
+	// with Kinesis (via a AssumeRoleWithWebIdentity call for the provided
+	// role). The awsRoleArn must be set up with accounts.google.com:sub
+	// equals to this service account number.
+	GCPServiceAccount *string `json:"gcpServiceAccount,omitempty" tf:"gcp_service_account,omitempty"`
+
+	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
+}
+
+type AwsMskObservation struct {
+
+	// AWS role ARN to be used for Federated Identity authentication with
+	// Kinesis. Check the Pub/Sub docs for how to set up this role and the
+	// required permissions that need to be attached to it.
+	AwsRoleArn *string `json:"awsRoleArn,omitempty" tf:"aws_role_arn,omitempty"`
+
+	ClusterArn *string `json:"clusterArn,omitempty" tf:"cluster_arn,omitempty"`
+
+	// The GCP service account to be used for Federated Identity authentication
+	// with Kinesis (via a AssumeRoleWithWebIdentity call for the provided
+	// role). The awsRoleArn must be set up with accounts.google.com:sub
+	// equals to this service account number.
+	GCPServiceAccount *string `json:"gcpServiceAccount,omitempty" tf:"gcp_service_account,omitempty"`
+
+	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
+}
+
+type AwsMskParameters struct {
+
+	// AWS role ARN to be used for Federated Identity authentication with
+	// Kinesis. Check the Pub/Sub docs for how to set up this role and the
+	// required permissions that need to be attached to it.
+	// +kubebuilder:validation:Optional
+	AwsRoleArn *string `json:"awsRoleArn" tf:"aws_role_arn,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ClusterArn *string `json:"clusterArn" tf:"cluster_arn,omitempty"`
+
+	// The GCP service account to be used for Federated Identity authentication
+	// with Kinesis (via a AssumeRoleWithWebIdentity call for the provided
+	// role). The awsRoleArn must be set up with accounts.google.com:sub
+	// equals to this service account number.
+	// +kubebuilder:validation:Optional
+	GCPServiceAccount *string `json:"gcpServiceAccount" tf:"gcp_service_account,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Topic *string `json:"topic" tf:"topic,omitempty"`
+}
+
+type AzureEventHubsInitParameters struct {
+
+	// an identifier for the resource with format projects/{{project}}/topics/{{name}}
+	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
+
+	EventHub *string `json:"eventHub,omitempty" tf:"event_hub,omitempty"`
+
+	// The GCP service account to be used for Federated Identity authentication
+	// with Kinesis (via a AssumeRoleWithWebIdentity call for the provided
+	// role). The awsRoleArn must be set up with accounts.google.com:sub
+	// equals to this service account number.
+	GCPServiceAccount *string `json:"gcpServiceAccount,omitempty" tf:"gcp_service_account,omitempty"`
+
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+
+	ResourceGroup *string `json:"resourceGroup,omitempty" tf:"resource_group,omitempty"`
+
+	// an identifier for the resource with format projects/{{project}}/topics/{{name}}
+	SubscriptionID *string `json:"subscriptionId,omitempty" tf:"subscription_id,omitempty"`
+
+	// an identifier for the resource with format projects/{{project}}/topics/{{name}}
+	TenantID *string `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
+}
+
+type AzureEventHubsObservation struct {
+
+	// an identifier for the resource with format projects/{{project}}/topics/{{name}}
+	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
+
+	EventHub *string `json:"eventHub,omitempty" tf:"event_hub,omitempty"`
+
+	// The GCP service account to be used for Federated Identity authentication
+	// with Kinesis (via a AssumeRoleWithWebIdentity call for the provided
+	// role). The awsRoleArn must be set up with accounts.google.com:sub
+	// equals to this service account number.
+	GCPServiceAccount *string `json:"gcpServiceAccount,omitempty" tf:"gcp_service_account,omitempty"`
+
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+
+	ResourceGroup *string `json:"resourceGroup,omitempty" tf:"resource_group,omitempty"`
+
+	// an identifier for the resource with format projects/{{project}}/topics/{{name}}
+	SubscriptionID *string `json:"subscriptionId,omitempty" tf:"subscription_id,omitempty"`
+
+	// an identifier for the resource with format projects/{{project}}/topics/{{name}}
+	TenantID *string `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
+}
+
+type AzureEventHubsParameters struct {
+
+	// an identifier for the resource with format projects/{{project}}/topics/{{name}}
+	// +kubebuilder:validation:Optional
+	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	EventHub *string `json:"eventHub,omitempty" tf:"event_hub,omitempty"`
+
+	// The GCP service account to be used for Federated Identity authentication
+	// with Kinesis (via a AssumeRoleWithWebIdentity call for the provided
+	// role). The awsRoleArn must be set up with accounts.google.com:sub
+	// equals to this service account number.
+	// +kubebuilder:validation:Optional
+	GCPServiceAccount *string `json:"gcpServiceAccount,omitempty" tf:"gcp_service_account,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ResourceGroup *string `json:"resourceGroup,omitempty" tf:"resource_group,omitempty"`
+
+	// an identifier for the resource with format projects/{{project}}/topics/{{name}}
+	// +kubebuilder:validation:Optional
+	SubscriptionID *string `json:"subscriptionId,omitempty" tf:"subscription_id,omitempty"`
+
+	// an identifier for the resource with format projects/{{project}}/topics/{{name}}
+	// +kubebuilder:validation:Optional
+	TenantID *string `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
+}
+
+type CloudStorageInitParameters struct {
+	AvroFormat *AvroFormatInitParameters `json:"avroFormat,omitempty" tf:"avro_format,omitempty"`
+
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	MatchGlob *string `json:"matchGlob,omitempty" tf:"match_glob,omitempty"`
+
+	MinimumObjectCreateTime *string `json:"minimumObjectCreateTime,omitempty" tf:"minimum_object_create_time,omitempty"`
+
+	PubsubAvroFormat *PubsubAvroFormatInitParameters `json:"pubsubAvroFormat,omitempty" tf:"pubsub_avro_format,omitempty"`
+
+	TextFormat *TextFormatInitParameters `json:"textFormat,omitempty" tf:"text_format,omitempty"`
+}
+
+type CloudStorageObservation struct {
+	AvroFormat *AvroFormatParameters `json:"avroFormat,omitempty" tf:"avro_format,omitempty"`
+
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	MatchGlob *string `json:"matchGlob,omitempty" tf:"match_glob,omitempty"`
+
+	MinimumObjectCreateTime *string `json:"minimumObjectCreateTime,omitempty" tf:"minimum_object_create_time,omitempty"`
+
+	PubsubAvroFormat *PubsubAvroFormatParameters `json:"pubsubAvroFormat,omitempty" tf:"pubsub_avro_format,omitempty"`
+
+	TextFormat *TextFormatObservation `json:"textFormat,omitempty" tf:"text_format,omitempty"`
+}
+
+type CloudStorageParameters struct {
+
+	// +kubebuilder:validation:Optional
+	AvroFormat *AvroFormatParameters `json:"avroFormat,omitempty" tf:"avro_format,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Bucket *string `json:"bucket" tf:"bucket,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	MatchGlob *string `json:"matchGlob,omitempty" tf:"match_glob,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	MinimumObjectCreateTime *string `json:"minimumObjectCreateTime,omitempty" tf:"minimum_object_create_time,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	PubsubAvroFormat *PubsubAvroFormatParameters `json:"pubsubAvroFormat,omitempty" tf:"pubsub_avro_format,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	TextFormat *TextFormatParameters `json:"textFormat,omitempty" tf:"text_format,omitempty"`
+}
+
+type ConfluentCloudInitParameters struct {
+	BootstrapServer *string `json:"bootstrapServer,omitempty" tf:"bootstrap_server,omitempty"`
+
+	// an identifier for the resource with format projects/{{project}}/topics/{{name}}
+	ClusterID *string `json:"clusterId,omitempty" tf:"cluster_id,omitempty"`
+
+	// The GCP service account to be used for Federated Identity authentication
+	// with Kinesis (via a AssumeRoleWithWebIdentity call for the provided
+	// role). The awsRoleArn must be set up with accounts.google.com:sub
+	// equals to this service account number.
+	GCPServiceAccount *string `json:"gcpServiceAccount,omitempty" tf:"gcp_service_account,omitempty"`
+
+	// an identifier for the resource with format projects/{{project}}/topics/{{name}}
+	IdentityPoolID *string `json:"identityPoolId,omitempty" tf:"identity_pool_id,omitempty"`
+
+	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
+}
+
+type ConfluentCloudObservation struct {
+	BootstrapServer *string `json:"bootstrapServer,omitempty" tf:"bootstrap_server,omitempty"`
+
+	// an identifier for the resource with format projects/{{project}}/topics/{{name}}
+	ClusterID *string `json:"clusterId,omitempty" tf:"cluster_id,omitempty"`
+
+	// The GCP service account to be used for Federated Identity authentication
+	// with Kinesis (via a AssumeRoleWithWebIdentity call for the provided
+	// role). The awsRoleArn must be set up with accounts.google.com:sub
+	// equals to this service account number.
+	GCPServiceAccount *string `json:"gcpServiceAccount,omitempty" tf:"gcp_service_account,omitempty"`
+
+	// an identifier for the resource with format projects/{{project}}/topics/{{name}}
+	IdentityPoolID *string `json:"identityPoolId,omitempty" tf:"identity_pool_id,omitempty"`
+
+	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
+}
+
+type ConfluentCloudParameters struct {
+
+	// +kubebuilder:validation:Optional
+	BootstrapServer *string `json:"bootstrapServer" tf:"bootstrap_server,omitempty"`
+
+	// an identifier for the resource with format projects/{{project}}/topics/{{name}}
+	// +kubebuilder:validation:Optional
+	ClusterID *string `json:"clusterId,omitempty" tf:"cluster_id,omitempty"`
+
+	// The GCP service account to be used for Federated Identity authentication
+	// with Kinesis (via a AssumeRoleWithWebIdentity call for the provided
+	// role). The awsRoleArn must be set up with accounts.google.com:sub
+	// equals to this service account number.
+	// +kubebuilder:validation:Optional
+	GCPServiceAccount *string `json:"gcpServiceAccount" tf:"gcp_service_account,omitempty"`
+
+	// an identifier for the resource with format projects/{{project}}/topics/{{name}}
+	// +kubebuilder:validation:Optional
+	IdentityPoolID *string `json:"identityPoolId" tf:"identity_pool_id,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Topic *string `json:"topic" tf:"topic,omitempty"`
+}
+
 type IngestionDataSourceSettingsInitParameters struct {
 
 	// Settings for ingestion from Amazon Kinesis Data Streams.
 	// Structure is documented below.
 	AwsKinesis *AwsKinesisInitParameters `json:"awsKinesis,omitempty" tf:"aws_kinesis,omitempty"`
+
+	AwsMsk *AwsMskInitParameters `json:"awsMsk,omitempty" tf:"aws_msk,omitempty"`
+
+	AzureEventHubs *AzureEventHubsInitParameters `json:"azureEventHubs,omitempty" tf:"azure_event_hubs,omitempty"`
+
+	CloudStorage *CloudStorageInitParameters `json:"cloudStorage,omitempty" tf:"cloud_storage,omitempty"`
+
+	ConfluentCloud *ConfluentCloudInitParameters `json:"confluentCloud,omitempty" tf:"confluent_cloud,omitempty"`
+
+	PlatformLogsSettings *PlatformLogsSettingsInitParameters `json:"platformLogsSettings,omitempty" tf:"platform_logs_settings,omitempty"`
 }
 
 type IngestionDataSourceSettingsObservation struct {
@@ -95,6 +360,16 @@ type IngestionDataSourceSettingsObservation struct {
 	// Settings for ingestion from Amazon Kinesis Data Streams.
 	// Structure is documented below.
 	AwsKinesis *AwsKinesisObservation `json:"awsKinesis,omitempty" tf:"aws_kinesis,omitempty"`
+
+	AwsMsk *AwsMskObservation `json:"awsMsk,omitempty" tf:"aws_msk,omitempty"`
+
+	AzureEventHubs *AzureEventHubsObservation `json:"azureEventHubs,omitempty" tf:"azure_event_hubs,omitempty"`
+
+	CloudStorage *CloudStorageObservation `json:"cloudStorage,omitempty" tf:"cloud_storage,omitempty"`
+
+	ConfluentCloud *ConfluentCloudObservation `json:"confluentCloud,omitempty" tf:"confluent_cloud,omitempty"`
+
+	PlatformLogsSettings *PlatformLogsSettingsObservation `json:"platformLogsSettings,omitempty" tf:"platform_logs_settings,omitempty"`
 }
 
 type IngestionDataSourceSettingsParameters struct {
@@ -103,6 +378,21 @@ type IngestionDataSourceSettingsParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AwsKinesis *AwsKinesisParameters `json:"awsKinesis,omitempty" tf:"aws_kinesis,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	AwsMsk *AwsMskParameters `json:"awsMsk,omitempty" tf:"aws_msk,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	AzureEventHubs *AzureEventHubsParameters `json:"azureEventHubs,omitempty" tf:"azure_event_hubs,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	CloudStorage *CloudStorageParameters `json:"cloudStorage,omitempty" tf:"cloud_storage,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ConfluentCloud *ConfluentCloudParameters `json:"confluentCloud,omitempty" tf:"confluent_cloud,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	PlatformLogsSettings *PlatformLogsSettingsParameters `json:"platformLogsSettings,omitempty" tf:"platform_logs_settings,omitempty"`
 }
 
 type MessageStoragePolicyInitParameters struct {
@@ -113,7 +403,10 @@ type MessageStoragePolicyInitParameters struct {
 	// of GCP altogether) will be routed for storage in one of the
 	// allowed regions. An empty list means that no regions are allowed,
 	// and is not a valid configuration.
+	// +listType=set
 	AllowedPersistenceRegions []*string `json:"allowedPersistenceRegions,omitempty" tf:"allowed_persistence_regions,omitempty"`
+
+	EnforceInTransit *bool `json:"enforceInTransit,omitempty" tf:"enforce_in_transit,omitempty"`
 }
 
 type MessageStoragePolicyObservation struct {
@@ -124,7 +417,10 @@ type MessageStoragePolicyObservation struct {
 	// of GCP altogether) will be routed for storage in one of the
 	// allowed regions. An empty list means that no regions are allowed,
 	// and is not a valid configuration.
+	// +listType=set
 	AllowedPersistenceRegions []*string `json:"allowedPersistenceRegions,omitempty" tf:"allowed_persistence_regions,omitempty"`
+
+	EnforceInTransit *bool `json:"enforceInTransit,omitempty" tf:"enforce_in_transit,omitempty"`
 }
 
 type MessageStoragePolicyParameters struct {
@@ -136,7 +432,58 @@ type MessageStoragePolicyParameters struct {
 	// allowed regions. An empty list means that no regions are allowed,
 	// and is not a valid configuration.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	AllowedPersistenceRegions []*string `json:"allowedPersistenceRegions" tf:"allowed_persistence_regions,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	EnforceInTransit *bool `json:"enforceInTransit,omitempty" tf:"enforce_in_transit,omitempty"`
+}
+
+type MessageTransformsJavascriptUdfInitParameters struct {
+	Code *string `json:"code,omitempty" tf:"code,omitempty"`
+
+	// Name of the topic.
+	FunctionName *string `json:"functionName,omitempty" tf:"function_name,omitempty"`
+}
+
+type MessageTransformsJavascriptUdfObservation struct {
+	Code *string `json:"code,omitempty" tf:"code,omitempty"`
+
+	// Name of the topic.
+	FunctionName *string `json:"functionName,omitempty" tf:"function_name,omitempty"`
+}
+
+type MessageTransformsJavascriptUdfParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Code *string `json:"code" tf:"code,omitempty"`
+
+	// Name of the topic.
+	// +kubebuilder:validation:Optional
+	FunctionName *string `json:"functionName" tf:"function_name,omitempty"`
+}
+
+type PlatformLogsSettingsInitParameters struct {
+	Severity *string `json:"severity,omitempty" tf:"severity,omitempty"`
+}
+
+type PlatformLogsSettingsObservation struct {
+	Severity *string `json:"severity,omitempty" tf:"severity,omitempty"`
+}
+
+type PlatformLogsSettingsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Severity *string `json:"severity,omitempty" tf:"severity,omitempty"`
+}
+
+type PubsubAvroFormatInitParameters struct {
+}
+
+type PubsubAvroFormatObservation struct {
+}
+
+type PubsubAvroFormatParameters struct {
 }
 
 type SchemaSettingsInitParameters struct {
@@ -183,6 +530,20 @@ type SchemaSettingsParameters struct {
 	Schema *string `json:"schema" tf:"schema,omitempty"`
 }
 
+type TextFormatInitParameters struct {
+	Delimiter *string `json:"delimiter,omitempty" tf:"delimiter,omitempty"`
+}
+
+type TextFormatObservation struct {
+	Delimiter *string `json:"delimiter,omitempty" tf:"delimiter,omitempty"`
+}
+
+type TextFormatParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Delimiter *string `json:"delimiter,omitempty" tf:"delimiter,omitempty"`
+}
+
 type TopicInitParameters struct {
 
 	// Settings for ingestion from a data source into this topic.
@@ -226,6 +587,8 @@ type TopicInitParameters struct {
 	// Structure is documented below.
 	MessageStoragePolicy *MessageStoragePolicyInitParameters `json:"messageStoragePolicy,omitempty" tf:"message_storage_policy,omitempty"`
 
+	MessageTransforms []TopicMessageTransformsInitParameters `json:"messageTransforms,omitempty" tf:"message_transforms,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -233,6 +596,27 @@ type TopicInitParameters struct {
 	// Settings for validating messages published against a schema.
 	// Structure is documented below.
 	SchemaSettings *SchemaSettingsInitParameters `json:"schemaSettings,omitempty" tf:"schema_settings,omitempty"`
+}
+
+type TopicMessageTransformsInitParameters struct {
+	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
+
+	JavascriptUdf *MessageTransformsJavascriptUdfInitParameters `json:"javascriptUdf,omitempty" tf:"javascript_udf,omitempty"`
+}
+
+type TopicMessageTransformsObservation struct {
+	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
+
+	JavascriptUdf *MessageTransformsJavascriptUdfObservation `json:"javascriptUdf,omitempty" tf:"javascript_udf,omitempty"`
+}
+
+type TopicMessageTransformsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	JavascriptUdf *MessageTransformsJavascriptUdfParameters `json:"javascriptUdf,omitempty" tf:"javascript_udf,omitempty"`
 }
 
 type TopicObservation struct {
@@ -274,6 +658,8 @@ type TopicObservation struct {
 	// constraints are in effect.
 	// Structure is documented below.
 	MessageStoragePolicy *MessageStoragePolicyObservation `json:"messageStoragePolicy,omitempty" tf:"message_storage_policy,omitempty"`
+
+	MessageTransforms []TopicMessageTransformsObservation `json:"messageTransforms,omitempty" tf:"message_transforms,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -336,6 +722,9 @@ type TopicParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	MessageStoragePolicy *MessageStoragePolicyParameters `json:"messageStoragePolicy,omitempty" tf:"message_storage_policy,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	MessageTransforms []TopicMessageTransformsParameters `json:"messageTransforms,omitempty" tf:"message_transforms,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.

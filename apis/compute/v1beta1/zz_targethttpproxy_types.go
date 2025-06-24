@@ -57,6 +57,8 @@ type TargetHTTPProxyObservation struct {
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	Fingerprint *string `json:"fingerprint,omitempty" tf:"fingerprint,omitempty"`
+
 	// Specifies how long to keep a connection open, after completing a response,
 	// while there is no matching traffic (in seconds). If an HTTP keepalive is
 	// not specified, a default value (610 seconds) will be used. For Global

@@ -13,6 +13,70 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AccessConditionInitParameters struct {
+
+	// A user-friendly description of the dataset
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	// The geographic location where the dataset should reside.
+	// See official docs.
+	// There are two types of locations, regional or multi-regional. A regional
+	// location is a specific geographic place, such as Tokyo, and a multi-regional
+	// location is a large geographic area, such as the United States, that
+	// contains at least two geographic places.
+	// The default value is multi-regional location US.
+	// Changing this forces a new resource to be created.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
+}
+
+type AccessConditionObservation struct {
+
+	// A user-friendly description of the dataset
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	// The geographic location where the dataset should reside.
+	// See official docs.
+	// There are two types of locations, regional or multi-regional. A regional
+	// location is a specific geographic place, such as Tokyo, and a multi-regional
+	// location is a large geographic area, such as the United States, that
+	// contains at least two geographic places.
+	// The default value is multi-regional location US.
+	// Changing this forces a new resource to be created.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
+}
+
+type AccessConditionParameters struct {
+
+	// A user-friendly description of the dataset
+	// +kubebuilder:validation:Optional
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Expression *string `json:"expression" tf:"expression,omitempty"`
+
+	// The geographic location where the dataset should reside.
+	// See official docs.
+	// There are two types of locations, regional or multi-regional. A regional
+	// location is a specific geographic place, such as Tokyo, and a multi-regional
+	// location is a large geographic area, such as the United States, that
+	// contains at least two geographic places.
+	// The default value is multi-regional location US.
+	// Changing this forces a new resource to be created.
+	// +kubebuilder:validation:Optional
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
+}
+
 type AccessDatasetInitParameters struct {
 
 	// The dataset this entry applies to
@@ -49,6 +113,7 @@ type AccessDatasetParameters struct {
 }
 
 type AccessInitParameters struct {
+	Condition *AccessConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	// Grants all resources of particular types in a particular dataset read access to the current dataset.
 	// Structure is documented below.
@@ -107,6 +172,7 @@ type AccessInitParameters struct {
 }
 
 type AccessObservation struct {
+	Condition *AccessConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	// Grants all resources of particular types in a particular dataset read access to the current dataset.
 	// Structure is documented below.
@@ -155,6 +221,9 @@ type AccessObservation struct {
 }
 
 type AccessParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Condition *AccessConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	// Grants all resources of particular types in a particular dataset read access to the current dataset.
 	// Structure is documented below.
@@ -325,6 +394,8 @@ type DatasetInitParameters struct {
 	// A user-friendly description of the dataset
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	ExternalCatalogDatasetOptions *ExternalCatalogDatasetOptionsInitParameters `json:"externalCatalogDatasetOptions,omitempty" tf:"external_catalog_dataset_options,omitempty"`
+
 	// Information about the external metadata storage where the dataset is defined.
 	// Structure is documented below.
 	ExternalDatasetReference *ExternalDatasetReferenceInitParameters `json:"externalDatasetReference,omitempty" tf:"external_dataset_reference,omitempty"`
@@ -437,6 +508,8 @@ type DatasetObservation struct {
 
 	// A hash of the resource.
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
+
+	ExternalCatalogDatasetOptions *ExternalCatalogDatasetOptionsObservation `json:"externalCatalogDatasetOptions,omitempty" tf:"external_catalog_dataset_options,omitempty"`
 
 	// Information about the external metadata storage where the dataset is defined.
 	// Structure is documented below.
@@ -566,6 +639,9 @@ type DatasetParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	ExternalCatalogDatasetOptions *ExternalCatalogDatasetOptionsParameters `json:"externalCatalogDatasetOptions,omitempty" tf:"external_catalog_dataset_options,omitempty"`
+
 	// Information about the external metadata storage where the dataset is defined.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -667,6 +743,30 @@ type DefaultEncryptionConfigurationParameters struct {
 	// Selector for a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
 	KMSKeyNameSelector *v1.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
+}
+
+type ExternalCatalogDatasetOptionsInitParameters struct {
+	DefaultStorageLocationURI *string `json:"defaultStorageLocationUri,omitempty" tf:"default_storage_location_uri,omitempty"`
+
+	// +mapType=granular
+	Parameters map[string]*string `json:"parameters,omitempty" tf:"parameters,omitempty"`
+}
+
+type ExternalCatalogDatasetOptionsObservation struct {
+	DefaultStorageLocationURI *string `json:"defaultStorageLocationUri,omitempty" tf:"default_storage_location_uri,omitempty"`
+
+	// +mapType=granular
+	Parameters map[string]*string `json:"parameters,omitempty" tf:"parameters,omitempty"`
+}
+
+type ExternalCatalogDatasetOptionsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	DefaultStorageLocationURI *string `json:"defaultStorageLocationUri,omitempty" tf:"default_storage_location_uri,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Parameters map[string]*string `json:"parameters,omitempty" tf:"parameters,omitempty"`
 }
 
 type ExternalDatasetReferenceInitParameters struct {

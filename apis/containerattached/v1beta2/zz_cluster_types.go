@@ -152,6 +152,8 @@ type ClusterInitParameters struct {
 	// Support for proxy configuration.
 	// Structure is documented below.
 	ProxyConfig *ProxyConfigInitParameters `json:"proxyConfig,omitempty" tf:"proxy_config,omitempty"`
+
+	SecurityPostureConfig *SecurityPostureConfigInitParameters `json:"securityPostureConfig,omitempty" tf:"security_posture_config,omitempty"`
 }
 
 type ClusterObservation struct {
@@ -245,6 +247,8 @@ type ClusterObservation struct {
 
 	// If set, there are currently changes in flight to the cluster.
 	Reconciling *bool `json:"reconciling,omitempty" tf:"reconciling,omitempty"`
+
+	SecurityPostureConfig *SecurityPostureConfigObservation `json:"securityPostureConfig,omitempty" tf:"security_posture_config,omitempty"`
 
 	// The current state of the cluster. Possible values:
 	// STATE_UNSPECIFIED, PROVISIONING, RUNNING, RECONCILING, STOPPING, ERROR,
@@ -343,6 +347,9 @@ type ClusterParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ProxyConfig *ProxyConfigParameters `json:"proxyConfig,omitempty" tf:"proxy_config,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	SecurityPostureConfig *SecurityPostureConfigParameters `json:"securityPostureConfig,omitempty" tf:"security_posture_config,omitempty"`
 }
 
 type ComponentConfigInitParameters struct {
@@ -545,6 +552,20 @@ type ProxyConfigParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	KubernetesSecret *KubernetesSecretParameters `json:"kubernetesSecret,omitempty" tf:"kubernetes_secret,omitempty"`
+}
+
+type SecurityPostureConfigInitParameters struct {
+	VulnerabilityMode *string `json:"vulnerabilityMode,omitempty" tf:"vulnerability_mode,omitempty"`
+}
+
+type SecurityPostureConfigObservation struct {
+	VulnerabilityMode *string `json:"vulnerabilityMode,omitempty" tf:"vulnerability_mode,omitempty"`
+}
+
+type SecurityPostureConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	VulnerabilityMode *string `json:"vulnerabilityMode" tf:"vulnerability_mode,omitempty"`
 }
 
 type WorkloadIdentityConfigInitParameters struct {

@@ -78,6 +78,9 @@ type NetworkEndpointGroupObservation struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/zones/{{zone}}/networkEndpointGroups/{{name}}
+	GeneratedID *float64 `json:"generatedId,omitempty" tf:"generated_id,omitempty"`
+
+	// an identifier for the resource with format projects/{{project}}/zones/{{zone}}/networkEndpointGroups/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The network to which all network endpoints in the NEG belong.

@@ -19,13 +19,15 @@ type SecondaryIPRangeInitParameters struct {
 	// range. Provide this property when you create the subnetwork.
 	// Ranges must be unique and non-overlapping with all primary and
 	// secondary IP ranges within a network. Only IPv4 is supported.
-	IPCidrRange *string `json:"ipCidrRange,omitempty" tf:"ip_cidr_range"`
+	IPCidrRange *string `json:"ipCidrRange,omitempty" tf:"ip_cidr_range,omitempty"`
 
 	// The name associated with this subnetwork secondary range, used
 	// when adding an alias IP range to a VM instance. The name must
 	// be 1-63 characters long, and comply with RFC1035. The name
 	// must be unique within the subnetwork.
-	RangeName *string `json:"rangeName,omitempty" tf:"range_name"`
+	RangeName *string `json:"rangeName,omitempty" tf:"range_name,omitempty"`
+
+	ReservedInternalRange *string `json:"reservedInternalRange,omitempty" tf:"reserved_internal_range,omitempty"`
 }
 
 type SecondaryIPRangeObservation struct {
@@ -41,6 +43,8 @@ type SecondaryIPRangeObservation struct {
 	// be 1-63 characters long, and comply with RFC1035. The name
 	// must be unique within the subnetwork.
 	RangeName *string `json:"rangeName,omitempty" tf:"range_name,omitempty"`
+
+	ReservedInternalRange *string `json:"reservedInternalRange,omitempty" tf:"reserved_internal_range,omitempty"`
 }
 
 type SecondaryIPRangeParameters struct {
@@ -50,14 +54,17 @@ type SecondaryIPRangeParameters struct {
 	// Ranges must be unique and non-overlapping with all primary and
 	// secondary IP ranges within a network. Only IPv4 is supported.
 	// +kubebuilder:validation:Optional
-	IPCidrRange *string `json:"ipCidrRange,omitempty" tf:"ip_cidr_range"`
+	IPCidrRange *string `json:"ipCidrRange,omitempty" tf:"ip_cidr_range,omitempty"`
 
 	// The name associated with this subnetwork secondary range, used
 	// when adding an alias IP range to a VM instance. The name must
 	// be 1-63 characters long, and comply with RFC1035. The name
 	// must be unique within the subnetwork.
 	// +kubebuilder:validation:Optional
-	RangeName *string `json:"rangeName,omitempty" tf:"range_name"`
+	RangeName *string `json:"rangeName" tf:"range_name,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ReservedInternalRange *string `json:"reservedInternalRange,omitempty" tf:"reserved_internal_range,omitempty"`
 }
 
 type SubnetworkInitParameters_2 struct {
@@ -67,6 +74,8 @@ type SubnetworkInitParameters_2 struct {
 	// creation time.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	EnableFlowLogs *bool `json:"enableFlowLogs,omitempty" tf:"enable_flow_logs,omitempty"`
+
 	// The range of external IPv6 addresses that are owned by this subnetwork.
 	ExternalIPv6Prefix *string `json:"externalIpv6Prefix,omitempty" tf:"external_ipv6_prefix,omitempty"`
 
@@ -75,6 +84,8 @@ type SubnetworkInitParameters_2 struct {
 	// 10.0.0.0/8 or 192.168.0.0/16. Ranges must be unique and
 	// non-overlapping within a network. Only IPv4 is supported.
 	IPCidrRange *string `json:"ipCidrRange,omitempty" tf:"ip_cidr_range,omitempty"`
+
+	IPCollection *string `json:"ipCollection,omitempty" tf:"ip_collection,omitempty"`
 
 	// The access type of IPv6 address this subnet holds. It's immutable and can only be specified during creation
 	// or the first time the subnet is updated into IPV4_IPV6 dual stack. If the ipv6_type is EXTERNAL then this subnet
@@ -121,6 +132,8 @@ type SubnetworkInitParameters_2 struct {
 	// Note that REGIONAL_MANAGED_PROXY is the preferred setting for all regional Envoy load balancers.
 	// If unspecified, the purpose defaults to PRIVATE_RFC_1918.
 	Purpose *string `json:"purpose,omitempty" tf:"purpose,omitempty"`
+
+	ReservedInternalRange *string `json:"reservedInternalRange,omitempty" tf:"reserved_internal_range,omitempty"`
 
 	// The role of subnetwork.
 	// Currently, this field is only used when purpose is REGIONAL_MANAGED_PROXY.
@@ -274,6 +287,8 @@ type SubnetworkObservation_2 struct {
 	// creation time.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	EnableFlowLogs *bool `json:"enableFlowLogs,omitempty" tf:"enable_flow_logs,omitempty"`
+
 	// The range of external IPv6 addresses that are owned by this subnetwork.
 	ExternalIPv6Prefix *string `json:"externalIpv6Prefix,omitempty" tf:"external_ipv6_prefix,omitempty"`
 
@@ -292,6 +307,8 @@ type SubnetworkObservation_2 struct {
 	// non-overlapping within a network. Only IPv4 is supported.
 	IPCidrRange *string `json:"ipCidrRange,omitempty" tf:"ip_cidr_range,omitempty"`
 
+	IPCollection *string `json:"ipCollection,omitempty" tf:"ip_collection,omitempty"`
+
 	// The access type of IPv6 address this subnet holds. It's immutable and can only be specified during creation
 	// or the first time the subnet is updated into IPV4_IPV6 dual stack. If the ipv6_type is EXTERNAL then this subnet
 	// cannot enable direct path.
@@ -300,6 +317,8 @@ type SubnetworkObservation_2 struct {
 
 	// The range of internal IPv6 addresses that are owned by this subnetwork.
 	IPv6CidrRange *string `json:"ipv6CidrRange,omitempty" tf:"ipv6_cidr_range,omitempty"`
+
+	IPv6GceEndpoint *string `json:"ipv6GceEndpoint,omitempty" tf:"ipv6_gce_endpoint,omitempty"`
 
 	// The internal IPv6 address range that is assigned to this subnetwork.
 	InternalIPv6Prefix *string `json:"internalIpv6Prefix,omitempty" tf:"internal_ipv6_prefix,omitempty"`
@@ -338,6 +357,8 @@ type SubnetworkObservation_2 struct {
 	// The GCP region for this subnetwork.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
+	ReservedInternalRange *string `json:"reservedInternalRange,omitempty" tf:"reserved_internal_range,omitempty"`
+
 	// The role of subnetwork.
 	// Currently, this field is only used when purpose is REGIONAL_MANAGED_PROXY.
 	// The value can be set to ACTIVE or BACKUP.
@@ -371,6 +392,11 @@ type SubnetworkObservation_2 struct {
 	// If not specified IPV4_ONLY will be used.
 	// Possible values are: IPV4_ONLY, IPV4_IPV6.
 	StackType *string `json:"stackType,omitempty" tf:"stack_type,omitempty"`
+
+	State *string `json:"state,omitempty" tf:"state,omitempty"`
+
+	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/subnetworks/{{name}}
+	SubnetworkID *float64 `json:"subnetworkId,omitempty" tf:"subnetwork_id,omitempty"`
 }
 
 type SubnetworkParameters_2 struct {
@@ -380,6 +406,9 @@ type SubnetworkParameters_2 struct {
 	// creation time.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	EnableFlowLogs *bool `json:"enableFlowLogs,omitempty" tf:"enable_flow_logs,omitempty"`
 
 	// The range of external IPv6 addresses that are owned by this subnetwork.
 	// +kubebuilder:validation:Optional
@@ -391,6 +420,9 @@ type SubnetworkParameters_2 struct {
 	// non-overlapping within a network. Only IPv4 is supported.
 	// +kubebuilder:validation:Optional
 	IPCidrRange *string `json:"ipCidrRange,omitempty" tf:"ip_cidr_range,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IPCollection *string `json:"ipCollection,omitempty" tf:"ip_collection,omitempty"`
 
 	// The access type of IPv6 address this subnet holds. It's immutable and can only be specified during creation
 	// or the first time the subnet is updated into IPV4_IPV6 dual stack. If the ipv6_type is EXTERNAL then this subnet
@@ -448,6 +480,9 @@ type SubnetworkParameters_2 struct {
 	// The GCP region for this subnetwork.
 	// +kubebuilder:validation:Required
 	Region *string `json:"region" tf:"region,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ReservedInternalRange *string `json:"reservedInternalRange,omitempty" tf:"reserved_internal_range,omitempty"`
 
 	// The role of subnetwork.
 	// Currently, this field is only used when purpose is REGIONAL_MANAGED_PROXY.
@@ -520,9 +555,8 @@ type SubnetworkStatus struct {
 type Subnetwork struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.ipCidrRange) || (has(self.initProvider) && has(self.initProvider.ipCidrRange))",message="spec.forProvider.ipCidrRange is a required parameter"
-	Spec   SubnetworkSpec   `json:"spec"`
-	Status SubnetworkStatus `json:"status,omitempty"`
+	Spec              SubnetworkSpec   `json:"spec"`
+	Status            SubnetworkStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

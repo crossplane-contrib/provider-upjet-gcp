@@ -47,6 +47,8 @@ type PrivateConnectionInitParameters struct {
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	PscInterfaceConfig *PscInterfaceConfigInitParameters `json:"pscInterfaceConfig,omitempty" tf:"psc_interface_config,omitempty"`
+
 	// The VPC Peering configuration is used to create VPC peering
 	// between Datastream and the consumer's VPC.
 	// Structure is documented below.
@@ -86,6 +88,8 @@ type PrivateConnectionObservation struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	PscInterfaceConfig *PscInterfaceConfigObservation `json:"pscInterfaceConfig,omitempty" tf:"psc_interface_config,omitempty"`
 
 	// State of the PrivateConnection.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
@@ -127,11 +131,28 @@ type PrivateConnectionParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	PscInterfaceConfig *PscInterfaceConfigParameters `json:"pscInterfaceConfig,omitempty" tf:"psc_interface_config,omitempty"`
+
 	// The VPC Peering configuration is used to create VPC peering
 	// between Datastream and the consumer's VPC.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	VPCPeeringConfig *VPCPeeringConfigParameters `json:"vpcPeeringConfig,omitempty" tf:"vpc_peering_config,omitempty"`
+}
+
+type PscInterfaceConfigInitParameters struct {
+	NetworkAttachment *string `json:"networkAttachment,omitempty" tf:"network_attachment,omitempty"`
+}
+
+type PscInterfaceConfigObservation struct {
+	NetworkAttachment *string `json:"networkAttachment,omitempty" tf:"network_attachment,omitempty"`
+}
+
+type PscInterfaceConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	NetworkAttachment *string `json:"networkAttachment" tf:"network_attachment,omitempty"`
 }
 
 type VPCPeeringConfigInitParameters struct {
@@ -222,7 +243,6 @@ type PrivateConnection struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.displayName) || (has(self.initProvider) && has(self.initProvider.displayName))",message="spec.forProvider.displayName is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.vpcPeeringConfig) || (has(self.initProvider) && has(self.initProvider.vpcPeeringConfig))",message="spec.forProvider.vpcPeeringConfig is a required parameter"
 	Spec   PrivateConnectionSpec   `json:"spec"`
 	Status PrivateConnectionStatus `json:"status,omitempty"`
 }

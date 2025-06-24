@@ -65,12 +65,161 @@ type AppEngineRoutingOverrideParameters struct {
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
+type HTTPTargetInitParameters struct {
+	HTTPMethod *string `json:"httpMethod,omitempty" tf:"http_method,omitempty"`
+
+	HeaderOverrides []HeaderOverridesInitParameters `json:"headerOverrides,omitempty" tf:"header_overrides,omitempty"`
+
+	OAuthToken *OAuthTokenInitParameters `json:"oauthToken,omitempty" tf:"oauth_token,omitempty"`
+
+	OidcToken *OidcTokenInitParameters `json:"oidcToken,omitempty" tf:"oidc_token,omitempty"`
+
+	URIOverride *URIOverrideInitParameters `json:"uriOverride,omitempty" tf:"uri_override,omitempty"`
+}
+
+type HTTPTargetObservation struct {
+	HTTPMethod *string `json:"httpMethod,omitempty" tf:"http_method,omitempty"`
+
+	HeaderOverrides []HeaderOverridesObservation `json:"headerOverrides,omitempty" tf:"header_overrides,omitempty"`
+
+	OAuthToken *OAuthTokenObservation `json:"oauthToken,omitempty" tf:"oauth_token,omitempty"`
+
+	OidcToken *OidcTokenObservation `json:"oidcToken,omitempty" tf:"oidc_token,omitempty"`
+
+	URIOverride *URIOverrideObservation `json:"uriOverride,omitempty" tf:"uri_override,omitempty"`
+}
+
+type HTTPTargetParameters struct {
+
+	// +kubebuilder:validation:Optional
+	HTTPMethod *string `json:"httpMethod,omitempty" tf:"http_method,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	HeaderOverrides []HeaderOverridesParameters `json:"headerOverrides,omitempty" tf:"header_overrides,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	OAuthToken *OAuthTokenParameters `json:"oauthToken,omitempty" tf:"oauth_token,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	OidcToken *OidcTokenParameters `json:"oidcToken,omitempty" tf:"oidc_token,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	URIOverride *URIOverrideParameters `json:"uriOverride,omitempty" tf:"uri_override,omitempty"`
+}
+
+type HeaderInitParameters struct {
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type HeaderObservation struct {
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type HeaderOverridesInitParameters struct {
+	Header *HeaderInitParameters `json:"header,omitempty" tf:"header,omitempty"`
+}
+
+type HeaderOverridesObservation struct {
+	Header *HeaderObservation `json:"header,omitempty" tf:"header,omitempty"`
+}
+
+type HeaderOverridesParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Header *HeaderParameters `json:"header" tf:"header,omitempty"`
+}
+
+type HeaderParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key" tf:"key,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value" tf:"value,omitempty"`
+}
+
+type OAuthTokenInitParameters struct {
+	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
+
+	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+}
+
+type OAuthTokenObservation struct {
+	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
+
+	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+}
+
+type OAuthTokenParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmail *string `json:"serviceAccountEmail" tf:"service_account_email,omitempty"`
+}
+
+type OidcTokenInitParameters struct {
+	Audience *string `json:"audience,omitempty" tf:"audience,omitempty"`
+
+	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+}
+
+type OidcTokenObservation struct {
+	Audience *string `json:"audience,omitempty" tf:"audience,omitempty"`
+
+	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+}
+
+type OidcTokenParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Audience *string `json:"audience,omitempty" tf:"audience,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmail *string `json:"serviceAccountEmail" tf:"service_account_email,omitempty"`
+}
+
+type PathOverrideInitParameters struct {
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+}
+
+type PathOverrideObservation struct {
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+}
+
+type PathOverrideParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+}
+
+type QueryOverrideInitParameters struct {
+	QueryParams *string `json:"queryParams,omitempty" tf:"query_params,omitempty"`
+}
+
+type QueryOverrideObservation struct {
+	QueryParams *string `json:"queryParams,omitempty" tf:"query_params,omitempty"`
+}
+
+type QueryOverrideParameters struct {
+
+	// +kubebuilder:validation:Optional
+	QueryParams *string `json:"queryParams,omitempty" tf:"query_params,omitempty"`
+}
+
 type QueueInitParameters struct {
 
 	// Overrides for task-level appEngineRouting. These settings apply only
 	// to App Engine tasks in this queue
 	// Structure is documented below.
 	AppEngineRoutingOverride *AppEngineRoutingOverrideInitParameters `json:"appEngineRoutingOverride,omitempty" tf:"app_engine_routing_override,omitempty"`
+
+	HTTPTarget *HTTPTargetInitParameters `json:"httpTarget,omitempty" tf:"http_target,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -105,6 +254,8 @@ type QueueObservation struct {
 	// Structure is documented below.
 	AppEngineRoutingOverride *AppEngineRoutingOverrideObservation `json:"appEngineRoutingOverride,omitempty" tf:"app_engine_routing_override,omitempty"`
 
+	HTTPTarget *HTTPTargetObservation `json:"httpTarget,omitempty" tf:"http_target,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/queues/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -135,6 +286,9 @@ type QueueParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AppEngineRoutingOverride *AppEngineRoutingOverrideParameters `json:"appEngineRoutingOverride,omitempty" tf:"app_engine_routing_override,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	HTTPTarget *HTTPTargetParameters `json:"httpTarget,omitempty" tf:"http_target,omitempty"`
 
 	// The location of the queue
 	// +kubebuilder:validation:Required
@@ -355,6 +509,63 @@ type StackdriverLoggingConfigParameters struct {
 	// default and means that no operations are logged.
 	// +kubebuilder:validation:Optional
 	SamplingRatio *float64 `json:"samplingRatio" tf:"sampling_ratio,omitempty"`
+}
+
+type URIOverrideInitParameters struct {
+
+	// (Output)
+	// The host that the task is sent to.
+	Host *string `json:"host,omitempty" tf:"host,omitempty"`
+
+	PathOverride *PathOverrideInitParameters `json:"pathOverride,omitempty" tf:"path_override,omitempty"`
+
+	Port *string `json:"port,omitempty" tf:"port,omitempty"`
+
+	QueryOverride *QueryOverrideInitParameters `json:"queryOverride,omitempty" tf:"query_override,omitempty"`
+
+	Scheme *string `json:"scheme,omitempty" tf:"scheme,omitempty"`
+
+	URIOverrideEnforceMode *string `json:"uriOverrideEnforceMode,omitempty" tf:"uri_override_enforce_mode,omitempty"`
+}
+
+type URIOverrideObservation struct {
+
+	// (Output)
+	// The host that the task is sent to.
+	Host *string `json:"host,omitempty" tf:"host,omitempty"`
+
+	PathOverride *PathOverrideObservation `json:"pathOverride,omitempty" tf:"path_override,omitempty"`
+
+	Port *string `json:"port,omitempty" tf:"port,omitempty"`
+
+	QueryOverride *QueryOverrideObservation `json:"queryOverride,omitempty" tf:"query_override,omitempty"`
+
+	Scheme *string `json:"scheme,omitempty" tf:"scheme,omitempty"`
+
+	URIOverrideEnforceMode *string `json:"uriOverrideEnforceMode,omitempty" tf:"uri_override_enforce_mode,omitempty"`
+}
+
+type URIOverrideParameters struct {
+
+	// (Output)
+	// The host that the task is sent to.
+	// +kubebuilder:validation:Optional
+	Host *string `json:"host,omitempty" tf:"host,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	PathOverride *PathOverrideParameters `json:"pathOverride,omitempty" tf:"path_override,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Port *string `json:"port,omitempty" tf:"port,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	QueryOverride *QueryOverrideParameters `json:"queryOverride,omitempty" tf:"query_override,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Scheme *string `json:"scheme,omitempty" tf:"scheme,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	URIOverrideEnforceMode *string `json:"uriOverrideEnforceMode,omitempty" tf:"uri_override_enforce_mode,omitempty"`
 }
 
 // QueueSpec defines the desired state of Queue

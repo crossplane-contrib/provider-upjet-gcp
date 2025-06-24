@@ -516,6 +516,9 @@ type RegionHealthCheckObservation struct {
 	// Structure is documented below.
 	HTTPSHealthCheck *RegionHealthCheckHTTPSHealthCheckObservation `json:"httpsHealthCheck,omitempty" tf:"https_health_check,omitempty"`
 
+	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/healthChecks/{{name}}
+	HealthCheckID *float64 `json:"healthCheckId,omitempty" tf:"health_check_id,omitempty"`
+
 	// A so-far unhealthy instance will be marked healthy after this many
 	// consecutive successes. The default value is 2.
 	HealthyThreshold *float64 `json:"healthyThreshold,omitempty" tf:"healthy_threshold,omitempty"`

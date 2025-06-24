@@ -52,9 +52,13 @@ type ErrorParameters struct {
 }
 
 type PscConfigInitParameters struct {
+	AllowedGoogleProducersResourceHierarchyLevel []*string `json:"allowedGoogleProducersResourceHierarchyLevel,omitempty" tf:"allowed_google_producers_resource_hierarchy_level,omitempty"`
 
 	// Max number of PSC connections for this policy.
 	Limit *string `json:"limit,omitempty" tf:"limit,omitempty"`
+
+	// The location of the ServiceConnectionPolicy.
+	ProducerInstanceLocation *string `json:"producerInstanceLocation,omitempty" tf:"producer_instance_location,omitempty"`
 
 	// IDs of the subnetworks or fully qualified identifiers for the subnetworks
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.Subnetwork
@@ -71,9 +75,13 @@ type PscConfigInitParameters struct {
 }
 
 type PscConfigObservation struct {
+	AllowedGoogleProducersResourceHierarchyLevel []*string `json:"allowedGoogleProducersResourceHierarchyLevel,omitempty" tf:"allowed_google_producers_resource_hierarchy_level,omitempty"`
 
 	// Max number of PSC connections for this policy.
 	Limit *string `json:"limit,omitempty" tf:"limit,omitempty"`
+
+	// The location of the ServiceConnectionPolicy.
+	ProducerInstanceLocation *string `json:"producerInstanceLocation,omitempty" tf:"producer_instance_location,omitempty"`
 
 	// IDs of the subnetworks or fully qualified identifiers for the subnetworks
 	Subnetworks []*string `json:"subnetworks,omitempty" tf:"subnetworks,omitempty"`
@@ -81,9 +89,16 @@ type PscConfigObservation struct {
 
 type PscConfigParameters struct {
 
+	// +kubebuilder:validation:Optional
+	AllowedGoogleProducersResourceHierarchyLevel []*string `json:"allowedGoogleProducersResourceHierarchyLevel,omitempty" tf:"allowed_google_producers_resource_hierarchy_level,omitempty"`
+
 	// Max number of PSC connections for this policy.
 	// +kubebuilder:validation:Optional
 	Limit *string `json:"limit,omitempty" tf:"limit,omitempty"`
+
+	// The location of the ServiceConnectionPolicy.
+	// +kubebuilder:validation:Optional
+	ProducerInstanceLocation *string `json:"producerInstanceLocation,omitempty" tf:"producer_instance_location,omitempty"`
 
 	// IDs of the subnetworks or fully qualified identifiers for the subnetworks
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.Subnetwork

@@ -131,9 +131,15 @@ type DiskInitParameters struct {
 	// For example:
 	AccessMode *string `json:"accessMode,omitempty" tf:"access_mode,omitempty"`
 
+	Architecture *string `json:"architecture,omitempty" tf:"architecture,omitempty"`
+
 	// A nested object resource
 	// Structure is documented below.
 	AsyncPrimaryDisk *AsyncPrimaryDiskInitParameters `json:"asyncPrimaryDisk,omitempty" tf:"async_primary_disk,omitempty"`
+
+	CreateSnapshotBeforeDestroy *bool `json:"createSnapshotBeforeDestroy,omitempty" tf:"create_snapshot_before_destroy,omitempty"`
+
+	CreateSnapshotBeforeDestroyPrefix *string `json:"createSnapshotBeforeDestroyPrefix,omitempty" tf:"create_snapshot_before_destroy_prefix,omitempty"`
 
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
@@ -177,6 +183,8 @@ type DiskInitParameters struct {
 
 	// Any applicable license URI.
 	Licenses []*string `json:"licenses,omitempty" tf:"licenses,omitempty"`
+
+	Params *ParamsInitParameters `json:"params,omitempty" tf:"params,omitempty"`
 
 	// Physical block size of the persistent disk, in bytes. If not present
 	// in a request, a default value is used. Currently supported sizes
@@ -225,11 +233,19 @@ type DiskInitParameters struct {
 	// Structure is documented below.
 	SourceImageEncryptionKey *SourceImageEncryptionKeyInitParameters `json:"sourceImageEncryptionKey,omitempty" tf:"source_image_encryption_key,omitempty"`
 
+	// The source snapshot used to create this disk. You can provide this as
+	// a partial or full URL to the resource. If the snapshot is in another
+	// project than this disk, you must supply a full URL. For example, the
+	// following are valid values:
+	SourceInstantSnapshot *string `json:"sourceInstantSnapshot,omitempty" tf:"source_instant_snapshot,omitempty"`
+
 	// The customer-supplied encryption key of the source snapshot. Required
 	// if the source snapshot is protected by a customer-supplied encryption
 	// key.
 	// Structure is documented below.
 	SourceSnapshotEncryptionKey *SourceSnapshotEncryptionKeyInitParameters `json:"sourceSnapshotEncryptionKey,omitempty" tf:"source_snapshot_encryption_key,omitempty"`
+
+	SourceStorageObject *string `json:"sourceStorageObject,omitempty" tf:"source_storage_object,omitempty"`
 
 	// The URL of the storage pool in which the new disk is created.
 	// For example:
@@ -246,9 +262,15 @@ type DiskObservation struct {
 	// For example:
 	AccessMode *string `json:"accessMode,omitempty" tf:"access_mode,omitempty"`
 
+	Architecture *string `json:"architecture,omitempty" tf:"architecture,omitempty"`
+
 	// A nested object resource
 	// Structure is documented below.
 	AsyncPrimaryDisk *AsyncPrimaryDiskObservation `json:"asyncPrimaryDisk,omitempty" tf:"async_primary_disk,omitempty"`
+
+	CreateSnapshotBeforeDestroy *bool `json:"createSnapshotBeforeDestroy,omitempty" tf:"create_snapshot_before_destroy,omitempty"`
+
+	CreateSnapshotBeforeDestroyPrefix *string `json:"createSnapshotBeforeDestroyPrefix,omitempty" tf:"create_snapshot_before_destroy_prefix,omitempty"`
 
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
@@ -316,6 +338,8 @@ type DiskObservation struct {
 	// Any applicable license URI.
 	Licenses []*string `json:"licenses,omitempty" tf:"licenses,omitempty"`
 
+	Params *ParamsObservation `json:"params,omitempty" tf:"params,omitempty"`
+
 	// Physical block size of the persistent disk, in bytes. If not present
 	// in a request, a default value is used. Currently supported sizes
 	// are 4096 and 16384, other sizes may be added in the future.
@@ -378,6 +402,15 @@ type DiskObservation struct {
 	// image ID would identify the exact version of the image that was used.
 	SourceImageID *string `json:"sourceImageId,omitempty" tf:"source_image_id,omitempty"`
 
+	// The source snapshot used to create this disk. You can provide this as
+	// a partial or full URL to the resource. If the snapshot is in another
+	// project than this disk, you must supply a full URL. For example, the
+	// following are valid values:
+	SourceInstantSnapshot *string `json:"sourceInstantSnapshot,omitempty" tf:"source_instant_snapshot,omitempty"`
+
+	// an identifier for the resource with format projects/{{project}}/zones/{{zone}}/disks/{{name}}
+	SourceInstantSnapshotID *string `json:"sourceInstantSnapshotId,omitempty" tf:"source_instant_snapshot_id,omitempty"`
+
 	// The customer-supplied encryption key of the source snapshot. Required
 	// if the source snapshot is protected by a customer-supplied encryption
 	// key.
@@ -391,6 +424,8 @@ type DiskObservation struct {
 	// snapshot ID would identify the exact version of the snapshot that was
 	// used.
 	SourceSnapshotID *string `json:"sourceSnapshotId,omitempty" tf:"source_snapshot_id,omitempty"`
+
+	SourceStorageObject *string `json:"sourceStorageObject,omitempty" tf:"source_storage_object,omitempty"`
 
 	// The URL of the storage pool in which the new disk is created.
 	// For example:
@@ -420,10 +455,19 @@ type DiskParameters struct {
 	// +kubebuilder:validation:Optional
 	AccessMode *string `json:"accessMode,omitempty" tf:"access_mode,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	Architecture *string `json:"architecture,omitempty" tf:"architecture,omitempty"`
+
 	// A nested object resource
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AsyncPrimaryDisk *AsyncPrimaryDiskParameters `json:"asyncPrimaryDisk,omitempty" tf:"async_primary_disk,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	CreateSnapshotBeforeDestroy *bool `json:"createSnapshotBeforeDestroy,omitempty" tf:"create_snapshot_before_destroy,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	CreateSnapshotBeforeDestroyPrefix *string `json:"createSnapshotBeforeDestroyPrefix,omitempty" tf:"create_snapshot_before_destroy_prefix,omitempty"`
 
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
@@ -474,6 +518,9 @@ type DiskParameters struct {
 	// Any applicable license URI.
 	// +kubebuilder:validation:Optional
 	Licenses []*string `json:"licenses,omitempty" tf:"licenses,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Params *ParamsParameters `json:"params,omitempty" tf:"params,omitempty"`
 
 	// Physical block size of the persistent disk, in bytes. If not present
 	// in a request, a default value is used. Currently supported sizes
@@ -530,12 +577,22 @@ type DiskParameters struct {
 	// +kubebuilder:validation:Optional
 	SourceImageEncryptionKey *SourceImageEncryptionKeyParameters `json:"sourceImageEncryptionKey,omitempty" tf:"source_image_encryption_key,omitempty"`
 
+	// The source snapshot used to create this disk. You can provide this as
+	// a partial or full URL to the resource. If the snapshot is in another
+	// project than this disk, you must supply a full URL. For example, the
+	// following are valid values:
+	// +kubebuilder:validation:Optional
+	SourceInstantSnapshot *string `json:"sourceInstantSnapshot,omitempty" tf:"source_instant_snapshot,omitempty"`
+
 	// The customer-supplied encryption key of the source snapshot. Required
 	// if the source snapshot is protected by a customer-supplied encryption
 	// key.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SourceSnapshotEncryptionKey *SourceSnapshotEncryptionKeyParameters `json:"sourceSnapshotEncryptionKey,omitempty" tf:"source_snapshot_encryption_key,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	SourceStorageObject *string `json:"sourceStorageObject,omitempty" tf:"source_storage_object,omitempty"`
 
 	// The URL of the storage pool in which the new disk is created.
 	// For example:
@@ -569,6 +626,25 @@ type GuestOsFeaturesParameters struct {
 	// The type of supported feature. Read Enabling guest operating system features to see a list of available options.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type" tf:"type,omitempty"`
+}
+
+type ParamsInitParameters struct {
+
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type ParamsObservation struct {
+
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type ParamsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 }
 
 type SourceImageEncryptionKeyInitParameters struct {

@@ -234,6 +234,8 @@ type RulesInitParameters struct {
 	// If "TRUE", then the Policy is enforced. If "FALSE", then any configuration is acceptable. This field can be set only in Policies for boolean constraints.
 	Enforce *string `json:"enforce,omitempty" tf:"enforce,omitempty"`
 
+	Parameters *string `json:"parameters,omitempty" tf:"parameters,omitempty"`
+
 	// List of values to be used for this PolicyRule. This field can be set only in Policies for list constraints.
 	// Structure is documented below.
 	Values *ValuesInitParameters `json:"values,omitempty" tf:"values,omitempty"`
@@ -253,6 +255,8 @@ type RulesObservation struct {
 
 	// If "TRUE", then the Policy is enforced. If "FALSE", then any configuration is acceptable. This field can be set only in Policies for boolean constraints.
 	Enforce *string `json:"enforce,omitempty" tf:"enforce,omitempty"`
+
+	Parameters *string `json:"parameters,omitempty" tf:"parameters,omitempty"`
 
 	// List of values to be used for this PolicyRule. This field can be set only in Policies for list constraints.
 	// Structure is documented below.
@@ -277,6 +281,9 @@ type RulesParameters struct {
 	// If "TRUE", then the Policy is enforced. If "FALSE", then any configuration is acceptable. This field can be set only in Policies for boolean constraints.
 	// +kubebuilder:validation:Optional
 	Enforce *string `json:"enforce,omitempty" tf:"enforce,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Parameters *string `json:"parameters,omitempty" tf:"parameters,omitempty"`
 
 	// List of values to be used for this PolicyRule. This field can be set only in Policies for list constraints.
 	// Structure is documented below.
@@ -378,6 +385,8 @@ type SpecRulesInitParameters struct {
 	// If "TRUE", then the Policy is enforced. If "FALSE", then any configuration is acceptable. This field can be set only in Policies for boolean constraints.
 	Enforce *string `json:"enforce,omitempty" tf:"enforce,omitempty"`
 
+	Parameters *string `json:"parameters,omitempty" tf:"parameters,omitempty"`
+
 	// List of values to be used for this PolicyRule. This field can be set only in Policies for list constraints.
 	// Structure is documented below.
 	Values *RulesValuesInitParameters `json:"values,omitempty" tf:"values,omitempty"`
@@ -397,6 +406,8 @@ type SpecRulesObservation struct {
 
 	// If "TRUE", then the Policy is enforced. If "FALSE", then any configuration is acceptable. This field can be set only in Policies for boolean constraints.
 	Enforce *string `json:"enforce,omitempty" tf:"enforce,omitempty"`
+
+	Parameters *string `json:"parameters,omitempty" tf:"parameters,omitempty"`
 
 	// List of values to be used for this PolicyRule. This field can be set only in Policies for list constraints.
 	// Structure is documented below.
@@ -421,6 +432,9 @@ type SpecRulesParameters struct {
 	// If "TRUE", then the Policy is enforced. If "FALSE", then any configuration is acceptable. This field can be set only in Policies for boolean constraints.
 	// +kubebuilder:validation:Optional
 	Enforce *string `json:"enforce,omitempty" tf:"enforce,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Parameters *string `json:"parameters,omitempty" tf:"parameters,omitempty"`
 
 	// List of values to be used for this PolicyRule. This field can be set only in Policies for list constraints.
 	// Structure is documented below.

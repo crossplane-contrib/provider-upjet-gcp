@@ -73,6 +73,9 @@ type BucketObjectInitParameters struct {
 	// if content is not.
 	Source *string `json:"source,omitempty" tf:"source,omitempty"`
 
+	// (Computed) Base 64 MD5 hash of the uploaded data.
+	SourceMd5Hash *string `json:"sourceMd5Hash,omitempty" tf:"source_md5hash,omitempty"`
+
 	// The StorageClass of the new bucket object.
 	// Supported values include: MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE. If not provided, this defaults to the bucket's default
 	// storage class or to a standard class.
@@ -130,6 +133,8 @@ type BucketObjectObservation struct {
 	// (Computed) Base 64 MD5 hash of the uploaded data.
 	Md5Hash *string `json:"md5hash,omitempty" tf:"md5hash,omitempty"`
 
+	Md5Hexhash *string `json:"md5hexhash,omitempty" tf:"md5hexhash,omitempty"`
+
 	// (Computed) A url reference to download this object.
 	MediaLink *string `json:"mediaLink,omitempty" tf:"media_link,omitempty"`
 
@@ -153,6 +158,9 @@ type BucketObjectObservation struct {
 	// A path to the data you want to upload. Must be defined
 	// if content is not.
 	Source *string `json:"source,omitempty" tf:"source,omitempty"`
+
+	// (Computed) Base 64 MD5 hash of the uploaded data.
+	SourceMd5Hash *string `json:"sourceMd5Hash,omitempty" tf:"source_md5hash,omitempty"`
 
 	// The StorageClass of the new bucket object.
 	// Supported values include: MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE. If not provided, this defaults to the bucket's default
@@ -237,6 +245,10 @@ type BucketObjectParameters struct {
 	// if content is not.
 	// +kubebuilder:validation:Optional
 	Source *string `json:"source,omitempty" tf:"source,omitempty"`
+
+	// (Computed) Base 64 MD5 hash of the uploaded data.
+	// +kubebuilder:validation:Optional
+	SourceMd5Hash *string `json:"sourceMd5Hash,omitempty" tf:"source_md5hash,omitempty"`
 
 	// The StorageClass of the new bucket object.
 	// Supported values include: MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE. If not provided, this defaults to the bucket's default

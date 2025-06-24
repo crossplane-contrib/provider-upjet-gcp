@@ -41,6 +41,8 @@ type GatewayInitParameters struct {
 	// A free-text description of the resource. Max length 1024 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	EnvoyHeaders *string `json:"envoyHeaders,omitempty" tf:"envoy_headers,omitempty"`
+
 	// A fully-qualified GatewaySecurityPolicy URL reference. Defines how a server should apply security policy to inbound (VM to Proxy) initiated connections.
 	// For example: projects/*/locations/*/gatewaySecurityPolicies/swg-policy.
 	// This policy is specific to gateways of type 'SECURE_WEB_GATEWAY'.
@@ -55,6 +57,8 @@ type GatewayInitParameters struct {
 	// Selector for a GatewaySecurityPolicy in networksecurity to populate gatewaySecurityPolicy.
 	// +kubebuilder:validation:Optional
 	GatewaySecurityPolicySelector *v1.Selector `json:"gatewaySecurityPolicySelector,omitempty" tf:"-"`
+
+	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
 
 	// Set of label tags associated with the Gateway resource.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
@@ -85,6 +89,8 @@ type GatewayInitParameters struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	RoutingMode *string `json:"routingMode,omitempty" tf:"routing_mode,omitempty"`
 
 	// Immutable. Scope determines how configuration across multiple Gateway instances are merged.
 	// The configuration for multiple Gateway instances with the same scope will be merged as presented as
@@ -140,6 +146,8 @@ type GatewayObservation struct {
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
 
+	EnvoyHeaders *string `json:"envoyHeaders,omitempty" tf:"envoy_headers,omitempty"`
+
 	// A fully-qualified GatewaySecurityPolicy URL reference. Defines how a server should apply security policy to inbound (VM to Proxy) initiated connections.
 	// For example: projects/*/locations/*/gatewaySecurityPolicies/swg-policy.
 	// This policy is specific to gateways of type 'SECURE_WEB_GATEWAY'.
@@ -147,6 +155,8 @@ type GatewayObservation struct {
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/gateways/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
 
 	// Set of label tags associated with the Gateway resource.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
@@ -171,6 +181,8 @@ type GatewayObservation struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	RoutingMode *string `json:"routingMode,omitempty" tf:"routing_mode,omitempty"`
 
 	// Immutable. Scope determines how configuration across multiple Gateway instances are merged.
 	// The configuration for multiple Gateway instances with the same scope will be merged as presented as
@@ -235,6 +247,9 @@ type GatewayParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	EnvoyHeaders *string `json:"envoyHeaders,omitempty" tf:"envoy_headers,omitempty"`
+
 	// A fully-qualified GatewaySecurityPolicy URL reference. Defines how a server should apply security policy to inbound (VM to Proxy) initiated connections.
 	// For example: projects/*/locations/*/gatewaySecurityPolicies/swg-policy.
 	// This policy is specific to gateways of type 'SECURE_WEB_GATEWAY'.
@@ -250,6 +265,9 @@ type GatewayParameters struct {
 	// Selector for a GatewaySecurityPolicy in networksecurity to populate gatewaySecurityPolicy.
 	// +kubebuilder:validation:Optional
 	GatewaySecurityPolicySelector *v1.Selector `json:"gatewaySecurityPolicySelector,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
 
 	// Set of label tags associated with the Gateway resource.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
@@ -289,6 +307,9 @@ type GatewayParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	RoutingMode *string `json:"routingMode,omitempty" tf:"routing_mode,omitempty"`
 
 	// Immutable. Scope determines how configuration across multiple Gateway instances are merged.
 	// The configuration for multiple Gateway instances with the same scope will be merged as presented as

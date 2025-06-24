@@ -63,8 +63,14 @@ type AdvancedMachineFeaturesInitParameters struct {
 	// Defines whether the instance should have nested virtualization  enabled. Defaults to false.
 	EnableNestedVirtualization *bool `json:"enableNestedVirtualization,omitempty" tf:"enable_nested_virtualization,omitempty"`
 
+	EnableUefiNetworking *bool `json:"enableUefiNetworking,omitempty" tf:"enable_uefi_networking,omitempty"`
+
+	PerformanceMonitoringUnit *string `json:"performanceMonitoringUnit,omitempty" tf:"performance_monitoring_unit,omitempty"`
+
 	// he number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1.
 	ThreadsPerCore *float64 `json:"threadsPerCore,omitempty" tf:"threads_per_core,omitempty"`
+
+	TurboMode *string `json:"turboMode,omitempty" tf:"turbo_mode,omitempty"`
 
 	// The number of physical cores to expose to an instance. visible cores info (VC).
 	VisibleCoreCount *float64 `json:"visibleCoreCount,omitempty" tf:"visible_core_count,omitempty"`
@@ -75,8 +81,14 @@ type AdvancedMachineFeaturesObservation struct {
 	// Defines whether the instance should have nested virtualization  enabled. Defaults to false.
 	EnableNestedVirtualization *bool `json:"enableNestedVirtualization,omitempty" tf:"enable_nested_virtualization,omitempty"`
 
+	EnableUefiNetworking *bool `json:"enableUefiNetworking,omitempty" tf:"enable_uefi_networking,omitempty"`
+
+	PerformanceMonitoringUnit *string `json:"performanceMonitoringUnit,omitempty" tf:"performance_monitoring_unit,omitempty"`
+
 	// he number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1.
 	ThreadsPerCore *float64 `json:"threadsPerCore,omitempty" tf:"threads_per_core,omitempty"`
+
+	TurboMode *string `json:"turboMode,omitempty" tf:"turbo_mode,omitempty"`
 
 	// The number of physical cores to expose to an instance. visible cores info (VC).
 	VisibleCoreCount *float64 `json:"visibleCoreCount,omitempty" tf:"visible_core_count,omitempty"`
@@ -88,9 +100,18 @@ type AdvancedMachineFeaturesParameters struct {
 	// +kubebuilder:validation:Optional
 	EnableNestedVirtualization *bool `json:"enableNestedVirtualization,omitempty" tf:"enable_nested_virtualization,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	EnableUefiNetworking *bool `json:"enableUefiNetworking,omitempty" tf:"enable_uefi_networking,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	PerformanceMonitoringUnit *string `json:"performanceMonitoringUnit,omitempty" tf:"performance_monitoring_unit,omitempty"`
+
 	// he number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1.
 	// +kubebuilder:validation:Optional
 	ThreadsPerCore *float64 `json:"threadsPerCore,omitempty" tf:"threads_per_core,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	TurboMode *string `json:"turboMode,omitempty" tf:"turbo_mode,omitempty"`
 
 	// The number of physical cores to expose to an instance. visible cores info (VC).
 	// +kubebuilder:validation:Optional
@@ -153,6 +174,15 @@ type AttachedDiskInitParameters struct {
 	// to encrypt this disk. Only one of kms_key_self_link and disk_encryption_key_raw may be set.
 	DiskEncryptionKeyRawSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
 
+	DiskEncryptionKeyRsaSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRsaSecretRef,omitempty" tf:"-"`
+
+	// Service account to attach to the instance.
+	// Structure is documented below.
+	// Note: allow_stopping_for_update must be set to true or your instance must have a desired_status of TERMINATED in order to update this field.
+	DiskEncryptionServiceAccount *string `json:"diskEncryptionServiceAccount,omitempty" tf:"disk_encryption_service_account,omitempty"`
+
+	ForceAttach *bool `json:"forceAttach,omitempty" tf:"force_attach,omitempty"`
+
 	// The self_link of the encryption key that is
 	// stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link
 	// and disk_encryption_key_raw may be set.
@@ -178,6 +208,13 @@ type AttachedDiskObservation struct {
 	// encoded SHA-256 hash of the [customer-supplied encryption key]
 	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) that protects this resource.
 	DiskEncryptionKeySha256 *string `json:"diskEncryptionKeySha256,omitempty" tf:"disk_encryption_key_sha256,omitempty"`
+
+	// Service account to attach to the instance.
+	// Structure is documented below.
+	// Note: allow_stopping_for_update must be set to true or your instance must have a desired_status of TERMINATED in order to update this field.
+	DiskEncryptionServiceAccount *string `json:"diskEncryptionServiceAccount,omitempty" tf:"disk_encryption_service_account,omitempty"`
+
+	ForceAttach *bool `json:"forceAttach,omitempty" tf:"force_attach,omitempty"`
 
 	// The self_link of the encryption key that is
 	// stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link
@@ -207,6 +244,18 @@ type AttachedDiskParameters struct {
 	// to encrypt this disk. Only one of kms_key_self_link and disk_encryption_key_raw may be set.
 	// +kubebuilder:validation:Optional
 	DiskEncryptionKeyRawSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	DiskEncryptionKeyRsaSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRsaSecretRef,omitempty" tf:"-"`
+
+	// Service account to attach to the instance.
+	// Structure is documented below.
+	// Note: allow_stopping_for_update must be set to true or your instance must have a desired_status of TERMINATED in order to update this field.
+	// +kubebuilder:validation:Optional
+	DiskEncryptionServiceAccount *string `json:"diskEncryptionServiceAccount,omitempty" tf:"disk_encryption_service_account,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ForceAttach *bool `json:"forceAttach,omitempty" tf:"force_attach,omitempty"`
 
 	// The self_link of the encryption key that is
 	// stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link
@@ -243,10 +292,24 @@ type BootDiskInitParameters struct {
 	// may be set.
 	DiskEncryptionKeyRawSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
 
+	DiskEncryptionKeyRsaSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRsaSecretRef,omitempty" tf:"-"`
+
+	// Service account to attach to the instance.
+	// Structure is documented below.
+	// Note: allow_stopping_for_update must be set to true or your instance must have a desired_status of TERMINATED in order to update this field.
+	DiskEncryptionServiceAccount *string `json:"diskEncryptionServiceAccount,omitempty" tf:"disk_encryption_service_account,omitempty"`
+
+	ForceAttach *bool `json:"forceAttach,omitempty" tf:"force_attach,omitempty"`
+
+	GuestOsFeatures []*string `json:"guestOsFeatures,omitempty" tf:"guest_os_features,omitempty"`
+
 	// Parameters for a new disk that will be created
 	// alongside the new instance. Either initialize_params or source must be set.
 	// Structure is documented below.
 	InitializeParams *InitializeParamsInitParameters `json:"initializeParams,omitempty" tf:"initialize_params,omitempty"`
+
+	// The disk interface to use for attaching this disk; either SCSI or NVME.
+	Interface *string `json:"interface,omitempty" tf:"interface,omitempty"`
 
 	// The self_link of the encryption key that is
 	// stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link
@@ -278,10 +341,22 @@ type BootDiskObservation struct {
 	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) that protects this resource.
 	DiskEncryptionKeySha256 *string `json:"diskEncryptionKeySha256,omitempty" tf:"disk_encryption_key_sha256,omitempty"`
 
+	// Service account to attach to the instance.
+	// Structure is documented below.
+	// Note: allow_stopping_for_update must be set to true or your instance must have a desired_status of TERMINATED in order to update this field.
+	DiskEncryptionServiceAccount *string `json:"diskEncryptionServiceAccount,omitempty" tf:"disk_encryption_service_account,omitempty"`
+
+	ForceAttach *bool `json:"forceAttach,omitempty" tf:"force_attach,omitempty"`
+
+	GuestOsFeatures []*string `json:"guestOsFeatures,omitempty" tf:"guest_os_features,omitempty"`
+
 	// Parameters for a new disk that will be created
 	// alongside the new instance. Either initialize_params or source must be set.
 	// Structure is documented below.
 	InitializeParams *InitializeParamsObservation `json:"initializeParams,omitempty" tf:"initialize_params,omitempty"`
+
+	// The disk interface to use for attaching this disk; either SCSI or NVME.
+	Interface *string `json:"interface,omitempty" tf:"interface,omitempty"`
 
 	// The self_link of the encryption key that is
 	// stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link
@@ -318,11 +393,30 @@ type BootDiskParameters struct {
 	// +kubebuilder:validation:Optional
 	DiskEncryptionKeyRawSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
 
+	// +kubebuilder:validation:Optional
+	DiskEncryptionKeyRsaSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRsaSecretRef,omitempty" tf:"-"`
+
+	// Service account to attach to the instance.
+	// Structure is documented below.
+	// Note: allow_stopping_for_update must be set to true or your instance must have a desired_status of TERMINATED in order to update this field.
+	// +kubebuilder:validation:Optional
+	DiskEncryptionServiceAccount *string `json:"diskEncryptionServiceAccount,omitempty" tf:"disk_encryption_service_account,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ForceAttach *bool `json:"forceAttach,omitempty" tf:"force_attach,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	GuestOsFeatures []*string `json:"guestOsFeatures,omitempty" tf:"guest_os_features,omitempty"`
+
 	// Parameters for a new disk that will be created
 	// alongside the new instance. Either initialize_params or source must be set.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	InitializeParams *InitializeParamsParameters `json:"initializeParams,omitempty" tf:"initialize_params,omitempty"`
+
+	// The disk interface to use for attaching this disk; either SCSI or NVME.
+	// +kubebuilder:validation:Optional
+	Interface *string `json:"interface,omitempty" tf:"interface,omitempty"`
 
 	// The self_link of the encryption key that is
 	// stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link
@@ -374,10 +468,10 @@ type ConfidentialInstanceConfigParameters struct {
 type GuestAcceleratorInitParameters struct {
 
 	// The number of the guest accelerator cards exposed to this instance.
-	Count *float64 `json:"count,omitempty" tf:"count"`
+	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
 
 	// The accelerator type resource to expose to this instance. E.g. nvidia-tesla-k80.
-	Type *string `json:"type,omitempty" tf:"type"`
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type GuestAcceleratorObservation struct {
@@ -393,11 +487,11 @@ type GuestAcceleratorParameters struct {
 
 	// The number of the guest accelerator cards exposed to this instance.
 	// +kubebuilder:validation:Optional
-	Count *float64 `json:"count,omitempty" tf:"count"`
+	Count *float64 `json:"count" tf:"count,omitempty"`
 
 	// The accelerator type resource to expose to this instance. E.g. nvidia-tesla-k80.
 	// +kubebuilder:validation:Optional
-	Type *string `json:"type,omitempty" tf:"type"`
+	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 type IPv6AccessConfigInitParameters struct {
@@ -478,6 +572,7 @@ type IPv6AccessConfigParameters struct {
 }
 
 type InitializeParamsInitParameters struct {
+	Architecture *string `json:"architecture,omitempty" tf:"architecture,omitempty"`
 
 	// Whether this disk is using confidential compute mode.
 	// Note: Only supported on hyperdisk skus, disk_encryption_key is required when setting to true.
@@ -530,9 +625,18 @@ type InitializeParamsInitParameters struct {
 	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
+	// - A list of self_links of resource policies to attach to the instance. Modifying this list will cause the instance to recreate. Currently a max of 1 resource policy is supported.
+	ResourcePolicies []*string `json:"resourcePolicies,omitempty" tf:"resource_policies,omitempty"`
+
 	// The size of the image in gigabytes. If not specified, it
 	// will inherit the size of its base image.
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
+
+	Snapshot *string `json:"snapshot,omitempty" tf:"snapshot,omitempty"`
+
+	SourceImageEncryptionKey *InitializeParamsSourceImageEncryptionKeyInitParameters `json:"sourceImageEncryptionKey,omitempty" tf:"source_image_encryption_key,omitempty"`
+
+	SourceSnapshotEncryptionKey *InitializeParamsSourceSnapshotEncryptionKeyInitParameters `json:"sourceSnapshotEncryptionKey,omitempty" tf:"source_snapshot_encryption_key,omitempty"`
 
 	// The URL of the storage pool in which the new disk is created.
 	// For example:
@@ -543,6 +647,7 @@ type InitializeParamsInitParameters struct {
 }
 
 type InitializeParamsObservation struct {
+	Architecture *string `json:"architecture,omitempty" tf:"architecture,omitempty"`
 
 	// Whether this disk is using confidential compute mode.
 	// Note: Only supported on hyperdisk skus, disk_encryption_key is required when setting to true.
@@ -586,9 +691,18 @@ type InitializeParamsObservation struct {
 	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
+	// - A list of self_links of resource policies to attach to the instance. Modifying this list will cause the instance to recreate. Currently a max of 1 resource policy is supported.
+	ResourcePolicies []*string `json:"resourcePolicies,omitempty" tf:"resource_policies,omitempty"`
+
 	// The size of the image in gigabytes. If not specified, it
 	// will inherit the size of its base image.
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
+
+	Snapshot *string `json:"snapshot,omitempty" tf:"snapshot,omitempty"`
+
+	SourceImageEncryptionKey *InitializeParamsSourceImageEncryptionKeyObservation `json:"sourceImageEncryptionKey,omitempty" tf:"source_image_encryption_key,omitempty"`
+
+	SourceSnapshotEncryptionKey *InitializeParamsSourceSnapshotEncryptionKeyObservation `json:"sourceSnapshotEncryptionKey,omitempty" tf:"source_snapshot_encryption_key,omitempty"`
 
 	// The URL of the storage pool in which the new disk is created.
 	// For example:
@@ -600,6 +714,9 @@ type InitializeParamsObservation struct {
 
 type InitializeParamsParameters struct {
 
+	// +kubebuilder:validation:Optional
+	Architecture *string `json:"architecture,omitempty" tf:"architecture,omitempty"`
+
 	// Whether this disk is using confidential compute mode.
 	// Note: Only supported on hyperdisk skus, disk_encryption_key is required when setting to true.
 	// +kubebuilder:validation:Optional
@@ -657,10 +774,23 @@ type InitializeParamsParameters struct {
 	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
+	// - A list of self_links of resource policies to attach to the instance. Modifying this list will cause the instance to recreate. Currently a max of 1 resource policy is supported.
+	// +kubebuilder:validation:Optional
+	ResourcePolicies []*string `json:"resourcePolicies,omitempty" tf:"resource_policies,omitempty"`
+
 	// The size of the image in gigabytes. If not specified, it
 	// will inherit the size of its base image.
 	// +kubebuilder:validation:Optional
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Snapshot *string `json:"snapshot,omitempty" tf:"snapshot,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	SourceImageEncryptionKey *InitializeParamsSourceImageEncryptionKeyParameters `json:"sourceImageEncryptionKey,omitempty" tf:"source_image_encryption_key,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	SourceSnapshotEncryptionKey *InitializeParamsSourceSnapshotEncryptionKeyParameters `json:"sourceSnapshotEncryptionKey,omitempty" tf:"source_snapshot_encryption_key,omitempty"`
 
 	// The URL of the storage pool in which the new disk is created.
 	// For example:
@@ -670,6 +800,155 @@ type InitializeParamsParameters struct {
 	// The type of reservation from which this instance can consume resources.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type InitializeParamsSourceImageEncryptionKeyInitParameters struct {
+
+	// The self_link of the encryption key that is
+	// stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link
+	// and disk_encryption_key_raw may be set.
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	// Service account to attach to the instance.
+	// Structure is documented below.
+	// Note: allow_stopping_for_update must be set to true or your instance must have a desired_status of TERMINATED in order to update this field.
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+
+	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+
+	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+}
+
+type InitializeParamsSourceImageEncryptionKeyObservation struct {
+
+	// The self_link of the encryption key that is
+	// stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link
+	// and disk_encryption_key_raw may be set.
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	// Service account to attach to the instance.
+	// Structure is documented below.
+	// Note: allow_stopping_for_update must be set to true or your instance must have a desired_status of TERMINATED in order to update this field.
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+
+	Sha256 *string `json:"sha256,omitempty" tf:"sha256,omitempty"`
+}
+
+type InitializeParamsSourceImageEncryptionKeyParameters struct {
+
+	// The self_link of the encryption key that is
+	// stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link
+	// and disk_encryption_key_raw may be set.
+	// +kubebuilder:validation:Optional
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	// Service account to attach to the instance.
+	// Structure is documented below.
+	// Note: allow_stopping_for_update must be set to true or your instance must have a desired_status of TERMINATED in order to update this field.
+	// +kubebuilder:validation:Optional
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+}
+
+type InitializeParamsSourceSnapshotEncryptionKeyInitParameters struct {
+
+	// The self_link of the encryption key that is
+	// stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link
+	// and disk_encryption_key_raw may be set.
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	// Service account to attach to the instance.
+	// Structure is documented below.
+	// Note: allow_stopping_for_update must be set to true or your instance must have a desired_status of TERMINATED in order to update this field.
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+
+	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+
+	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+}
+
+type InitializeParamsSourceSnapshotEncryptionKeyObservation struct {
+
+	// The self_link of the encryption key that is
+	// stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link
+	// and disk_encryption_key_raw may be set.
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	// Service account to attach to the instance.
+	// Structure is documented below.
+	// Note: allow_stopping_for_update must be set to true or your instance must have a desired_status of TERMINATED in order to update this field.
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+
+	Sha256 *string `json:"sha256,omitempty" tf:"sha256,omitempty"`
+}
+
+type InitializeParamsSourceSnapshotEncryptionKeyParameters struct {
+
+	// The self_link of the encryption key that is
+	// stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link
+	// and disk_encryption_key_raw may be set.
+	// +kubebuilder:validation:Optional
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	// Service account to attach to the instance.
+	// Structure is documented below.
+	// Note: allow_stopping_for_update must be set to true or your instance must have a desired_status of TERMINATED in order to update this field.
+	// +kubebuilder:validation:Optional
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+}
+
+type InstanceEncryptionKeyInitParameters struct {
+
+	// The self_link of the encryption key that is
+	// stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link
+	// and disk_encryption_key_raw may be set.
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	// Service account to attach to the instance.
+	// Structure is documented below.
+	// Note: allow_stopping_for_update must be set to true or your instance must have a desired_status of TERMINATED in order to update this field.
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+}
+
+type InstanceEncryptionKeyObservation struct {
+
+	// The self_link of the encryption key that is
+	// stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link
+	// and disk_encryption_key_raw may be set.
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	// Service account to attach to the instance.
+	// Structure is documented below.
+	// Note: allow_stopping_for_update must be set to true or your instance must have a desired_status of TERMINATED in order to update this field.
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+
+	Sha256 *string `json:"sha256,omitempty" tf:"sha256,omitempty"`
+}
+
+type InstanceEncryptionKeyParameters struct {
+
+	// The self_link of the encryption key that is
+	// stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link
+	// and disk_encryption_key_raw may be set.
+	// +kubebuilder:validation:Optional
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	// Service account to attach to the instance.
+	// Structure is documented below.
+	// Note: allow_stopping_for_update must be set to true or your instance must have a desired_status of TERMINATED in order to update this field.
+	// +kubebuilder:validation:Optional
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
 }
 
 type InstanceInitParameters struct {
@@ -724,6 +1003,10 @@ type InstanceInitParameters struct {
 	// The entire hostname must not exceed 253 characters. Changing this forces a new resource to be created.
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 
+	InstanceEncryptionKey *InstanceEncryptionKeyInitParameters `json:"instanceEncryptionKey,omitempty" tf:"instance_encryption_key,omitempty"`
+
+	KeyRevocationActionType *string `json:"keyRevocationActionType,omitempty" tf:"key_revocation_action_type,omitempty"`
+
 	// A map of key/value label pairs to assign to the instance.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
 	// Please refer to the field 'effective_labels' for all of the labels present on the resource.
@@ -766,7 +1049,7 @@ type InstanceInitParameters struct {
 
 	// Additional instance parameters.
 	// .
-	Params *ParamsInitParameters `json:"params,omitempty" tf:"params,omitempty"`
+	Params *InstanceParamsInitParameters `json:"params,omitempty" tf:"params,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
@@ -828,6 +1111,8 @@ type InstanceObservation struct {
 	// Enable Confidential Mode on this VM. Structure is documented below
 	ConfidentialInstanceConfig *ConfidentialInstanceConfigObservation `json:"confidentialInstanceConfig,omitempty" tf:"confidential_instance_config,omitempty"`
 
+	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
 	// The current status of the instance. This could be one of the following values: PROVISIONING, STAGING, RUNNING, STOPPING, SUSPENDING, SUSPENDED, REPAIRING, and TERMINATED. For more information about the status of the instance, see Instance life cycle.`,
 	CurrentStatus *string `json:"currentStatus,omitempty" tf:"current_status,omitempty"`
 
@@ -866,8 +1151,12 @@ type InstanceObservation struct {
 	// an identifier for the resource with format projects/{{project}}/zones/{{zone}}/instances/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	InstanceEncryptionKey *InstanceEncryptionKeyObservation `json:"instanceEncryptionKey,omitempty" tf:"instance_encryption_key,omitempty"`
+
 	// The server-assigned unique identifier of this instance.
 	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
+
+	KeyRevocationActionType *string `json:"keyRevocationActionType,omitempty" tf:"key_revocation_action_type,omitempty"`
 
 	// The unique fingerprint of the labels.
 	LabelFingerprint *string `json:"labelFingerprint,omitempty" tf:"label_fingerprint,omitempty"`
@@ -917,7 +1206,7 @@ type InstanceObservation struct {
 
 	// Additional instance parameters.
 	// .
-	Params *ParamsObservation `json:"params,omitempty" tf:"params,omitempty"`
+	Params *InstanceParamsObservation `json:"params,omitempty" tf:"params,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
@@ -1030,6 +1319,12 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	InstanceEncryptionKey *InstanceEncryptionKeyParameters `json:"instanceEncryptionKey,omitempty" tf:"instance_encryption_key,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	KeyRevocationActionType *string `json:"keyRevocationActionType,omitempty" tf:"key_revocation_action_type,omitempty"`
+
 	// A map of key/value label pairs to assign to the instance.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
 	// Please refer to the field 'effective_labels' for all of the labels present on the resource.
@@ -1080,7 +1375,7 @@ type InstanceParameters struct {
 	// Additional instance parameters.
 	// .
 	// +kubebuilder:validation:Optional
-	Params *ParamsParameters `json:"params,omitempty" tf:"params,omitempty"`
+	Params *InstanceParamsParameters `json:"params,omitempty" tf:"params,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
@@ -1126,6 +1421,28 @@ type InstanceParameters struct {
 	// The zone that the machine should be created in. If it is not provided, the provider zone is used.
 	// +kubebuilder:validation:Required
 	Zone *string `json:"zone" tf:"zone,omitempty"`
+}
+
+type InstanceParamsInitParameters struct {
+
+	// A tag is a key-value pair that can be attached to a Google Cloud resource. You can use tags to conditionally allow or deny policies based on whether a resource has a specific tag. This value is not returned by the API.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type InstanceParamsObservation struct {
+
+	// A tag is a key-value pair that can be attached to a Google Cloud resource. You can use tags to conditionally allow or deny policies based on whether a resource has a specific tag. This value is not returned by the API.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type InstanceParamsParameters struct {
+
+	// A tag is a key-value pair that can be attached to a Google Cloud resource. You can use tags to conditionally allow or deny policies based on whether a resource has a specific tag. This value is not returned by the API.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 }
 
 type LocalSsdRecoveryTimeoutInitParameters struct {
@@ -1246,6 +1563,9 @@ type NetworkInterfaceInitParameters struct {
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
+	// Beta The URL of the network attachment that this interface should connect to in the following format: projects/{projectNumber}/regions/{region_name}/networkAttachments/{network_attachment_name}.
+	NetworkAttachment *string `json:"networkAttachment,omitempty" tf:"network_attachment,omitempty"`
+
 	// The private IP address to assign to the instance. If
 	// empty, the address will be automatically assigned.
 	NetworkIP *string `json:"networkIp,omitempty" tf:"network_ip,omitempty"`
@@ -1329,6 +1649,9 @@ type NetworkInterfaceObservation struct {
 	// be inferred from the subnetwork.
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
+	// Beta The URL of the network attachment that this interface should connect to in the following format: projects/{projectNumber}/regions/{region_name}/networkAttachments/{network_attachment_name}.
+	NetworkAttachment *string `json:"networkAttachment,omitempty" tf:"network_attachment,omitempty"`
+
 	// The private IP address to assign to the instance. If
 	// empty, the address will be automatically assigned.
 	NetworkIP *string `json:"networkIp,omitempty" tf:"network_ip,omitempty"`
@@ -1393,6 +1716,10 @@ type NetworkInterfaceParameters struct {
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Beta The URL of the network attachment that this interface should connect to in the following format: projects/{projectNumber}/regions/{region_name}/networkAttachments/{network_attachment_name}.
+	// +kubebuilder:validation:Optional
+	NetworkAttachment *string `json:"networkAttachment,omitempty" tf:"network_attachment,omitempty"`
 
 	// The private IP address to assign to the instance. If
 	// empty, the address will be automatically assigned.
@@ -1533,28 +1860,6 @@ type OnInstanceStopActionParameters struct {
 	DiscardLocalSsd *bool `json:"discardLocalSsd,omitempty" tf:"discard_local_ssd,omitempty"`
 }
 
-type ParamsInitParameters struct {
-
-	// A tag is a key-value pair that can be attached to a Google Cloud resource. You can use tags to conditionally allow or deny policies based on whether a resource has a specific tag. This value is not returned by the API.
-	// +mapType=granular
-	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
-}
-
-type ParamsObservation struct {
-
-	// A tag is a key-value pair that can be attached to a Google Cloud resource. You can use tags to conditionally allow or deny policies based on whether a resource has a specific tag. This value is not returned by the API.
-	// +mapType=granular
-	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
-}
-
-type ParamsParameters struct {
-
-	// A tag is a key-value pair that can be attached to a Google Cloud resource. You can use tags to conditionally allow or deny policies based on whether a resource has a specific tag. This value is not returned by the API.
-	// +kubebuilder:validation:Optional
-	// +mapType=granular
-	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
-}
-
 type ReservationAffinityInitParameters struct {
 
 	// Specifies the label selector for the reservation to use..
@@ -1594,6 +1899,8 @@ type SchedulingInitParameters struct {
 	// Defaults to true.
 	AutomaticRestart *bool `json:"automaticRestart,omitempty" tf:"automatic_restart,omitempty"`
 
+	AvailabilityDomain *float64 `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
+
 	// Describe the type of termination action for VM. Can be STOP or DELETE.  Read more on here
 	InstanceTerminationAction *string `json:"instanceTerminationAction,omitempty" tf:"instance_termination_action,omitempty"`
 
@@ -1632,6 +1939,8 @@ type SchedulingInitParameters struct {
 	// false. For more info about
 	// SPOT, read here
 	ProvisioningModel *string `json:"provisioningModel,omitempty" tf:"provisioning_model,omitempty"`
+
+	TerminationTime *string `json:"terminationTime,omitempty" tf:"termination_time,omitempty"`
 }
 
 type SchedulingObservation struct {
@@ -1640,6 +1949,8 @@ type SchedulingObservation struct {
 	// restarted if it was terminated by Compute Engine (not a user).
 	// Defaults to true.
 	AutomaticRestart *bool `json:"automaticRestart,omitempty" tf:"automatic_restart,omitempty"`
+
+	AvailabilityDomain *float64 `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
 
 	// Describe the type of termination action for VM. Can be STOP or DELETE.  Read more on here
 	InstanceTerminationAction *string `json:"instanceTerminationAction,omitempty" tf:"instance_termination_action,omitempty"`
@@ -1679,6 +1990,8 @@ type SchedulingObservation struct {
 	// false. For more info about
 	// SPOT, read here
 	ProvisioningModel *string `json:"provisioningModel,omitempty" tf:"provisioning_model,omitempty"`
+
+	TerminationTime *string `json:"terminationTime,omitempty" tf:"termination_time,omitempty"`
 }
 
 type SchedulingParameters struct {
@@ -1688,6 +2001,9 @@ type SchedulingParameters struct {
 	// Defaults to true.
 	// +kubebuilder:validation:Optional
 	AutomaticRestart *bool `json:"automaticRestart,omitempty" tf:"automatic_restart,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	AvailabilityDomain *float64 `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
 
 	// Describe the type of termination action for VM. Can be STOP or DELETE.  Read more on here
 	// +kubebuilder:validation:Optional
@@ -1736,6 +2052,9 @@ type SchedulingParameters struct {
 	// SPOT, read here
 	// +kubebuilder:validation:Optional
 	ProvisioningModel *string `json:"provisioningModel,omitempty" tf:"provisioning_model,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	TerminationTime *string `json:"terminationTime,omitempty" tf:"termination_time,omitempty"`
 }
 
 type ScratchDiskInitParameters struct {

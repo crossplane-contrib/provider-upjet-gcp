@@ -13,10 +13,47 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ClientInitParameters struct {
+	Permissions *PermissionsInitParameters `json:"permissions,omitempty" tf:"permissions,omitempty"`
+}
+
+type ClientObservation struct {
+	Permissions *PermissionsObservation `json:"permissions,omitempty" tf:"permissions,omitempty"`
+}
+
+type ClientParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Permissions *PermissionsParameters `json:"permissions,omitempty" tf:"permissions,omitempty"`
+}
+
+type PermissionsInitParameters struct {
+	DisabledUserDeletion *bool `json:"disabledUserDeletion,omitempty" tf:"disabled_user_deletion,omitempty"`
+
+	DisabledUserSignup *bool `json:"disabledUserSignup,omitempty" tf:"disabled_user_signup,omitempty"`
+}
+
+type PermissionsObservation struct {
+	DisabledUserDeletion *bool `json:"disabledUserDeletion,omitempty" tf:"disabled_user_deletion,omitempty"`
+
+	DisabledUserSignup *bool `json:"disabledUserSignup,omitempty" tf:"disabled_user_signup,omitempty"`
+}
+
+type PermissionsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	DisabledUserDeletion *bool `json:"disabledUserDeletion,omitempty" tf:"disabled_user_deletion,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	DisabledUserSignup *bool `json:"disabledUserSignup,omitempty" tf:"disabled_user_signup,omitempty"`
+}
+
 type TenantInitParameters struct {
 
 	// Whether to allow email/password user authentication.
 	AllowPasswordSignup *bool `json:"allowPasswordSignup,omitempty" tf:"allow_password_signup,omitempty"`
+
+	Client *ClientInitParameters `json:"client,omitempty" tf:"client,omitempty"`
 
 	// Whether authentication is disabled for the tenant. If true, the users under
 	// the disabled tenant are not allowed to sign-in. Admins of the disabled tenant
@@ -38,6 +75,8 @@ type TenantObservation struct {
 
 	// Whether to allow email/password user authentication.
 	AllowPasswordSignup *bool `json:"allowPasswordSignup,omitempty" tf:"allow_password_signup,omitempty"`
+
+	Client *ClientObservation `json:"client,omitempty" tf:"client,omitempty"`
 
 	// Whether authentication is disabled for the tenant. If true, the users under
 	// the disabled tenant are not allowed to sign-in. Admins of the disabled tenant
@@ -66,6 +105,9 @@ type TenantParameters struct {
 	// Whether to allow email/password user authentication.
 	// +kubebuilder:validation:Optional
 	AllowPasswordSignup *bool `json:"allowPasswordSignup,omitempty" tf:"allow_password_signup,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Client *ClientParameters `json:"client,omitempty" tf:"client,omitempty"`
 
 	// Whether authentication is disabled for the tenant. If true, the users under
 	// the disabled tenant are not allowed to sign-in. Admins of the disabled tenant

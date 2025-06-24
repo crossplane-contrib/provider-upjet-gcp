@@ -14,6 +14,7 @@ import (
 )
 
 type BackupGeoHealthCheckedTargetsInitParameters struct {
+	ExternalEndpoints []*string `json:"externalEndpoints,omitempty" tf:"external_endpoints,omitempty"`
 
 	// The list of internal load balancers to health check.
 	// Structure is documented below.
@@ -21,6 +22,7 @@ type BackupGeoHealthCheckedTargetsInitParameters struct {
 }
 
 type BackupGeoHealthCheckedTargetsObservation struct {
+	ExternalEndpoints []*string `json:"externalEndpoints,omitempty" tf:"external_endpoints,omitempty"`
 
 	// The list of internal load balancers to health check.
 	// Structure is documented below.
@@ -29,10 +31,13 @@ type BackupGeoHealthCheckedTargetsObservation struct {
 
 type BackupGeoHealthCheckedTargetsParameters struct {
 
+	// +kubebuilder:validation:Optional
+	ExternalEndpoints []*string `json:"externalEndpoints,omitempty" tf:"external_endpoints,omitempty"`
+
 	// The list of internal load balancers to health check.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	InternalLoadBalancers []HealthCheckedTargetsInternalLoadBalancersParameters `json:"internalLoadBalancers" tf:"internal_load_balancers,omitempty"`
+	InternalLoadBalancers []HealthCheckedTargetsInternalLoadBalancersParameters `json:"internalLoadBalancers,omitempty" tf:"internal_load_balancers,omitempty"`
 }
 
 type BackupGeoInitParameters struct {
@@ -120,6 +125,7 @@ type GeoParameters struct {
 }
 
 type HealthCheckedTargetsInitParameters struct {
+	ExternalEndpoints []*string `json:"externalEndpoints,omitempty" tf:"external_endpoints,omitempty"`
 
 	// The list of internal load balancers to health check.
 	// Structure is documented below.
@@ -209,6 +215,7 @@ type HealthCheckedTargetsInternalLoadBalancersParameters struct {
 }
 
 type HealthCheckedTargetsObservation struct {
+	ExternalEndpoints []*string `json:"externalEndpoints,omitempty" tf:"external_endpoints,omitempty"`
 
 	// The list of internal load balancers to health check.
 	// Structure is documented below.
@@ -217,10 +224,13 @@ type HealthCheckedTargetsObservation struct {
 
 type HealthCheckedTargetsParameters struct {
 
+	// +kubebuilder:validation:Optional
+	ExternalEndpoints []*string `json:"externalEndpoints,omitempty" tf:"external_endpoints,omitempty"`
+
 	// The list of internal load balancers to health check.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	InternalLoadBalancers []InternalLoadBalancersParameters `json:"internalLoadBalancers" tf:"internal_load_balancers,omitempty"`
+	InternalLoadBalancers []InternalLoadBalancersParameters `json:"internalLoadBalancers,omitempty" tf:"internal_load_balancers,omitempty"`
 }
 
 type InternalLoadBalancersInitParameters struct {
@@ -361,6 +371,7 @@ type PrimaryBackupParameters struct {
 }
 
 type PrimaryInitParameters struct {
+	ExternalEndpoints []*string `json:"externalEndpoints,omitempty" tf:"external_endpoints,omitempty"`
 
 	// The list of internal load balancers to health check.
 	// Structure is documented below.
@@ -530,6 +541,7 @@ type PrimaryInternalLoadBalancersParameters struct {
 }
 
 type PrimaryObservation struct {
+	ExternalEndpoints []*string `json:"externalEndpoints,omitempty" tf:"external_endpoints,omitempty"`
 
 	// The list of internal load balancers to health check.
 	// Structure is documented below.
@@ -538,10 +550,13 @@ type PrimaryObservation struct {
 
 type PrimaryParameters struct {
 
+	// +kubebuilder:validation:Optional
+	ExternalEndpoints []*string `json:"externalEndpoints,omitempty" tf:"external_endpoints,omitempty"`
+
 	// The list of internal load balancers to health check.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	InternalLoadBalancers []PrimaryInternalLoadBalancersParameters `json:"internalLoadBalancers" tf:"internal_load_balancers,omitempty"`
+	InternalLoadBalancers []PrimaryInternalLoadBalancersParameters `json:"internalLoadBalancers,omitempty" tf:"internal_load_balancers,omitempty"`
 }
 
 type RecordSetInitParameters struct {
@@ -668,6 +683,8 @@ type RoutingPolicyInitParameters struct {
 	// Structure is documented below.
 	Geo []GeoInitParameters `json:"geo,omitempty" tf:"geo,omitempty"`
 
+	HealthCheck *string `json:"healthCheck,omitempty" tf:"health_check,omitempty"`
+
 	// The configuration for a failover policy with global to regional failover. Queries are responded to with the global primary targets, but if none of the primary targets are healthy, then we fallback to a regional failover policy.
 	// Structure is documented below.
 	PrimaryBackup *PrimaryBackupInitParameters `json:"primaryBackup,omitempty" tf:"primary_backup,omitempty"`
@@ -685,6 +702,8 @@ type RoutingPolicyObservation struct {
 	// The configuration for Geolocation based routing policy.
 	// Structure is documented below.
 	Geo []GeoObservation `json:"geo,omitempty" tf:"geo,omitempty"`
+
+	HealthCheck *string `json:"healthCheck,omitempty" tf:"health_check,omitempty"`
 
 	// The configuration for a failover policy with global to regional failover. Queries are responded to with the global primary targets, but if none of the primary targets are healthy, then we fallback to a regional failover policy.
 	// Structure is documented below.
@@ -706,6 +725,9 @@ type RoutingPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	Geo []GeoParameters `json:"geo,omitempty" tf:"geo,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	HealthCheck *string `json:"healthCheck,omitempty" tf:"health_check,omitempty"`
+
 	// The configuration for a failover policy with global to regional failover. Queries are responded to with the global primary targets, but if none of the primary targets are healthy, then we fallback to a regional failover policy.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -718,6 +740,7 @@ type RoutingPolicyParameters struct {
 }
 
 type WrrHealthCheckedTargetsInitParameters struct {
+	ExternalEndpoints []*string `json:"externalEndpoints,omitempty" tf:"external_endpoints,omitempty"`
 
 	// The list of internal load balancers to health check.
 	// Structure is documented below.
@@ -807,6 +830,7 @@ type WrrHealthCheckedTargetsInternalLoadBalancersParameters struct {
 }
 
 type WrrHealthCheckedTargetsObservation struct {
+	ExternalEndpoints []*string `json:"externalEndpoints,omitempty" tf:"external_endpoints,omitempty"`
 
 	// The list of internal load balancers to health check.
 	// Structure is documented below.
@@ -815,10 +839,13 @@ type WrrHealthCheckedTargetsObservation struct {
 
 type WrrHealthCheckedTargetsParameters struct {
 
+	// +kubebuilder:validation:Optional
+	ExternalEndpoints []*string `json:"externalEndpoints,omitempty" tf:"external_endpoints,omitempty"`
+
 	// The list of internal load balancers to health check.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	InternalLoadBalancers []WrrHealthCheckedTargetsInternalLoadBalancersParameters `json:"internalLoadBalancers" tf:"internal_load_balancers,omitempty"`
+	InternalLoadBalancers []WrrHealthCheckedTargetsInternalLoadBalancersParameters `json:"internalLoadBalancers,omitempty" tf:"internal_load_balancers,omitempty"`
 }
 
 type WrrInitParameters struct {

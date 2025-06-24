@@ -41,6 +41,9 @@ type BackupInitParameters struct {
 	// Selector for a Instance in filestore to populate sourceInstance.
 	// +kubebuilder:validation:Optional
 	SourceInstanceSelector *v1.Selector `json:"sourceInstanceSelector,omitempty" tf:"-"`
+
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
 type BackupObservation struct {
@@ -93,6 +96,9 @@ type BackupObservation struct {
 	// The size of the storage used by the backup. As backups share storage, this number is expected to change with backup creation/deletion.
 	StorageBytes *string `json:"storageBytes,omitempty" tf:"storage_bytes,omitempty"`
 
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
 	// The combination of labels configured directly on the resource
 	// and default labels configured on the provider.
 	// +mapType=granular
@@ -136,6 +142,10 @@ type BackupParameters struct {
 	// Selector for a Instance in filestore to populate sourceInstance.
 	// +kubebuilder:validation:Optional
 	SourceInstanceSelector *v1.Selector `json:"sourceInstanceSelector,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
 // BackupSpec defines the desired state of Backup

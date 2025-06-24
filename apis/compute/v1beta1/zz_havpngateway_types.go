@@ -23,6 +23,9 @@ type HaVPNGatewayInitParameters struct {
 	// Possible values are: IPV4, IPV6.
 	GatewayIPVersion *string `json:"gatewayIpVersion,omitempty" tf:"gateway_ip_version,omitempty"`
 
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
 	// The network this VPN gateway is accepting traffic for.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
@@ -56,6 +59,9 @@ type HaVPNGatewayObservation struct {
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// The IP family of the gateway IPs for the HA-VPN gateway interfaces. If not specified, IPV4 will be used.
 	// Default value is IPV4.
 	// Possible values are: IPV4, IPV6.
@@ -63,6 +69,11 @@ type HaVPNGatewayObservation struct {
 
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/vpnGateways/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	LabelFingerprint *string `json:"labelFingerprint,omitempty" tf:"label_fingerprint,omitempty"`
+
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The network this VPN gateway is accepting traffic for.
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
@@ -83,6 +94,9 @@ type HaVPNGatewayObservation struct {
 	// Possible values are: IPV4_ONLY, IPV4_IPV6, IPV6_ONLY.
 	StackType *string `json:"stackType,omitempty" tf:"stack_type,omitempty"`
 
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
+
 	// A list of interfaces on this VPN gateway.
 	// Structure is documented below.
 	VPNInterfaces []VPNInterfacesObservation `json:"vpnInterfaces,omitempty" tf:"vpn_interfaces,omitempty"`
@@ -99,6 +113,10 @@ type HaVPNGatewayParameters struct {
 	// Possible values are: IPV4, IPV6.
 	// +kubebuilder:validation:Optional
 	GatewayIPVersion *string `json:"gatewayIpVersion,omitempty" tf:"gateway_ip_version,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The network this VPN gateway is accepting traffic for.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
