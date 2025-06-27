@@ -10,7 +10,7 @@ metadata:
   namespace: upbound-system
 spec:
   forProvider:
-    authorizationMode: AUTH_MODE_DISABLED
+    authorizationMode: AUTH_MODE_IAM_AUTH
     deletionProtectionEnabled: false
     nodeType: REDIS_SHARED_CORE_NANO
     pscConfigs:
@@ -22,9 +22,13 @@ spec:
     region: us-central1
     replicaCount: 1
     shardCount: 3
-    transitEncryptionMode: TRANSIT_ENCRYPTION_MODE_DISABLED
+    transitEncryptionMode: TRANSIT_ENCRYPTION_MODE_SERVER_AUTHENTICATION
     zoneDistributionConfig:
       mode: MULTI_ZONE
+  writeConnectionSecretToRef:
+    name: example-redis-cluster-secret
+    namespace: upbound-system
+      
 ---
 apiVersion: compute.gcp.m.upbound.io/v1beta1
 kind: Network
