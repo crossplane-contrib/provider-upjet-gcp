@@ -16,12 +16,21 @@ import (
 	"github.com/upbound/provider-gcp/apis/namespaced/v1beta1"
 )
 
-// Setup adds a controller that reconciles ProviderConfigs by accounting for
-// their current usage.
+// Setup adds a controller that reconciles ProviderConfigs and
+// ClusterProviderConfigs by accounting for their current usage.
 func Setup(mgr ctrl.Manager, o controller.Options) error {
+	if err := setupNamespacedProviderConfig(mgr, o); err != nil {
+		return err
+	}
+	return setupClusterProviderConfig(mgr, o)
+
+}
+
+func setupNamespacedProviderConfig(mgr ctrl.Manager, o controller.Options) error {
 	name := providerconfig.ControllerName(v1beta1.ProviderConfigGroupKind)
 	of := resource.ProviderConfigKinds{
 		Config:    v1beta1.ProviderConfigGroupVersionKind,
+		Usage:     v1beta1.ProviderConfigUsageGroupVersionKind,
 		UsageList: v1beta1.ProviderConfigUsageListGroupVersionKind,
 	}
 
@@ -29,6 +38,25 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		Named(name).
 		WithOptions(o.ForControllerRuntime()).
 		For(&v1beta1.ProviderConfig{}).
+		Watches(&v1beta1.ProviderConfigUsage{}, &resource.EnqueueRequestForProviderConfig{}).
+		Complete(providerconfig.NewReconciler(mgr, of,
+			providerconfig.WithLogger(o.Logger.WithValues("controller", name)),
+			providerconfig.WithRecorder(event.NewAPIRecorder(mgr.GetEventRecorderFor(name)))))
+}
+func setupClusterProviderConfig(mgr ctrl.Manager, o controller.Options) error {
+	name := providerconfig.ControllerName(v1beta1.ClusterProviderConfigGroupKind)
+	of := resource.ProviderConfigKinds{
+		Config: v1beta1.ClusterProviderConfigGroupVersionKind,
+		// Usage types are shared
+		Usage:     v1beta1.ProviderConfigUsageGroupVersionKind,
+		UsageList: v1beta1.ProviderConfigUsageListGroupVersionKind,
+	}
+
+	return ctrl.NewControllerManagedBy(mgr).
+		Named(name).
+		WithOptions(o.ForControllerRuntime()).
+		For(&v1beta1.ClusterProviderConfig{}).
+		// Usage types are shared
 		Watches(&v1beta1.ProviderConfigUsage{}, &resource.EnqueueRequestForProviderConfig{}).
 		Complete(providerconfig.NewReconciler(mgr, of,
 			providerconfig.WithLogger(o.Logger.WithValues("controller", name)),
