@@ -22,6 +22,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 	name := providerconfig.ControllerName(v1beta1.ProviderConfigGroupKind)
 	of := resource.ProviderConfigKinds{
 		Config:    v1beta1.ProviderConfigGroupVersionKind,
+		Usage:     v1beta1.ProviderConfigUsageGroupVersionKind,
 		UsageList: v1beta1.ProviderConfigUsageListGroupVersionKind,
 	}
 
