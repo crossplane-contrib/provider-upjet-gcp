@@ -102,6 +102,7 @@ import (
 	serviceaccountiammember "github.com/upbound/provider-gcp/internal/controller/namespaced/cloudplatform/serviceaccountiammember"
 	serviceaccountkey "github.com/upbound/provider-gcp/internal/controller/namespaced/cloudplatform/serviceaccountkey"
 	servicenetworkingpeereddnsdomain "github.com/upbound/provider-gcp/internal/controller/namespaced/cloudplatform/servicenetworkingpeereddnsdomain"
+	quotapreference "github.com/upbound/provider-gcp/internal/controller/namespaced/cloudquotas/quotapreference"
 	domainmapping "github.com/upbound/provider-gcp/internal/controller/namespaced/cloudrun/domainmapping"
 	service "github.com/upbound/provider-gcp/internal/controller/namespaced/cloudrun/service"
 	serviceiammember "github.com/upbound/provider-gcp/internal/controller/namespaced/cloudrun/serviceiammember"
@@ -501,6 +502,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		serviceaccountiammember.Setup,
 		serviceaccountkey.Setup,
 		servicenetworkingpeereddnsdomain.Setup,
+		quotapreference.Setup,
 		domainmapping.Setup,
 		service.Setup,
 		serviceiammember.Setup,
@@ -906,6 +908,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		serviceaccountiammember.SetupGated,
 		serviceaccountkey.SetupGated,
 		servicenetworkingpeereddnsdomain.SetupGated,
+		quotapreference.SetupGated,
 		domainmapping.SetupGated,
 		service.SetupGated,
 		serviceiammember.SetupGated,

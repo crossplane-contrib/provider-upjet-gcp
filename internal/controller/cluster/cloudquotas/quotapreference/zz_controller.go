@@ -9,31 +9,37 @@ package quotapreference
 import (
 	"time"
 
-	"github.com/crossplane/crossplane-runtime/pkg/connection"
-	"github.com/crossplane/crossplane-runtime/pkg/event"
-	"github.com/crossplane/crossplane-runtime/pkg/ratelimiter"
-	"github.com/crossplane/crossplane-runtime/pkg/reconciler/managed"
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
-	"github.com/crossplane/crossplane-runtime/pkg/statemetrics"
-	tjcontroller "github.com/crossplane/upjet/pkg/controller"
-	"github.com/crossplane/upjet/pkg/controller/handler"
-	"github.com/crossplane/upjet/pkg/metrics"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/event"
+	xpfeature "github.com/crossplane/crossplane-runtime/v2/pkg/feature"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/ratelimiter"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/reconciler/managed"
+	xpresource "github.com/crossplane/crossplane-runtime/v2/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/statemetrics"
+	tjcontroller "github.com/crossplane/upjet/v2/pkg/controller"
+	"github.com/crossplane/upjet/v2/pkg/controller/handler"
+	"github.com/crossplane/upjet/v2/pkg/metrics"
 	"github.com/pkg/errors"
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	v1beta1 "github.com/upbound/provider-gcp/apis/cloudquotas/v1beta1"
+	v1beta1 "github.com/upbound/provider-gcp/apis/cluster/cloudquotas/v1beta1"
 	features "github.com/upbound/provider-gcp/internal/features"
 )
+
+// SetupGated adds a controller that reconciles QuotaPreference managed resources.
+func SetupGated(mgr ctrl.Manager, o tjcontroller.Options) error {
+	o.Options.Gate.Register(func() {
+		if err := Setup(mgr, o); err != nil {
+			mgr.GetLogger().Error(err, "unable to setup reconciler", "gvk", v1beta1.QuotaPreference_GroupVersionKind.String())
+		}
+	}, v1beta1.QuotaPreference_GroupVersionKind)
+	return nil
+}
 
 // Setup adds a controller that reconciles QuotaPreference managed resources.
 func Setup(mgr ctrl.Manager, o tjcontroller.Options) error {
 	name := managed.ControllerName(v1beta1.QuotaPreference_GroupVersionKind.String())
 	var initializers managed.InitializerChain
 	initializers = append(initializers, managed.NewNameAsExternalName(mgr.GetClient()))
-	cps := []managed.ConnectionPublisher{managed.NewAPISecretPublisher(mgr.GetClient(), mgr.GetScheme())}
-	if o.SecretStoreConfigGVK != nil {
-		cps = append(cps, connection.NewDetailsManager(mgr.GetClient(), *o.SecretStoreConfigGVK, connection.WithTLSConfig(o.ESSOptions.TLSConfig)))
-	}
 	eventHandler := handler.NewEventHandler(handler.WithLogger(o.Logger.WithValues("gvk", v1beta1.QuotaPreference_GroupVersionKind)))
 	ac := tjcontroller.NewAPICallbacks(mgr, xpresource.ManagedKind(v1beta1.QuotaPreference_GroupVersionKind), tjcontroller.WithEventHandler(eventHandler), tjcontroller.WithStatusUpdates(false))
 	opts := []managed.ReconcilerOption{
@@ -49,7 +55,6 @@ func Setup(mgr ctrl.Manager, o tjcontroller.Options) error {
 		managed.WithFinalizer(tjcontroller.NewOperationTrackerFinalizer(o.OperationTrackerStore, xpresource.NewAPIFinalizer(mgr.GetClient(), managed.FinalizerName))),
 		managed.WithTimeout(3 * time.Minute),
 		managed.WithInitializers(initializers),
-		managed.WithConnectionPublishers(cps...),
 		managed.WithPollInterval(o.PollInterval),
 	}
 	if o.PollJitter != 0 {
@@ -79,6 +84,10 @@ func Setup(mgr ctrl.Manager, o tjcontroller.Options) error {
 		if err := mgr.Add(stateMetricsRecorder); err != nil {
 			return errors.Wrap(err, "cannot register MR state metrics recorder for kind v1beta1.QuotaPreferenceList")
 		}
+	}
+
+	if o.Features.Enabled(xpfeature.EnableAlphaChangeLogs) {
+		opts = append(opts, managed.WithChangeLogger(o.ChangeLogOptions.ChangeLogger))
 	}
 
 	r := managed.NewReconciler(mgr, xpresource.ManagedKind(v1beta1.QuotaPreference_GroupVersionKind), opts...)
