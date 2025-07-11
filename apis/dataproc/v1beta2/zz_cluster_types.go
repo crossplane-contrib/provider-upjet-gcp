@@ -656,6 +656,25 @@ type ClusterParameters struct {
 	VirtualClusterConfig *VirtualClusterConfigParameters `json:"virtualClusterConfig,omitempty" tf:"virtual_cluster_config,omitempty"`
 }
 
+type ConfidentialInstanceConfigInitParameters struct {
+
+	// Defines whether the instance should have confidential compute enabled.
+	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
+}
+
+type ConfidentialInstanceConfigObservation struct {
+
+	// Defines whether the instance should have confidential compute enabled.
+	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
+}
+
+type ConfidentialInstanceConfigParameters struct {
+
+	// Defines whether the instance should have confidential compute enabled.
+	// +kubebuilder:validation:Optional
+	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
+}
+
 type ConfigInitParameters struct {
 
 	// The number of local SSD disks to attach to the node,
@@ -876,6 +895,9 @@ type EndpointConfigParameters struct {
 
 type GceClusterConfigInitParameters struct {
 
+	// Confidential Instance Config for clusters using Confidential VMs
+	ConfidentialInstanceConfig *ConfidentialInstanceConfigInitParameters `json:"confidentialInstanceConfig,omitempty" tf:"confidential_instance_config,omitempty"`
+
 	// By default, clusters are not restricted to internal IP addresses,
 	// and will have ephemeral external IP addresses assigned to each instance. If set to true, all
 	// instances in the cluster will only have internal IP addresses. Note: Private Google Access
@@ -945,6 +967,9 @@ type GceClusterConfigInitParameters struct {
 
 type GceClusterConfigObservation struct {
 
+	// Confidential Instance Config for clusters using Confidential VMs
+	ConfidentialInstanceConfig *ConfidentialInstanceConfigObservation `json:"confidentialInstanceConfig,omitempty" tf:"confidential_instance_config,omitempty"`
+
 	// By default, clusters are not restricted to internal IP addresses,
 	// and will have ephemeral external IP addresses assigned to each instance. If set to true, all
 	// instances in the cluster will only have internal IP addresses. Note: Private Google Access
@@ -1003,6 +1028,10 @@ type GceClusterConfigObservation struct {
 }
 
 type GceClusterConfigParameters struct {
+
+	// Confidential Instance Config for clusters using Confidential VMs
+	// +kubebuilder:validation:Optional
+	ConfidentialInstanceConfig *ConfidentialInstanceConfigParameters `json:"confidentialInstanceConfig,omitempty" tf:"confidential_instance_config,omitempty"`
 
 	// By default, clusters are not restricted to internal IP addresses,
 	// and will have ephemeral external IP addresses assigned to each instance. If set to true, all
@@ -1162,6 +1191,9 @@ type InstanceFlexibilityPolicyInitParameters struct {
 
 	// List of instance selection options that the group will use when creating new VMs.
 	InstanceSelectionList []InstanceSelectionListInitParameters `json:"instanceSelectionList,omitempty" tf:"instance_selection_list,omitempty"`
+
+	// Defines how the Group selects the provisioning model to ensure required reliability.
+	ProvisioningModelMix *ProvisioningModelMixInitParameters `json:"provisioningModelMix,omitempty" tf:"provisioning_model_mix,omitempty"`
 }
 
 type InstanceFlexibilityPolicyObservation struct {
@@ -1170,6 +1202,9 @@ type InstanceFlexibilityPolicyObservation struct {
 	InstanceSelectionList []InstanceSelectionListObservation `json:"instanceSelectionList,omitempty" tf:"instance_selection_list,omitempty"`
 
 	InstanceSelectionResults []InstanceSelectionResultsObservation `json:"instanceSelectionResults,omitempty" tf:"instance_selection_results,omitempty"`
+
+	// Defines how the Group selects the provisioning model to ensure required reliability.
+	ProvisioningModelMix *ProvisioningModelMixObservation `json:"provisioningModelMix,omitempty" tf:"provisioning_model_mix,omitempty"`
 }
 
 type InstanceFlexibilityPolicyParameters struct {
@@ -1177,6 +1212,10 @@ type InstanceFlexibilityPolicyParameters struct {
 	// List of instance selection options that the group will use when creating new VMs.
 	// +kubebuilder:validation:Optional
 	InstanceSelectionList []InstanceSelectionListParameters `json:"instanceSelectionList,omitempty" tf:"instance_selection_list,omitempty"`
+
+	// Defines how the Group selects the provisioning model to ensure required reliability.
+	// +kubebuilder:validation:Optional
+	ProvisioningModelMix *ProvisioningModelMixParameters `json:"provisioningModelMix,omitempty" tf:"provisioning_model_mix,omitempty"`
 }
 
 type InstanceSelectionListInitParameters struct {
@@ -2172,6 +2211,35 @@ type PreemptibleWorkerConfigParameters struct {
 	// Accepted values are:
 	// +kubebuilder:validation:Optional
 	Preemptibility *string `json:"preemptibility,omitempty" tf:"preemptibility,omitempty"`
+}
+
+type ProvisioningModelMixInitParameters struct {
+
+	// The base capacity that will always use Standard VMs to avoid risk of more preemption than the minimum capacity you need. Dataproc will create only standard VMs until it reaches standardCapacityBase, then it will start using standardCapacityPercentAboveBase to mix Spot with Standard VMs. eg. If 15 instances are requested and standardCapacityBase is 5, Dataproc will create 5 standard VMs and then start mixing spot and standard VMs for remaining 10 instances.
+	StandardCapacityBase *float64 `json:"standardCapacityBase,omitempty" tf:"standard_capacity_base,omitempty"`
+
+	// The percentage of target capacity that should use Standard VM. The remaining percentage will use Spot VMs. The percentage applies only to the capacity above standardCapacityBase. eg. If 15 instances are requested and standardCapacityBase is 5 and standardCapacityPercentAboveBase is 30, Dataproc will create 5 standard VMs and then start mixing spot and standard VMs for remaining 10 instances. The mix will be 30% standard and 70% spot.
+	StandardCapacityPercentAboveBase *float64 `json:"standardCapacityPercentAboveBase,omitempty" tf:"standard_capacity_percent_above_base,omitempty"`
+}
+
+type ProvisioningModelMixObservation struct {
+
+	// The base capacity that will always use Standard VMs to avoid risk of more preemption than the minimum capacity you need. Dataproc will create only standard VMs until it reaches standardCapacityBase, then it will start using standardCapacityPercentAboveBase to mix Spot with Standard VMs. eg. If 15 instances are requested and standardCapacityBase is 5, Dataproc will create 5 standard VMs and then start mixing spot and standard VMs for remaining 10 instances.
+	StandardCapacityBase *float64 `json:"standardCapacityBase,omitempty" tf:"standard_capacity_base,omitempty"`
+
+	// The percentage of target capacity that should use Standard VM. The remaining percentage will use Spot VMs. The percentage applies only to the capacity above standardCapacityBase. eg. If 15 instances are requested and standardCapacityBase is 5 and standardCapacityPercentAboveBase is 30, Dataproc will create 5 standard VMs and then start mixing spot and standard VMs for remaining 10 instances. The mix will be 30% standard and 70% spot.
+	StandardCapacityPercentAboveBase *float64 `json:"standardCapacityPercentAboveBase,omitempty" tf:"standard_capacity_percent_above_base,omitempty"`
+}
+
+type ProvisioningModelMixParameters struct {
+
+	// The base capacity that will always use Standard VMs to avoid risk of more preemption than the minimum capacity you need. Dataproc will create only standard VMs until it reaches standardCapacityBase, then it will start using standardCapacityPercentAboveBase to mix Spot with Standard VMs. eg. If 15 instances are requested and standardCapacityBase is 5, Dataproc will create 5 standard VMs and then start mixing spot and standard VMs for remaining 10 instances.
+	// +kubebuilder:validation:Optional
+	StandardCapacityBase *float64 `json:"standardCapacityBase,omitempty" tf:"standard_capacity_base,omitempty"`
+
+	// The percentage of target capacity that should use Standard VM. The remaining percentage will use Spot VMs. The percentage applies only to the capacity above standardCapacityBase. eg. If 15 instances are requested and standardCapacityBase is 5 and standardCapacityPercentAboveBase is 30, Dataproc will create 5 standard VMs and then start mixing spot and standard VMs for remaining 10 instances. The mix will be 30% standard and 70% spot.
+	// +kubebuilder:validation:Optional
+	StandardCapacityPercentAboveBase *float64 `json:"standardCapacityPercentAboveBase,omitempty" tf:"standard_capacity_percent_above_base,omitempty"`
 }
 
 type ReservationAffinityInitParameters struct {

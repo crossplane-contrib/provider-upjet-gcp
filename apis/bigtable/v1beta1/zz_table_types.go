@@ -38,12 +38,18 @@ type ColumnFamilyInitParameters struct {
 
 	// The name of the column family.
 	Family *string `json:"family,omitempty" tf:"family,omitempty"`
+
+	// The type of the column family.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type ColumnFamilyObservation struct {
 
 	// The name of the column family.
 	Family *string `json:"family,omitempty" tf:"family,omitempty"`
+
+	// The type of the column family.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type ColumnFamilyParameters struct {
@@ -51,11 +57,15 @@ type ColumnFamilyParameters struct {
 	// The name of the column family.
 	// +kubebuilder:validation:Optional
 	Family *string `json:"family" tf:"family,omitempty"`
+
+	// The type of the column family.
+	// +kubebuilder:validation:Optional
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type TableInitParameters struct {
 
-	// Defines an automated backup policy for a table, specified by Retention Period and Frequency. To disable, set both Retention Period and Frequency to 0.
+	// Defines an automated backup policy for a table, specified by Retention Period and Frequency. To create a table with automated backup disabled, either omit the automated_backup_policy argument, or set both Retention Period and Frequency properties to "0". To disable automated backup on an existing table that has automated backup enabled, set both Retention Period and Frequency properties to "0". When updating an existing table, to modify the Retention Period or Frequency properties of the resource's automated backup policy, set the respective property to a non-zero value. If the automated_backup_policy argument is not provided in the configuration on update, the resource's automated backup policy will not be modified.
 	AutomatedBackupPolicy *AutomatedBackupPolicyInitParameters `json:"automatedBackupPolicy,omitempty" tf:"automated_backup_policy,omitempty"`
 
 	// Duration to retain change stream data for the table. Set to 0 to disable. Must be between 1 and 7 days.
@@ -64,12 +74,11 @@ type TableInitParameters struct {
 	// A group of columns within a table which share a common configuration. This can be specified multiple times. Structure is documented below.
 	ColumnFamily []ColumnFamilyInitParameters `json:"columnFamily,omitempty" tf:"column_family,omitempty"`
 
-	// A field to make the table protected against data loss i.e. when set to PROTECTED, deleting the table, the column families in the table, and the instance containing the table would be prohibited. If not provided, deletion protection will be set to UNPROTECTED.
-	DeletionProtection *string `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
-
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	RowKeySchema *string `json:"rowKeySchema,omitempty" tf:"row_key_schema,omitempty"`
 
 	// A list of predefined keys to split the table on.
 	SplitKeys []*string `json:"splitKeys,omitempty" tf:"split_keys,omitempty"`
@@ -77,7 +86,7 @@ type TableInitParameters struct {
 
 type TableObservation struct {
 
-	// Defines an automated backup policy for a table, specified by Retention Period and Frequency. To disable, set both Retention Period and Frequency to 0.
+	// Defines an automated backup policy for a table, specified by Retention Period and Frequency. To create a table with automated backup disabled, either omit the automated_backup_policy argument, or set both Retention Period and Frequency properties to "0". To disable automated backup on an existing table that has automated backup enabled, set both Retention Period and Frequency properties to "0". When updating an existing table, to modify the Retention Period or Frequency properties of the resource's automated backup policy, set the respective property to a non-zero value. If the automated_backup_policy argument is not provided in the configuration on update, the resource's automated backup policy will not be modified.
 	AutomatedBackupPolicy *AutomatedBackupPolicyObservation `json:"automatedBackupPolicy,omitempty" tf:"automated_backup_policy,omitempty"`
 
 	// Duration to retain change stream data for the table. Set to 0 to disable. Must be between 1 and 7 days.
@@ -99,13 +108,15 @@ type TableObservation struct {
 	// is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	RowKeySchema *string `json:"rowKeySchema,omitempty" tf:"row_key_schema,omitempty"`
+
 	// A list of predefined keys to split the table on.
 	SplitKeys []*string `json:"splitKeys,omitempty" tf:"split_keys,omitempty"`
 }
 
 type TableParameters struct {
 
-	// Defines an automated backup policy for a table, specified by Retention Period and Frequency. To disable, set both Retention Period and Frequency to 0.
+	// Defines an automated backup policy for a table, specified by Retention Period and Frequency. To create a table with automated backup disabled, either omit the automated_backup_policy argument, or set both Retention Period and Frequency properties to "0". To disable automated backup on an existing table that has automated backup enabled, set both Retention Period and Frequency properties to "0". When updating an existing table, to modify the Retention Period or Frequency properties of the resource's automated backup policy, set the respective property to a non-zero value. If the automated_backup_policy argument is not provided in the configuration on update, the resource's automated backup policy will not be modified.
 	// +kubebuilder:validation:Optional
 	AutomatedBackupPolicy *AutomatedBackupPolicyParameters `json:"automatedBackupPolicy,omitempty" tf:"automated_backup_policy,omitempty"`
 
@@ -116,10 +127,6 @@ type TableParameters struct {
 	// A group of columns within a table which share a common configuration. This can be specified multiple times. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ColumnFamily []ColumnFamilyParameters `json:"columnFamily,omitempty" tf:"column_family,omitempty"`
-
-	// A field to make the table protected against data loss i.e. when set to PROTECTED, deleting the table, the column families in the table, and the instance containing the table would be prohibited. If not provided, deletion protection will be set to UNPROTECTED.
-	// +kubebuilder:validation:Optional
-	DeletionProtection *string `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// The name of the Bigtable instance.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigtable/v1beta2.Instance
@@ -138,6 +145,9 @@ type TableParameters struct {
 	// is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	RowKeySchema *string `json:"rowKeySchema,omitempty" tf:"row_key_schema,omitempty"`
 
 	// A list of predefined keys to split the table on.
 	// +kubebuilder:validation:Optional

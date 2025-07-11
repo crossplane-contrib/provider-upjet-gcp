@@ -8,6 +8,10 @@ metadata:
   name: env
 spec:
   forProvider:
+    clientIpResolutionConfig:
+    - headerIndexAlgorithm:
+      - ipHeaderIndex: 1
+        ipHeaderName: X-Forwarded-For
     description: Apigee Environment
     displayName: environment-1
     orgIdSelector:

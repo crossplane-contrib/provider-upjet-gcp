@@ -89,6 +89,13 @@ spec:
                     description: Description of the workflow provided by the user.
                       Must be at most 1000 unicode characters long.
                     type: string
+                  executionHistoryLevel:
+                    description: |-
+                      Describes the level of execution history to be stored for this workflow. This configuration
+                      determines how much information about workflow executions is preserved. If not specified,
+                      defaults to EXECUTION_HISTORY_LEVEL_UNSPECIFIED.
+                      Possible values are: EXECUTION_HISTORY_LEVEL_UNSPECIFIED, EXECUTION_HISTORY_BASIC, EXECUTION_HISTORY_DETAILED.
+                    type: string
                   labels:
                     additionalProperties:
                       type: string
@@ -201,13 +208,22 @@ spec:
                   sourceContents:
                     description: Workflow code to be executed. The size limit is 128KB.
                     type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      A map of resource manager tags. Resource manager tag keys and values have the same definition
+                      as resource manager tags. Keys must be in the format tagKeys/{tag_key_id}, and values are in
+                      the format tagValues/456. The field is ignored (both PUT & PATCH) when empty.
+                    type: object
+                    x-kubernetes-map-type: granular
                   userEnvVars:
                     additionalProperties:
                       type: string
                     description: User-defined environment variables associated with
                       this workflow revision. This map has a maximum length of 20.
                       Each string can take up to 4KiB. Keys cannot be empty strings
-                      and cannot start with “GOOGLE” or “WORKFLOWS".
+                      and cannot start with "GOOGLE" or "WORKFLOWS".
                     type: object
                     x-kubernetes-map-type: granular
                 type: object
@@ -240,6 +256,13 @@ spec:
                     description: Description of the workflow provided by the user.
                       Must be at most 1000 unicode characters long.
                     type: string
+                  executionHistoryLevel:
+                    description: |-
+                      Describes the level of execution history to be stored for this workflow. This configuration
+                      determines how much information about workflow executions is preserved. If not specified,
+                      defaults to EXECUTION_HISTORY_LEVEL_UNSPECIFIED.
+                      Possible values are: EXECUTION_HISTORY_LEVEL_UNSPECIFIED, EXECUTION_HISTORY_BASIC, EXECUTION_HISTORY_DETAILED.
+                    type: string
                   labels:
                     additionalProperties:
                       type: string
@@ -352,13 +375,22 @@ spec:
                   sourceContents:
                     description: Workflow code to be executed. The size limit is 128KB.
                     type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      A map of resource manager tags. Resource manager tag keys and values have the same definition
+                      as resource manager tags. Keys must be in the format tagKeys/{tag_key_id}, and values are in
+                      the format tagValues/456. The field is ignored (both PUT & PATCH) when empty.
+                    type: object
+                    x-kubernetes-map-type: granular
                   userEnvVars:
                     additionalProperties:
                       type: string
                     description: User-defined environment variables associated with
                       this workflow revision. This map has a maximum length of 20.
                       Each string can take up to 4KiB. Keys cannot be empty strings
-                      and cannot start with “GOOGLE” or “WORKFLOWS".
+                      and cannot start with "GOOGLE" or "WORKFLOWS".
                     type: object
                     x-kubernetes-map-type: granular
                 type: object
@@ -551,6 +583,11 @@ spec:
                       The KMS key used to encrypt workflow and execution data.
                       Format: projects/{project}/locations/{location}/keyRings/{keyRing}/cryptoKeys/{cryptoKey}
                     type: string
+                  deletionProtection:
+                    description: |-
+                      Defaults to true.
+                      When the field is set to false, deleting the workflow is allowed.
+                    type: boolean
                   description:
                     description: Description of the workflow provided by the user.
                       Must be at most 1000 unicode characters long.
@@ -561,6 +598,13 @@ spec:
                     description: for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
+                  executionHistoryLevel:
+                    description: |-
+                      Describes the level of execution history to be stored for this workflow. This configuration
+                      determines how much information about workflow executions is preserved. If not specified,
+                      defaults to EXECUTION_HISTORY_LEVEL_UNSPECIFIED.
+                      Possible values are: EXECUTION_HISTORY_LEVEL_UNSPECIFIED, EXECUTION_HISTORY_BASIC, EXECUTION_HISTORY_DETAILED.
+                    type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{region}}/workflows/{{name}}
                     type: string
@@ -607,6 +651,15 @@ spec:
                   state:
                     description: State of the workflow deployment.
                     type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      A map of resource manager tags. Resource manager tag keys and values have the same definition
+                      as resource manager tags. Keys must be in the format tagKeys/{tag_key_id}, and values are in
+                      the format tagValues/456. The field is ignored (both PUT & PATCH) when empty.
+                    type: object
+                    x-kubernetes-map-type: granular
                   terraformLabels:
                     additionalProperties:
                       type: string
@@ -626,7 +679,7 @@ spec:
                     description: User-defined environment variables associated with
                       this workflow revision. This map has a maximum length of 20.
                       Each string can take up to 4KiB. Keys cannot be empty strings
-                      and cannot start with “GOOGLE” or “WORKFLOWS".
+                      and cannot start with "GOOGLE" or "WORKFLOWS".
                     type: object
                     x-kubernetes-map-type: granular
                 type: object

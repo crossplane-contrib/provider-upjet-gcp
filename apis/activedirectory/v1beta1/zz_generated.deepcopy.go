@@ -163,6 +163,11 @@ func (in *DomainObservation) DeepCopyInto(out *DomainObservation) {
 			}
 		}
 	}
+	if in.DeletionProtection != nil {
+		in, out := &in.DeletionProtection, &out.DeletionProtection
+		*out = new(bool)
+		**out = **in
+	}
 	if in.DomainName != nil {
 		in, out := &in.DomainName, &out.DomainName
 		*out = new(string)

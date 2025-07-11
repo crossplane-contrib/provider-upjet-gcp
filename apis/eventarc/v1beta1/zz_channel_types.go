@@ -15,10 +15,11 @@ import (
 
 type ChannelInitParameters struct {
 
-	// Optional. Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt their event data. It must match the pattern projects/*/locations/*/keyRings/*/cryptoKeys/*.
+	// Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt their event data. It must match the pattern projects/*/locations/*/keyRings/*/cryptoKeys/*.
 	CryptoKeyName *string `json:"cryptoKeyName,omitempty" tf:"crypto_key_name,omitempty"`
 
-	// The project for the resource
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The name of the event provider (e.g. Eventarc SaaS partner) associated with the channel. This provider will be granted permissions to publish events to the channel. Format: projects/{project}/locations/{location}/providers/{provider_id}.
@@ -27,13 +28,13 @@ type ChannelInitParameters struct {
 
 type ChannelObservation struct {
 
-	// Output only. The activation token for the channel. The token must be used by the provider to register the channel for publishing.
+	// The activation token for the channel. The token must be used by the provider to register the channel for publishing.
 	ActivationToken *string `json:"activationToken,omitempty" tf:"activation_token,omitempty"`
 
-	// Output only. The creation time.
+	// The creation time.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
-	// Optional. Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt their event data. It must match the pattern projects/*/locations/*/keyRings/*/cryptoKeys/*.
+	// Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt their event data. It must match the pattern projects/*/locations/*/keyRings/*/cryptoKeys/*.
 	CryptoKeyName *string `json:"cryptoKeyName,omitempty" tf:"crypto_key_name,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/channels/{{name}}
@@ -42,28 +43,29 @@ type ChannelObservation struct {
 	// The location for the resource
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
-	// The project for the resource
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// Output only. The name of the Pub/Sub topic created and managed by Eventarc system as a transport for the event delivery. Format: projects/{project}/topics/{topic_id}.
+	// The name of the Pub/Sub topic created and managed by Eventarc system as a transport for the event delivery. Format: projects/{project}/topics/{topic_id}.
 	PubsubTopic *string `json:"pubsubTopic,omitempty" tf:"pubsub_topic,omitempty"`
 
-	// Output only. The state of a Channel. Possible values: STATE_UNSPECIFIED, PENDING, ACTIVE, INACTIVE
+	// The state of a Channel.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
 	// The name of the event provider (e.g. Eventarc SaaS partner) associated with the channel. This provider will be granted permissions to publish events to the channel. Format: projects/{project}/locations/{location}/providers/{provider_id}.
 	ThirdPartyProvider *string `json:"thirdPartyProvider,omitempty" tf:"third_party_provider,omitempty"`
 
-	// Output only. Server assigned unique identifier for the channel. The value is a UUID4 string and guaranteed to remain unchanged until the resource is deleted.
+	// Server assigned unique identifier for the channel. The value is a UUID4 string and guaranteed to remain unchanged until the resource is deleted.
 	UID *string `json:"uid,omitempty" tf:"uid,omitempty"`
 
-	// Output only. The last-modified time.
+	// The last-modified time.
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`
 }
 
 type ChannelParameters struct {
 
-	// Optional. Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt their event data. It must match the pattern projects/*/locations/*/keyRings/*/cryptoKeys/*.
+	// Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt their event data. It must match the pattern projects/*/locations/*/keyRings/*/cryptoKeys/*.
 	// +kubebuilder:validation:Optional
 	CryptoKeyName *string `json:"cryptoKeyName,omitempty" tf:"crypto_key_name,omitempty"`
 
@@ -71,7 +73,8 @@ type ChannelParameters struct {
 	// +kubebuilder:validation:Required
 	Location *string `json:"location" tf:"location,omitempty"`
 
-	// The project for the resource
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 

@@ -2097,13 +2097,56 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  instanceFlexibilityPolicy:
+                    description: The flexibility policy for managed instance group.
+                      Instance flexibility allows managed instance group to create
+                      VMs from multiple types of machines. Instance flexibility configuration
+                      on managed instance group overrides instance template configuration.
+                      Structure is documented below.
+                    properties:
+                      instanceSelections:
+                        description: ', Named instance selections configuring properties
+                          that the group will use when creating new VMs. One can specify
+                          multiple instance selection to allow managed instance group
+                          to create VMs from multiple types of machines, based on
+                          preference and availability. Structure is documented below.'
+                        items:
+                          properties:
+                            machineTypes:
+                              description: ', A list of full machine-type names, e.g.
+                                "n1-standard-16".'
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
+                            name:
+                              description: ', Name of the instance selection, e.g.
+                                instance_selection_with_n1_machines_types. Instance
+                                selection names must be unique within the flexibility
+                                policy.'
+                              type: string
+                            rank:
+                              description: ', Preference of this instance selection.
+                                Lower number means higher preference. Managed instance
+                                group will first try to create a VM based on the machine-type
+                                with lowest rank and fallback to next rank based on
+                                availability. Machine types and instance selections
+                                with the same rank have the same preference.'
+                              type: number
+                          type: object
+                        type: array
+                    type: object
                   instanceLifecyclePolicy:
                     properties:
                       defaultActionOnFailure:
-                        description: ', Default behavior for all instance or health
-                          check failures. Valid options are: REPAIR, DO_NOTHING. If
-                          DO_NOTHING then instances will not be repaired. If REPAIR
-                          (default), then failed instances will be repaired.'
+                        description: ', Specifies the action that a MIG performs on
+                          a failed VM. If the value of the on_failed_health_check
+                          field is DEFAULT_ACTION, then the same action also applies
+                          to the VMs on which your application fails a health check.
+                          Valid options are: DO_NOTHING, REPAIR. If DO_NOTHING, then
+                          MIG does not repair a failed VM. If REPAIR (default), then
+                          MIG automatically repairs a failed VM by recreating it.
+                          For more information, see about repairing VMs in a MIG.'
                         type: string
                       forceUpdateOnRepair:
                         description: ', Specifies whether to apply the group''s latest
@@ -2154,6 +2197,30 @@ spec:
                     description: The region where the managed instance group resides.
                       If not provided, the provider region is used.
                     type: string
+                  standbyPolicy:
+                    description: The standby policy for stopped and suspended instances.
+                      Structure is documented below. For more information, see the
+                      official documentation.
+                    properties:
+                      initialDelaySec:
+                        description: '- Specifies the number of seconds that the MIG
+                          should wait to suspend or stop a VM after that VM was created.
+                          The initial delay gives the initialization script the time
+                          to prepare your VM for a quick scale out. The value of initial
+                          delay must be between 0 and 3600 seconds. The default value
+                          is 0.'
+                        type: number
+                      mode:
+                        description: '- Defines how a MIG resumes or starts VMs from
+                          a standby pool when the group scales out. Valid options
+                          are: MANUAL, SCALE_OUT_POOL. If MANUAL(default), you have
+                          full control over which VMs are stopped and suspended in
+                          the MIG. If SCALE_OUT_POOL, the MIG uses the VMs from the
+                          standby pools to accelerate the scale out by resuming or
+                          starting them and then automatically replenishes the standby
+                          pool with new VMs to maintain the target sizes.'
+                        type: string
+                    type: object
                   statefulDisk:
                     description: Disks created on the instances that will be preserved
                       on instance delete, update, etc. Structure is documented below.
@@ -2314,6 +2381,14 @@ spec:
                       instance group. This value will fight with autoscaler settings when set, and generally shouldn't be set
                       when using one. If a value is required, such as to specify a creation-time target size for the MIG,
                       lifecycle. Defaults to 0.
+                    type: number
+                  targetStoppedSize:
+                    description: The target number of stopped instances for this managed
+                      instance group.
+                    type: number
+                  targetSuspendedSize:
+                    description: The target number of suspended instances for this
+                      managed instance group.
                     type: number
                   updatePolicy:
                     description: The update policy for this managed instance group.
@@ -2658,13 +2733,56 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  instanceFlexibilityPolicy:
+                    description: The flexibility policy for managed instance group.
+                      Instance flexibility allows managed instance group to create
+                      VMs from multiple types of machines. Instance flexibility configuration
+                      on managed instance group overrides instance template configuration.
+                      Structure is documented below.
+                    properties:
+                      instanceSelections:
+                        description: ', Named instance selections configuring properties
+                          that the group will use when creating new VMs. One can specify
+                          multiple instance selection to allow managed instance group
+                          to create VMs from multiple types of machines, based on
+                          preference and availability. Structure is documented below.'
+                        items:
+                          properties:
+                            machineTypes:
+                              description: ', A list of full machine-type names, e.g.
+                                "n1-standard-16".'
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
+                            name:
+                              description: ', Name of the instance selection, e.g.
+                                instance_selection_with_n1_machines_types. Instance
+                                selection names must be unique within the flexibility
+                                policy.'
+                              type: string
+                            rank:
+                              description: ', Preference of this instance selection.
+                                Lower number means higher preference. Managed instance
+                                group will first try to create a VM based on the machine-type
+                                with lowest rank and fallback to next rank based on
+                                availability. Machine types and instance selections
+                                with the same rank have the same preference.'
+                              type: number
+                          type: object
+                        type: array
+                    type: object
                   instanceLifecyclePolicy:
                     properties:
                       defaultActionOnFailure:
-                        description: ', Default behavior for all instance or health
-                          check failures. Valid options are: REPAIR, DO_NOTHING. If
-                          DO_NOTHING then instances will not be repaired. If REPAIR
-                          (default), then failed instances will be repaired.'
+                        description: ', Specifies the action that a MIG performs on
+                          a failed VM. If the value of the on_failed_health_check
+                          field is DEFAULT_ACTION, then the same action also applies
+                          to the VMs on which your application fails a health check.
+                          Valid options are: DO_NOTHING, REPAIR. If DO_NOTHING, then
+                          MIG does not repair a failed VM. If REPAIR (default), then
+                          MIG automatically repairs a failed VM by recreating it.
+                          For more information, see about repairing VMs in a MIG.'
                         type: string
                       forceUpdateOnRepair:
                         description: ', Specifies whether to apply the group''s latest
@@ -2715,6 +2833,30 @@ spec:
                     description: The region where the managed instance group resides.
                       If not provided, the provider region is used.
                     type: string
+                  standbyPolicy:
+                    description: The standby policy for stopped and suspended instances.
+                      Structure is documented below. For more information, see the
+                      official documentation.
+                    properties:
+                      initialDelaySec:
+                        description: '- Specifies the number of seconds that the MIG
+                          should wait to suspend or stop a VM after that VM was created.
+                          The initial delay gives the initialization script the time
+                          to prepare your VM for a quick scale out. The value of initial
+                          delay must be between 0 and 3600 seconds. The default value
+                          is 0.'
+                        type: number
+                      mode:
+                        description: '- Defines how a MIG resumes or starts VMs from
+                          a standby pool when the group scales out. Valid options
+                          are: MANUAL, SCALE_OUT_POOL. If MANUAL(default), you have
+                          full control over which VMs are stopped and suspended in
+                          the MIG. If SCALE_OUT_POOL, the MIG uses the VMs from the
+                          standby pools to accelerate the scale out by resuming or
+                          starting them and then automatically replenishes the standby
+                          pool with new VMs to maintain the target sizes.'
+                        type: string
+                    type: object
                   statefulDisk:
                     description: Disks created on the instances that will be preserved
                       on instance delete, update, etc. Structure is documented below.
@@ -2875,6 +3017,14 @@ spec:
                       instance group. This value will fight with autoscaler settings when set, and generally shouldn't be set
                       when using one. If a value is required, such as to specify a creation-time target size for the MIG,
                       lifecycle. Defaults to 0.
+                    type: number
+                  targetStoppedSize:
+                    description: The target number of stopped instances for this managed
+                      instance group.
+                    type: number
+                  targetSuspendedSize:
+                    description: The target number of suspended instances for this
+                      managed instance group.
                     type: number
                   updatePolicy:
                     description: The update policy for this managed instance group.
@@ -3329,17 +3479,63 @@ spec:
                   id:
                     description: an identifier for the resource with format projects/{{project}}/regions/{{region}}/instanceGroupManagers/{{name}}
                     type: string
+                  instanceFlexibilityPolicy:
+                    description: The flexibility policy for managed instance group.
+                      Instance flexibility allows managed instance group to create
+                      VMs from multiple types of machines. Instance flexibility configuration
+                      on managed instance group overrides instance template configuration.
+                      Structure is documented below.
+                    properties:
+                      instanceSelections:
+                        description: ', Named instance selections configuring properties
+                          that the group will use when creating new VMs. One can specify
+                          multiple instance selection to allow managed instance group
+                          to create VMs from multiple types of machines, based on
+                          preference and availability. Structure is documented below.'
+                        items:
+                          properties:
+                            machineTypes:
+                              description: ', A list of full machine-type names, e.g.
+                                "n1-standard-16".'
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
+                            name:
+                              description: ', Name of the instance selection, e.g.
+                                instance_selection_with_n1_machines_types. Instance
+                                selection names must be unique within the flexibility
+                                policy.'
+                              type: string
+                            rank:
+                              description: ', Preference of this instance selection.
+                                Lower number means higher preference. Managed instance
+                                group will first try to create a VM based on the machine-type
+                                with lowest rank and fallback to next rank based on
+                                availability. Machine types and instance selections
+                                with the same rank have the same preference.'
+                              type: number
+                          type: object
+                        type: array
+                    type: object
                   instanceGroup:
                     description: The full URL of the instance group created by the
                       manager.
                     type: string
+                  instanceGroupManagerId:
+                    description: an identifier for the resource with format projects/{{project}}/regions/{{region}}/instanceGroupManagers/{{name}}
+                    type: number
                   instanceLifecyclePolicy:
                     properties:
                       defaultActionOnFailure:
-                        description: ', Default behavior for all instance or health
-                          check failures. Valid options are: REPAIR, DO_NOTHING. If
-                          DO_NOTHING then instances will not be repaired. If REPAIR
-                          (default), then failed instances will be repaired.'
+                        description: ', Specifies the action that a MIG performs on
+                          a failed VM. If the value of the on_failed_health_check
+                          field is DEFAULT_ACTION, then the same action also applies
+                          to the VMs on which your application fails a health check.
+                          Valid options are: DO_NOTHING, REPAIR. If DO_NOTHING, then
+                          MIG does not repair a failed VM. If REPAIR (default), then
+                          MIG automatically repairs a failed VM by recreating it.
+                          For more information, see about repairing VMs in a MIG.'
                         type: string
                       forceUpdateOnRepair:
                         description: ', Specifies whether to apply the group''s latest
@@ -3393,6 +3589,30 @@ spec:
                   selfLink:
                     description: The URL of the created resource.
                     type: string
+                  standbyPolicy:
+                    description: The standby policy for stopped and suspended instances.
+                      Structure is documented below. For more information, see the
+                      official documentation.
+                    properties:
+                      initialDelaySec:
+                        description: '- Specifies the number of seconds that the MIG
+                          should wait to suspend or stop a VM after that VM was created.
+                          The initial delay gives the initialization script the time
+                          to prepare your VM for a quick scale out. The value of initial
+                          delay must be between 0 and 3600 seconds. The default value
+                          is 0.'
+                        type: number
+                      mode:
+                        description: '- Defines how a MIG resumes or starts VMs from
+                          a standby pool when the group scales out. Valid options
+                          are: MANUAL, SCALE_OUT_POOL. If MANUAL(default), you have
+                          full control over which VMs are stopped and suspended in
+                          the MIG. If SCALE_OUT_POOL, the MIG uses the VMs from the
+                          standby pools to accelerate the scale out by resuming or
+                          starting them and then automatically replenishes the standby
+                          pool with new VMs to maintain the target sizes.'
+                        type: string
+                    type: object
                   statefulDisk:
                     description: Disks created on the instances that will be preserved
                       on instance delete, update, etc. Structure is documented below.
@@ -3545,6 +3765,14 @@ spec:
                       instance group. This value will fight with autoscaler settings when set, and generally shouldn't be set
                       when using one. If a value is required, such as to specify a creation-time target size for the MIG,
                       lifecycle. Defaults to 0.
+                    type: number
+                  targetStoppedSize:
+                    description: The target number of stopped instances for this managed
+                      instance group.
+                    type: number
+                  targetSuspendedSize:
+                    description: The target number of suspended instances for this
+                      managed instance group.
                     type: number
                   updatePolicy:
                     description: The update policy for this managed instance group.

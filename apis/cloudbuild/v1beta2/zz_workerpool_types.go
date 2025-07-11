@@ -62,12 +62,33 @@ type NetworkConfigParameters struct {
 	PeeredNetworkSelector *v1.Selector `json:"peeredNetworkSelector,omitempty" tf:"-"`
 }
 
+type PrivateServiceConnectInitParameters struct {
+	NetworkAttachment *string `json:"networkAttachment,omitempty" tf:"network_attachment,omitempty"`
+
+	RouteAllTraffic *bool `json:"routeAllTraffic,omitempty" tf:"route_all_traffic,omitempty"`
+}
+
+type PrivateServiceConnectObservation struct {
+	NetworkAttachment *string `json:"networkAttachment,omitempty" tf:"network_attachment,omitempty"`
+
+	RouteAllTraffic *bool `json:"routeAllTraffic,omitempty" tf:"route_all_traffic,omitempty"`
+}
+
+type PrivateServiceConnectParameters struct {
+
+	// +kubebuilder:validation:Optional
+	NetworkAttachment *string `json:"networkAttachment" tf:"network_attachment,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	RouteAllTraffic *bool `json:"routeAllTraffic,omitempty" tf:"route_all_traffic,omitempty"`
+}
+
 type WorkerConfigInitParameters struct {
 
-	// Size of the disk attached to the worker, in GB. See (https://cloud.google.com/cloud-build/docs/custom-workers/worker-pool-config-file). Specify a value of up to 1000. If 0 is specified, Cloud Build will use a standard disk size.
+	// Size of the disk attached to the worker, in GB. See diskSizeGb. Specify a value of up to 1000. If 0 is specified, Cloud Build will use a standard disk size.
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
-	// Machine type of a worker, such as n1-standard-1. See (https://cloud.google.com/cloud-build/docs/custom-workers/worker-pool-config-file). If left blank, Cloud Build will use n1-standard-1.
+	// Machine type of a worker, such as n1-standard-1. See machineType. If left blank, Cloud Build will use n1-standard-1.
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
 	// If true, workers are created without any public address, which prevents network egress to public IPs.
@@ -76,10 +97,10 @@ type WorkerConfigInitParameters struct {
 
 type WorkerConfigObservation struct {
 
-	// Size of the disk attached to the worker, in GB. See (https://cloud.google.com/cloud-build/docs/custom-workers/worker-pool-config-file). Specify a value of up to 1000. If 0 is specified, Cloud Build will use a standard disk size.
+	// Size of the disk attached to the worker, in GB. See diskSizeGb. Specify a value of up to 1000. If 0 is specified, Cloud Build will use a standard disk size.
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
-	// Machine type of a worker, such as n1-standard-1. See (https://cloud.google.com/cloud-build/docs/custom-workers/worker-pool-config-file). If left blank, Cloud Build will use n1-standard-1.
+	// Machine type of a worker, such as n1-standard-1. See machineType. If left blank, Cloud Build will use n1-standard-1.
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
 	// If true, workers are created without any public address, which prevents network egress to public IPs.
@@ -88,11 +109,11 @@ type WorkerConfigObservation struct {
 
 type WorkerConfigParameters struct {
 
-	// Size of the disk attached to the worker, in GB. See (https://cloud.google.com/cloud-build/docs/custom-workers/worker-pool-config-file). Specify a value of up to 1000. If 0 is specified, Cloud Build will use a standard disk size.
+	// Size of the disk attached to the worker, in GB. See diskSizeGb. Specify a value of up to 1000. If 0 is specified, Cloud Build will use a standard disk size.
 	// +kubebuilder:validation:Optional
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
-	// Machine type of a worker, such as n1-standard-1. See (https://cloud.google.com/cloud-build/docs/custom-workers/worker-pool-config-file). If left blank, Cloud Build will use n1-standard-1.
+	// Machine type of a worker, such as n1-standard-1. See machineType. If left blank, Cloud Build will use n1-standard-1.
 	// +kubebuilder:validation:Optional
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
@@ -111,6 +132,8 @@ type WorkerPoolInitParameters struct {
 
 	// Network configuration for the WorkerPool. Structure is documented below.
 	NetworkConfig *NetworkConfigInitParameters `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
+
+	PrivateServiceConnect *PrivateServiceConnectInitParameters `json:"privateServiceConnect,omitempty" tf:"private_service_connect,omitempty"`
 
 	// The project for the resource
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -145,6 +168,8 @@ type WorkerPoolObservation struct {
 	// Network configuration for the WorkerPool. Structure is documented below.
 	NetworkConfig *NetworkConfigObservation `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
 
+	PrivateServiceConnect *PrivateServiceConnectObservation `json:"privateServiceConnect,omitempty" tf:"private_service_connect,omitempty"`
+
 	// The project for the resource
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
@@ -178,6 +203,9 @@ type WorkerPoolParameters struct {
 	// Network configuration for the WorkerPool. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	NetworkConfig *NetworkConfigParameters `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	PrivateServiceConnect *PrivateServiceConnectParameters `json:"privateServiceConnect,omitempty" tf:"private_service_connect,omitempty"`
 
 	// The project for the resource
 	// +kubebuilder:validation:Optional

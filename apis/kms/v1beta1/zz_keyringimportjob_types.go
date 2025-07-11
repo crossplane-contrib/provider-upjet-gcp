@@ -34,7 +34,7 @@ type KeyRingImportJobAttestationParameters struct {
 type KeyRingImportJobInitParameters struct {
 
 	// The wrapping method to be used for incoming key material.
-	// Possible values are: RSA_OAEP_3072_SHA1_AES_256, RSA_OAEP_4096_SHA1_AES_256.
+	// Possible values are: RSA_OAEP_3072_SHA1_AES_256, RSA_OAEP_4096_SHA1_AES_256, RSA_OAEP_3072_SHA256_AES_256, RSA_OAEP_4096_SHA256_AES_256, RSA_OAEP_3072_SHA256, RSA_OAEP_4096_SHA256.
 	ImportMethod *string `json:"importMethod,omitempty" tf:"import_method,omitempty"`
 
 	// The protection level of the ImportJob. This must match the protectionLevel of the
@@ -59,7 +59,7 @@ type KeyRingImportJobObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The wrapping method to be used for incoming key material.
-	// Possible values are: RSA_OAEP_3072_SHA1_AES_256, RSA_OAEP_4096_SHA1_AES_256.
+	// Possible values are: RSA_OAEP_3072_SHA1_AES_256, RSA_OAEP_4096_SHA1_AES_256, RSA_OAEP_3072_SHA256_AES_256, RSA_OAEP_4096_SHA256_AES_256, RSA_OAEP_3072_SHA256, RSA_OAEP_4096_SHA256.
 	ImportMethod *string `json:"importMethod,omitempty" tf:"import_method,omitempty"`
 
 	// The KeyRing that this import job belongs to.
@@ -85,7 +85,7 @@ type KeyRingImportJobObservation struct {
 type KeyRingImportJobParameters struct {
 
 	// The wrapping method to be used for incoming key material.
-	// Possible values are: RSA_OAEP_3072_SHA1_AES_256, RSA_OAEP_4096_SHA1_AES_256.
+	// Possible values are: RSA_OAEP_3072_SHA1_AES_256, RSA_OAEP_4096_SHA1_AES_256, RSA_OAEP_3072_SHA256_AES_256, RSA_OAEP_4096_SHA256_AES_256, RSA_OAEP_3072_SHA256, RSA_OAEP_4096_SHA256.
 	// +kubebuilder:validation:Optional
 	ImportMethod *string `json:"importMethod,omitempty" tf:"import_method,omitempty"`
 

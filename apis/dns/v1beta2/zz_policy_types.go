@@ -79,6 +79,28 @@ type AlternativeNameServerConfigTargetNameServersParameters struct {
 	IPv4Address *string `json:"ipv4Address" tf:"ipv4_address,omitempty"`
 }
 
+type Dns64ConfigInitParameters struct {
+
+	// The scope to which DNS64 config will be applied to.
+	// Structure is documented below.
+	Scope *ScopeInitParameters `json:"scope,omitempty" tf:"scope,omitempty"`
+}
+
+type Dns64ConfigObservation struct {
+
+	// The scope to which DNS64 config will be applied to.
+	// Structure is documented below.
+	Scope *ScopeObservation `json:"scope,omitempty" tf:"scope,omitempty"`
+}
+
+type Dns64ConfigParameters struct {
+
+	// The scope to which DNS64 config will be applied to.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Scope *ScopeParameters `json:"scope" tf:"scope,omitempty"`
+}
+
 type PolicyInitParameters struct {
 
 	// Sets an alternative name server for the associated networks.
@@ -89,6 +111,10 @@ type PolicyInitParameters struct {
 
 	// A textual description field.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Configurations related to DNS64 for this Policy.
+	// Structure is documented below.
+	Dns64Config *Dns64ConfigInitParameters `json:"dns64Config,omitempty" tf:"dns64_config,omitempty"`
 
 	// Allows networks bound to this policy to receive DNS queries sent
 	// by VMs or applications over VPN connections. When enabled, a
@@ -169,6 +195,10 @@ type PolicyObservation struct {
 	// A textual description field.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Configurations related to DNS64 for this Policy.
+	// Structure is documented below.
+	Dns64Config *Dns64ConfigObservation `json:"dns64Config,omitempty" tf:"dns64_config,omitempty"`
+
 	// Allows networks bound to this policy to receive DNS queries sent
 	// by VMs or applications over VPN connections. When enabled, a
 	// virtual IP address will be allocated from each of the sub-networks
@@ -204,6 +234,11 @@ type PolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Configurations related to DNS64 for this Policy.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Dns64Config *Dns64ConfigParameters `json:"dns64Config,omitempty" tf:"dns64_config,omitempty"`
+
 	// Allows networks bound to this policy to receive DNS queries sent
 	// by VMs or applications over VPN connections. When enabled, a
 	// virtual IP address will be allocated from each of the sub-networks
@@ -225,6 +260,25 @@ type PolicyParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+}
+
+type ScopeInitParameters struct {
+
+	// Controls whether DNS64 is enabled globally at the network level.
+	AllQueries *bool `json:"allQueries,omitempty" tf:"all_queries,omitempty"`
+}
+
+type ScopeObservation struct {
+
+	// Controls whether DNS64 is enabled globally at the network level.
+	AllQueries *bool `json:"allQueries,omitempty" tf:"all_queries,omitempty"`
+}
+
+type ScopeParameters struct {
+
+	// Controls whether DNS64 is enabled globally at the network level.
+	// +kubebuilder:validation:Optional
+	AllQueries *bool `json:"allQueries,omitempty" tf:"all_queries,omitempty"`
 }
 
 // PolicySpec defines the desired state of Policy

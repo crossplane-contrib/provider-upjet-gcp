@@ -81,6 +81,27 @@ type GlobalForwardingRuleInitParameters struct {
 	// you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Specifies the canary migration state for the backend buckets attached to this forwarding rule.
+	// Possible values are PREPARE, TEST_BY_PERCENTAGE, and TEST_ALL_TRAFFIC.
+	// To begin the migration from EXTERNAL to EXTERNAL_MANAGED, the state must be changed to
+	// PREPARE. The state must be changed to TEST_ALL_TRAFFIC before the loadBalancingScheme can be
+	// changed to EXTERNAL_MANAGED. Optionally, the TEST_BY_PERCENTAGE state can be used to migrate
+	// traffic to backend buckets attached to this forwarding rule by percentage using
+	// externalManagedBackendBucketMigrationTestingPercentage.
+	// Rolling back a migration requires the states to be set in reverse order. So changing the
+	// scheme from EXTERNAL_MANAGED to EXTERNAL requires the state to be set to TEST_ALL_TRAFFIC at
+	// the same time. Optionally, the TEST_BY_PERCENTAGE state can be used to migrate some traffic
+	// back to EXTERNAL or PREPARE can be used to migrate all traffic back to EXTERNAL.
+	// Possible values are: PREPARE, TEST_BY_PERCENTAGE, TEST_ALL_TRAFFIC.
+	ExternalManagedBackendBucketMigrationState *string `json:"externalManagedBackendBucketMigrationState,omitempty" tf:"external_managed_backend_bucket_migration_state,omitempty"`
+
+	// Determines the fraction of requests to backend buckets that should be processed by the Global
+	// external Application Load Balancer.
+	// The value of this field must be in the range [0, 100].
+	// This value can only be set if the loadBalancingScheme in the forwarding rule is set to
+	// EXTERNAL (when using the Classic ALB) and the migration state is TEST_BY_PERCENTAGE.
+	ExternalManagedBackendBucketMigrationTestingPercentage *float64 `json:"externalManagedBackendBucketMigrationTestingPercentage,omitempty" tf:"external_managed_backend_bucket_migration_testing_percentage,omitempty"`
+
 	// IP address for which this forwarding rule accepts traffic. When a client
 	// sends traffic to this IP address, the forwarding rule directs the traffic
 	// to the referenced target.
@@ -161,6 +182,18 @@ type GlobalForwardingRuleInitParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
+	// This signifies the networking tier used for configuring
+	// this load balancer and can only take the following values:
+	// PREMIUM, STANDARD.
+	// For regional ForwardingRule, the valid values are PREMIUM and
+	// STANDARD. For GlobalForwardingRule, the valid value is
+	// PREMIUM.
+	// If this field is not specified, it is assumed to be PREMIUM.
+	// If IPAddress is specified, this value must be equal to the
+	// networkTier of the Address.
+	// Possible values are: PREMIUM, STANDARD.
+	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
+
 	// This is used in PSC consumer ForwardingRule to control whether it should try to auto-generate a DNS zone or not. Non-PSC forwarding rules do not use this field.
 	NoAutomateDNSZone *bool `json:"noAutomateDnsZone,omitempty" tf:"no_automate_dns_zone,omitempty"`
 
@@ -238,6 +271,30 @@ type GlobalForwardingRuleObservation struct {
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
 
+	// Specifies the canary migration state for the backend buckets attached to this forwarding rule.
+	// Possible values are PREPARE, TEST_BY_PERCENTAGE, and TEST_ALL_TRAFFIC.
+	// To begin the migration from EXTERNAL to EXTERNAL_MANAGED, the state must be changed to
+	// PREPARE. The state must be changed to TEST_ALL_TRAFFIC before the loadBalancingScheme can be
+	// changed to EXTERNAL_MANAGED. Optionally, the TEST_BY_PERCENTAGE state can be used to migrate
+	// traffic to backend buckets attached to this forwarding rule by percentage using
+	// externalManagedBackendBucketMigrationTestingPercentage.
+	// Rolling back a migration requires the states to be set in reverse order. So changing the
+	// scheme from EXTERNAL_MANAGED to EXTERNAL requires the state to be set to TEST_ALL_TRAFFIC at
+	// the same time. Optionally, the TEST_BY_PERCENTAGE state can be used to migrate some traffic
+	// back to EXTERNAL or PREPARE can be used to migrate all traffic back to EXTERNAL.
+	// Possible values are: PREPARE, TEST_BY_PERCENTAGE, TEST_ALL_TRAFFIC.
+	ExternalManagedBackendBucketMigrationState *string `json:"externalManagedBackendBucketMigrationState,omitempty" tf:"external_managed_backend_bucket_migration_state,omitempty"`
+
+	// Determines the fraction of requests to backend buckets that should be processed by the Global
+	// external Application Load Balancer.
+	// The value of this field must be in the range [0, 100].
+	// This value can only be set if the loadBalancingScheme in the forwarding rule is set to
+	// EXTERNAL (when using the Classic ALB) and the migration state is TEST_BY_PERCENTAGE.
+	ExternalManagedBackendBucketMigrationTestingPercentage *float64 `json:"externalManagedBackendBucketMigrationTestingPercentage,omitempty" tf:"external_managed_backend_bucket_migration_testing_percentage,omitempty"`
+
+	// The unique identifier number for the resource. This identifier is defined by the server.
+	ForwardingRuleID *float64 `json:"forwardingRuleId,omitempty" tf:"forwarding_rule_id,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/global/forwardingRules/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -305,6 +362,18 @@ type GlobalForwardingRuleObservation struct {
 	// APIs, a network must be provided.
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
+	// This signifies the networking tier used for configuring
+	// this load balancer and can only take the following values:
+	// PREMIUM, STANDARD.
+	// For regional ForwardingRule, the valid values are PREMIUM and
+	// STANDARD. For GlobalForwardingRule, the valid value is
+	// PREMIUM.
+	// If this field is not specified, it is assumed to be PREMIUM.
+	// If IPAddress is specified, this value must be equal to the
+	// networkTier of the Address.
+	// Possible values are: PREMIUM, STANDARD.
+	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
+
 	// This is used in PSC consumer ForwardingRule to control whether it should try to auto-generate a DNS zone or not. Non-PSC forwarding rules do not use this field.
 	NoAutomateDNSZone *bool `json:"noAutomateDnsZone,omitempty" tf:"no_automate_dns_zone,omitempty"`
 
@@ -359,6 +428,29 @@ type GlobalForwardingRuleParameters struct {
 	// you create the resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Specifies the canary migration state for the backend buckets attached to this forwarding rule.
+	// Possible values are PREPARE, TEST_BY_PERCENTAGE, and TEST_ALL_TRAFFIC.
+	// To begin the migration from EXTERNAL to EXTERNAL_MANAGED, the state must be changed to
+	// PREPARE. The state must be changed to TEST_ALL_TRAFFIC before the loadBalancingScheme can be
+	// changed to EXTERNAL_MANAGED. Optionally, the TEST_BY_PERCENTAGE state can be used to migrate
+	// traffic to backend buckets attached to this forwarding rule by percentage using
+	// externalManagedBackendBucketMigrationTestingPercentage.
+	// Rolling back a migration requires the states to be set in reverse order. So changing the
+	// scheme from EXTERNAL_MANAGED to EXTERNAL requires the state to be set to TEST_ALL_TRAFFIC at
+	// the same time. Optionally, the TEST_BY_PERCENTAGE state can be used to migrate some traffic
+	// back to EXTERNAL or PREPARE can be used to migrate all traffic back to EXTERNAL.
+	// Possible values are: PREPARE, TEST_BY_PERCENTAGE, TEST_ALL_TRAFFIC.
+	// +kubebuilder:validation:Optional
+	ExternalManagedBackendBucketMigrationState *string `json:"externalManagedBackendBucketMigrationState,omitempty" tf:"external_managed_backend_bucket_migration_state,omitempty"`
+
+	// Determines the fraction of requests to backend buckets that should be processed by the Global
+	// external Application Load Balancer.
+	// The value of this field must be in the range [0, 100].
+	// This value can only be set if the loadBalancingScheme in the forwarding rule is set to
+	// EXTERNAL (when using the Classic ALB) and the migration state is TEST_BY_PERCENTAGE.
+	// +kubebuilder:validation:Optional
+	ExternalManagedBackendBucketMigrationTestingPercentage *float64 `json:"externalManagedBackendBucketMigrationTestingPercentage,omitempty" tf:"external_managed_backend_bucket_migration_testing_percentage,omitempty"`
 
 	// IP address for which this forwarding rule accepts traffic. When a client
 	// sends traffic to this IP address, the forwarding rule directs the traffic
@@ -446,6 +538,19 @@ type GlobalForwardingRuleParameters struct {
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+
+	// This signifies the networking tier used for configuring
+	// this load balancer and can only take the following values:
+	// PREMIUM, STANDARD.
+	// For regional ForwardingRule, the valid values are PREMIUM and
+	// STANDARD. For GlobalForwardingRule, the valid value is
+	// PREMIUM.
+	// If this field is not specified, it is assumed to be PREMIUM.
+	// If IPAddress is specified, this value must be equal to the
+	// networkTier of the Address.
+	// Possible values are: PREMIUM, STANDARD.
+	// +kubebuilder:validation:Optional
+	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
 
 	// This is used in PSC consumer ForwardingRule to control whether it should try to auto-generate a DNS zone or not. Non-PSC forwarding rules do not use this field.
 	// +kubebuilder:validation:Optional

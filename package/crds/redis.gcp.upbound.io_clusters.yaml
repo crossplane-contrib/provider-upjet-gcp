@@ -79,12 +79,257 @@ spec:
                       Default value is AUTH_MODE_DISABLED.
                       Possible values are: AUTH_MODE_UNSPECIFIED, AUTH_MODE_IAM_AUTH, AUTH_MODE_DISABLED.
                     type: string
+                  automatedBackupConfig:
+                    description: |-
+                      The automated backup config for a instance.
+                      Structure is documented below.
+                    properties:
+                      fixedFrequencySchedule:
+                        description: |-
+                          Trigger automated backups at a fixed frequency.
+                          Structure is documented below.
+                        properties:
+                          startTime:
+                            description: |-
+                              Required. Start time of the window in UTC time.
+                              Structure is documented below.
+                            properties:
+                              hours:
+                                description: |-
+                                  Hours of day in 24 hour format. Should be from 0 to 23.
+                                  An API may choose to allow the value "24:00:00" for scenarios like business closing time.
+                                type: number
+                            type: object
+                        type: object
+                      retention:
+                        description: |-
+                          How long to keep automated backups before the backups are deleted.
+                          The value should be between 1 day and 365 days. If not specified, the default value is 35 days.
+                          A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
+                        type: string
+                    type: object
+                  crossClusterReplicationConfig:
+                    description: field to the configuration file to match the latest
+                      value in the state.
+                    properties:
+                      clusterRole:
+                        description: from SECONDARY to PRIMARY.
+                        type: string
+                      primaryCluster:
+                        description: field.
+                        properties:
+                          cluster:
+                            description: 'The full resource path of the secondary
+                              cluster in the format: projects/{project}/locations/{region}/clusters/{cluster-id}'
+                            type: string
+                          clusterRef:
+                            description: Reference to a Cluster in redis to populate
+                              cluster.
+                            properties:
+                              name:
+                                description: Name of the referenced object.
+                                type: string
+                              policy:
+                                description: Policies for referencing.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            required:
+                            - name
+                            type: object
+                          clusterSelector:
+                            description: Selector for a Cluster in redis to populate
+                              cluster.
+                            properties:
+                              matchControllerRef:
+                                description: |-
+                                  MatchControllerRef ensures an object with the same controller reference
+                                  as the selecting object is selected.
+                                type: boolean
+                              matchLabels:
+                                additionalProperties:
+                                  type: string
+                                description: MatchLabels ensures an object with matching
+                                  labels is selected.
+                                type: object
+                              policy:
+                                description: Policies for selection.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            type: object
+                        type: object
+                      secondaryClusters:
+                        description: list with the new secondaries. The new secondaries
+                          are the current primary and other secondary clusters(if
+                          any).
+                        items:
+                          properties:
+                            cluster:
+                              description: 'The full resource path of the secondary
+                                cluster in the format: projects/{project}/locations/{region}/clusters/{cluster-id}'
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                  deletionProtectionEnabled:
+                    description: |-
+                      Optional. Indicates if the cluster is deletion protected or not.
+                      If the value if set to true, any delete cluster operation will fail.
+                      Default value is true.
+                    type: boolean
+                  gcsSource:
+                    description: |-
+                      Backups stored in Cloud Storage buckets. The Cloud Storage buckets need to be the same region as the clusters.
+                      Structure is documented below.
+                    properties:
+                      uris:
+                        description: 'URIs of the GCS objects to import. Example:
+                          gs://bucket1/object1, gs://bucket2/folder2/object2'
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
+                    type: object
+                  kmsKey:
+                    description: The KMS key used to encrypt the at-rest data of the
+                      cluster.
+                    type: string
+                  maintenancePolicy:
+                    description: |-
+                      Maintenance policy for a cluster
+                      Structure is documented below.
+                    properties:
+                      weeklyMaintenanceWindow:
+                        description: |-
+                          Optional. Maintenance window that is applied to resources covered by this policy.
+                          Minimum 1. For the current version, the maximum number
+                          of weekly_window is expected to be one.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            day:
+                              description: Required. The day of week that maintenance
+                                updates occur.
+                              type: string
+                            startTime:
+                              description: |-
+                                Required. Start time of the window in UTC time.
+                                Structure is documented below.
+                              properties:
+                                hours:
+                                  description: |-
+                                    Hours of day in 24 hour format. Should be from 0 to 23.
+                                    An API may choose to allow the value "24:00:00" for scenarios like business closing time.
+                                  type: number
+                                minutes:
+                                  description: Minutes of hour of day. Must be from
+                                    0 to 59.
+                                  type: number
+                                nanos:
+                                  description: Fractions of seconds in nanoseconds.
+                                    Must be from 0 to 999,999,999.
+                                  type: number
+                                seconds:
+                                  description: |-
+                                    Seconds of minutes of the time. Must normally be from 0 to 59.
+                                    An API may allow the value 60 if it allows leap-seconds.
+                                  type: number
+                              type: object
+                          type: object
+                        type: array
+                    type: object
+                  managedBackupSource:
+                    description: |-
+                      Backups that generated and managed by memorystore.
+                      Structure is documented below.
+                    properties:
+                      backup:
+                        description: 'Example: projects/{project}/locations/{location}/backupCollections/{collection}/backups/{backup}.'
+                        type: string
+                    type: object
                   nodeType:
                     description: |-
                       The nodeType for the Redis cluster.
                       If not provided, REDIS_HIGHMEM_MEDIUM will be used as default
                       Possible values are: REDIS_SHARED_CORE_NANO, REDIS_HIGHMEM_MEDIUM, REDIS_HIGHMEM_XLARGE, REDIS_STANDARD_SMALL.
                     type: string
+                  persistenceConfig:
+                    description: |-
+                      Persistence config (RDB, AOF) for the cluster.
+                      Structure is documented below.
+                    properties:
+                      aofConfig:
+                        description: |-
+                          AOF configuration. This field will be ignored if mode is not AOF.
+                          Structure is documented below.
+                        properties:
+                          appendFsync:
+                            description: Optional. Available fsync modes.
+                            type: string
+                        type: object
+                      mode:
+                        description: Optional. Controls whether Persistence features
+                          are enabled. If not provided, the existing value will be
+                          used.
+                        type: string
+                      rdbConfig:
+                        description: |-
+                          RDB configuration. This field will be ignored if mode is not RDB.
+                          Structure is documented below.
+                        properties:
+                          rdbSnapshotPeriod:
+                            description: Optional. Available snapshot periods for
+                              scheduling.
+                            type: string
+                          rdbSnapshotStartTime:
+                            description: |-
+                              The time that the first snapshot was/will be attempted, and to which
+                              future snapshots will be aligned.
+                              If not provided, the current time will be used.
+                            type: string
+                        type: object
+                    type: object
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -245,12 +490,257 @@ spec:
                       Default value is AUTH_MODE_DISABLED.
                       Possible values are: AUTH_MODE_UNSPECIFIED, AUTH_MODE_IAM_AUTH, AUTH_MODE_DISABLED.
                     type: string
+                  automatedBackupConfig:
+                    description: |-
+                      The automated backup config for a instance.
+                      Structure is documented below.
+                    properties:
+                      fixedFrequencySchedule:
+                        description: |-
+                          Trigger automated backups at a fixed frequency.
+                          Structure is documented below.
+                        properties:
+                          startTime:
+                            description: |-
+                              Required. Start time of the window in UTC time.
+                              Structure is documented below.
+                            properties:
+                              hours:
+                                description: |-
+                                  Hours of day in 24 hour format. Should be from 0 to 23.
+                                  An API may choose to allow the value "24:00:00" for scenarios like business closing time.
+                                type: number
+                            type: object
+                        type: object
+                      retention:
+                        description: |-
+                          How long to keep automated backups before the backups are deleted.
+                          The value should be between 1 day and 365 days. If not specified, the default value is 35 days.
+                          A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
+                        type: string
+                    type: object
+                  crossClusterReplicationConfig:
+                    description: field to the configuration file to match the latest
+                      value in the state.
+                    properties:
+                      clusterRole:
+                        description: from SECONDARY to PRIMARY.
+                        type: string
+                      primaryCluster:
+                        description: field.
+                        properties:
+                          cluster:
+                            description: 'The full resource path of the secondary
+                              cluster in the format: projects/{project}/locations/{region}/clusters/{cluster-id}'
+                            type: string
+                          clusterRef:
+                            description: Reference to a Cluster in redis to populate
+                              cluster.
+                            properties:
+                              name:
+                                description: Name of the referenced object.
+                                type: string
+                              policy:
+                                description: Policies for referencing.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            required:
+                            - name
+                            type: object
+                          clusterSelector:
+                            description: Selector for a Cluster in redis to populate
+                              cluster.
+                            properties:
+                              matchControllerRef:
+                                description: |-
+                                  MatchControllerRef ensures an object with the same controller reference
+                                  as the selecting object is selected.
+                                type: boolean
+                              matchLabels:
+                                additionalProperties:
+                                  type: string
+                                description: MatchLabels ensures an object with matching
+                                  labels is selected.
+                                type: object
+                              policy:
+                                description: Policies for selection.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            type: object
+                        type: object
+                      secondaryClusters:
+                        description: list with the new secondaries. The new secondaries
+                          are the current primary and other secondary clusters(if
+                          any).
+                        items:
+                          properties:
+                            cluster:
+                              description: 'The full resource path of the secondary
+                                cluster in the format: projects/{project}/locations/{region}/clusters/{cluster-id}'
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                  deletionProtectionEnabled:
+                    description: |-
+                      Optional. Indicates if the cluster is deletion protected or not.
+                      If the value if set to true, any delete cluster operation will fail.
+                      Default value is true.
+                    type: boolean
+                  gcsSource:
+                    description: |-
+                      Backups stored in Cloud Storage buckets. The Cloud Storage buckets need to be the same region as the clusters.
+                      Structure is documented below.
+                    properties:
+                      uris:
+                        description: 'URIs of the GCS objects to import. Example:
+                          gs://bucket1/object1, gs://bucket2/folder2/object2'
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
+                    type: object
+                  kmsKey:
+                    description: The KMS key used to encrypt the at-rest data of the
+                      cluster.
+                    type: string
+                  maintenancePolicy:
+                    description: |-
+                      Maintenance policy for a cluster
+                      Structure is documented below.
+                    properties:
+                      weeklyMaintenanceWindow:
+                        description: |-
+                          Optional. Maintenance window that is applied to resources covered by this policy.
+                          Minimum 1. For the current version, the maximum number
+                          of weekly_window is expected to be one.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            day:
+                              description: Required. The day of week that maintenance
+                                updates occur.
+                              type: string
+                            startTime:
+                              description: |-
+                                Required. Start time of the window in UTC time.
+                                Structure is documented below.
+                              properties:
+                                hours:
+                                  description: |-
+                                    Hours of day in 24 hour format. Should be from 0 to 23.
+                                    An API may choose to allow the value "24:00:00" for scenarios like business closing time.
+                                  type: number
+                                minutes:
+                                  description: Minutes of hour of day. Must be from
+                                    0 to 59.
+                                  type: number
+                                nanos:
+                                  description: Fractions of seconds in nanoseconds.
+                                    Must be from 0 to 999,999,999.
+                                  type: number
+                                seconds:
+                                  description: |-
+                                    Seconds of minutes of the time. Must normally be from 0 to 59.
+                                    An API may allow the value 60 if it allows leap-seconds.
+                                  type: number
+                              type: object
+                          type: object
+                        type: array
+                    type: object
+                  managedBackupSource:
+                    description: |-
+                      Backups that generated and managed by memorystore.
+                      Structure is documented below.
+                    properties:
+                      backup:
+                        description: 'Example: projects/{project}/locations/{location}/backupCollections/{collection}/backups/{backup}.'
+                        type: string
+                    type: object
                   nodeType:
                     description: |-
                       The nodeType for the Redis cluster.
                       If not provided, REDIS_HIGHMEM_MEDIUM will be used as default
                       Possible values are: REDIS_SHARED_CORE_NANO, REDIS_HIGHMEM_MEDIUM, REDIS_HIGHMEM_XLARGE, REDIS_STANDARD_SMALL.
                     type: string
+                  persistenceConfig:
+                    description: |-
+                      Persistence config (RDB, AOF) for the cluster.
+                      Structure is documented below.
+                    properties:
+                      aofConfig:
+                        description: |-
+                          AOF configuration. This field will be ignored if mode is not AOF.
+                          Structure is documented below.
+                        properties:
+                          appendFsync:
+                            description: Optional. Available fsync modes.
+                            type: string
+                        type: object
+                      mode:
+                        description: Optional. Controls whether Persistence features
+                          are enabled. If not provided, the existing value will be
+                          used.
+                        type: string
+                      rdbConfig:
+                        description: |-
+                          RDB configuration. This field will be ignored if mode is not RDB.
+                          Structure is documented below.
+                        properties:
+                          rdbSnapshotPeriod:
+                            description: Optional. Available snapshot periods for
+                              scheduling.
+                            type: string
+                          rdbSnapshotStartTime:
+                            description: |-
+                              The time that the first snapshot was/will be attempted, and to which
+                              future snapshots will be aligned.
+                              If not provided, the current time will be used.
+                            type: string
+                        type: object
+                    type: object
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -555,10 +1045,6 @@ spec:
             - forProvider
             type: object
             x-kubernetes-validations:
-            - message: spec.forProvider.pscConfigs is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.pscConfigs)
-                || (has(self.initProvider) && has(self.initProvider.pscConfigs))'
             - message: spec.forProvider.shardCount is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.shardCount)
@@ -574,12 +1060,136 @@ spec:
                       Default value is AUTH_MODE_DISABLED.
                       Possible values are: AUTH_MODE_UNSPECIFIED, AUTH_MODE_IAM_AUTH, AUTH_MODE_DISABLED.
                     type: string
+                  automatedBackupConfig:
+                    description: |-
+                      The automated backup config for a instance.
+                      Structure is documented below.
+                    properties:
+                      fixedFrequencySchedule:
+                        description: |-
+                          Trigger automated backups at a fixed frequency.
+                          Structure is documented below.
+                        properties:
+                          startTime:
+                            description: |-
+                              Required. Start time of the window in UTC time.
+                              Structure is documented below.
+                            properties:
+                              hours:
+                                description: |-
+                                  Hours of day in 24 hour format. Should be from 0 to 23.
+                                  An API may choose to allow the value "24:00:00" for scenarios like business closing time.
+                                type: number
+                            type: object
+                        type: object
+                      retention:
+                        description: |-
+                          How long to keep automated backups before the backups are deleted.
+                          The value should be between 1 day and 365 days. If not specified, the default value is 35 days.
+                          A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
+                        type: string
+                    type: object
+                  backupCollection:
+                    description: |-
+                      The backup collection full resource name.
+                      Example: projects/{project}/locations/{location}/backupCollections/{collection}
+                    type: string
                   createTime:
                     description: |-
                       The timestamp associated with the cluster creation request. A timestamp in
                       RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional
                       digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
                     type: string
+                  crossClusterReplicationConfig:
+                    description: field to the configuration file to match the latest
+                      value in the state.
+                    properties:
+                      clusterRole:
+                        description: from SECONDARY to PRIMARY.
+                        type: string
+                      membership:
+                        description: |-
+                          (Output)
+                          An output only view of all the member clusters participating in cross cluster replication. This field is populated for all the member clusters irrespective of their cluster role.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            primaryCluster:
+                              description: |-
+                                (Output)
+                                Details of the primary cluster that is used as the replication source for all the secondary clusters.
+                                Structure is documented below.
+                              items:
+                                properties:
+                                  cluster:
+                                    description: 'The full resource path of the secondary
+                                      cluster in the format: projects/{project}/locations/{region}/clusters/{cluster-id}'
+                                    type: string
+                                  uid:
+                                    description: System assigned, unique identifier
+                                      for the cluster.
+                                    type: string
+                                type: object
+                              type: array
+                            secondaryClusters:
+                              description: |-
+                                (Output)
+                                List of secondary clusters that are replicating from the primary cluster.
+                                Structure is documented below.
+                              items:
+                                properties:
+                                  cluster:
+                                    description: 'The full resource path of the secondary
+                                      cluster in the format: projects/{project}/locations/{region}/clusters/{cluster-id}'
+                                    type: string
+                                  uid:
+                                    description: System assigned, unique identifier
+                                      for the cluster.
+                                    type: string
+                                type: object
+                              type: array
+                          type: object
+                        type: array
+                      primaryCluster:
+                        description: field.
+                        properties:
+                          cluster:
+                            description: 'The full resource path of the secondary
+                              cluster in the format: projects/{project}/locations/{region}/clusters/{cluster-id}'
+                            type: string
+                          uid:
+                            description: System assigned, unique identifier for the
+                              cluster.
+                            type: string
+                        type: object
+                      secondaryClusters:
+                        description: list with the new secondaries. The new secondaries
+                          are the current primary and other secondary clusters(if
+                          any).
+                        items:
+                          properties:
+                            cluster:
+                              description: 'The full resource path of the secondary
+                                cluster in the format: projects/{project}/locations/{region}/clusters/{cluster-id}'
+                              type: string
+                            uid:
+                              description: System assigned, unique identifier for
+                                the cluster.
+                              type: string
+                          type: object
+                        type: array
+                      updateTime:
+                        description: |-
+                          (Output)
+                          The last time cross cluster replication config was updated.
+                        type: string
+                    type: object
+                  deletionProtectionEnabled:
+                    description: |-
+                      Optional. Indicates if the cluster is deletion protected or not.
+                      If the value if set to true, any delete cluster operation will fail.
+                      Default value is true.
+                    type: boolean
                   discoveryEndpoints:
                     description: |-
                       Output only. Endpoints created on each given network,
@@ -609,15 +1219,197 @@ spec:
                           type: object
                       type: object
                     type: array
+                  gcsSource:
+                    description: |-
+                      Backups stored in Cloud Storage buckets. The Cloud Storage buckets need to be the same region as the clusters.
+                      Structure is documented below.
+                    properties:
+                      uris:
+                        description: 'URIs of the GCS objects to import. Example:
+                          gs://bucket1/object1, gs://bucket2/folder2/object2'
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
+                    type: object
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{region}}/clusters/{{name}}
                     type: string
+                  kmsKey:
+                    description: The KMS key used to encrypt the at-rest data of the
+                      cluster.
+                    type: string
+                  maintenancePolicy:
+                    description: |-
+                      Maintenance policy for a cluster
+                      Structure is documented below.
+                    properties:
+                      createTime:
+                        description: |-
+                          (Output)
+                          Output only. The time when the policy was created.
+                          A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+                          resolution and up to nine fractional digits.
+                        type: string
+                      updateTime:
+                        description: |-
+                          (Output)
+                          Output only. The time when the policy was last updated.
+                          A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+                          resolution and up to nine fractional digits.
+                        type: string
+                      weeklyMaintenanceWindow:
+                        description: |-
+                          Optional. Maintenance window that is applied to resources covered by this policy.
+                          Minimum 1. For the current version, the maximum number
+                          of weekly_window is expected to be one.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            day:
+                              description: Required. The day of week that maintenance
+                                updates occur.
+                              type: string
+                            duration:
+                              description: |-
+                                (Output)
+                                Output only. Duration of the maintenance window.
+                                The current window is fixed at 1 hour.
+                                A duration in seconds with up to nine fractional digits,
+                                terminated by 's'. Example: "3.5s".
+                              type: string
+                            startTime:
+                              description: |-
+                                Required. Start time of the window in UTC time.
+                                Structure is documented below.
+                              properties:
+                                hours:
+                                  description: |-
+                                    Hours of day in 24 hour format. Should be from 0 to 23.
+                                    An API may choose to allow the value "24:00:00" for scenarios like business closing time.
+                                  type: number
+                                minutes:
+                                  description: Minutes of hour of day. Must be from
+                                    0 to 59.
+                                  type: number
+                                nanos:
+                                  description: Fractions of seconds in nanoseconds.
+                                    Must be from 0 to 999,999,999.
+                                  type: number
+                                seconds:
+                                  description: |-
+                                    Seconds of minutes of the time. Must normally be from 0 to 59.
+                                    An API may allow the value 60 if it allows leap-seconds.
+                                  type: number
+                              type: object
+                          type: object
+                        type: array
+                    type: object
+                  maintenanceSchedule:
+                    description: |-
+                      Upcoming maintenance schedule.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        endTime:
+                          description: |-
+                            (Output)
+                            Output only. The end time of any upcoming scheduled maintenance for this cluster.
+                            A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+                            resolution and up to nine fractional digits.
+                          type: string
+                        scheduleDeadlineTime:
+                          description: |-
+                            (Output)
+                            Output only. The deadline that the maintenance schedule start time
+                            can not go beyond, including reschedule.
+                            A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+                            resolution and up to nine fractional digits.
+                          type: string
+                        startTime:
+                          description: |-
+                            (Output)
+                            Output only. The start time of any upcoming scheduled maintenance for this cluster.
+                            A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+                            resolution and up to nine fractional digits.
+                          type: string
+                      type: object
+                    type: array
+                  managedBackupSource:
+                    description: |-
+                      Backups that generated and managed by memorystore.
+                      Structure is documented below.
+                    properties:
+                      backup:
+                        description: 'Example: projects/{project}/locations/{location}/backupCollections/{collection}/backups/{backup}.'
+                        type: string
+                    type: object
+                  managedServerCa:
+                    description: |-
+                      Cluster's Certificate Authority. This field will only be populated if Redis Cluster's transit_encryption_mode is TRANSIT_ENCRYPTION_MODE_SERVER_AUTHENTICATION
+                      Structure is documented below.
+                    items:
+                      properties:
+                        caCerts:
+                          description: |-
+                            (Output)
+                            The PEM encoded CA certificate chains for redis managed server authentication
+                            Structure is documented below.
+                          items:
+                            properties:
+                              certificates:
+                                description: |-
+                                  (Output)
+                                  The certificates that form the CA chain, from leaf to root order
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   nodeType:
                     description: |-
                       The nodeType for the Redis cluster.
                       If not provided, REDIS_HIGHMEM_MEDIUM will be used as default
                       Possible values are: REDIS_SHARED_CORE_NANO, REDIS_HIGHMEM_MEDIUM, REDIS_HIGHMEM_XLARGE, REDIS_STANDARD_SMALL.
                     type: string
+                  persistenceConfig:
+                    description: |-
+                      Persistence config (RDB, AOF) for the cluster.
+                      Structure is documented below.
+                    properties:
+                      aofConfig:
+                        description: |-
+                          AOF configuration. This field will be ignored if mode is not AOF.
+                          Structure is documented below.
+                        properties:
+                          appendFsync:
+                            description: Optional. Available fsync modes.
+                            type: string
+                        type: object
+                      mode:
+                        description: Optional. Controls whether Persistence features
+                          are enabled. If not provided, the existing value will be
+                          used.
+                        type: string
+                      rdbConfig:
+                        description: |-
+                          RDB configuration. This field will be ignored if mode is not RDB.
+                          Structure is documented below.
+                        properties:
+                          rdbSnapshotPeriod:
+                            description: Optional. Available snapshot periods for
+                              scheduling.
+                            type: string
+                          rdbSnapshotStartTime:
+                            description: |-
+                              The time that the first snapshot was/will be attempted, and to which
+                              future snapshots will be aligned.
+                              If not provided, the current time will be used.
+                            type: string
+                        type: object
+                    type: object
                   preciseSizeGb:
                     description: Output only. Redis memory precise size in GB for
                       the entire cluster.
@@ -671,6 +1463,24 @@ spec:
                           type: string
                       type: object
                     type: array
+                  pscServiceAttachments:
+                    description: |-
+                      Service attachment details to configure Psc connections.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        connectionType:
+                          description: |-
+                            (Output)
+                            Type of a PSC connection targeting this service attachment.
+                          type: string
+                        serviceAttachment:
+                          description: |-
+                            (Output)
+                            Service attachment URI which your self-created PscConnection should use as
+                          type: string
+                      type: object
+                    type: array
                   redisConfigs:
                     additionalProperties:
                       type: string
@@ -705,7 +1515,7 @@ spec:
                       properties:
                         updateInfo:
                           description: |-
-                            A nested object resource
+                            A nested object resource.
                             Structure is documented below.
                           properties:
                             targetReplicaCount:

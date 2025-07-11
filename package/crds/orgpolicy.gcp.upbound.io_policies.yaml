@@ -144,6 +144,14 @@ spec:
                                 This field can be set only in Policies for boolean
                                 constraints.
                               type: string
+                            parameters:
+                              description: 'Optional. Required for Managed Constraints
+                                if parameters defined in constraints. Pass parameter
+                                values when policy enforcement is enabled. Ensure
+                                that parameter value types match those defined in
+                                the constraint definition. For example: { "allowedLocations"
+                                : ["us-east1", "us-west1"], "allowAll" : true }'
+                              type: string
                             values:
                               description: |-
                                 List of values to be used for this PolicyRule. This field can be set only in Policies for list constraints.
@@ -266,7 +274,7 @@ spec:
                         type: boolean
                       rules:
                         description: |-
-                          Up to 10 PolicyRules are allowed. In Policies for boolean constraints, the following requirements apply: - There must be one and only one PolicyRule where condition is unset. - BooleanPolicyRules with conditions must set enforced to the opposite of the PolicyRule without a condition. - During policy evaluation, PolicyRules with conditions that are true for a target resource take precedence.
+                          In Policies for boolean constraints, the following requirements apply: - There must be one and only one PolicyRule where condition is unset. - BooleanPolicyRules with conditions must set enforced to the opposite of the PolicyRule without a condition. - During policy evaluation, PolicyRules with conditions that are true for a target resource take precedence.
                           Structure is documented below.
                         items:
                           properties:
@@ -311,6 +319,14 @@ spec:
                                 If "FALSE", then any configuration is acceptable.
                                 This field can be set only in Policies for boolean
                                 constraints.
+                              type: string
+                            parameters:
+                              description: 'Optional. Required for Managed Constraints
+                                if parameters defined in constraints. Pass parameter
+                                values when policy enforcement is enabled. Ensure
+                                that parameter value types match those defined in
+                                the constraint definition. For example: { "allowedLocations"
+                                : ["us-east1", "us-west1"], "allowAll" : true }'
                               type: string
                             values:
                               description: |-
@@ -415,6 +431,14 @@ spec:
                                 This field can be set only in Policies for boolean
                                 constraints.
                               type: string
+                            parameters:
+                              description: 'Optional. Required for Managed Constraints
+                                if parameters defined in constraints. Pass parameter
+                                values when policy enforcement is enabled. Ensure
+                                that parameter value types match those defined in
+                                the constraint definition. For example: { "allowedLocations"
+                                : ["us-east1", "us-west1"], "allowAll" : true }'
+                              type: string
                             values:
                               description: |-
                                 List of values to be used for this PolicyRule. This field can be set only in Policies for list constraints.
@@ -458,7 +482,7 @@ spec:
                         type: boolean
                       rules:
                         description: |-
-                          Up to 10 PolicyRules are allowed. In Policies for boolean constraints, the following requirements apply: - There must be one and only one PolicyRule where condition is unset. - BooleanPolicyRules with conditions must set enforced to the opposite of the PolicyRule without a condition. - During policy evaluation, PolicyRules with conditions that are true for a target resource take precedence.
+                          In Policies for boolean constraints, the following requirements apply: - There must be one and only one PolicyRule where condition is unset. - BooleanPolicyRules with conditions must set enforced to the opposite of the PolicyRule without a condition. - During policy evaluation, PolicyRules with conditions that are true for a target resource take precedence.
                           Structure is documented below.
                         items:
                           properties:
@@ -503,6 +527,14 @@ spec:
                                 If "FALSE", then any configuration is acceptable.
                                 This field can be set only in Policies for boolean
                                 constraints.
+                              type: string
+                            parameters:
+                              description: 'Optional. Required for Managed Constraints
+                                if parameters defined in constraints. Pass parameter
+                                values when policy enforcement is enabled. Ensure
+                                that parameter value types match those defined in
+                                the constraint definition. For example: { "allowedLocations"
+                                : ["us-east1", "us-west1"], "allowAll" : true }'
                               type: string
                             values:
                               description: |-
@@ -771,6 +803,14 @@ spec:
                                 This field can be set only in Policies for boolean
                                 constraints.
                               type: string
+                            parameters:
+                              description: 'Optional. Required for Managed Constraints
+                                if parameters defined in constraints. Pass parameter
+                                values when policy enforcement is enabled. Ensure
+                                that parameter value types match those defined in
+                                the constraint definition. For example: { "allowedLocations"
+                                : ["us-east1", "us-west1"], "allowAll" : true }'
+                              type: string
                             values:
                               description: |-
                                 List of values to be used for this PolicyRule. This field can be set only in Policies for list constraints.
@@ -837,7 +877,7 @@ spec:
                         type: boolean
                       rules:
                         description: |-
-                          Up to 10 PolicyRules are allowed. In Policies for boolean constraints, the following requirements apply: - There must be one and only one PolicyRule where condition is unset. - BooleanPolicyRules with conditions must set enforced to the opposite of the PolicyRule without a condition. - During policy evaluation, PolicyRules with conditions that are true for a target resource take precedence.
+                          In Policies for boolean constraints, the following requirements apply: - There must be one and only one PolicyRule where condition is unset. - BooleanPolicyRules with conditions must set enforced to the opposite of the PolicyRule without a condition. - During policy evaluation, PolicyRules with conditions that are true for a target resource take precedence.
                           Structure is documented below.
                         items:
                           properties:
@@ -882,6 +922,14 @@ spec:
                                 If "FALSE", then any configuration is acceptable.
                                 This field can be set only in Policies for boolean
                                 constraints.
+                              type: string
+                            parameters:
+                              description: 'Optional. Required for Managed Constraints
+                                if parameters defined in constraints. Pass parameter
+                                values when policy enforcement is enabled. Ensure
+                                that parameter value types match those defined in
+                                the constraint definition. For example: { "allowedLocations"
+                                : ["us-east1", "us-west1"], "allowAll" : true }'
                               type: string
                             values:
                               description: |-

@@ -725,6 +725,22 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  pscInterfaceConfig:
+                    description: |-
+                      The PSC Interface configuration is used to create PSC Interface
+                      between Datastream and the consumer's PSC.
+                      Structure is documented below.
+                    properties:
+                      networkAttachment:
+                        description: |-
+                          Fully qualified name of the network attachment that Datastream will connect to.
+                          Format: projects/{project}/regions/{region}/networkAttachments/{name}
+                          To get Datastream project for the accepted list:
+                          gcloud datastream private-connections create [PC ID] --location=[LOCATION] --network-attachment=[NA URI] --validate-only --display-name=[ANY STRING]
+                          Add Datastream project to the attachment accepted list:
+                          gcloud compute network-attachments update [NA URI] --region=[NA region] --producer-accept-list=[TP from prev command]
+                        type: string
+                    type: object
                   vpcPeeringConfig:
                     description: |-
                       The VPC Peering configuration is used to create VPC peering
@@ -852,6 +868,22 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  pscInterfaceConfig:
+                    description: |-
+                      The PSC Interface configuration is used to create PSC Interface
+                      between Datastream and the consumer's PSC.
+                      Structure is documented below.
+                    properties:
+                      networkAttachment:
+                        description: |-
+                          Fully qualified name of the network attachment that Datastream will connect to.
+                          Format: projects/{project}/regions/{region}/networkAttachments/{name}
+                          To get Datastream project for the accepted list:
+                          gcloud datastream private-connections create [PC ID] --location=[LOCATION] --network-attachment=[NA URI] --validate-only --display-name=[ANY STRING]
+                          Add Datastream project to the attachment accepted list:
+                          gcloud compute network-attachments update [NA URI] --region=[NA region] --producer-accept-list=[TP from prev command]
+                        type: string
+                    type: object
                   vpcPeeringConfig:
                     description: |-
                       The VPC Peering configuration is used to create VPC peering
@@ -1116,10 +1148,6 @@ spec:
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.displayName)
                 || (has(self.initProvider) && has(self.initProvider.displayName))'
-            - message: spec.forProvider.vpcPeeringConfig is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.vpcPeeringConfig)
-                || (has(self.initProvider) && has(self.initProvider.vpcPeeringConfig))'
           status:
             description: PrivateConnectionStatus defines the observed state of PrivateConnection.
             properties:
@@ -1178,6 +1206,22 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  pscInterfaceConfig:
+                    description: |-
+                      The PSC Interface configuration is used to create PSC Interface
+                      between Datastream and the consumer's PSC.
+                      Structure is documented below.
+                    properties:
+                      networkAttachment:
+                        description: |-
+                          Fully qualified name of the network attachment that Datastream will connect to.
+                          Format: projects/{project}/regions/{region}/networkAttachments/{name}
+                          To get Datastream project for the accepted list:
+                          gcloud datastream private-connections create [PC ID] --location=[LOCATION] --network-attachment=[NA URI] --validate-only --display-name=[ANY STRING]
+                          Add Datastream project to the attachment accepted list:
+                          gcloud compute network-attachments update [NA URI] --region=[NA region] --producer-accept-list=[TP from prev command]
+                        type: string
+                    type: object
                   state:
                     description: State of the PrivateConnection.
                     type: string

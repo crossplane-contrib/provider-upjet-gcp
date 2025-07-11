@@ -400,11 +400,6 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: {{perimeter_name}}/{{resource}}
 	"google_access_context_manager_service_perimeter_resource": config.IdentifierFromProvider,
 
-	// datastore
-	//
-	// Imported by using the following format: projects/{{project}}/indexes/{{index_id}}
-	"google_datastore_index": config.IdentifierFromProvider,
-
 	// dialogflow
 	//
 	// More details in https://upboundio.slack.com/archives/C01PK1SMYNN/p1663240546481649
@@ -573,8 +568,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_identity_platform_tenant_inbound_saml_config": config.IdentifierFromProvider,
 	// Imported by using the following: projects/{{project}}/tenants/{{tenant}}/oauthIdpConfigs/{{name}}
 	"google_identity_platform_tenant_oauth_idp_config": config.IdentifierFromProvider,
-	// Imported by using the following projects/{{project}}/config/{{name}}
-	"google_identity_platform_project_default_config": config.IdentifierFromProvider,
+	// Imported by using the following projects/{{project}}/config
+	"google_identity_platform_config": config.TemplatedStringAsIdentifier("", "projects/{{ .setup.configuration.project }}/config"),
 
 	// kms
 	//

@@ -32,7 +32,7 @@ type TagKeyInitParameters struct {
 	PurposeData map[string]*string `json:"purposeData,omitempty" tf:"purpose_data,omitempty"`
 
 	// Input only. The user friendly name for a TagKey. The short name should be unique for TagKeys within the same tag namespace.
-	// The short name must be 1-63 characters, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), underscores (_), dots (.), and alphanumerics between.
+	// The short name can have a maximum length of 256 characters. The permitted character set for the shortName includes all UTF-8 encoded Unicode characters except single quotes ('), double quotes ("), backslashes (\), and forward slashes (/).
 	ShortName *string `json:"shortName,omitempty" tf:"short_name,omitempty"`
 }
 
@@ -68,7 +68,7 @@ type TagKeyObservation struct {
 	PurposeData map[string]*string `json:"purposeData,omitempty" tf:"purpose_data,omitempty"`
 
 	// Input only. The user friendly name for a TagKey. The short name should be unique for TagKeys within the same tag namespace.
-	// The short name must be 1-63 characters, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), underscores (_), dots (.), and alphanumerics between.
+	// The short name can have a maximum length of 256 characters. The permitted character set for the shortName includes all UTF-8 encoded Unicode characters except single quotes ('), double quotes ("), backslashes (\), and forward slashes (/).
 	ShortName *string `json:"shortName,omitempty" tf:"short_name,omitempty"`
 
 	// Output only. Update time.
@@ -99,7 +99,7 @@ type TagKeyParameters struct {
 	PurposeData map[string]*string `json:"purposeData,omitempty" tf:"purpose_data,omitempty"`
 
 	// Input only. The user friendly name for a TagKey. The short name should be unique for TagKeys within the same tag namespace.
-	// The short name must be 1-63 characters, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), underscores (_), dots (.), and alphanumerics between.
+	// The short name can have a maximum length of 256 characters. The permitted character set for the shortName includes all UTF-8 encoded Unicode characters except single quotes ('), double quotes ("), backslashes (\), and forward slashes (/).
 	// +kubebuilder:validation:Optional
 	ShortName *string `json:"shortName,omitempty" tf:"short_name,omitempty"`
 }

@@ -2422,15 +2422,16 @@ spec:
                         type: number
                     type: object
                   databaseVersion:
-                    description: The database engine major version. This is an optional
-                      field and it's populated at the Cluster creation time. This
-                      field cannot be changed after cluster creation.
+                    description: |-
+                      The database engine major version. This is an optional field and it's populated at the Cluster creation time.
+                      Note: Changing this field to a higer version results in upgrading the AlloyDB cluster which is an irreversible change.
                     type: string
                   deletionPolicy:
                     description: |-
                       Policy to determine if the cluster should be deleted forcefully.
                       Deleting a cluster forcefully, deletes the cluster and all its associated instances within the cluster.
                       Deleting a Secondary cluster with a secondary instance REQUIRES setting deletion_policy = "FORCE" otherwise an error is returned. This is needed as there is no support to delete just the secondary instance, and the only way to delete secondary instance is to delete the associated secondary cluster forcefully which also deletes the secondary instance.
+                      Possible values: DEFAULT, FORCE
                     type: string
                   displayName:
                     description: User-settable and human-readable display name for
@@ -2533,11 +2534,6 @@ spec:
                           type: object
                         type: array
                     type: object
-                  network:
-                    description: |-
-                      The relative resource name of the VPC network on which the instance can be accessed. It is specified in the following form:
-                      "projects/{projectNumber}/global/networks/{network_id}".
-                    type: string
                   networkConfig:
                     description: |-
                       Metadata related to network configuration.
@@ -2628,80 +2624,6 @@ spec:
                                 - IfNotPresent
                                 type: string
                             type: object
-                        type: object
-                    type: object
-                  networkRef:
-                    description: Reference to a Network in compute to populate network.
-                    properties:
-                      name:
-                        description: Name of the referenced object.
-                        type: string
-                      policy:
-                        description: Policies for referencing.
-                        properties:
-                          resolution:
-                            default: Required
-                            description: |-
-                              Resolution specifies whether resolution of this reference is required.
-                              The default is 'Required', which means the reconcile will fail if the
-                              reference cannot be resolved. 'Optional' means this reference will be
-                              a no-op if it cannot be resolved.
-                            enum:
-                            - Required
-                            - Optional
-                            type: string
-                          resolve:
-                            description: |-
-                              Resolve specifies when this reference should be resolved. The default
-                              is 'IfNotPresent', which will attempt to resolve the reference only when
-                              the corresponding field is not present. Use 'Always' to resolve the
-                              reference on every reconcile.
-                            enum:
-                            - Always
-                            - IfNotPresent
-                            type: string
-                        type: object
-                    required:
-                    - name
-                    type: object
-                  networkSelector:
-                    description: Selector for a Network in compute to populate network.
-                    properties:
-                      matchControllerRef:
-                        description: |-
-                          MatchControllerRef ensures an object with the same controller reference
-                          as the selecting object is selected.
-                        type: boolean
-                      matchLabels:
-                        additionalProperties:
-                          type: string
-                        description: MatchLabels ensures an object with matching labels
-                          is selected.
-                        type: object
-                      policy:
-                        description: Policies for selection.
-                        properties:
-                          resolution:
-                            default: Required
-                            description: |-
-                              Resolution specifies whether resolution of this reference is required.
-                              The default is 'Required', which means the reconcile will fail if the
-                              reference cannot be resolved. 'Optional' means this reference will be
-                              a no-op if it cannot be resolved.
-                            enum:
-                            - Required
-                            - Optional
-                            type: string
-                          resolve:
-                            description: |-
-                              Resolve specifies when this reference should be resolved. The default
-                              is 'IfNotPresent', which will attempt to resolve the reference only when
-                              the corresponding field is not present. Use 'Always' to resolve the
-                              reference on every reconcile.
-                            enum:
-                            - Always
-                            - IfNotPresent
-                            type: string
                         type: object
                     type: object
                   project:
@@ -2982,6 +2904,17 @@ spec:
                             type: object
                         type: object
                     type: object
+                  skipAwaitMajorVersionUpgrade:
+                    description: |-
+                      Set to true to skip awaiting on the major version upgrade of the cluster.
+                      Possible values: true, false
+                      Default value: "true"
+                    type: boolean
+                  subscriptionType:
+                    description: |-
+                      The subscrition type of cluster.
+                      Possible values are: TRIAL, STANDARD.
+                    type: string
                 required:
                 - location
                 type: object
@@ -3132,15 +3065,16 @@ spec:
                         type: number
                     type: object
                   databaseVersion:
-                    description: The database engine major version. This is an optional
-                      field and it's populated at the Cluster creation time. This
-                      field cannot be changed after cluster creation.
+                    description: |-
+                      The database engine major version. This is an optional field and it's populated at the Cluster creation time.
+                      Note: Changing this field to a higer version results in upgrading the AlloyDB cluster which is an irreversible change.
                     type: string
                   deletionPolicy:
                     description: |-
                       Policy to determine if the cluster should be deleted forcefully.
                       Deleting a cluster forcefully, deletes the cluster and all its associated instances within the cluster.
                       Deleting a Secondary cluster with a secondary instance REQUIRES setting deletion_policy = "FORCE" otherwise an error is returned. This is needed as there is no support to delete just the secondary instance, and the only way to delete secondary instance is to delete the associated secondary cluster forcefully which also deletes the secondary instance.
+                      Possible values: DEFAULT, FORCE
                     type: string
                   displayName:
                     description: User-settable and human-readable display name for
@@ -3242,11 +3176,6 @@ spec:
                           type: object
                         type: array
                     type: object
-                  network:
-                    description: |-
-                      The relative resource name of the VPC network on which the instance can be accessed. It is specified in the following form:
-                      "projects/{projectNumber}/global/networks/{network_id}".
-                    type: string
                   networkConfig:
                     description: |-
                       Metadata related to network configuration.
@@ -3337,80 +3266,6 @@ spec:
                                 - IfNotPresent
                                 type: string
                             type: object
-                        type: object
-                    type: object
-                  networkRef:
-                    description: Reference to a Network in compute to populate network.
-                    properties:
-                      name:
-                        description: Name of the referenced object.
-                        type: string
-                      policy:
-                        description: Policies for referencing.
-                        properties:
-                          resolution:
-                            default: Required
-                            description: |-
-                              Resolution specifies whether resolution of this reference is required.
-                              The default is 'Required', which means the reconcile will fail if the
-                              reference cannot be resolved. 'Optional' means this reference will be
-                              a no-op if it cannot be resolved.
-                            enum:
-                            - Required
-                            - Optional
-                            type: string
-                          resolve:
-                            description: |-
-                              Resolve specifies when this reference should be resolved. The default
-                              is 'IfNotPresent', which will attempt to resolve the reference only when
-                              the corresponding field is not present. Use 'Always' to resolve the
-                              reference on every reconcile.
-                            enum:
-                            - Always
-                            - IfNotPresent
-                            type: string
-                        type: object
-                    required:
-                    - name
-                    type: object
-                  networkSelector:
-                    description: Selector for a Network in compute to populate network.
-                    properties:
-                      matchControllerRef:
-                        description: |-
-                          MatchControllerRef ensures an object with the same controller reference
-                          as the selecting object is selected.
-                        type: boolean
-                      matchLabels:
-                        additionalProperties:
-                          type: string
-                        description: MatchLabels ensures an object with matching labels
-                          is selected.
-                        type: object
-                      policy:
-                        description: Policies for selection.
-                        properties:
-                          resolution:
-                            default: Required
-                            description: |-
-                              Resolution specifies whether resolution of this reference is required.
-                              The default is 'Required', which means the reconcile will fail if the
-                              reference cannot be resolved. 'Optional' means this reference will be
-                              a no-op if it cannot be resolved.
-                            enum:
-                            - Required
-                            - Optional
-                            type: string
-                          resolve:
-                            description: |-
-                              Resolve specifies when this reference should be resolved. The default
-                              is 'IfNotPresent', which will attempt to resolve the reference only when
-                              the corresponding field is not present. Use 'Always' to resolve the
-                              reference on every reconcile.
-                            enum:
-                            - Always
-                            - IfNotPresent
-                            type: string
                         type: object
                     type: object
                   project:
@@ -3691,6 +3546,17 @@ spec:
                             type: object
                         type: object
                     type: object
+                  skipAwaitMajorVersionUpgrade:
+                    description: |-
+                      Set to true to skip awaiting on the major version upgrade of the cluster.
+                      Possible values: true, false
+                      Default value: "true"
+                    type: boolean
+                  subscriptionType:
+                    description: |-
+                      The subscrition type of cluster.
+                      Possible values are: TRIAL, STANDARD.
+                    type: string
                 type: object
               managementPolicies:
                 default:
@@ -4060,15 +3926,16 @@ spec:
                       type: object
                     type: array
                   databaseVersion:
-                    description: The database engine major version. This is an optional
-                      field and it's populated at the Cluster creation time. This
-                      field cannot be changed after cluster creation.
+                    description: |-
+                      The database engine major version. This is an optional field and it's populated at the Cluster creation time.
+                      Note: Changing this field to a higer version results in upgrading the AlloyDB cluster which is an irreversible change.
                     type: string
                   deletionPolicy:
                     description: |-
                       Policy to determine if the cluster should be deleted forcefully.
                       Deleting a cluster forcefully, deletes the cluster and all its associated instances within the cluster.
                       Deleting a Secondary cluster with a secondary instance REQUIRES setting deletion_policy = "FORCE" otherwise an error is returned. This is needed as there is no support to delete just the secondary instance, and the only way to delete secondary instance is to delete the associated secondary cluster forcefully which also deletes the secondary instance.
+                      Possible values: DEFAULT, FORCE
                     type: string
                   displayName:
                     description: User-settable and human-readable display name for
@@ -4208,11 +4075,6 @@ spec:
                   name:
                     description: The name of the cluster resource.
                     type: string
-                  network:
-                    description: |-
-                      The relative resource name of the VPC network on which the instance can be accessed. It is specified in the following form:
-                      "projects/{projectNumber}/global/networks/{network_id}".
-                    type: string
                   networkConfig:
                     description: |-
                       Metadata related to network configuration.
@@ -4243,6 +4105,12 @@ spec:
                         description: Create an instance that allows connections from
                           Private Service Connect endpoints to the instance.
                         type: boolean
+                      serviceOwnedProjectNumber:
+                        description: |-
+                          (Output)
+                          The project number that needs to be allowlisted on the network attachment to enable outbound connectivity, if the network attachment is configured to ACCEPT_MANUAL connections.
+                          In case the network attachment is configured to ACCEPT_AUTOMATIC, this project number does not need to be allowlisted explicitly.
+                        type: number
                     type: object
                   reconciling:
                     description: |-
@@ -4285,8 +4153,19 @@ spec:
                           'projects/{project}/locations/{location}/clusters/{cluster_id}'
                         type: string
                     type: object
+                  skipAwaitMajorVersionUpgrade:
+                    description: |-
+                      Set to true to skip awaiting on the major version upgrade of the cluster.
+                      Possible values: true, false
+                      Default value: "true"
+                    type: boolean
                   state:
                     description: Output only. The current serving state of the cluster.
+                    type: string
+                  subscriptionType:
+                    description: |-
+                      The subscrition type of cluster.
+                      Possible values are: TRIAL, STANDARD.
                     type: string
                   terraformLabels:
                     additionalProperties:
@@ -4296,6 +4175,27 @@ spec:
                       and default labels configured on the provider.
                     type: object
                     x-kubernetes-map-type: granular
+                  trialMetadata:
+                    description: |-
+                      Contains information and all metadata related to TRIAL clusters.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        endTime:
+                          description: End time of the trial cluster.
+                          type: string
+                        graceEndTime:
+                          description: Grace end time of the trial cluster.
+                          type: string
+                        startTime:
+                          description: Start time of the trial cluster.
+                          type: string
+                        upgradeTime:
+                          description: Upgrade time of the trial cluster to standard
+                            cluster.
+                          type: string
+                      type: object
+                    type: array
                   uid:
                     description: The system-generated UID of the resource.
                     type: string

@@ -624,18 +624,20 @@ spec:
                     type: string
                   ddl:
                     description: |-
-                      An optional list of DDL statements to run inside the newly created
-                      database. Statements can create tables, indexes, etc. These statements
-                      execute atomically with the creation of the database: if there is an
-                      error in any statement, the database is not created.
+                      An optional list of DDL statements to run inside the database. Statements can create
+                      tables, indexes, etc.
+                      During creation these statements execute atomically with the creation of the database
+                      and if there is an error in any statement, the database is not created. Limited updates to this field are supported, and
+                      newly appended DDL statements can be executed in an update. However, modifications
+                      to prior statements will create a plan that marks the resource for recreation.
                     items:
                       type: string
                     type: array
-                  deletionProtection:
+                  defaultTimeZone:
                     description: |-
-                      Defaults to true.
-                      When the field is set to false, deleting the database is allowed.
-                    type: boolean
+                      The default time zone for the database. The default time zone must be a valid name
+                      from the tz database. Default value is "America/Los_angeles".
+                    type: string
                   enableDropProtection:
                     description: |-
                       Whether drop protection is enabled for this database. Defaults to false.
@@ -653,6 +655,13 @@ spec:
                           Fully qualified name of the KMS key to use to encrypt this database. This key must exist
                           in the same location as the Spanner Database.
                         type: string
+                      kmsKeyNames:
+                        description: |-
+                          Fully qualified name of the KMS keys to use to encrypt this database. The keys must exist
+                          in the same locations as the Spanner Database.
+                        items:
+                          type: string
+                        type: array
                     type: object
                   instance:
                     description: The instance to create the database on.
@@ -766,18 +775,20 @@ spec:
                     type: string
                   ddl:
                     description: |-
-                      An optional list of DDL statements to run inside the newly created
-                      database. Statements can create tables, indexes, etc. These statements
-                      execute atomically with the creation of the database: if there is an
-                      error in any statement, the database is not created.
+                      An optional list of DDL statements to run inside the database. Statements can create
+                      tables, indexes, etc.
+                      During creation these statements execute atomically with the creation of the database
+                      and if there is an error in any statement, the database is not created. Limited updates to this field are supported, and
+                      newly appended DDL statements can be executed in an update. However, modifications
+                      to prior statements will create a plan that marks the resource for recreation.
                     items:
                       type: string
                     type: array
-                  deletionProtection:
+                  defaultTimeZone:
                     description: |-
-                      Defaults to true.
-                      When the field is set to false, deleting the database is allowed.
-                    type: boolean
+                      The default time zone for the database. The default time zone must be a valid name
+                      from the tz database. Default value is "America/Los_angeles".
+                    type: string
                   enableDropProtection:
                     description: |-
                       Whether drop protection is enabled for this database. Defaults to false.
@@ -795,6 +806,13 @@ spec:
                           Fully qualified name of the KMS key to use to encrypt this database. This key must exist
                           in the same location as the Spanner Database.
                         type: string
+                      kmsKeyNames:
+                        description: |-
+                          Fully qualified name of the KMS keys to use to encrypt this database. The keys must exist
+                          in the same locations as the Spanner Database.
+                        items:
+                          type: string
+                        type: array
                     type: object
                   project:
                     description: |-
@@ -990,13 +1008,20 @@ spec:
                     type: string
                   ddl:
                     description: |-
-                      An optional list of DDL statements to run inside the newly created
-                      database. Statements can create tables, indexes, etc. These statements
-                      execute atomically with the creation of the database: if there is an
-                      error in any statement, the database is not created.
+                      An optional list of DDL statements to run inside the database. Statements can create
+                      tables, indexes, etc.
+                      During creation these statements execute atomically with the creation of the database
+                      and if there is an error in any statement, the database is not created. Limited updates to this field are supported, and
+                      newly appended DDL statements can be executed in an update. However, modifications
+                      to prior statements will create a plan that marks the resource for recreation.
                     items:
                       type: string
                     type: array
+                  defaultTimeZone:
+                    description: |-
+                      The default time zone for the database. The default time zone must be a valid name
+                      from the tz database. Default value is "America/Los_angeles".
+                    type: string
                   deletionProtection:
                     description: |-
                       Defaults to true.
@@ -1019,6 +1044,13 @@ spec:
                           Fully qualified name of the KMS key to use to encrypt this database. This key must exist
                           in the same location as the Spanner Database.
                         type: string
+                      kmsKeyNames:
+                        description: |-
+                          Fully qualified name of the KMS keys to use to encrypt this database. The keys must exist
+                          in the same locations as the Spanner Database.
+                        items:
+                          type: string
+                        type: array
                     type: object
                   id:
                     description: an identifier for the resource with format {{instance}}/{{name}}

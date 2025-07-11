@@ -107,7 +107,7 @@ type ClusterInitParameters struct {
 	// Structure is documented below.
 	BinaryAuthorization *BinaryAuthorizationInitParameters `json:"binaryAuthorization,omitempty" tf:"binary_authorization,omitempty"`
 
-	// Policy to determine what flags to send on delete.
+	// Policy to determine what flags to send on delete. Possible values: DELETE, DELETE_IGNORE_ERRORS
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A human readable description of this attached cluster. Cannot be longer
@@ -146,12 +146,17 @@ type ClusterInitParameters struct {
 	// The platform version for the cluster (e.g. 1.23.0-gke.1).
 	PlatformVersion *string `json:"platformVersion,omitempty" tf:"platform_version,omitempty"`
 
-	// The number of the Fleet host project where this cluster will be registered.
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Support for proxy configuration.
 	// Structure is documented below.
 	ProxyConfig *ProxyConfigInitParameters `json:"proxyConfig,omitempty" tf:"proxy_config,omitempty"`
+
+	// Enable/Disable Security Posture API features for the cluster.
+	// Structure is documented below.
+	SecurityPostureConfig *SecurityPostureConfigInitParameters `json:"securityPostureConfig,omitempty" tf:"security_posture_config,omitempty"`
 }
 
 type ClusterObservation struct {
@@ -181,7 +186,7 @@ type ClusterObservation struct {
 	// Output only. The time at which this cluster was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
-	// Policy to determine what flags to send on delete.
+	// Policy to determine what flags to send on delete. Possible values: DELETE, DELETE_IGNORE_ERRORS
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A human readable description of this attached cluster. Cannot be longer
@@ -193,6 +198,7 @@ type ClusterObservation struct {
 	// or migrate any CNCF conformant cluster.
 	Distribution *string `json:"distribution,omitempty" tf:"distribution,omitempty"`
 
+	// for all of the annotations present on the resource.
 	// +mapType=granular
 	EffectiveAnnotations map[string]*string `json:"effectiveAnnotations,omitempty" tf:"effective_annotations,omitempty"`
 
@@ -236,7 +242,8 @@ type ClusterObservation struct {
 	// The platform version for the cluster (e.g. 1.23.0-gke.1).
 	PlatformVersion *string `json:"platformVersion,omitempty" tf:"platform_version,omitempty"`
 
-	// The number of the Fleet host project where this cluster will be registered.
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Support for proxy configuration.
@@ -245,6 +252,10 @@ type ClusterObservation struct {
 
 	// If set, there are currently changes in flight to the cluster.
 	Reconciling *bool `json:"reconciling,omitempty" tf:"reconciling,omitempty"`
+
+	// Enable/Disable Security Posture API features for the cluster.
+	// Structure is documented below.
+	SecurityPostureConfig *SecurityPostureConfigObservation `json:"securityPostureConfig,omitempty" tf:"security_posture_config,omitempty"`
 
 	// The current state of the cluster. Possible values:
 	// STATE_UNSPECIFIED, PROVISIONING, RUNNING, RECONCILING, STOPPING, ERROR,
@@ -284,7 +295,7 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	BinaryAuthorization *BinaryAuthorizationParameters `json:"binaryAuthorization,omitempty" tf:"binary_authorization,omitempty"`
 
-	// Policy to determine what flags to send on delete.
+	// Policy to determine what flags to send on delete. Possible values: DELETE, DELETE_IGNORE_ERRORS
 	// +kubebuilder:validation:Optional
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
@@ -335,7 +346,8 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	PlatformVersion *string `json:"platformVersion,omitempty" tf:"platform_version,omitempty"`
 
-	// The number of the Fleet host project where this cluster will be registered.
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
@@ -343,6 +355,11 @@ type ClusterParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ProxyConfig *ProxyConfigParameters `json:"proxyConfig,omitempty" tf:"proxy_config,omitempty"`
+
+	// Enable/Disable Security Posture API features for the cluster.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SecurityPostureConfig *SecurityPostureConfigParameters `json:"securityPostureConfig,omitempty" tf:"security_posture_config,omitempty"`
 }
 
 type ComponentConfigInitParameters struct {
@@ -545,6 +562,28 @@ type ProxyConfigParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	KubernetesSecret *KubernetesSecretParameters `json:"kubernetesSecret,omitempty" tf:"kubernetes_secret,omitempty"`
+}
+
+type SecurityPostureConfigInitParameters struct {
+
+	// Sets the mode of the Kubernetes security posture API's workload vulnerability scanning.
+	// Possible values are: VULNERABILITY_DISABLED, VULNERABILITY_ENTERPRISE.
+	VulnerabilityMode *string `json:"vulnerabilityMode,omitempty" tf:"vulnerability_mode,omitempty"`
+}
+
+type SecurityPostureConfigObservation struct {
+
+	// Sets the mode of the Kubernetes security posture API's workload vulnerability scanning.
+	// Possible values are: VULNERABILITY_DISABLED, VULNERABILITY_ENTERPRISE.
+	VulnerabilityMode *string `json:"vulnerabilityMode,omitempty" tf:"vulnerability_mode,omitempty"`
+}
+
+type SecurityPostureConfigParameters struct {
+
+	// Sets the mode of the Kubernetes security posture API's workload vulnerability scanning.
+	// Possible values are: VULNERABILITY_DISABLED, VULNERABILITY_ENTERPRISE.
+	// +kubebuilder:validation:Optional
+	VulnerabilityMode *string `json:"vulnerabilityMode" tf:"vulnerability_mode,omitempty"`
 }
 
 type WorkloadIdentityConfigInitParameters struct {

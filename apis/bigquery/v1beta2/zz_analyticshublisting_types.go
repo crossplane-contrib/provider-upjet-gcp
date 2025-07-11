@@ -38,7 +38,10 @@ type AnalyticsHubListingInitParameters struct {
 	// Base64 encoded image representing the listing.
 	Icon *string `json:"icon,omitempty" tf:"icon,omitempty"`
 
-	// Email or URL of the listing publisher.
+	// If true, subscriber email logging is enabled and all queries on the linked dataset will log the email address of the querying user. Once enabled, this setting cannot be turned off.
+	LogLinkedDatasetQueryUserEmail *bool `json:"logLinkedDatasetQueryUserEmail,omitempty" tf:"log_linked_dataset_query_user_email,omitempty"`
+
+	// Email or URL of the primary point of contact of the listing.
 	PrimaryContact *string `json:"primaryContact,omitempty" tf:"primary_contact,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -48,6 +51,10 @@ type AnalyticsHubListingInitParameters struct {
 	// Details of the publisher who owns the listing and who can share the source data.
 	// Structure is documented below.
 	Publisher *PublisherInitParameters `json:"publisher,omitempty" tf:"publisher,omitempty"`
+
+	// Pub/Sub topic source.
+	// Structure is documented below.
+	PubsubTopic *PubsubTopicInitParameters `json:"pubsubTopic,omitempty" tf:"pubsub_topic,omitempty"`
 
 	// Email or URL of the request access of the listing. Subscribers can use this reference to request access.
 	RequestAccess *string `json:"requestAccess,omitempty" tf:"request_access,omitempty"`
@@ -91,10 +98,13 @@ type AnalyticsHubListingObservation struct {
 	// The name of the location this data exchange listing.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
+	// If true, subscriber email logging is enabled and all queries on the linked dataset will log the email address of the querying user. Once enabled, this setting cannot be turned off.
+	LogLinkedDatasetQueryUserEmail *bool `json:"logLinkedDatasetQueryUserEmail,omitempty" tf:"log_linked_dataset_query_user_email,omitempty"`
+
 	// The resource name of the listing. e.g. "projects/myproject/locations/US/dataExchanges/123/listings/456"
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// Email or URL of the listing publisher.
+	// Email or URL of the primary point of contact of the listing.
 	PrimaryContact *string `json:"primaryContact,omitempty" tf:"primary_contact,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -104,6 +114,10 @@ type AnalyticsHubListingObservation struct {
 	// Details of the publisher who owns the listing and who can share the source data.
 	// Structure is documented below.
 	Publisher *PublisherObservation `json:"publisher,omitempty" tf:"publisher,omitempty"`
+
+	// Pub/Sub topic source.
+	// Structure is documented below.
+	PubsubTopic *PubsubTopicObservation `json:"pubsubTopic,omitempty" tf:"pubsub_topic,omitempty"`
 
 	// Email or URL of the request access of the listing. Subscribers can use this reference to request access.
 	RequestAccess *string `json:"requestAccess,omitempty" tf:"request_access,omitempty"`
@@ -163,7 +177,11 @@ type AnalyticsHubListingParameters struct {
 	// +kubebuilder:validation:Required
 	Location *string `json:"location" tf:"location,omitempty"`
 
-	// Email or URL of the listing publisher.
+	// If true, subscriber email logging is enabled and all queries on the linked dataset will log the email address of the querying user. Once enabled, this setting cannot be turned off.
+	// +kubebuilder:validation:Optional
+	LogLinkedDatasetQueryUserEmail *bool `json:"logLinkedDatasetQueryUserEmail,omitempty" tf:"log_linked_dataset_query_user_email,omitempty"`
+
+	// Email or URL of the primary point of contact of the listing.
 	// +kubebuilder:validation:Optional
 	PrimaryContact *string `json:"primaryContact,omitempty" tf:"primary_contact,omitempty"`
 
@@ -176,6 +194,11 @@ type AnalyticsHubListingParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Publisher *PublisherParameters `json:"publisher,omitempty" tf:"publisher,omitempty"`
+
+	// Pub/Sub topic source.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PubsubTopic *PubsubTopicParameters `json:"pubsubTopic,omitempty" tf:"pubsub_topic,omitempty"`
 
 	// Email or URL of the request access of the listing. Subscribers can use this reference to request access.
 	// +kubebuilder:validation:Optional
@@ -201,12 +224,20 @@ type BigqueryDatasetInitParameters struct {
 	// Selector for a Dataset in bigquery to populate dataset.
 	// +kubebuilder:validation:Optional
 	DatasetSelector *v1.Selector `json:"datasetSelector,omitempty" tf:"-"`
+
+	// Resource in this dataset that is selectively shared. This field is required for data clean room exchanges.
+	// Structure is documented below.
+	SelectedResources []SelectedResourcesInitParameters `json:"selectedResources,omitempty" tf:"selected_resources,omitempty"`
 }
 
 type BigqueryDatasetObservation struct {
 
 	// Resource name of the dataset source for this listing. e.g. projects/myproject/datasets/123
 	Dataset *string `json:"dataset,omitempty" tf:"dataset,omitempty"`
+
+	// Resource in this dataset that is selectively shared. This field is required for data clean room exchanges.
+	// Structure is documented below.
+	SelectedResources []SelectedResourcesObservation `json:"selectedResources,omitempty" tf:"selected_resources,omitempty"`
 }
 
 type BigqueryDatasetParameters struct {
@@ -224,6 +255,11 @@ type BigqueryDatasetParameters struct {
 	// Selector for a Dataset in bigquery to populate dataset.
 	// +kubebuilder:validation:Optional
 	DatasetSelector *v1.Selector `json:"datasetSelector,omitempty" tf:"-"`
+
+	// Resource in this dataset that is selectively shared. This field is required for data clean room exchanges.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SelectedResources []SelectedResourcesParameters `json:"selectedResources,omitempty" tf:"selected_resources,omitempty"`
 }
 
 type DataProviderInitParameters struct {
@@ -284,6 +320,61 @@ type PublisherParameters struct {
 	PrimaryContact *string `json:"primaryContact,omitempty" tf:"primary_contact,omitempty"`
 }
 
+type PubsubTopicInitParameters struct {
+
+	// Region hint on where the data might be published. Data affinity regions are modifiable.
+	// See https://cloud.google.com/about/locations for full listing of possible Cloud regions.
+	// +listType=set
+	DataAffinityRegions []*string `json:"dataAffinityRegions,omitempty" tf:"data_affinity_regions,omitempty"`
+
+	// Resource name of the Pub/Sub topic source for this listing. e.g. projects/myproject/topics/topicId
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/pubsub/v1beta2.Topic
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
+
+	// Reference to a Topic in pubsub to populate topic.
+	// +kubebuilder:validation:Optional
+	TopicRef *v1.Reference `json:"topicRef,omitempty" tf:"-"`
+
+	// Selector for a Topic in pubsub to populate topic.
+	// +kubebuilder:validation:Optional
+	TopicSelector *v1.Selector `json:"topicSelector,omitempty" tf:"-"`
+}
+
+type PubsubTopicObservation struct {
+
+	// Region hint on where the data might be published. Data affinity regions are modifiable.
+	// See https://cloud.google.com/about/locations for full listing of possible Cloud regions.
+	// +listType=set
+	DataAffinityRegions []*string `json:"dataAffinityRegions,omitempty" tf:"data_affinity_regions,omitempty"`
+
+	// Resource name of the Pub/Sub topic source for this listing. e.g. projects/myproject/topics/topicId
+	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
+}
+
+type PubsubTopicParameters struct {
+
+	// Region hint on where the data might be published. Data affinity regions are modifiable.
+	// See https://cloud.google.com/about/locations for full listing of possible Cloud regions.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	DataAffinityRegions []*string `json:"dataAffinityRegions,omitempty" tf:"data_affinity_regions,omitempty"`
+
+	// Resource name of the Pub/Sub topic source for this listing. e.g. projects/myproject/topics/topicId
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/pubsub/v1beta2.Topic
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
+
+	// Reference to a Topic in pubsub to populate topic.
+	// +kubebuilder:validation:Optional
+	TopicRef *v1.Reference `json:"topicRef,omitempty" tf:"-"`
+
+	// Selector for a Topic in pubsub to populate topic.
+	// +kubebuilder:validation:Optional
+	TopicSelector *v1.Selector `json:"topicSelector,omitempty" tf:"-"`
+}
+
 type RestrictedExportConfigInitParameters struct {
 
 	// If true, enable restricted export.
@@ -298,6 +389,10 @@ type RestrictedExportConfigObservation struct {
 	// If true, enable restricted export.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
+	// (Output)
+	// If true, restrict direct table access(read api/tabledata.list) on linked table.
+	RestrictDirectTableAccess *bool `json:"restrictDirectTableAccess,omitempty" tf:"restrict_direct_table_access,omitempty"`
+
 	// If true, restrict export of query result derived from restricted linked dataset table.
 	RestrictQueryResult *bool `json:"restrictQueryResult,omitempty" tf:"restrict_query_result,omitempty"`
 }
@@ -311,6 +406,45 @@ type RestrictedExportConfigParameters struct {
 	// If true, restrict export of query result derived from restricted linked dataset table.
 	// +kubebuilder:validation:Optional
 	RestrictQueryResult *bool `json:"restrictQueryResult,omitempty" tf:"restrict_query_result,omitempty"`
+}
+
+type SelectedResourcesInitParameters struct {
+
+	// Format: For table: projects/{projectId}/datasets/{datasetId}/tables/{tableId} Example:"projects/test_project/datasets/test_dataset/tables/test_table"
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta2.Table
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	Table *string `json:"table,omitempty" tf:"table,omitempty"`
+
+	// Reference to a Table in bigquery to populate table.
+	// +kubebuilder:validation:Optional
+	TableRef *v1.Reference `json:"tableRef,omitempty" tf:"-"`
+
+	// Selector for a Table in bigquery to populate table.
+	// +kubebuilder:validation:Optional
+	TableSelector *v1.Selector `json:"tableSelector,omitempty" tf:"-"`
+}
+
+type SelectedResourcesObservation struct {
+
+	// Format: For table: projects/{projectId}/datasets/{datasetId}/tables/{tableId} Example:"projects/test_project/datasets/test_dataset/tables/test_table"
+	Table *string `json:"table,omitempty" tf:"table,omitempty"`
+}
+
+type SelectedResourcesParameters struct {
+
+	// Format: For table: projects/{projectId}/datasets/{datasetId}/tables/{tableId} Example:"projects/test_project/datasets/test_dataset/tables/test_table"
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta2.Table
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	Table *string `json:"table,omitempty" tf:"table,omitempty"`
+
+	// Reference to a Table in bigquery to populate table.
+	// +kubebuilder:validation:Optional
+	TableRef *v1.Reference `json:"tableRef,omitempty" tf:"-"`
+
+	// Selector for a Table in bigquery to populate table.
+	// +kubebuilder:validation:Optional
+	TableSelector *v1.Selector `json:"tableSelector,omitempty" tf:"-"`
 }
 
 // AnalyticsHubListingSpec defines the desired state of AnalyticsHubListing
@@ -348,7 +482,6 @@ type AnalyticsHubListingStatus struct {
 type AnalyticsHubListing struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.bigqueryDataset) || (has(self.initProvider) && has(self.initProvider.bigqueryDataset))",message="spec.forProvider.bigqueryDataset is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.displayName) || (has(self.initProvider) && has(self.initProvider.displayName))",message="spec.forProvider.displayName is a required parameter"
 	Spec   AnalyticsHubListingSpec   `json:"spec"`
 	Status AnalyticsHubListingStatus `json:"status,omitempty"`

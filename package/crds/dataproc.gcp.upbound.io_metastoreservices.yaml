@@ -1868,6 +1868,30 @@ spec:
                       Represents the scaling configuration of a metastore service.
                       Structure is documented below.
                     properties:
+                      autoscalingConfig:
+                        description: |-
+                          Represents the autoscaling configuration of a metastore service.
+                          Structure is documented below.
+                        properties:
+                          autoscalingEnabled:
+                            description: Defines whether autoscaling is enabled. The
+                              default value is false.
+                            type: boolean
+                          limitConfig:
+                            description: |-
+                              Represents the limit configuration of a metastore service.
+                              Structure is documented below.
+                            properties:
+                              maxScalingFactor:
+                                description: The maximum scaling factor that the service
+                                  will autoscale to. The default value is 6.0.
+                                type: number
+                              minScalingFactor:
+                                description: The minimum scaling factor that the service
+                                  will autoscale to. The default value is 0.1.
+                                type: number
+                            type: object
+                        type: object
                       instanceSize:
                         description: |-
                           Metastore instance sizes.
@@ -2272,6 +2296,30 @@ spec:
                       Represents the scaling configuration of a metastore service.
                       Structure is documented below.
                     properties:
+                      autoscalingConfig:
+                        description: |-
+                          Represents the autoscaling configuration of a metastore service.
+                          Structure is documented below.
+                        properties:
+                          autoscalingEnabled:
+                            description: Defines whether autoscaling is enabled. The
+                              default value is false.
+                            type: boolean
+                          limitConfig:
+                            description: |-
+                              Represents the limit configuration of a metastore service.
+                              Structure is documented below.
+                            properties:
+                              maxScalingFactor:
+                                description: The maximum scaling factor that the service
+                                  will autoscale to. The default value is 6.0.
+                                type: number
+                              minScalingFactor:
+                                description: The minimum scaling factor that the service
+                                  will autoscale to. The default value is 0.1.
+                                type: number
+                            type: object
+                        type: object
                       instanceSize:
                         description: |-
                           Metastore instance sizes.
@@ -2504,12 +2552,20 @@ spec:
                     description: A Cloud Storage URI (starting with gs://) that specifies
                       where artifacts related to the metastore service are stored.
                     type: string
+                  createTime:
+                    description: Output only. The time when the metastore service
+                      was created.
+                    type: string
                   databaseType:
                     description: |-
                       The database type that the Metastore service stores its data.
                       Default value is MYSQL.
                       Possible values are: MYSQL, SPANNER.
                     type: string
+                  deletionProtection:
+                    description: Indicates if the dataproc metastore should be protected
+                      against accidental deletions.
+                    type: boolean
                   effectiveLabels:
                     additionalProperties:
                       type: string
@@ -2713,6 +2769,35 @@ spec:
                       Represents the scaling configuration of a metastore service.
                       Structure is documented below.
                     properties:
+                      autoscalingConfig:
+                        description: |-
+                          Represents the autoscaling configuration of a metastore service.
+                          Structure is documented below.
+                        properties:
+                          autoscalingEnabled:
+                            description: Defines whether autoscaling is enabled. The
+                              default value is false.
+                            type: boolean
+                          autoscalingFactor:
+                            description: |-
+                              (Output)
+                              Output only. The scaling factor of a service with autoscaling enabled.
+                            type: number
+                          limitConfig:
+                            description: |-
+                              Represents the limit configuration of a metastore service.
+                              Structure is documented below.
+                            properties:
+                              maxScalingFactor:
+                                description: The maximum scaling factor that the service
+                                  will autoscale to. The default value is 6.0.
+                                type: number
+                              minScalingFactor:
+                                description: The minimum scaling factor that the service
+                                  will autoscale to. The default value is 0.1.
+                                type: number
+                            type: object
+                        type: object
                       instanceSize:
                         description: |-
                           Metastore instance sizes.
@@ -2786,6 +2871,10 @@ spec:
                   uid:
                     description: The globally unique resource identifier of the metastore
                       service.
+                    type: string
+                  updateTime:
+                    description: Output only. The time when the metastore service
+                      was last updated.
                     type: string
                 type: object
               conditions:

@@ -2241,7 +2241,7 @@ spec:
                           Structure is documented below.
                         properties:
                           keyId:
-                            description: The value of the KeyId in lowercase hexidecimal.
+                            description: The value of the KeyId in lowercase hexadecimal.
                             type: string
                         type: object
                       x509Config:
@@ -2504,13 +2504,10 @@ spec:
                             type: array
                         type: object
                     type: object
-                  deletionProtection:
-                    description: When the field is set to false, deleting the CertificateAuthority
-                      is allowed.
-                    type: boolean
                   desiredState:
-                    description: Desired state of the CertificateAuthority. Set this
-                      field to STAGED to create a STAGED root CA.
+                    description: |-
+                      Desired state of the CertificateAuthority. Set this field to STAGED to create a STAGED root CA.
+                      Possible values: ENABLED, DISABLED, STAGED.
                     type: string
                   gcsBucket:
                     description: |-
@@ -2770,6 +2767,25 @@ spec:
                       Default value is SELF_SIGNED.
                       Possible values are: SELF_SIGNED, SUBORDINATE.
                     type: string
+                  userDefinedAccessUrls:
+                    description: |-
+                      Custom URLs for accessing content published by this CA, such as the CA certificate and CRLs,
+                      that can be specified by users.
+                      Structure is documented below.
+                    properties:
+                      aiaIssuingCertificateUrls:
+                        description: A list of URLs where this CertificateAuthority's
+                          CA certificate is published that is specified by users.
+                        items:
+                          type: string
+                        type: array
+                      crlAccessUrls:
+                        description: A list of URLs where this CertificateAuthority's
+                          CRLs are published that is specified by users.
+                        items:
+                          type: string
+                        type: array
+                    type: object
                 required:
                 - location
                 type: object
@@ -2863,7 +2879,7 @@ spec:
                           Structure is documented below.
                         properties:
                           keyId:
-                            description: The value of the KeyId in lowercase hexidecimal.
+                            description: The value of the KeyId in lowercase hexadecimal.
                             type: string
                         type: object
                       x509Config:
@@ -3126,13 +3142,10 @@ spec:
                             type: array
                         type: object
                     type: object
-                  deletionProtection:
-                    description: When the field is set to false, deleting the CertificateAuthority
-                      is allowed.
-                    type: boolean
                   desiredState:
-                    description: Desired state of the CertificateAuthority. Set this
-                      field to STAGED to create a STAGED root CA.
+                    description: |-
+                      Desired state of the CertificateAuthority. Set this field to STAGED to create a STAGED root CA.
+                      Possible values: ENABLED, DISABLED, STAGED.
                     type: string
                   gcsBucket:
                     description: |-
@@ -3309,6 +3322,25 @@ spec:
                       Default value is SELF_SIGNED.
                       Possible values are: SELF_SIGNED, SUBORDINATE.
                     type: string
+                  userDefinedAccessUrls:
+                    description: |-
+                      Custom URLs for accessing content published by this CA, such as the CA certificate and CRLs,
+                      that can be specified by users.
+                      Structure is documented below.
+                    properties:
+                      aiaIssuingCertificateUrls:
+                        description: A list of URLs where this CertificateAuthority's
+                          CA certificate is published that is specified by users.
+                        items:
+                          type: string
+                        type: array
+                      crlAccessUrls:
+                        description: A list of URLs where this CertificateAuthority's
+                          CRLs are published that is specified by users.
+                        items:
+                          type: string
+                        type: array
+                    type: object
                 type: object
               managementPolicies:
                 default:
@@ -3591,7 +3623,7 @@ spec:
                           Structure is documented below.
                         properties:
                           keyId:
-                            description: The value of the KeyId in lowercase hexidecimal.
+                            description: The value of the KeyId in lowercase hexadecimal.
                             type: string
                         type: object
                       x509Config:
@@ -3865,12 +3897,14 @@ spec:
                       is allowed.
                     type: boolean
                   desiredState:
-                    description: Desired state of the CertificateAuthority. Set this
-                      field to STAGED to create a STAGED root CA.
+                    description: |-
+                      Desired state of the CertificateAuthority. Set this field to STAGED to create a STAGED root CA.
+                      Possible values: ENABLED, DISABLED, STAGED.
                     type: string
                   effectiveLabels:
                     additionalProperties:
                       type: string
+                    description: for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   gcsBucket:
@@ -4015,6 +4049,25 @@ spec:
                       A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine
                       fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
                     type: string
+                  userDefinedAccessUrls:
+                    description: |-
+                      Custom URLs for accessing content published by this CA, such as the CA certificate and CRLs,
+                      that can be specified by users.
+                      Structure is documented below.
+                    properties:
+                      aiaIssuingCertificateUrls:
+                        description: A list of URLs where this CertificateAuthority's
+                          CA certificate is published that is specified by users.
+                        items:
+                          type: string
+                        type: array
+                      crlAccessUrls:
+                        description: A list of URLs where this CertificateAuthority's
+                          CRLs are published that is specified by users.
+                        items:
+                          type: string
+                        type: array
+                    type: object
                 type: object
               conditions:
                 description: Conditions of the resource.

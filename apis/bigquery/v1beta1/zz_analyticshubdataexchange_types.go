@@ -33,12 +33,20 @@ type AnalyticsHubDataExchangeInitParameters struct {
 	// The name of the location this data exchange.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
+	// If true, subscriber email logging is enabled and all queries on the linked dataset will log the email address of the querying user. Once enabled, this setting cannot be turned off.
+	LogLinkedDatasetQueryUserEmail *bool `json:"logLinkedDatasetQueryUserEmail,omitempty" tf:"log_linked_dataset_query_user_email,omitempty"`
+
 	// Email or URL of the primary point of contact of the data exchange.
 	PrimaryContact *string `json:"primaryContact,omitempty" tf:"primary_contact,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Configurable data sharing environment option for a data exchange.
+	// This field is required for data clean room exchanges.
+	// Structure is documented below.
+	SharingEnvironmentConfig *SharingEnvironmentConfigInitParameters `json:"sharingEnvironmentConfig,omitempty" tf:"sharing_environment_config,omitempty"`
 }
 
 type AnalyticsHubDataExchangeObservation struct {
@@ -67,6 +75,9 @@ type AnalyticsHubDataExchangeObservation struct {
 	// The name of the location this data exchange.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
+	// If true, subscriber email logging is enabled and all queries on the linked dataset will log the email address of the querying user. Once enabled, this setting cannot be turned off.
+	LogLinkedDatasetQueryUserEmail *bool `json:"logLinkedDatasetQueryUserEmail,omitempty" tf:"log_linked_dataset_query_user_email,omitempty"`
+
 	// The resource name of the data exchange, for example:
 	// "projects/myproject/locations/US/dataExchanges/123"
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -77,6 +88,11 @@ type AnalyticsHubDataExchangeObservation struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Configurable data sharing environment option for a data exchange.
+	// This field is required for data clean room exchanges.
+	// Structure is documented below.
+	SharingEnvironmentConfig *SharingEnvironmentConfigObservation `json:"sharingEnvironmentConfig,omitempty" tf:"sharing_environment_config,omitempty"`
 }
 
 type AnalyticsHubDataExchangeParameters struct {
@@ -105,6 +121,10 @@ type AnalyticsHubDataExchangeParameters struct {
 	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
+	// If true, subscriber email logging is enabled and all queries on the linked dataset will log the email address of the querying user. Once enabled, this setting cannot be turned off.
+	// +kubebuilder:validation:Optional
+	LogLinkedDatasetQueryUserEmail *bool `json:"logLinkedDatasetQueryUserEmail,omitempty" tf:"log_linked_dataset_query_user_email,omitempty"`
+
 	// Email or URL of the primary point of contact of the data exchange.
 	// +kubebuilder:validation:Optional
 	PrimaryContact *string `json:"primaryContact,omitempty" tf:"primary_contact,omitempty"`
@@ -113,6 +133,59 @@ type AnalyticsHubDataExchangeParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Configurable data sharing environment option for a data exchange.
+	// This field is required for data clean room exchanges.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SharingEnvironmentConfig *SharingEnvironmentConfigParameters `json:"sharingEnvironmentConfig,omitempty" tf:"sharing_environment_config,omitempty"`
+}
+
+type DcrExchangeConfigInitParameters struct {
+}
+
+type DcrExchangeConfigObservation struct {
+}
+
+type DcrExchangeConfigParameters struct {
+}
+
+type DefaultExchangeConfigInitParameters struct {
+}
+
+type DefaultExchangeConfigObservation struct {
+}
+
+type DefaultExchangeConfigParameters struct {
+}
+
+type SharingEnvironmentConfigInitParameters struct {
+
+	// Data Clean Room (DCR), used for privacy-safe and secured data sharing.
+	DcrExchangeConfig *DcrExchangeConfigInitParameters `json:"dcrExchangeConfig,omitempty" tf:"dcr_exchange_config,omitempty"`
+
+	// Default Analytics Hub data exchange, used for secured data sharing.
+	DefaultExchangeConfig *DefaultExchangeConfigInitParameters `json:"defaultExchangeConfig,omitempty" tf:"default_exchange_config,omitempty"`
+}
+
+type SharingEnvironmentConfigObservation struct {
+
+	// Data Clean Room (DCR), used for privacy-safe and secured data sharing.
+	DcrExchangeConfig *DcrExchangeConfigParameters `json:"dcrExchangeConfig,omitempty" tf:"dcr_exchange_config,omitempty"`
+
+	// Default Analytics Hub data exchange, used for secured data sharing.
+	DefaultExchangeConfig *DefaultExchangeConfigParameters `json:"defaultExchangeConfig,omitempty" tf:"default_exchange_config,omitempty"`
+}
+
+type SharingEnvironmentConfigParameters struct {
+
+	// Data Clean Room (DCR), used for privacy-safe and secured data sharing.
+	// +kubebuilder:validation:Optional
+	DcrExchangeConfig *DcrExchangeConfigParameters `json:"dcrExchangeConfig,omitempty" tf:"dcr_exchange_config,omitempty"`
+
+	// Default Analytics Hub data exchange, used for secured data sharing.
+	// +kubebuilder:validation:Optional
+	DefaultExchangeConfig *DefaultExchangeConfigParameters `json:"defaultExchangeConfig,omitempty" tf:"default_exchange_config,omitempty"`
 }
 
 // AnalyticsHubDataExchangeSpec defines the desired state of AnalyticsHubDataExchange

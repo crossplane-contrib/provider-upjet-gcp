@@ -736,6 +736,14 @@ spec:
                             and the region of the CMEK key must match the region of
                             the cluster.'
                           type: string
+                        nodeScalingFactor:
+                          description: The node scaling factor for this cluster. One
+                            of "NodeScalingFactor1X" or "NodeScalingFactor2X". Defaults
+                            to "NodeScalingFactor1X". If "NodeScalingFactor2X" is
+                            specified, then num_nodes, min_nodes, and max_nodes would
+                            need to be specified in increments of 2. This value cannot
+                            be updated after the cluster is created.
+                          type: string
                         numNodes:
                           description: |-
                             The number of nodes in the cluster.
@@ -754,10 +762,6 @@ spec:
                           type: string
                       type: object
                     type: array
-                  deletionProtection:
-                    description: When the field is set to false, deleting the instance
-                      is allowed.
-                    type: boolean
                   displayName:
                     description: The human-readable display name of the Bigtable instance.
                       Defaults to the instance name.
@@ -847,6 +851,14 @@ spec:
                             and the region of the CMEK key must match the region of
                             the cluster.'
                           type: string
+                        nodeScalingFactor:
+                          description: The node scaling factor for this cluster. One
+                            of "NodeScalingFactor1X" or "NodeScalingFactor2X". Defaults
+                            to "NodeScalingFactor1X". If "NodeScalingFactor2X" is
+                            specified, then num_nodes, min_nodes, and max_nodes would
+                            need to be specified in increments of 2. This value cannot
+                            be updated after the cluster is created.
+                          type: string
                         numNodes:
                           description: |-
                             The number of nodes in the cluster.
@@ -865,10 +877,6 @@ spec:
                           type: string
                       type: object
                     type: array
-                  deletionProtection:
-                    description: When the field is set to false, deleting the instance
-                      is allowed.
-                    type: boolean
                   displayName:
                     description: The human-readable display name of the Bigtable instance.
                       Defaults to the instance name.
@@ -1116,6 +1124,14 @@ spec:
                             role on the CMEK key. 2) Only regional keys can be used
                             and the region of the CMEK key must match the region of
                             the cluster.'
+                          type: string
+                        nodeScalingFactor:
+                          description: The node scaling factor for this cluster. One
+                            of "NodeScalingFactor1X" or "NodeScalingFactor2X". Defaults
+                            to "NodeScalingFactor1X". If "NodeScalingFactor2X" is
+                            specified, then num_nodes, min_nodes, and max_nodes would
+                            need to be specified in increments of 2. This value cannot
+                            be updated after the cluster is created.
                           type: string
                         numNodes:
                           description: |-

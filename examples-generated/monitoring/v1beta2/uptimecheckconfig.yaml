@@ -25,6 +25,7 @@ spec:
       - pingsCount: 1
       port: "8010"
       requestMethod: POST
+    logCheckFailures: true
     monitoredResource:
     - labels:
         host: 192.168.1.1

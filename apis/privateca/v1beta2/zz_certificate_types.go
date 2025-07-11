@@ -30,7 +30,7 @@ type AuthorityKeyIDInitParameters struct {
 
 type AuthorityKeyIDObservation struct {
 
-	// The value of the KeyId in lowercase hexidecimal.
+	// The value of the KeyId in lowercase hexadecimal.
 	KeyID *string `json:"keyId,omitempty" tf:"key_id,omitempty"`
 }
 
@@ -405,19 +405,19 @@ type ConfigPublicKeyParameters struct {
 
 type ConfigSubjectKeyIDInitParameters struct {
 
-	// The value of the KeyId in lowercase hexidecimal.
+	// The value of the KeyId in lowercase hexadecimal.
 	KeyID *string `json:"keyId,omitempty" tf:"key_id,omitempty"`
 }
 
 type ConfigSubjectKeyIDObservation struct {
 
-	// The value of the KeyId in lowercase hexidecimal.
+	// The value of the KeyId in lowercase hexadecimal.
 	KeyID *string `json:"keyId,omitempty" tf:"key_id,omitempty"`
 }
 
 type ConfigSubjectKeyIDParameters struct {
 
-	// The value of the KeyId in lowercase hexidecimal.
+	// The value of the KeyId in lowercase hexadecimal.
 	// +kubebuilder:validation:Optional
 	KeyID *string `json:"keyId,omitempty" tf:"key_id,omitempty"`
 }
@@ -811,7 +811,7 @@ type SubjectKeyIDInitParameters struct {
 
 type SubjectKeyIDObservation struct {
 
-	// The value of the KeyId in lowercase hexidecimal.
+	// The value of the KeyId in lowercase hexadecimal.
 	KeyID *string `json:"keyId,omitempty" tf:"key_id,omitempty"`
 }
 

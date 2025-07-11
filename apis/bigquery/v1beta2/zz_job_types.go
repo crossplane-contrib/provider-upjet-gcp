@@ -170,17 +170,7 @@ type DestinationEncryptionConfigurationInitParameters struct {
 
 	// Describes the Cloud KMS encryption key that will be used to protect destination BigQuery table.
 	// The BigQuery Service Account associated with your project requires access to this encryption key.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/kms/v1beta2.CryptoKey
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
-
-	// Reference to a CryptoKey in kms to populate kmsKeyName.
-	// +kubebuilder:validation:Optional
-	KMSKeyNameRef *v1.Reference `json:"kmsKeyNameRef,omitempty" tf:"-"`
-
-	// Selector for a CryptoKey in kms to populate kmsKeyName.
-	// +kubebuilder:validation:Optional
-	KMSKeyNameSelector *v1.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
 }
 
 type DestinationEncryptionConfigurationObservation struct {
@@ -198,18 +188,8 @@ type DestinationEncryptionConfigurationParameters struct {
 
 	// Describes the Cloud KMS encryption key that will be used to protect destination BigQuery table.
 	// The BigQuery Service Account associated with your project requires access to this encryption key.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/kms/v1beta2.CryptoKey
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
-	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
-
-	// Reference to a CryptoKey in kms to populate kmsKeyName.
-	// +kubebuilder:validation:Optional
-	KMSKeyNameRef *v1.Reference `json:"kmsKeyNameRef,omitempty" tf:"-"`
-
-	// Selector for a CryptoKey in kms to populate kmsKeyName.
-	// +kubebuilder:validation:Optional
-	KMSKeyNameSelector *v1.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
+	KMSKeyName *string `json:"kmsKeyName" tf:"kms_key_name,omitempty"`
 }
 
 type DestinationTableInitParameters struct {
@@ -477,6 +457,7 @@ type JobObservation struct {
 	// Structure is documented below.
 	Copy *CopyObservation `json:"copy,omitempty" tf:"copy,omitempty"`
 
+	// for all of the labels present on the resource.
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
 

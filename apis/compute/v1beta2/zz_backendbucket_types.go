@@ -58,6 +58,11 @@ type BackendBucketInitParameters struct {
 	// If true, enable Cloud CDN for this BackendBucket.
 	EnableCdn *bool `json:"enableCdn,omitempty" tf:"enable_cdn,omitempty"`
 
+	// The value can only be INTERNAL_MANAGED for cross-region internal layer 7 load balancer.
+	// If loadBalancingScheme is not specified, the backend bucket can be used by classic global external load balancers, or global application external load balancers, or both.
+	// Possible values are: INTERNAL_MANAGED.
+	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -94,6 +99,11 @@ type BackendBucketObservation struct {
 
 	// an identifier for the resource with format projects/{{project}}/global/backendBuckets/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The value can only be INTERNAL_MANAGED for cross-region internal layer 7 load balancer.
+	// If loadBalancingScheme is not specified, the backend bucket can be used by classic global external load balancers, or global application external load balancers, or both.
+	// Possible values are: INTERNAL_MANAGED.
+	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -154,6 +164,12 @@ type BackendBucketParameters struct {
 	// If true, enable Cloud CDN for this BackendBucket.
 	// +kubebuilder:validation:Optional
 	EnableCdn *bool `json:"enableCdn,omitempty" tf:"enable_cdn,omitempty"`
+
+	// The value can only be INTERNAL_MANAGED for cross-region internal layer 7 load balancer.
+	// If loadBalancingScheme is not specified, the backend bucket can be used by classic global external load balancers, or global application external load balancers, or both.
+	// Possible values are: INTERNAL_MANAGED.
+	// +kubebuilder:validation:Optional
+	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -233,14 +249,17 @@ type CdnPolicyInitParameters struct {
 	// Possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL, CACHE_ALL_STATIC.
 	CacheMode *string `json:"cacheMode,omitempty" tf:"cache_mode,omitempty"`
 
-	// Specifies the maximum allowed TTL for cached content served by this origin.
+	// Specifies the maximum allowed TTL for cached content served by this origin. When the
+	// cache_mode is set to "USE_ORIGIN_HEADERS", you must omit this field.
 	ClientTTL *float64 `json:"clientTtl,omitempty" tf:"client_ttl,omitempty"`
 
 	// Specifies the default TTL for cached content served by this origin for responses
-	// that do not have an existing valid TTL (max-age or s-max-age).
+	// that do not have an existing valid TTL (max-age or s-max-age). When the cache_mode
+	// is set to "USE_ORIGIN_HEADERS", you must omit this field.
 	DefaultTTL *float64 `json:"defaultTtl,omitempty" tf:"default_ttl,omitempty"`
 
-	// Specifies the maximum allowed TTL for cached content served by this origin.
+	// Specifies the maximum allowed TTL for cached content served by this origin. When the
+	// cache_mode is set to "USE_ORIGIN_HEADERS", you must omit this field.
 	MaxTTL *float64 `json:"maxTtl,omitempty" tf:"max_ttl,omitempty"`
 
 	// Negative caching allows per-status code TTLs to be set, in order to apply fine-grained caching for common errors or redirects.
@@ -283,14 +302,17 @@ type CdnPolicyObservation struct {
 	// Possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL, CACHE_ALL_STATIC.
 	CacheMode *string `json:"cacheMode,omitempty" tf:"cache_mode,omitempty"`
 
-	// Specifies the maximum allowed TTL for cached content served by this origin.
+	// Specifies the maximum allowed TTL for cached content served by this origin. When the
+	// cache_mode is set to "USE_ORIGIN_HEADERS", you must omit this field.
 	ClientTTL *float64 `json:"clientTtl,omitempty" tf:"client_ttl,omitempty"`
 
 	// Specifies the default TTL for cached content served by this origin for responses
-	// that do not have an existing valid TTL (max-age or s-max-age).
+	// that do not have an existing valid TTL (max-age or s-max-age). When the cache_mode
+	// is set to "USE_ORIGIN_HEADERS", you must omit this field.
 	DefaultTTL *float64 `json:"defaultTtl,omitempty" tf:"default_ttl,omitempty"`
 
-	// Specifies the maximum allowed TTL for cached content served by this origin.
+	// Specifies the maximum allowed TTL for cached content served by this origin. When the
+	// cache_mode is set to "USE_ORIGIN_HEADERS", you must omit this field.
 	MaxTTL *float64 `json:"maxTtl,omitempty" tf:"max_ttl,omitempty"`
 
 	// Negative caching allows per-status code TTLs to be set, in order to apply fine-grained caching for common errors or redirects.
@@ -336,16 +358,19 @@ type CdnPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	CacheMode *string `json:"cacheMode,omitempty" tf:"cache_mode,omitempty"`
 
-	// Specifies the maximum allowed TTL for cached content served by this origin.
+	// Specifies the maximum allowed TTL for cached content served by this origin. When the
+	// cache_mode is set to "USE_ORIGIN_HEADERS", you must omit this field.
 	// +kubebuilder:validation:Optional
 	ClientTTL *float64 `json:"clientTtl,omitempty" tf:"client_ttl,omitempty"`
 
 	// Specifies the default TTL for cached content served by this origin for responses
-	// that do not have an existing valid TTL (max-age or s-max-age).
+	// that do not have an existing valid TTL (max-age or s-max-age). When the cache_mode
+	// is set to "USE_ORIGIN_HEADERS", you must omit this field.
 	// +kubebuilder:validation:Optional
 	DefaultTTL *float64 `json:"defaultTtl,omitempty" tf:"default_ttl,omitempty"`
 
-	// Specifies the maximum allowed TTL for cached content served by this origin.
+	// Specifies the maximum allowed TTL for cached content served by this origin. When the
+	// cache_mode is set to "USE_ORIGIN_HEADERS", you must omit this field.
 	// +kubebuilder:validation:Optional
 	MaxTTL *float64 `json:"maxTtl,omitempty" tf:"max_ttl,omitempty"`
 

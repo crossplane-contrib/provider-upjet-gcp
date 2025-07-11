@@ -138,7 +138,7 @@ type FunctionInitParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The runtime in which the function is going to run.
-	// Eg. "nodejs16", "python39", "dotnet3", "go116", "java11", "ruby30", "php74", etc. Check the official doc for the up-to-date list.
+	// Eg. "nodejs20", "python39", "dotnet3", "go116", "java11", "ruby30", "php74", etc. Check the official doc for the up-to-date list.
 	Runtime *string `json:"runtime,omitempty" tf:"runtime,omitempty"`
 
 	// Secret environment variables configuration. Structure is documented below.
@@ -259,7 +259,7 @@ type FunctionObservation struct {
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// The runtime in which the function is going to run.
-	// Eg. "nodejs16", "python39", "dotnet3", "go116", "java11", "ruby30", "php74", etc. Check the official doc for the up-to-date list.
+	// Eg. "nodejs20", "python39", "dotnet3", "go116", "java11", "ruby30", "php74", etc. Check the official doc for the up-to-date list.
 	Runtime *string `json:"runtime,omitempty" tf:"runtime,omitempty"`
 
 	// Secret environment variables configuration. Structure is documented below.
@@ -383,7 +383,7 @@ type FunctionParameters struct {
 	Region *string `json:"region" tf:"region,omitempty"`
 
 	// The runtime in which the function is going to run.
-	// Eg. "nodejs16", "python39", "dotnet3", "go116", "java11", "ruby30", "php74", etc. Check the official doc for the up-to-date list.
+	// Eg. "nodejs20", "python39", "dotnet3", "go116", "java11", "ruby30", "php74", etc. Check the official doc for the up-to-date list.
 	// +kubebuilder:validation:Optional
 	Runtime *string `json:"runtime,omitempty" tf:"runtime,omitempty"`
 

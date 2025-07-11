@@ -1018,7 +1018,7 @@ type HotwordRuleLikelihoodAdjustmentParameters struct {
 
 type HybridOptionsInitParameters struct {
 
-	// A description of the job trigger.
+	// A short description of where the data is coming from. Will be stored once in the job. 256 max length.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// To organize findings, these labels will be added to each finding.
@@ -1042,7 +1042,7 @@ type HybridOptionsInitParameters struct {
 
 type HybridOptionsObservation struct {
 
-	// A description of the job trigger.
+	// A short description of where the data is coming from. Will be stored once in the job. 256 max length.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// To organize findings, these labels will be added to each finding.
@@ -1066,7 +1066,7 @@ type HybridOptionsObservation struct {
 
 type HybridOptionsParameters struct {
 
-	// A description of the job trigger.
+	// A short description of where the data is coming from. Will be stored once in the job. 256 max length.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 

@@ -15,6 +15,7 @@ import (
 
 type TableIAMPolicyInitParameters struct {
 
+	// Used to find the parent resource to bind the IAM policy to
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta2.Dataset
 	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
 
@@ -34,6 +35,7 @@ type TableIAMPolicyInitParameters struct {
 	// If it is not provided, the project will be parsed from the identifier of the parent resource. If no project is provided in the parent identifier and no project is specified, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// Used to find the parent resource to bind the IAM policy to
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta2.Table
 	TableID *string `json:"tableId,omitempty" tf:"table_id,omitempty"`
 
@@ -47,6 +49,8 @@ type TableIAMPolicyInitParameters struct {
 }
 
 type TableIAMPolicyObservation struct {
+
+	// Used to find the parent resource to bind the IAM policy to
 	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
 
 	// (Computed) The etag of the IAM policy.
@@ -62,11 +66,13 @@ type TableIAMPolicyObservation struct {
 	// If it is not provided, the project will be parsed from the identifier of the parent resource. If no project is provided in the parent identifier and no project is specified, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// Used to find the parent resource to bind the IAM policy to
 	TableID *string `json:"tableId,omitempty" tf:"table_id,omitempty"`
 }
 
 type TableIAMPolicyParameters struct {
 
+	// Used to find the parent resource to bind the IAM policy to
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta2.Dataset
 	// +kubebuilder:validation:Optional
 	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
@@ -89,6 +95,7 @@ type TableIAMPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// Used to find the parent resource to bind the IAM policy to
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta2.Table
 	// +kubebuilder:validation:Optional
 	TableID *string `json:"tableId,omitempty" tf:"table_id,omitempty"`

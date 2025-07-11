@@ -243,6 +243,10 @@ type RoutineInitParameters_2 struct {
 	// Possible values are: SCALAR_FUNCTION, PROCEDURE, TABLE_VALUED_FUNCTION.
 	RoutineType *string `json:"routineType,omitempty" tf:"routine_type,omitempty"`
 
+	// Optional. The security mode of the routine, if defined. If not defined, the security mode is automatically determined from the routine's configuration.
+	// Possible values are: DEFINER, INVOKER.
+	SecurityMode *string `json:"securityMode,omitempty" tf:"security_mode,omitempty"`
+
 	// Optional. If language is one of "PYTHON", "JAVA", "SCALA", this field stores the options for spark stored procedure.
 	// Structure is documented below.
 	SparkOptions *SparkOptionsInitParameters `json:"sparkOptions,omitempty" tf:"spark_options,omitempty"`
@@ -319,6 +323,10 @@ type RoutineObservation_2 struct {
 	// The type of routine.
 	// Possible values are: SCALAR_FUNCTION, PROCEDURE, TABLE_VALUED_FUNCTION.
 	RoutineType *string `json:"routineType,omitempty" tf:"routine_type,omitempty"`
+
+	// Optional. The security mode of the routine, if defined. If not defined, the security mode is automatically determined from the routine's configuration.
+	// Possible values are: DEFINER, INVOKER.
+	SecurityMode *string `json:"securityMode,omitempty" tf:"security_mode,omitempty"`
 
 	// Optional. If language is one of "PYTHON", "JAVA", "SCALA", this field stores the options for spark stored procedure.
 	// Structure is documented below.
@@ -407,6 +415,11 @@ type RoutineParameters_2 struct {
 	// Possible values are: SCALAR_FUNCTION, PROCEDURE, TABLE_VALUED_FUNCTION.
 	// +kubebuilder:validation:Optional
 	RoutineType *string `json:"routineType,omitempty" tf:"routine_type,omitempty"`
+
+	// Optional. The security mode of the routine, if defined. If not defined, the security mode is automatically determined from the routine's configuration.
+	// Possible values are: DEFINER, INVOKER.
+	// +kubebuilder:validation:Optional
+	SecurityMode *string `json:"securityMode,omitempty" tf:"security_mode,omitempty"`
 
 	// Optional. If language is one of "PYTHON", "JAVA", "SCALA", this field stores the options for spark stored procedure.
 	// Structure is documented below.

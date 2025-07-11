@@ -41,6 +41,11 @@ spec:
       - effect: PREFER_NO_SCHEDULE
         key: taint-key
         value: taint-value
+    kubeletConfig:
+    - cpuCfsQuota: true
+      cpuCfsQuotaPeriod: 100ms
+      cpuManagerPolicy: none
+      podPidsLimit: 1024
     location: us-west1
     management:
     - autoRepair: true

@@ -14,6 +14,8 @@ import (
 )
 
 type BootDiskInitializeParamsInitParameters struct {
+	Architecture *string `json:"architecture,omitempty" tf:"architecture,omitempty"`
+
 	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
 
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
@@ -27,7 +29,15 @@ type BootDiskInitializeParamsInitParameters struct {
 	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
+	ResourcePolicies []*string `json:"resourcePolicies,omitempty" tf:"resource_policies,omitempty"`
+
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
+
+	Snapshot *string `json:"snapshot,omitempty" tf:"snapshot,omitempty"`
+
+	SourceImageEncryptionKey *BootDiskInitializeParamsSourceImageEncryptionKeyInitParameters `json:"sourceImageEncryptionKey,omitempty" tf:"source_image_encryption_key,omitempty"`
+
+	SourceSnapshotEncryptionKey *BootDiskInitializeParamsSourceSnapshotEncryptionKeyInitParameters `json:"sourceSnapshotEncryptionKey,omitempty" tf:"source_snapshot_encryption_key,omitempty"`
 
 	StoragePool *string `json:"storagePool,omitempty" tf:"storage_pool,omitempty"`
 
@@ -35,6 +45,8 @@ type BootDiskInitializeParamsInitParameters struct {
 }
 
 type BootDiskInitializeParamsObservation struct {
+	Architecture *string `json:"architecture,omitempty" tf:"architecture,omitempty"`
+
 	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
 
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
@@ -48,7 +60,15 @@ type BootDiskInitializeParamsObservation struct {
 	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
+	ResourcePolicies []*string `json:"resourcePolicies,omitempty" tf:"resource_policies,omitempty"`
+
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
+
+	Snapshot *string `json:"snapshot,omitempty" tf:"snapshot,omitempty"`
+
+	SourceImageEncryptionKey *BootDiskInitializeParamsSourceImageEncryptionKeyObservation `json:"sourceImageEncryptionKey,omitempty" tf:"source_image_encryption_key,omitempty"`
+
+	SourceSnapshotEncryptionKey *BootDiskInitializeParamsSourceSnapshotEncryptionKeyObservation `json:"sourceSnapshotEncryptionKey,omitempty" tf:"source_snapshot_encryption_key,omitempty"`
 
 	StoragePool *string `json:"storagePool,omitempty" tf:"storage_pool,omitempty"`
 
@@ -58,6 +78,9 @@ type BootDiskInitializeParamsObservation struct {
 type BootDiskInitializeParamsParameters struct {
 
 	// +kubebuilder:validation:Optional
+	Architecture *string `json:"architecture,omitempty" tf:"architecture,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -77,7 +100,19 @@ type BootDiskInitializeParamsParameters struct {
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	ResourcePolicies []*string `json:"resourcePolicies,omitempty" tf:"resource_policies,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Snapshot *string `json:"snapshot,omitempty" tf:"snapshot,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	SourceImageEncryptionKey *BootDiskInitializeParamsSourceImageEncryptionKeyParameters `json:"sourceImageEncryptionKey,omitempty" tf:"source_image_encryption_key,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	SourceSnapshotEncryptionKey *BootDiskInitializeParamsSourceSnapshotEncryptionKeyParameters `json:"sourceSnapshotEncryptionKey,omitempty" tf:"source_snapshot_encryption_key,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	StoragePool *string `json:"storagePool,omitempty" tf:"storage_pool,omitempty"`
@@ -86,10 +121,82 @@ type BootDiskInitializeParamsParameters struct {
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
+type BootDiskInitializeParamsSourceImageEncryptionKeyInitParameters struct {
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+
+	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+
+	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+}
+
+type BootDiskInitializeParamsSourceImageEncryptionKeyObservation struct {
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+
+	Sha256 *string `json:"sha256,omitempty" tf:"sha256,omitempty"`
+}
+
+type BootDiskInitializeParamsSourceImageEncryptionKeyParameters struct {
+
+	// +kubebuilder:validation:Optional
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+}
+
+type BootDiskInitializeParamsSourceSnapshotEncryptionKeyInitParameters struct {
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+
+	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+
+	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+}
+
+type BootDiskInitializeParamsSourceSnapshotEncryptionKeyObservation struct {
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+
+	Sha256 *string `json:"sha256,omitempty" tf:"sha256,omitempty"`
+}
+
+type BootDiskInitializeParamsSourceSnapshotEncryptionKeyParameters struct {
+
+	// +kubebuilder:validation:Optional
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+}
+
 type InstanceFromTemplateAdvancedMachineFeaturesInitParameters struct {
 	EnableNestedVirtualization *bool `json:"enableNestedVirtualization,omitempty" tf:"enable_nested_virtualization,omitempty"`
 
+	EnableUefiNetworking *bool `json:"enableUefiNetworking,omitempty" tf:"enable_uefi_networking,omitempty"`
+
+	PerformanceMonitoringUnit *string `json:"performanceMonitoringUnit,omitempty" tf:"performance_monitoring_unit,omitempty"`
+
 	ThreadsPerCore *float64 `json:"threadsPerCore,omitempty" tf:"threads_per_core,omitempty"`
+
+	TurboMode *string `json:"turboMode,omitempty" tf:"turbo_mode,omitempty"`
 
 	VisibleCoreCount *float64 `json:"visibleCoreCount,omitempty" tf:"visible_core_count,omitempty"`
 }
@@ -97,7 +204,13 @@ type InstanceFromTemplateAdvancedMachineFeaturesInitParameters struct {
 type InstanceFromTemplateAdvancedMachineFeaturesObservation struct {
 	EnableNestedVirtualization *bool `json:"enableNestedVirtualization,omitempty" tf:"enable_nested_virtualization,omitempty"`
 
+	EnableUefiNetworking *bool `json:"enableUefiNetworking,omitempty" tf:"enable_uefi_networking,omitempty"`
+
+	PerformanceMonitoringUnit *string `json:"performanceMonitoringUnit,omitempty" tf:"performance_monitoring_unit,omitempty"`
+
 	ThreadsPerCore *float64 `json:"threadsPerCore,omitempty" tf:"threads_per_core,omitempty"`
+
+	TurboMode *string `json:"turboMode,omitempty" tf:"turbo_mode,omitempty"`
 
 	VisibleCoreCount *float64 `json:"visibleCoreCount,omitempty" tf:"visible_core_count,omitempty"`
 }
@@ -108,7 +221,16 @@ type InstanceFromTemplateAdvancedMachineFeaturesParameters struct {
 	EnableNestedVirtualization *bool `json:"enableNestedVirtualization,omitempty" tf:"enable_nested_virtualization,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	EnableUefiNetworking *bool `json:"enableUefiNetworking,omitempty" tf:"enable_uefi_networking,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	PerformanceMonitoringUnit *string `json:"performanceMonitoringUnit,omitempty" tf:"performance_monitoring_unit,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	ThreadsPerCore *float64 `json:"threadsPerCore,omitempty" tf:"threads_per_core,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	TurboMode *string `json:"turboMode,omitempty" tf:"turbo_mode,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	VisibleCoreCount *float64 `json:"visibleCoreCount,omitempty" tf:"visible_core_count,omitempty"`
@@ -118,17 +240,21 @@ type InstanceFromTemplateAttachedDiskInitParameters struct {
 
 	// A unique name for the resource, required by GCE.
 	// Changing this forces a new resource to be created.
-	DeviceName *string `json:"deviceName,omitempty" tf:"device_name"`
+	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
 
-	DiskEncryptionKeyRaw *string `json:"diskEncryptionKeyRaw,omitempty" tf:"disk_encryption_key_raw"`
+	DiskEncryptionKeyRawSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
 
-	DiskEncryptionKeySha256 *string `json:"diskEncryptionKeySha256,omitempty" tf:"disk_encryption_key_sha256"`
+	DiskEncryptionKeyRsaSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRsaSecretRef,omitempty" tf:"-"`
 
-	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link"`
+	DiskEncryptionServiceAccount *string `json:"diskEncryptionServiceAccount,omitempty" tf:"disk_encryption_service_account,omitempty"`
 
-	Mode *string `json:"mode,omitempty" tf:"mode"`
+	ForceAttach *bool `json:"forceAttach,omitempty" tf:"force_attach,omitempty"`
 
-	Source *string `json:"source,omitempty" tf:"source"`
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	Source *string `json:"source,omitempty" tf:"source,omitempty"`
 }
 
 type InstanceFromTemplateAttachedDiskObservation struct {
@@ -137,9 +263,11 @@ type InstanceFromTemplateAttachedDiskObservation struct {
 	// Changing this forces a new resource to be created.
 	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
 
-	DiskEncryptionKeyRaw *string `json:"diskEncryptionKeyRaw,omitempty" tf:"disk_encryption_key_raw,omitempty"`
-
 	DiskEncryptionKeySha256 *string `json:"diskEncryptionKeySha256,omitempty" tf:"disk_encryption_key_sha256,omitempty"`
+
+	DiskEncryptionServiceAccount *string `json:"diskEncryptionServiceAccount,omitempty" tf:"disk_encryption_service_account,omitempty"`
+
+	ForceAttach *bool `json:"forceAttach,omitempty" tf:"force_attach,omitempty"`
 
 	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
 
@@ -153,22 +281,28 @@ type InstanceFromTemplateAttachedDiskParameters struct {
 	// A unique name for the resource, required by GCE.
 	// Changing this forces a new resource to be created.
 	// +kubebuilder:validation:Optional
-	DeviceName *string `json:"deviceName,omitempty" tf:"device_name"`
+	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	DiskEncryptionKeyRaw *string `json:"diskEncryptionKeyRaw,omitempty" tf:"disk_encryption_key_raw"`
+	DiskEncryptionKeyRawSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
-	DiskEncryptionKeySha256 *string `json:"diskEncryptionKeySha256,omitempty" tf:"disk_encryption_key_sha256"`
+	DiskEncryptionKeyRsaSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRsaSecretRef,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
-	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link"`
+	DiskEncryptionServiceAccount *string `json:"diskEncryptionServiceAccount,omitempty" tf:"disk_encryption_service_account,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	Mode *string `json:"mode,omitempty" tf:"mode"`
+	ForceAttach *bool `json:"forceAttach,omitempty" tf:"force_attach,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	Source *string `json:"source,omitempty" tf:"source"`
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Source *string `json:"source" tf:"source,omitempty"`
 }
 
 type InstanceFromTemplateBootDiskInitParameters struct {
@@ -182,7 +316,17 @@ type InstanceFromTemplateBootDiskInitParameters struct {
 
 	DiskEncryptionKeyRawSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
 
+	DiskEncryptionKeyRsaSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRsaSecretRef,omitempty" tf:"-"`
+
+	DiskEncryptionServiceAccount *string `json:"diskEncryptionServiceAccount,omitempty" tf:"disk_encryption_service_account,omitempty"`
+
+	ForceAttach *bool `json:"forceAttach,omitempty" tf:"force_attach,omitempty"`
+
+	GuestOsFeatures []*string `json:"guestOsFeatures,omitempty" tf:"guest_os_features,omitempty"`
+
 	InitializeParams *BootDiskInitializeParamsInitParameters `json:"initializeParams,omitempty" tf:"initialize_params,omitempty"`
+
+	Interface *string `json:"interface,omitempty" tf:"interface,omitempty"`
 
 	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
 
@@ -202,7 +346,15 @@ type InstanceFromTemplateBootDiskObservation struct {
 
 	DiskEncryptionKeySha256 *string `json:"diskEncryptionKeySha256,omitempty" tf:"disk_encryption_key_sha256,omitempty"`
 
+	DiskEncryptionServiceAccount *string `json:"diskEncryptionServiceAccount,omitempty" tf:"disk_encryption_service_account,omitempty"`
+
+	ForceAttach *bool `json:"forceAttach,omitempty" tf:"force_attach,omitempty"`
+
+	GuestOsFeatures []*string `json:"guestOsFeatures,omitempty" tf:"guest_os_features,omitempty"`
+
 	InitializeParams *BootDiskInitializeParamsObservation `json:"initializeParams,omitempty" tf:"initialize_params,omitempty"`
+
+	Interface *string `json:"interface,omitempty" tf:"interface,omitempty"`
 
 	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
 
@@ -226,7 +378,22 @@ type InstanceFromTemplateBootDiskParameters struct {
 	DiskEncryptionKeyRawSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
+	DiskEncryptionKeyRsaSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRsaSecretRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	DiskEncryptionServiceAccount *string `json:"diskEncryptionServiceAccount,omitempty" tf:"disk_encryption_service_account,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ForceAttach *bool `json:"forceAttach,omitempty" tf:"force_attach,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	GuestOsFeatures []*string `json:"guestOsFeatures,omitempty" tf:"guest_os_features,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	InitializeParams *BootDiskInitializeParamsParameters `json:"initializeParams,omitempty" tf:"initialize_params,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Interface *string `json:"interface,omitempty" tf:"interface,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
@@ -260,9 +427,9 @@ type InstanceFromTemplateConfidentialInstanceConfigParameters struct {
 }
 
 type InstanceFromTemplateGuestAcceleratorInitParameters struct {
-	Count *float64 `json:"count,omitempty" tf:"count"`
+	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
 
-	Type *string `json:"type,omitempty" tf:"type"`
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type InstanceFromTemplateGuestAcceleratorObservation struct {
@@ -274,10 +441,10 @@ type InstanceFromTemplateGuestAcceleratorObservation struct {
 type InstanceFromTemplateGuestAcceleratorParameters struct {
 
 	// +kubebuilder:validation:Optional
-	Count *float64 `json:"count,omitempty" tf:"count"`
+	Count *float64 `json:"count" tf:"count,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	Type *string `json:"type,omitempty" tf:"type"`
+	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 type InstanceFromTemplateInitParameters struct {
@@ -294,8 +461,6 @@ type InstanceFromTemplateInitParameters struct {
 
 	ConfidentialInstanceConfig *InstanceFromTemplateConfidentialInstanceConfigInitParameters `json:"confidentialInstanceConfig,omitempty" tf:"confidential_instance_config,omitempty"`
 
-	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
-
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	DesiredStatus *string `json:"desiredStatus,omitempty" tf:"desired_status,omitempty"`
@@ -307,6 +472,10 @@ type InstanceFromTemplateInitParameters struct {
 	// A unique name for the resource, required by GCE.
 	// Changing this forces a new resource to be created.
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
+
+	InstanceEncryptionKey *InstanceFromTemplateInstanceEncryptionKeyInitParameters `json:"instanceEncryptionKey,omitempty" tf:"instance_encryption_key,omitempty"`
+
+	KeyRevocationActionType *string `json:"keyRevocationActionType,omitempty" tf:"key_revocation_action_type,omitempty"`
 
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
@@ -366,6 +535,29 @@ type InstanceFromTemplateInitParameters struct {
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
 
+type InstanceFromTemplateInstanceEncryptionKeyInitParameters struct {
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+}
+
+type InstanceFromTemplateInstanceEncryptionKeyObservation struct {
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+
+	Sha256 *string `json:"sha256,omitempty" tf:"sha256,omitempty"`
+}
+
+type InstanceFromTemplateInstanceEncryptionKeyParameters struct {
+
+	// +kubebuilder:validation:Optional
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+}
+
 type InstanceFromTemplateNetworkInterfaceInitParameters struct {
 	AccessConfig []NetworkInterfaceAccessConfigInitParameters `json:"accessConfig,omitempty" tf:"access_config,omitempty"`
 
@@ -379,6 +571,8 @@ type InstanceFromTemplateNetworkInterfaceInitParameters struct {
 
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	NetworkAttachment *string `json:"networkAttachment,omitempty" tf:"network_attachment,omitempty"`
 
 	NetworkIP *string `json:"networkIp,omitempty" tf:"network_ip,omitempty"`
 
@@ -429,6 +623,8 @@ type InstanceFromTemplateNetworkInterfaceObservation struct {
 
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
+	NetworkAttachment *string `json:"networkAttachment,omitempty" tf:"network_attachment,omitempty"`
+
 	NetworkIP *string `json:"networkIp,omitempty" tf:"network_ip,omitempty"`
 
 	NicType *string `json:"nicType,omitempty" tf:"nic_type,omitempty"`
@@ -462,6 +658,9 @@ type InstanceFromTemplateNetworkInterfaceParameters struct {
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	NetworkAttachment *string `json:"networkAttachment,omitempty" tf:"network_attachment,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	NetworkIP *string `json:"networkIp,omitempty" tf:"network_ip,omitempty"`
@@ -529,6 +728,8 @@ type InstanceFromTemplateObservation struct {
 
 	ConfidentialInstanceConfig *InstanceFromTemplateConfidentialInstanceConfigObservation `json:"confidentialInstanceConfig,omitempty" tf:"confidential_instance_config,omitempty"`
 
+	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
 	CurrentStatus *string `json:"currentStatus,omitempty" tf:"current_status,omitempty"`
 
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
@@ -550,7 +751,11 @@ type InstanceFromTemplateObservation struct {
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	InstanceEncryptionKey *InstanceFromTemplateInstanceEncryptionKeyObservation `json:"instanceEncryptionKey,omitempty" tf:"instance_encryption_key,omitempty"`
+
 	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
+
+	KeyRevocationActionType *string `json:"keyRevocationActionType,omitempty" tf:"key_revocation_action_type,omitempty"`
 
 	LabelFingerprint *string `json:"labelFingerprint,omitempty" tf:"label_fingerprint,omitempty"`
 
@@ -633,9 +838,6 @@ type InstanceFromTemplateParameters struct {
 	ConfidentialInstanceConfig *InstanceFromTemplateConfidentialInstanceConfigParameters `json:"confidentialInstanceConfig,omitempty" tf:"confidential_instance_config,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
-
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -651,6 +853,12 @@ type InstanceFromTemplateParameters struct {
 	// Changing this forces a new resource to be created.
 	// +kubebuilder:validation:Optional
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	InstanceEncryptionKey *InstanceFromTemplateInstanceEncryptionKeyParameters `json:"instanceEncryptionKey,omitempty" tf:"instance_encryption_key,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	KeyRevocationActionType *string `json:"keyRevocationActionType,omitempty" tf:"key_revocation_action_type,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
@@ -772,6 +980,8 @@ type InstanceFromTemplateReservationAffinityParameters struct {
 type InstanceFromTemplateSchedulingInitParameters struct {
 	AutomaticRestart *bool `json:"automaticRestart,omitempty" tf:"automatic_restart,omitempty"`
 
+	AvailabilityDomain *float64 `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
+
 	InstanceTerminationAction *string `json:"instanceTerminationAction,omitempty" tf:"instance_termination_action,omitempty"`
 
 	LocalSsdRecoveryTimeout *SchedulingLocalSsdRecoveryTimeoutInitParameters `json:"localSsdRecoveryTimeout,omitempty" tf:"local_ssd_recovery_timeout,omitempty"`
@@ -789,10 +999,14 @@ type InstanceFromTemplateSchedulingInitParameters struct {
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 
 	ProvisioningModel *string `json:"provisioningModel,omitempty" tf:"provisioning_model,omitempty"`
+
+	TerminationTime *string `json:"terminationTime,omitempty" tf:"termination_time,omitempty"`
 }
 
 type InstanceFromTemplateSchedulingObservation struct {
 	AutomaticRestart *bool `json:"automaticRestart,omitempty" tf:"automatic_restart,omitempty"`
+
+	AvailabilityDomain *float64 `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
 
 	InstanceTerminationAction *string `json:"instanceTerminationAction,omitempty" tf:"instance_termination_action,omitempty"`
 
@@ -811,12 +1025,17 @@ type InstanceFromTemplateSchedulingObservation struct {
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 
 	ProvisioningModel *string `json:"provisioningModel,omitempty" tf:"provisioning_model,omitempty"`
+
+	TerminationTime *string `json:"terminationTime,omitempty" tf:"termination_time,omitempty"`
 }
 
 type InstanceFromTemplateSchedulingParameters struct {
 
 	// +kubebuilder:validation:Optional
 	AutomaticRestart *bool `json:"automaticRestart,omitempty" tf:"automatic_restart,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	AvailabilityDomain *float64 `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	InstanceTerminationAction *string `json:"instanceTerminationAction,omitempty" tf:"instance_termination_action,omitempty"`
@@ -844,17 +1063,20 @@ type InstanceFromTemplateSchedulingParameters struct {
 
 	// +kubebuilder:validation:Optional
 	ProvisioningModel *string `json:"provisioningModel,omitempty" tf:"provisioning_model,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	TerminationTime *string `json:"terminationTime,omitempty" tf:"termination_time,omitempty"`
 }
 
 type InstanceFromTemplateScratchDiskInitParameters struct {
 
 	// A unique name for the resource, required by GCE.
 	// Changing this forces a new resource to be created.
-	DeviceName *string `json:"deviceName,omitempty" tf:"device_name"`
+	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
 
-	Interface *string `json:"interface,omitempty" tf:"interface"`
+	Interface *string `json:"interface,omitempty" tf:"interface,omitempty"`
 
-	Size *float64 `json:"size,omitempty" tf:"size"`
+	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 }
 
 type InstanceFromTemplateScratchDiskObservation struct {
@@ -873,20 +1095,20 @@ type InstanceFromTemplateScratchDiskParameters struct {
 	// A unique name for the resource, required by GCE.
 	// Changing this forces a new resource to be created.
 	// +kubebuilder:validation:Optional
-	DeviceName *string `json:"deviceName,omitempty" tf:"device_name"`
+	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	Interface *string `json:"interface,omitempty" tf:"interface"`
+	Interface *string `json:"interface" tf:"interface,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	Size *float64 `json:"size,omitempty" tf:"size"`
+	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 }
 
 type InstanceFromTemplateServiceAccountInitParameters struct {
-	Email *string `json:"email,omitempty" tf:"email"`
+	Email *string `json:"email,omitempty" tf:"email,omitempty"`
 
 	// +listType=set
-	Scopes []*string `json:"scopes,omitempty" tf:"scopes"`
+	Scopes []*string `json:"scopes,omitempty" tf:"scopes,omitempty"`
 }
 
 type InstanceFromTemplateServiceAccountObservation struct {
@@ -899,11 +1121,11 @@ type InstanceFromTemplateServiceAccountObservation struct {
 type InstanceFromTemplateServiceAccountParameters struct {
 
 	// +kubebuilder:validation:Optional
-	Email *string `json:"email,omitempty" tf:"email"`
+	Email *string `json:"email,omitempty" tf:"email,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	// +listType=set
-	Scopes []*string `json:"scopes,omitempty" tf:"scopes"`
+	Scopes []*string `json:"scopes" tf:"scopes,omitempty"`
 }
 
 type InstanceFromTemplateShieldedInstanceConfigInitParameters struct {
@@ -935,13 +1157,13 @@ type InstanceFromTemplateShieldedInstanceConfigParameters struct {
 }
 
 type NetworkInterfaceAccessConfigInitParameters struct {
-	NATIP *string `json:"natIp,omitempty" tf:"nat_ip"`
+	NATIP *string `json:"natIp,omitempty" tf:"nat_ip,omitempty"`
 
-	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier"`
+	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
 
 	// A unique name for the resource, required by GCE.
 	// Changing this forces a new resource to be created.
-	PublicPtrDomainName *string `json:"publicPtrDomainName,omitempty" tf:"public_ptr_domain_name"`
+	PublicPtrDomainName *string `json:"publicPtrDomainName,omitempty" tf:"public_ptr_domain_name,omitempty"`
 }
 
 type NetworkInterfaceAccessConfigObservation struct {
@@ -957,23 +1179,23 @@ type NetworkInterfaceAccessConfigObservation struct {
 type NetworkInterfaceAccessConfigParameters struct {
 
 	// +kubebuilder:validation:Optional
-	NATIP *string `json:"natIp,omitempty" tf:"nat_ip"`
+	NATIP *string `json:"natIp,omitempty" tf:"nat_ip,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier"`
+	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
 
 	// A unique name for the resource, required by GCE.
 	// Changing this forces a new resource to be created.
 	// +kubebuilder:validation:Optional
-	PublicPtrDomainName *string `json:"publicPtrDomainName,omitempty" tf:"public_ptr_domain_name"`
+	PublicPtrDomainName *string `json:"publicPtrDomainName,omitempty" tf:"public_ptr_domain_name,omitempty"`
 }
 
 type NetworkInterfaceAliasIPRangeInitParameters struct {
-	IPCidrRange *string `json:"ipCidrRange,omitempty" tf:"ip_cidr_range"`
+	IPCidrRange *string `json:"ipCidrRange,omitempty" tf:"ip_cidr_range,omitempty"`
 
 	// A unique name for the resource, required by GCE.
 	// Changing this forces a new resource to be created.
-	SubnetworkRangeName *string `json:"subnetworkRangeName,omitempty" tf:"subnetwork_range_name"`
+	SubnetworkRangeName *string `json:"subnetworkRangeName,omitempty" tf:"subnetwork_range_name,omitempty"`
 }
 
 type NetworkInterfaceAliasIPRangeObservation struct {
@@ -987,12 +1209,12 @@ type NetworkInterfaceAliasIPRangeObservation struct {
 type NetworkInterfaceAliasIPRangeParameters struct {
 
 	// +kubebuilder:validation:Optional
-	IPCidrRange *string `json:"ipCidrRange,omitempty" tf:"ip_cidr_range"`
+	IPCidrRange *string `json:"ipCidrRange" tf:"ip_cidr_range,omitempty"`
 
 	// A unique name for the resource, required by GCE.
 	// Changing this forces a new resource to be created.
 	// +kubebuilder:validation:Optional
-	SubnetworkRangeName *string `json:"subnetworkRangeName,omitempty" tf:"subnetwork_range_name"`
+	SubnetworkRangeName *string `json:"subnetworkRangeName,omitempty" tf:"subnetwork_range_name,omitempty"`
 }
 
 type NetworkInterfaceIPv6AccessConfigInitParameters struct {

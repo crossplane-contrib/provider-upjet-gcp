@@ -103,7 +103,7 @@ spec:
     purpose: GCE_FIREWALL
     purposeData:
       network: network
-    shortName: tagkey
+    shortName: tag-key
 
 ---
 
@@ -121,4 +121,4 @@ spec:
     parentSelector:
       matchLabels:
         testing.upbound.io/example-name: basic_key
-    shortName: tagvalue
+    shortName: tag-value

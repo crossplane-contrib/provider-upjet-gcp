@@ -1518,6 +1518,10 @@ spec:
                           Structure is documented below.
                         items:
                           properties:
+                            domainName:
+                              description: Fully qualified domain name for the forwarding
+                                target.
+                              type: string
                             forwardingPath:
                               description: |-
                                 Forwarding path for this TargetNameServer. If unset or default Cloud DNS will make forwarding
@@ -1934,6 +1938,10 @@ spec:
                           Structure is documented below.
                         items:
                           properties:
+                            domainName:
+                              description: Fully qualified domain name for the forwarding
+                                target.
+                              type: string
                             forwardingPath:
                               description: |-
                                 Forwarding path for this TargetNameServer. If unset or default Cloud DNS will make forwarding
@@ -2525,6 +2533,10 @@ spec:
                           Structure is documented below.
                         items:
                           properties:
+                            domainName:
+                              description: Fully qualified domain name for the forwarding
+                                target.
+                              type: string
                             forwardingPath:
                               description: |-
                                 Forwarding path for this TargetNameServer. If unset or default Cloud DNS will make forwarding

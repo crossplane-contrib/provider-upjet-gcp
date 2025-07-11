@@ -143,3 +143,13 @@ func descriptionOverrides() tjconfig.ResourceOption {
 		})
 	}
 }
+
+func deletionProtectionRemove() tjconfig.ResourceOption {
+	return func(r *tjconfig.Resource) {
+		if t, ok := r.TerraformResource.Schema["deletion_protection"]; ok {
+			t.Computed = true
+			t.Optional = false
+			t.Default = false
+		}
+	}
+}

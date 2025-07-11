@@ -114,9 +114,10 @@ metadata:
   name: project
 spec:
   forProvider:
-    billingAccount: ""
+    billingAccount: 000000-0000000-0000000-000000
+    deletionPolicy: DELETE
     name: my-project
-    orgId: ""
+    orgId: "123456789"
     projectId: my-project
 
 ---

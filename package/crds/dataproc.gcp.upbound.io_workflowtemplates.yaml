@@ -4831,6 +4831,14 @@ spec:
                       if the workflow was running on a (/dataproc/docs/concepts/workflows/using-workflows#configuring_or_selecting_a_cluster),
                       the cluster is deleted.
                     type: string
+                  encryptionConfig:
+                    description: Encryption settings for the cluster.
+                    properties:
+                      kmsKey:
+                        description: The uri of the KMS key used to encrypt various
+                          sensitive files.
+                        type: string
+                    type: object
                   jobs:
                     description: Required. The Directed Acyclic Graph of Jobs to submit.
                     items:
@@ -5517,7 +5525,7 @@ spec:
                                     additionalProperties:
                                       type: string
                                     description: The Compute Engine metadata entries
-                                      to add to all instances (see (https://cloud.google.com/compute/docs/storing-retrieving-metadata#project_and_instance_metadata)).
+                                      to add to all instances (see About VM metadata).
                                     type: object
                                     x-kubernetes-map-type: granular
                                   network:
@@ -5608,7 +5616,7 @@ spec:
                                     type: string
                                   tags:
                                     description: The Compute Engine tags to add to
-                                      all instances (see (https://cloud.google.com/compute/docs/label-or-tag-resources#tags)).
+                                      all instances (see Manage tags for resources).
                                     items:
                                       type: string
                                     type: array
@@ -5644,12 +5652,12 @@ spec:
                                     executionTimeout:
                                       description: Amount of time executable has to
                                         complete. Default is 10 minutes (see JSON
-                                        representation of (https://developers.google.com/protocol-buffers/docs/proto3#json)).
-                                        Cluster creation fails with an explanatory
-                                        error message (the name of the executable
-                                        that caused the error and the exceeded timeout
-                                        period) if the executable is not completed
-                                        at end of the timeout period.
+                                        representation of JSON Mapping - Language
+                                        Guide (proto 3)). Cluster creation fails with
+                                        an explanatory error message (the name of
+                                        the executable that caused the error and the
+                                        exceeded timeout period) if the executable
+                                        is not completed at end of the timeout period.
                                       type: string
                                   type: object
                                 type: array
@@ -5658,14 +5666,15 @@ spec:
                                 properties:
                                   autoDeleteTime:
                                     description: The time when cluster will be auto-deleted
-                                      (see JSON representation of (https://developers.google.com/protocol-buffers/docs/proto3#json)).
+                                      (see JSON representation of JSON Mapping - Language
+                                      Guide (proto 3)).
                                     type: string
                                   autoDeleteTtl:
                                     description: The lifetime duration of cluster.
                                       The cluster will be auto-deleted at the end
                                       of this period. Minimum value is 10 minutes;
                                       maximum value is 14 days (see JSON representation
-                                      of (https://developers.google.com/protocol-buffers/docs/proto3#json)).
+                                      of JSON Mapping - Language Guide (proto 3)).
                                     type: string
                                   idleDeleteTtl:
                                     description: The duration to keep the cluster
@@ -5673,7 +5682,7 @@ spec:
                                       Passing this threshold will cause the cluster
                                       to be deleted. Minimum value is 5 minutes; maximum
                                       value is 14 days (see JSON representation of
-                                      (https://developers.google.com/protocol-buffers/docs/proto3#json).
+                                      JSON Mapping - Language Guide (proto 3).
                                     type: string
                                 type: object
                               masterConfig:
@@ -5741,7 +5750,7 @@ spec:
                                     type: string
                                   minCpuPlatform:
                                     description: Specifies the minimum cpu platform
-                                      for the Instance Group. See (https://cloud.google.com/dataproc/docs/concepts/compute/dataproc-min-cpu).
+                                      for the Instance Group. See Minimum CPU platform.
                                     type: string
                                   numInstances:
                                     description: The number of VM instances in the
@@ -5822,7 +5831,7 @@ spec:
                                     type: string
                                   minCpuPlatform:
                                     description: Specifies the minimum cpu platform
-                                      for the Instance Group. See (https://cloud.google.com/dataproc/docs/concepts/compute/dataproc-min-cpu).
+                                      for the Instance Group. See Minimum CPU platform.
                                     type: string
                                   numInstances:
                                     description: The number of VM instances in the
@@ -5968,7 +5977,8 @@ spec:
                                   (US, ASIA, or EU) for your cluster's staging bucket
                                   according to the Compute Engine zone where your
                                   cluster is deployed, and then create and manage
-                                  this project-level, per-location bucket (see (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/staging-bucket)).
+                                  this project-level, per-location bucket (see Dataproc
+                                  staging and temp buckets).
                                 type: string
                               tempBucket:
                                 description: A Cloud Storage bucket used to store
@@ -6047,7 +6057,7 @@ spec:
                                     type: string
                                   minCpuPlatform:
                                     description: Specifies the minimum cpu platform
-                                      for the Instance Group. See (https://cloud.google.com/dataproc/docs/concepts/compute/dataproc-min-cpu).
+                                      for the Instance Group. See Minimum CPU platform.
                                     type: string
                                   numInstances:
                                     description: The number of VM instances in the
@@ -6117,6 +6127,14 @@ spec:
                       if the workflow was running on a (/dataproc/docs/concepts/workflows/using-workflows#configuring_or_selecting_a_cluster),
                       the cluster is deleted.
                     type: string
+                  encryptionConfig:
+                    description: Encryption settings for the cluster.
+                    properties:
+                      kmsKey:
+                        description: The uri of the KMS key used to encrypt various
+                          sensitive files.
+                        type: string
+                    type: object
                   jobs:
                     description: Required. The Directed Acyclic Graph of Jobs to submit.
                     items:
@@ -6800,7 +6818,7 @@ spec:
                                     additionalProperties:
                                       type: string
                                     description: The Compute Engine metadata entries
-                                      to add to all instances (see (https://cloud.google.com/compute/docs/storing-retrieving-metadata#project_and_instance_metadata)).
+                                      to add to all instances (see About VM metadata).
                                     type: object
                                     x-kubernetes-map-type: granular
                                   network:
@@ -6891,7 +6909,7 @@ spec:
                                     type: string
                                   tags:
                                     description: The Compute Engine tags to add to
-                                      all instances (see (https://cloud.google.com/compute/docs/label-or-tag-resources#tags)).
+                                      all instances (see Manage tags for resources).
                                     items:
                                       type: string
                                     type: array
@@ -6927,12 +6945,12 @@ spec:
                                     executionTimeout:
                                       description: Amount of time executable has to
                                         complete. Default is 10 minutes (see JSON
-                                        representation of (https://developers.google.com/protocol-buffers/docs/proto3#json)).
-                                        Cluster creation fails with an explanatory
-                                        error message (the name of the executable
-                                        that caused the error and the exceeded timeout
-                                        period) if the executable is not completed
-                                        at end of the timeout period.
+                                        representation of JSON Mapping - Language
+                                        Guide (proto 3)). Cluster creation fails with
+                                        an explanatory error message (the name of
+                                        the executable that caused the error and the
+                                        exceeded timeout period) if the executable
+                                        is not completed at end of the timeout period.
                                       type: string
                                   type: object
                                 type: array
@@ -6941,14 +6959,15 @@ spec:
                                 properties:
                                   autoDeleteTime:
                                     description: The time when cluster will be auto-deleted
-                                      (see JSON representation of (https://developers.google.com/protocol-buffers/docs/proto3#json)).
+                                      (see JSON representation of JSON Mapping - Language
+                                      Guide (proto 3)).
                                     type: string
                                   autoDeleteTtl:
                                     description: The lifetime duration of cluster.
                                       The cluster will be auto-deleted at the end
                                       of this period. Minimum value is 10 minutes;
                                       maximum value is 14 days (see JSON representation
-                                      of (https://developers.google.com/protocol-buffers/docs/proto3#json)).
+                                      of JSON Mapping - Language Guide (proto 3)).
                                     type: string
                                   idleDeleteTtl:
                                     description: The duration to keep the cluster
@@ -6956,7 +6975,7 @@ spec:
                                       Passing this threshold will cause the cluster
                                       to be deleted. Minimum value is 5 minutes; maximum
                                       value is 14 days (see JSON representation of
-                                      (https://developers.google.com/protocol-buffers/docs/proto3#json).
+                                      JSON Mapping - Language Guide (proto 3).
                                     type: string
                                 type: object
                               masterConfig:
@@ -7024,7 +7043,7 @@ spec:
                                     type: string
                                   minCpuPlatform:
                                     description: Specifies the minimum cpu platform
-                                      for the Instance Group. See (https://cloud.google.com/dataproc/docs/concepts/compute/dataproc-min-cpu).
+                                      for the Instance Group. See Minimum CPU platform.
                                     type: string
                                   numInstances:
                                     description: The number of VM instances in the
@@ -7105,7 +7124,7 @@ spec:
                                     type: string
                                   minCpuPlatform:
                                     description: Specifies the minimum cpu platform
-                                      for the Instance Group. See (https://cloud.google.com/dataproc/docs/concepts/compute/dataproc-min-cpu).
+                                      for the Instance Group. See Minimum CPU platform.
                                     type: string
                                   numInstances:
                                     description: The number of VM instances in the
@@ -7251,7 +7270,8 @@ spec:
                                   (US, ASIA, or EU) for your cluster's staging bucket
                                   according to the Compute Engine zone where your
                                   cluster is deployed, and then create and manage
-                                  this project-level, per-location bucket (see (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/staging-bucket)).
+                                  this project-level, per-location bucket (see Dataproc
+                                  staging and temp buckets).
                                 type: string
                               tempBucket:
                                 description: A Cloud Storage bucket used to store
@@ -7330,7 +7350,7 @@ spec:
                                     type: string
                                   minCpuPlatform:
                                     description: Specifies the minimum cpu platform
-                                      for the Instance Group. See (https://cloud.google.com/dataproc/docs/concepts/compute/dataproc-min-cpu).
+                                      for the Instance Group. See Minimum CPU platform.
                                     type: string
                                   numInstances:
                                     description: The number of VM instances in the
@@ -7574,6 +7594,14 @@ spec:
                       type: string
                     type: object
                     x-kubernetes-map-type: granular
+                  encryptionConfig:
+                    description: Encryption settings for the cluster.
+                    properties:
+                      kmsKey:
+                        description: The uri of the KMS key used to encrypt various
+                          sensitive files.
+                        type: string
+                    type: object
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/workflowTemplates/{{name}}
                     type: string
@@ -8271,7 +8299,7 @@ spec:
                                     additionalProperties:
                                       type: string
                                     description: The Compute Engine metadata entries
-                                      to add to all instances (see (https://cloud.google.com/compute/docs/storing-retrieving-metadata#project_and_instance_metadata)).
+                                      to add to all instances (see About VM metadata).
                                     type: object
                                     x-kubernetes-map-type: granular
                                   network:
@@ -8362,7 +8390,7 @@ spec:
                                     type: string
                                   tags:
                                     description: The Compute Engine tags to add to
-                                      all instances (see (https://cloud.google.com/compute/docs/label-or-tag-resources#tags)).
+                                      all instances (see Manage tags for resources).
                                     items:
                                       type: string
                                     type: array
@@ -8398,12 +8426,12 @@ spec:
                                     executionTimeout:
                                       description: Amount of time executable has to
                                         complete. Default is 10 minutes (see JSON
-                                        representation of (https://developers.google.com/protocol-buffers/docs/proto3#json)).
-                                        Cluster creation fails with an explanatory
-                                        error message (the name of the executable
-                                        that caused the error and the exceeded timeout
-                                        period) if the executable is not completed
-                                        at end of the timeout period.
+                                        representation of JSON Mapping - Language
+                                        Guide (proto 3)). Cluster creation fails with
+                                        an explanatory error message (the name of
+                                        the executable that caused the error and the
+                                        exceeded timeout period) if the executable
+                                        is not completed at end of the timeout period.
                                       type: string
                                   type: object
                                 type: array
@@ -8412,14 +8440,15 @@ spec:
                                 properties:
                                   autoDeleteTime:
                                     description: The time when cluster will be auto-deleted
-                                      (see JSON representation of (https://developers.google.com/protocol-buffers/docs/proto3#json)).
+                                      (see JSON representation of JSON Mapping - Language
+                                      Guide (proto 3)).
                                     type: string
                                   autoDeleteTtl:
                                     description: The lifetime duration of cluster.
                                       The cluster will be auto-deleted at the end
                                       of this period. Minimum value is 10 minutes;
                                       maximum value is 14 days (see JSON representation
-                                      of (https://developers.google.com/protocol-buffers/docs/proto3#json)).
+                                      of JSON Mapping - Language Guide (proto 3)).
                                     type: string
                                   idleDeleteTtl:
                                     description: The duration to keep the cluster
@@ -8427,13 +8456,14 @@ spec:
                                       Passing this threshold will cause the cluster
                                       to be deleted. Minimum value is 5 minutes; maximum
                                       value is 14 days (see JSON representation of
-                                      (https://developers.google.com/protocol-buffers/docs/proto3#json).
+                                      JSON Mapping - Language Guide (proto 3).
                                     type: string
                                   idleStartTime:
                                     description: Output only. The time when cluster
                                       became idle (most recent job finished) and became
                                       eligible for deletion due to idleness (see JSON
-                                      representation of (https://developers.google.com/protocol-buffers/docs/proto3#json)).
+                                      representation of JSON Mapping - Language Guide
+                                      (proto 3)).
                                     type: string
                                 type: object
                               masterConfig:
@@ -8543,7 +8573,7 @@ spec:
                                     type: array
                                   minCpuPlatform:
                                     description: Specifies the minimum cpu platform
-                                      for the Instance Group. See (https://cloud.google.com/dataproc/docs/concepts/compute/dataproc-min-cpu).
+                                      for the Instance Group. See Minimum CPU platform.
                                     type: string
                                   numInstances:
                                     description: The number of VM instances in the
@@ -8666,7 +8696,7 @@ spec:
                                     type: array
                                   minCpuPlatform:
                                     description: Specifies the minimum cpu platform
-                                      for the Instance Group. See (https://cloud.google.com/dataproc/docs/concepts/compute/dataproc-min-cpu).
+                                      for the Instance Group. See Minimum CPU platform.
                                     type: string
                                   numInstances:
                                     description: The number of VM instances in the
@@ -8812,7 +8842,8 @@ spec:
                                   (US, ASIA, or EU) for your cluster's staging bucket
                                   according to the Compute Engine zone where your
                                   cluster is deployed, and then create and manage
-                                  this project-level, per-location bucket (see (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/staging-bucket)).
+                                  this project-level, per-location bucket (see Dataproc
+                                  staging and temp buckets).
                                 type: string
                               tempBucket:
                                 description: A Cloud Storage bucket used to store
@@ -8933,7 +8964,7 @@ spec:
                                     type: array
                                   minCpuPlatform:
                                     description: Specifies the minimum cpu platform
-                                      for the Instance Group. See (https://cloud.google.com/dataproc/docs/concepts/compute/dataproc-min-cpu).
+                                      for the Instance Group. See Minimum CPU platform.
                                     type: string
                                   numInstances:
                                     description: The number of VM instances in the

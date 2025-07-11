@@ -18,6 +18,13 @@ type RegionTargetHTTPProxyInitParameters struct {
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Specifies how long to keep a connection open, after completing a response,
+	// while there is no matching traffic (in seconds). If an HTTP keepalive is
+	// not specified, a default value (600 seconds) will be used. For Regional
+	// HTTP(S) load balancer, the minimum allowed value is 5 seconds and the
+	// maximum allowed value is 600 seconds.
+	HTTPKeepAliveTimeoutSec *float64 `json:"httpKeepAliveTimeoutSec,omitempty" tf:"http_keep_alive_timeout_sec,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -44,6 +51,13 @@ type RegionTargetHTTPProxyObservation struct {
 
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Specifies how long to keep a connection open, after completing a response,
+	// while there is no matching traffic (in seconds). If an HTTP keepalive is
+	// not specified, a default value (600 seconds) will be used. For Regional
+	// HTTP(S) load balancer, the minimum allowed value is 5 seconds and the
+	// maximum allowed value is 600 seconds.
+	HTTPKeepAliveTimeoutSec *float64 `json:"httpKeepAliveTimeoutSec,omitempty" tf:"http_keep_alive_timeout_sec,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/targetHttpProxies/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -72,6 +86,14 @@ type RegionTargetHTTPProxyParameters struct {
 	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Specifies how long to keep a connection open, after completing a response,
+	// while there is no matching traffic (in seconds). If an HTTP keepalive is
+	// not specified, a default value (600 seconds) will be used. For Regional
+	// HTTP(S) load balancer, the minimum allowed value is 5 seconds and the
+	// maximum allowed value is 600 seconds.
+	// +kubebuilder:validation:Optional
+	HTTPKeepAliveTimeoutSec *float64 `json:"httpKeepAliveTimeoutSec,omitempty" tf:"http_keep_alive_timeout_sec,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.

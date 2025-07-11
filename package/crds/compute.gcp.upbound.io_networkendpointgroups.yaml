@@ -651,6 +651,10 @@ spec:
                       An optional description of this resource. Provide this property when
                       you create the resource.
                     type: string
+                  generatedId:
+                    description: The uniquely generated identifier for the resource.
+                      This identifier is defined by the server.
+                    type: number
                   id:
                     description: an identifier for the resource with format projects/{{project}}/zones/{{zone}}/networkEndpointGroups/{{name}}
                     type: string

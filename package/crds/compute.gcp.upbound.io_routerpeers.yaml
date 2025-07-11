@@ -1699,16 +1699,26 @@ spec:
                         type: string
                     type: object
                   customLearnedIpRanges:
+                    description: |-
+                      The custom learned route IP address range. Must be a valid CIDR-formatted prefix.
+                      If an IP address is provided without a subnet mask, it is interpreted as, for IPv4,
+                      a /32 singular IP address range, and, for IPv6, /128.
+                      Structure is documented below.
                     items:
                       properties:
                         range:
                           description: |-
-                            The IP range to advertise. The value must be a
+                            The IP range to learn. The value must be a
                             CIDR-formatted string.
                           type: string
                       type: object
                     type: array
                   customLearnedRoutePriority:
+                    description: |-
+                      The user-defined custom learned route priority for a BGP session.
+                      This value is applied to all custom learned route ranges for the session.
+                      You can choose a value from 0 to 65335. If you don't provide a value,
+                      Google Cloud assigns a priority of 100 to the ranges.
                     type: number
                   enable:
                     description: |-
@@ -1725,6 +1735,20 @@ spec:
                     description: Enable IPv6 traffic over BGP Peer. If not specified,
                       it is disabled by default.
                     type: boolean
+                  exportPolicies:
+                    description: |-
+                      routers.list of export policies applied to this peer, in the order they must be evaluated.
+                      The name must correspond to an existing policy that has ROUTE_POLICY_TYPE_EXPORT type.
+                    items:
+                      type: string
+                    type: array
+                  importPolicies:
+                    description: |-
+                      routers.list of import policies applied to this peer, in the order they must be evaluated.
+                      The name must correspond to an existing policy that has ROUTE_POLICY_TYPE_IMPORT type.
+                    items:
+                      type: string
+                    type: array
                   interface:
                     description: Name of the interface the BGP peer is associated
                       with.
@@ -2188,6 +2212,16 @@ spec:
                             type: string
                         type: object
                     type: object
+                  zeroAdvertisedRoutePriority:
+                    description: |-
+                      The user-defined zero-advertised-route-priority for a advertised-route-priority in BGP session.
+                      This value has to be set true to force the advertised_route_priority to be 0.
+                    type: boolean
+                  zeroCustomLearnedRoutePriority:
+                    description: |-
+                      The user-defined zero-custom-learned-route-priority for a custom-learned-route-priority in BGP session.
+                      This value has to be set true to force the custom_learned_route_priority to be 0.
+                    type: boolean
                 type: object
               initProvider:
                 description: |-
@@ -2280,16 +2314,26 @@ spec:
                         type: string
                     type: object
                   customLearnedIpRanges:
+                    description: |-
+                      The custom learned route IP address range. Must be a valid CIDR-formatted prefix.
+                      If an IP address is provided without a subnet mask, it is interpreted as, for IPv4,
+                      a /32 singular IP address range, and, for IPv6, /128.
+                      Structure is documented below.
                     items:
                       properties:
                         range:
                           description: |-
-                            The IP range to advertise. The value must be a
+                            The IP range to learn. The value must be a
                             CIDR-formatted string.
                           type: string
                       type: object
                     type: array
                   customLearnedRoutePriority:
+                    description: |-
+                      The user-defined custom learned route priority for a BGP session.
+                      This value is applied to all custom learned route ranges for the session.
+                      You can choose a value from 0 to 65335. If you don't provide a value,
+                      Google Cloud assigns a priority of 100 to the ranges.
                     type: number
                   enable:
                     description: |-
@@ -2306,6 +2350,20 @@ spec:
                     description: Enable IPv6 traffic over BGP Peer. If not specified,
                       it is disabled by default.
                     type: boolean
+                  exportPolicies:
+                    description: |-
+                      routers.list of export policies applied to this peer, in the order they must be evaluated.
+                      The name must correspond to an existing policy that has ROUTE_POLICY_TYPE_EXPORT type.
+                    items:
+                      type: string
+                    type: array
+                  importPolicies:
+                    description: |-
+                      routers.list of import policies applied to this peer, in the order they must be evaluated.
+                      The name must correspond to an existing policy that has ROUTE_POLICY_TYPE_IMPORT type.
+                    items:
+                      type: string
+                    type: array
                   interface:
                     description: Name of the interface the BGP peer is associated
                       with.
@@ -2693,6 +2751,16 @@ spec:
                             type: string
                         type: object
                     type: object
+                  zeroAdvertisedRoutePriority:
+                    description: |-
+                      The user-defined zero-advertised-route-priority for a advertised-route-priority in BGP session.
+                      This value has to be set true to force the advertised_route_priority to be 0.
+                    type: boolean
+                  zeroCustomLearnedRoutePriority:
+                    description: |-
+                      The user-defined zero-custom-learned-route-priority for a custom-learned-route-priority in BGP session.
+                      This value has to be set true to force the custom_learned_route_priority to be 0.
+                    type: boolean
                 type: object
               managementPolicies:
                 default:
@@ -2949,16 +3017,26 @@ spec:
                         type: string
                     type: object
                   customLearnedIpRanges:
+                    description: |-
+                      The custom learned route IP address range. Must be a valid CIDR-formatted prefix.
+                      If an IP address is provided without a subnet mask, it is interpreted as, for IPv4,
+                      a /32 singular IP address range, and, for IPv6, /128.
+                      Structure is documented below.
                     items:
                       properties:
                         range:
                           description: |-
-                            The IP range to advertise. The value must be a
+                            The IP range to learn. The value must be a
                             CIDR-formatted string.
                           type: string
                       type: object
                     type: array
                   customLearnedRoutePriority:
+                    description: |-
+                      The user-defined custom learned route priority for a BGP session.
+                      This value is applied to all custom learned route ranges for the session.
+                      You can choose a value from 0 to 65335. If you don't provide a value,
+                      Google Cloud assigns a priority of 100 to the ranges.
                     type: number
                   enable:
                     description: |-
@@ -2975,9 +3053,23 @@ spec:
                     description: Enable IPv6 traffic over BGP Peer. If not specified,
                       it is disabled by default.
                     type: boolean
+                  exportPolicies:
+                    description: |-
+                      routers.list of export policies applied to this peer, in the order they must be evaluated.
+                      The name must correspond to an existing policy that has ROUTE_POLICY_TYPE_EXPORT type.
+                    items:
+                      type: string
+                    type: array
                   id:
                     description: an identifier for the resource with format projects/{{project}}/regions/{{region}}/routers/{{router}}/{{name}}
                     type: string
+                  importPolicies:
+                    description: |-
+                      routers.list of import policies applied to this peer, in the order they must be evaluated.
+                      The name must correspond to an existing policy that has ROUTE_POLICY_TYPE_IMPORT type.
+                    items:
+                      type: string
+                    type: array
                   interface:
                     description: Name of the interface the BGP peer is associated
                       with.
@@ -2998,6 +3090,10 @@ spec:
                       If you do not specify the next hop addresses, Google Cloud automatically
                       assigns unused addresses from the 2600:2d00:0:2::/64 or 2600:2d00:0:3::/64 range for you.
                     type: string
+                  isAdvertisedRoutePrioritySet:
+                    type: boolean
+                  isCustomLearnedPrioritySet:
+                    type: boolean
                   managementType:
                     description: The resource that configures and manages this BGP
                       peer.
@@ -3054,6 +3150,16 @@ spec:
                       The VM instance must be located in zones contained in the same region as
                       this Cloud Router. The VM instance is the peer side of the BGP session.
                     type: string
+                  zeroAdvertisedRoutePriority:
+                    description: |-
+                      The user-defined zero-advertised-route-priority for a advertised-route-priority in BGP session.
+                      This value has to be set true to force the advertised_route_priority to be 0.
+                    type: boolean
+                  zeroCustomLearnedRoutePriority:
+                    description: |-
+                      The user-defined zero-custom-learned-route-priority for a custom-learned-route-priority in BGP session.
+                      This value has to be set true to force the custom_learned_route_priority to be 0.
+                    type: boolean
                 type: object
               conditions:
                 description: Conditions of the resource.

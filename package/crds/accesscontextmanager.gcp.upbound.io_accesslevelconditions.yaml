@@ -1576,6 +1576,10 @@ spec:
                     description: The name of the Access Level to add this condition
                       to.
                     type: string
+                  accessPolicyId:
+                    description: The name of the Access Policy this resource belongs
+                      to.
+                    type: string
                   devicePolicy:
                     description: |-
                       Device specific restrictions, all restrictions must hold for

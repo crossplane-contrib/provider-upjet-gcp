@@ -15,12 +15,26 @@ spec:
       - enabled: true
         finishDigit: '#'
         maxDigits: 1
+      loggingSettings:
+      - enableConsentBasedRedaction: true
+        enableInteractionLogging: true
+        enableStackdriverLogging: true
+      speechSettings:
+      - endpointerSensitivity: 30
+        models:
+          count: "3"
+          mass: 1.3kg
+          name: wrench
+        noSpeechTimeout: 3.500s
+        useTimeoutBasedEndpointing: true
     avatarUri: https://cloud.google.com/_static/images/cloud/icons/favicons/onecloud/super_cloud.png
     defaultLanguageCode: en
     description: Example description.
     displayName: dialogflowcx-agent
     enableSpellCorrection: true
     enableStackdriverLogging: true
+    genAppBuilderSettings:
+    - engine: projects/-/locations/-/collections/-/engines/-
     gitIntegrationSettings:
     - githubSettings:
       - accessTokenSecretRef:

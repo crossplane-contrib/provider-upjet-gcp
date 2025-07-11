@@ -281,6 +281,35 @@ type KeytabParameters struct {
 	CloudSecret *string `json:"cloudSecret" tf:"cloud_secret,omitempty"`
 }
 
+type LimitConfigInitParameters struct {
+
+	// The maximum scaling factor that the service will autoscale to. The default value is 6.0.
+	MaxScalingFactor *float64 `json:"maxScalingFactor,omitempty" tf:"max_scaling_factor,omitempty"`
+
+	// The minimum scaling factor that the service will autoscale to. The default value is 0.1.
+	MinScalingFactor *float64 `json:"minScalingFactor,omitempty" tf:"min_scaling_factor,omitempty"`
+}
+
+type LimitConfigObservation struct {
+
+	// The maximum scaling factor that the service will autoscale to. The default value is 6.0.
+	MaxScalingFactor *float64 `json:"maxScalingFactor,omitempty" tf:"max_scaling_factor,omitempty"`
+
+	// The minimum scaling factor that the service will autoscale to. The default value is 0.1.
+	MinScalingFactor *float64 `json:"minScalingFactor,omitempty" tf:"min_scaling_factor,omitempty"`
+}
+
+type LimitConfigParameters struct {
+
+	// The maximum scaling factor that the service will autoscale to. The default value is 6.0.
+	// +kubebuilder:validation:Optional
+	MaxScalingFactor *float64 `json:"maxScalingFactor,omitempty" tf:"max_scaling_factor,omitempty"`
+
+	// The minimum scaling factor that the service will autoscale to. The default value is 0.1.
+	// +kubebuilder:validation:Optional
+	MinScalingFactor *float64 `json:"minScalingFactor,omitempty" tf:"min_scaling_factor,omitempty"`
+}
+
 type MaintenanceWindowInitParameters struct {
 
 	// The day of week, when the window starts.
@@ -451,10 +480,16 @@ type MetastoreServiceObservation struct {
 	// A Cloud Storage URI (starting with gs://) that specifies where artifacts related to the metastore service are stored.
 	ArtifactGcsURI *string `json:"artifactGcsUri,omitempty" tf:"artifact_gcs_uri,omitempty"`
 
+	// Output only. The time when the metastore service was created.
+	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
 	// The database type that the Metastore service stores its data.
 	// Default value is MYSQL.
 	// Possible values are: MYSQL, SPANNER.
 	DatabaseType *string `json:"databaseType,omitempty" tf:"database_type,omitempty"`
+
+	// Indicates if the dataproc metastore should be protected against accidental deletions.
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
@@ -546,6 +581,9 @@ type MetastoreServiceObservation struct {
 
 	// The globally unique resource identifier of the metastore service.
 	UID *string `json:"uid,omitempty" tf:"uid,omitempty"`
+
+	// Output only. The time when the metastore service was last updated.
+	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`
 }
 
 type MetastoreServiceParameters struct {
@@ -659,7 +697,47 @@ type NetworkConfigParameters struct {
 	Consumers []ConsumersParameters `json:"consumers" tf:"consumers,omitempty"`
 }
 
+type ScalingConfigAutoscalingConfigInitParameters struct {
+
+	// Defines whether autoscaling is enabled. The default value is false.
+	AutoscalingEnabled *bool `json:"autoscalingEnabled,omitempty" tf:"autoscaling_enabled,omitempty"`
+
+	// Represents the limit configuration of a metastore service.
+	// Structure is documented below.
+	LimitConfig *LimitConfigInitParameters `json:"limitConfig,omitempty" tf:"limit_config,omitempty"`
+}
+
+type ScalingConfigAutoscalingConfigObservation struct {
+
+	// Defines whether autoscaling is enabled. The default value is false.
+	AutoscalingEnabled *bool `json:"autoscalingEnabled,omitempty" tf:"autoscaling_enabled,omitempty"`
+
+	// (Output)
+	// Output only. The scaling factor of a service with autoscaling enabled.
+	AutoscalingFactor *float64 `json:"autoscalingFactor,omitempty" tf:"autoscaling_factor,omitempty"`
+
+	// Represents the limit configuration of a metastore service.
+	// Structure is documented below.
+	LimitConfig *LimitConfigObservation `json:"limitConfig,omitempty" tf:"limit_config,omitempty"`
+}
+
+type ScalingConfigAutoscalingConfigParameters struct {
+
+	// Defines whether autoscaling is enabled. The default value is false.
+	// +kubebuilder:validation:Optional
+	AutoscalingEnabled *bool `json:"autoscalingEnabled,omitempty" tf:"autoscaling_enabled,omitempty"`
+
+	// Represents the limit configuration of a metastore service.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	LimitConfig *LimitConfigParameters `json:"limitConfig,omitempty" tf:"limit_config,omitempty"`
+}
+
 type ScalingConfigInitParameters struct {
+
+	// Represents the autoscaling configuration of a metastore service.
+	// Structure is documented below.
+	AutoscalingConfig *ScalingConfigAutoscalingConfigInitParameters `json:"autoscalingConfig,omitempty" tf:"autoscaling_config,omitempty"`
 
 	// Metastore instance sizes.
 	// Possible values are: EXTRA_SMALL, SMALL, MEDIUM, LARGE, EXTRA_LARGE.
@@ -671,6 +749,10 @@ type ScalingConfigInitParameters struct {
 
 type ScalingConfigObservation struct {
 
+	// Represents the autoscaling configuration of a metastore service.
+	// Structure is documented below.
+	AutoscalingConfig *ScalingConfigAutoscalingConfigObservation `json:"autoscalingConfig,omitempty" tf:"autoscaling_config,omitempty"`
+
 	// Metastore instance sizes.
 	// Possible values are: EXTRA_SMALL, SMALL, MEDIUM, LARGE, EXTRA_LARGE.
 	InstanceSize *string `json:"instanceSize,omitempty" tf:"instance_size,omitempty"`
@@ -680,6 +762,11 @@ type ScalingConfigObservation struct {
 }
 
 type ScalingConfigParameters struct {
+
+	// Represents the autoscaling configuration of a metastore service.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AutoscalingConfig *ScalingConfigAutoscalingConfigParameters `json:"autoscalingConfig,omitempty" tf:"autoscaling_config,omitempty"`
 
 	// Metastore instance sizes.
 	// Possible values are: EXTRA_SMALL, SMALL, MEDIUM, LARGE, EXTRA_LARGE.

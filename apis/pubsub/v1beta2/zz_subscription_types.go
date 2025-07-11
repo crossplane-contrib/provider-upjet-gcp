@@ -15,6 +15,10 @@ import (
 
 type AvroConfigInitParameters struct {
 
+	// When true, use the topic's schema as the columns to write to in BigQuery, if it exists.
+	// Only one of use_topic_schema and use_table_schema can be set.
+	UseTopicSchema *bool `json:"useTopicSchema,omitempty" tf:"use_topic_schema,omitempty"`
+
 	// When true, writes the Pub/Sub message metadata to
 	// x-goog-pubsub-<KEY>:<VAL> headers of the HTTP request. Writes the
 	// Pub/Sub message attributes to <KEY>:<VAL> headers of the HTTP request.
@@ -23,6 +27,10 @@ type AvroConfigInitParameters struct {
 
 type AvroConfigObservation struct {
 
+	// When true, use the topic's schema as the columns to write to in BigQuery, if it exists.
+	// Only one of use_topic_schema and use_table_schema can be set.
+	UseTopicSchema *bool `json:"useTopicSchema,omitempty" tf:"use_topic_schema,omitempty"`
+
 	// When true, writes the Pub/Sub message metadata to
 	// x-goog-pubsub-<KEY>:<VAL> headers of the HTTP request. Writes the
 	// Pub/Sub message attributes to <KEY>:<VAL> headers of the HTTP request.
@@ -30,6 +38,11 @@ type AvroConfigObservation struct {
 }
 
 type AvroConfigParameters struct {
+
+	// When true, use the topic's schema as the columns to write to in BigQuery, if it exists.
+	// Only one of use_topic_schema and use_table_schema can be set.
+	// +kubebuilder:validation:Optional
+	UseTopicSchema *bool `json:"useTopicSchema,omitempty" tf:"use_topic_schema,omitempty"`
 
 	// When true, writes the Pub/Sub message metadata to
 	// x-goog-pubsub-<KEY>:<VAL> headers of the HTTP request. Writes the
@@ -175,6 +188,9 @@ type CloudStorageConfigInitParameters struct {
 	// A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
 	MaxDuration *string `json:"maxDuration,omitempty" tf:"max_duration,omitempty"`
 
+	// The maximum messages that can be written to a Cloud Storage file before a new file is created. Min 1000 messages.
+	MaxMessages *float64 `json:"maxMessages,omitempty" tf:"max_messages,omitempty"`
+
 	// The service account to use to write to Cloud Storage. If not specified, the Pub/Sub
 	// service agent,
 	// service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com, is used.
@@ -217,6 +233,9 @@ type CloudStorageConfigObservation struct {
 	// May not exceed the subscription's acknowledgement deadline.
 	// A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
 	MaxDuration *string `json:"maxDuration,omitempty" tf:"max_duration,omitempty"`
+
+	// The maximum messages that can be written to a Cloud Storage file before a new file is created. Min 1000 messages.
+	MaxMessages *float64 `json:"maxMessages,omitempty" tf:"max_messages,omitempty"`
 
 	// The service account to use to write to Cloud Storage. If not specified, the Pub/Sub
 	// service agent,
@@ -261,6 +280,10 @@ type CloudStorageConfigParameters struct {
 	// A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
 	// +kubebuilder:validation:Optional
 	MaxDuration *string `json:"maxDuration,omitempty" tf:"max_duration,omitempty"`
+
+	// The maximum messages that can be written to a Cloud Storage file before a new file is created. Min 1000 messages.
+	// +kubebuilder:validation:Optional
+	MaxMessages *float64 `json:"maxMessages,omitempty" tf:"max_messages,omitempty"`
 
 	// The service account to use to write to Cloud Storage. If not specified, the Pub/Sub
 	// service agent,
@@ -402,6 +425,76 @@ type ExpirationPolicyParameters struct {
 	// Example - "3.5s".
 	// +kubebuilder:validation:Optional
 	TTL *string `json:"ttl" tf:"ttl,omitempty"`
+}
+
+type JavascriptUdfInitParameters struct {
+
+	// JavaScript code that contains a function function_name with the
+	// following signature:
+	Code *string `json:"code,omitempty" tf:"code,omitempty"`
+
+	// Name of the JavaScript function that should be applied to Pub/Sub messages.
+	FunctionName *string `json:"functionName,omitempty" tf:"function_name,omitempty"`
+}
+
+type JavascriptUdfObservation struct {
+
+	// JavaScript code that contains a function function_name with the
+	// following signature:
+	Code *string `json:"code,omitempty" tf:"code,omitempty"`
+
+	// Name of the JavaScript function that should be applied to Pub/Sub messages.
+	FunctionName *string `json:"functionName,omitempty" tf:"function_name,omitempty"`
+}
+
+type JavascriptUdfParameters struct {
+
+	// JavaScript code that contains a function function_name with the
+	// following signature:
+	// +kubebuilder:validation:Optional
+	Code *string `json:"code" tf:"code,omitempty"`
+
+	// Name of the JavaScript function that should be applied to Pub/Sub messages.
+	// +kubebuilder:validation:Optional
+	FunctionName *string `json:"functionName" tf:"function_name,omitempty"`
+}
+
+type MessageTransformsInitParameters struct {
+
+	// Controls whether or not to use this transform. If not set or false,
+	// the transform will be applied to messages. Default: true.
+	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
+
+	// Javascript User Defined Function. If multiple Javascript UDFs are specified on a resource,
+	// each one must have a unique function_name.
+	// Structure is documented below.
+	JavascriptUdf *JavascriptUdfInitParameters `json:"javascriptUdf,omitempty" tf:"javascript_udf,omitempty"`
+}
+
+type MessageTransformsObservation struct {
+
+	// Controls whether or not to use this transform. If not set or false,
+	// the transform will be applied to messages. Default: true.
+	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
+
+	// Javascript User Defined Function. If multiple Javascript UDFs are specified on a resource,
+	// each one must have a unique function_name.
+	// Structure is documented below.
+	JavascriptUdf *JavascriptUdfObservation `json:"javascriptUdf,omitempty" tf:"javascript_udf,omitempty"`
+}
+
+type MessageTransformsParameters struct {
+
+	// Controls whether or not to use this transform. If not set or false,
+	// the transform will be applied to messages. Default: true.
+	// +kubebuilder:validation:Optional
+	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
+
+	// Javascript User Defined Function. If multiple Javascript UDFs are specified on a resource,
+	// each one must have a unique function_name.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	JavascriptUdf *JavascriptUdfParameters `json:"javascriptUdf,omitempty" tf:"javascript_udf,omitempty"`
 }
 
 type NoWrapperInitParameters struct {
@@ -707,10 +800,15 @@ type SubscriptionInitParameters struct {
 	// retain_acked_messages is true, then this also configures the retention
 	// of acknowledged messages, and thus configures how far back in time a
 	// subscriptions.seek can be done. Defaults to 7 days. Cannot be more
-	// than 7 days ("604800s") or less than 10 minutes ("600s").
+	// than 31 days ("2678400s") or less than 10 minutes ("600s").
 	// A duration in seconds with up to nine fractional digits, terminated
 	// by 's'. Example: "600.5s".
 	MessageRetentionDuration *string `json:"messageRetentionDuration,omitempty" tf:"message_retention_duration,omitempty"`
+
+	// Transforms to be applied to messages published to the topic. Transforms are applied in the
+	// order specified.
+	// Structure is documented below.
+	MessageTransforms []MessageTransformsInitParameters `json:"messageTransforms,omitempty" tf:"message_transforms,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -831,10 +929,15 @@ type SubscriptionObservation struct {
 	// retain_acked_messages is true, then this also configures the retention
 	// of acknowledged messages, and thus configures how far back in time a
 	// subscriptions.seek can be done. Defaults to 7 days. Cannot be more
-	// than 7 days ("604800s") or less than 10 minutes ("600s").
+	// than 31 days ("2678400s") or less than 10 minutes ("600s").
 	// A duration in seconds with up to nine fractional digits, terminated
 	// by 's'. Example: "600.5s".
 	MessageRetentionDuration *string `json:"messageRetentionDuration,omitempty" tf:"message_retention_duration,omitempty"`
+
+	// Transforms to be applied to messages published to the topic. Transforms are applied in the
+	// order specified.
+	// Structure is documented below.
+	MessageTransforms []MessageTransformsObservation `json:"messageTransforms,omitempty" tf:"message_transforms,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -953,11 +1056,17 @@ type SubscriptionParameters struct {
 	// retain_acked_messages is true, then this also configures the retention
 	// of acknowledged messages, and thus configures how far back in time a
 	// subscriptions.seek can be done. Defaults to 7 days. Cannot be more
-	// than 7 days ("604800s") or less than 10 minutes ("600s").
+	// than 31 days ("2678400s") or less than 10 minutes ("600s").
 	// A duration in seconds with up to nine fractional digits, terminated
 	// by 's'. Example: "600.5s".
 	// +kubebuilder:validation:Optional
 	MessageRetentionDuration *string `json:"messageRetentionDuration,omitempty" tf:"message_retention_duration,omitempty"`
+
+	// Transforms to be applied to messages published to the topic. Transforms are applied in the
+	// order specified.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	MessageTransforms []MessageTransformsParameters `json:"messageTransforms,omitempty" tf:"message_transforms,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.

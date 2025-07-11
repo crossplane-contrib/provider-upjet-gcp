@@ -13,7 +13,86 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AcceleratorsInitParameters struct {
+
+	// The number of the guest accelerator cards exposed to this
+	// node template.
+	AcceleratorCount *float64 `json:"acceleratorCount,omitempty" tf:"accelerator_count,omitempty"`
+
+	// Full or partial URL of the accelerator type resource to expose
+	// to this node template.
+	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
+}
+
+type AcceleratorsObservation struct {
+
+	// The number of the guest accelerator cards exposed to this
+	// node template.
+	AcceleratorCount *float64 `json:"acceleratorCount,omitempty" tf:"accelerator_count,omitempty"`
+
+	// Full or partial URL of the accelerator type resource to expose
+	// to this node template.
+	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
+}
+
+type AcceleratorsParameters struct {
+
+	// The number of the guest accelerator cards exposed to this
+	// node template.
+	// +kubebuilder:validation:Optional
+	AcceleratorCount *float64 `json:"acceleratorCount,omitempty" tf:"accelerator_count,omitempty"`
+
+	// Full or partial URL of the accelerator type resource to expose
+	// to this node template.
+	// +kubebuilder:validation:Optional
+	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
+}
+
+type DisksInitParameters struct {
+
+	// Specifies the number of such disks.
+	DiskCount *float64 `json:"diskCount,omitempty" tf:"disk_count,omitempty"`
+
+	// Specifies the size of the disk in base-2 GB.
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// Specifies the desired disk type on the node. This disk type must be a local storage type (e.g.: local-ssd). Note that for nodeTemplates, this should be the name of the disk type and not its URL.
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+}
+
+type DisksObservation struct {
+
+	// Specifies the number of such disks.
+	DiskCount *float64 `json:"diskCount,omitempty" tf:"disk_count,omitempty"`
+
+	// Specifies the size of the disk in base-2 GB.
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// Specifies the desired disk type on the node. This disk type must be a local storage type (e.g.: local-ssd). Note that for nodeTemplates, this should be the name of the disk type and not its URL.
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+}
+
+type DisksParameters struct {
+
+	// Specifies the number of such disks.
+	// +kubebuilder:validation:Optional
+	DiskCount *float64 `json:"diskCount,omitempty" tf:"disk_count,omitempty"`
+
+	// Specifies the size of the disk in base-2 GB.
+	// +kubebuilder:validation:Optional
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// Specifies the desired disk type on the node. This disk type must be a local storage type (e.g.: local-ssd). Note that for nodeTemplates, this should be the name of the disk type and not its URL.
+	// +kubebuilder:validation:Optional
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+}
+
 type NodeTemplateInitParameters struct {
+
+	// List of the type and count of accelerator cards attached to the
+	// node template
+	// Structure is documented below.
+	Accelerators []AcceleratorsInitParameters `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
 
 	// CPU overcommit.
 	// Default value is NONE.
@@ -22,6 +101,11 @@ type NodeTemplateInitParameters struct {
 
 	// An optional textual description of the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// List of the type, size and count of disks attached to the
+	// node template
+	// Structure is documented below.
+	Disks []DisksInitParameters `json:"disks,omitempty" tf:"disks,omitempty"`
 
 	// Labels to use for node affinity, which will be used in
 	// instance scheduling.
@@ -51,6 +135,11 @@ type NodeTemplateInitParameters struct {
 
 type NodeTemplateObservation struct {
 
+	// List of the type and count of accelerator cards attached to the
+	// node template
+	// Structure is documented below.
+	Accelerators []AcceleratorsObservation `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
+
 	// CPU overcommit.
 	// Default value is NONE.
 	// Possible values are: ENABLED, NONE.
@@ -61,6 +150,11 @@ type NodeTemplateObservation struct {
 
 	// An optional textual description of the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// List of the type, size and count of disks attached to the
+	// node template
+	// Structure is documented below.
+	Disks []DisksObservation `json:"disks,omitempty" tf:"disks,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/nodeTemplates/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -100,6 +194,12 @@ type NodeTemplateObservation struct {
 
 type NodeTemplateParameters struct {
 
+	// List of the type and count of accelerator cards attached to the
+	// node template
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Accelerators []AcceleratorsParameters `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
+
 	// CPU overcommit.
 	// Default value is NONE.
 	// Possible values are: ENABLED, NONE.
@@ -109,6 +209,12 @@ type NodeTemplateParameters struct {
 	// An optional textual description of the resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// List of the type, size and count of disks attached to the
+	// node template
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Disks []DisksParameters `json:"disks,omitempty" tf:"disks,omitempty"`
 
 	// Labels to use for node affinity, which will be used in
 	// instance scheduling.

@@ -9,5 +9,5 @@ metadata:
 spec:
   forProvider:
     description: Example Resource
-    parent: organizations/12345
+    parent: organizations/123456789
     shortName: my-policy

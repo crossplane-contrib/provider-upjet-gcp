@@ -58,6 +58,10 @@ type DomainObservation struct {
 	// +listType=set
 	AuthorizedNetworks []*string `json:"authorizedNetworks,omitempty" tf:"authorized_networks,omitempty"`
 
+	// Defaults to true.
+	// When the field is set to false, deleting the domain is allowed.
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
+
 	// The fully qualified domain name. e.g. mydomain.myorganization.com, with the restrictions
 	// of https://cloud.google.com/managed-microsoft-ad/reference/rest/v1/projects.locations.global.domains.
 	DomainName *string `json:"domainName,omitempty" tf:"domain_name,omitempty"`

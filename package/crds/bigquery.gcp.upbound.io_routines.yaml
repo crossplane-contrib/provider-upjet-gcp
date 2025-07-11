@@ -1649,6 +1649,11 @@ spec:
                       The type of routine.
                       Possible values are: SCALAR_FUNCTION, PROCEDURE, TABLE_VALUED_FUNCTION.
                     type: string
+                  securityMode:
+                    description: |-
+                      Optional. The security mode of the routine, if defined. If not defined, the security mode is automatically determined from the routine's configuration.
+                      Possible values are: DEFINER, INVOKER.
+                    type: string
                   sparkOptions:
                     description: |-
                       Optional. If language is one of "PYTHON", "JAVA", "SCALA", this field stores the options for spark stored procedure.
@@ -2005,6 +2010,11 @@ spec:
                     description: |-
                       The type of routine.
                       Possible values are: SCALAR_FUNCTION, PROCEDURE, TABLE_VALUED_FUNCTION.
+                    type: string
+                  securityMode:
+                    description: |-
+                      Optional. The security mode of the routine, if defined. If not defined, the security mode is automatically determined from the routine's configuration.
+                      Possible values are: DEFINER, INVOKER.
                     type: string
                   sparkOptions:
                     description: |-
@@ -2470,6 +2480,11 @@ spec:
                     description: |-
                       The type of routine.
                       Possible values are: SCALAR_FUNCTION, PROCEDURE, TABLE_VALUED_FUNCTION.
+                    type: string
+                  securityMode:
+                    description: |-
+                      Optional. The security mode of the routine, if defined. If not defined, the security mode is automatically determined from the routine's configuration.
+                      Possible values are: DEFINER, INVOKER.
                     type: string
                   sparkOptions:
                     description: |-

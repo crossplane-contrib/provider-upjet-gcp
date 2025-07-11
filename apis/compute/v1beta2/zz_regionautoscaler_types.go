@@ -245,7 +245,7 @@ type AutoscalingPolicyMetricParameters struct {
 
 type AutoscalingPolicyScaleInControlInitParameters struct {
 
-	// A nested object resource
+	// A nested object resource.
 	// Structure is documented below.
 	MaxScaledInReplicas *ScaleInControlMaxScaledInReplicasInitParameters `json:"maxScaledInReplicas,omitempty" tf:"max_scaled_in_replicas,omitempty"`
 
@@ -256,7 +256,7 @@ type AutoscalingPolicyScaleInControlInitParameters struct {
 
 type AutoscalingPolicyScaleInControlObservation struct {
 
-	// A nested object resource
+	// A nested object resource.
 	// Structure is documented below.
 	MaxScaledInReplicas *ScaleInControlMaxScaledInReplicasObservation `json:"maxScaledInReplicas,omitempty" tf:"max_scaled_in_replicas,omitempty"`
 
@@ -267,7 +267,7 @@ type AutoscalingPolicyScaleInControlObservation struct {
 
 type AutoscalingPolicyScaleInControlParameters struct {
 
-	// A nested object resource
+	// A nested object resource.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	MaxScaledInReplicas *ScaleInControlMaxScaledInReplicasParameters `json:"maxScaledInReplicas,omitempty" tf:"max_scaled_in_replicas,omitempty"`
@@ -532,7 +532,7 @@ type RegionAutoscalerInitParameters struct {
 	// Structure is documented below.
 	AutoscalingPolicy *RegionAutoscalerAutoscalingPolicyInitParameters `json:"autoscalingPolicy,omitempty" tf:"autoscaling_policy,omitempty"`
 
-	// A description of a scaling schedule.
+	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -566,7 +566,7 @@ type RegionAutoscalerObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
-	// A description of a scaling schedule.
+	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/autoscalers/{{name}}
@@ -597,7 +597,7 @@ type RegionAutoscalerParameters struct {
 	// +kubebuilder:validation:Optional
 	AutoscalingPolicy *RegionAutoscalerAutoscalingPolicyParameters `json:"autoscalingPolicy,omitempty" tf:"autoscaling_policy,omitempty"`
 
-	// A description of a scaling schedule.
+	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 

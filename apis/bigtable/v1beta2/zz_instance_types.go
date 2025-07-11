@@ -73,6 +73,9 @@ type ClusterInitParameters struct {
 	// Describes the Cloud KMS encryption key that will be used to protect the destination Bigtable cluster. The requirements for this key are: 1) The Cloud Bigtable service account associated with the project that contains this cluster must be granted the cloudkms.cryptoKeyEncrypterDecrypter role on the CMEK key. 2) Only regional keys can be used and the region of the CMEK key must match the region of the cluster.
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
+	// The node scaling factor for this cluster. One of "NodeScalingFactor1X" or "NodeScalingFactor2X". Defaults to "NodeScalingFactor1X". If "NodeScalingFactor2X" is specified, then num_nodes, min_nodes, and max_nodes would need to be specified in increments of 2. This value cannot be updated after the cluster is created.
+	NodeScalingFactor *string `json:"nodeScalingFactor,omitempty" tf:"node_scaling_factor,omitempty"`
+
 	// The number of nodes in the cluster.
 	// If no value is set, Cloud Bigtable automatically allocates nodes based on your data footprint and optimized for 50% storage utilization.
 	NumNodes *float64 `json:"numNodes,omitempty" tf:"num_nodes,omitempty"`
@@ -97,6 +100,9 @@ type ClusterObservation struct {
 
 	// Describes the Cloud KMS encryption key that will be used to protect the destination Bigtable cluster. The requirements for this key are: 1) The Cloud Bigtable service account associated with the project that contains this cluster must be granted the cloudkms.cryptoKeyEncrypterDecrypter role on the CMEK key. 2) Only regional keys can be used and the region of the CMEK key must match the region of the cluster.
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+
+	// The node scaling factor for this cluster. One of "NodeScalingFactor1X" or "NodeScalingFactor2X". Defaults to "NodeScalingFactor1X". If "NodeScalingFactor2X" is specified, then num_nodes, min_nodes, and max_nodes would need to be specified in increments of 2. This value cannot be updated after the cluster is created.
+	NodeScalingFactor *string `json:"nodeScalingFactor,omitempty" tf:"node_scaling_factor,omitempty"`
 
 	// The number of nodes in the cluster.
 	// If no value is set, Cloud Bigtable automatically allocates nodes based on your data footprint and optimized for 50% storage utilization.
@@ -129,6 +135,10 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
+	// The node scaling factor for this cluster. One of "NodeScalingFactor1X" or "NodeScalingFactor2X". Defaults to "NodeScalingFactor1X". If "NodeScalingFactor2X" is specified, then num_nodes, min_nodes, and max_nodes would need to be specified in increments of 2. This value cannot be updated after the cluster is created.
+	// +kubebuilder:validation:Optional
+	NodeScalingFactor *string `json:"nodeScalingFactor,omitempty" tf:"node_scaling_factor,omitempty"`
+
 	// The number of nodes in the cluster.
 	// If no value is set, Cloud Bigtable automatically allocates nodes based on your data footprint and optimized for 50% storage utilization.
 	// +kubebuilder:validation:Optional
@@ -152,9 +162,6 @@ type InstanceInitParameters struct {
 	// to as many as possible within 8 cloud regions. Removing the field entirely from the config will cause the provider
 	// to default to the backend value. See structure below.
 	Cluster []ClusterInitParameters `json:"cluster,omitempty" tf:"cluster,omitempty"`
-
-	// When the field is set to false, deleting the instance is allowed.
-	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// The human-readable display name of the Bigtable instance. Defaults to the instance name.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -227,10 +234,6 @@ type InstanceParameters struct {
 	// to default to the backend value. See structure below.
 	// +kubebuilder:validation:Optional
 	Cluster []ClusterParameters `json:"cluster,omitempty" tf:"cluster,omitempty"`
-
-	// When the field is set to false, deleting the instance is allowed.
-	// +kubebuilder:validation:Optional
-	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// The human-readable display name of the Bigtable instance. Defaults to the instance name.
 	// +kubebuilder:validation:Optional

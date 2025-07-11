@@ -10,7 +10,7 @@ spec:
   forProvider:
     buildConfig:
     - entryPoint: helloHttp
-      runtime: nodejs16
+      runtime: nodejs20
       source:
       - storageSource:
         - bucketSelector:

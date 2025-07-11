@@ -1028,6 +1028,12 @@ spec:
                       A path to the data you want to upload. Must be defined
                       if content is not.
                     type: string
+                  sourceMd5Hash:
+                    description: User-provided md5hash to trigger replacement of object
+                      in storage bucket, Must be Base 64 MD5 hash of the object data.
+                      The usual way to set this is filemd5("file.zip"), where "file.zip"
+                      is the local filename
+                    type: string
                   storageClass:
                     description: |-
                       The StorageClass of the new bucket object.
@@ -1224,6 +1230,12 @@ spec:
                     description: |-
                       A path to the data you want to upload. Must be defined
                       if content is not.
+                    type: string
+                  sourceMd5Hash:
+                    description: User-provided md5hash to trigger replacement of object
+                      in storage bucket, Must be Base 64 MD5 hash of the object data.
+                      The usual way to set this is filemd5("file.zip"), where "file.zip"
+                      is the local filename
                     type: string
                   storageClass:
                     description: |-
@@ -1477,6 +1489,9 @@ spec:
                   md5hash:
                     description: (Computed) Base 64 MD5 hash of the uploaded data.
                     type: string
+                  md5hexhash:
+                    description: (Computed) Hex value of md5hash`
+                    type: string
                   mediaLink:
                     description: (Computed) A url reference to download this object.
                     type: string
@@ -1515,6 +1530,12 @@ spec:
                     description: |-
                       A path to the data you want to upload. Must be defined
                       if content is not.
+                    type: string
+                  sourceMd5Hash:
+                    description: User-provided md5hash to trigger replacement of object
+                      in storage bucket, Must be Base 64 MD5 hash of the object data.
+                      The usual way to set this is filemd5("file.zip"), where "file.zip"
+                      is the local filename
                     type: string
                   storageClass:
                     description: |-

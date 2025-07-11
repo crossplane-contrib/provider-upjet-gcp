@@ -52,7 +52,7 @@ spec:
   forProvider:
     description: Resource created for Terraform acceptance testing
     parent: ${google_folder.folder.id}
-    shortName: policy
+    shortName: fw-policy
 
 ---
 
@@ -66,7 +66,7 @@ metadata:
   name: folder
 spec:
   forProvider:
-    displayName: policy
+    displayName: folder
     parentSelector:
       matchLabels:
         testing.upbound.io/example-name: example
@@ -90,3 +90,40 @@ spec:
     location: global
     parent: organizations/123456789
     type: IPV4
+
+---
+
+apiVersion: tags.gcp.upbound.io/v1beta1
+kind: TagKey
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta2/firewallpolicyrule
+  labels:
+    testing.upbound.io/example-name: basic_key
+  name: basic-key
+spec:
+  forProvider:
+    description: For keyname resources.
+    parent: organizations/123456789
+    purpose: GCE_FIREWALL
+    purposeData:
+      organization: auto
+    shortName: tag-key
+
+---
+
+apiVersion: tags.gcp.upbound.io/v1beta1
+kind: TagValue
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta2/firewallpolicyrule
+  labels:
+    testing.upbound.io/example-name: basic_value
+  name: basic-value
+spec:
+  forProvider:
+    description: For valuename resources.
+    parentSelector:
+      matchLabels:
+        testing.upbound.io/example-name: basic_key
+    shortName: tag-value

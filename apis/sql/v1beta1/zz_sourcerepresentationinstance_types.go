@@ -24,8 +24,7 @@ type SourceRepresentationInstanceInitParameters struct {
 	// The private key file for the client certificate on the external server. Required only for server-client authentication. Include only if SSL/TLS is used on the external server.
 	ClientKey *string `json:"clientKey,omitempty" tf:"client_key,omitempty"`
 
-	// The MySQL version running on your source database server.
-	// Possible values are: MYSQL_5_6, MYSQL_5_7, MYSQL_8_0, POSTGRES_9_6, POSTGRES_10, POSTGRES_11, POSTGRES_12, POSTGRES_13, POSTGRES_14.
+	// The MySQL, PostgreSQL or SQL Server (beta) version to use. Supported values include MYSQL_5_6, MYSQL_5_7, MYSQL_8_0, MYSQL_8_4, POSTGRES_9_6, POSTGRES_10, POSTGRES_11, POSTGRES_12, POSTGRES_13, POSTGRES_14, POSTGRES_15, POSTGRES_16, POSTGRES_17. Database Version Policies includes an up-to-date reference of supported versions.
 	DatabaseVersion *string `json:"databaseVersion,omitempty" tf:"database_version,omitempty"`
 
 	// A file in the bucket that contains the data from the external server.
@@ -65,8 +64,7 @@ type SourceRepresentationInstanceObservation struct {
 	// The private key file for the client certificate on the external server. Required only for server-client authentication. Include only if SSL/TLS is used on the external server.
 	ClientKey *string `json:"clientKey,omitempty" tf:"client_key,omitempty"`
 
-	// The MySQL version running on your source database server.
-	// Possible values are: MYSQL_5_6, MYSQL_5_7, MYSQL_8_0, POSTGRES_9_6, POSTGRES_10, POSTGRES_11, POSTGRES_12, POSTGRES_13, POSTGRES_14.
+	// The MySQL, PostgreSQL or SQL Server (beta) version to use. Supported values include MYSQL_5_6, MYSQL_5_7, MYSQL_8_0, MYSQL_8_4, POSTGRES_9_6, POSTGRES_10, POSTGRES_11, POSTGRES_12, POSTGRES_13, POSTGRES_14, POSTGRES_15, POSTGRES_16, POSTGRES_17. Database Version Policies includes an up-to-date reference of supported versions.
 	DatabaseVersion *string `json:"databaseVersion,omitempty" tf:"database_version,omitempty"`
 
 	// A file in the bucket that contains the data from the external server.
@@ -108,8 +106,7 @@ type SourceRepresentationInstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	ClientKey *string `json:"clientKey,omitempty" tf:"client_key,omitempty"`
 
-	// The MySQL version running on your source database server.
-	// Possible values are: MYSQL_5_6, MYSQL_5_7, MYSQL_8_0, POSTGRES_9_6, POSTGRES_10, POSTGRES_11, POSTGRES_12, POSTGRES_13, POSTGRES_14.
+	// The MySQL, PostgreSQL or SQL Server (beta) version to use. Supported values include MYSQL_5_6, MYSQL_5_7, MYSQL_8_0, MYSQL_8_4, POSTGRES_9_6, POSTGRES_10, POSTGRES_11, POSTGRES_12, POSTGRES_13, POSTGRES_14, POSTGRES_15, POSTGRES_16, POSTGRES_17. Database Version Policies includes an up-to-date reference of supported versions.
 	// +kubebuilder:validation:Optional
 	DatabaseVersion *string `json:"databaseVersion,omitempty" tf:"database_version,omitempty"`
 

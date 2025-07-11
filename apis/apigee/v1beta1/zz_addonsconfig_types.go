@@ -15,34 +15,34 @@ import (
 
 type APISecurityConfigInitParameters struct {
 
-	// Flag that specifies whether the Advanced API Ops add-on is enabled.
+	// Flag that specifies whether the Monetization add-on is enabled.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
 
 type APISecurityConfigObservation struct {
 
-	// Flag that specifies whether the Advanced API Ops add-on is enabled.
+	// Flag that specifies whether the Monetization add-on is enabled.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
 	// (Output)
-	// Flag that specifies whether the Advanced API Ops add-on is enabled.
+	// Time at which the Connectors Platform add-on expires in milliseconds since epoch. If unspecified, the add-on will never expire.
 	ExpiresAt *string `json:"expiresAt,omitempty" tf:"expires_at,omitempty"`
 }
 
 type APISecurityConfigParameters struct {
 
-	// Flag that specifies whether the Advanced API Ops add-on is enabled.
+	// Flag that specifies whether the Monetization add-on is enabled.
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
 
 type AddonsConfigAddonsConfigInitParameters struct {
 
-	// Configuration for the Monetization add-on.
+	// Configuration for the API Security add-on.
 	// Structure is documented below.
 	APISecurityConfig *APISecurityConfigInitParameters `json:"apiSecurityConfig,omitempty" tf:"api_security_config,omitempty"`
 
-	// Configuration for the Monetization add-on.
+	// Configuration for the Advanced API Ops add-on.
 	// Structure is documented below.
 	AdvancedAPIOpsConfig *AdvancedAPIOpsConfigInitParameters `json:"advancedApiOpsConfig,omitempty" tf:"advanced_api_ops_config,omitempty"`
 
@@ -50,7 +50,7 @@ type AddonsConfigAddonsConfigInitParameters struct {
 	// Structure is documented below.
 	ConnectorsPlatformConfig *ConnectorsPlatformConfigInitParameters `json:"connectorsPlatformConfig,omitempty" tf:"connectors_platform_config,omitempty"`
 
-	// Configuration for the Monetization add-on.
+	// Configuration for the Integration add-on.
 	// Structure is documented below.
 	IntegrationConfig *IntegrationConfigInitParameters `json:"integrationConfig,omitempty" tf:"integration_config,omitempty"`
 
@@ -61,11 +61,11 @@ type AddonsConfigAddonsConfigInitParameters struct {
 
 type AddonsConfigAddonsConfigObservation struct {
 
-	// Configuration for the Monetization add-on.
+	// Configuration for the API Security add-on.
 	// Structure is documented below.
 	APISecurityConfig *APISecurityConfigObservation `json:"apiSecurityConfig,omitempty" tf:"api_security_config,omitempty"`
 
-	// Configuration for the Monetization add-on.
+	// Configuration for the Advanced API Ops add-on.
 	// Structure is documented below.
 	AdvancedAPIOpsConfig *AdvancedAPIOpsConfigObservation `json:"advancedApiOpsConfig,omitempty" tf:"advanced_api_ops_config,omitempty"`
 
@@ -73,7 +73,7 @@ type AddonsConfigAddonsConfigObservation struct {
 	// Structure is documented below.
 	ConnectorsPlatformConfig *ConnectorsPlatformConfigObservation `json:"connectorsPlatformConfig,omitempty" tf:"connectors_platform_config,omitempty"`
 
-	// Configuration for the Monetization add-on.
+	// Configuration for the Integration add-on.
 	// Structure is documented below.
 	IntegrationConfig *IntegrationConfigObservation `json:"integrationConfig,omitempty" tf:"integration_config,omitempty"`
 
@@ -84,12 +84,12 @@ type AddonsConfigAddonsConfigObservation struct {
 
 type AddonsConfigAddonsConfigParameters struct {
 
-	// Configuration for the Monetization add-on.
+	// Configuration for the API Security add-on.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	APISecurityConfig *APISecurityConfigParameters `json:"apiSecurityConfig,omitempty" tf:"api_security_config,omitempty"`
 
-	// Configuration for the Monetization add-on.
+	// Configuration for the Advanced API Ops add-on.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AdvancedAPIOpsConfig *AdvancedAPIOpsConfigParameters `json:"advancedApiOpsConfig,omitempty" tf:"advanced_api_ops_config,omitempty"`
@@ -99,7 +99,7 @@ type AddonsConfigAddonsConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	ConnectorsPlatformConfig *ConnectorsPlatformConfigParameters `json:"connectorsPlatformConfig,omitempty" tf:"connectors_platform_config,omitempty"`
 
-	// Configuration for the Monetization add-on.
+	// Configuration for the Integration add-on.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	IntegrationConfig *IntegrationConfigParameters `json:"integrationConfig,omitempty" tf:"integration_config,omitempty"`
@@ -167,80 +167,80 @@ type AddonsConfigParameters struct {
 
 type AdvancedAPIOpsConfigInitParameters struct {
 
-	// Flag that specifies whether the Advanced API Ops add-on is enabled.
+	// Flag that specifies whether the Monetization add-on is enabled.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
 
 type AdvancedAPIOpsConfigObservation struct {
 
-	// Flag that specifies whether the Advanced API Ops add-on is enabled.
+	// Flag that specifies whether the Monetization add-on is enabled.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
 
 type AdvancedAPIOpsConfigParameters struct {
 
-	// Flag that specifies whether the Advanced API Ops add-on is enabled.
+	// Flag that specifies whether the Monetization add-on is enabled.
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
 
 type ConnectorsPlatformConfigInitParameters struct {
 
-	// Flag that specifies whether the Advanced API Ops add-on is enabled.
+	// Flag that specifies whether the Monetization add-on is enabled.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
 
 type ConnectorsPlatformConfigObservation struct {
 
-	// Flag that specifies whether the Advanced API Ops add-on is enabled.
+	// Flag that specifies whether the Monetization add-on is enabled.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
 	// (Output)
-	// Flag that specifies whether the Advanced API Ops add-on is enabled.
+	// Time at which the Connectors Platform add-on expires in milliseconds since epoch. If unspecified, the add-on will never expire.
 	ExpiresAt *string `json:"expiresAt,omitempty" tf:"expires_at,omitempty"`
 }
 
 type ConnectorsPlatformConfigParameters struct {
 
-	// Flag that specifies whether the Advanced API Ops add-on is enabled.
+	// Flag that specifies whether the Monetization add-on is enabled.
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
 
 type IntegrationConfigInitParameters struct {
 
-	// Flag that specifies whether the Advanced API Ops add-on is enabled.
+	// Flag that specifies whether the Monetization add-on is enabled.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
 
 type IntegrationConfigObservation struct {
 
-	// Flag that specifies whether the Advanced API Ops add-on is enabled.
+	// Flag that specifies whether the Monetization add-on is enabled.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
 
 type IntegrationConfigParameters struct {
 
-	// Flag that specifies whether the Advanced API Ops add-on is enabled.
+	// Flag that specifies whether the Monetization add-on is enabled.
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
 
 type MonetizationConfigInitParameters struct {
 
-	// Flag that specifies whether the Advanced API Ops add-on is enabled.
+	// Flag that specifies whether the Monetization add-on is enabled.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
 
 type MonetizationConfigObservation struct {
 
-	// Flag that specifies whether the Advanced API Ops add-on is enabled.
+	// Flag that specifies whether the Monetization add-on is enabled.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
 
 type MonetizationConfigParameters struct {
 
-	// Flag that specifies whether the Advanced API Ops add-on is enabled.
+	// Flag that specifies whether the Monetization add-on is enabled.
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
