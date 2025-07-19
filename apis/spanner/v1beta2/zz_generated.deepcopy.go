@@ -859,6 +859,11 @@ func (in *DatabaseInitParameters) DeepCopyInto(out *DatabaseInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionProtection != nil {
+		in, out := &in.DeletionProtection, &out.DeletionProtection
+		*out = new(bool)
+		**out = **in
+	}
 	if in.EnableDropProtection != nil {
 		in, out := &in.EnableDropProtection, &out.EnableDropProtection
 		*out = new(bool)
@@ -1021,6 +1026,11 @@ func (in *DatabaseParameters) DeepCopyInto(out *DatabaseParameters) {
 	if in.DefaultTimeZone != nil {
 		in, out := &in.DefaultTimeZone, &out.DefaultTimeZone
 		*out = new(string)
+		**out = **in
+	}
+	if in.DeletionProtection != nil {
+		in, out := &in.DeletionProtection, &out.DeletionProtection
+		*out = new(bool)
 		**out = **in
 	}
 	if in.EnableDropProtection != nil {

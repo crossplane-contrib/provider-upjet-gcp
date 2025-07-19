@@ -1952,6 +1952,11 @@ func (in *ClusterInitParameters) DeepCopyInto(out *ClusterInitParameters) {
 		*out = new(DefaultSnatStatusInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionProtection != nil {
+		in, out := &in.DeletionProtection, &out.DeletionProtection
+		*out = new(bool)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -2856,6 +2861,11 @@ func (in *ClusterParameters) DeepCopyInto(out *ClusterParameters) {
 		in, out := &in.DefaultSnatStatus, &out.DefaultSnatStatus
 		*out = new(DefaultSnatStatusParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.DeletionProtection != nil {
+		in, out := &in.DeletionProtection, &out.DeletionProtection
+		*out = new(bool)
+		**out = **in
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description

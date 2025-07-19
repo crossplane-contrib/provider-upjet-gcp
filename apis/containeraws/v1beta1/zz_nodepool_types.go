@@ -322,6 +322,55 @@ type ConfigSSHConfigParameters struct {
 	EC2KeyPair *string `json:"ec2KeyPair" tf:"ec2_key_pair,omitempty"`
 }
 
+type KubeletConfigInitParameters struct {
+
+	// Whether or not to enable CPU CFS quota. Defaults to true.
+	CPUCfsQuota *bool `json:"cpuCfsQuota,omitempty" tf:"cpu_cfs_quota,omitempty"`
+
+	// Optional. The CPU CFS quota period to use for the node. Defaults to "100ms".
+	CPUCfsQuotaPeriod *string `json:"cpuCfsQuotaPeriod,omitempty" tf:"cpu_cfs_quota_period,omitempty"`
+
+	// The CpuManagerPolicy to use for the node. Defaults to "none".
+	CPUManagerPolicy *string `json:"cpuManagerPolicy,omitempty" tf:"cpu_manager_policy,omitempty"`
+
+	// Optional. The maximum number of PIDs in each pod running on the node. The limit scales automatically based on underlying machine size if left unset.
+	PodPidsLimit *float64 `json:"podPidsLimit,omitempty" tf:"pod_pids_limit,omitempty"`
+}
+
+type KubeletConfigObservation struct {
+
+	// Whether or not to enable CPU CFS quota. Defaults to true.
+	CPUCfsQuota *bool `json:"cpuCfsQuota,omitempty" tf:"cpu_cfs_quota,omitempty"`
+
+	// Optional. The CPU CFS quota period to use for the node. Defaults to "100ms".
+	CPUCfsQuotaPeriod *string `json:"cpuCfsQuotaPeriod,omitempty" tf:"cpu_cfs_quota_period,omitempty"`
+
+	// The CpuManagerPolicy to use for the node. Defaults to "none".
+	CPUManagerPolicy *string `json:"cpuManagerPolicy,omitempty" tf:"cpu_manager_policy,omitempty"`
+
+	// Optional. The maximum number of PIDs in each pod running on the node. The limit scales automatically based on underlying machine size if left unset.
+	PodPidsLimit *float64 `json:"podPidsLimit,omitempty" tf:"pod_pids_limit,omitempty"`
+}
+
+type KubeletConfigParameters struct {
+
+	// Whether or not to enable CPU CFS quota. Defaults to true.
+	// +kubebuilder:validation:Optional
+	CPUCfsQuota *bool `json:"cpuCfsQuota,omitempty" tf:"cpu_cfs_quota,omitempty"`
+
+	// Optional. The CPU CFS quota period to use for the node. Defaults to "100ms".
+	// +kubebuilder:validation:Optional
+	CPUCfsQuotaPeriod *string `json:"cpuCfsQuotaPeriod,omitempty" tf:"cpu_cfs_quota_period,omitempty"`
+
+	// The CpuManagerPolicy to use for the node. Defaults to "none".
+	// +kubebuilder:validation:Optional
+	CPUManagerPolicy *string `json:"cpuManagerPolicy,omitempty" tf:"cpu_manager_policy,omitempty"`
+
+	// Optional. The maximum number of PIDs in each pod running on the node. The limit scales automatically based on underlying machine size if left unset.
+	// +kubebuilder:validation:Optional
+	PodPidsLimit *float64 `json:"podPidsLimit,omitempty" tf:"pod_pids_limit,omitempty"`
+}
+
 type ManagementInitParameters struct {
 
 	// Optional. Whether or not the nodes will be automatically repaired.
@@ -372,6 +421,9 @@ type NodePoolInitParameters struct {
 	// The configuration of the node pool.
 	Config []ConfigInitParameters `json:"config,omitempty" tf:"config,omitempty"`
 
+	// The kubelet configuration for the node pool.
+	KubeletConfig []KubeletConfigInitParameters `json:"kubeletConfig,omitempty" tf:"kubelet_config,omitempty"`
+
 	// The Management configuration for this node pool.
 	Management []ManagementInitParameters `json:"management,omitempty" tf:"management,omitempty"`
 
@@ -417,6 +469,9 @@ type NodePoolObservation struct {
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/awsClusters/{{cluster}}/awsNodePools/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The kubelet configuration for the node pool.
+	KubeletConfig []KubeletConfigObservation `json:"kubeletConfig,omitempty" tf:"kubelet_config,omitempty"`
 
 	// The location for the resource
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
@@ -479,6 +534,10 @@ type NodePoolParameters struct {
 	// The configuration of the node pool.
 	// +kubebuilder:validation:Optional
 	Config []ConfigParameters `json:"config,omitempty" tf:"config,omitempty"`
+
+	// The kubelet configuration for the node pool.
+	// +kubebuilder:validation:Optional
+	KubeletConfig []KubeletConfigParameters `json:"kubeletConfig,omitempty" tf:"kubelet_config,omitempty"`
 
 	// The location for the resource
 	// +kubebuilder:validation:Required

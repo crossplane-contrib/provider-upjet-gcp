@@ -76,25 +76,6 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 
 	var rsp reference.ResolutionResponse
 	var err error
-	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Network", "NetworkList")
-		if err != nil {
-			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
-		}
-
-		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Network),
-			Extract:      resource.ExtractResourceID(),
-			Reference:    mg.Spec.ForProvider.NetworkRef,
-			Selector:     mg.Spec.ForProvider.NetworkSelector,
-			To:           reference.To{List: l, Managed: m},
-		})
-	}
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.Network")
-	}
-	mg.Spec.ForProvider.Network = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.NetworkRef = rsp.ResolvedReference
 
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.NetworkConfig); i3++ {
 		{
@@ -180,25 +161,6 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 		mg.Spec.ForProvider.SecondaryConfig[i3].PrimaryClusterNameRef = rsp.ResolvedReference
 
 	}
-	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Network", "NetworkList")
-		if err != nil {
-			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
-		}
-		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Network),
-			Extract:      resource.ExtractResourceID(),
-			Reference:    mg.Spec.InitProvider.NetworkRef,
-			Selector:     mg.Spec.InitProvider.NetworkSelector,
-			To:           reference.To{List: l, Managed: m},
-		})
-	}
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.InitProvider.Network")
-	}
-	mg.Spec.InitProvider.Network = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.InitProvider.NetworkRef = rsp.ResolvedReference
-
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.NetworkConfig); i3++ {
 		{
 			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Network", "NetworkList")

@@ -282,6 +282,9 @@ spec:
                           items:
                             properties:
                               totalEgressBandwidthTier:
+                                description: 'Specifies the total network bandwidth
+                                  tier for the NodePool. Valid values include: "TIER_1"
+                                  and "TIER_UNSPECIFIED".'
                                 type: string
                             type: object
                           type: array
@@ -319,6 +322,8 @@ spec:
                             properties:
                               enableNestedVirtualization:
                                 type: boolean
+                              performanceMonitoringUnit:
+                                type: string
                               threadsPerCore:
                                 type: number
                             type: object
@@ -330,6 +335,8 @@ spec:
                             Structure is documented below.
                           items:
                             properties:
+                              confidentialInstanceType:
+                                type: string
                               enabled:
                                 description: Makes nodes obtainable through the ProvisioningRequest
                                   API exclusively.
@@ -375,6 +382,8 @@ spec:
                         ephemeralStorageLocalSsdConfig:
                           items:
                             properties:
+                              dataCacheCount:
+                                type: number
                               localSsdCount:
                                 type: number
                             type: object
@@ -388,6 +397,8 @@ spec:
                                 type: boolean
                             type: object
                           type: array
+                        flexStart:
+                          type: boolean
                         gcfsConfig:
                           items:
                             properties:
@@ -458,11 +469,27 @@ spec:
                         kubeletConfig:
                           items:
                             properties:
+                              allowedUnsafeSysctls:
+                                items:
+                                  type: string
+                                type: array
+                              containerLogMaxFiles:
+                                type: number
+                              containerLogMaxSize:
+                                type: string
                               cpuCfsQuota:
                                 type: boolean
                               cpuCfsQuotaPeriod:
                                 type: string
                               cpuManagerPolicy:
+                                type: string
+                              imageGcHighThresholdPercent:
+                                type: number
+                              imageGcLowThresholdPercent:
+                                type: number
+                              imageMaximumGcAge:
+                                type: string
+                              imageMinimumGcAge:
                                 type: string
                               insecureKubeletReadonlyPortEnabled:
                                 type: string
@@ -483,6 +510,15 @@ spec:
                             properties:
                               cgroupMode:
                                 type: string
+                              hugepagesConfig:
+                                items:
+                                  properties:
+                                    hugepageSize1G:
+                                      type: number
+                                    hugepageSize2M:
+                                      type: number
+                                  type: object
+                                type: array
                               sysctls:
                                 additionalProperties:
                                   type: string
@@ -499,9 +535,16 @@ spec:
                           type: array
                         localSsdCount:
                           type: number
+                        localSsdEncryptionMode:
+                          description: |-
+                            Possible Local SSD encryption modes:
+                            Accepted values are:
+                          type: string
                         loggingVariant:
                           type: string
                         machineType:
+                          type: string
+                        maxRunDuration:
                           type: string
                         metadata:
                           additionalProperties:
@@ -659,6 +702,10 @@ spec:
                           type: array
                         spot:
                           type: boolean
+                        storagePools:
+                          items:
+                            type: string
+                          type: array
                         tags:
                           items:
                             type: string
@@ -671,6 +718,20 @@ spec:
                               key:
                                 type: string
                               value:
+                                type: string
+                            type: object
+                          type: array
+                        windowsNodeConfig:
+                          description: |-
+                            Parameters used in creating the node pool. See
+                            google_container_cluster for schema.
+                          items:
+                            properties:
+                              osversion:
+                                description: |-
+                                  The Kubernetes version for the nodes in this pool. Note that if this field
+                                  and auto_upgrade are both specified, they will fight each other for what the node version should
+                                  be, so setting both is highly discouraged.
                                 type: string
                             type: object
                           type: array
@@ -944,6 +1005,9 @@ spec:
                           items:
                             properties:
                               totalEgressBandwidthTier:
+                                description: 'Specifies the total network bandwidth
+                                  tier for the NodePool. Valid values include: "TIER_1"
+                                  and "TIER_UNSPECIFIED".'
                                 type: string
                             type: object
                           type: array
@@ -981,6 +1045,8 @@ spec:
                             properties:
                               enableNestedVirtualization:
                                 type: boolean
+                              performanceMonitoringUnit:
+                                type: string
                               threadsPerCore:
                                 type: number
                             type: object
@@ -992,6 +1058,8 @@ spec:
                             Structure is documented below.
                           items:
                             properties:
+                              confidentialInstanceType:
+                                type: string
                               enabled:
                                 description: Makes nodes obtainable through the ProvisioningRequest
                                   API exclusively.
@@ -1037,6 +1105,8 @@ spec:
                         ephemeralStorageLocalSsdConfig:
                           items:
                             properties:
+                              dataCacheCount:
+                                type: number
                               localSsdCount:
                                 type: number
                             type: object
@@ -1050,6 +1120,8 @@ spec:
                                 type: boolean
                             type: object
                           type: array
+                        flexStart:
+                          type: boolean
                         gcfsConfig:
                           items:
                             properties:
@@ -1120,11 +1192,27 @@ spec:
                         kubeletConfig:
                           items:
                             properties:
+                              allowedUnsafeSysctls:
+                                items:
+                                  type: string
+                                type: array
+                              containerLogMaxFiles:
+                                type: number
+                              containerLogMaxSize:
+                                type: string
                               cpuCfsQuota:
                                 type: boolean
                               cpuCfsQuotaPeriod:
                                 type: string
                               cpuManagerPolicy:
+                                type: string
+                              imageGcHighThresholdPercent:
+                                type: number
+                              imageGcLowThresholdPercent:
+                                type: number
+                              imageMaximumGcAge:
+                                type: string
+                              imageMinimumGcAge:
                                 type: string
                               insecureKubeletReadonlyPortEnabled:
                                 type: string
@@ -1145,6 +1233,15 @@ spec:
                             properties:
                               cgroupMode:
                                 type: string
+                              hugepagesConfig:
+                                items:
+                                  properties:
+                                    hugepageSize1G:
+                                      type: number
+                                    hugepageSize2M:
+                                      type: number
+                                  type: object
+                                type: array
                               sysctls:
                                 additionalProperties:
                                   type: string
@@ -1161,9 +1258,16 @@ spec:
                           type: array
                         localSsdCount:
                           type: number
+                        localSsdEncryptionMode:
+                          description: |-
+                            Possible Local SSD encryption modes:
+                            Accepted values are:
+                          type: string
                         loggingVariant:
                           type: string
                         machineType:
+                          type: string
+                        maxRunDuration:
                           type: string
                         metadata:
                           additionalProperties:
@@ -1321,6 +1425,10 @@ spec:
                           type: array
                         spot:
                           type: boolean
+                        storagePools:
+                          items:
+                            type: string
+                          type: array
                         tags:
                           items:
                             type: string
@@ -1333,6 +1441,20 @@ spec:
                               key:
                                 type: string
                               value:
+                                type: string
+                            type: object
+                          type: array
+                        windowsNodeConfig:
+                          description: |-
+                            Parameters used in creating the node pool. See
+                            google_container_cluster for schema.
+                          items:
+                            properties:
+                              osversion:
+                                description: |-
+                                  The Kubernetes version for the nodes in this pool. Note that if this field
+                                  and auto_upgrade are both specified, they will fight each other for what the node version should
+                                  be, so setting both is highly discouraged.
                                 type: string
                             type: object
                           type: array
@@ -1789,6 +1911,9 @@ spec:
                           items:
                             properties:
                               totalEgressBandwidthTier:
+                                description: 'Specifies the total network bandwidth
+                                  tier for the NodePool. Valid values include: "TIER_1"
+                                  and "TIER_UNSPECIFIED".'
                                 type: string
                             type: object
                           type: array
@@ -1826,6 +1951,8 @@ spec:
                             properties:
                               enableNestedVirtualization:
                                 type: boolean
+                              performanceMonitoringUnit:
+                                type: string
                               threadsPerCore:
                                 type: number
                             type: object
@@ -1837,6 +1964,8 @@ spec:
                             Structure is documented below.
                           items:
                             properties:
+                              confidentialInstanceType:
+                                type: string
                               enabled:
                                 description: Makes nodes obtainable through the ProvisioningRequest
                                   API exclusively.
@@ -1893,6 +2022,8 @@ spec:
                         ephemeralStorageLocalSsdConfig:
                           items:
                             properties:
+                              dataCacheCount:
+                                type: number
                               localSsdCount:
                                 type: number
                             type: object
@@ -1906,6 +2037,8 @@ spec:
                                 type: boolean
                             type: object
                           type: array
+                        flexStart:
+                          type: boolean
                         gcfsConfig:
                           items:
                             properties:
@@ -1976,11 +2109,27 @@ spec:
                         kubeletConfig:
                           items:
                             properties:
+                              allowedUnsafeSysctls:
+                                items:
+                                  type: string
+                                type: array
+                              containerLogMaxFiles:
+                                type: number
+                              containerLogMaxSize:
+                                type: string
                               cpuCfsQuota:
                                 type: boolean
                               cpuCfsQuotaPeriod:
                                 type: string
                               cpuManagerPolicy:
+                                type: string
+                              imageGcHighThresholdPercent:
+                                type: number
+                              imageGcLowThresholdPercent:
+                                type: number
+                              imageMaximumGcAge:
+                                type: string
+                              imageMinimumGcAge:
                                 type: string
                               insecureKubeletReadonlyPortEnabled:
                                 type: string
@@ -2001,6 +2150,15 @@ spec:
                             properties:
                               cgroupMode:
                                 type: string
+                              hugepagesConfig:
+                                items:
+                                  properties:
+                                    hugepageSize1G:
+                                      type: number
+                                    hugepageSize2M:
+                                      type: number
+                                  type: object
+                                type: array
                               sysctls:
                                 additionalProperties:
                                   type: string
@@ -2017,9 +2175,16 @@ spec:
                           type: array
                         localSsdCount:
                           type: number
+                        localSsdEncryptionMode:
+                          description: |-
+                            Possible Local SSD encryption modes:
+                            Accepted values are:
+                          type: string
                         loggingVariant:
                           type: string
                         machineType:
+                          type: string
+                        maxRunDuration:
                           type: string
                         metadata:
                           additionalProperties:
@@ -2101,6 +2266,10 @@ spec:
                           type: array
                         spot:
                           type: boolean
+                        storagePools:
+                          items:
+                            type: string
+                          type: array
                         tags:
                           items:
                             type: string
@@ -2113,6 +2282,20 @@ spec:
                               key:
                                 type: string
                               value:
+                                type: string
+                            type: object
+                          type: array
+                        windowsNodeConfig:
+                          description: |-
+                            Parameters used in creating the node pool. See
+                            google_container_cluster for schema.
+                          items:
+                            properties:
+                              osversion:
+                                description: |-
+                                  The Kubernetes version for the nodes in this pool. Note that if this field
+                                  and auto_upgrade are both specified, they will fight each other for what the node version should
+                                  be, so setting both is highly discouraged.
                                 type: string
                             type: object
                           type: array

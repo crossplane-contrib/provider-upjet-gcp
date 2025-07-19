@@ -9328,6 +9328,11 @@ func (in *V2JobInitParameters) DeepCopyInto(out *V2JobInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionProtection != nil {
+		in, out := &in.DeletionProtection, &out.DeletionProtection
+		*out = new(bool)
+		**out = **in
+	}
 	if in.Labels != nil {
 		in, out := &in.Labels, &out.Labels
 		*out = make(map[string]*string, len(*in))
@@ -9656,6 +9661,11 @@ func (in *V2JobParameters) DeepCopyInto(out *V2JobParameters) {
 	if in.ClientVersion != nil {
 		in, out := &in.ClientVersion, &out.ClientVersion
 		*out = new(string)
+		**out = **in
+	}
+	if in.DeletionProtection != nil {
+		in, out := &in.DeletionProtection, &out.DeletionProtection
+		*out = new(bool)
 		**out = **in
 	}
 	if in.Labels != nil {
@@ -10179,6 +10189,11 @@ func (in *V2ServiceInitParameters) DeepCopyInto(out *V2ServiceInitParameters) {
 			}
 		}
 	}
+	if in.DeletionProtection != nil {
+		in, out := &in.DeletionProtection, &out.DeletionProtection
+		*out = new(bool)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -10615,6 +10630,11 @@ func (in *V2ServiceParameters) DeepCopyInto(out *V2ServiceParameters) {
 				**out = **in
 			}
 		}
+	}
+	if in.DeletionProtection != nil {
+		in, out := &in.DeletionProtection, &out.DeletionProtection
+		*out = new(bool)
+		**out = **in
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description

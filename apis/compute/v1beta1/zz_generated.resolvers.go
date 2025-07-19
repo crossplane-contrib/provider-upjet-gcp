@@ -396,7 +396,7 @@ func (mg *BackendService) ResolveReferences(ctx context.Context, c client.Reader
 
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.Backend); i3++ {
 		{
-			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "InstanceGroupManager", "InstanceGroupManagerList")
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "InstanceGroupManager", "InstanceGroupManagerList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
@@ -416,7 +416,7 @@ func (mg *BackendService) ResolveReferences(ctx context.Context, c client.Reader
 
 	}
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "HealthCheck", "HealthCheckList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "HealthCheck", "HealthCheckList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -436,7 +436,7 @@ func (mg *BackendService) ResolveReferences(ctx context.Context, c client.Reader
 
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.Backend); i3++ {
 		{
-			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "InstanceGroupManager", "InstanceGroupManagerList")
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "InstanceGroupManager", "InstanceGroupManagerList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
@@ -456,7 +456,7 @@ func (mg *BackendService) ResolveReferences(ctx context.Context, c client.Reader
 
 	}
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "HealthCheck", "HealthCheckList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "HealthCheck", "HealthCheckList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -885,12 +885,56 @@ func (mg *FirewallPolicyRule) ResolveReferences(ctx context.Context, c client.Re
 	}
 	mg.Spec.ForProvider.FirewallPolicy = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.FirewallPolicyRef = rsp.ResolvedReference
+
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Match); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.Match[i3].SrcSecureTags); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("tags.gcp.upbound.io", "v1beta1", "TagValue", "TagValueList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Match[i3].SrcSecureTags[i4].Name),
+					Extract:      resource.ExtractResourceID(),
+					Reference:    mg.Spec.ForProvider.Match[i3].SrcSecureTags[i4].NameRef,
+					Selector:     mg.Spec.ForProvider.Match[i3].SrcSecureTags[i4].NameSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.Match[i3].SrcSecureTags[i4].Name")
+			}
+			mg.Spec.ForProvider.Match[i3].SrcSecureTags[i4].Name = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Match[i3].SrcSecureTags[i4].NameRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.TargetSecureTags); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("tags.gcp.upbound.io", "v1beta1", "TagValue", "TagValueList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.TargetSecureTags[i3].Name),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.ForProvider.TargetSecureTags[i3].NameRef,
+				Selector:     mg.Spec.ForProvider.TargetSecureTags[i3].NameSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.TargetSecureTags[i3].Name")
+		}
+		mg.Spec.ForProvider.TargetSecureTags[i3].Name = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.TargetSecureTags[i3].NameRef = rsp.ResolvedReference
+
+	}
 	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "FirewallPolicy", "FirewallPolicyList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
-
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.FirewallPolicy),
 			Extract:      resource.ExtractParamPath("name", true),
@@ -904,6 +948,51 @@ func (mg *FirewallPolicyRule) ResolveReferences(ctx context.Context, c client.Re
 	}
 	mg.Spec.InitProvider.FirewallPolicy = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.FirewallPolicyRef = rsp.ResolvedReference
+
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Match); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Match[i3].SrcSecureTags); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("tags.gcp.upbound.io", "v1beta1", "TagValue", "TagValueList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Match[i3].SrcSecureTags[i4].Name),
+					Extract:      resource.ExtractResourceID(),
+					Reference:    mg.Spec.InitProvider.Match[i3].SrcSecureTags[i4].NameRef,
+					Selector:     mg.Spec.InitProvider.Match[i3].SrcSecureTags[i4].NameSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.Match[i3].SrcSecureTags[i4].Name")
+			}
+			mg.Spec.InitProvider.Match[i3].SrcSecureTags[i4].Name = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Match[i3].SrcSecureTags[i4].NameRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.TargetSecureTags); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("tags.gcp.upbound.io", "v1beta1", "TagValue", "TagValueList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.TargetSecureTags[i3].Name),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.InitProvider.TargetSecureTags[i3].NameRef,
+				Selector:     mg.Spec.InitProvider.TargetSecureTags[i3].NameSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.TargetSecureTags[i3].Name")
+		}
+		mg.Spec.InitProvider.TargetSecureTags[i3].Name = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.TargetSecureTags[i3].NameRef = rsp.ResolvedReference
+
+	}
 
 	return nil
 }
@@ -1226,7 +1315,7 @@ func (mg *GlobalForwardingRule) ResolveReferences(ctx context.Context, c client.
 	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Subnetwork", "SubnetworkList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Subnetwork", "SubnetworkList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -1321,7 +1410,7 @@ func (mg *GlobalForwardingRule) ResolveReferences(ctx context.Context, c client.
 	mg.Spec.InitProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ProjectRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Subnetwork", "SubnetworkList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Subnetwork", "SubnetworkList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -1505,6 +1594,56 @@ func (mg *HaVPNGateway) ResolveReferences(ctx context.Context, c client.Reader) 
 	return nil
 }
 
+// ResolveReferences of this Image.
+func (mg *Image) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Disk", "DiskList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SourceDisk),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.ForProvider.SourceDiskRef,
+			Selector:     mg.Spec.ForProvider.SourceDiskSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.SourceDisk")
+	}
+	mg.Spec.ForProvider.SourceDisk = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.SourceDiskRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Disk", "DiskList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SourceDisk),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.InitProvider.SourceDiskRef,
+			Selector:     mg.Spec.InitProvider.SourceDiskSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.SourceDisk")
+	}
+	mg.Spec.InitProvider.SourceDisk = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.SourceDiskRef = rsp.ResolvedReference
+
+	return nil
+}
+
 // ResolveReferences of this ImageIAMMember.
 func (mg *ImageIAMMember) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed
@@ -1567,7 +1706,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.BootDisk); i3++ {
 		for i4 := 0; i4 < len(mg.Spec.ForProvider.BootDisk[i3].InitializeParams); i4++ {
 			{
-				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Image", "ImageList")
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Image", "ImageList")
 				if err != nil {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
@@ -1610,7 +1749,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 	}
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.NetworkInterface); i3++ {
 		{
-			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Subnetwork", "SubnetworkList")
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Subnetwork", "SubnetworkList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
@@ -1653,7 +1792,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.BootDisk); i3++ {
 		for i4 := 0; i4 < len(mg.Spec.InitProvider.BootDisk[i3].InitializeParams); i4++ {
 			{
-				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Image", "ImageList")
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Image", "ImageList")
 				if err != nil {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
@@ -1696,7 +1835,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 	}
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.NetworkInterface); i3++ {
 		{
-			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Subnetwork", "SubnetworkList")
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Subnetwork", "SubnetworkList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
@@ -1772,7 +1911,7 @@ func (mg *InstanceFromTemplate) ResolveReferences(ctx context.Context, c client.
 	}
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.NetworkInterface); i3++ {
 		{
-			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Subnetwork", "SubnetworkList")
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Subnetwork", "SubnetworkList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
@@ -1792,7 +1931,7 @@ func (mg *InstanceFromTemplate) ResolveReferences(ctx context.Context, c client.
 
 	}
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "InstanceTemplate", "InstanceTemplateList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "InstanceTemplate", "InstanceTemplateList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -1833,7 +1972,7 @@ func (mg *InstanceFromTemplate) ResolveReferences(ctx context.Context, c client.
 	}
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.NetworkInterface); i3++ {
 		{
-			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Subnetwork", "SubnetworkList")
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Subnetwork", "SubnetworkList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
@@ -1853,7 +1992,7 @@ func (mg *InstanceFromTemplate) ResolveReferences(ctx context.Context, c client.
 
 	}
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "InstanceTemplate", "InstanceTemplateList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "InstanceTemplate", "InstanceTemplateList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -1994,6 +2133,27 @@ func (mg *InstanceGroupManager) ResolveReferences(ctx context.Context, c client.
 		mg.Spec.ForProvider.AutoHealingPolicies[i3].HealthCheckRef = rsp.ResolvedReference
 
 	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.ResourcePolicies); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "ResourcePolicy", "ResourcePolicyList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ResourcePolicies[i3].WorkloadPolicy),
+				Extract:      resource.ExtractParamPath("self_link", true),
+				Reference:    mg.Spec.ForProvider.ResourcePolicies[i3].WorkloadPolicyRef,
+				Selector:     mg.Spec.ForProvider.ResourcePolicies[i3].WorkloadPolicySelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.ResourcePolicies[i3].WorkloadPolicy")
+		}
+		mg.Spec.ForProvider.ResourcePolicies[i3].WorkloadPolicy = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.ResourcePolicies[i3].WorkloadPolicyRef = rsp.ResolvedReference
+
+	}
 	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "TargetPool", "TargetPoolList")
 		if err != nil {
@@ -2053,6 +2213,27 @@ func (mg *InstanceGroupManager) ResolveReferences(ctx context.Context, c client.
 		}
 		mg.Spec.InitProvider.AutoHealingPolicies[i3].HealthCheck = reference.ToPtrValue(rsp.ResolvedValue)
 		mg.Spec.InitProvider.AutoHealingPolicies[i3].HealthCheckRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.ResourcePolicies); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "ResourcePolicy", "ResourcePolicyList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ResourcePolicies[i3].WorkloadPolicy),
+				Extract:      resource.ExtractParamPath("self_link", true),
+				Reference:    mg.Spec.InitProvider.ResourcePolicies[i3].WorkloadPolicyRef,
+				Selector:     mg.Spec.InitProvider.ResourcePolicies[i3].WorkloadPolicySelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.ResourcePolicies[i3].WorkloadPolicy")
+		}
+		mg.Spec.InitProvider.ResourcePolicies[i3].WorkloadPolicy = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.ResourcePolicies[i3].WorkloadPolicyRef = rsp.ResolvedReference
 
 	}
 	{
@@ -2182,7 +2363,7 @@ func (mg *InstanceTemplate) ResolveReferences(ctx context.Context, c client.Read
 	}
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.Disk); i3++ {
 		{
-			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Disk", "DiskList")
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Disk", "DiskList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
@@ -2224,7 +2405,7 @@ func (mg *InstanceTemplate) ResolveReferences(ctx context.Context, c client.Read
 	}
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.NetworkInterface); i3++ {
 		{
-			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Subnetwork", "SubnetworkList")
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Subnetwork", "SubnetworkList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
@@ -2287,7 +2468,7 @@ func (mg *InstanceTemplate) ResolveReferences(ctx context.Context, c client.Read
 	}
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.Disk); i3++ {
 		{
-			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Disk", "DiskList")
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Disk", "DiskList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
@@ -2329,7 +2510,7 @@ func (mg *InstanceTemplate) ResolveReferences(ctx context.Context, c client.Read
 	}
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.NetworkInterface); i3++ {
 		{
-			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Subnetwork", "SubnetworkList")
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Subnetwork", "SubnetworkList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
@@ -3467,7 +3648,7 @@ func (mg *RegionBackendService) ResolveReferences(ctx context.Context, c client.
 
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.Backend); i3++ {
 		{
-			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "RegionInstanceGroupManager", "RegionInstanceGroupManagerList")
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionInstanceGroupManager", "RegionInstanceGroupManagerList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
@@ -3487,7 +3668,7 @@ func (mg *RegionBackendService) ResolveReferences(ctx context.Context, c client.
 
 	}
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "RegionHealthCheck", "RegionHealthCheckList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionHealthCheck", "RegionHealthCheckList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -3507,7 +3688,7 @@ func (mg *RegionBackendService) ResolveReferences(ctx context.Context, c client.
 
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.Backend); i3++ {
 		{
-			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "RegionInstanceGroupManager", "RegionInstanceGroupManagerList")
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionInstanceGroupManager", "RegionInstanceGroupManagerList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
@@ -3527,7 +3708,7 @@ func (mg *RegionBackendService) ResolveReferences(ctx context.Context, c client.
 
 	}
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "RegionHealthCheck", "RegionHealthCheckList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionHealthCheck", "RegionHealthCheckList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -4578,7 +4759,7 @@ func (mg *RegionURLMap) ResolveReferences(ctx context.Context, c client.Reader) 
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.DefaultRouteAction); i3++ {
 		for i4 := 0; i4 < len(mg.Spec.ForProvider.DefaultRouteAction[i3].RequestMirrorPolicy); i4++ {
 			{
-				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "RegionBackendService", "RegionBackendServiceList")
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionBackendService", "RegionBackendServiceList")
 				if err != nil {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
@@ -4601,7 +4782,7 @@ func (mg *RegionURLMap) ResolveReferences(ctx context.Context, c client.Reader) 
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.DefaultRouteAction); i3++ {
 		for i4 := 0; i4 < len(mg.Spec.ForProvider.DefaultRouteAction[i3].WeightedBackendServices); i4++ {
 			{
-				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "RegionBackendService", "RegionBackendServiceList")
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionBackendService", "RegionBackendServiceList")
 				if err != nil {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
@@ -4622,7 +4803,7 @@ func (mg *RegionURLMap) ResolveReferences(ctx context.Context, c client.Reader) 
 		}
 	}
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "RegionBackendService", "RegionBackendServiceList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionBackendService", "RegionBackendServiceList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -4641,8 +4822,58 @@ func (mg *RegionURLMap) ResolveReferences(ctx context.Context, c client.Reader) 
 	mg.Spec.ForProvider.DefaultServiceRef = rsp.ResolvedReference
 
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.PathMatcher); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.PathMatcher[i3].DefaultRouteAction); i4++ {
+			for i5 := 0; i5 < len(mg.Spec.ForProvider.PathMatcher[i3].DefaultRouteAction[i4].RequestMirrorPolicy); i5++ {
+				{
+					m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionBackendService", "RegionBackendServiceList")
+					if err != nil {
+						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+					}
+					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PathMatcher[i3].DefaultRouteAction[i4].RequestMirrorPolicy[i5].BackendService),
+						Extract:      resource.ExtractResourceID(),
+						Reference:    mg.Spec.ForProvider.PathMatcher[i3].DefaultRouteAction[i4].RequestMirrorPolicy[i5].BackendServiceRef,
+						Selector:     mg.Spec.ForProvider.PathMatcher[i3].DefaultRouteAction[i4].RequestMirrorPolicy[i5].BackendServiceSelector,
+						To:           reference.To{List: l, Managed: m},
+					})
+				}
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.ForProvider.PathMatcher[i3].DefaultRouteAction[i4].RequestMirrorPolicy[i5].BackendService")
+				}
+				mg.Spec.ForProvider.PathMatcher[i3].DefaultRouteAction[i4].RequestMirrorPolicy[i5].BackendService = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.ForProvider.PathMatcher[i3].DefaultRouteAction[i4].RequestMirrorPolicy[i5].BackendServiceRef = rsp.ResolvedReference
+
+			}
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.PathMatcher); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.PathMatcher[i3].DefaultRouteAction); i4++ {
+			for i5 := 0; i5 < len(mg.Spec.ForProvider.PathMatcher[i3].DefaultRouteAction[i4].WeightedBackendServices); i5++ {
+				{
+					m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionBackendService", "RegionBackendServiceList")
+					if err != nil {
+						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+					}
+					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PathMatcher[i3].DefaultRouteAction[i4].WeightedBackendServices[i5].BackendService),
+						Extract:      resource.ExtractResourceID(),
+						Reference:    mg.Spec.ForProvider.PathMatcher[i3].DefaultRouteAction[i4].WeightedBackendServices[i5].BackendServiceRef,
+						Selector:     mg.Spec.ForProvider.PathMatcher[i3].DefaultRouteAction[i4].WeightedBackendServices[i5].BackendServiceSelector,
+						To:           reference.To{List: l, Managed: m},
+					})
+				}
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.ForProvider.PathMatcher[i3].DefaultRouteAction[i4].WeightedBackendServices[i5].BackendService")
+				}
+				mg.Spec.ForProvider.PathMatcher[i3].DefaultRouteAction[i4].WeightedBackendServices[i5].BackendService = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.ForProvider.PathMatcher[i3].DefaultRouteAction[i4].WeightedBackendServices[i5].BackendServiceRef = rsp.ResolvedReference
+
+			}
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.PathMatcher); i3++ {
 		{
-			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "RegionBackendService", "RegionBackendServiceList")
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionBackendService", "RegionBackendServiceList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
@@ -4666,7 +4897,7 @@ func (mg *RegionURLMap) ResolveReferences(ctx context.Context, c client.Reader) 
 			for i5 := 0; i5 < len(mg.Spec.ForProvider.PathMatcher[i3].PathRule[i4].RouteAction); i5++ {
 				for i6 := 0; i6 < len(mg.Spec.ForProvider.PathMatcher[i3].PathRule[i4].RouteAction[i5].RequestMirrorPolicy); i6++ {
 					{
-						m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "RegionBackendService", "RegionBackendServiceList")
+						m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionBackendService", "RegionBackendServiceList")
 						if err != nil {
 							return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 						}
@@ -4693,7 +4924,7 @@ func (mg *RegionURLMap) ResolveReferences(ctx context.Context, c client.Reader) 
 			for i5 := 0; i5 < len(mg.Spec.ForProvider.PathMatcher[i3].PathRule[i4].RouteAction); i5++ {
 				for i6 := 0; i6 < len(mg.Spec.ForProvider.PathMatcher[i3].PathRule[i4].RouteAction[i5].WeightedBackendServices); i6++ {
 					{
-						m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "RegionBackendService", "RegionBackendServiceList")
+						m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionBackendService", "RegionBackendServiceList")
 						if err != nil {
 							return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 						}
@@ -4718,7 +4949,7 @@ func (mg *RegionURLMap) ResolveReferences(ctx context.Context, c client.Reader) 
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.PathMatcher); i3++ {
 		for i4 := 0; i4 < len(mg.Spec.ForProvider.PathMatcher[i3].PathRule); i4++ {
 			{
-				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "RegionBackendService", "RegionBackendServiceList")
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionBackendService", "RegionBackendServiceList")
 				if err != nil {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
@@ -4741,7 +4972,7 @@ func (mg *RegionURLMap) ResolveReferences(ctx context.Context, c client.Reader) 
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.PathMatcher); i3++ {
 		for i4 := 0; i4 < len(mg.Spec.ForProvider.PathMatcher[i3].RouteRules); i4++ {
 			{
-				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "RegionBackendService", "RegionBackendServiceList")
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionBackendService", "RegionBackendServiceList")
 				if err != nil {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
@@ -4763,7 +4994,7 @@ func (mg *RegionURLMap) ResolveReferences(ctx context.Context, c client.Reader) 
 	}
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.Test); i3++ {
 		{
-			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "RegionBackendService", "RegionBackendServiceList")
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionBackendService", "RegionBackendServiceList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
@@ -4785,7 +5016,7 @@ func (mg *RegionURLMap) ResolveReferences(ctx context.Context, c client.Reader) 
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.DefaultRouteAction); i3++ {
 		for i4 := 0; i4 < len(mg.Spec.InitProvider.DefaultRouteAction[i3].RequestMirrorPolicy); i4++ {
 			{
-				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "RegionBackendService", "RegionBackendServiceList")
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionBackendService", "RegionBackendServiceList")
 				if err != nil {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
@@ -4808,7 +5039,7 @@ func (mg *RegionURLMap) ResolveReferences(ctx context.Context, c client.Reader) 
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.DefaultRouteAction); i3++ {
 		for i4 := 0; i4 < len(mg.Spec.InitProvider.DefaultRouteAction[i3].WeightedBackendServices); i4++ {
 			{
-				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "RegionBackendService", "RegionBackendServiceList")
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionBackendService", "RegionBackendServiceList")
 				if err != nil {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
@@ -4829,7 +5060,7 @@ func (mg *RegionURLMap) ResolveReferences(ctx context.Context, c client.Reader) 
 		}
 	}
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "RegionBackendService", "RegionBackendServiceList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionBackendService", "RegionBackendServiceList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -4848,8 +5079,58 @@ func (mg *RegionURLMap) ResolveReferences(ctx context.Context, c client.Reader) 
 	mg.Spec.InitProvider.DefaultServiceRef = rsp.ResolvedReference
 
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.PathMatcher); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.PathMatcher[i3].DefaultRouteAction); i4++ {
+			for i5 := 0; i5 < len(mg.Spec.InitProvider.PathMatcher[i3].DefaultRouteAction[i4].RequestMirrorPolicy); i5++ {
+				{
+					m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionBackendService", "RegionBackendServiceList")
+					if err != nil {
+						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+					}
+					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PathMatcher[i3].DefaultRouteAction[i4].RequestMirrorPolicy[i5].BackendService),
+						Extract:      resource.ExtractResourceID(),
+						Reference:    mg.Spec.InitProvider.PathMatcher[i3].DefaultRouteAction[i4].RequestMirrorPolicy[i5].BackendServiceRef,
+						Selector:     mg.Spec.InitProvider.PathMatcher[i3].DefaultRouteAction[i4].RequestMirrorPolicy[i5].BackendServiceSelector,
+						To:           reference.To{List: l, Managed: m},
+					})
+				}
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.InitProvider.PathMatcher[i3].DefaultRouteAction[i4].RequestMirrorPolicy[i5].BackendService")
+				}
+				mg.Spec.InitProvider.PathMatcher[i3].DefaultRouteAction[i4].RequestMirrorPolicy[i5].BackendService = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.InitProvider.PathMatcher[i3].DefaultRouteAction[i4].RequestMirrorPolicy[i5].BackendServiceRef = rsp.ResolvedReference
+
+			}
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.PathMatcher); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.PathMatcher[i3].DefaultRouteAction); i4++ {
+			for i5 := 0; i5 < len(mg.Spec.InitProvider.PathMatcher[i3].DefaultRouteAction[i4].WeightedBackendServices); i5++ {
+				{
+					m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionBackendService", "RegionBackendServiceList")
+					if err != nil {
+						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+					}
+					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PathMatcher[i3].DefaultRouteAction[i4].WeightedBackendServices[i5].BackendService),
+						Extract:      resource.ExtractResourceID(),
+						Reference:    mg.Spec.InitProvider.PathMatcher[i3].DefaultRouteAction[i4].WeightedBackendServices[i5].BackendServiceRef,
+						Selector:     mg.Spec.InitProvider.PathMatcher[i3].DefaultRouteAction[i4].WeightedBackendServices[i5].BackendServiceSelector,
+						To:           reference.To{List: l, Managed: m},
+					})
+				}
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.InitProvider.PathMatcher[i3].DefaultRouteAction[i4].WeightedBackendServices[i5].BackendService")
+				}
+				mg.Spec.InitProvider.PathMatcher[i3].DefaultRouteAction[i4].WeightedBackendServices[i5].BackendService = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.InitProvider.PathMatcher[i3].DefaultRouteAction[i4].WeightedBackendServices[i5].BackendServiceRef = rsp.ResolvedReference
+
+			}
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.PathMatcher); i3++ {
 		{
-			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "RegionBackendService", "RegionBackendServiceList")
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionBackendService", "RegionBackendServiceList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
@@ -4873,7 +5154,7 @@ func (mg *RegionURLMap) ResolveReferences(ctx context.Context, c client.Reader) 
 			for i5 := 0; i5 < len(mg.Spec.InitProvider.PathMatcher[i3].PathRule[i4].RouteAction); i5++ {
 				for i6 := 0; i6 < len(mg.Spec.InitProvider.PathMatcher[i3].PathRule[i4].RouteAction[i5].RequestMirrorPolicy); i6++ {
 					{
-						m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "RegionBackendService", "RegionBackendServiceList")
+						m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionBackendService", "RegionBackendServiceList")
 						if err != nil {
 							return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 						}
@@ -4900,7 +5181,7 @@ func (mg *RegionURLMap) ResolveReferences(ctx context.Context, c client.Reader) 
 			for i5 := 0; i5 < len(mg.Spec.InitProvider.PathMatcher[i3].PathRule[i4].RouteAction); i5++ {
 				for i6 := 0; i6 < len(mg.Spec.InitProvider.PathMatcher[i3].PathRule[i4].RouteAction[i5].WeightedBackendServices); i6++ {
 					{
-						m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "RegionBackendService", "RegionBackendServiceList")
+						m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionBackendService", "RegionBackendServiceList")
 						if err != nil {
 							return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 						}
@@ -4925,7 +5206,7 @@ func (mg *RegionURLMap) ResolveReferences(ctx context.Context, c client.Reader) 
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.PathMatcher); i3++ {
 		for i4 := 0; i4 < len(mg.Spec.InitProvider.PathMatcher[i3].PathRule); i4++ {
 			{
-				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "RegionBackendService", "RegionBackendServiceList")
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionBackendService", "RegionBackendServiceList")
 				if err != nil {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
@@ -4948,7 +5229,7 @@ func (mg *RegionURLMap) ResolveReferences(ctx context.Context, c client.Reader) 
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.PathMatcher); i3++ {
 		for i4 := 0; i4 < len(mg.Spec.InitProvider.PathMatcher[i3].RouteRules); i4++ {
 			{
-				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "RegionBackendService", "RegionBackendServiceList")
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionBackendService", "RegionBackendServiceList")
 				if err != nil {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
@@ -4970,7 +5251,7 @@ func (mg *RegionURLMap) ResolveReferences(ctx context.Context, c client.Reader) 
 	}
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.Test); i3++ {
 		{
-			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "RegionBackendService", "RegionBackendServiceList")
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionBackendService", "RegionBackendServiceList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
@@ -5328,6 +5609,29 @@ func (mg *RouterNAT) ResolveReferences(ctx context.Context, c client.Reader) err
 
 		}
 	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Rules); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.Rules[i3].Action); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Subnetwork", "SubnetworkList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+					CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.Rules[i3].Action[i4].SourceNATActiveRanges),
+					Extract:       resource.ExtractParamPath("self_link", true),
+					References:    mg.Spec.ForProvider.Rules[i3].Action[i4].SourceNATActiveRangesRefs,
+					Selector:      mg.Spec.ForProvider.Rules[i3].Action[i4].SourceNATActiveRangesSelector,
+					To:            reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.Rules[i3].Action[i4].SourceNATActiveRanges")
+			}
+			mg.Spec.ForProvider.Rules[i3].Action[i4].SourceNATActiveRanges = reference.ToPtrValues(mrsp.ResolvedValues)
+			mg.Spec.ForProvider.Rules[i3].Action[i4].SourceNATActiveRangesRefs = mrsp.ResolvedReferences
+
+		}
+	}
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.Subnetwork); i3++ {
 		{
 			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Subnetwork", "SubnetworkList")
@@ -5388,6 +5692,29 @@ func (mg *RouterNAT) ResolveReferences(ctx context.Context, c client.Reader) err
 			}
 			mg.Spec.InitProvider.Rules[i3].Action[i4].SourceNATActiveIps = reference.ToPtrValues(mrsp.ResolvedValues)
 			mg.Spec.InitProvider.Rules[i3].Action[i4].SourceNATActiveIpsRefs = mrsp.ResolvedReferences
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Rules); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Rules[i3].Action); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Subnetwork", "SubnetworkList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+					CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.Rules[i3].Action[i4].SourceNATActiveRanges),
+					Extract:       resource.ExtractParamPath("self_link", true),
+					References:    mg.Spec.InitProvider.Rules[i3].Action[i4].SourceNATActiveRangesRefs,
+					Selector:      mg.Spec.InitProvider.Rules[i3].Action[i4].SourceNATActiveRangesSelector,
+					To:            reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.Rules[i3].Action[i4].SourceNATActiveRanges")
+			}
+			mg.Spec.InitProvider.Rules[i3].Action[i4].SourceNATActiveRanges = reference.ToPtrValues(mrsp.ResolvedValues)
+			mg.Spec.InitProvider.Rules[i3].Action[i4].SourceNATActiveRangesRefs = mrsp.ResolvedReferences
 
 		}
 	}
@@ -5877,7 +6204,7 @@ func (mg *Snapshot) ResolveReferences(ctx context.Context, c client.Reader) erro
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Disk", "DiskList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Disk", "DiskList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -5896,7 +6223,7 @@ func (mg *Snapshot) ResolveReferences(ctx context.Context, c client.Reader) erro
 	mg.Spec.ForProvider.SourceDisk = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.SourceDiskRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Disk", "DiskList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Disk", "DiskList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -6454,12 +6781,56 @@ func (mg *URLMap) ResolveReferences(ctx context.Context, c client.Reader) error 
 
 	var rsp reference.ResolutionResponse
 	var err error
+
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.DefaultCustomErrorResponsePolicy); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "BackendBucket", "BackendBucketList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DefaultCustomErrorResponsePolicy[i3].ErrorService),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.ForProvider.DefaultCustomErrorResponsePolicy[i3].ErrorServiceRef,
+				Selector:     mg.Spec.ForProvider.DefaultCustomErrorResponsePolicy[i3].ErrorServiceSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.DefaultCustomErrorResponsePolicy[i3].ErrorService")
+		}
+		mg.Spec.ForProvider.DefaultCustomErrorResponsePolicy[i3].ErrorService = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.DefaultCustomErrorResponsePolicy[i3].ErrorServiceRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.DefaultRouteAction); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.DefaultRouteAction[i3].RequestMirrorPolicy); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "BackendService", "BackendServiceList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DefaultRouteAction[i3].RequestMirrorPolicy[i4].BackendService),
+					Extract:      resource.ExtractResourceID(),
+					Reference:    mg.Spec.ForProvider.DefaultRouteAction[i3].RequestMirrorPolicy[i4].BackendServiceRef,
+					Selector:     mg.Spec.ForProvider.DefaultRouteAction[i3].RequestMirrorPolicy[i4].BackendServiceSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.DefaultRouteAction[i3].RequestMirrorPolicy[i4].BackendService")
+			}
+			mg.Spec.ForProvider.DefaultRouteAction[i3].RequestMirrorPolicy[i4].BackendService = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.DefaultRouteAction[i3].RequestMirrorPolicy[i4].BackendServiceRef = rsp.ResolvedReference
+
+		}
+	}
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "BackendBucket", "BackendBucketList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "BackendBucket", "BackendBucketList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
-
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DefaultService),
 			Extract:      resource.ExtractResourceID(),
@@ -6475,8 +6846,56 @@ func (mg *URLMap) ResolveReferences(ctx context.Context, c client.Reader) error 
 	mg.Spec.ForProvider.DefaultServiceRef = rsp.ResolvedReference
 
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.PathMatcher); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.PathMatcher[i3].DefaultCustomErrorResponsePolicy); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "BackendBucket", "BackendBucketList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PathMatcher[i3].DefaultCustomErrorResponsePolicy[i4].ErrorService),
+					Extract:      resource.ExtractResourceID(),
+					Reference:    mg.Spec.ForProvider.PathMatcher[i3].DefaultCustomErrorResponsePolicy[i4].ErrorServiceRef,
+					Selector:     mg.Spec.ForProvider.PathMatcher[i3].DefaultCustomErrorResponsePolicy[i4].ErrorServiceSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.PathMatcher[i3].DefaultCustomErrorResponsePolicy[i4].ErrorService")
+			}
+			mg.Spec.ForProvider.PathMatcher[i3].DefaultCustomErrorResponsePolicy[i4].ErrorService = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.PathMatcher[i3].DefaultCustomErrorResponsePolicy[i4].ErrorServiceRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.PathMatcher); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.PathMatcher[i3].DefaultRouteAction); i4++ {
+			for i5 := 0; i5 < len(mg.Spec.ForProvider.PathMatcher[i3].DefaultRouteAction[i4].RequestMirrorPolicy); i5++ {
+				{
+					m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "BackendService", "BackendServiceList")
+					if err != nil {
+						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+					}
+					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PathMatcher[i3].DefaultRouteAction[i4].RequestMirrorPolicy[i5].BackendService),
+						Extract:      resource.ExtractResourceID(),
+						Reference:    mg.Spec.ForProvider.PathMatcher[i3].DefaultRouteAction[i4].RequestMirrorPolicy[i5].BackendServiceRef,
+						Selector:     mg.Spec.ForProvider.PathMatcher[i3].DefaultRouteAction[i4].RequestMirrorPolicy[i5].BackendServiceSelector,
+						To:           reference.To{List: l, Managed: m},
+					})
+				}
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.ForProvider.PathMatcher[i3].DefaultRouteAction[i4].RequestMirrorPolicy[i5].BackendService")
+				}
+				mg.Spec.ForProvider.PathMatcher[i3].DefaultRouteAction[i4].RequestMirrorPolicy[i5].BackendService = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.ForProvider.PathMatcher[i3].DefaultRouteAction[i4].RequestMirrorPolicy[i5].BackendServiceRef = rsp.ResolvedReference
+
+			}
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.PathMatcher); i3++ {
 		{
-			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "BackendBucket", "BackendBucketList")
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "BackendBucket", "BackendBucketList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
@@ -6497,10 +6916,35 @@ func (mg *URLMap) ResolveReferences(ctx context.Context, c client.Reader) error 
 	}
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.PathMatcher); i3++ {
 		for i4 := 0; i4 < len(mg.Spec.ForProvider.PathMatcher[i3].PathRule); i4++ {
+			for i5 := 0; i5 < len(mg.Spec.ForProvider.PathMatcher[i3].PathRule[i4].CustomErrorResponsePolicy); i5++ {
+				{
+					m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "BackendBucket", "BackendBucketList")
+					if err != nil {
+						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+					}
+					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PathMatcher[i3].PathRule[i4].CustomErrorResponsePolicy[i5].ErrorService),
+						Extract:      resource.ExtractResourceID(),
+						Reference:    mg.Spec.ForProvider.PathMatcher[i3].PathRule[i4].CustomErrorResponsePolicy[i5].ErrorServiceRef,
+						Selector:     mg.Spec.ForProvider.PathMatcher[i3].PathRule[i4].CustomErrorResponsePolicy[i5].ErrorServiceSelector,
+						To:           reference.To{List: l, Managed: m},
+					})
+				}
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.ForProvider.PathMatcher[i3].PathRule[i4].CustomErrorResponsePolicy[i5].ErrorService")
+				}
+				mg.Spec.ForProvider.PathMatcher[i3].PathRule[i4].CustomErrorResponsePolicy[i5].ErrorService = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.ForProvider.PathMatcher[i3].PathRule[i4].CustomErrorResponsePolicy[i5].ErrorServiceRef = rsp.ResolvedReference
+
+			}
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.PathMatcher); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.PathMatcher[i3].PathRule); i4++ {
 			for i5 := 0; i5 < len(mg.Spec.ForProvider.PathMatcher[i3].PathRule[i4].RouteAction); i5++ {
 				for i6 := 0; i6 < len(mg.Spec.ForProvider.PathMatcher[i3].PathRule[i4].RouteAction[i5].RequestMirrorPolicy); i6++ {
 					{
-						m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "BackendService", "BackendServiceList")
+						m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "BackendService", "BackendServiceList")
 						if err != nil {
 							return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 						}
@@ -6527,7 +6971,7 @@ func (mg *URLMap) ResolveReferences(ctx context.Context, c client.Reader) error 
 			for i5 := 0; i5 < len(mg.Spec.ForProvider.PathMatcher[i3].PathRule[i4].RouteAction); i5++ {
 				for i6 := 0; i6 < len(mg.Spec.ForProvider.PathMatcher[i3].PathRule[i4].RouteAction[i5].WeightedBackendServices); i6++ {
 					{
-						m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "BackendService", "BackendServiceList")
+						m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "BackendService", "BackendServiceList")
 						if err != nil {
 							return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 						}
@@ -6552,7 +6996,7 @@ func (mg *URLMap) ResolveReferences(ctx context.Context, c client.Reader) error 
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.PathMatcher); i3++ {
 		for i4 := 0; i4 < len(mg.Spec.ForProvider.PathMatcher[i3].PathRule); i4++ {
 			{
-				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "BackendBucket", "BackendBucketList")
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "BackendBucket", "BackendBucketList")
 				if err != nil {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
@@ -6575,7 +7019,7 @@ func (mg *URLMap) ResolveReferences(ctx context.Context, c client.Reader) error 
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.PathMatcher); i3++ {
 		for i4 := 0; i4 < len(mg.Spec.ForProvider.PathMatcher[i3].RouteRules); i4++ {
 			{
-				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "BackendService", "BackendServiceList")
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "BackendService", "BackendServiceList")
 				if err != nil {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
@@ -6597,7 +7041,7 @@ func (mg *URLMap) ResolveReferences(ctx context.Context, c client.Reader) error 
 	}
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.Test); i3++ {
 		{
-			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "BackendBucket", "BackendBucketList")
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "BackendBucket", "BackendBucketList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
@@ -6616,8 +7060,52 @@ func (mg *URLMap) ResolveReferences(ctx context.Context, c client.Reader) error 
 		mg.Spec.ForProvider.Test[i3].ServiceRef = rsp.ResolvedReference
 
 	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.DefaultCustomErrorResponsePolicy); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "BackendBucket", "BackendBucketList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DefaultCustomErrorResponsePolicy[i3].ErrorService),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.InitProvider.DefaultCustomErrorResponsePolicy[i3].ErrorServiceRef,
+				Selector:     mg.Spec.InitProvider.DefaultCustomErrorResponsePolicy[i3].ErrorServiceSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.DefaultCustomErrorResponsePolicy[i3].ErrorService")
+		}
+		mg.Spec.InitProvider.DefaultCustomErrorResponsePolicy[i3].ErrorService = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.DefaultCustomErrorResponsePolicy[i3].ErrorServiceRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.DefaultRouteAction); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.DefaultRouteAction[i3].RequestMirrorPolicy); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "BackendService", "BackendServiceList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DefaultRouteAction[i3].RequestMirrorPolicy[i4].BackendService),
+					Extract:      resource.ExtractResourceID(),
+					Reference:    mg.Spec.InitProvider.DefaultRouteAction[i3].RequestMirrorPolicy[i4].BackendServiceRef,
+					Selector:     mg.Spec.InitProvider.DefaultRouteAction[i3].RequestMirrorPolicy[i4].BackendServiceSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.DefaultRouteAction[i3].RequestMirrorPolicy[i4].BackendService")
+			}
+			mg.Spec.InitProvider.DefaultRouteAction[i3].RequestMirrorPolicy[i4].BackendService = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.DefaultRouteAction[i3].RequestMirrorPolicy[i4].BackendServiceRef = rsp.ResolvedReference
+
+		}
+	}
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "BackendBucket", "BackendBucketList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "BackendBucket", "BackendBucketList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -6636,8 +7124,56 @@ func (mg *URLMap) ResolveReferences(ctx context.Context, c client.Reader) error 
 	mg.Spec.InitProvider.DefaultServiceRef = rsp.ResolvedReference
 
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.PathMatcher); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.PathMatcher[i3].DefaultCustomErrorResponsePolicy); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "BackendBucket", "BackendBucketList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PathMatcher[i3].DefaultCustomErrorResponsePolicy[i4].ErrorService),
+					Extract:      resource.ExtractResourceID(),
+					Reference:    mg.Spec.InitProvider.PathMatcher[i3].DefaultCustomErrorResponsePolicy[i4].ErrorServiceRef,
+					Selector:     mg.Spec.InitProvider.PathMatcher[i3].DefaultCustomErrorResponsePolicy[i4].ErrorServiceSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.PathMatcher[i3].DefaultCustomErrorResponsePolicy[i4].ErrorService")
+			}
+			mg.Spec.InitProvider.PathMatcher[i3].DefaultCustomErrorResponsePolicy[i4].ErrorService = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.PathMatcher[i3].DefaultCustomErrorResponsePolicy[i4].ErrorServiceRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.PathMatcher); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.PathMatcher[i3].DefaultRouteAction); i4++ {
+			for i5 := 0; i5 < len(mg.Spec.InitProvider.PathMatcher[i3].DefaultRouteAction[i4].RequestMirrorPolicy); i5++ {
+				{
+					m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "BackendService", "BackendServiceList")
+					if err != nil {
+						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+					}
+					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PathMatcher[i3].DefaultRouteAction[i4].RequestMirrorPolicy[i5].BackendService),
+						Extract:      resource.ExtractResourceID(),
+						Reference:    mg.Spec.InitProvider.PathMatcher[i3].DefaultRouteAction[i4].RequestMirrorPolicy[i5].BackendServiceRef,
+						Selector:     mg.Spec.InitProvider.PathMatcher[i3].DefaultRouteAction[i4].RequestMirrorPolicy[i5].BackendServiceSelector,
+						To:           reference.To{List: l, Managed: m},
+					})
+				}
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.InitProvider.PathMatcher[i3].DefaultRouteAction[i4].RequestMirrorPolicy[i5].BackendService")
+				}
+				mg.Spec.InitProvider.PathMatcher[i3].DefaultRouteAction[i4].RequestMirrorPolicy[i5].BackendService = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.InitProvider.PathMatcher[i3].DefaultRouteAction[i4].RequestMirrorPolicy[i5].BackendServiceRef = rsp.ResolvedReference
+
+			}
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.PathMatcher); i3++ {
 		{
-			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "BackendBucket", "BackendBucketList")
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "BackendBucket", "BackendBucketList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
@@ -6658,10 +7194,35 @@ func (mg *URLMap) ResolveReferences(ctx context.Context, c client.Reader) error 
 	}
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.PathMatcher); i3++ {
 		for i4 := 0; i4 < len(mg.Spec.InitProvider.PathMatcher[i3].PathRule); i4++ {
+			for i5 := 0; i5 < len(mg.Spec.InitProvider.PathMatcher[i3].PathRule[i4].CustomErrorResponsePolicy); i5++ {
+				{
+					m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "BackendBucket", "BackendBucketList")
+					if err != nil {
+						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+					}
+					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PathMatcher[i3].PathRule[i4].CustomErrorResponsePolicy[i5].ErrorService),
+						Extract:      resource.ExtractResourceID(),
+						Reference:    mg.Spec.InitProvider.PathMatcher[i3].PathRule[i4].CustomErrorResponsePolicy[i5].ErrorServiceRef,
+						Selector:     mg.Spec.InitProvider.PathMatcher[i3].PathRule[i4].CustomErrorResponsePolicy[i5].ErrorServiceSelector,
+						To:           reference.To{List: l, Managed: m},
+					})
+				}
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.InitProvider.PathMatcher[i3].PathRule[i4].CustomErrorResponsePolicy[i5].ErrorService")
+				}
+				mg.Spec.InitProvider.PathMatcher[i3].PathRule[i4].CustomErrorResponsePolicy[i5].ErrorService = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.InitProvider.PathMatcher[i3].PathRule[i4].CustomErrorResponsePolicy[i5].ErrorServiceRef = rsp.ResolvedReference
+
+			}
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.PathMatcher); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.PathMatcher[i3].PathRule); i4++ {
 			for i5 := 0; i5 < len(mg.Spec.InitProvider.PathMatcher[i3].PathRule[i4].RouteAction); i5++ {
 				for i6 := 0; i6 < len(mg.Spec.InitProvider.PathMatcher[i3].PathRule[i4].RouteAction[i5].RequestMirrorPolicy); i6++ {
 					{
-						m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "BackendService", "BackendServiceList")
+						m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "BackendService", "BackendServiceList")
 						if err != nil {
 							return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 						}
@@ -6688,7 +7249,7 @@ func (mg *URLMap) ResolveReferences(ctx context.Context, c client.Reader) error 
 			for i5 := 0; i5 < len(mg.Spec.InitProvider.PathMatcher[i3].PathRule[i4].RouteAction); i5++ {
 				for i6 := 0; i6 < len(mg.Spec.InitProvider.PathMatcher[i3].PathRule[i4].RouteAction[i5].WeightedBackendServices); i6++ {
 					{
-						m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "BackendService", "BackendServiceList")
+						m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "BackendService", "BackendServiceList")
 						if err != nil {
 							return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 						}
@@ -6713,7 +7274,7 @@ func (mg *URLMap) ResolveReferences(ctx context.Context, c client.Reader) error 
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.PathMatcher); i3++ {
 		for i4 := 0; i4 < len(mg.Spec.InitProvider.PathMatcher[i3].PathRule); i4++ {
 			{
-				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "BackendBucket", "BackendBucketList")
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "BackendBucket", "BackendBucketList")
 				if err != nil {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
@@ -6736,7 +7297,7 @@ func (mg *URLMap) ResolveReferences(ctx context.Context, c client.Reader) error 
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.PathMatcher); i3++ {
 		for i4 := 0; i4 < len(mg.Spec.InitProvider.PathMatcher[i3].RouteRules); i4++ {
 			{
-				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "BackendService", "BackendServiceList")
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "BackendService", "BackendServiceList")
 				if err != nil {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
@@ -6758,7 +7319,7 @@ func (mg *URLMap) ResolveReferences(ctx context.Context, c client.Reader) error 
 	}
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.Test); i3++ {
 		{
-			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "BackendBucket", "BackendBucketList")
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "BackendBucket", "BackendBucketList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}

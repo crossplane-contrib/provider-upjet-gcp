@@ -81,6 +81,11 @@ func (in *AppProfileInitParameters) DeepCopyInto(out *AppProfileInitParameters) 
 		*out = new(string)
 		**out = **in
 	}
+	if in.RowAffinity != nil {
+		in, out := &in.RowAffinity, &out.RowAffinity
+		*out = new(bool)
+		**out = **in
+	}
 	if in.SingleClusterRouting != nil {
 		in, out := &in.SingleClusterRouting, &out.SingleClusterRouting
 		*out = make([]SingleClusterRoutingInitParameters, len(*in))
@@ -195,6 +200,11 @@ func (in *AppProfileObservation) DeepCopyInto(out *AppProfileObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.RowAffinity != nil {
+		in, out := &in.RowAffinity, &out.RowAffinity
+		*out = new(bool)
+		**out = **in
+	}
 	if in.SingleClusterRouting != nil {
 		in, out := &in.SingleClusterRouting, &out.SingleClusterRouting
 		*out = make([]SingleClusterRoutingObservation, len(*in))
@@ -275,6 +285,11 @@ func (in *AppProfileParameters) DeepCopyInto(out *AppProfileParameters) {
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
 		*out = new(string)
+		**out = **in
+	}
+	if in.RowAffinity != nil {
+		in, out := &in.RowAffinity, &out.RowAffinity
+		*out = new(bool)
 		**out = **in
 	}
 	if in.SingleClusterRouting != nil {
@@ -538,6 +553,11 @@ func (in *ClusterInitParameters) DeepCopyInto(out *ClusterInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.NodeScalingFactor != nil {
+		in, out := &in.NodeScalingFactor, &out.NodeScalingFactor
+		*out = new(string)
+		**out = **in
+	}
 	if in.NumNodes != nil {
 		in, out := &in.NumNodes, &out.NumNodes
 		*out = new(float64)
@@ -582,6 +602,11 @@ func (in *ClusterObservation) DeepCopyInto(out *ClusterObservation) {
 	}
 	if in.KMSKeyName != nil {
 		in, out := &in.KMSKeyName, &out.KMSKeyName
+		*out = new(string)
+		**out = **in
+	}
+	if in.NodeScalingFactor != nil {
+		in, out := &in.NodeScalingFactor, &out.NodeScalingFactor
 		*out = new(string)
 		**out = **in
 	}
@@ -634,6 +659,11 @@ func (in *ClusterParameters) DeepCopyInto(out *ClusterParameters) {
 	}
 	if in.KMSKeyName != nil {
 		in, out := &in.KMSKeyName, &out.KMSKeyName
+		*out = new(string)
+		**out = **in
+	}
+	if in.NodeScalingFactor != nil {
+		in, out := &in.NodeScalingFactor, &out.NodeScalingFactor
 		*out = new(string)
 		**out = **in
 	}
@@ -3471,6 +3501,11 @@ func (in *TableInitParameters) DeepCopyInto(out *TableInitParameters) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.DeletionProtection != nil {
+		in, out := &in.DeletionProtection, &out.DeletionProtection
+		*out = new(string)
+		**out = **in
+	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
 		*out = new(string)
@@ -3623,6 +3658,11 @@ func (in *TableParameters) DeepCopyInto(out *TableParameters) {
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.DeletionProtection != nil {
+		in, out := &in.DeletionProtection, &out.DeletionProtection
+		*out = new(string)
+		**out = **in
 	}
 	if in.InstanceName != nil {
 		in, out := &in.InstanceName, &out.InstanceName

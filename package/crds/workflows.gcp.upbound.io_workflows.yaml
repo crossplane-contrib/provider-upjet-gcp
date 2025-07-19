@@ -85,6 +85,11 @@ spec:
                       The KMS key used to encrypt workflow and execution data.
                       Format: projects/{project}/locations/{location}/keyRings/{keyRing}/cryptoKeys/{cryptoKey}
                     type: string
+                  deletionProtection:
+                    description: |-
+                      Defaults to true.
+                      When the field is set to false, deleting the workflow is allowed.
+                    type: boolean
                   description:
                     description: Description of the workflow provided by the user.
                       Must be at most 1000 unicode characters long.
@@ -252,6 +257,11 @@ spec:
                       The KMS key used to encrypt workflow and execution data.
                       Format: projects/{project}/locations/{location}/keyRings/{keyRing}/cryptoKeys/{cryptoKey}
                     type: string
+                  deletionProtection:
+                    description: |-
+                      Defaults to true.
+                      When the field is set to false, deleting the workflow is allowed.
+                    type: boolean
                   description:
                     description: Description of the workflow provided by the user.
                       Must be at most 1000 unicode characters long.

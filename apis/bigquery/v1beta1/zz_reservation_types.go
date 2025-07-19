@@ -36,6 +36,49 @@ type AutoscaleParameters struct {
 	MaxSlots *float64 `json:"maxSlots,omitempty" tf:"max_slots,omitempty"`
 }
 
+type ErrorInitParameters struct {
+}
+
+type ErrorObservation struct {
+
+	// (Output)
+	// The status code, which should be an enum value of google.rpc.Code.
+	Code *float64 `json:"code,omitempty" tf:"code,omitempty"`
+
+	// (Output)
+	// A developer-facing error message, which should be in English.
+	Message *string `json:"message,omitempty" tf:"message,omitempty"`
+}
+
+type ErrorParameters struct {
+}
+
+type ReplicationStatusInitParameters struct {
+}
+
+type ReplicationStatusObservation struct {
+
+	// (Output)
+	// The last error encountered while trying to replicate changes from the primary to the
+	// secondary. This field is only available if the replication has not succeeded since.
+	// Structure is documented below.
+	Error []ErrorObservation `json:"error,omitempty" tf:"error,omitempty"`
+
+	// (Output)
+	// The time at which the last error was encountered while trying to replicate changes from
+	// the primary to the secondary. This field is only available if the replication has not
+	// succeeded since.
+	LastErrorTime *string `json:"lastErrorTime,omitempty" tf:"last_error_time,omitempty"`
+
+	// (Output)
+	// A timestamp corresponding to the last change on the primary that was successfully
+	// replicated to the secondary.
+	LastReplicationTime *string `json:"lastReplicationTime,omitempty" tf:"last_replication_time,omitempty"`
+}
+
+type ReplicationStatusParameters struct {
+}
+
 type ReservationInitParameters struct {
 
 	// The configuration parameters for the auto scaling feature.
@@ -53,9 +96,11 @@ type ReservationInitParameters struct {
 	// capacity specified above at most.
 	IgnoreIdleSlots *bool `json:"ignoreIdleSlots,omitempty" tf:"ignore_idle_slots,omitempty"`
 
-	// Applicable only for reservations located within one of the BigQuery multi-regions (US or EU).
-	// If set to true, this reservation is placed in the organization's secondary region which is designated for disaster recovery purposes. If false, this reservation is placed in the organization's default region.
-	MultiRegionAuxiliary *bool `json:"multiRegionAuxiliary,omitempty" tf:"multi_region_auxiliary,omitempty"`
+	// The current location of the reservation's secondary replica. This field is only set for
+	// reservations using the managed disaster recovery feature. Users can set this in create
+	// reservation calls to create a failover reservation or in update reservation calls to convert
+	// a non-failover reservation to a failover reservation(or vice versa).
+	SecondaryLocation *string `json:"secondaryLocation,omitempty" tf:"secondary_location,omitempty"`
 
 	// Minimum slots available to this reservation. A slot is a unit of computational power in BigQuery, and serves as the
 	// unit of parallelism. Queries using this reservation might use more slots during runtime if ignoreIdleSlots is set to false.
@@ -86,13 +131,33 @@ type ReservationObservation struct {
 	// Examples: US, EU, asia-northeast1. The default value is US.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
-	// Applicable only for reservations located within one of the BigQuery multi-regions (US or EU).
-	// If set to true, this reservation is placed in the organization's secondary region which is designated for disaster recovery purposes. If false, this reservation is placed in the organization's default region.
-	MultiRegionAuxiliary *bool `json:"multiRegionAuxiliary,omitempty" tf:"multi_region_auxiliary,omitempty"`
+	// The location where the reservation was originally created. This is set only during the
+	// failover reservation's creation. All billing charges for the failover reservation will be
+	// applied to this location.
+	OriginalPrimaryLocation *string `json:"originalPrimaryLocation,omitempty" tf:"original_primary_location,omitempty"`
+
+	// The current location of the reservation's primary replica. This field is only set for
+	// reservations using the managed disaster recovery feature.
+	PrimaryLocation *string `json:"primaryLocation,omitempty" tf:"primary_location,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The Disaster Recovery(DR) replication status of the reservation. This is only available for
+	// the primary replicas of DR/failover reservations and provides information about the both the
+	// staleness of the secondary and the last error encountered while trying to replicate changes
+	// from the primary to the secondary. If this field is blank, it means that the reservation is
+	// either not a DR reservation or the reservation is a DR secondary or that any replication
+	// operations on the reservation have succeeded.
+	// Structure is documented below.
+	ReplicationStatus []ReplicationStatusObservation `json:"replicationStatus,omitempty" tf:"replication_status,omitempty"`
+
+	// The current location of the reservation's secondary replica. This field is only set for
+	// reservations using the managed disaster recovery feature. Users can set this in create
+	// reservation calls to create a failover reservation or in update reservation calls to convert
+	// a non-failover reservation to a failover reservation(or vice versa).
+	SecondaryLocation *string `json:"secondaryLocation,omitempty" tf:"secondary_location,omitempty"`
 
 	// Minimum slots available to this reservation. A slot is a unit of computational power in BigQuery, and serves as the
 	// unit of parallelism. Queries using this reservation might use more slots during runtime if ignoreIdleSlots is set to false.
@@ -125,15 +190,17 @@ type ReservationParameters struct {
 	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
-	// Applicable only for reservations located within one of the BigQuery multi-regions (US or EU).
-	// If set to true, this reservation is placed in the organization's secondary region which is designated for disaster recovery purposes. If false, this reservation is placed in the organization's default region.
-	// +kubebuilder:validation:Optional
-	MultiRegionAuxiliary *bool `json:"multiRegionAuxiliary,omitempty" tf:"multi_region_auxiliary,omitempty"`
-
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The current location of the reservation's secondary replica. This field is only set for
+	// reservations using the managed disaster recovery feature. Users can set this in create
+	// reservation calls to create a failover reservation or in update reservation calls to convert
+	// a non-failover reservation to a failover reservation(or vice versa).
+	// +kubebuilder:validation:Optional
+	SecondaryLocation *string `json:"secondaryLocation,omitempty" tf:"secondary_location,omitempty"`
 
 	// Minimum slots available to this reservation. A slot is a unit of computational power in BigQuery, and serves as the
 	// unit of parallelism. Queries using this reservation might use more slots during runtime if ignoreIdleSlots is set to false.

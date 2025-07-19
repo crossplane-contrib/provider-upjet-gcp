@@ -74,6 +74,130 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  defaultCustomErrorResponsePolicy:
+                    description: |-
+                      defaultCustomErrorResponsePolicy specifies how the Load Balancer returns error responses when BackendService or BackendBucket responds with an error.
+                      This policy takes effect at the PathMatcher level and applies only when no policy has been defined for the error code at lower levels like RouteRule and PathRule within this PathMatcher. If an error code does not have a policy defined in defaultCustomErrorResponsePolicy, then a policy defined for the error code in UrlMap.defaultCustomErrorResponsePolicy takes effect.
+                      For example, consider a UrlMap with the following configuration:
+                      UrlMap.defaultCustomErrorResponsePolicy is configured with policies for 5xx and 4xx errors
+                      A RouteRule for /coming_soon/ is configured for the error code 404.
+                      If the request is for www.myotherdomain.com and a 404 is encountered, the policy under UrlMap.defaultCustomErrorResponsePolicy takes effect. If a 404 response is encountered for the request www.example.com/current_events/, the pathMatcher's policy takes effect. If however, the request for www.example.com/coming_soon/ encounters a 404, the policy in RouteRule.customErrorResponsePolicy takes effect. If any of the requests in this example encounter a 500 error code, the policy at UrlMap.defaultCustomErrorResponsePolicy takes effect.
+                      When used in conjunction with pathMatcher.defaultRouteAction.retryPolicy, retries take precedence. Only once all retries are exhausted, the defaultCustomErrorResponsePolicy is applied. While attempting a retry, if load balancer is successful in reaching the service, the defaultCustomErrorResponsePolicy is ignored and the response from the service is returned to the client.
+                      defaultCustomErrorResponsePolicy is supported only for global external Application Load Balancers.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        errorResponseRule:
+                          description: |-
+                            Specifies rules for returning error responses.
+                            In a given policy, if you specify rules for both a range of error codes as well as rules for specific error codes then rules with specific error codes have a higher priority.
+                            For example, assume that you configure a rule for 401 (Un-authorized) code, and another for all 4 series error codes (4XX).
+                            If the backend service returns a 401, then the rule for 401 will be applied. However if the backend service returns a 403, the rule for 4xx takes effect.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              matchResponseCodes:
+                                description: 'Valid values include:'
+                                items:
+                                  type: string
+                                type: array
+                              overrideResponseCode:
+                                description: |-
+                                  The HTTP status code returned with the response containing the custom error content.
+                                  If overrideResponseCode is not supplied, the same response code returned by the original backend bucket or backend service is returned to the client.
+                                type: number
+                              path:
+                                description: Path portion of the URL.
+                                type: string
+                            type: object
+                          type: array
+                        errorService:
+                          description: |-
+                            The full or partial URL to the BackendBucket resource that contains the custom error content. Examples are:
+                            https://www.googleapis.com/compute/v1/projects/project/global/backendBuckets/myBackendBucket
+                            compute/v1/projects/project/global/backendBuckets/myBackendBucket
+                            global/backendBuckets/myBackendBucket
+                            If errorService is not specified at lower levels like pathMatcher, pathRule and routeRule, an errorService specified at a higher level in the UrlMap will be used. If UrlMap.defaultCustomErrorResponsePolicy contains one or more errorResponseRules[], it must specify errorService.
+                            If load balancer cannot reach the backendBucket, a simple Not Found Error will be returned, with the original response code (or overrideResponseCode if configured).
+                          type: string
+                        errorServiceRef:
+                          description: Reference to a BackendBucket in compute to
+                            populate errorService.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        errorServiceSelector:
+                          description: Selector for a BackendBucket in compute to
+                            populate errorService.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                      type: object
+                    type: array
                   defaultRouteAction:
                     description: |-
                       defaultRouteAction takes effect when none of the hostRules match. The load balancer performs advanced routing actions
@@ -207,6 +331,29 @@ spec:
                                 type: array
                             type: object
                           type: array
+                        maxStreamDuration:
+                          description: |-
+                            Specifies the maximum duration (timeout) for streams on the selected route.
+                            Unlike the Timeout field where the timeout duration starts from the time the request
+                            has been fully processed (known as end-of-stream), the duration in this field
+                            is computed from the beginning of the stream until the response has been processed,
+                            including all retries. A stream that does not complete in this duration is closed.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              nanos:
+                                description: |-
+                                  Span of time that's a fraction of a second at nanosecond resolution. Durations
+                                  less than one second are represented with a 0 seconds field and a positive
+                                  nanos field. Must be from 0 to 999,999,999 inclusive.
+                                type: number
+                              seconds:
+                                description: |-
+                                  Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+                                  inclusive.
+                                type: string
+                            type: object
+                          type: array
                         requestMirrorPolicy:
                           description: |-
                             Specifies the policy on how requests intended for the route's backends are shadowed to a separate mirrored backend service.
@@ -221,6 +368,82 @@ spec:
                                   forwarding the request to backendService, the loadbalancer applies any relevant
                                   headerActions specified as part of this backendServiceWeight.
                                 type: string
+                              backendServiceRef:
+                                description: Reference to a BackendService in compute
+                                  to populate backendService.
+                                properties:
+                                  name:
+                                    description: Name of the referenced object.
+                                    type: string
+                                  policy:
+                                    description: Policies for referencing.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                required:
+                                - name
+                                type: object
+                              backendServiceSelector:
+                                description: Selector for a BackendService in compute
+                                  to populate backendService.
+                                properties:
+                                  matchControllerRef:
+                                    description: |-
+                                      MatchControllerRef ensures an object with the same controller reference
+                                      as the selecting object is selected.
+                                    type: boolean
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    description: MatchLabels ensures an object with
+                                      matching labels is selected.
+                                    type: object
+                                  policy:
+                                    description: Policies for selection.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                type: object
                             type: object
                           type: array
                         retryPolicy:
@@ -631,6 +854,130 @@ spec:
                       Structure is documented below.
                     items:
                       properties:
+                        defaultCustomErrorResponsePolicy:
+                          description: |-
+                            defaultCustomErrorResponsePolicy specifies how the Load Balancer returns error responses when BackendService or BackendBucket responds with an error.
+                            This policy takes effect at the PathMatcher level and applies only when no policy has been defined for the error code at lower levels like RouteRule and PathRule within this PathMatcher. If an error code does not have a policy defined in defaultCustomErrorResponsePolicy, then a policy defined for the error code in UrlMap.defaultCustomErrorResponsePolicy takes effect.
+                            For example, consider a UrlMap with the following configuration:
+                            UrlMap.defaultCustomErrorResponsePolicy is configured with policies for 5xx and 4xx errors
+                            A RouteRule for /coming_soon/ is configured for the error code 404.
+                            If the request is for www.myotherdomain.com and a 404 is encountered, the policy under UrlMap.defaultCustomErrorResponsePolicy takes effect. If a 404 response is encountered for the request www.example.com/current_events/, the pathMatcher's policy takes effect. If however, the request for www.example.com/coming_soon/ encounters a 404, the policy in RouteRule.customErrorResponsePolicy takes effect. If any of the requests in this example encounter a 500 error code, the policy at UrlMap.defaultCustomErrorResponsePolicy takes effect.
+                            When used in conjunction with pathMatcher.defaultRouteAction.retryPolicy, retries take precedence. Only once all retries are exhausted, the defaultCustomErrorResponsePolicy is applied. While attempting a retry, if load balancer is successful in reaching the service, the defaultCustomErrorResponsePolicy is ignored and the response from the service is returned to the client.
+                            defaultCustomErrorResponsePolicy is supported only for global external Application Load Balancers.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              errorResponseRule:
+                                description: |-
+                                  Specifies rules for returning error responses.
+                                  In a given policy, if you specify rules for both a range of error codes as well as rules for specific error codes then rules with specific error codes have a higher priority.
+                                  For example, assume that you configure a rule for 401 (Un-authorized) code, and another for all 4 series error codes (4XX).
+                                  If the backend service returns a 401, then the rule for 401 will be applied. However if the backend service returns a 403, the rule for 4xx takes effect.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    matchResponseCodes:
+                                      description: 'Valid values include:'
+                                      items:
+                                        type: string
+                                      type: array
+                                    overrideResponseCode:
+                                      description: |-
+                                        The HTTP status code returned with the response containing the custom error content.
+                                        If overrideResponseCode is not supplied, the same response code returned by the original backend bucket or backend service is returned to the client.
+                                      type: number
+                                    path:
+                                      description: Path portion of the URL.
+                                      type: string
+                                  type: object
+                                type: array
+                              errorService:
+                                description: |-
+                                  The full or partial URL to the BackendBucket resource that contains the custom error content. Examples are:
+                                  https://www.googleapis.com/compute/v1/projects/project/global/backendBuckets/myBackendBucket
+                                  compute/v1/projects/project/global/backendBuckets/myBackendBucket
+                                  global/backendBuckets/myBackendBucket
+                                  If errorService is not specified at lower levels like pathMatcher, pathRule and routeRule, an errorService specified at a higher level in the UrlMap will be used. If UrlMap.defaultCustomErrorResponsePolicy contains one or more errorResponseRules[], it must specify errorService.
+                                  If load balancer cannot reach the backendBucket, a simple Not Found Error will be returned, with the original response code (or overrideResponseCode if configured).
+                                type: string
+                              errorServiceRef:
+                                description: Reference to a BackendBucket in compute
+                                  to populate errorService.
+                                properties:
+                                  name:
+                                    description: Name of the referenced object.
+                                    type: string
+                                  policy:
+                                    description: Policies for referencing.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                required:
+                                - name
+                                type: object
+                              errorServiceSelector:
+                                description: Selector for a BackendBucket in compute
+                                  to populate errorService.
+                                properties:
+                                  matchControllerRef:
+                                    description: |-
+                                      MatchControllerRef ensures an object with the same controller reference
+                                      as the selecting object is selected.
+                                    type: boolean
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    description: MatchLabels ensures an object with
+                                      matching labels is selected.
+                                    type: object
+                                  policy:
+                                    description: Policies for selection.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                type: object
+                            type: object
+                          type: array
                         defaultRouteAction:
                           description: |-
                             defaultRouteAction takes effect when none of the pathRules or routeRules match. The load balancer performs
@@ -766,6 +1113,29 @@ spec:
                                       type: array
                                   type: object
                                 type: array
+                              maxStreamDuration:
+                                description: |-
+                                  Specifies the maximum duration (timeout) for streams on the selected route.
+                                  Unlike the Timeout field where the timeout duration starts from the time the request
+                                  has been fully processed (known as end-of-stream), the duration in this field
+                                  is computed from the beginning of the stream until the response has been processed,
+                                  including all retries. A stream that does not complete in this duration is closed.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    nanos:
+                                      description: |-
+                                        Span of time that's a fraction of a second at nanosecond resolution. Durations
+                                        less than one second are represented with a 0 seconds field and a positive
+                                        nanos field. Must be from 0 to 999,999,999 inclusive.
+                                      type: number
+                                    seconds:
+                                      description: |-
+                                        Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+                                        inclusive.
+                                      type: string
+                                  type: object
+                                type: array
                               requestMirrorPolicy:
                                 description: |-
                                   Specifies the policy on how requests intended for the route's backends are
@@ -781,6 +1151,82 @@ spec:
                                         forwarding the request to backendService, the loadbalancer applies any relevant
                                         headerActions specified as part of this backendServiceWeight.
                                       type: string
+                                    backendServiceRef:
+                                      description: Reference to a BackendService in
+                                        compute to populate backendService.
+                                      properties:
+                                        name:
+                                          description: Name of the referenced object.
+                                          type: string
+                                        policy:
+                                          description: Policies for referencing.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: |-
+                                                Resolution specifies whether resolution of this reference is required.
+                                                The default is 'Required', which means the reconcile will fail if the
+                                                reference cannot be resolved. 'Optional' means this reference will be
+                                                a no-op if it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: |-
+                                                Resolve specifies when this reference should be resolved. The default
+                                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                the corresponding field is not present. Use 'Always' to resolve the
+                                                reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      required:
+                                      - name
+                                      type: object
+                                    backendServiceSelector:
+                                      description: Selector for a BackendService in
+                                        compute to populate backendService.
+                                      properties:
+                                        matchControllerRef:
+                                          description: |-
+                                            MatchControllerRef ensures an object with the same controller reference
+                                            as the selecting object is selected.
+                                          type: boolean
+                                        matchLabels:
+                                          additionalProperties:
+                                            type: string
+                                          description: MatchLabels ensures an object
+                                            with matching labels is selected.
+                                          type: object
+                                        policy:
+                                          description: Policies for selection.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: |-
+                                                Resolution specifies whether resolution of this reference is required.
+                                                The default is 'Required', which means the reconcile will fail if the
+                                                reference cannot be resolved. 'Optional' means this reference will be
+                                                a no-op if it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: |-
+                                                Resolve specifies when this reference should be resolved. The default
+                                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                the corresponding field is not present. Use 'Always' to resolve the
+                                                reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      type: object
                                   type: object
                                 type: array
                               retryPolicy:
@@ -1180,6 +1626,123 @@ spec:
                             Structure is documented below.
                           items:
                             properties:
+                              customErrorResponsePolicy:
+                                description: |-
+                                  customErrorResponsePolicy specifies how the Load Balancer returns error responses when BackendService or BackendBucket responds with an error.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    errorResponseRule:
+                                      description: |-
+                                        Specifies rules for returning error responses.
+                                        In a given policy, if you specify rules for both a range of error codes as well as rules for specific error codes then rules with specific error codes have a higher priority.
+                                        For example, assume that you configure a rule for 401 (Un-authorized) code, and another for all 4 series error codes (4XX).
+                                        If the backend service returns a 401, then the rule for 401 will be applied. However if the backend service returns a 403, the rule for 4xx takes effect.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          matchResponseCodes:
+                                            description: 'Valid values include:'
+                                            items:
+                                              type: string
+                                            type: array
+                                          overrideResponseCode:
+                                            description: |-
+                                              The HTTP status code returned with the response containing the custom error content.
+                                              If overrideResponseCode is not supplied, the same response code returned by the original backend bucket or backend service is returned to the client.
+                                            type: number
+                                          path:
+                                            description: Path portion of the URL.
+                                            type: string
+                                        type: object
+                                      type: array
+                                    errorService:
+                                      description: |-
+                                        The full or partial URL to the BackendBucket resource that contains the custom error content. Examples are:
+                                        https://www.googleapis.com/compute/v1/projects/project/global/backendBuckets/myBackendBucket
+                                        compute/v1/projects/project/global/backendBuckets/myBackendBucket
+                                        global/backendBuckets/myBackendBucket
+                                        If errorService is not specified at lower levels like pathMatcher, pathRule and routeRule, an errorService specified at a higher level in the UrlMap will be used. If UrlMap.defaultCustomErrorResponsePolicy contains one or more errorResponseRules[], it must specify errorService.
+                                        If load balancer cannot reach the backendBucket, a simple Not Found Error will be returned, with the original response code (or overrideResponseCode if configured).
+                                      type: string
+                                    errorServiceRef:
+                                      description: Reference to a BackendBucket in
+                                        compute to populate errorService.
+                                      properties:
+                                        name:
+                                          description: Name of the referenced object.
+                                          type: string
+                                        policy:
+                                          description: Policies for referencing.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: |-
+                                                Resolution specifies whether resolution of this reference is required.
+                                                The default is 'Required', which means the reconcile will fail if the
+                                                reference cannot be resolved. 'Optional' means this reference will be
+                                                a no-op if it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: |-
+                                                Resolve specifies when this reference should be resolved. The default
+                                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                the corresponding field is not present. Use 'Always' to resolve the
+                                                reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      required:
+                                      - name
+                                      type: object
+                                    errorServiceSelector:
+                                      description: Selector for a BackendBucket in
+                                        compute to populate errorService.
+                                      properties:
+                                        matchControllerRef:
+                                          description: |-
+                                            MatchControllerRef ensures an object with the same controller reference
+                                            as the selecting object is selected.
+                                          type: boolean
+                                        matchLabels:
+                                          additionalProperties:
+                                            type: string
+                                          description: MatchLabels ensures an object
+                                            with matching labels is selected.
+                                          type: object
+                                        policy:
+                                          description: Policies for selection.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: |-
+                                                Resolution specifies whether resolution of this reference is required.
+                                                The default is 'Required', which means the reconcile will fail if the
+                                                reference cannot be resolved. 'Optional' means this reference will be
+                                                a no-op if it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: |-
+                                                Resolve specifies when this reference should be resolved. The default
+                                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                the corresponding field is not present. Use 'Always' to resolve the
+                                                reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      type: object
+                                  type: object
+                                type: array
                               paths:
                                 description: |-
                                   The list of path patterns to match. Each must start with / and the only place a
@@ -1324,6 +1887,29 @@ spec:
                                                   type: number
                                               type: object
                                             type: array
+                                        type: object
+                                      type: array
+                                    maxStreamDuration:
+                                      description: |-
+                                        Specifies the maximum duration (timeout) for streams on the selected route.
+                                        Unlike the Timeout field where the timeout duration starts from the time the request
+                                        has been fully processed (known as end-of-stream), the duration in this field
+                                        is computed from the beginning of the stream until the response has been processed,
+                                        including all retries. A stream that does not complete in this duration is closed.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          nanos:
+                                            description: |-
+                                              Span of time that's a fraction of a second at nanosecond resolution. Durations
+                                              less than one second are represented with a 0 seconds field and a positive
+                                              nanos field. Must be from 0 to 999,999,999 inclusive.
+                                            type: number
+                                          seconds:
+                                            description: |-
+                                              Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+                                              inclusive.
+                                            type: string
                                         type: object
                                       type: array
                                     requestMirrorPolicy:
@@ -1824,6 +2410,47 @@ spec:
                             Structure is documented below.
                           items:
                             properties:
+                              customErrorResponsePolicy:
+                                description: |-
+                                  customErrorResponsePolicy specifies how the Load Balancer returns error responses when BackendService or BackendBucket responds with an error.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    errorResponseRule:
+                                      description: |-
+                                        Specifies rules for returning error responses.
+                                        In a given policy, if you specify rules for both a range of error codes as well as rules for specific error codes then rules with specific error codes have a higher priority.
+                                        For example, assume that you configure a rule for 401 (Un-authorized) code, and another for all 4 series error codes (4XX).
+                                        If the backend service returns a 401, then the rule for 401 will be applied. However if the backend service returns a 403, the rule for 4xx takes effect.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          matchResponseCodes:
+                                            description: 'Valid values include:'
+                                            items:
+                                              type: string
+                                            type: array
+                                          overrideResponseCode:
+                                            description: |-
+                                              The HTTP status code returned with the response containing the custom error content.
+                                              If overrideResponseCode is not supplied, the same response code returned by the original backend bucket or backend service is returned to the client.
+                                            type: number
+                                          path:
+                                            description: Path portion of the URL.
+                                            type: string
+                                        type: object
+                                      type: array
+                                    errorService:
+                                      description: |-
+                                        The full or partial URL to the BackendBucket resource that contains the custom error content. Examples are:
+                                        https://www.googleapis.com/compute/v1/projects/project/global/backendBuckets/myBackendBucket
+                                        compute/v1/projects/project/global/backendBuckets/myBackendBucket
+                                        global/backendBuckets/myBackendBucket
+                                        If errorService is not specified at lower levels like pathMatcher, pathRule and routeRule, an errorService specified at a higher level in the UrlMap will be used. If UrlMap.defaultCustomErrorResponsePolicy contains one or more errorResponseRules[], it must specify errorService.
+                                        If load balancer cannot reach the backendBucket, a simple Not Found Error will be returned, with the original response code (or overrideResponseCode if configured).
+                                      type: string
+                                  type: object
+                                type: array
                               headerAction:
                                 description: |-
                                   Specifies changes to request and response headers that need to take effect for
@@ -2011,9 +2638,7 @@ spec:
                                                     request, in the absence of which the request match fails.
                                                   type: string
                                                 value:
-                                                  description: |-
-                                                    The value of the label must match the specified value. value can have a maximum
-                                                    length of 1024 characters.
+                                                  description: Header value.
                                                   type: string
                                               type: object
                                             type: array
@@ -2234,6 +2859,29 @@ spec:
                                                   type: number
                                               type: object
                                             type: array
+                                        type: object
+                                      type: array
+                                    maxStreamDuration:
+                                      description: |-
+                                        Specifies the maximum duration (timeout) for streams on the selected route.
+                                        Unlike the Timeout field where the timeout duration starts from the time the request
+                                        has been fully processed (known as end-of-stream), the duration in this field
+                                        is computed from the beginning of the stream until the response has been processed,
+                                        including all retries. A stream that does not complete in this duration is closed.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          nanos:
+                                            description: |-
+                                              Span of time that's a fraction of a second at nanosecond resolution. Durations
+                                              less than one second are represented with a 0 seconds field and a positive
+                                              nanos field. Must be from 0 to 999,999,999 inclusive.
+                                            type: number
+                                          seconds:
+                                            description: |-
+                                              Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+                                              inclusive.
+                                            type: string
                                         type: object
                                       type: array
                                     requestMirrorPolicy:
@@ -2601,6 +3249,34 @@ spec:
                         description:
                           description: Description of this test case.
                           type: string
+                        expectedOutputUrl:
+                          description: |-
+                            The expected output URL evaluated by the load balancer containing the scheme, host, path and query parameters.
+                            For rules that forward requests to backends, the test passes only when expectedOutputUrl matches the request forwarded by the load balancer to backends. For rules with urlRewrite, the test verifies that the forwarded request matches hostRewrite and pathPrefixRewrite in the urlRewrite action. When service is specified, expectedOutputUrl`s scheme is ignored.
+                            For rules with urlRedirect, the test passes only if expectedOutputUrl matches the URL in the load balancer's redirect response. If urlRedirect specifies httpsRedirect, the test passes only if the scheme in expectedOutputUrl is also set to HTTPS. If urlRedirect specifies stripQuery, the test passes only if expectedOutputUrl does not contain any query parameters.
+                            expectedOutputUrl is optional when service is specified.
+                          type: string
+                        expectedRedirectResponseCode:
+                          description: |-
+                            For rules with urlRedirect, the test passes only if expectedRedirectResponseCode matches the HTTP status code in load balancer's redirect response.
+                            expectedRedirectResponseCode cannot be set when service is set.
+                          type: number
+                        headers:
+                          description: |-
+                            HTTP headers for this request.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              name:
+                                description: |-
+                                  The name of the query parameter to match. The query parameter must exist in the
+                                  request, in the absence of which the request match fails.
+                                type: string
+                              value:
+                                description: Header value.
+                                type: string
+                            type: object
+                          type: array
                         host:
                           description: Host portion of the URL.
                           type: string
@@ -2703,6 +3379,130 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  defaultCustomErrorResponsePolicy:
+                    description: |-
+                      defaultCustomErrorResponsePolicy specifies how the Load Balancer returns error responses when BackendService or BackendBucket responds with an error.
+                      This policy takes effect at the PathMatcher level and applies only when no policy has been defined for the error code at lower levels like RouteRule and PathRule within this PathMatcher. If an error code does not have a policy defined in defaultCustomErrorResponsePolicy, then a policy defined for the error code in UrlMap.defaultCustomErrorResponsePolicy takes effect.
+                      For example, consider a UrlMap with the following configuration:
+                      UrlMap.defaultCustomErrorResponsePolicy is configured with policies for 5xx and 4xx errors
+                      A RouteRule for /coming_soon/ is configured for the error code 404.
+                      If the request is for www.myotherdomain.com and a 404 is encountered, the policy under UrlMap.defaultCustomErrorResponsePolicy takes effect. If a 404 response is encountered for the request www.example.com/current_events/, the pathMatcher's policy takes effect. If however, the request for www.example.com/coming_soon/ encounters a 404, the policy in RouteRule.customErrorResponsePolicy takes effect. If any of the requests in this example encounter a 500 error code, the policy at UrlMap.defaultCustomErrorResponsePolicy takes effect.
+                      When used in conjunction with pathMatcher.defaultRouteAction.retryPolicy, retries take precedence. Only once all retries are exhausted, the defaultCustomErrorResponsePolicy is applied. While attempting a retry, if load balancer is successful in reaching the service, the defaultCustomErrorResponsePolicy is ignored and the response from the service is returned to the client.
+                      defaultCustomErrorResponsePolicy is supported only for global external Application Load Balancers.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        errorResponseRule:
+                          description: |-
+                            Specifies rules for returning error responses.
+                            In a given policy, if you specify rules for both a range of error codes as well as rules for specific error codes then rules with specific error codes have a higher priority.
+                            For example, assume that you configure a rule for 401 (Un-authorized) code, and another for all 4 series error codes (4XX).
+                            If the backend service returns a 401, then the rule for 401 will be applied. However if the backend service returns a 403, the rule for 4xx takes effect.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              matchResponseCodes:
+                                description: 'Valid values include:'
+                                items:
+                                  type: string
+                                type: array
+                              overrideResponseCode:
+                                description: |-
+                                  The HTTP status code returned with the response containing the custom error content.
+                                  If overrideResponseCode is not supplied, the same response code returned by the original backend bucket or backend service is returned to the client.
+                                type: number
+                              path:
+                                description: Path portion of the URL.
+                                type: string
+                            type: object
+                          type: array
+                        errorService:
+                          description: |-
+                            The full or partial URL to the BackendBucket resource that contains the custom error content. Examples are:
+                            https://www.googleapis.com/compute/v1/projects/project/global/backendBuckets/myBackendBucket
+                            compute/v1/projects/project/global/backendBuckets/myBackendBucket
+                            global/backendBuckets/myBackendBucket
+                            If errorService is not specified at lower levels like pathMatcher, pathRule and routeRule, an errorService specified at a higher level in the UrlMap will be used. If UrlMap.defaultCustomErrorResponsePolicy contains one or more errorResponseRules[], it must specify errorService.
+                            If load balancer cannot reach the backendBucket, a simple Not Found Error will be returned, with the original response code (or overrideResponseCode if configured).
+                          type: string
+                        errorServiceRef:
+                          description: Reference to a BackendBucket in compute to
+                            populate errorService.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        errorServiceSelector:
+                          description: Selector for a BackendBucket in compute to
+                            populate errorService.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                      type: object
+                    type: array
                   defaultRouteAction:
                     description: |-
                       defaultRouteAction takes effect when none of the hostRules match. The load balancer performs advanced routing actions
@@ -2836,6 +3636,29 @@ spec:
                                 type: array
                             type: object
                           type: array
+                        maxStreamDuration:
+                          description: |-
+                            Specifies the maximum duration (timeout) for streams on the selected route.
+                            Unlike the Timeout field where the timeout duration starts from the time the request
+                            has been fully processed (known as end-of-stream), the duration in this field
+                            is computed from the beginning of the stream until the response has been processed,
+                            including all retries. A stream that does not complete in this duration is closed.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              nanos:
+                                description: |-
+                                  Span of time that's a fraction of a second at nanosecond resolution. Durations
+                                  less than one second are represented with a 0 seconds field and a positive
+                                  nanos field. Must be from 0 to 999,999,999 inclusive.
+                                type: number
+                              seconds:
+                                description: |-
+                                  Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+                                  inclusive.
+                                type: string
+                            type: object
+                          type: array
                         requestMirrorPolicy:
                           description: |-
                             Specifies the policy on how requests intended for the route's backends are shadowed to a separate mirrored backend service.
@@ -2850,6 +3673,82 @@ spec:
                                   forwarding the request to backendService, the loadbalancer applies any relevant
                                   headerActions specified as part of this backendServiceWeight.
                                 type: string
+                              backendServiceRef:
+                                description: Reference to a BackendService in compute
+                                  to populate backendService.
+                                properties:
+                                  name:
+                                    description: Name of the referenced object.
+                                    type: string
+                                  policy:
+                                    description: Policies for referencing.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                required:
+                                - name
+                                type: object
+                              backendServiceSelector:
+                                description: Selector for a BackendService in compute
+                                  to populate backendService.
+                                properties:
+                                  matchControllerRef:
+                                    description: |-
+                                      MatchControllerRef ensures an object with the same controller reference
+                                      as the selecting object is selected.
+                                    type: boolean
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    description: MatchLabels ensures an object with
+                                      matching labels is selected.
+                                    type: object
+                                  policy:
+                                    description: Policies for selection.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                type: object
                             type: object
                           type: array
                         retryPolicy:
@@ -3260,6 +4159,130 @@ spec:
                       Structure is documented below.
                     items:
                       properties:
+                        defaultCustomErrorResponsePolicy:
+                          description: |-
+                            defaultCustomErrorResponsePolicy specifies how the Load Balancer returns error responses when BackendService or BackendBucket responds with an error.
+                            This policy takes effect at the PathMatcher level and applies only when no policy has been defined for the error code at lower levels like RouteRule and PathRule within this PathMatcher. If an error code does not have a policy defined in defaultCustomErrorResponsePolicy, then a policy defined for the error code in UrlMap.defaultCustomErrorResponsePolicy takes effect.
+                            For example, consider a UrlMap with the following configuration:
+                            UrlMap.defaultCustomErrorResponsePolicy is configured with policies for 5xx and 4xx errors
+                            A RouteRule for /coming_soon/ is configured for the error code 404.
+                            If the request is for www.myotherdomain.com and a 404 is encountered, the policy under UrlMap.defaultCustomErrorResponsePolicy takes effect. If a 404 response is encountered for the request www.example.com/current_events/, the pathMatcher's policy takes effect. If however, the request for www.example.com/coming_soon/ encounters a 404, the policy in RouteRule.customErrorResponsePolicy takes effect. If any of the requests in this example encounter a 500 error code, the policy at UrlMap.defaultCustomErrorResponsePolicy takes effect.
+                            When used in conjunction with pathMatcher.defaultRouteAction.retryPolicy, retries take precedence. Only once all retries are exhausted, the defaultCustomErrorResponsePolicy is applied. While attempting a retry, if load balancer is successful in reaching the service, the defaultCustomErrorResponsePolicy is ignored and the response from the service is returned to the client.
+                            defaultCustomErrorResponsePolicy is supported only for global external Application Load Balancers.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              errorResponseRule:
+                                description: |-
+                                  Specifies rules for returning error responses.
+                                  In a given policy, if you specify rules for both a range of error codes as well as rules for specific error codes then rules with specific error codes have a higher priority.
+                                  For example, assume that you configure a rule for 401 (Un-authorized) code, and another for all 4 series error codes (4XX).
+                                  If the backend service returns a 401, then the rule for 401 will be applied. However if the backend service returns a 403, the rule for 4xx takes effect.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    matchResponseCodes:
+                                      description: 'Valid values include:'
+                                      items:
+                                        type: string
+                                      type: array
+                                    overrideResponseCode:
+                                      description: |-
+                                        The HTTP status code returned with the response containing the custom error content.
+                                        If overrideResponseCode is not supplied, the same response code returned by the original backend bucket or backend service is returned to the client.
+                                      type: number
+                                    path:
+                                      description: Path portion of the URL.
+                                      type: string
+                                  type: object
+                                type: array
+                              errorService:
+                                description: |-
+                                  The full or partial URL to the BackendBucket resource that contains the custom error content. Examples are:
+                                  https://www.googleapis.com/compute/v1/projects/project/global/backendBuckets/myBackendBucket
+                                  compute/v1/projects/project/global/backendBuckets/myBackendBucket
+                                  global/backendBuckets/myBackendBucket
+                                  If errorService is not specified at lower levels like pathMatcher, pathRule and routeRule, an errorService specified at a higher level in the UrlMap will be used. If UrlMap.defaultCustomErrorResponsePolicy contains one or more errorResponseRules[], it must specify errorService.
+                                  If load balancer cannot reach the backendBucket, a simple Not Found Error will be returned, with the original response code (or overrideResponseCode if configured).
+                                type: string
+                              errorServiceRef:
+                                description: Reference to a BackendBucket in compute
+                                  to populate errorService.
+                                properties:
+                                  name:
+                                    description: Name of the referenced object.
+                                    type: string
+                                  policy:
+                                    description: Policies for referencing.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                required:
+                                - name
+                                type: object
+                              errorServiceSelector:
+                                description: Selector for a BackendBucket in compute
+                                  to populate errorService.
+                                properties:
+                                  matchControllerRef:
+                                    description: |-
+                                      MatchControllerRef ensures an object with the same controller reference
+                                      as the selecting object is selected.
+                                    type: boolean
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    description: MatchLabels ensures an object with
+                                      matching labels is selected.
+                                    type: object
+                                  policy:
+                                    description: Policies for selection.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                type: object
+                            type: object
+                          type: array
                         defaultRouteAction:
                           description: |-
                             defaultRouteAction takes effect when none of the pathRules or routeRules match. The load balancer performs
@@ -3395,6 +4418,29 @@ spec:
                                       type: array
                                   type: object
                                 type: array
+                              maxStreamDuration:
+                                description: |-
+                                  Specifies the maximum duration (timeout) for streams on the selected route.
+                                  Unlike the Timeout field where the timeout duration starts from the time the request
+                                  has been fully processed (known as end-of-stream), the duration in this field
+                                  is computed from the beginning of the stream until the response has been processed,
+                                  including all retries. A stream that does not complete in this duration is closed.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    nanos:
+                                      description: |-
+                                        Span of time that's a fraction of a second at nanosecond resolution. Durations
+                                        less than one second are represented with a 0 seconds field and a positive
+                                        nanos field. Must be from 0 to 999,999,999 inclusive.
+                                      type: number
+                                    seconds:
+                                      description: |-
+                                        Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+                                        inclusive.
+                                      type: string
+                                  type: object
+                                type: array
                               requestMirrorPolicy:
                                 description: |-
                                   Specifies the policy on how requests intended for the route's backends are
@@ -3410,6 +4456,82 @@ spec:
                                         forwarding the request to backendService, the loadbalancer applies any relevant
                                         headerActions specified as part of this backendServiceWeight.
                                       type: string
+                                    backendServiceRef:
+                                      description: Reference to a BackendService in
+                                        compute to populate backendService.
+                                      properties:
+                                        name:
+                                          description: Name of the referenced object.
+                                          type: string
+                                        policy:
+                                          description: Policies for referencing.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: |-
+                                                Resolution specifies whether resolution of this reference is required.
+                                                The default is 'Required', which means the reconcile will fail if the
+                                                reference cannot be resolved. 'Optional' means this reference will be
+                                                a no-op if it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: |-
+                                                Resolve specifies when this reference should be resolved. The default
+                                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                the corresponding field is not present. Use 'Always' to resolve the
+                                                reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      required:
+                                      - name
+                                      type: object
+                                    backendServiceSelector:
+                                      description: Selector for a BackendService in
+                                        compute to populate backendService.
+                                      properties:
+                                        matchControllerRef:
+                                          description: |-
+                                            MatchControllerRef ensures an object with the same controller reference
+                                            as the selecting object is selected.
+                                          type: boolean
+                                        matchLabels:
+                                          additionalProperties:
+                                            type: string
+                                          description: MatchLabels ensures an object
+                                            with matching labels is selected.
+                                          type: object
+                                        policy:
+                                          description: Policies for selection.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: |-
+                                                Resolution specifies whether resolution of this reference is required.
+                                                The default is 'Required', which means the reconcile will fail if the
+                                                reference cannot be resolved. 'Optional' means this reference will be
+                                                a no-op if it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: |-
+                                                Resolve specifies when this reference should be resolved. The default
+                                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                the corresponding field is not present. Use 'Always' to resolve the
+                                                reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      type: object
                                   type: object
                                 type: array
                               retryPolicy:
@@ -3809,6 +4931,123 @@ spec:
                             Structure is documented below.
                           items:
                             properties:
+                              customErrorResponsePolicy:
+                                description: |-
+                                  customErrorResponsePolicy specifies how the Load Balancer returns error responses when BackendService or BackendBucket responds with an error.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    errorResponseRule:
+                                      description: |-
+                                        Specifies rules for returning error responses.
+                                        In a given policy, if you specify rules for both a range of error codes as well as rules for specific error codes then rules with specific error codes have a higher priority.
+                                        For example, assume that you configure a rule for 401 (Un-authorized) code, and another for all 4 series error codes (4XX).
+                                        If the backend service returns a 401, then the rule for 401 will be applied. However if the backend service returns a 403, the rule for 4xx takes effect.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          matchResponseCodes:
+                                            description: 'Valid values include:'
+                                            items:
+                                              type: string
+                                            type: array
+                                          overrideResponseCode:
+                                            description: |-
+                                              The HTTP status code returned with the response containing the custom error content.
+                                              If overrideResponseCode is not supplied, the same response code returned by the original backend bucket or backend service is returned to the client.
+                                            type: number
+                                          path:
+                                            description: Path portion of the URL.
+                                            type: string
+                                        type: object
+                                      type: array
+                                    errorService:
+                                      description: |-
+                                        The full or partial URL to the BackendBucket resource that contains the custom error content. Examples are:
+                                        https://www.googleapis.com/compute/v1/projects/project/global/backendBuckets/myBackendBucket
+                                        compute/v1/projects/project/global/backendBuckets/myBackendBucket
+                                        global/backendBuckets/myBackendBucket
+                                        If errorService is not specified at lower levels like pathMatcher, pathRule and routeRule, an errorService specified at a higher level in the UrlMap will be used. If UrlMap.defaultCustomErrorResponsePolicy contains one or more errorResponseRules[], it must specify errorService.
+                                        If load balancer cannot reach the backendBucket, a simple Not Found Error will be returned, with the original response code (or overrideResponseCode if configured).
+                                      type: string
+                                    errorServiceRef:
+                                      description: Reference to a BackendBucket in
+                                        compute to populate errorService.
+                                      properties:
+                                        name:
+                                          description: Name of the referenced object.
+                                          type: string
+                                        policy:
+                                          description: Policies for referencing.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: |-
+                                                Resolution specifies whether resolution of this reference is required.
+                                                The default is 'Required', which means the reconcile will fail if the
+                                                reference cannot be resolved. 'Optional' means this reference will be
+                                                a no-op if it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: |-
+                                                Resolve specifies when this reference should be resolved. The default
+                                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                the corresponding field is not present. Use 'Always' to resolve the
+                                                reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      required:
+                                      - name
+                                      type: object
+                                    errorServiceSelector:
+                                      description: Selector for a BackendBucket in
+                                        compute to populate errorService.
+                                      properties:
+                                        matchControllerRef:
+                                          description: |-
+                                            MatchControllerRef ensures an object with the same controller reference
+                                            as the selecting object is selected.
+                                          type: boolean
+                                        matchLabels:
+                                          additionalProperties:
+                                            type: string
+                                          description: MatchLabels ensures an object
+                                            with matching labels is selected.
+                                          type: object
+                                        policy:
+                                          description: Policies for selection.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: |-
+                                                Resolution specifies whether resolution of this reference is required.
+                                                The default is 'Required', which means the reconcile will fail if the
+                                                reference cannot be resolved. 'Optional' means this reference will be
+                                                a no-op if it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: |-
+                                                Resolve specifies when this reference should be resolved. The default
+                                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                the corresponding field is not present. Use 'Always' to resolve the
+                                                reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      type: object
+                                  type: object
+                                type: array
                               paths:
                                 description: |-
                                   The list of path patterns to match. Each must start with / and the only place a
@@ -3953,6 +5192,29 @@ spec:
                                                   type: number
                                               type: object
                                             type: array
+                                        type: object
+                                      type: array
+                                    maxStreamDuration:
+                                      description: |-
+                                        Specifies the maximum duration (timeout) for streams on the selected route.
+                                        Unlike the Timeout field where the timeout duration starts from the time the request
+                                        has been fully processed (known as end-of-stream), the duration in this field
+                                        is computed from the beginning of the stream until the response has been processed,
+                                        including all retries. A stream that does not complete in this duration is closed.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          nanos:
+                                            description: |-
+                                              Span of time that's a fraction of a second at nanosecond resolution. Durations
+                                              less than one second are represented with a 0 seconds field and a positive
+                                              nanos field. Must be from 0 to 999,999,999 inclusive.
+                                            type: number
+                                          seconds:
+                                            description: |-
+                                              Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+                                              inclusive.
+                                            type: string
                                         type: object
                                       type: array
                                     requestMirrorPolicy:
@@ -4453,6 +5715,47 @@ spec:
                             Structure is documented below.
                           items:
                             properties:
+                              customErrorResponsePolicy:
+                                description: |-
+                                  customErrorResponsePolicy specifies how the Load Balancer returns error responses when BackendService or BackendBucket responds with an error.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    errorResponseRule:
+                                      description: |-
+                                        Specifies rules for returning error responses.
+                                        In a given policy, if you specify rules for both a range of error codes as well as rules for specific error codes then rules with specific error codes have a higher priority.
+                                        For example, assume that you configure a rule for 401 (Un-authorized) code, and another for all 4 series error codes (4XX).
+                                        If the backend service returns a 401, then the rule for 401 will be applied. However if the backend service returns a 403, the rule for 4xx takes effect.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          matchResponseCodes:
+                                            description: 'Valid values include:'
+                                            items:
+                                              type: string
+                                            type: array
+                                          overrideResponseCode:
+                                            description: |-
+                                              The HTTP status code returned with the response containing the custom error content.
+                                              If overrideResponseCode is not supplied, the same response code returned by the original backend bucket or backend service is returned to the client.
+                                            type: number
+                                          path:
+                                            description: Path portion of the URL.
+                                            type: string
+                                        type: object
+                                      type: array
+                                    errorService:
+                                      description: |-
+                                        The full or partial URL to the BackendBucket resource that contains the custom error content. Examples are:
+                                        https://www.googleapis.com/compute/v1/projects/project/global/backendBuckets/myBackendBucket
+                                        compute/v1/projects/project/global/backendBuckets/myBackendBucket
+                                        global/backendBuckets/myBackendBucket
+                                        If errorService is not specified at lower levels like pathMatcher, pathRule and routeRule, an errorService specified at a higher level in the UrlMap will be used. If UrlMap.defaultCustomErrorResponsePolicy contains one or more errorResponseRules[], it must specify errorService.
+                                        If load balancer cannot reach the backendBucket, a simple Not Found Error will be returned, with the original response code (or overrideResponseCode if configured).
+                                      type: string
+                                  type: object
+                                type: array
                               headerAction:
                                 description: |-
                                   Specifies changes to request and response headers that need to take effect for
@@ -4640,9 +5943,7 @@ spec:
                                                     request, in the absence of which the request match fails.
                                                   type: string
                                                 value:
-                                                  description: |-
-                                                    The value of the label must match the specified value. value can have a maximum
-                                                    length of 1024 characters.
+                                                  description: Header value.
                                                   type: string
                                               type: object
                                             type: array
@@ -4863,6 +6164,29 @@ spec:
                                                   type: number
                                               type: object
                                             type: array
+                                        type: object
+                                      type: array
+                                    maxStreamDuration:
+                                      description: |-
+                                        Specifies the maximum duration (timeout) for streams on the selected route.
+                                        Unlike the Timeout field where the timeout duration starts from the time the request
+                                        has been fully processed (known as end-of-stream), the duration in this field
+                                        is computed from the beginning of the stream until the response has been processed,
+                                        including all retries. A stream that does not complete in this duration is closed.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          nanos:
+                                            description: |-
+                                              Span of time that's a fraction of a second at nanosecond resolution. Durations
+                                              less than one second are represented with a 0 seconds field and a positive
+                                              nanos field. Must be from 0 to 999,999,999 inclusive.
+                                            type: number
+                                          seconds:
+                                            description: |-
+                                              Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+                                              inclusive.
+                                            type: string
                                         type: object
                                       type: array
                                     requestMirrorPolicy:
@@ -5230,6 +6554,34 @@ spec:
                         description:
                           description: Description of this test case.
                           type: string
+                        expectedOutputUrl:
+                          description: |-
+                            The expected output URL evaluated by the load balancer containing the scheme, host, path and query parameters.
+                            For rules that forward requests to backends, the test passes only when expectedOutputUrl matches the request forwarded by the load balancer to backends. For rules with urlRewrite, the test verifies that the forwarded request matches hostRewrite and pathPrefixRewrite in the urlRewrite action. When service is specified, expectedOutputUrl`s scheme is ignored.
+                            For rules with urlRedirect, the test passes only if expectedOutputUrl matches the URL in the load balancer's redirect response. If urlRedirect specifies httpsRedirect, the test passes only if the scheme in expectedOutputUrl is also set to HTTPS. If urlRedirect specifies stripQuery, the test passes only if expectedOutputUrl does not contain any query parameters.
+                            expectedOutputUrl is optional when service is specified.
+                          type: string
+                        expectedRedirectResponseCode:
+                          description: |-
+                            For rules with urlRedirect, the test passes only if expectedRedirectResponseCode matches the HTTP status code in load balancer's redirect response.
+                            expectedRedirectResponseCode cannot be set when service is set.
+                          type: number
+                        headers:
+                          description: |-
+                            HTTP headers for this request.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              name:
+                                description: |-
+                                  The name of the query parameter to match. The query parameter must exist in the
+                                  request, in the absence of which the request match fails.
+                                type: string
+                              value:
+                                description: Header value.
+                                type: string
+                            type: object
+                          type: array
                         host:
                           description: Host portion of the URL.
                           type: string
@@ -5494,6 +6846,54 @@ spec:
                   creationTimestamp:
                     description: Creation timestamp in RFC3339 text format.
                     type: string
+                  defaultCustomErrorResponsePolicy:
+                    description: |-
+                      defaultCustomErrorResponsePolicy specifies how the Load Balancer returns error responses when BackendService or BackendBucket responds with an error.
+                      This policy takes effect at the PathMatcher level and applies only when no policy has been defined for the error code at lower levels like RouteRule and PathRule within this PathMatcher. If an error code does not have a policy defined in defaultCustomErrorResponsePolicy, then a policy defined for the error code in UrlMap.defaultCustomErrorResponsePolicy takes effect.
+                      For example, consider a UrlMap with the following configuration:
+                      UrlMap.defaultCustomErrorResponsePolicy is configured with policies for 5xx and 4xx errors
+                      A RouteRule for /coming_soon/ is configured for the error code 404.
+                      If the request is for www.myotherdomain.com and a 404 is encountered, the policy under UrlMap.defaultCustomErrorResponsePolicy takes effect. If a 404 response is encountered for the request www.example.com/current_events/, the pathMatcher's policy takes effect. If however, the request for www.example.com/coming_soon/ encounters a 404, the policy in RouteRule.customErrorResponsePolicy takes effect. If any of the requests in this example encounter a 500 error code, the policy at UrlMap.defaultCustomErrorResponsePolicy takes effect.
+                      When used in conjunction with pathMatcher.defaultRouteAction.retryPolicy, retries take precedence. Only once all retries are exhausted, the defaultCustomErrorResponsePolicy is applied. While attempting a retry, if load balancer is successful in reaching the service, the defaultCustomErrorResponsePolicy is ignored and the response from the service is returned to the client.
+                      defaultCustomErrorResponsePolicy is supported only for global external Application Load Balancers.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        errorResponseRule:
+                          description: |-
+                            Specifies rules for returning error responses.
+                            In a given policy, if you specify rules for both a range of error codes as well as rules for specific error codes then rules with specific error codes have a higher priority.
+                            For example, assume that you configure a rule for 401 (Un-authorized) code, and another for all 4 series error codes (4XX).
+                            If the backend service returns a 401, then the rule for 401 will be applied. However if the backend service returns a 403, the rule for 4xx takes effect.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              matchResponseCodes:
+                                description: 'Valid values include:'
+                                items:
+                                  type: string
+                                type: array
+                              overrideResponseCode:
+                                description: |-
+                                  The HTTP status code returned with the response containing the custom error content.
+                                  If overrideResponseCode is not supplied, the same response code returned by the original backend bucket or backend service is returned to the client.
+                                type: number
+                              path:
+                                description: Path portion of the URL.
+                                type: string
+                            type: object
+                          type: array
+                        errorService:
+                          description: |-
+                            The full or partial URL to the BackendBucket resource that contains the custom error content. Examples are:
+                            https://www.googleapis.com/compute/v1/projects/project/global/backendBuckets/myBackendBucket
+                            compute/v1/projects/project/global/backendBuckets/myBackendBucket
+                            global/backendBuckets/myBackendBucket
+                            If errorService is not specified at lower levels like pathMatcher, pathRule and routeRule, an errorService specified at a higher level in the UrlMap will be used. If UrlMap.defaultCustomErrorResponsePolicy contains one or more errorResponseRules[], it must specify errorService.
+                            If load balancer cannot reach the backendBucket, a simple Not Found Error will be returned, with the original response code (or overrideResponseCode if configured).
+                          type: string
+                      type: object
+                    type: array
                   defaultRouteAction:
                     description: |-
                       defaultRouteAction takes effect when none of the hostRules match. The load balancer performs advanced routing actions
@@ -5625,6 +7025,29 @@ spec:
                                       type: number
                                   type: object
                                 type: array
+                            type: object
+                          type: array
+                        maxStreamDuration:
+                          description: |-
+                            Specifies the maximum duration (timeout) for streams on the selected route.
+                            Unlike the Timeout field where the timeout duration starts from the time the request
+                            has been fully processed (known as end-of-stream), the duration in this field
+                            is computed from the beginning of the stream until the response has been processed,
+                            including all retries. A stream that does not complete in this duration is closed.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              nanos:
+                                description: |-
+                                  Span of time that's a fraction of a second at nanosecond resolution. Durations
+                                  less than one second are represented with a 0 seconds field and a positive
+                                  nanos field. Must be from 0 to 999,999,999 inclusive.
+                                type: number
+                              seconds:
+                                description: |-
+                                  Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+                                  inclusive.
+                                type: string
                             type: object
                           type: array
                         requestMirrorPolicy:
@@ -5986,6 +7409,54 @@ spec:
                       Structure is documented below.
                     items:
                       properties:
+                        defaultCustomErrorResponsePolicy:
+                          description: |-
+                            defaultCustomErrorResponsePolicy specifies how the Load Balancer returns error responses when BackendService or BackendBucket responds with an error.
+                            This policy takes effect at the PathMatcher level and applies only when no policy has been defined for the error code at lower levels like RouteRule and PathRule within this PathMatcher. If an error code does not have a policy defined in defaultCustomErrorResponsePolicy, then a policy defined for the error code in UrlMap.defaultCustomErrorResponsePolicy takes effect.
+                            For example, consider a UrlMap with the following configuration:
+                            UrlMap.defaultCustomErrorResponsePolicy is configured with policies for 5xx and 4xx errors
+                            A RouteRule for /coming_soon/ is configured for the error code 404.
+                            If the request is for www.myotherdomain.com and a 404 is encountered, the policy under UrlMap.defaultCustomErrorResponsePolicy takes effect. If a 404 response is encountered for the request www.example.com/current_events/, the pathMatcher's policy takes effect. If however, the request for www.example.com/coming_soon/ encounters a 404, the policy in RouteRule.customErrorResponsePolicy takes effect. If any of the requests in this example encounter a 500 error code, the policy at UrlMap.defaultCustomErrorResponsePolicy takes effect.
+                            When used in conjunction with pathMatcher.defaultRouteAction.retryPolicy, retries take precedence. Only once all retries are exhausted, the defaultCustomErrorResponsePolicy is applied. While attempting a retry, if load balancer is successful in reaching the service, the defaultCustomErrorResponsePolicy is ignored and the response from the service is returned to the client.
+                            defaultCustomErrorResponsePolicy is supported only for global external Application Load Balancers.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              errorResponseRule:
+                                description: |-
+                                  Specifies rules for returning error responses.
+                                  In a given policy, if you specify rules for both a range of error codes as well as rules for specific error codes then rules with specific error codes have a higher priority.
+                                  For example, assume that you configure a rule for 401 (Un-authorized) code, and another for all 4 series error codes (4XX).
+                                  If the backend service returns a 401, then the rule for 401 will be applied. However if the backend service returns a 403, the rule for 4xx takes effect.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    matchResponseCodes:
+                                      description: 'Valid values include:'
+                                      items:
+                                        type: string
+                                      type: array
+                                    overrideResponseCode:
+                                      description: |-
+                                        The HTTP status code returned with the response containing the custom error content.
+                                        If overrideResponseCode is not supplied, the same response code returned by the original backend bucket or backend service is returned to the client.
+                                      type: number
+                                    path:
+                                      description: Path portion of the URL.
+                                      type: string
+                                  type: object
+                                type: array
+                              errorService:
+                                description: |-
+                                  The full or partial URL to the BackendBucket resource that contains the custom error content. Examples are:
+                                  https://www.googleapis.com/compute/v1/projects/project/global/backendBuckets/myBackendBucket
+                                  compute/v1/projects/project/global/backendBuckets/myBackendBucket
+                                  global/backendBuckets/myBackendBucket
+                                  If errorService is not specified at lower levels like pathMatcher, pathRule and routeRule, an errorService specified at a higher level in the UrlMap will be used. If UrlMap.defaultCustomErrorResponsePolicy contains one or more errorResponseRules[], it must specify errorService.
+                                  If load balancer cannot reach the backendBucket, a simple Not Found Error will be returned, with the original response code (or overrideResponseCode if configured).
+                                type: string
+                            type: object
+                          type: array
                         defaultRouteAction:
                           description: |-
                             defaultRouteAction takes effect when none of the pathRules or routeRules match. The load balancer performs
@@ -6119,6 +7590,29 @@ spec:
                                             type: number
                                         type: object
                                       type: array
+                                  type: object
+                                type: array
+                              maxStreamDuration:
+                                description: |-
+                                  Specifies the maximum duration (timeout) for streams on the selected route.
+                                  Unlike the Timeout field where the timeout duration starts from the time the request
+                                  has been fully processed (known as end-of-stream), the duration in this field
+                                  is computed from the beginning of the stream until the response has been processed,
+                                  including all retries. A stream that does not complete in this duration is closed.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    nanos:
+                                      description: |-
+                                        Span of time that's a fraction of a second at nanosecond resolution. Durations
+                                        less than one second are represented with a 0 seconds field and a positive
+                                        nanos field. Must be from 0 to 999,999,999 inclusive.
+                                      type: number
+                                    seconds:
+                                      description: |-
+                                        Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+                                        inclusive.
+                                      type: string
                                   type: object
                                 type: array
                               requestMirrorPolicy:
@@ -6459,6 +7953,47 @@ spec:
                             Structure is documented below.
                           items:
                             properties:
+                              customErrorResponsePolicy:
+                                description: |-
+                                  customErrorResponsePolicy specifies how the Load Balancer returns error responses when BackendService or BackendBucket responds with an error.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    errorResponseRule:
+                                      description: |-
+                                        Specifies rules for returning error responses.
+                                        In a given policy, if you specify rules for both a range of error codes as well as rules for specific error codes then rules with specific error codes have a higher priority.
+                                        For example, assume that you configure a rule for 401 (Un-authorized) code, and another for all 4 series error codes (4XX).
+                                        If the backend service returns a 401, then the rule for 401 will be applied. However if the backend service returns a 403, the rule for 4xx takes effect.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          matchResponseCodes:
+                                            description: 'Valid values include:'
+                                            items:
+                                              type: string
+                                            type: array
+                                          overrideResponseCode:
+                                            description: |-
+                                              The HTTP status code returned with the response containing the custom error content.
+                                              If overrideResponseCode is not supplied, the same response code returned by the original backend bucket or backend service is returned to the client.
+                                            type: number
+                                          path:
+                                            description: Path portion of the URL.
+                                            type: string
+                                        type: object
+                                      type: array
+                                    errorService:
+                                      description: |-
+                                        The full or partial URL to the BackendBucket resource that contains the custom error content. Examples are:
+                                        https://www.googleapis.com/compute/v1/projects/project/global/backendBuckets/myBackendBucket
+                                        compute/v1/projects/project/global/backendBuckets/myBackendBucket
+                                        global/backendBuckets/myBackendBucket
+                                        If errorService is not specified at lower levels like pathMatcher, pathRule and routeRule, an errorService specified at a higher level in the UrlMap will be used. If UrlMap.defaultCustomErrorResponsePolicy contains one or more errorResponseRules[], it must specify errorService.
+                                        If load balancer cannot reach the backendBucket, a simple Not Found Error will be returned, with the original response code (or overrideResponseCode if configured).
+                                      type: string
+                                  type: object
+                                type: array
                               paths:
                                 description: |-
                                   The list of path patterns to match. Each must start with / and the only place a
@@ -6603,6 +8138,29 @@ spec:
                                                   type: number
                                               type: object
                                             type: array
+                                        type: object
+                                      type: array
+                                    maxStreamDuration:
+                                      description: |-
+                                        Specifies the maximum duration (timeout) for streams on the selected route.
+                                        Unlike the Timeout field where the timeout duration starts from the time the request
+                                        has been fully processed (known as end-of-stream), the duration in this field
+                                        is computed from the beginning of the stream until the response has been processed,
+                                        including all retries. A stream that does not complete in this duration is closed.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          nanos:
+                                            description: |-
+                                              Span of time that's a fraction of a second at nanosecond resolution. Durations
+                                              less than one second are represented with a 0 seconds field and a positive
+                                              nanos field. Must be from 0 to 999,999,999 inclusive.
+                                            type: number
+                                          seconds:
+                                            description: |-
+                                              Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+                                              inclusive.
+                                            type: string
                                         type: object
                                       type: array
                                     requestMirrorPolicy:
@@ -6873,6 +8431,47 @@ spec:
                             Structure is documented below.
                           items:
                             properties:
+                              customErrorResponsePolicy:
+                                description: |-
+                                  customErrorResponsePolicy specifies how the Load Balancer returns error responses when BackendService or BackendBucket responds with an error.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    errorResponseRule:
+                                      description: |-
+                                        Specifies rules for returning error responses.
+                                        In a given policy, if you specify rules for both a range of error codes as well as rules for specific error codes then rules with specific error codes have a higher priority.
+                                        For example, assume that you configure a rule for 401 (Un-authorized) code, and another for all 4 series error codes (4XX).
+                                        If the backend service returns a 401, then the rule for 401 will be applied. However if the backend service returns a 403, the rule for 4xx takes effect.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          matchResponseCodes:
+                                            description: 'Valid values include:'
+                                            items:
+                                              type: string
+                                            type: array
+                                          overrideResponseCode:
+                                            description: |-
+                                              The HTTP status code returned with the response containing the custom error content.
+                                              If overrideResponseCode is not supplied, the same response code returned by the original backend bucket or backend service is returned to the client.
+                                            type: number
+                                          path:
+                                            description: Path portion of the URL.
+                                            type: string
+                                        type: object
+                                      type: array
+                                    errorService:
+                                      description: |-
+                                        The full or partial URL to the BackendBucket resource that contains the custom error content. Examples are:
+                                        https://www.googleapis.com/compute/v1/projects/project/global/backendBuckets/myBackendBucket
+                                        compute/v1/projects/project/global/backendBuckets/myBackendBucket
+                                        global/backendBuckets/myBackendBucket
+                                        If errorService is not specified at lower levels like pathMatcher, pathRule and routeRule, an errorService specified at a higher level in the UrlMap will be used. If UrlMap.defaultCustomErrorResponsePolicy contains one or more errorResponseRules[], it must specify errorService.
+                                        If load balancer cannot reach the backendBucket, a simple Not Found Error will be returned, with the original response code (or overrideResponseCode if configured).
+                                      type: string
+                                  type: object
+                                type: array
                               headerAction:
                                 description: |-
                                   Specifies changes to request and response headers that need to take effect for
@@ -7060,9 +8659,7 @@ spec:
                                                     request, in the absence of which the request match fails.
                                                   type: string
                                                 value:
-                                                  description: |-
-                                                    The value of the label must match the specified value. value can have a maximum
-                                                    length of 1024 characters.
+                                                  description: Header value.
                                                   type: string
                                               type: object
                                             type: array
@@ -7283,6 +8880,29 @@ spec:
                                                   type: number
                                               type: object
                                             type: array
+                                        type: object
+                                      type: array
+                                    maxStreamDuration:
+                                      description: |-
+                                        Specifies the maximum duration (timeout) for streams on the selected route.
+                                        Unlike the Timeout field where the timeout duration starts from the time the request
+                                        has been fully processed (known as end-of-stream), the duration in this field
+                                        is computed from the beginning of the stream until the response has been processed,
+                                        including all retries. A stream that does not complete in this duration is closed.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          nanos:
+                                            description: |-
+                                              Span of time that's a fraction of a second at nanosecond resolution. Durations
+                                              less than one second are represented with a 0 seconds field and a positive
+                                              nanos field. Must be from 0 to 999,999,999 inclusive.
+                                            type: number
+                                          seconds:
+                                            description: |-
+                                              Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+                                              inclusive.
+                                            type: string
                                         type: object
                                       type: array
                                     requestMirrorPolicy:
@@ -7577,6 +9197,34 @@ spec:
                         description:
                           description: Description of this test case.
                           type: string
+                        expectedOutputUrl:
+                          description: |-
+                            The expected output URL evaluated by the load balancer containing the scheme, host, path and query parameters.
+                            For rules that forward requests to backends, the test passes only when expectedOutputUrl matches the request forwarded by the load balancer to backends. For rules with urlRewrite, the test verifies that the forwarded request matches hostRewrite and pathPrefixRewrite in the urlRewrite action. When service is specified, expectedOutputUrl`s scheme is ignored.
+                            For rules with urlRedirect, the test passes only if expectedOutputUrl matches the URL in the load balancer's redirect response. If urlRedirect specifies httpsRedirect, the test passes only if the scheme in expectedOutputUrl is also set to HTTPS. If urlRedirect specifies stripQuery, the test passes only if expectedOutputUrl does not contain any query parameters.
+                            expectedOutputUrl is optional when service is specified.
+                          type: string
+                        expectedRedirectResponseCode:
+                          description: |-
+                            For rules with urlRedirect, the test passes only if expectedRedirectResponseCode matches the HTTP status code in load balancer's redirect response.
+                            expectedRedirectResponseCode cannot be set when service is set.
+                          type: number
+                        headers:
+                          description: |-
+                            HTTP headers for this request.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              name:
+                                description: |-
+                                  The name of the query parameter to match. The query parameter must exist in the
+                                  request, in the absence of which the request match fails.
+                                type: string
+                              value:
+                                description: Header value.
+                                type: string
+                            type: object
+                          type: array
                         host:
                           description: Host portion of the URL.
                           type: string

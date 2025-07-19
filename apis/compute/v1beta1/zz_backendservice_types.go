@@ -70,12 +70,12 @@ type BackendInitParameters struct {
 
 	// Specifies the balancing mode for this backend.
 	// For global HTTP(S) or TCP/SSL load balancing, the default is
-	// UTILIZATION. Valid values are UTILIZATION, RATE (for HTTP(S))
-	// and CONNECTION (for TCP/SSL).
+	// UTILIZATION. Valid values are UTILIZATION, RATE (for HTTP(S)),
+	// CUSTOM_METRICS (for HTTP(s)) and CONNECTION (for TCP/SSL).
 	// See the Backend Services Overview
 	// for an explanation of load balancing modes.
 	// Default value is UTILIZATION.
-	// Possible values are: UTILIZATION, RATE, CONNECTION.
+	// Possible values are: UTILIZATION, RATE, CONNECTION, CUSTOM_METRICS.
 	BalancingMode *string `json:"balancingMode,omitempty" tf:"balancing_mode,omitempty"`
 
 	// A multiplier applied to the group's maximum servicing capacity
@@ -85,6 +85,10 @@ type BackendInitParameters struct {
 	// setting of 0 means the group is completely drained, offering
 	// 0% of its available Capacity. Valid range is [0.0,1.0].
 	CapacityScaler *float64 `json:"capacityScaler,omitempty" tf:"capacity_scaler,omitempty"`
+
+	// The set of custom metrics that are used for CUSTOM_METRICS BalancingMode.
+	// Structure is documented below.
+	CustomMetrics []CustomMetricsInitParameters `json:"customMetrics,omitempty" tf:"custom_metrics,omitempty"`
 
 	// An optional description of this resource.
 	// Provide this property when you create the resource.
@@ -104,7 +108,7 @@ type BackendInitParameters struct {
 	// Note that you must specify an Instance Group or Network Endpoint
 	// Group resource using the fully-qualified URL, rather than a
 	// partial URL.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.InstanceGroupManager
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.InstanceGroupManager
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/compute.InstanceGroupExtractor()
 	Group *string `json:"group,omitempty" tf:"group,omitempty"`
 
@@ -161,18 +165,22 @@ type BackendInitParameters struct {
 	// Used when balancingMode is UTILIZATION. This ratio defines the
 	// CPU utilization target for the group. Valid range is [0.0, 1.0].
 	MaxUtilization *float64 `json:"maxUtilization,omitempty" tf:"max_utilization,omitempty"`
+
+	// This field indicates whether this backend should be fully utilized before sending traffic to backends
+	// with default preference. This field cannot be set when loadBalancingScheme is set to 'EXTERNAL'. The possible values are:
+	Preference *string `json:"preference,omitempty" tf:"preference,omitempty"`
 }
 
 type BackendObservation struct {
 
 	// Specifies the balancing mode for this backend.
 	// For global HTTP(S) or TCP/SSL load balancing, the default is
-	// UTILIZATION. Valid values are UTILIZATION, RATE (for HTTP(S))
-	// and CONNECTION (for TCP/SSL).
+	// UTILIZATION. Valid values are UTILIZATION, RATE (for HTTP(S)),
+	// CUSTOM_METRICS (for HTTP(s)) and CONNECTION (for TCP/SSL).
 	// See the Backend Services Overview
 	// for an explanation of load balancing modes.
 	// Default value is UTILIZATION.
-	// Possible values are: UTILIZATION, RATE, CONNECTION.
+	// Possible values are: UTILIZATION, RATE, CONNECTION, CUSTOM_METRICS.
 	BalancingMode *string `json:"balancingMode,omitempty" tf:"balancing_mode,omitempty"`
 
 	// A multiplier applied to the group's maximum servicing capacity
@@ -182,6 +190,10 @@ type BackendObservation struct {
 	// setting of 0 means the group is completely drained, offering
 	// 0% of its available Capacity. Valid range is [0.0,1.0].
 	CapacityScaler *float64 `json:"capacityScaler,omitempty" tf:"capacity_scaler,omitempty"`
+
+	// The set of custom metrics that are used for CUSTOM_METRICS BalancingMode.
+	// Structure is documented below.
+	CustomMetrics []CustomMetricsObservation `json:"customMetrics,omitempty" tf:"custom_metrics,omitempty"`
 
 	// An optional description of this resource.
 	// Provide this property when you create the resource.
@@ -248,18 +260,22 @@ type BackendObservation struct {
 	// Used when balancingMode is UTILIZATION. This ratio defines the
 	// CPU utilization target for the group. Valid range is [0.0, 1.0].
 	MaxUtilization *float64 `json:"maxUtilization,omitempty" tf:"max_utilization,omitempty"`
+
+	// This field indicates whether this backend should be fully utilized before sending traffic to backends
+	// with default preference. This field cannot be set when loadBalancingScheme is set to 'EXTERNAL'. The possible values are:
+	Preference *string `json:"preference,omitempty" tf:"preference,omitempty"`
 }
 
 type BackendParameters struct {
 
 	// Specifies the balancing mode for this backend.
 	// For global HTTP(S) or TCP/SSL load balancing, the default is
-	// UTILIZATION. Valid values are UTILIZATION, RATE (for HTTP(S))
-	// and CONNECTION (for TCP/SSL).
+	// UTILIZATION. Valid values are UTILIZATION, RATE (for HTTP(S)),
+	// CUSTOM_METRICS (for HTTP(s)) and CONNECTION (for TCP/SSL).
 	// See the Backend Services Overview
 	// for an explanation of load balancing modes.
 	// Default value is UTILIZATION.
-	// Possible values are: UTILIZATION, RATE, CONNECTION.
+	// Possible values are: UTILIZATION, RATE, CONNECTION, CUSTOM_METRICS.
 	// +kubebuilder:validation:Optional
 	BalancingMode *string `json:"balancingMode,omitempty" tf:"balancing_mode,omitempty"`
 
@@ -271,6 +287,11 @@ type BackendParameters struct {
 	// 0% of its available Capacity. Valid range is [0.0,1.0].
 	// +kubebuilder:validation:Optional
 	CapacityScaler *float64 `json:"capacityScaler,omitempty" tf:"capacity_scaler,omitempty"`
+
+	// The set of custom metrics that are used for CUSTOM_METRICS BalancingMode.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CustomMetrics []CustomMetricsParameters `json:"customMetrics,omitempty" tf:"custom_metrics,omitempty"`
 
 	// An optional description of this resource.
 	// Provide this property when you create the resource.
@@ -291,7 +312,7 @@ type BackendParameters struct {
 	// Note that you must specify an Instance Group or Network Endpoint
 	// Group resource using the fully-qualified URL, rather than a
 	// partial URL.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.InstanceGroupManager
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.InstanceGroupManager
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/compute.InstanceGroupExtractor()
 	// +kubebuilder:validation:Optional
 	Group *string `json:"group,omitempty" tf:"group,omitempty"`
@@ -356,6 +377,11 @@ type BackendParameters struct {
 	// CPU utilization target for the group. Valid range is [0.0, 1.0].
 	// +kubebuilder:validation:Optional
 	MaxUtilization *float64 `json:"maxUtilization,omitempty" tf:"max_utilization,omitempty"`
+
+	// This field indicates whether this backend should be fully utilized before sending traffic to backends
+	// with default preference. This field cannot be set when loadBalancingScheme is set to 'EXTERNAL'. The possible values are:
+	// +kubebuilder:validation:Optional
+	Preference *string `json:"preference,omitempty" tf:"preference,omitempty"`
 }
 
 type BackendServiceCdnPolicyInitParameters struct {
@@ -391,6 +417,10 @@ type BackendServiceCdnPolicyInitParameters struct {
 	// Omitting the policy and leaving negativeCaching enabled will use Cloud CDN's default cache TTLs.
 	// Structure is documented below.
 	NegativeCachingPolicy []CdnPolicyNegativeCachingPolicyInitParameters `json:"negativeCachingPolicy,omitempty" tf:"negative_caching_policy,omitempty"`
+
+	// If true then Cloud CDN will combine multiple concurrent cache fill requests into a small number of requests
+	// to the origin.
+	RequestCoalescing *bool `json:"requestCoalescing,omitempty" tf:"request_coalescing,omitempty"`
 
 	// Serve existing content from the cache (if available) when revalidating content with the origin, or when an error is encountered when refreshing the cache.
 	ServeWhileStale *float64 `json:"serveWhileStale,omitempty" tf:"serve_while_stale,omitempty"`
@@ -440,6 +470,10 @@ type BackendServiceCdnPolicyObservation struct {
 	// Omitting the policy and leaving negativeCaching enabled will use Cloud CDN's default cache TTLs.
 	// Structure is documented below.
 	NegativeCachingPolicy []CdnPolicyNegativeCachingPolicyObservation `json:"negativeCachingPolicy,omitempty" tf:"negative_caching_policy,omitempty"`
+
+	// If true then Cloud CDN will combine multiple concurrent cache fill requests into a small number of requests
+	// to the origin.
+	RequestCoalescing *bool `json:"requestCoalescing,omitempty" tf:"request_coalescing,omitempty"`
 
 	// Serve existing content from the cache (if available) when revalidating content with the origin, or when an error is encountered when refreshing the cache.
 	ServeWhileStale *float64 `json:"serveWhileStale,omitempty" tf:"serve_while_stale,omitempty"`
@@ -498,6 +532,11 @@ type BackendServiceCdnPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	NegativeCachingPolicy []CdnPolicyNegativeCachingPolicyParameters `json:"negativeCachingPolicy,omitempty" tf:"negative_caching_policy,omitempty"`
 
+	// If true then Cloud CDN will combine multiple concurrent cache fill requests into a small number of requests
+	// to the origin.
+	// +kubebuilder:validation:Optional
+	RequestCoalescing *bool `json:"requestCoalescing,omitempty" tf:"request_coalescing,omitempty"`
+
 	// Serve existing content from the cache (if available) when revalidating content with the origin, or when an error is encountered when refreshing the cache.
 	// +kubebuilder:validation:Optional
 	ServeWhileStale *float64 `json:"serveWhileStale,omitempty" tf:"serve_while_stale,omitempty"`
@@ -513,6 +552,62 @@ type BackendServiceCdnPolicyParameters struct {
 	// responses will not be altered.
 	// +kubebuilder:validation:Optional
 	SignedURLCacheMaxAgeSec *float64 `json:"signedUrlCacheMaxAgeSec,omitempty" tf:"signed_url_cache_max_age_sec,omitempty"`
+}
+
+type BackendServiceCustomMetricsInitParameters struct {
+
+	// If true, the metric data is collected and reported to Cloud
+	// Monitoring, but is not used for load balancing.
+	DryRun *bool `json:"dryRun,omitempty" tf:"dry_run,omitempty"`
+
+	// Name of a custom utilization signal. The name must be 1-64 characters
+	// long and match the regular expression a-z? which
+	// means the first character must be a lowercase letter, and all following
+	// characters must be a dash, period, underscore, lowercase letter, or
+	// digit, except the last character, which cannot be a dash, period, or
+	// underscore. For usage guidelines, see Custom Metrics balancing mode. This
+	// field can only be used for a global or regional backend service with the
+	// loadBalancingScheme set to EXTERNAL_MANAGED,
+	// INTERNAL_MANAGED INTERNAL_SELF_MANAGED.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type BackendServiceCustomMetricsObservation struct {
+
+	// If true, the metric data is collected and reported to Cloud
+	// Monitoring, but is not used for load balancing.
+	DryRun *bool `json:"dryRun,omitempty" tf:"dry_run,omitempty"`
+
+	// Name of a custom utilization signal. The name must be 1-64 characters
+	// long and match the regular expression a-z? which
+	// means the first character must be a lowercase letter, and all following
+	// characters must be a dash, period, underscore, lowercase letter, or
+	// digit, except the last character, which cannot be a dash, period, or
+	// underscore. For usage guidelines, see Custom Metrics balancing mode. This
+	// field can only be used for a global or regional backend service with the
+	// loadBalancingScheme set to EXTERNAL_MANAGED,
+	// INTERNAL_MANAGED INTERNAL_SELF_MANAGED.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type BackendServiceCustomMetricsParameters struct {
+
+	// If true, the metric data is collected and reported to Cloud
+	// Monitoring, but is not used for load balancing.
+	// +kubebuilder:validation:Optional
+	DryRun *bool `json:"dryRun" tf:"dry_run,omitempty"`
+
+	// Name of a custom utilization signal. The name must be 1-64 characters
+	// long and match the regular expression a-z? which
+	// means the first character must be a lowercase letter, and all following
+	// characters must be a dash, period, underscore, lowercase letter, or
+	// digit, except the last character, which cannot be a dash, period, or
+	// underscore. For usage guidelines, see Custom Metrics balancing mode. This
+	// field can only be used for a global or regional backend service with the
+	// loadBalancingScheme set to EXTERNAL_MANAGED,
+	// INTERNAL_MANAGED INTERNAL_SELF_MANAGED.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name" tf:"name,omitempty"`
 }
 
 type BackendServiceInitParameters struct {
@@ -556,6 +651,10 @@ type BackendServiceInitParameters struct {
 	// Structure is documented below.
 	ConsistentHash []ConsistentHashInitParameters `json:"consistentHash,omitempty" tf:"consistent_hash,omitempty"`
 
+	// List of custom metrics that are used for the WEIGHTED_ROUND_ROBIN locality_lb_policy.
+	// Structure is documented below.
+	CustomMetrics []BackendServiceCustomMetricsInitParameters `json:"customMetrics,omitempty" tf:"custom_metrics,omitempty"`
+
 	// Headers that the HTTP/S load balancer should add to proxied
 	// requests.
 	// +listType=set
@@ -575,13 +674,35 @@ type BackendServiceInitParameters struct {
 	// If true, enable Cloud CDN for this BackendService.
 	EnableCdn *bool `json:"enableCdn,omitempty" tf:"enable_cdn,omitempty"`
 
+	// Specifies the canary migration state. Possible values are PREPARE, TEST_BY_PERCENTAGE, and
+	// TEST_ALL_TRAFFIC.
+	// To begin the migration from EXTERNAL to EXTERNAL_MANAGED, the state must be changed to
+	// PREPARE. The state must be changed to TEST_ALL_TRAFFIC before the loadBalancingScheme can be
+	// changed to EXTERNAL_MANAGED. Optionally, the TEST_BY_PERCENTAGE state can be used to migrate
+	// traffic by percentage using externalManagedMigrationTestingPercentage.
+	// Rolling back a migration requires the states to be set in reverse order. So changing the
+	// scheme from EXTERNAL_MANAGED to EXTERNAL requires the state to be set to TEST_ALL_TRAFFIC at
+	// the same time. Optionally, the TEST_BY_PERCENTAGE state can be used to migrate some traffic
+	// back to EXTERNAL or PREPARE can be used to migrate all traffic back to EXTERNAL.
+	// Possible values are: PREPARE, TEST_BY_PERCENTAGE, TEST_ALL_TRAFFIC.
+	ExternalManagedMigrationState *string `json:"externalManagedMigrationState,omitempty" tf:"external_managed_migration_state,omitempty"`
+
+	// Determines the fraction of requests that should be processed by the Global external
+	// Application Load Balancer.
+	// The value of this field must be in the range [0, 100].
+	// Session affinity options will slightly affect this routing behavior, for more details,
+	// see: Session Affinity.
+	// This value can only be set if the loadBalancingScheme in the backend service is set to
+	// EXTERNAL (when using the Classic ALB) and the migration state is TEST_BY_PERCENTAGE.
+	ExternalManagedMigrationTestingPercentage *float64 `json:"externalManagedMigrationTestingPercentage,omitempty" tf:"external_managed_migration_testing_percentage,omitempty"`
+
 	// The set of URLs to the HttpHealthCheck or HttpsHealthCheck resource
 	// for health checking this BackendService. Currently at most one health
 	// check can be specified.
 	// A health check must be specified unless the backend service uses an internet
 	// or serverless NEG as a backend.
 	// For internal load balancing, a URL to a HealthCheck resource must be specified instead.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.HealthCheck
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.HealthCheck
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	// +listType=set
 	HealthChecks []*string `json:"healthChecks,omitempty" tf:"health_checks,omitempty"`
@@ -594,7 +715,12 @@ type BackendServiceInitParameters struct {
 	// +kubebuilder:validation:Optional
 	HealthChecksSelector *v1.Selector `json:"healthChecksSelector,omitempty" tf:"-"`
 
-	// Settings for enabling Cloud Identity Aware Proxy
+	// Specifies preference of traffic to the backend (from the proxy and from the client for proxyless gRPC).
+	// Possible values are: IPV4_ONLY, PREFER_IPV6, IPV6_ONLY.
+	IPAddressSelectionPolicy *string `json:"ipAddressSelectionPolicy,omitempty" tf:"ip_address_selection_policy,omitempty"`
+
+	// Settings for enabling Cloud Identity Aware Proxy.
+	// If OAuth client is not set, the Google-managed OAuth client is used.
 	// Structure is documented below.
 	Iap []IapInitParameters `json:"iap,omitempty" tf:"iap,omitempty"`
 
@@ -624,6 +750,15 @@ type BackendServiceInitParameters struct {
 	// Structure is documented below.
 	LogConfig []LogConfigInitParameters `json:"logConfig,omitempty" tf:"log_config,omitempty"`
 
+	// Specifies the default maximum duration (timeout) for streams to this service. Duration is computed from the
+	// beginning of the stream until the response has been completely processed, including all retries. A stream that
+	// does not complete in this duration is closed.
+	// If not specified, there will be no timeout limit, i.e. the maximum duration is infinite.
+	// This value can be overridden in the PathMatcher configuration of the UrlMap that references this backend service.
+	// This field is only allowed when the loadBalancingScheme of the backend service is INTERNAL_SELF_MANAGED.
+	// Structure is documented below.
+	MaxStreamDuration []MaxStreamDurationInitParameters `json:"maxStreamDuration,omitempty" tf:"max_stream_duration,omitempty"`
+
 	// Settings controlling eviction of unhealthy hosts from the load balancing pool.
 	// Applicable backend service types can be a global backend service with the
 	// loadBalancingScheme set to INTERNAL_SELF_MANAGED or EXTERNAL_MANAGED.
@@ -640,18 +775,18 @@ type BackendServiceInitParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The protocol this BackendService uses to communicate with backends.
-	// The default is HTTP. NOTE: HTTP2 is only valid for beta HTTP/2 load balancer
-	// types and may result in errors if used with the GA API. NOTE: With protocol “UNSPECIFIED”,
-	// the backend service can be used by Layer 4 Internal Load Balancing or Network Load Balancing
-	// with TCP/UDP/L3_DEFAULT Forwarding Rule protocol.
-	// Possible values are: HTTP, HTTPS, HTTP2, TCP, SSL, GRPC, UNSPECIFIED.
+	// The default is HTTP. Possible values are HTTP, HTTPS, HTTP2, H2C, TCP, SSL, UDP
+	// or GRPC. Refer to the documentation for the load balancers or for Traffic Director
+	// for more information. Must be set to GRPC when the backend service is referenced
+	// by a URL map that is bound to target gRPC proxy.
+	// Possible values are: HTTP, HTTPS, HTTP2, TCP, SSL, UDP, GRPC, UNSPECIFIED, H2C.
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
 	// The security policy associated with this backend service.
 	SecurityPolicy *string `json:"securityPolicy,omitempty" tf:"security_policy,omitempty"`
 
 	// The security settings that apply to this backend service. This field is applicable to either
-	// a regional backend service with the service_protocol set to HTTP, HTTPS, or HTTP2, and
+	// a regional backend service with the service_protocol set to HTTP, HTTPS, HTTP2 or H2C, and
 	// load_balancing_scheme set to INTERNAL_MANAGED; or a global backend service with the
 	// load_balancing_scheme set to INTERNAL_SELF_MANAGED.
 	// Structure is documented below.
@@ -663,11 +798,17 @@ type BackendServiceInitParameters struct {
 
 	// Type of session affinity to use. The default is NONE. Session affinity is
 	// not applicable if the protocol is UDP.
-	// Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE.
+	// Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE, STRONG_COOKIE_AFFINITY.
 	SessionAffinity *string `json:"sessionAffinity,omitempty" tf:"session_affinity,omitempty"`
 
-	// How many seconds to wait for the backend before considering it a
-	// failed request. Default is 30 seconds. Valid range is [1, 86400].
+	// Describes the HTTP cookie used for stateful session affinity. This field is applicable and required if the sessionAffinity is set to STRONG_COOKIE_AFFINITY.
+	// Structure is documented below.
+	StrongSessionAffinityCookie []StrongSessionAffinityCookieInitParameters `json:"strongSessionAffinityCookie,omitempty" tf:"strong_session_affinity_cookie,omitempty"`
+
+	// The backend service timeout has a different meaning depending on the type of load balancer.
+	// For more information see, Backend service settings.
+	// The default is 30 seconds.
+	// The full range of timeout values allowed goes from 1 through 2,147,483,647 seconds.
 	TimeoutSec *float64 `json:"timeoutSec,omitempty" tf:"timeout_sec,omitempty"`
 }
 
@@ -715,6 +856,10 @@ type BackendServiceObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// List of custom metrics that are used for the WEIGHTED_ROUND_ROBIN locality_lb_policy.
+	// Structure is documented below.
+	CustomMetrics []BackendServiceCustomMetricsObservation `json:"customMetrics,omitempty" tf:"custom_metrics,omitempty"`
+
 	// Headers that the HTTP/S load balancer should add to proxied
 	// requests.
 	// +listType=set
@@ -733,6 +878,28 @@ type BackendServiceObservation struct {
 
 	// If true, enable Cloud CDN for this BackendService.
 	EnableCdn *bool `json:"enableCdn,omitempty" tf:"enable_cdn,omitempty"`
+
+	// Specifies the canary migration state. Possible values are PREPARE, TEST_BY_PERCENTAGE, and
+	// TEST_ALL_TRAFFIC.
+	// To begin the migration from EXTERNAL to EXTERNAL_MANAGED, the state must be changed to
+	// PREPARE. The state must be changed to TEST_ALL_TRAFFIC before the loadBalancingScheme can be
+	// changed to EXTERNAL_MANAGED. Optionally, the TEST_BY_PERCENTAGE state can be used to migrate
+	// traffic by percentage using externalManagedMigrationTestingPercentage.
+	// Rolling back a migration requires the states to be set in reverse order. So changing the
+	// scheme from EXTERNAL_MANAGED to EXTERNAL requires the state to be set to TEST_ALL_TRAFFIC at
+	// the same time. Optionally, the TEST_BY_PERCENTAGE state can be used to migrate some traffic
+	// back to EXTERNAL or PREPARE can be used to migrate all traffic back to EXTERNAL.
+	// Possible values are: PREPARE, TEST_BY_PERCENTAGE, TEST_ALL_TRAFFIC.
+	ExternalManagedMigrationState *string `json:"externalManagedMigrationState,omitempty" tf:"external_managed_migration_state,omitempty"`
+
+	// Determines the fraction of requests that should be processed by the Global external
+	// Application Load Balancer.
+	// The value of this field must be in the range [0, 100].
+	// Session affinity options will slightly affect this routing behavior, for more details,
+	// see: Session Affinity.
+	// This value can only be set if the loadBalancingScheme in the backend service is set to
+	// EXTERNAL (when using the Classic ALB) and the migration state is TEST_BY_PERCENTAGE.
+	ExternalManagedMigrationTestingPercentage *float64 `json:"externalManagedMigrationTestingPercentage,omitempty" tf:"external_managed_migration_testing_percentage,omitempty"`
 
 	// Fingerprint of this resource. A hash of the contents stored in this
 	// object. This field is used in optimistic locking.
@@ -753,7 +920,12 @@ type BackendServiceObservation struct {
 	// an identifier for the resource with format projects/{{project}}/global/backendServices/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// Settings for enabling Cloud Identity Aware Proxy
+	// Specifies preference of traffic to the backend (from the proxy and from the client for proxyless gRPC).
+	// Possible values are: IPV4_ONLY, PREFER_IPV6, IPV6_ONLY.
+	IPAddressSelectionPolicy *string `json:"ipAddressSelectionPolicy,omitempty" tf:"ip_address_selection_policy,omitempty"`
+
+	// Settings for enabling Cloud Identity Aware Proxy.
+	// If OAuth client is not set, the Google-managed OAuth client is used.
 	// Structure is documented below.
 	Iap []IapObservation `json:"iap,omitempty" tf:"iap,omitempty"`
 
@@ -783,6 +955,15 @@ type BackendServiceObservation struct {
 	// Structure is documented below.
 	LogConfig []LogConfigObservation `json:"logConfig,omitempty" tf:"log_config,omitempty"`
 
+	// Specifies the default maximum duration (timeout) for streams to this service. Duration is computed from the
+	// beginning of the stream until the response has been completely processed, including all retries. A stream that
+	// does not complete in this duration is closed.
+	// If not specified, there will be no timeout limit, i.e. the maximum duration is infinite.
+	// This value can be overridden in the PathMatcher configuration of the UrlMap that references this backend service.
+	// This field is only allowed when the loadBalancingScheme of the backend service is INTERNAL_SELF_MANAGED.
+	// Structure is documented below.
+	MaxStreamDuration []MaxStreamDurationObservation `json:"maxStreamDuration,omitempty" tf:"max_stream_duration,omitempty"`
+
 	// Settings controlling eviction of unhealthy hosts from the load balancing pool.
 	// Applicable backend service types can be a global backend service with the
 	// loadBalancingScheme set to INTERNAL_SELF_MANAGED or EXTERNAL_MANAGED.
@@ -799,18 +980,18 @@ type BackendServiceObservation struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The protocol this BackendService uses to communicate with backends.
-	// The default is HTTP. NOTE: HTTP2 is only valid for beta HTTP/2 load balancer
-	// types and may result in errors if used with the GA API. NOTE: With protocol “UNSPECIFIED”,
-	// the backend service can be used by Layer 4 Internal Load Balancing or Network Load Balancing
-	// with TCP/UDP/L3_DEFAULT Forwarding Rule protocol.
-	// Possible values are: HTTP, HTTPS, HTTP2, TCP, SSL, GRPC, UNSPECIFIED.
+	// The default is HTTP. Possible values are HTTP, HTTPS, HTTP2, H2C, TCP, SSL, UDP
+	// or GRPC. Refer to the documentation for the load balancers or for Traffic Director
+	// for more information. Must be set to GRPC when the backend service is referenced
+	// by a URL map that is bound to target gRPC proxy.
+	// Possible values are: HTTP, HTTPS, HTTP2, TCP, SSL, UDP, GRPC, UNSPECIFIED, H2C.
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
 	// The security policy associated with this backend service.
 	SecurityPolicy *string `json:"securityPolicy,omitempty" tf:"security_policy,omitempty"`
 
 	// The security settings that apply to this backend service. This field is applicable to either
-	// a regional backend service with the service_protocol set to HTTP, HTTPS, or HTTP2, and
+	// a regional backend service with the service_protocol set to HTTP, HTTPS, HTTP2 or H2C, and
 	// load_balancing_scheme set to INTERNAL_MANAGED; or a global backend service with the
 	// load_balancing_scheme set to INTERNAL_SELF_MANAGED.
 	// Structure is documented below.
@@ -825,11 +1006,17 @@ type BackendServiceObservation struct {
 
 	// Type of session affinity to use. The default is NONE. Session affinity is
 	// not applicable if the protocol is UDP.
-	// Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE.
+	// Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE, STRONG_COOKIE_AFFINITY.
 	SessionAffinity *string `json:"sessionAffinity,omitempty" tf:"session_affinity,omitempty"`
 
-	// How many seconds to wait for the backend before considering it a
-	// failed request. Default is 30 seconds. Valid range is [1, 86400].
+	// Describes the HTTP cookie used for stateful session affinity. This field is applicable and required if the sessionAffinity is set to STRONG_COOKIE_AFFINITY.
+	// Structure is documented below.
+	StrongSessionAffinityCookie []StrongSessionAffinityCookieObservation `json:"strongSessionAffinityCookie,omitempty" tf:"strong_session_affinity_cookie,omitempty"`
+
+	// The backend service timeout has a different meaning depending on the type of load balancer.
+	// For more information see, Backend service settings.
+	// The default is 30 seconds.
+	// The full range of timeout values allowed goes from 1 through 2,147,483,647 seconds.
 	TimeoutSec *float64 `json:"timeoutSec,omitempty" tf:"timeout_sec,omitempty"`
 }
 
@@ -881,6 +1068,11 @@ type BackendServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	ConsistentHash []ConsistentHashParameters `json:"consistentHash,omitempty" tf:"consistent_hash,omitempty"`
 
+	// List of custom metrics that are used for the WEIGHTED_ROUND_ROBIN locality_lb_policy.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CustomMetrics []BackendServiceCustomMetricsParameters `json:"customMetrics,omitempty" tf:"custom_metrics,omitempty"`
+
 	// Headers that the HTTP/S load balancer should add to proxied
 	// requests.
 	// +kubebuilder:validation:Optional
@@ -905,13 +1097,37 @@ type BackendServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	EnableCdn *bool `json:"enableCdn,omitempty" tf:"enable_cdn,omitempty"`
 
+	// Specifies the canary migration state. Possible values are PREPARE, TEST_BY_PERCENTAGE, and
+	// TEST_ALL_TRAFFIC.
+	// To begin the migration from EXTERNAL to EXTERNAL_MANAGED, the state must be changed to
+	// PREPARE. The state must be changed to TEST_ALL_TRAFFIC before the loadBalancingScheme can be
+	// changed to EXTERNAL_MANAGED. Optionally, the TEST_BY_PERCENTAGE state can be used to migrate
+	// traffic by percentage using externalManagedMigrationTestingPercentage.
+	// Rolling back a migration requires the states to be set in reverse order. So changing the
+	// scheme from EXTERNAL_MANAGED to EXTERNAL requires the state to be set to TEST_ALL_TRAFFIC at
+	// the same time. Optionally, the TEST_BY_PERCENTAGE state can be used to migrate some traffic
+	// back to EXTERNAL or PREPARE can be used to migrate all traffic back to EXTERNAL.
+	// Possible values are: PREPARE, TEST_BY_PERCENTAGE, TEST_ALL_TRAFFIC.
+	// +kubebuilder:validation:Optional
+	ExternalManagedMigrationState *string `json:"externalManagedMigrationState,omitempty" tf:"external_managed_migration_state,omitempty"`
+
+	// Determines the fraction of requests that should be processed by the Global external
+	// Application Load Balancer.
+	// The value of this field must be in the range [0, 100].
+	// Session affinity options will slightly affect this routing behavior, for more details,
+	// see: Session Affinity.
+	// This value can only be set if the loadBalancingScheme in the backend service is set to
+	// EXTERNAL (when using the Classic ALB) and the migration state is TEST_BY_PERCENTAGE.
+	// +kubebuilder:validation:Optional
+	ExternalManagedMigrationTestingPercentage *float64 `json:"externalManagedMigrationTestingPercentage,omitempty" tf:"external_managed_migration_testing_percentage,omitempty"`
+
 	// The set of URLs to the HttpHealthCheck or HttpsHealthCheck resource
 	// for health checking this BackendService. Currently at most one health
 	// check can be specified.
 	// A health check must be specified unless the backend service uses an internet
 	// or serverless NEG as a backend.
 	// For internal load balancing, a URL to a HealthCheck resource must be specified instead.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.HealthCheck
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.HealthCheck
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	// +listType=set
@@ -925,7 +1141,13 @@ type BackendServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	HealthChecksSelector *v1.Selector `json:"healthChecksSelector,omitempty" tf:"-"`
 
-	// Settings for enabling Cloud Identity Aware Proxy
+	// Specifies preference of traffic to the backend (from the proxy and from the client for proxyless gRPC).
+	// Possible values are: IPV4_ONLY, PREFER_IPV6, IPV6_ONLY.
+	// +kubebuilder:validation:Optional
+	IPAddressSelectionPolicy *string `json:"ipAddressSelectionPolicy,omitempty" tf:"ip_address_selection_policy,omitempty"`
+
+	// Settings for enabling Cloud Identity Aware Proxy.
+	// If OAuth client is not set, the Google-managed OAuth client is used.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Iap []IapParameters `json:"iap,omitempty" tf:"iap,omitempty"`
@@ -960,6 +1182,16 @@ type BackendServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	LogConfig []LogConfigParameters `json:"logConfig,omitempty" tf:"log_config,omitempty"`
 
+	// Specifies the default maximum duration (timeout) for streams to this service. Duration is computed from the
+	// beginning of the stream until the response has been completely processed, including all retries. A stream that
+	// does not complete in this duration is closed.
+	// If not specified, there will be no timeout limit, i.e. the maximum duration is infinite.
+	// This value can be overridden in the PathMatcher configuration of the UrlMap that references this backend service.
+	// This field is only allowed when the loadBalancingScheme of the backend service is INTERNAL_SELF_MANAGED.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	MaxStreamDuration []MaxStreamDurationParameters `json:"maxStreamDuration,omitempty" tf:"max_stream_duration,omitempty"`
+
 	// Settings controlling eviction of unhealthy hosts from the load balancing pool.
 	// Applicable backend service types can be a global backend service with the
 	// loadBalancingScheme set to INTERNAL_SELF_MANAGED or EXTERNAL_MANAGED.
@@ -979,11 +1211,11 @@ type BackendServiceParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The protocol this BackendService uses to communicate with backends.
-	// The default is HTTP. NOTE: HTTP2 is only valid for beta HTTP/2 load balancer
-	// types and may result in errors if used with the GA API. NOTE: With protocol “UNSPECIFIED”,
-	// the backend service can be used by Layer 4 Internal Load Balancing or Network Load Balancing
-	// with TCP/UDP/L3_DEFAULT Forwarding Rule protocol.
-	// Possible values are: HTTP, HTTPS, HTTP2, TCP, SSL, GRPC, UNSPECIFIED.
+	// The default is HTTP. Possible values are HTTP, HTTPS, HTTP2, H2C, TCP, SSL, UDP
+	// or GRPC. Refer to the documentation for the load balancers or for Traffic Director
+	// for more information. Must be set to GRPC when the backend service is referenced
+	// by a URL map that is bound to target gRPC proxy.
+	// Possible values are: HTTP, HTTPS, HTTP2, TCP, SSL, UDP, GRPC, UNSPECIFIED, H2C.
 	// +kubebuilder:validation:Optional
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
@@ -992,7 +1224,7 @@ type BackendServiceParameters struct {
 	SecurityPolicy *string `json:"securityPolicy,omitempty" tf:"security_policy,omitempty"`
 
 	// The security settings that apply to this backend service. This field is applicable to either
-	// a regional backend service with the service_protocol set to HTTP, HTTPS, or HTTP2, and
+	// a regional backend service with the service_protocol set to HTTP, HTTPS, HTTP2 or H2C, and
 	// load_balancing_scheme set to INTERNAL_MANAGED; or a global backend service with the
 	// load_balancing_scheme set to INTERNAL_SELF_MANAGED.
 	// Structure is documented below.
@@ -1006,12 +1238,19 @@ type BackendServiceParameters struct {
 
 	// Type of session affinity to use. The default is NONE. Session affinity is
 	// not applicable if the protocol is UDP.
-	// Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE.
+	// Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE, STRONG_COOKIE_AFFINITY.
 	// +kubebuilder:validation:Optional
 	SessionAffinity *string `json:"sessionAffinity,omitempty" tf:"session_affinity,omitempty"`
 
-	// How many seconds to wait for the backend before considering it a
-	// failed request. Default is 30 seconds. Valid range is [1, 86400].
+	// Describes the HTTP cookie used for stateful session affinity. This field is applicable and required if the sessionAffinity is set to STRONG_COOKIE_AFFINITY.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	StrongSessionAffinityCookie []StrongSessionAffinityCookieParameters `json:"strongSessionAffinityCookie,omitempty" tf:"strong_session_affinity_cookie,omitempty"`
+
+	// The backend service timeout has a different meaning depending on the type of load balancer.
+	// For more information see, Backend service settings.
+	// The default is 30 seconds.
+	// The full range of timeout values allowed goes from 1 through 2,147,483,647 seconds.
 	// +kubebuilder:validation:Optional
 	TimeoutSec *float64 `json:"timeoutSec,omitempty" tf:"timeout_sec,omitempty"`
 }
@@ -1209,8 +1448,8 @@ type CdnPolicyNegativeCachingPolicyInitParameters struct {
 	// can be specified as values, and you cannot specify a status code more than once.
 	Code *float64 `json:"code,omitempty" tf:"code,omitempty"`
 
-	// The TTL (in seconds) for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
-	// (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
+	// Lifetime of the cookie.
+	// Structure is documented below.
 	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
 
@@ -1220,8 +1459,8 @@ type CdnPolicyNegativeCachingPolicyObservation struct {
 	// can be specified as values, and you cannot specify a status code more than once.
 	Code *float64 `json:"code,omitempty" tf:"code,omitempty"`
 
-	// The TTL (in seconds) for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
-	// (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
+	// Lifetime of the cookie.
+	// Structure is documented below.
 	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
 
@@ -1232,8 +1471,8 @@ type CdnPolicyNegativeCachingPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	Code *float64 `json:"code,omitempty" tf:"code,omitempty"`
 
-	// The TTL (in seconds) for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
-	// (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
+	// Lifetime of the cookie.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
@@ -1387,20 +1626,58 @@ type ConsistentHashParameters struct {
 	MinimumRingSize *float64 `json:"minimumRingSize,omitempty" tf:"minimum_ring_size,omitempty"`
 }
 
+type CustomMetricsInitParameters struct {
+
+	// If true, the metric data is collected and reported to Cloud
+	// Monitoring, but is not used for load balancing.
+	DryRun *bool `json:"dryRun,omitempty" tf:"dry_run,omitempty"`
+
+	// Optional parameter to define a target utilization for the Custom Metrics
+	// balancing mode. The valid range is [0.0, 1.0].
+	MaxUtilization *float64 `json:"maxUtilization,omitempty" tf:"max_utilization,omitempty"`
+
+	// Name of the cookie.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type CustomMetricsObservation struct {
+
+	// If true, the metric data is collected and reported to Cloud
+	// Monitoring, but is not used for load balancing.
+	DryRun *bool `json:"dryRun,omitempty" tf:"dry_run,omitempty"`
+
+	// Optional parameter to define a target utilization for the Custom Metrics
+	// balancing mode. The valid range is [0.0, 1.0].
+	MaxUtilization *float64 `json:"maxUtilization,omitempty" tf:"max_utilization,omitempty"`
+
+	// Name of the cookie.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type CustomMetricsParameters struct {
+
+	// If true, the metric data is collected and reported to Cloud
+	// Monitoring, but is not used for load balancing.
+	// +kubebuilder:validation:Optional
+	DryRun *bool `json:"dryRun" tf:"dry_run,omitempty"`
+
+	// Optional parameter to define a target utilization for the Custom Metrics
+	// balancing mode. The valid range is [0.0, 1.0].
+	// +kubebuilder:validation:Optional
+	MaxUtilization *float64 `json:"maxUtilization,omitempty" tf:"max_utilization,omitempty"`
+
+	// Name of the cookie.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name" tf:"name,omitempty"`
+}
+
 type CustomPolicyInitParameters struct {
 
 	// An optional, arbitrary JSON object with configuration data, understood
 	// by a locally installed custom policy implementation.
 	Data *string `json:"data,omitempty" tf:"data,omitempty"`
 
-	// The name of a locality load balancer policy to be used. The value
-	// should be one of the predefined ones as supported by localityLbPolicy,
-	// although at the moment only ROUND_ROBIN is supported.
-	// This field should only be populated when the customPolicy field is not
-	// used.
-	// Note that specifying the same policy more than once for a backend is
-	// not a valid configuration and will be rejected.
-	// The possible values are:
+	// Name of the cookie.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
@@ -1410,14 +1687,7 @@ type CustomPolicyObservation struct {
 	// by a locally installed custom policy implementation.
 	Data *string `json:"data,omitempty" tf:"data,omitempty"`
 
-	// The name of a locality load balancer policy to be used. The value
-	// should be one of the predefined ones as supported by localityLbPolicy,
-	// although at the moment only ROUND_ROBIN is supported.
-	// This field should only be populated when the customPolicy field is not
-	// used.
-	// Note that specifying the same policy more than once for a backend is
-	// not a valid configuration and will be rejected.
-	// The possible values are:
+	// Name of the cookie.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
@@ -1428,68 +1698,40 @@ type CustomPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	Data *string `json:"data,omitempty" tf:"data,omitempty"`
 
-	// The name of a locality load balancer policy to be used. The value
-	// should be one of the predefined ones as supported by localityLbPolicy,
-	// although at the moment only ROUND_ROBIN is supported.
-	// This field should only be populated when the customPolicy field is not
-	// used.
-	// Note that specifying the same policy more than once for a backend is
-	// not a valid configuration and will be rejected.
-	// The possible values are:
+	// Name of the cookie.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name" tf:"name,omitempty"`
 }
 
 type HTTPCookieInitParameters struct {
 
-	// The name of a locality load balancer policy to be used. The value
-	// should be one of the predefined ones as supported by localityLbPolicy,
-	// although at the moment only ROUND_ROBIN is supported.
-	// This field should only be populated when the customPolicy field is not
-	// used.
-	// Note that specifying the same policy more than once for a backend is
-	// not a valid configuration and will be rejected.
-	// The possible values are:
+	// Name of the cookie.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Path to set for the cookie.
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
-	// The TTL (in seconds) for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
-	// (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
+	// Lifetime of the cookie.
+	// Structure is documented below.
 	TTL []TTLInitParameters `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
 
 type HTTPCookieObservation struct {
 
-	// The name of a locality load balancer policy to be used. The value
-	// should be one of the predefined ones as supported by localityLbPolicy,
-	// although at the moment only ROUND_ROBIN is supported.
-	// This field should only be populated when the customPolicy field is not
-	// used.
-	// Note that specifying the same policy more than once for a backend is
-	// not a valid configuration and will be rejected.
-	// The possible values are:
+	// Name of the cookie.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Path to set for the cookie.
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
-	// The TTL (in seconds) for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
-	// (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
+	// Lifetime of the cookie.
+	// Structure is documented below.
 	TTL []TTLObservation `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
 
 type HTTPCookieParameters struct {
 
-	// The name of a locality load balancer policy to be used. The value
-	// should be one of the predefined ones as supported by localityLbPolicy,
-	// although at the moment only ROUND_ROBIN is supported.
-	// This field should only be populated when the customPolicy field is not
-	// used.
-	// Note that specifying the same policy more than once for a backend is
-	// not a valid configuration and will be rejected.
-	// The possible values are:
+	// Name of the cookie.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
@@ -1497,19 +1739,29 @@ type HTTPCookieParameters struct {
 	// +kubebuilder:validation:Optional
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
-	// The TTL (in seconds) for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
-	// (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
+	// Lifetime of the cookie.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	TTL []TTLParameters `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
 
 type IapInitParameters struct {
 
+	// Whether the serving infrastructure will authenticate and authorize all incoming requests.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
 	// OAuth2 Client ID for IAP
 	Oauth2ClientID *string `json:"oauth2ClientId,omitempty" tf:"oauth2_client_id,omitempty"`
+
+	// OAuth2 Client Secret for IAP
+	// Note: This property is sensitive and will not be displayed in the plan.
+	Oauth2ClientSecretSecretRef *v1.SecretKeySelector `json:"oauth2ClientSecretSecretRef,omitempty" tf:"-"`
 }
 
 type IapObservation struct {
+
+	// Whether the serving infrastructure will authenticate and authorize all incoming requests.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
 	// OAuth2 Client ID for IAP
 	Oauth2ClientID *string `json:"oauth2ClientId,omitempty" tf:"oauth2_client_id,omitempty"`
@@ -1517,14 +1769,18 @@ type IapObservation struct {
 
 type IapParameters struct {
 
+	// Whether the serving infrastructure will authenticate and authorize all incoming requests.
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+
 	// OAuth2 Client ID for IAP
 	// +kubebuilder:validation:Optional
-	Oauth2ClientID *string `json:"oauth2ClientId" tf:"oauth2_client_id,omitempty"`
+	Oauth2ClientID *string `json:"oauth2ClientId,omitempty" tf:"oauth2_client_id,omitempty"`
 
 	// OAuth2 Client Secret for IAP
 	// Note: This property is sensitive and will not be displayed in the plan.
-	// +kubebuilder:validation:Required
-	Oauth2ClientSecretSecretRef v1.SecretKeySelector `json:"oauth2ClientSecretSecretRef" tf:"-"`
+	// +kubebuilder:validation:Optional
+	Oauth2ClientSecretSecretRef *v1.SecretKeySelector `json:"oauth2ClientSecretSecretRef,omitempty" tf:"-"`
 }
 
 type IntervalInitParameters struct {
@@ -1611,6 +1867,17 @@ type LogConfigInitParameters struct {
 	// Whether to enable logging for the load balancer traffic served by this backend service.
 	Enable *bool `json:"enable,omitempty" tf:"enable,omitempty"`
 
+	// This field can only be specified if logging is enabled for this backend service and "logConfig.optionalMode"
+	// was set to CUSTOM. Contains a list of optional fields you want to include in the logs.
+	// For example: serverInstance, serverGkeDetails.cluster, serverGkeDetails.pod.podNamespace
+	// For example: orca_load_report, tls.protocol
+	OptionalFields []*string `json:"optionalFields,omitempty" tf:"optional_fields,omitempty"`
+
+	// Specifies the optional logging mode for the load balancer traffic.
+	// Supported values: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
+	// Possible values are: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
+	OptionalMode *string `json:"optionalMode,omitempty" tf:"optional_mode,omitempty"`
+
 	// This field can only be specified if logging is enabled for this backend service. The value of
 	// the field must be in [0, 1]. This configures the sampling rate of requests to the load balancer
 	// where 1.0 means all logged requests are reported and 0.0 means no logged requests are reported.
@@ -1622,6 +1889,17 @@ type LogConfigObservation struct {
 
 	// Whether to enable logging for the load balancer traffic served by this backend service.
 	Enable *bool `json:"enable,omitempty" tf:"enable,omitempty"`
+
+	// This field can only be specified if logging is enabled for this backend service and "logConfig.optionalMode"
+	// was set to CUSTOM. Contains a list of optional fields you want to include in the logs.
+	// For example: serverInstance, serverGkeDetails.cluster, serverGkeDetails.pod.podNamespace
+	// For example: orca_load_report, tls.protocol
+	OptionalFields []*string `json:"optionalFields,omitempty" tf:"optional_fields,omitempty"`
+
+	// Specifies the optional logging mode for the load balancer traffic.
+	// Supported values: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
+	// Possible values are: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
+	OptionalMode *string `json:"optionalMode,omitempty" tf:"optional_mode,omitempty"`
 
 	// This field can only be specified if logging is enabled for this backend service. The value of
 	// the field must be in [0, 1]. This configures the sampling rate of requests to the load balancer
@@ -1636,12 +1914,60 @@ type LogConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	Enable *bool `json:"enable,omitempty" tf:"enable,omitempty"`
 
+	// This field can only be specified if logging is enabled for this backend service and "logConfig.optionalMode"
+	// was set to CUSTOM. Contains a list of optional fields you want to include in the logs.
+	// For example: serverInstance, serverGkeDetails.cluster, serverGkeDetails.pod.podNamespace
+	// For example: orca_load_report, tls.protocol
+	// +kubebuilder:validation:Optional
+	OptionalFields []*string `json:"optionalFields,omitempty" tf:"optional_fields,omitempty"`
+
+	// Specifies the optional logging mode for the load balancer traffic.
+	// Supported values: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
+	// Possible values are: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
+	// +kubebuilder:validation:Optional
+	OptionalMode *string `json:"optionalMode,omitempty" tf:"optional_mode,omitempty"`
+
 	// This field can only be specified if logging is enabled for this backend service. The value of
 	// the field must be in [0, 1]. This configures the sampling rate of requests to the load balancer
 	// where 1.0 means all logged requests are reported and 0.0 means no logged requests are reported.
 	// The default value is 1.0.
 	// +kubebuilder:validation:Optional
 	SampleRate *float64 `json:"sampleRate,omitempty" tf:"sample_rate,omitempty"`
+}
+
+type MaxStreamDurationInitParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	// Durations less than one second are represented with a 0 seconds field and a positive nanos field.
+	// Must be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive. (int64 format)
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type MaxStreamDurationObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	// Durations less than one second are represented with a 0 seconds field and a positive nanos field.
+	// Must be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive. (int64 format)
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type MaxStreamDurationParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	// Durations less than one second are represented with a 0 seconds field and a positive nanos field.
+	// Must be from 0 to 999,999,999 inclusive.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive. (int64 format)
+	// +kubebuilder:validation:Optional
+	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
 }
 
 type OutlierDetectionInitParameters struct {
@@ -1849,40 +2175,19 @@ type OutlierDetectionParameters struct {
 
 type PolicyInitParameters struct {
 
-	// The name of a locality load balancer policy to be used. The value
-	// should be one of the predefined ones as supported by localityLbPolicy,
-	// although at the moment only ROUND_ROBIN is supported.
-	// This field should only be populated when the customPolicy field is not
-	// used.
-	// Note that specifying the same policy more than once for a backend is
-	// not a valid configuration and will be rejected.
-	// The possible values are:
+	// Name of the cookie.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type PolicyObservation struct {
 
-	// The name of a locality load balancer policy to be used. The value
-	// should be one of the predefined ones as supported by localityLbPolicy,
-	// although at the moment only ROUND_ROBIN is supported.
-	// This field should only be populated when the customPolicy field is not
-	// used.
-	// Note that specifying the same policy more than once for a backend is
-	// not a valid configuration and will be rejected.
-	// The possible values are:
+	// Name of the cookie.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type PolicyParameters struct {
 
-	// The name of a locality load balancer policy to be used. The value
-	// should be one of the predefined ones as supported by localityLbPolicy,
-	// although at the moment only ROUND_ROBIN is supported.
-	// This field should only be populated when the customPolicy field is not
-	// used.
-	// Note that specifying the same policy more than once for a backend is
-	// not a valid configuration and will be rejected.
-	// The possible values are:
+	// Name of the cookie.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name" tf:"name,omitempty"`
 }
@@ -1935,13 +2240,96 @@ type SecuritySettingsParameters struct {
 	// connections to backends of a service. This resource itself does not affect
 	// configuration unless it is attached to a backend service resource.
 	// +kubebuilder:validation:Optional
-	ClientTLSPolicy *string `json:"clientTlsPolicy" tf:"client_tls_policy,omitempty"`
+	ClientTLSPolicy *string `json:"clientTlsPolicy,omitempty" tf:"client_tls_policy,omitempty"`
 
 	// A list of alternate names to verify the subject identity in the certificate.
 	// If specified, the client will verify that the server certificate's subject
 	// alt name matches one of the specified values.
 	// +kubebuilder:validation:Optional
-	SubjectAltNames []*string `json:"subjectAltNames" tf:"subject_alt_names,omitempty"`
+	SubjectAltNames []*string `json:"subjectAltNames,omitempty" tf:"subject_alt_names,omitempty"`
+}
+
+type StrongSessionAffinityCookieInitParameters struct {
+
+	// Name of the cookie.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Path to set for the cookie.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// Lifetime of the cookie.
+	// Structure is documented below.
+	TTL []StrongSessionAffinityCookieTTLInitParameters `json:"ttl,omitempty" tf:"ttl,omitempty"`
+}
+
+type StrongSessionAffinityCookieObservation struct {
+
+	// Name of the cookie.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Path to set for the cookie.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// Lifetime of the cookie.
+	// Structure is documented below.
+	TTL []StrongSessionAffinityCookieTTLObservation `json:"ttl,omitempty" tf:"ttl,omitempty"`
+}
+
+type StrongSessionAffinityCookieParameters struct {
+
+	// Name of the cookie.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Path to set for the cookie.
+	// +kubebuilder:validation:Optional
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// Lifetime of the cookie.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	TTL []StrongSessionAffinityCookieTTLParameters `json:"ttl,omitempty" tf:"ttl,omitempty"`
+}
+
+type StrongSessionAffinityCookieTTLInitParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond
+	// resolution. Durations less than one second are represented
+	// with a 0 seconds field and a positive nanos field. Must
+	// be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second.
+	// Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type StrongSessionAffinityCookieTTLObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond
+	// resolution. Durations less than one second are represented
+	// with a 0 seconds field and a positive nanos field. Must
+	// be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second.
+	// Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type StrongSessionAffinityCookieTTLParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond
+	// resolution. Durations less than one second are represented
+	// with a 0 seconds field and a positive nanos field. Must
+	// be from 0 to 999,999,999 inclusive.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second.
+	// Must be from 0 to 315,576,000,000 inclusive.
+	// +kubebuilder:validation:Optional
+	Seconds *float64 `json:"seconds" tf:"seconds,omitempty"`
 }
 
 type TTLInitParameters struct {

@@ -27,6 +27,7 @@ metadata:
   name: primary
 spec:
   forProvider:
+    deletionProtection: false
     initialNodeCount: 1
     location: us-central1-a
     networkSelector:

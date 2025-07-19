@@ -1000,6 +1000,14 @@ spec:
                       type: string
                     type: object
                     x-kubernetes-map-type: granular
+                  effectiveReservedIpRange:
+                    description: |-
+                      The CIDR range of internal addresses that are reserved for this
+                      instance. If not provided, the service will choose an unused /29
+                      block, for example, 10.0.0.0/29 or 192.168.0.0/29. Ranges must be
+                      unique and non-overlapping with existing subnets in an authorized
+                      network.
+                    type: string
                   host:
                     description: |-
                       Hostname or IP address of the exposed Redis endpoint used by clients

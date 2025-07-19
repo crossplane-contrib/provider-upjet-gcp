@@ -213,6 +213,20 @@ spec:
                                 type: boolean
                             type: object
                           type: array
+                        parallelstoreCsiDriverConfig:
+                          description: |-
+                            The status of the Parallelstore CSI driver addon,
+                            which allows the usage of a Parallelstore instances as volumes.
+                            It is disabled by default for Standard clusters; set enabled = true to enable.
+                            It is enabled by default for Autopilot clusters with version 1.29 or later; set enabled = true to enable it explicitly.
+                            See Enable the Parallelstore CSI driver for more information.
+                          items:
+                            properties:
+                              enabled:
+                                description: Enables vertical pod autoscaling
+                                type: boolean
+                            type: object
+                          type: array
                         rayOperatorConfig:
                           description: |-
                             . The status of the Ray Operator
@@ -268,6 +282,17 @@ spec:
                       false. This field should only be enabled for Autopilot clusters (enable_autopilot
                       set to true).
                     type: boolean
+                  anonymousAuthenticationConfig:
+                    description: Configuration for anonymous authentication restrictions.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        mode:
+                          description: Sets or removes authentication restrictions.
+                            Available options include LIMITED and ENABLED.
+                          type: string
+                      type: object
+                    type: array
                   authenticatorGroupsConfig:
                     description: |-
                       Configuration for the
@@ -525,11 +550,48 @@ spec:
                       is documented below documented below.
                     items:
                       properties:
+                        confidentialInstanceType:
+                          description: |-
+                            Defines the type of technology used
+                            by the confidential node.
+                          type: string
                         enabled:
                           description: |-
-                            Enable Confidential GKE Nodes for this cluster, to
+                            Enable Confidential GKE Nodes for this node pool, to
                             enforce encryption of data in-use.
                           type: boolean
+                      type: object
+                    type: array
+                  controlPlaneEndpointsConfig:
+                    description: |-
+                      Configuration for all of the cluster's control plane endpoints.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        dnsEndpointConfig:
+                          description: DNS endpoint configuration.
+                          items:
+                            properties:
+                              allowExternalTraffic:
+                                description: Controls whether user traffic is allowed
+                                  over this endpoint. Note that GCP-managed services
+                                  may still use the endpoint even if this is false.
+                                type: boolean
+                              endpoint:
+                                description: (Output) The cluster's DNS endpoint.
+                                type: string
+                            type: object
+                          type: array
+                        ipEndpointsConfig:
+                          description: IP endpoint configuration.
+                          items:
+                            properties:
+                              enabled:
+                                description: Controls whether to allow direct IP access.
+                                  Defaults to true.
+                                type: boolean
+                            type: object
+                          type: array
                       type: object
                     type: array
                   costManagementConfig:
@@ -590,11 +652,21 @@ spec:
                   description:
                     description: Description of the cluster.
                     type: string
+                  disableL4LbFirewallReconciliation:
+                    description: Disable L4 load balancer VPC firewalls to enable
+                      firewall policies.
+                    type: boolean
                   dnsConfig:
                     description: Configuration for Using Cloud DNS for GKE. Structure
                       is documented below.
                     items:
                       properties:
+                        additiveVpcScopeDnsDomain:
+                          description: This will enable Cloud DNS additive VPC scope.
+                            Must provide a domain name that is unique within the VPC.
+                            For this to work cluster_dns = "CLOUD_DNS" and cluster_dns_scope
+                            = "CLUSTER_SCOPE" must both be set as well.
+                          type: string
                         clusterDns:
                           description: Which in-cluster DNS provider should be used.
                             PROVIDER_UNSPECIFIED (default) or PLATFORM_DEFAULT or
@@ -619,6 +691,13 @@ spec:
                   enableCiliumClusterwideNetworkPolicy:
                     description: Whether CiliumClusterWideNetworkPolicy is enabled
                       on this cluster. Defaults to false.
+                    type: boolean
+                  enableFqdnNetworkPolicy:
+                    description: Whether FQDN Network Policy is enabled on this cluster.
+                      Users who enable this feature for existing Standard clusters
+                      must restart the GKE Dataplane V2 anetd DaemonSet after enabling
+                      it. See the Enable FQDN Network Policy in an existing cluster
+                      for more information.
                     type: boolean
                   enableIntranodeVisibility:
                     description: Whether Intra-node visibility is enabled for this
@@ -672,6 +751,17 @@ spec:
                       Whether to enable Cloud TPU resources in this cluster.
                       See the official documentation.
                     type: boolean
+                  enterpriseConfig:
+                    description: Configuration for [Enterprise edition].(https://cloud.google.com/kubernetes-engine/enterprise/docs/concepts/gke-editions).
+                      Structure is documented below.
+                    items:
+                      properties:
+                        desiredTier:
+                          description: Sets the tier of the cluster. Available options
+                            include STANDARD and ENTERPRISE.
+                          type: string
+                      type: object
+                    type: array
                   fleet:
                     description: Fleet configuration for the cluster. Structure is
                       documented below.
@@ -694,6 +784,19 @@ spec:
                           type: string
                       type: object
                     type: array
+                  gkeAutoUpgradeConfig:
+                    description: |-
+                      Configuration options for the auto-upgrade patch type feature, which provide more control over the speed of automatic upgrades of your GKE clusters.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        patchMode:
+                          description: |-
+                            The selected patch mode.
+                            Accepted values are:
+                          type: string
+                      type: object
+                    type: array
                   identityServiceConfig:
                     description: . Structure is documented below.
                     items:
@@ -704,6 +807,10 @@ spec:
                           type: boolean
                       type: object
                     type: array
+                  inTransitEncryptionConfig:
+                    description: Defines the config of in-transit encryption. Valid
+                      values are IN_TRANSIT_ENCRYPTION_DISABLED and IN_TRANSIT_ENCRYPTION_INTER_NODE_TRANSPARENT.
+                    type: string
                   initialNodeCount:
                     description: |-
                       The number of nodes to create in this
@@ -919,6 +1026,10 @@ spec:
                             Whether Kubernetes master is
                             accessible via Google Compute Engine Public IPs.
                           type: boolean
+                        privateEndpointEnforcementEnabled:
+                          description: Whether authorized networks is enforced on
+                            the private endpoint or not.
+                          type: boolean
                       type: object
                     type: array
                   meshCertificates:
@@ -960,9 +1071,6 @@ spec:
                               enableRelay:
                                 description: Whether or not Relay is enabled.
                                 type: boolean
-                              relayMode:
-                                description: Mode used to make Relay available.
-                                type: string
                             type: object
                           type: array
                         enableComponents:
@@ -980,6 +1088,16 @@ spec:
                             Structure is documented below.
                           items:
                             properties:
+                              autoMonitoringConfig:
+                                description: Configuration options for GKE Auto-Monitoring.
+                                items:
+                                  properties:
+                                    scope:
+                                      description: 'Whether or not to enable GKE Auto-Monitoring.
+                                        Supported values include: ALL, NONE.'
+                                      type: string
+                                  type: object
+                                type: array
                               enabled:
                                 description: Enables vertical pod autoscaling
                                 type: boolean
@@ -1003,6 +1121,17 @@ spec:
                       network to which the cluster is connected. For Shared VPC, set this to the self link of the
                       shared network.
                     type: string
+                  networkPerformanceConfig:
+                    description: Network bandwidth tier configuration. Structure is
+                      documented below.
+                    items:
+                      properties:
+                        totalEgressBandwidthTier:
+                          description: Specifies the total network bandwidth tier
+                            for NodePools in the cluster.
+                          type: string
+                      type: object
+                    type: array
                   networkPolicy:
                     description: |-
                       Configuration options for the
@@ -1113,6 +1242,11 @@ spec:
                                 description: Defines whether the instance should have
                                   nested virtualization enabled. Defaults to false.
                                 type: boolean
+                              performanceMonitoringUnit:
+                                description: Defines the performance monitoring unit
+                                  PMU level. Valid values are ARCHITECTURAL, STANDARD,
+                                  or ENHANCED. Defaults to off.
+                                type: string
                               threadsPerCore:
                                 description: The number of threads per physical core.
                                   To disable simultaneous multithreading (SMT) set
@@ -1131,9 +1265,14 @@ spec:
                           type: string
                         confidentialNodes:
                           description: Configuration for Confidential Nodes feature.
-                            Structure is documented below documented below.
+                            Structure is documented below.
                           items:
                             properties:
+                              confidentialInstanceType:
+                                description: |-
+                                  Defines the type of technology used
+                                  by the confidential node.
+                                type: string
                               enabled:
                                 description: Enables vertical pod autoscaling
                                 type: boolean
@@ -1185,7 +1324,7 @@ spec:
                         diskType:
                           description: |-
                             Type of the disk attached to each node
-                            (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-standard'
+                            (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced'
                           type: string
                         enableConfidentialStorage:
                           description: Enabling Confidential Storage will create boot
@@ -1197,6 +1336,12 @@ spec:
                             disk. Structure is documented below.
                           items:
                             properties:
+                              dataCacheCount:
+                                description: Number of raw-block local NVMe SSD disks
+                                  to be attached to the node utilized for GKE Data
+                                  Cache. If zero, then GKE Data Cache will not be
+                                  enabled in the nodes.
+                                type: number
                               localSsdCount:
                                 description: |-
                                   The amount of local SSD disks that will be
@@ -1217,6 +1362,10 @@ spec:
                                 type: boolean
                             type: object
                           type: array
+                        flexStart:
+                          description: Enables Flex Start provisioning model for the
+                            node pool.
+                          type: boolean
                         gcfsConfig:
                           description: |-
                             Parameters for the Google Container Filesystem (GCFS).
@@ -1235,8 +1384,11 @@ spec:
                         guestAccelerator:
                           description: |-
                             List of the type and count of accelerator cards attached to the instance.
-                            Structure documented below.12 this field is an
-                            Attribute as Block
+                            Structure documented below.
+                            Note: As of 6.0.0, argument syntax
+                            is no longer supported for this field in favor of block syntax.
+                            To dynamically set a list of guest accelerators, use dynamic blocks.
+                            To set an empty list, use a single guest_accelerator block with count = 0.
                           items:
                             properties:
                               count:
@@ -1311,17 +1463,33 @@ spec:
                             The image type to use for this node. Note that changing the image type
                             will delete and recreate all nodes in the node pool.
                           type: string
-                        index:
-                          default: "0"
-                          description: This is an injected field with a default value
-                            for being able to merge items of the parent object list.
-                          type: string
                         kubeletConfig:
                           description: |-
                             Kubelet configuration, currently supported attributes can be found here.
                             Structure is documented below.
                           items:
                             properties:
+                              allowedUnsafeSysctls:
+                                description: Defines a comma-separated allowlist of
+                                  unsafe sysctls or sysctl patterns which can be set
+                                  on the Pods. The allowed sysctl groups are kernel.shm*,
+                                  kernel.msg*, kernel.sem, fs.mqueue.*, and net.*.
+                                items:
+                                  type: string
+                                type: array
+                              containerLogMaxFiles:
+                                description: Defines the maximum number of container
+                                  log files that can be present for a container. The
+                                  integer must be between 2 and 10, inclusive.
+                                type: number
+                              containerLogMaxSize:
+                                description: |-
+                                  Defines the maximum size of the
+                                  container log file before it is rotated. Specified as a positive number and a
+                                  unit suffix, such as "100Ki", "10Mi". Valid units are "Ki", "Mi", "Gi".
+                                  The value must be between "10Mi" and "500Mi", inclusive. And the total container log size
+                                  (container_log_max_size * container_log_max_files) cannot exceed 1% of the total storage of the node.
+                                type: string
                               cpuCfsQuota:
                                 description: |-
                                   If true, enables CPU CFS quota enforcement for
@@ -1338,12 +1506,41 @@ spec:
                                 description: |-
                                   The CPU management policy on the node. See
                                   K8S CPU Management Policies.
-                                  One of "none" or "static". Defaults to none when kubelet_config is unset.
+                                  One of "none" or "static". If unset (or set to the empty string ""), the API will treat the field as if set to "none".
+                                  Prior to the 6.4.0 this field was marked as required. The workaround for the required field
+                                  is setting the empty string "", which will function identically to not setting this field.
+                                type: string
+                              imageGcHighThresholdPercent:
+                                description: Defines the percent of disk usage after
+                                  which image garbage collection is always run. The
+                                  integer must be between 10 and 85, inclusive.
+                                type: number
+                              imageGcLowThresholdPercent:
+                                description: Defines the percent of disk usage before
+                                  which image garbage collection is never run. Lowest
+                                  disk usage to garbage collect to. The integer must
+                                  be between 10 and 85, inclusive.
+                                type: number
+                              imageMaximumGcAge:
+                                description: Defines the maximum age an image can
+                                  be unused before it is garbage collected. Specified
+                                  as a sequence of decimal numbers, each with optional
+                                  fraction and a unit suffix, such as "300s", "1.5m",
+                                  and "2h45m". Valid time units are "ns", "us" (or
+                                  "µs"), "ms", "s", "m", "h". The value must be a
+                                  positive duration.
+                                type: string
+                              imageMinimumGcAge:
+                                description: Defines the minimum age for an unused
+                                  image before it is garbage collected. Specified
+                                  as a sequence of decimal numbers, each with optional
+                                  fraction and a unit suffix, such as "300s", "1.5m".
+                                  The value cannot be greater than "2m".
                                 type: string
                               insecureKubeletReadonlyPortEnabled:
-                                description: 'Controls whether the kubelet read-only
-                                  port is enabled. It is strongly recommended to set
-                                  this to FALSE. Possible values: TRUE, FALSE.'
+                                description: 'only port is enabled for newly created
+                                  node pools in the cluster. It is strongly recommended
+                                  to set this to FALSE. Possible values: TRUE, FALSE.'
                                 type: string
                               podPidsLimit:
                                 description: Controls the maximum number of processes
@@ -1370,6 +1567,19 @@ spec:
                                   Possible cgroup modes that can be used.
                                   Accepted values are:
                                 type: string
+                              hugepagesConfig:
+                                description: Amounts for 2M and 1G hugepages. Structure
+                                  is documented below.
+                                items:
+                                  properties:
+                                    hugepageSize1G:
+                                      description: Amount of 1G hugepages.
+                                      type: number
+                                    hugepageSize2M:
+                                      description: Amount of 2M hugepages.
+                                      type: number
+                                  type: object
+                                type: array
                               sysctls:
                                 additionalProperties:
                                   type: string
@@ -1399,6 +1609,11 @@ spec:
                             The amount of local SSD disks that will be
                             attached to each cluster node. Defaults to 0.
                           type: number
+                        localSsdEncryptionMode:
+                          description: |-
+                            Possible Local SSD encryption modes:
+                            Accepted values are:
+                          type: string
                         loggingVariant:
                           description: wide default value. Valid values include DEFAULT
                             and MAX_THROUGHPUT. See Increasing logging agent throughput
@@ -1409,6 +1624,10 @@ spec:
                             The name of a Google Compute Engine machine type.
                             Defaults to e2-medium. To create a custom machine type, value should be set as specified
                             here.
+                          type: string
+                        maxRunDuration:
+                          description: 'The runtime of each node in the node pool
+                            in seconds, terminated by ''s''. Example: "3600s".'
                           type: string
                         metadata:
                           additionalProperties:
@@ -1637,6 +1856,12 @@ spec:
                             See the official documentation
                             for more information. Defaults to false.
                           type: boolean
+                        storagePools:
+                          description: The list of Storage Pools where boot disks
+                            are provisioned.
+                          items:
+                            type: string
+                          type: array
                         tags:
                           description: |-
                             The list of instance tags applied to all nodes. Tags are used to identify
@@ -1663,6 +1888,16 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        windowsNodeConfig:
+                          description: 'Windows node configuration, currently supporting
+                            OSVersion attribute. The value must be one of [OS_VERSION_UNSPECIFIED,
+                            OS_VERSION_LTSC2019, OS_VERSION_LTSC2022]. For example:'
+                          items:
+                            properties:
+                              osversion:
+                                type: string
+                            type: object
+                          type: array
                         workloadMetadataConfig:
                           description: |-
                             Metadata configuration to expose to workloads on the node pool.
@@ -1678,9 +1913,6 @@ spec:
                           type: array
                       type: object
                     type: array
-                    x-kubernetes-list-map-keys:
-                    - index
-                    x-kubernetes-list-type: map
                   nodeLocations:
                     description: |-
                       The list of zones in which the cluster's nodes
@@ -1698,6 +1930,20 @@ spec:
                       node auto-provisioning-enabled clusters. Structure is documented below.
                     items:
                       properties:
+                        linuxNodeConfig:
+                          description: Linux system configuration for the cluster's
+                            automatically provisioned node pools. Only cgroup_mode
+                            field is supported in node_pool_auto_config. Structure
+                            is documented below.
+                          items:
+                            properties:
+                              cgroupMode:
+                                description: |-
+                                  Possible cgroup modes that can be used.
+                                  Accepted values are:
+                                type: string
+                            type: object
+                          type: array
                         networkTags:
                           description: The network tag config for the cluster's automatically
                             provisioned node pools.
@@ -1787,6 +2033,16 @@ spec:
                                       type: array
                                   type: object
                                 type: array
+                              gcfsConfig:
+                                description: The default Google Container Filesystem
+                                  (GCFS) configuration at the cluster level. e.g.
+                                  enable image streaming across all the node pools
+                                  within the cluster. Structure is documented below.
+                                properties:
+                                  enabled:
+                                    description: Enables vertical pod autoscaling
+                                    type: boolean
+                                type: object
                               insecureKubeletReadonlyPortEnabled:
                                 description: 'only port is enabled for newly created
                                   node pools in the cluster. It is strongly recommended
@@ -1849,6 +2105,19 @@ spec:
                                 type: string
                             type: object
                           type: array
+                      type: object
+                    type: array
+                  podAutoscaling:
+                    description: |-
+                      Configuration for the
+                      Structure is documented below.
+                    items:
+                      properties:
+                        hpaProfile:
+                          description: |-
+                            Enable the Horizontal Pod Autoscaling profile for this cluster.
+                            Acceptable values are:
+                          type: string
                       type: object
                     type: array
                   privateClusterConfig:
@@ -2050,6 +2319,18 @@ spec:
                           type: boolean
                       type: object
                     type: array
+                  secretManagerConfig:
+                    description: |-
+                      Configuration for the
+                      SecretManagerConfig feature.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        enabled:
+                          description: Enable the Secret Manager add-on for this cluster.
+                          type: boolean
+                      type: object
+                    type: array
                   securityPostureConfig:
                     description: Enable/Disable Security Posture API features for
                       the cluster. Structure is documented below.
@@ -2159,6 +2440,51 @@ spec:
                             type: string
                         type: object
                     type: object
+                  userManagedKeysConfig:
+                    description: The custom keys configuration of the cluster Structure
+                      is documented below.
+                    items:
+                      properties:
+                        aggregationCa:
+                          description: The Certificate Authority Service caPool to
+                            use for the aggreation CA in this cluster.
+                          type: string
+                        clusterCa:
+                          description: The Certificate Authority Service caPool to
+                            use for the cluster CA in this cluster.
+                          type: string
+                        controlPlaneDiskEncryptionKey:
+                          description: The Cloud KMS cryptoKey to use for Confidential
+                            Hyperdisk on the control plane nodes.
+                          type: string
+                        etcdApiCa:
+                          description: The Certificate Authority Service caPool to
+                            use for the etcd API CA in this cluster.
+                          type: string
+                        etcdPeerCa:
+                          description: The Certificate Authority Service caPool to
+                            use for the etcd peer CA in this cluster.
+                          type: string
+                        gkeopsEtcdBackupEncryptionKey:
+                          description: Resource path of the Cloud KMS cryptoKey to
+                            use for encryption of internal etcd backups.
+                          type: string
+                        serviceAccountSigningKeys:
+                          description: The Cloud KMS cryptoKeyVersions to use for
+                            signing service account JWTs issued by this cluster.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        serviceAccountVerificationKeys:
+                          description: The Cloud KMS cryptoKeyVersions to use for
+                            verifying service account JWTs issued by this cluster.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                      type: object
+                    type: array
                   verticalPodAutoscaling:
                     description: |-
                       Vertical Pod Autoscaling automatically adjusts the resources of pods controlled by it.
@@ -2339,6 +2665,20 @@ spec:
                                 type: boolean
                             type: object
                           type: array
+                        parallelstoreCsiDriverConfig:
+                          description: |-
+                            The status of the Parallelstore CSI driver addon,
+                            which allows the usage of a Parallelstore instances as volumes.
+                            It is disabled by default for Standard clusters; set enabled = true to enable.
+                            It is enabled by default for Autopilot clusters with version 1.29 or later; set enabled = true to enable it explicitly.
+                            See Enable the Parallelstore CSI driver for more information.
+                          items:
+                            properties:
+                              enabled:
+                                description: Enables vertical pod autoscaling
+                                type: boolean
+                            type: object
+                          type: array
                         rayOperatorConfig:
                           description: |-
                             . The status of the Ray Operator
@@ -2394,6 +2734,17 @@ spec:
                       false. This field should only be enabled for Autopilot clusters (enable_autopilot
                       set to true).
                     type: boolean
+                  anonymousAuthenticationConfig:
+                    description: Configuration for anonymous authentication restrictions.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        mode:
+                          description: Sets or removes authentication restrictions.
+                            Available options include LIMITED and ENABLED.
+                          type: string
+                      type: object
+                    type: array
                   authenticatorGroupsConfig:
                     description: |-
                       Configuration for the
@@ -2651,11 +3002,48 @@ spec:
                       is documented below documented below.
                     items:
                       properties:
+                        confidentialInstanceType:
+                          description: |-
+                            Defines the type of technology used
+                            by the confidential node.
+                          type: string
                         enabled:
                           description: |-
-                            Enable Confidential GKE Nodes for this cluster, to
+                            Enable Confidential GKE Nodes for this node pool, to
                             enforce encryption of data in-use.
                           type: boolean
+                      type: object
+                    type: array
+                  controlPlaneEndpointsConfig:
+                    description: |-
+                      Configuration for all of the cluster's control plane endpoints.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        dnsEndpointConfig:
+                          description: DNS endpoint configuration.
+                          items:
+                            properties:
+                              allowExternalTraffic:
+                                description: Controls whether user traffic is allowed
+                                  over this endpoint. Note that GCP-managed services
+                                  may still use the endpoint even if this is false.
+                                type: boolean
+                              endpoint:
+                                description: (Output) The cluster's DNS endpoint.
+                                type: string
+                            type: object
+                          type: array
+                        ipEndpointsConfig:
+                          description: IP endpoint configuration.
+                          items:
+                            properties:
+                              enabled:
+                                description: Controls whether to allow direct IP access.
+                                  Defaults to true.
+                                type: boolean
+                            type: object
+                          type: array
                       type: object
                     type: array
                   costManagementConfig:
@@ -2716,11 +3104,21 @@ spec:
                   description:
                     description: Description of the cluster.
                     type: string
+                  disableL4LbFirewallReconciliation:
+                    description: Disable L4 load balancer VPC firewalls to enable
+                      firewall policies.
+                    type: boolean
                   dnsConfig:
                     description: Configuration for Using Cloud DNS for GKE. Structure
                       is documented below.
                     items:
                       properties:
+                        additiveVpcScopeDnsDomain:
+                          description: This will enable Cloud DNS additive VPC scope.
+                            Must provide a domain name that is unique within the VPC.
+                            For this to work cluster_dns = "CLOUD_DNS" and cluster_dns_scope
+                            = "CLUSTER_SCOPE" must both be set as well.
+                          type: string
                         clusterDns:
                           description: Which in-cluster DNS provider should be used.
                             PROVIDER_UNSPECIFIED (default) or PLATFORM_DEFAULT or
@@ -2745,6 +3143,13 @@ spec:
                   enableCiliumClusterwideNetworkPolicy:
                     description: Whether CiliumClusterWideNetworkPolicy is enabled
                       on this cluster. Defaults to false.
+                    type: boolean
+                  enableFqdnNetworkPolicy:
+                    description: Whether FQDN Network Policy is enabled on this cluster.
+                      Users who enable this feature for existing Standard clusters
+                      must restart the GKE Dataplane V2 anetd DaemonSet after enabling
+                      it. See the Enable FQDN Network Policy in an existing cluster
+                      for more information.
                     type: boolean
                   enableIntranodeVisibility:
                     description: Whether Intra-node visibility is enabled for this
@@ -2798,6 +3203,17 @@ spec:
                       Whether to enable Cloud TPU resources in this cluster.
                       See the official documentation.
                     type: boolean
+                  enterpriseConfig:
+                    description: Configuration for [Enterprise edition].(https://cloud.google.com/kubernetes-engine/enterprise/docs/concepts/gke-editions).
+                      Structure is documented below.
+                    items:
+                      properties:
+                        desiredTier:
+                          description: Sets the tier of the cluster. Available options
+                            include STANDARD and ENTERPRISE.
+                          type: string
+                      type: object
+                    type: array
                   fleet:
                     description: Fleet configuration for the cluster. Structure is
                       documented below.
@@ -2820,6 +3236,19 @@ spec:
                           type: string
                       type: object
                     type: array
+                  gkeAutoUpgradeConfig:
+                    description: |-
+                      Configuration options for the auto-upgrade patch type feature, which provide more control over the speed of automatic upgrades of your GKE clusters.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        patchMode:
+                          description: |-
+                            The selected patch mode.
+                            Accepted values are:
+                          type: string
+                      type: object
+                    type: array
                   identityServiceConfig:
                     description: . Structure is documented below.
                     items:
@@ -2830,6 +3259,10 @@ spec:
                           type: boolean
                       type: object
                     type: array
+                  inTransitEncryptionConfig:
+                    description: Defines the config of in-transit encryption. Valid
+                      values are IN_TRANSIT_ENCRYPTION_DISABLED and IN_TRANSIT_ENCRYPTION_INTER_NODE_TRANSPARENT.
+                    type: string
                   initialNodeCount:
                     description: |-
                       The number of nodes to create in this
@@ -3036,6 +3469,10 @@ spec:
                             Whether Kubernetes master is
                             accessible via Google Compute Engine Public IPs.
                           type: boolean
+                        privateEndpointEnforcementEnabled:
+                          description: Whether authorized networks is enforced on
+                            the private endpoint or not.
+                          type: boolean
                       type: object
                     type: array
                   meshCertificates:
@@ -3077,9 +3514,6 @@ spec:
                               enableRelay:
                                 description: Whether or not Relay is enabled.
                                 type: boolean
-                              relayMode:
-                                description: Mode used to make Relay available.
-                                type: string
                             type: object
                           type: array
                         enableComponents:
@@ -3097,6 +3531,16 @@ spec:
                             Structure is documented below.
                           items:
                             properties:
+                              autoMonitoringConfig:
+                                description: Configuration options for GKE Auto-Monitoring.
+                                items:
+                                  properties:
+                                    scope:
+                                      description: 'Whether or not to enable GKE Auto-Monitoring.
+                                        Supported values include: ALL, NONE.'
+                                      type: string
+                                  type: object
+                                type: array
                               enabled:
                                 description: Enables vertical pod autoscaling
                                 type: boolean
@@ -3120,6 +3564,17 @@ spec:
                       network to which the cluster is connected. For Shared VPC, set this to the self link of the
                       shared network.
                     type: string
+                  networkPerformanceConfig:
+                    description: Network bandwidth tier configuration. Structure is
+                      documented below.
+                    items:
+                      properties:
+                        totalEgressBandwidthTier:
+                          description: Specifies the total network bandwidth tier
+                            for NodePools in the cluster.
+                          type: string
+                      type: object
+                    type: array
                   networkPolicy:
                     description: |-
                       Configuration options for the
@@ -3230,6 +3685,11 @@ spec:
                                 description: Defines whether the instance should have
                                   nested virtualization enabled. Defaults to false.
                                 type: boolean
+                              performanceMonitoringUnit:
+                                description: Defines the performance monitoring unit
+                                  PMU level. Valid values are ARCHITECTURAL, STANDARD,
+                                  or ENHANCED. Defaults to off.
+                                type: string
                               threadsPerCore:
                                 description: The number of threads per physical core.
                                   To disable simultaneous multithreading (SMT) set
@@ -3248,9 +3708,14 @@ spec:
                           type: string
                         confidentialNodes:
                           description: Configuration for Confidential Nodes feature.
-                            Structure is documented below documented below.
+                            Structure is documented below.
                           items:
                             properties:
+                              confidentialInstanceType:
+                                description: |-
+                                  Defines the type of technology used
+                                  by the confidential node.
+                                type: string
                               enabled:
                                 description: Enables vertical pod autoscaling
                                 type: boolean
@@ -3302,7 +3767,7 @@ spec:
                         diskType:
                           description: |-
                             Type of the disk attached to each node
-                            (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-standard'
+                            (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced'
                           type: string
                         enableConfidentialStorage:
                           description: Enabling Confidential Storage will create boot
@@ -3314,6 +3779,12 @@ spec:
                             disk. Structure is documented below.
                           items:
                             properties:
+                              dataCacheCount:
+                                description: Number of raw-block local NVMe SSD disks
+                                  to be attached to the node utilized for GKE Data
+                                  Cache. If zero, then GKE Data Cache will not be
+                                  enabled in the nodes.
+                                type: number
                               localSsdCount:
                                 description: |-
                                   The amount of local SSD disks that will be
@@ -3334,6 +3805,10 @@ spec:
                                 type: boolean
                             type: object
                           type: array
+                        flexStart:
+                          description: Enables Flex Start provisioning model for the
+                            node pool.
+                          type: boolean
                         gcfsConfig:
                           description: |-
                             Parameters for the Google Container Filesystem (GCFS).
@@ -3352,8 +3827,11 @@ spec:
                         guestAccelerator:
                           description: |-
                             List of the type and count of accelerator cards attached to the instance.
-                            Structure documented below.12 this field is an
-                            Attribute as Block
+                            Structure documented below.
+                            Note: As of 6.0.0, argument syntax
+                            is no longer supported for this field in favor of block syntax.
+                            To dynamically set a list of guest accelerators, use dynamic blocks.
+                            To set an empty list, use a single guest_accelerator block with count = 0.
                           items:
                             properties:
                               count:
@@ -3428,17 +3906,33 @@ spec:
                             The image type to use for this node. Note that changing the image type
                             will delete and recreate all nodes in the node pool.
                           type: string
-                        index:
-                          default: "0"
-                          description: This is an injected field with a default value
-                            for being able to merge items of the parent object list.
-                          type: string
                         kubeletConfig:
                           description: |-
                             Kubelet configuration, currently supported attributes can be found here.
                             Structure is documented below.
                           items:
                             properties:
+                              allowedUnsafeSysctls:
+                                description: Defines a comma-separated allowlist of
+                                  unsafe sysctls or sysctl patterns which can be set
+                                  on the Pods. The allowed sysctl groups are kernel.shm*,
+                                  kernel.msg*, kernel.sem, fs.mqueue.*, and net.*.
+                                items:
+                                  type: string
+                                type: array
+                              containerLogMaxFiles:
+                                description: Defines the maximum number of container
+                                  log files that can be present for a container. The
+                                  integer must be between 2 and 10, inclusive.
+                                type: number
+                              containerLogMaxSize:
+                                description: |-
+                                  Defines the maximum size of the
+                                  container log file before it is rotated. Specified as a positive number and a
+                                  unit suffix, such as "100Ki", "10Mi". Valid units are "Ki", "Mi", "Gi".
+                                  The value must be between "10Mi" and "500Mi", inclusive. And the total container log size
+                                  (container_log_max_size * container_log_max_files) cannot exceed 1% of the total storage of the node.
+                                type: string
                               cpuCfsQuota:
                                 description: |-
                                   If true, enables CPU CFS quota enforcement for
@@ -3455,12 +3949,41 @@ spec:
                                 description: |-
                                   The CPU management policy on the node. See
                                   K8S CPU Management Policies.
-                                  One of "none" or "static". Defaults to none when kubelet_config is unset.
+                                  One of "none" or "static". If unset (or set to the empty string ""), the API will treat the field as if set to "none".
+                                  Prior to the 6.4.0 this field was marked as required. The workaround for the required field
+                                  is setting the empty string "", which will function identically to not setting this field.
+                                type: string
+                              imageGcHighThresholdPercent:
+                                description: Defines the percent of disk usage after
+                                  which image garbage collection is always run. The
+                                  integer must be between 10 and 85, inclusive.
+                                type: number
+                              imageGcLowThresholdPercent:
+                                description: Defines the percent of disk usage before
+                                  which image garbage collection is never run. Lowest
+                                  disk usage to garbage collect to. The integer must
+                                  be between 10 and 85, inclusive.
+                                type: number
+                              imageMaximumGcAge:
+                                description: Defines the maximum age an image can
+                                  be unused before it is garbage collected. Specified
+                                  as a sequence of decimal numbers, each with optional
+                                  fraction and a unit suffix, such as "300s", "1.5m",
+                                  and "2h45m". Valid time units are "ns", "us" (or
+                                  "µs"), "ms", "s", "m", "h". The value must be a
+                                  positive duration.
+                                type: string
+                              imageMinimumGcAge:
+                                description: Defines the minimum age for an unused
+                                  image before it is garbage collected. Specified
+                                  as a sequence of decimal numbers, each with optional
+                                  fraction and a unit suffix, such as "300s", "1.5m".
+                                  The value cannot be greater than "2m".
                                 type: string
                               insecureKubeletReadonlyPortEnabled:
-                                description: 'Controls whether the kubelet read-only
-                                  port is enabled. It is strongly recommended to set
-                                  this to FALSE. Possible values: TRUE, FALSE.'
+                                description: 'only port is enabled for newly created
+                                  node pools in the cluster. It is strongly recommended
+                                  to set this to FALSE. Possible values: TRUE, FALSE.'
                                 type: string
                               podPidsLimit:
                                 description: Controls the maximum number of processes
@@ -3487,6 +4010,19 @@ spec:
                                   Possible cgroup modes that can be used.
                                   Accepted values are:
                                 type: string
+                              hugepagesConfig:
+                                description: Amounts for 2M and 1G hugepages. Structure
+                                  is documented below.
+                                items:
+                                  properties:
+                                    hugepageSize1G:
+                                      description: Amount of 1G hugepages.
+                                      type: number
+                                    hugepageSize2M:
+                                      description: Amount of 2M hugepages.
+                                      type: number
+                                  type: object
+                                type: array
                               sysctls:
                                 additionalProperties:
                                   type: string
@@ -3516,6 +4052,11 @@ spec:
                             The amount of local SSD disks that will be
                             attached to each cluster node. Defaults to 0.
                           type: number
+                        localSsdEncryptionMode:
+                          description: |-
+                            Possible Local SSD encryption modes:
+                            Accepted values are:
+                          type: string
                         loggingVariant:
                           description: wide default value. Valid values include DEFAULT
                             and MAX_THROUGHPUT. See Increasing logging agent throughput
@@ -3526,6 +4067,10 @@ spec:
                             The name of a Google Compute Engine machine type.
                             Defaults to e2-medium. To create a custom machine type, value should be set as specified
                             here.
+                          type: string
+                        maxRunDuration:
+                          description: 'The runtime of each node in the node pool
+                            in seconds, terminated by ''s''. Example: "3600s".'
                           type: string
                         metadata:
                           additionalProperties:
@@ -3754,6 +4299,12 @@ spec:
                             See the official documentation
                             for more information. Defaults to false.
                           type: boolean
+                        storagePools:
+                          description: The list of Storage Pools where boot disks
+                            are provisioned.
+                          items:
+                            type: string
+                          type: array
                         tags:
                           description: |-
                             The list of instance tags applied to all nodes. Tags are used to identify
@@ -3780,6 +4331,16 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        windowsNodeConfig:
+                          description: 'Windows node configuration, currently supporting
+                            OSVersion attribute. The value must be one of [OS_VERSION_UNSPECIFIED,
+                            OS_VERSION_LTSC2019, OS_VERSION_LTSC2022]. For example:'
+                          items:
+                            properties:
+                              osversion:
+                                type: string
+                            type: object
+                          type: array
                         workloadMetadataConfig:
                           description: |-
                             Metadata configuration to expose to workloads on the node pool.
@@ -3795,9 +4356,6 @@ spec:
                           type: array
                       type: object
                     type: array
-                    x-kubernetes-list-map-keys:
-                    - index
-                    x-kubernetes-list-type: map
                   nodeLocations:
                     description: |-
                       The list of zones in which the cluster's nodes
@@ -3815,6 +4373,20 @@ spec:
                       node auto-provisioning-enabled clusters. Structure is documented below.
                     items:
                       properties:
+                        linuxNodeConfig:
+                          description: Linux system configuration for the cluster's
+                            automatically provisioned node pools. Only cgroup_mode
+                            field is supported in node_pool_auto_config. Structure
+                            is documented below.
+                          items:
+                            properties:
+                              cgroupMode:
+                                description: |-
+                                  Possible cgroup modes that can be used.
+                                  Accepted values are:
+                                type: string
+                            type: object
+                          type: array
                         networkTags:
                           description: The network tag config for the cluster's automatically
                             provisioned node pools.
@@ -3904,6 +4476,16 @@ spec:
                                       type: array
                                   type: object
                                 type: array
+                              gcfsConfig:
+                                description: The default Google Container Filesystem
+                                  (GCFS) configuration at the cluster level. e.g.
+                                  enable image streaming across all the node pools
+                                  within the cluster. Structure is documented below.
+                                properties:
+                                  enabled:
+                                    description: Enables vertical pod autoscaling
+                                    type: boolean
+                                type: object
                               insecureKubeletReadonlyPortEnabled:
                                 description: 'only port is enabled for newly created
                                   node pools in the cluster. It is strongly recommended
@@ -3966,6 +4548,19 @@ spec:
                                 type: string
                             type: object
                           type: array
+                      type: object
+                    type: array
+                  podAutoscaling:
+                    description: |-
+                      Configuration for the
+                      Structure is documented below.
+                    items:
+                      properties:
+                        hpaProfile:
+                          description: |-
+                            Enable the Horizontal Pod Autoscaling profile for this cluster.
+                            Acceptable values are:
+                          type: string
                       type: object
                     type: array
                   privateClusterConfig:
@@ -4167,6 +4762,18 @@ spec:
                           type: boolean
                       type: object
                     type: array
+                  secretManagerConfig:
+                    description: |-
+                      Configuration for the
+                      SecretManagerConfig feature.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        enabled:
+                          description: Enable the Secret Manager add-on for this cluster.
+                          type: boolean
+                      type: object
+                    type: array
                   securityPostureConfig:
                     description: Enable/Disable Security Posture API features for
                       the cluster. Structure is documented below.
@@ -4276,6 +4883,51 @@ spec:
                             type: string
                         type: object
                     type: object
+                  userManagedKeysConfig:
+                    description: The custom keys configuration of the cluster Structure
+                      is documented below.
+                    items:
+                      properties:
+                        aggregationCa:
+                          description: The Certificate Authority Service caPool to
+                            use for the aggreation CA in this cluster.
+                          type: string
+                        clusterCa:
+                          description: The Certificate Authority Service caPool to
+                            use for the cluster CA in this cluster.
+                          type: string
+                        controlPlaneDiskEncryptionKey:
+                          description: The Cloud KMS cryptoKey to use for Confidential
+                            Hyperdisk on the control plane nodes.
+                          type: string
+                        etcdApiCa:
+                          description: The Certificate Authority Service caPool to
+                            use for the etcd API CA in this cluster.
+                          type: string
+                        etcdPeerCa:
+                          description: The Certificate Authority Service caPool to
+                            use for the etcd peer CA in this cluster.
+                          type: string
+                        gkeopsEtcdBackupEncryptionKey:
+                          description: Resource path of the Cloud KMS cryptoKey to
+                            use for encryption of internal etcd backups.
+                          type: string
+                        serviceAccountSigningKeys:
+                          description: The Cloud KMS cryptoKeyVersions to use for
+                            signing service account JWTs issued by this cluster.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        serviceAccountVerificationKeys:
+                          description: The Cloud KMS cryptoKeyVersions to use for
+                            verifying service account JWTs issued by this cluster.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                      type: object
+                    type: array
                   verticalPodAutoscaling:
                     description: |-
                       Vertical Pod Autoscaling automatically adjusts the resources of pods controlled by it.
@@ -4613,6 +5265,20 @@ spec:
                                 type: boolean
                             type: object
                           type: array
+                        parallelstoreCsiDriverConfig:
+                          description: |-
+                            The status of the Parallelstore CSI driver addon,
+                            which allows the usage of a Parallelstore instances as volumes.
+                            It is disabled by default for Standard clusters; set enabled = true to enable.
+                            It is enabled by default for Autopilot clusters with version 1.29 or later; set enabled = true to enable it explicitly.
+                            See Enable the Parallelstore CSI driver for more information.
+                          items:
+                            properties:
+                              enabled:
+                                description: Enables vertical pod autoscaling
+                                type: boolean
+                            type: object
+                          type: array
                         rayOperatorConfig:
                           description: |-
                             . The status of the Ray Operator
@@ -4668,6 +5334,17 @@ spec:
                       false. This field should only be enabled for Autopilot clusters (enable_autopilot
                       set to true).
                     type: boolean
+                  anonymousAuthenticationConfig:
+                    description: Configuration for anonymous authentication restrictions.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        mode:
+                          description: Sets or removes authentication restrictions.
+                            Available options include LIMITED and ENABLED.
+                          type: string
+                      type: object
+                    type: array
                   authenticatorGroupsConfig:
                     description: |-
                       Configuration for the
@@ -4937,11 +5614,48 @@ spec:
                       is documented below documented below.
                     items:
                       properties:
+                        confidentialInstanceType:
+                          description: |-
+                            Defines the type of technology used
+                            by the confidential node.
+                          type: string
                         enabled:
                           description: |-
-                            Enable Confidential GKE Nodes for this cluster, to
+                            Enable Confidential GKE Nodes for this node pool, to
                             enforce encryption of data in-use.
                           type: boolean
+                      type: object
+                    type: array
+                  controlPlaneEndpointsConfig:
+                    description: |-
+                      Configuration for all of the cluster's control plane endpoints.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        dnsEndpointConfig:
+                          description: DNS endpoint configuration.
+                          items:
+                            properties:
+                              allowExternalTraffic:
+                                description: Controls whether user traffic is allowed
+                                  over this endpoint. Note that GCP-managed services
+                                  may still use the endpoint even if this is false.
+                                type: boolean
+                              endpoint:
+                                description: (Output) The cluster's DNS endpoint.
+                                type: string
+                            type: object
+                          type: array
+                        ipEndpointsConfig:
+                          description: IP endpoint configuration.
+                          items:
+                            properties:
+                              enabled:
+                                description: Controls whether to allow direct IP access.
+                                  Defaults to true.
+                                type: boolean
+                            type: object
+                          type: array
                       type: object
                     type: array
                   costManagementConfig:
@@ -5002,11 +5716,21 @@ spec:
                   description:
                     description: Description of the cluster.
                     type: string
+                  disableL4LbFirewallReconciliation:
+                    description: Disable L4 load balancer VPC firewalls to enable
+                      firewall policies.
+                    type: boolean
                   dnsConfig:
                     description: Configuration for Using Cloud DNS for GKE. Structure
                       is documented below.
                     items:
                       properties:
+                        additiveVpcScopeDnsDomain:
+                          description: This will enable Cloud DNS additive VPC scope.
+                            Must provide a domain name that is unique within the VPC.
+                            For this to work cluster_dns = "CLOUD_DNS" and cluster_dns_scope
+                            = "CLUSTER_SCOPE" must both be set as well.
+                          type: string
                         clusterDns:
                           description: Which in-cluster DNS provider should be used.
                             PROVIDER_UNSPECIFIED (default) or PLATFORM_DEFAULT or
@@ -5021,6 +5745,11 @@ spec:
                           type: string
                       type: object
                     type: array
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
                   enableAutopilot:
                     description: |-
                       Enable Autopilot for this cluster. Defaults to false.
@@ -5031,6 +5760,13 @@ spec:
                   enableCiliumClusterwideNetworkPolicy:
                     description: Whether CiliumClusterWideNetworkPolicy is enabled
                       on this cluster. Defaults to false.
+                    type: boolean
+                  enableFqdnNetworkPolicy:
+                    description: Whether FQDN Network Policy is enabled on this cluster.
+                      Users who enable this feature for existing Standard clusters
+                      must restart the GKE Dataplane V2 anetd DaemonSet after enabling
+                      it. See the Enable FQDN Network Policy in an existing cluster
+                      for more information.
                     type: boolean
                   enableIntranodeVisibility:
                     description: Whether Intra-node visibility is enabled for this
@@ -5087,6 +5823,20 @@ spec:
                   endpoint:
                     description: The IP address of this cluster's Kubernetes master.
                     type: string
+                  enterpriseConfig:
+                    description: Configuration for [Enterprise edition].(https://cloud.google.com/kubernetes-engine/enterprise/docs/concepts/gke-editions).
+                      Structure is documented below.
+                    items:
+                      properties:
+                        clusterTier:
+                          description: The effective tier of the cluster.
+                          type: string
+                        desiredTier:
+                          description: Sets the tier of the cluster. Available options
+                            include STANDARD and ENTERPRISE.
+                          type: string
+                      type: object
+                    type: array
                   fleet:
                     description: Fleet configuration for the cluster. Structure is
                       documented below.
@@ -5126,6 +5876,19 @@ spec:
                           type: string
                       type: object
                     type: array
+                  gkeAutoUpgradeConfig:
+                    description: |-
+                      Configuration options for the auto-upgrade patch type feature, which provide more control over the speed of automatic upgrades of your GKE clusters.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        patchMode:
+                          description: |-
+                            The selected patch mode.
+                            Accepted values are:
+                          type: string
+                      type: object
+                    type: array
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{zone}}/clusters/{{name}}
                     type: string
@@ -5139,6 +5902,10 @@ spec:
                           type: boolean
                       type: object
                     type: array
+                  inTransitEncryptionConfig:
+                    description: Defines the config of in-transit encryption. Valid
+                      values are IN_TRANSIT_ENCRYPTION_DISABLED and IN_TRANSIT_ENCRYPTION_INTER_NODE_TRANSPARENT.
+                    type: string
                   initialNodeCount:
                     description: |-
                       The number of nodes to create in this
@@ -5373,6 +6140,10 @@ spec:
                             Whether Kubernetes master is
                             accessible via Google Compute Engine Public IPs.
                           type: boolean
+                        privateEndpointEnforcementEnabled:
+                          description: Whether authorized networks is enforced on
+                            the private endpoint or not.
+                          type: boolean
                       type: object
                     type: array
                   masterVersion:
@@ -5420,9 +6191,6 @@ spec:
                               enableRelay:
                                 description: Whether or not Relay is enabled.
                                 type: boolean
-                              relayMode:
-                                description: Mode used to make Relay available.
-                                type: string
                             type: object
                           type: array
                         enableComponents:
@@ -5440,6 +6208,16 @@ spec:
                             Structure is documented below.
                           items:
                             properties:
+                              autoMonitoringConfig:
+                                description: Configuration options for GKE Auto-Monitoring.
+                                items:
+                                  properties:
+                                    scope:
+                                      description: 'Whether or not to enable GKE Auto-Monitoring.
+                                        Supported values include: ALL, NONE.'
+                                      type: string
+                                  type: object
+                                type: array
                               enabled:
                                 description: Enables vertical pod autoscaling
                                 type: boolean
@@ -5463,6 +6241,17 @@ spec:
                       network to which the cluster is connected. For Shared VPC, set this to the self link of the
                       shared network.
                     type: string
+                  networkPerformanceConfig:
+                    description: Network bandwidth tier configuration. Structure is
+                      documented below.
+                    items:
+                      properties:
+                        totalEgressBandwidthTier:
+                          description: Specifies the total network bandwidth tier
+                            for NodePools in the cluster.
+                          type: string
+                      type: object
+                    type: array
                   networkPolicy:
                     description: |-
                       Configuration options for the
@@ -5499,6 +6288,11 @@ spec:
                                 description: Defines whether the instance should have
                                   nested virtualization enabled. Defaults to false.
                                 type: boolean
+                              performanceMonitoringUnit:
+                                description: Defines the performance monitoring unit
+                                  PMU level. Valid values are ARCHITECTURAL, STANDARD,
+                                  or ENHANCED. Defaults to off.
+                                type: string
                               threadsPerCore:
                                 description: The number of threads per physical core.
                                   To disable simultaneous multithreading (SMT) set
@@ -5517,9 +6311,14 @@ spec:
                           type: string
                         confidentialNodes:
                           description: Configuration for Confidential Nodes feature.
-                            Structure is documented below documented below.
+                            Structure is documented below.
                           items:
                             properties:
+                              confidentialInstanceType:
+                                description: |-
+                                  Defines the type of technology used
+                                  by the confidential node.
+                                type: string
                               enabled:
                                 description: Enables vertical pod autoscaling
                                 type: boolean
@@ -5571,7 +6370,7 @@ spec:
                         diskType:
                           description: |-
                             Type of the disk attached to each node
-                            (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-standard'
+                            (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced'
                           type: string
                         effectiveTaints:
                           description: List of kubernetes taints applied to each node.
@@ -5600,6 +6399,12 @@ spec:
                             disk. Structure is documented below.
                           items:
                             properties:
+                              dataCacheCount:
+                                description: Number of raw-block local NVMe SSD disks
+                                  to be attached to the node utilized for GKE Data
+                                  Cache. If zero, then GKE Data Cache will not be
+                                  enabled in the nodes.
+                                type: number
                               localSsdCount:
                                 description: |-
                                   The amount of local SSD disks that will be
@@ -5620,6 +6425,10 @@ spec:
                                 type: boolean
                             type: object
                           type: array
+                        flexStart:
+                          description: Enables Flex Start provisioning model for the
+                            node pool.
+                          type: boolean
                         gcfsConfig:
                           description: |-
                             Parameters for the Google Container Filesystem (GCFS).
@@ -5638,8 +6447,11 @@ spec:
                         guestAccelerator:
                           description: |-
                             List of the type and count of accelerator cards attached to the instance.
-                            Structure documented below.12 this field is an
-                            Attribute as Block
+                            Structure documented below.
+                            Note: As of 6.0.0, argument syntax
+                            is no longer supported for this field in favor of block syntax.
+                            To dynamically set a list of guest accelerators, use dynamic blocks.
+                            To set an empty list, use a single guest_accelerator block with count = 0.
                           items:
                             properties:
                               count:
@@ -5714,17 +6526,33 @@ spec:
                             The image type to use for this node. Note that changing the image type
                             will delete and recreate all nodes in the node pool.
                           type: string
-                        index:
-                          default: "0"
-                          description: This is an injected field with a default value
-                            for being able to merge items of the parent object list.
-                          type: string
                         kubeletConfig:
                           description: |-
                             Kubelet configuration, currently supported attributes can be found here.
                             Structure is documented below.
                           items:
                             properties:
+                              allowedUnsafeSysctls:
+                                description: Defines a comma-separated allowlist of
+                                  unsafe sysctls or sysctl patterns which can be set
+                                  on the Pods. The allowed sysctl groups are kernel.shm*,
+                                  kernel.msg*, kernel.sem, fs.mqueue.*, and net.*.
+                                items:
+                                  type: string
+                                type: array
+                              containerLogMaxFiles:
+                                description: Defines the maximum number of container
+                                  log files that can be present for a container. The
+                                  integer must be between 2 and 10, inclusive.
+                                type: number
+                              containerLogMaxSize:
+                                description: |-
+                                  Defines the maximum size of the
+                                  container log file before it is rotated. Specified as a positive number and a
+                                  unit suffix, such as "100Ki", "10Mi". Valid units are "Ki", "Mi", "Gi".
+                                  The value must be between "10Mi" and "500Mi", inclusive. And the total container log size
+                                  (container_log_max_size * container_log_max_files) cannot exceed 1% of the total storage of the node.
+                                type: string
                               cpuCfsQuota:
                                 description: |-
                                   If true, enables CPU CFS quota enforcement for
@@ -5741,12 +6569,41 @@ spec:
                                 description: |-
                                   The CPU management policy on the node. See
                                   K8S CPU Management Policies.
-                                  One of "none" or "static". Defaults to none when kubelet_config is unset.
+                                  One of "none" or "static". If unset (or set to the empty string ""), the API will treat the field as if set to "none".
+                                  Prior to the 6.4.0 this field was marked as required. The workaround for the required field
+                                  is setting the empty string "", which will function identically to not setting this field.
+                                type: string
+                              imageGcHighThresholdPercent:
+                                description: Defines the percent of disk usage after
+                                  which image garbage collection is always run. The
+                                  integer must be between 10 and 85, inclusive.
+                                type: number
+                              imageGcLowThresholdPercent:
+                                description: Defines the percent of disk usage before
+                                  which image garbage collection is never run. Lowest
+                                  disk usage to garbage collect to. The integer must
+                                  be between 10 and 85, inclusive.
+                                type: number
+                              imageMaximumGcAge:
+                                description: Defines the maximum age an image can
+                                  be unused before it is garbage collected. Specified
+                                  as a sequence of decimal numbers, each with optional
+                                  fraction and a unit suffix, such as "300s", "1.5m",
+                                  and "2h45m". Valid time units are "ns", "us" (or
+                                  "µs"), "ms", "s", "m", "h". The value must be a
+                                  positive duration.
+                                type: string
+                              imageMinimumGcAge:
+                                description: Defines the minimum age for an unused
+                                  image before it is garbage collected. Specified
+                                  as a sequence of decimal numbers, each with optional
+                                  fraction and a unit suffix, such as "300s", "1.5m".
+                                  The value cannot be greater than "2m".
                                 type: string
                               insecureKubeletReadonlyPortEnabled:
-                                description: 'Controls whether the kubelet read-only
-                                  port is enabled. It is strongly recommended to set
-                                  this to FALSE. Possible values: TRUE, FALSE.'
+                                description: 'only port is enabled for newly created
+                                  node pools in the cluster. It is strongly recommended
+                                  to set this to FALSE. Possible values: TRUE, FALSE.'
                                 type: string
                               podPidsLimit:
                                 description: Controls the maximum number of processes
@@ -5773,6 +6630,19 @@ spec:
                                   Possible cgroup modes that can be used.
                                   Accepted values are:
                                 type: string
+                              hugepagesConfig:
+                                description: Amounts for 2M and 1G hugepages. Structure
+                                  is documented below.
+                                items:
+                                  properties:
+                                    hugepageSize1G:
+                                      description: Amount of 1G hugepages.
+                                      type: number
+                                    hugepageSize2M:
+                                      description: Amount of 2M hugepages.
+                                      type: number
+                                  type: object
+                                type: array
                               sysctls:
                                 additionalProperties:
                                   type: string
@@ -5802,6 +6672,11 @@ spec:
                             The amount of local SSD disks that will be
                             attached to each cluster node. Defaults to 0.
                           type: number
+                        localSsdEncryptionMode:
+                          description: |-
+                            Possible Local SSD encryption modes:
+                            Accepted values are:
+                          type: string
                         loggingVariant:
                           description: wide default value. Valid values include DEFAULT
                             and MAX_THROUGHPUT. See Increasing logging agent throughput
@@ -5812,6 +6687,10 @@ spec:
                             The name of a Google Compute Engine machine type.
                             Defaults to e2-medium. To create a custom machine type, value should be set as specified
                             here.
+                          type: string
+                        maxRunDuration:
+                          description: 'The runtime of each node in the node pool
+                            in seconds, terminated by ''s''. Example: "3600s".'
                           type: string
                         metadata:
                           additionalProperties:
@@ -5964,6 +6843,12 @@ spec:
                             See the official documentation
                             for more information. Defaults to false.
                           type: boolean
+                        storagePools:
+                          description: The list of Storage Pools where boot disks
+                            are provisioned.
+                          items:
+                            type: string
+                          type: array
                         tags:
                           description: |-
                             The list of instance tags applied to all nodes. Tags are used to identify
@@ -5990,6 +6875,16 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        windowsNodeConfig:
+                          description: 'Windows node configuration, currently supporting
+                            OSVersion attribute. The value must be one of [OS_VERSION_UNSPECIFIED,
+                            OS_VERSION_LTSC2019, OS_VERSION_LTSC2022]. For example:'
+                          items:
+                            properties:
+                              osversion:
+                                type: string
+                            type: object
+                          type: array
                         workloadMetadataConfig:
                           description: |-
                             Metadata configuration to expose to workloads on the node pool.
@@ -6005,9 +6900,6 @@ spec:
                           type: array
                       type: object
                     type: array
-                    x-kubernetes-list-map-keys:
-                    - index
-                    x-kubernetes-list-type: map
                   nodeLocations:
                     description: |-
                       The list of zones in which the cluster's nodes
@@ -6133,14 +7025,12 @@ spec:
                                 type: boolean
                               networkPerformanceConfig:
                                 description: Network bandwidth tier configuration.
-                                items:
-                                  properties:
-                                    totalEgressBandwidthTier:
-                                      description: Specifies the total network bandwidth
-                                        tier for the NodePool.
-                                      type: string
-                                  type: object
-                                type: array
+                                properties:
+                                  totalEgressBandwidthTier:
+                                    description: Specifies the total network bandwidth
+                                      tier for NodePools in the cluster.
+                                    type: string
+                                type: object
                               podCidrOverprovisionConfig:
                                 items:
                                   properties:
@@ -6173,6 +7063,11 @@ spec:
                                         have nested virtualization enabled. Defaults
                                         to false.
                                       type: boolean
+                                    performanceMonitoringUnit:
+                                      description: Defines the performance monitoring
+                                        unit PMU level. Valid values are ARCHITECTURAL,
+                                        STANDARD, or ENHANCED. Defaults to off.
+                                      type: string
                                     threadsPerCore:
                                       description: The number of threads per physical
                                         core. To disable simultaneous multithreading
@@ -6195,6 +7090,11 @@ spec:
                                   below.
                                 items:
                                   properties:
+                                    confidentialInstanceType:
+                                      description: |-
+                                        Defines the type of technology used
+                                        by the confidential node.
+                                      type: string
                                     enabled:
                                       description: Enables vertical pod autoscaling
                                       type: boolean
@@ -6277,6 +7177,12 @@ spec:
                                   below.
                                 items:
                                   properties:
+                                    dataCacheCount:
+                                      description: Number of raw-block local NVMe
+                                        SSD disks to be attached to the node utilized
+                                        for GKE Data Cache. If zero, then GKE Data
+                                        Cache will not be enabled in the nodes.
+                                      type: number
                                     localSsdCount:
                                       description: |-
                                         The amount of local SSD disks that will be
@@ -6297,6 +7203,10 @@ spec:
                                       type: boolean
                                   type: object
                                 type: array
+                              flexStart:
+                                description: Enables Flex Start provisioning model
+                                  for the node pool.
+                                type: boolean
                               gcfsConfig:
                                 description: The default Google Container Filesystem
                                   (GCFS) configuration at the cluster level. e.g.
@@ -6394,6 +7304,28 @@ spec:
                                   Structure is documented below.
                                 items:
                                   properties:
+                                    allowedUnsafeSysctls:
+                                      description: Defines a comma-separated allowlist
+                                        of unsafe sysctls or sysctl patterns which
+                                        can be set on the Pods. The allowed sysctl
+                                        groups are kernel.shm*, kernel.msg*, kernel.sem,
+                                        fs.mqueue.*, and net.*.
+                                      items:
+                                        type: string
+                                      type: array
+                                    containerLogMaxFiles:
+                                      description: Defines the maximum number of container
+                                        log files that can be present for a container.
+                                        The integer must be between 2 and 10, inclusive.
+                                      type: number
+                                    containerLogMaxSize:
+                                      description: |-
+                                        Defines the maximum size of the
+                                        container log file before it is rotated. Specified as a positive number and a
+                                        unit suffix, such as "100Ki", "10Mi". Valid units are "Ki", "Mi", "Gi".
+                                        The value must be between "10Mi" and "500Mi", inclusive. And the total container log size
+                                        (container_log_max_size * container_log_max_files) cannot exceed 1% of the total storage of the node.
+                                      type: string
                                     cpuCfsQuota:
                                       description: |-
                                         If true, enables CPU CFS quota enforcement for
@@ -6410,13 +7342,46 @@ spec:
                                       description: |-
                                         The CPU management policy on the node. See
                                         K8S CPU Management Policies.
-                                        One of "none" or "static". Defaults to none when kubelet_config is unset.
+                                        One of "none" or "static". If unset (or set to the empty string ""), the API will treat the field as if set to "none".
+                                        Prior to the 6.4.0 this field was marked as required. The workaround for the required field
+                                        is setting the empty string "", which will function identically to not setting this field.
+                                      type: string
+                                    imageGcHighThresholdPercent:
+                                      description: Defines the percent of disk usage
+                                        after which image garbage collection is always
+                                        run. The integer must be between 10 and 85,
+                                        inclusive.
+                                      type: number
+                                    imageGcLowThresholdPercent:
+                                      description: Defines the percent of disk usage
+                                        before which image garbage collection is never
+                                        run. Lowest disk usage to garbage collect
+                                        to. The integer must be between 10 and 85,
+                                        inclusive.
+                                      type: number
+                                    imageMaximumGcAge:
+                                      description: Defines the maximum age an image
+                                        can be unused before it is garbage collected.
+                                        Specified as a sequence of decimal numbers,
+                                        each with optional fraction and a unit suffix,
+                                        such as "300s", "1.5m", and "2h45m". Valid
+                                        time units are "ns", "us" (or "µs"), "ms",
+                                        "s", "m", "h". The value must be a positive
+                                        duration.
+                                      type: string
+                                    imageMinimumGcAge:
+                                      description: Defines the minimum age for an
+                                        unused image before it is garbage collected.
+                                        Specified as a sequence of decimal numbers,
+                                        each with optional fraction and a unit suffix,
+                                        such as "300s", "1.5m". The value cannot be
+                                        greater than "2m".
                                       type: string
                                     insecureKubeletReadonlyPortEnabled:
-                                      description: 'Controls whether the kubelet read-only
-                                        port is enabled. It is strongly recommended
-                                        to set this to FALSE. Possible values: TRUE,
-                                        FALSE.'
+                                      description: 'only port is enabled for newly
+                                        created node pools in the cluster. It is strongly
+                                        recommended to set this to FALSE. Possible
+                                        values: TRUE, FALSE.'
                                       type: string
                                     podPidsLimit:
                                       description: Controls the maximum number of
@@ -6444,6 +7409,19 @@ spec:
                                         Possible cgroup modes that can be used.
                                         Accepted values are:
                                       type: string
+                                    hugepagesConfig:
+                                      description: Amounts for 2M and 1G hugepages.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          hugepageSize1G:
+                                            description: Amount of 1G hugepages.
+                                            type: number
+                                          hugepageSize2M:
+                                            description: Amount of 2M hugepages.
+                                            type: number
+                                        type: object
+                                      type: array
                                     sysctls:
                                       additionalProperties:
                                         type: string
@@ -6473,6 +7451,11 @@ spec:
                                   The amount of local SSD disks that will be
                                   attached to each cluster node. Defaults to 0.
                                 type: number
+                              localSsdEncryptionMode:
+                                description: |-
+                                  Possible Local SSD encryption modes:
+                                  Accepted values are:
+                                type: string
                               loggingVariant:
                                 description: The type of logging agent that is deployed
                                   by default for newly created node pools in the cluster.
@@ -6485,6 +7468,10 @@ spec:
                                   The name of a Google Compute Engine machine type.
                                   Defaults to e2-medium. To create a custom machine type, value should be set as specified
                                   here.
+                                type: string
+                              maxRunDuration:
+                                description: 'The runtime of each node in the node
+                                  pool in seconds, terminated by ''s''. Example: "3600s".'
                                 type: string
                               metadata:
                                 additionalProperties:
@@ -6640,6 +7627,12 @@ spec:
                                   See the official documentation
                                   for more information. Defaults to false.
                                 type: boolean
+                              storagePools:
+                                description: The list of Storage Pools where boot
+                                  disks are provisioned.
+                                items:
+                                  type: string
+                                type: array
                               tags:
                                 description: List of network tags applied to auto-provisioned
                                   node pools.
@@ -6662,6 +7655,17 @@ spec:
                                       type: string
                                     value:
                                       description: Value for taint.
+                                      type: string
+                                  type: object
+                                type: array
+                              windowsNodeConfig:
+                                description: 'Windows node configuration, currently
+                                  supporting OSVersion attribute. The value must be
+                                  one of [OS_VERSION_UNSPECIFIED, OS_VERSION_LTSC2019,
+                                  OS_VERSION_LTSC2022]. For example:'
+                                items:
+                                  properties:
+                                    osversion:
                                       type: string
                                   type: object
                                 type: array
@@ -6792,6 +7796,20 @@ spec:
                       node auto-provisioning-enabled clusters. Structure is documented below.
                     items:
                       properties:
+                        linuxNodeConfig:
+                          description: Linux system configuration for the cluster's
+                            automatically provisioned node pools. Only cgroup_mode
+                            field is supported in node_pool_auto_config. Structure
+                            is documented below.
+                          items:
+                            properties:
+                              cgroupMode:
+                                description: |-
+                                  Possible cgroup modes that can be used.
+                                  Accepted values are:
+                                type: string
+                            type: object
+                          type: array
                         networkTags:
                           description: The network tag config for the cluster's automatically
                             provisioned node pools.
@@ -6881,6 +7899,16 @@ spec:
                                       type: array
                                   type: object
                                 type: array
+                              gcfsConfig:
+                                description: The default Google Container Filesystem
+                                  (GCFS) configuration at the cluster level. e.g.
+                                  enable image streaming across all the node pools
+                                  within the cluster. Structure is documented below.
+                                properties:
+                                  enabled:
+                                    description: Enables vertical pod autoscaling
+                                    type: boolean
+                                type: object
                               insecureKubeletReadonlyPortEnabled:
                                 description: 'only port is enabled for newly created
                                   node pools in the cluster. It is strongly recommended
@@ -6947,6 +7975,19 @@ spec:
                     type: array
                   operation:
                     type: string
+                  podAutoscaling:
+                    description: |-
+                      Configuration for the
+                      Structure is documented below.
+                    items:
+                      properties:
+                        hpaProfile:
+                          description: |-
+                            Enable the Horizontal Pod Autoscaling profile for this cluster.
+                            Acceptable values are:
+                          type: string
+                      type: object
+                    type: array
                   privateClusterConfig:
                     description: |-
                       Configuration for private clusters,
@@ -7082,6 +8123,18 @@ spec:
                           type: boolean
                       type: object
                     type: array
+                  secretManagerConfig:
+                    description: |-
+                      Configuration for the
+                      SecretManagerConfig feature.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        enabled:
+                          description: Enable the Secret Manager add-on for this cluster.
+                          type: boolean
+                      type: object
+                    type: array
                   securityPostureConfig:
                     description: Enable/Disable Security Posture API features for
                       the cluster. Structure is documented below.
@@ -7125,12 +8178,64 @@ spec:
                       The name or self_link of the Google Compute Engine
                       subnetwork in which the cluster's instances are launched.
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                   tpuIpv4CidrBlock:
                     description: |-
                       The IP address range of the Cloud TPUs in this cluster, in
                       CIDR
                       notation (e.g. 1.2.3.4/29).
                     type: string
+                  userManagedKeysConfig:
+                    description: The custom keys configuration of the cluster Structure
+                      is documented below.
+                    items:
+                      properties:
+                        aggregationCa:
+                          description: The Certificate Authority Service caPool to
+                            use for the aggreation CA in this cluster.
+                          type: string
+                        clusterCa:
+                          description: The Certificate Authority Service caPool to
+                            use for the cluster CA in this cluster.
+                          type: string
+                        controlPlaneDiskEncryptionKey:
+                          description: The Cloud KMS cryptoKey to use for Confidential
+                            Hyperdisk on the control plane nodes.
+                          type: string
+                        etcdApiCa:
+                          description: The Certificate Authority Service caPool to
+                            use for the etcd API CA in this cluster.
+                          type: string
+                        etcdPeerCa:
+                          description: The Certificate Authority Service caPool to
+                            use for the etcd peer CA in this cluster.
+                          type: string
+                        gkeopsEtcdBackupEncryptionKey:
+                          description: Resource path of the Cloud KMS cryptoKey to
+                            use for encryption of internal etcd backups.
+                          type: string
+                        serviceAccountSigningKeys:
+                          description: The Cloud KMS cryptoKeyVersions to use for
+                            signing service account JWTs issued by this cluster.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        serviceAccountVerificationKeys:
+                          description: The Cloud KMS cryptoKeyVersions to use for
+                            verifying service account JWTs issued by this cluster.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                      type: object
+                    type: array
                   verticalPodAutoscaling:
                     description: |-
                       Vertical Pod Autoscaling automatically adjusts the resources of pods controlled by it.
@@ -7773,6 +8878,8 @@ spec:
                           internal traffic
                         type: boolean
                     type: object
+                  deletionProtection:
+                    type: boolean
                   description:
                     description: Description of the cluster.
                     type: string
@@ -10005,6 +11112,8 @@ spec:
                           internal traffic
                         type: boolean
                     type: object
+                  deletionProtection:
+                    type: boolean
                   description:
                     description: Description of the cluster.
                     type: string

@@ -48,6 +48,10 @@ type DataTransferConfigInitParameters struct {
 	// Structure is documented below.
 	EmailPreferences []EmailPreferencesInitParameters `json:"emailPreferences,omitempty" tf:"email_preferences,omitempty"`
 
+	// Represents the encryption configuration for a transfer.
+	// Structure is documented below.
+	EncryptionConfiguration []EncryptionConfigurationInitParameters `json:"encryptionConfiguration,omitempty" tf:"encryption_configuration,omitempty"`
+
 	// The geographic location where the transfer config should reside.
 	// Examples: US, EU, asia-northeast1. The default value is US.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
@@ -122,6 +126,10 @@ type DataTransferConfigObservation struct {
 	// Structure is documented below.
 	EmailPreferences []EmailPreferencesObservation `json:"emailPreferences,omitempty" tf:"email_preferences,omitempty"`
 
+	// Represents the encryption configuration for a transfer.
+	// Structure is documented below.
+	EncryptionConfiguration []EncryptionConfigurationObservation `json:"encryptionConfiguration,omitempty" tf:"encryption_configuration,omitempty"`
+
 	// an identifier for the resource with format {{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -172,7 +180,7 @@ type DataTransferConfigObservation struct {
 	// Credentials may not be specified in both locations and will cause an error. Changing from one location
 	// to a different credential configuration in the config will require an apply to update state.
 	// Structure is documented below.
-	SensitiveParams []SensitiveParamsParameters `json:"sensitiveParams,omitempty" tf:"sensitive_params,omitempty"`
+	SensitiveParams []SensitiveParamsObservation `json:"sensitiveParams,omitempty" tf:"sensitive_params,omitempty"`
 
 	// Service account email. If this field is set, transfer config will
 	// be created with this service account credentials. It requires that
@@ -220,6 +228,11 @@ type DataTransferConfigParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	EmailPreferences []EmailPreferencesParameters `json:"emailPreferences,omitempty" tf:"email_preferences,omitempty"`
+
+	// Represents the encryption configuration for a transfer.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	EncryptionConfiguration []EncryptionConfigurationParameters `json:"encryptionConfiguration,omitempty" tf:"encryption_configuration,omitempty"`
 
 	// The geographic location where the transfer config should reside.
 	// Examples: US, EU, asia-northeast1. The default value is US.
@@ -296,6 +309,45 @@ type EmailPreferencesParameters struct {
 	EnableFailureEmail *bool `json:"enableFailureEmail" tf:"enable_failure_email,omitempty"`
 }
 
+type EncryptionConfigurationInitParameters struct {
+
+	// The name of the KMS key used for encrypting BigQuery data.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/kms/v1beta2.CryptoKey
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+
+	// Reference to a CryptoKey in kms to populate kmsKeyName.
+	// +kubebuilder:validation:Optional
+	KMSKeyNameRef *v1.Reference `json:"kmsKeyNameRef,omitempty" tf:"-"`
+
+	// Selector for a CryptoKey in kms to populate kmsKeyName.
+	// +kubebuilder:validation:Optional
+	KMSKeyNameSelector *v1.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
+}
+
+type EncryptionConfigurationObservation struct {
+
+	// The name of the KMS key used for encrypting BigQuery data.
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+}
+
+type EncryptionConfigurationParameters struct {
+
+	// The name of the KMS key used for encrypting BigQuery data.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/kms/v1beta2.CryptoKey
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+
+	// Reference to a CryptoKey in kms to populate kmsKeyName.
+	// +kubebuilder:validation:Optional
+	KMSKeyNameRef *v1.Reference `json:"kmsKeyNameRef,omitempty" tf:"-"`
+
+	// Selector for a CryptoKey in kms to populate kmsKeyName.
+	// +kubebuilder:validation:Optional
+	KMSKeyNameSelector *v1.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
+}
+
 type ScheduleOptionsInitParameters struct {
 
 	// If true, automatic scheduling of data transfer runs for this
@@ -369,17 +421,35 @@ type ScheduleOptionsParameters struct {
 }
 
 type SensitiveParamsInitParameters struct {
+	SecretAccessKeySecretRef *v1.SecretKeySelector `json:"secretAccessKeySecretRef,omitempty" tf:"-"`
+
+	// The Secret Access Key of the AWS account transferring data from.
+	// Note: This property is write-only and will not be read from the API.
+	SecretAccessKeyWo *string `json:"secretAccessKeyWo,omitempty" tf:"secret_access_key_wo,omitempty"`
+
+	SecretAccessKeyWoVersion *float64 `json:"secretAccessKeyWoVersion,omitempty" tf:"secret_access_key_wo_version,omitempty"`
 }
 
 type SensitiveParamsObservation struct {
+	// The Secret Access Key of the AWS account transferring data from.
+	// Note: This property is write-only and will not be read from the API.
+	SecretAccessKeyWo *string `json:"secretAccessKeyWo,omitempty" tf:"secret_access_key_wo,omitempty"`
+
+	SecretAccessKeyWoVersion *float64 `json:"secretAccessKeyWoVersion,omitempty" tf:"secret_access_key_wo_version,omitempty"`
 }
 
 type SensitiveParamsParameters struct {
 
+	// +kubebuilder:validation:Optional
+	SecretAccessKeySecretRef *v1.SecretKeySelector `json:"secretAccessKeySecretRef,omitempty" tf:"-"`
+
 	// The Secret Access Key of the AWS account transferring data from.
-	// Note: This property is sensitive and will not be displayed in the plan.
-	// +kubebuilder:validation:Required
-	SecretAccessKeySecretRef v1.SecretKeySelector `json:"secretAccessKeySecretRef" tf:"-"`
+	// Note: This property is write-only and will not be read from the API.
+	// +kubebuilder:validation:Optional
+	SecretAccessKeyWo *string `json:"secretAccessKeyWo,omitempty" tf:"secret_access_key_wo,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	SecretAccessKeyWoVersion *float64 `json:"secretAccessKeyWoVersion,omitempty" tf:"secret_access_key_wo_version,omitempty"`
 }
 
 // DataTransferConfigSpec defines the desired state of DataTransferConfig

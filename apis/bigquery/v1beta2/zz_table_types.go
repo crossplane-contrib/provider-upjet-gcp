@@ -1414,6 +1414,9 @@ type TableInitParameters struct {
 	// descending priority order.
 	Clustering []*string `json:"clustering,omitempty" tf:"clustering,omitempty"`
 
+	// When the field is set to false, deleting the table is allowed..
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
+
 	// The field description.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -1683,6 +1686,10 @@ type TableParameters struct {
 	// Selector for a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
 	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
+
+	// When the field is set to false, deleting the table is allowed..
+	// +kubebuilder:validation:Optional
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// The field description.
 	// +kubebuilder:validation:Optional

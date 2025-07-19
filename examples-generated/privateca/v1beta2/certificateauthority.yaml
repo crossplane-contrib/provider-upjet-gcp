@@ -22,6 +22,7 @@ spec:
             crlSign: true
           extendedKeyUsage:
           - {}
+    deletionProtection: true
     keySpec:
     - algorithm: RSA_PKCS1_4096_SHA256
     lifetime: ${10 * 365 * 24 * 3600}s

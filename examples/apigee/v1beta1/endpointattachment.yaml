@@ -29,9 +29,7 @@ metadata:
 spec:
   forProvider:
     location: us-central1
-    orgIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: apigee-endpoint-attachment
+    orgId: <org-id>
     serviceAttachmentSelector:
       matchLabels:
         testing.upbound.io/example-name: apigee-endpoint-attachment

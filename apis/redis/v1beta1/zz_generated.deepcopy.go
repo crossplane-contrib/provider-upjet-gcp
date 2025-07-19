@@ -1750,6 +1750,11 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 			(*out)[key] = outVal
 		}
 	}
+	if in.EffectiveReservedIPRange != nil {
+		in, out := &in.EffectiveReservedIPRange, &out.EffectiveReservedIPRange
+		*out = new(string)
+		**out = **in
+	}
 	if in.Host != nil {
 		in, out := &in.Host, &out.Host
 		*out = new(string)

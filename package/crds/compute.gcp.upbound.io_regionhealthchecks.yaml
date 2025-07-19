@@ -910,6 +910,10 @@ spec:
                           type: string
                       type: object
                     type: array
+                  healthCheckId:
+                    description: The unique identifier number for the resource. This
+                      identifier is defined by the server.
+                    type: number
                   healthyThreshold:
                     description: |-
                       A so-far unhealthy instance will be marked healthy after this many

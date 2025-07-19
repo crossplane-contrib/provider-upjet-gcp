@@ -763,6 +763,11 @@ func (in *MySQLProfileInitParameters) DeepCopyInto(out *MySQLProfileInitParamete
 		*out = new(string)
 		**out = **in
 	}
+	if in.PasswordSecretRef != nil {
+		in, out := &in.PasswordSecretRef, &out.PasswordSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
 	if in.Port != nil {
 		in, out := &in.Port, &out.Port
 		*out = new(float64)
@@ -774,6 +779,11 @@ func (in *MySQLProfileInitParameters) DeepCopyInto(out *MySQLProfileInitParamete
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.SecretManagerStoredPassword != nil {
+		in, out := &in.SecretManagerStoredPassword, &out.SecretManagerStoredPassword
+		*out = new(string)
+		**out = **in
 	}
 	if in.Username != nil {
 		in, out := &in.Username, &out.Username
@@ -812,6 +822,11 @@ func (in *MySQLProfileObservation) DeepCopyInto(out *MySQLProfileObservation) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.SecretManagerStoredPassword != nil {
+		in, out := &in.SecretManagerStoredPassword, &out.SecretManagerStoredPassword
+		*out = new(string)
+		**out = **in
+	}
 	if in.Username != nil {
 		in, out := &in.Username, &out.Username
 		*out = new(string)
@@ -837,7 +852,11 @@ func (in *MySQLProfileParameters) DeepCopyInto(out *MySQLProfileParameters) {
 		*out = new(string)
 		**out = **in
 	}
-	out.PasswordSecretRef = in.PasswordSecretRef
+	if in.PasswordSecretRef != nil {
+		in, out := &in.PasswordSecretRef, &out.PasswordSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
 	if in.Port != nil {
 		in, out := &in.Port, &out.Port
 		*out = new(float64)
@@ -849,6 +868,11 @@ func (in *MySQLProfileParameters) DeepCopyInto(out *MySQLProfileParameters) {
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.SecretManagerStoredPassword != nil {
+		in, out := &in.SecretManagerStoredPassword, &out.SecretManagerStoredPassword
+		*out = new(string)
+		**out = **in
 	}
 	if in.Username != nil {
 		in, out := &in.Username, &out.Username
@@ -896,9 +920,19 @@ func (in *OracleProfileInitParameters) DeepCopyInto(out *OracleProfileInitParame
 		*out = new(string)
 		**out = **in
 	}
+	if in.PasswordSecretRef != nil {
+		in, out := &in.PasswordSecretRef, &out.PasswordSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
 	if in.Port != nil {
 		in, out := &in.Port, &out.Port
 		*out = new(float64)
+		**out = **in
+	}
+	if in.SecretManagerStoredPassword != nil {
+		in, out := &in.SecretManagerStoredPassword, &out.SecretManagerStoredPassword
+		*out = new(string)
 		**out = **in
 	}
 	if in.Username != nil {
@@ -952,6 +986,11 @@ func (in *OracleProfileObservation) DeepCopyInto(out *OracleProfileObservation) 
 		*out = new(float64)
 		**out = **in
 	}
+	if in.SecretManagerStoredPassword != nil {
+		in, out := &in.SecretManagerStoredPassword, &out.SecretManagerStoredPassword
+		*out = new(string)
+		**out = **in
+	}
 	if in.Username != nil {
 		in, out := &in.Username, &out.Username
 		*out = new(string)
@@ -998,10 +1037,19 @@ func (in *OracleProfileParameters) DeepCopyInto(out *OracleProfileParameters) {
 		*out = new(string)
 		**out = **in
 	}
-	out.PasswordSecretRef = in.PasswordSecretRef
+	if in.PasswordSecretRef != nil {
+		in, out := &in.PasswordSecretRef, &out.PasswordSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
 	if in.Port != nil {
 		in, out := &in.Port, &out.Port
 		*out = new(float64)
+		**out = **in
+	}
+	if in.SecretManagerStoredPassword != nil {
+		in, out := &in.SecretManagerStoredPassword, &out.SecretManagerStoredPassword
+		*out = new(string)
 		**out = **in
 	}
 	if in.Username != nil {
@@ -1054,9 +1102,19 @@ func (in *PostgresqlProfileInitParameters) DeepCopyInto(out *PostgresqlProfileIn
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.PasswordSecretRef != nil {
+		in, out := &in.PasswordSecretRef, &out.PasswordSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
 	if in.Port != nil {
 		in, out := &in.Port, &out.Port
 		*out = new(float64)
+		**out = **in
+	}
+	if in.SecretManagerStoredPassword != nil {
+		in, out := &in.SecretManagerStoredPassword, &out.SecretManagerStoredPassword
+		*out = new(string)
 		**out = **in
 	}
 	if in.Username != nil {
@@ -1102,6 +1160,11 @@ func (in *PostgresqlProfileObservation) DeepCopyInto(out *PostgresqlProfileObser
 	if in.Port != nil {
 		in, out := &in.Port, &out.Port
 		*out = new(float64)
+		**out = **in
+	}
+	if in.SecretManagerStoredPassword != nil {
+		in, out := &in.SecretManagerStoredPassword, &out.SecretManagerStoredPassword
+		*out = new(string)
 		**out = **in
 	}
 	if in.Username != nil {
@@ -1154,10 +1217,19 @@ func (in *PostgresqlProfileParameters) DeepCopyInto(out *PostgresqlProfileParame
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
 	}
-	out.PasswordSecretRef = in.PasswordSecretRef
+	if in.PasswordSecretRef != nil {
+		in, out := &in.PasswordSecretRef, &out.PasswordSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
 	if in.Port != nil {
 		in, out := &in.Port, &out.Port
 		*out = new(float64)
+		**out = **in
+	}
+	if in.SecretManagerStoredPassword != nil {
+		in, out := &in.SecretManagerStoredPassword, &out.SecretManagerStoredPassword
+		*out = new(string)
 		**out = **in
 	}
 	if in.Username != nil {
@@ -1247,6 +1319,13 @@ func (in *PrivateConnectionInitParameters) DeepCopyInto(out *PrivateConnectionIn
 		in, out := &in.Project, &out.Project
 		*out = new(string)
 		**out = **in
+	}
+	if in.PscInterfaceConfig != nil {
+		in, out := &in.PscInterfaceConfig, &out.PscInterfaceConfig
+		*out = make([]PscInterfaceConfigInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.VPCPeeringConfig != nil {
 		in, out := &in.VPCPeeringConfig, &out.VPCPeeringConfig
@@ -1371,6 +1450,13 @@ func (in *PrivateConnectionObservation) DeepCopyInto(out *PrivateConnectionObser
 		*out = new(string)
 		**out = **in
 	}
+	if in.PscInterfaceConfig != nil {
+		in, out := &in.PscInterfaceConfig, &out.PscInterfaceConfig
+		*out = make([]PscInterfaceConfigObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
 	if in.State != nil {
 		in, out := &in.State, &out.State
 		*out = new(string)
@@ -1449,6 +1535,13 @@ func (in *PrivateConnectionParameters) DeepCopyInto(out *PrivateConnectionParame
 		in, out := &in.Project, &out.Project
 		*out = new(string)
 		**out = **in
+	}
+	if in.PscInterfaceConfig != nil {
+		in, out := &in.PscInterfaceConfig, &out.PscInterfaceConfig
+		*out = make([]PscInterfaceConfigParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.VPCPeeringConfig != nil {
 		in, out := &in.VPCPeeringConfig, &out.VPCPeeringConfig
@@ -1585,6 +1678,66 @@ func (in *PrivateConnectivityParameters) DeepCopy() *PrivateConnectivityParamete
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *PscInterfaceConfigInitParameters) DeepCopyInto(out *PscInterfaceConfigInitParameters) {
+	*out = *in
+	if in.NetworkAttachment != nil {
+		in, out := &in.NetworkAttachment, &out.NetworkAttachment
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new PscInterfaceConfigInitParameters.
+func (in *PscInterfaceConfigInitParameters) DeepCopy() *PscInterfaceConfigInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(PscInterfaceConfigInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *PscInterfaceConfigObservation) DeepCopyInto(out *PscInterfaceConfigObservation) {
+	*out = *in
+	if in.NetworkAttachment != nil {
+		in, out := &in.NetworkAttachment, &out.NetworkAttachment
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new PscInterfaceConfigObservation.
+func (in *PscInterfaceConfigObservation) DeepCopy() *PscInterfaceConfigObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(PscInterfaceConfigObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *PscInterfaceConfigParameters) DeepCopyInto(out *PscInterfaceConfigParameters) {
+	*out = *in
+	if in.NetworkAttachment != nil {
+		in, out := &in.NetworkAttachment, &out.NetworkAttachment
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new PscInterfaceConfigParameters.
+func (in *PscInterfaceConfigParameters) DeepCopy() *PscInterfaceConfigParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(PscInterfaceConfigParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *SQLServerProfileInitParameters) DeepCopyInto(out *SQLServerProfileInitParameters) {
 	*out = *in
 	if in.Database != nil {
@@ -1617,10 +1770,19 @@ func (in *SQLServerProfileInitParameters) DeepCopyInto(out *SQLServerProfileInit
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
 	}
-	out.PasswordSecretRef = in.PasswordSecretRef
+	if in.PasswordSecretRef != nil {
+		in, out := &in.PasswordSecretRef, &out.PasswordSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
 	if in.Port != nil {
 		in, out := &in.Port, &out.Port
 		*out = new(float64)
+		**out = **in
+	}
+	if in.SecretManagerStoredPassword != nil {
+		in, out := &in.SecretManagerStoredPassword, &out.SecretManagerStoredPassword
+		*out = new(string)
 		**out = **in
 	}
 	if in.Username != nil {
@@ -1666,6 +1828,11 @@ func (in *SQLServerProfileObservation) DeepCopyInto(out *SQLServerProfileObserva
 	if in.Port != nil {
 		in, out := &in.Port, &out.Port
 		*out = new(float64)
+		**out = **in
+	}
+	if in.SecretManagerStoredPassword != nil {
+		in, out := &in.SecretManagerStoredPassword, &out.SecretManagerStoredPassword
+		*out = new(string)
 		**out = **in
 	}
 	if in.Username != nil {
@@ -1718,10 +1885,19 @@ func (in *SQLServerProfileParameters) DeepCopyInto(out *SQLServerProfileParamete
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
 	}
-	out.PasswordSecretRef = in.PasswordSecretRef
+	if in.PasswordSecretRef != nil {
+		in, out := &in.PasswordSecretRef, &out.PasswordSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
 	if in.Port != nil {
 		in, out := &in.Port, &out.Port
 		*out = new(float64)
+		**out = **in
+	}
+	if in.SecretManagerStoredPassword != nil {
+		in, out := &in.SecretManagerStoredPassword, &out.SecretManagerStoredPassword
+		*out = new(string)
 		**out = **in
 	}
 	if in.Username != nil {

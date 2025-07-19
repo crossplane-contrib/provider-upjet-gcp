@@ -217,7 +217,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 	}
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.PostgresqlProfile); i3++ {
 		{
-			m, l, err = apisresolver.GetManagedResource("sql.gcp.upbound.io", "v1beta1", "User", "UserList")
+			m, l, err = apisresolver.GetManagedResource("sql.gcp.upbound.io", "v1beta2", "User", "UserList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}

@@ -79,6 +79,38 @@ spec:
                       Structure is documented below.
                     items:
                       properties:
+                        condition:
+                          description: |-
+                            Condition for the binding. If CEL expression in this field is true, this
+                            access binding will be considered.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              description:
+                                description: A user-friendly description of the dataset
+                                type: string
+                              expression:
+                                description: Textual representation of an expression
+                                  in Common Expression Language syntax.
+                                type: string
+                              location:
+                                description: |-
+                                  The geographic location where the dataset should reside.
+                                  See official docs.
+                                  There are two types of locations, regional or multi-regional. A regional
+                                  location is a specific geographic place, such as Tokyo, and a multi-regional
+                                  location is a large geographic area, such as the United States, that
+                                  contains at least two geographic places.
+                                  The default value is multi-regional location US.
+                                  Changing this forces a new resource to be created.
+                                type: string
+                              title:
+                                description: |-
+                                  Title for the expression, i.e. a short string describing its purpose.
+                                  This can be used e.g. in UIs which allow to enter the expression.
+                                type: string
+                            type: object
+                          type: array
                         dataset:
                           description: |-
                             Grants all resources of particular types in a particular dataset read access to the current dataset.
@@ -696,6 +728,28 @@ spec:
                   description:
                     description: A user-friendly description of the dataset
                     type: string
+                  externalCatalogDatasetOptions:
+                    description: |-
+                      Options defining open source compatible datasets living in the BigQuery catalog. Contains
+                      metadata of open source database, schema or namespace represented by the current dataset.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        defaultStorageLocationUri:
+                          description: |-
+                            The storage location URI for all tables in the dataset. Equivalent to hive metastore's
+                            database locationUri. Maximum length of 1024 characters.
+                          type: string
+                        parameters:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            A map of key value pairs defining the parameters and properties of the open source schema.
+                            Maximum size of 2Mib.
+                          type: object
+                          x-kubernetes-map-type: granular
+                      type: object
+                    type: array
                   externalDatasetReference:
                     description: |-
                       Information about the external metadata storage where the dataset is defined.
@@ -781,6 +835,38 @@ spec:
                       Structure is documented below.
                     items:
                       properties:
+                        condition:
+                          description: |-
+                            Condition for the binding. If CEL expression in this field is true, this
+                            access binding will be considered.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              description:
+                                description: A user-friendly description of the dataset
+                                type: string
+                              expression:
+                                description: Textual representation of an expression
+                                  in Common Expression Language syntax.
+                                type: string
+                              location:
+                                description: |-
+                                  The geographic location where the dataset should reside.
+                                  See official docs.
+                                  There are two types of locations, regional or multi-regional. A regional
+                                  location is a specific geographic place, such as Tokyo, and a multi-regional
+                                  location is a large geographic area, such as the United States, that
+                                  contains at least two geographic places.
+                                  The default value is multi-regional location US.
+                                  Changing this forces a new resource to be created.
+                                type: string
+                              title:
+                                description: |-
+                                  Title for the expression, i.e. a short string describing its purpose.
+                                  This can be used e.g. in UIs which allow to enter the expression.
+                                type: string
+                            type: object
+                          type: array
                         dataset:
                           description: |-
                             Grants all resources of particular types in a particular dataset read access to the current dataset.
@@ -1398,6 +1484,28 @@ spec:
                   description:
                     description: A user-friendly description of the dataset
                     type: string
+                  externalCatalogDatasetOptions:
+                    description: |-
+                      Options defining open source compatible datasets living in the BigQuery catalog. Contains
+                      metadata of open source database, schema or namespace represented by the current dataset.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        defaultStorageLocationUri:
+                          description: |-
+                            The storage location URI for all tables in the dataset. Equivalent to hive metastore's
+                            database locationUri. Maximum length of 1024 characters.
+                          type: string
+                        parameters:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            A map of key value pairs defining the parameters and properties of the open source schema.
+                            Maximum size of 2Mib.
+                          type: object
+                          x-kubernetes-map-type: granular
+                      type: object
+                    type: array
                   externalDatasetReference:
                     description: |-
                       Information about the external metadata storage where the dataset is defined.
@@ -1637,6 +1745,38 @@ spec:
                       Structure is documented below.
                     items:
                       properties:
+                        condition:
+                          description: |-
+                            Condition for the binding. If CEL expression in this field is true, this
+                            access binding will be considered.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              description:
+                                description: A user-friendly description of the dataset
+                                type: string
+                              expression:
+                                description: Textual representation of an expression
+                                  in Common Expression Language syntax.
+                                type: string
+                              location:
+                                description: |-
+                                  The geographic location where the dataset should reside.
+                                  See official docs.
+                                  There are two types of locations, regional or multi-regional. A regional
+                                  location is a specific geographic place, such as Tokyo, and a multi-regional
+                                  location is a large geographic area, such as the United States, that
+                                  contains at least two geographic places.
+                                  The default value is multi-regional location US.
+                                  Changing this forces a new resource to be created.
+                                type: string
+                              title:
+                                description: |-
+                                  Title for the expression, i.e. a short string describing its purpose.
+                                  This can be used e.g. in UIs which allow to enter the expression.
+                                type: string
+                            type: object
+                          type: array
                         dataset:
                           description: |-
                             Grants all resources of particular types in a particular dataset read access to the current dataset.
@@ -1812,6 +1952,28 @@ spec:
                   etag:
                     description: A hash of the resource.
                     type: string
+                  externalCatalogDatasetOptions:
+                    description: |-
+                      Options defining open source compatible datasets living in the BigQuery catalog. Contains
+                      metadata of open source database, schema or namespace represented by the current dataset.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        defaultStorageLocationUri:
+                          description: |-
+                            The storage location URI for all tables in the dataset. Equivalent to hive metastore's
+                            database locationUri. Maximum length of 1024 characters.
+                          type: string
+                        parameters:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            A map of key value pairs defining the parameters and properties of the open source schema.
+                            Maximum size of 2Mib.
+                          type: object
+                          x-kubernetes-map-type: granular
+                      type: object
+                    type: array
                   externalDatasetReference:
                     description: |-
                       Information about the external metadata storage where the dataset is defined.

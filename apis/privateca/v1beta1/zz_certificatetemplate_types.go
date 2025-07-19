@@ -311,31 +311,66 @@ type PredefinedValuesAdditionalExtensionsParameters struct {
 
 type PredefinedValuesCAOptionsInitParameters struct {
 
-	// Optional. Refers to the "CA" X.509 extension, which is a boolean value. When this value is missing, the extension will be omitted from the CA certificate.
+	// Optional. Refers to the "CA" X.509 extension, which is a boolean value. When this value is true, the "CA" in Basic Constraints extension will be set to true.
 	IsCA *bool `json:"isCa,omitempty" tf:"is_ca,omitempty"`
 
-	// Optional. Refers to the path length restriction X.509 extension. For a CA certificate, this value describes the depth of subordinate CA certificates that are allowed. If this value is less than 0, the request will fail. If this value is missing, the max path length will be omitted from the CA certificate.
+	// Optional. Refers to the "path length constraint" in Basic Constraints extension. For a CA certificate, this value describes the depth of
+	// subordinate CA certificates that are allowed. If this value is less than 0, the request will fail.
 	MaxIssuerPathLength *float64 `json:"maxIssuerPathLength,omitempty" tf:"max_issuer_path_length,omitempty"`
+
+	// Optional. When true, the "CA" in Basic Constraints extension will be set to null and omitted from the CA certificate.
+	// If both is_ca and null_ca are unset, the "CA" in Basic Constraints extension will be set to false.
+	// Note that the behavior when is_ca = false for this resource is different from the behavior in the Certificate Authority, Certificate and CaPool resources.
+	NullCA *bool `json:"nullCa,omitempty" tf:"null_ca,omitempty"`
+
+	// Optional. When true, the "path length constraint" in Basic Constraints extension will be set to 0.
+	// if both max_issuer_path_length and zero_max_issuer_path_length are unset,
+	// the max path length will be omitted from the CA certificate.
+	ZeroMaxIssuerPathLength *bool `json:"zeroMaxIssuerPathLength,omitempty" tf:"zero_max_issuer_path_length,omitempty"`
 }
 
 type PredefinedValuesCAOptionsObservation struct {
 
-	// Optional. Refers to the "CA" X.509 extension, which is a boolean value. When this value is missing, the extension will be omitted from the CA certificate.
+	// Optional. Refers to the "CA" X.509 extension, which is a boolean value. When this value is true, the "CA" in Basic Constraints extension will be set to true.
 	IsCA *bool `json:"isCa,omitempty" tf:"is_ca,omitempty"`
 
-	// Optional. Refers to the path length restriction X.509 extension. For a CA certificate, this value describes the depth of subordinate CA certificates that are allowed. If this value is less than 0, the request will fail. If this value is missing, the max path length will be omitted from the CA certificate.
+	// Optional. Refers to the "path length constraint" in Basic Constraints extension. For a CA certificate, this value describes the depth of
+	// subordinate CA certificates that are allowed. If this value is less than 0, the request will fail.
 	MaxIssuerPathLength *float64 `json:"maxIssuerPathLength,omitempty" tf:"max_issuer_path_length,omitempty"`
+
+	// Optional. When true, the "CA" in Basic Constraints extension will be set to null and omitted from the CA certificate.
+	// If both is_ca and null_ca are unset, the "CA" in Basic Constraints extension will be set to false.
+	// Note that the behavior when is_ca = false for this resource is different from the behavior in the Certificate Authority, Certificate and CaPool resources.
+	NullCA *bool `json:"nullCa,omitempty" tf:"null_ca,omitempty"`
+
+	// Optional. When true, the "path length constraint" in Basic Constraints extension will be set to 0.
+	// if both max_issuer_path_length and zero_max_issuer_path_length are unset,
+	// the max path length will be omitted from the CA certificate.
+	ZeroMaxIssuerPathLength *bool `json:"zeroMaxIssuerPathLength,omitempty" tf:"zero_max_issuer_path_length,omitempty"`
 }
 
 type PredefinedValuesCAOptionsParameters struct {
 
-	// Optional. Refers to the "CA" X.509 extension, which is a boolean value. When this value is missing, the extension will be omitted from the CA certificate.
+	// Optional. Refers to the "CA" X.509 extension, which is a boolean value. When this value is true, the "CA" in Basic Constraints extension will be set to true.
 	// +kubebuilder:validation:Optional
 	IsCA *bool `json:"isCa,omitempty" tf:"is_ca,omitempty"`
 
-	// Optional. Refers to the path length restriction X.509 extension. For a CA certificate, this value describes the depth of subordinate CA certificates that are allowed. If this value is less than 0, the request will fail. If this value is missing, the max path length will be omitted from the CA certificate.
+	// Optional. Refers to the "path length constraint" in Basic Constraints extension. For a CA certificate, this value describes the depth of
+	// subordinate CA certificates that are allowed. If this value is less than 0, the request will fail.
 	// +kubebuilder:validation:Optional
 	MaxIssuerPathLength *float64 `json:"maxIssuerPathLength,omitempty" tf:"max_issuer_path_length,omitempty"`
+
+	// Optional. When true, the "CA" in Basic Constraints extension will be set to null and omitted from the CA certificate.
+	// If both is_ca and null_ca are unset, the "CA" in Basic Constraints extension will be set to false.
+	// Note that the behavior when is_ca = false for this resource is different from the behavior in the Certificate Authority, Certificate and CaPool resources.
+	// +kubebuilder:validation:Optional
+	NullCA *bool `json:"nullCa,omitempty" tf:"null_ca,omitempty"`
+
+	// Optional. When true, the "path length constraint" in Basic Constraints extension will be set to 0.
+	// if both max_issuer_path_length and zero_max_issuer_path_length are unset,
+	// the max path length will be omitted from the CA certificate.
+	// +kubebuilder:validation:Optional
+	ZeroMaxIssuerPathLength *bool `json:"zeroMaxIssuerPathLength,omitempty" tf:"zero_max_issuer_path_length,omitempty"`
 }
 
 type PredefinedValuesInitParameters struct {
@@ -351,6 +386,10 @@ type PredefinedValuesInitParameters struct {
 
 	// Optional. Indicates the intended use for keys that correspond to a certificate.
 	KeyUsage []PredefinedValuesKeyUsageInitParameters `json:"keyUsage,omitempty" tf:"key_usage,omitempty"`
+
+	// Describes the X.509 name constraints extension.
+	// Structure is documented below.
+	NameConstraints []PredefinedValuesNameConstraintsInitParameters `json:"nameConstraints,omitempty" tf:"name_constraints,omitempty"`
 
 	// Optional. Describes the X.509 certificate policy object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
 	PolicyIds []PredefinedValuesPolicyIdsInitParameters `json:"policyIds,omitempty" tf:"policy_ids,omitempty"`
@@ -582,6 +621,177 @@ type PredefinedValuesKeyUsageUnknownExtendedKeyUsagesParameters struct {
 	ObjectIDPath []*float64 `json:"objectIdPath" tf:"object_id_path,omitempty"`
 }
 
+type PredefinedValuesNameConstraintsInitParameters struct {
+
+	// Indicates whether or not the name constraints are marked critical.
+	Critical *bool `json:"critical,omitempty" tf:"critical,omitempty"`
+
+	// Contains excluded DNS names. Any DNS name that can be
+	// constructed by simply adding zero or more labels to
+	// the left-hand side of the name satisfies the name constraint.
+	// For example, example.com, www.example.com, www.sub.example.com
+	// would satisfy example.com while example1.com does not.
+	ExcludedDNSNames []*string `json:"excludedDnsNames,omitempty" tf:"excluded_dns_names,omitempty"`
+
+	// Contains the excluded email addresses. The value can be a particular
+	// email address, a hostname to indicate all email addresses on that host or
+	// a domain with a leading period (e.g. .example.com) to indicate
+	// all email addresses in that domain.
+	ExcludedEmailAddresses []*string `json:"excludedEmailAddresses,omitempty" tf:"excluded_email_addresses,omitempty"`
+
+	// Contains the excluded IP ranges. For IPv4 addresses, the ranges
+	// are expressed using CIDR notation as specified in RFC 4632.
+	// For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+	// addresses.
+	ExcludedIPRanges []*string `json:"excludedIpRanges,omitempty" tf:"excluded_ip_ranges,omitempty"`
+
+	// Contains the excluded URIs that apply to the host part of the name.
+	// The value can be a hostname or a domain with a
+	// leading period (like .example.com)
+	ExcludedUris []*string `json:"excludedUris,omitempty" tf:"excluded_uris,omitempty"`
+
+	// Contains permitted DNS names. Any DNS name that can be
+	// constructed by simply adding zero or more labels to
+	// the left-hand side of the name satisfies the name constraint.
+	// For example, example.com, www.example.com, www.sub.example.com
+	// would satisfy example.com while example1.com does not.
+	PermittedDNSNames []*string `json:"permittedDnsNames,omitempty" tf:"permitted_dns_names,omitempty"`
+
+	// Contains the permitted email addresses. The value can be a particular
+	// email address, a hostname to indicate all email addresses on that host or
+	// a domain with a leading period (e.g. .example.com) to indicate
+	// all email addresses in that domain.
+	PermittedEmailAddresses []*string `json:"permittedEmailAddresses,omitempty" tf:"permitted_email_addresses,omitempty"`
+
+	// Contains the permitted IP ranges. For IPv4 addresses, the ranges
+	// are expressed using CIDR notation as specified in RFC 4632.
+	// For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+	// addresses.
+	PermittedIPRanges []*string `json:"permittedIpRanges,omitempty" tf:"permitted_ip_ranges,omitempty"`
+
+	// Contains the permitted URIs that apply to the host part of the name.
+	// The value can be a hostname or a domain with a
+	// leading period (like .example.com)
+	PermittedUris []*string `json:"permittedUris,omitempty" tf:"permitted_uris,omitempty"`
+}
+
+type PredefinedValuesNameConstraintsObservation struct {
+
+	// Indicates whether or not the name constraints are marked critical.
+	Critical *bool `json:"critical,omitempty" tf:"critical,omitempty"`
+
+	// Contains excluded DNS names. Any DNS name that can be
+	// constructed by simply adding zero or more labels to
+	// the left-hand side of the name satisfies the name constraint.
+	// For example, example.com, www.example.com, www.sub.example.com
+	// would satisfy example.com while example1.com does not.
+	ExcludedDNSNames []*string `json:"excludedDnsNames,omitempty" tf:"excluded_dns_names,omitempty"`
+
+	// Contains the excluded email addresses. The value can be a particular
+	// email address, a hostname to indicate all email addresses on that host or
+	// a domain with a leading period (e.g. .example.com) to indicate
+	// all email addresses in that domain.
+	ExcludedEmailAddresses []*string `json:"excludedEmailAddresses,omitempty" tf:"excluded_email_addresses,omitempty"`
+
+	// Contains the excluded IP ranges. For IPv4 addresses, the ranges
+	// are expressed using CIDR notation as specified in RFC 4632.
+	// For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+	// addresses.
+	ExcludedIPRanges []*string `json:"excludedIpRanges,omitempty" tf:"excluded_ip_ranges,omitempty"`
+
+	// Contains the excluded URIs that apply to the host part of the name.
+	// The value can be a hostname or a domain with a
+	// leading period (like .example.com)
+	ExcludedUris []*string `json:"excludedUris,omitempty" tf:"excluded_uris,omitempty"`
+
+	// Contains permitted DNS names. Any DNS name that can be
+	// constructed by simply adding zero or more labels to
+	// the left-hand side of the name satisfies the name constraint.
+	// For example, example.com, www.example.com, www.sub.example.com
+	// would satisfy example.com while example1.com does not.
+	PermittedDNSNames []*string `json:"permittedDnsNames,omitempty" tf:"permitted_dns_names,omitempty"`
+
+	// Contains the permitted email addresses. The value can be a particular
+	// email address, a hostname to indicate all email addresses on that host or
+	// a domain with a leading period (e.g. .example.com) to indicate
+	// all email addresses in that domain.
+	PermittedEmailAddresses []*string `json:"permittedEmailAddresses,omitempty" tf:"permitted_email_addresses,omitempty"`
+
+	// Contains the permitted IP ranges. For IPv4 addresses, the ranges
+	// are expressed using CIDR notation as specified in RFC 4632.
+	// For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+	// addresses.
+	PermittedIPRanges []*string `json:"permittedIpRanges,omitempty" tf:"permitted_ip_ranges,omitempty"`
+
+	// Contains the permitted URIs that apply to the host part of the name.
+	// The value can be a hostname or a domain with a
+	// leading period (like .example.com)
+	PermittedUris []*string `json:"permittedUris,omitempty" tf:"permitted_uris,omitempty"`
+}
+
+type PredefinedValuesNameConstraintsParameters struct {
+
+	// Indicates whether or not the name constraints are marked critical.
+	// +kubebuilder:validation:Optional
+	Critical *bool `json:"critical" tf:"critical,omitempty"`
+
+	// Contains excluded DNS names. Any DNS name that can be
+	// constructed by simply adding zero or more labels to
+	// the left-hand side of the name satisfies the name constraint.
+	// For example, example.com, www.example.com, www.sub.example.com
+	// would satisfy example.com while example1.com does not.
+	// +kubebuilder:validation:Optional
+	ExcludedDNSNames []*string `json:"excludedDnsNames,omitempty" tf:"excluded_dns_names,omitempty"`
+
+	// Contains the excluded email addresses. The value can be a particular
+	// email address, a hostname to indicate all email addresses on that host or
+	// a domain with a leading period (e.g. .example.com) to indicate
+	// all email addresses in that domain.
+	// +kubebuilder:validation:Optional
+	ExcludedEmailAddresses []*string `json:"excludedEmailAddresses,omitempty" tf:"excluded_email_addresses,omitempty"`
+
+	// Contains the excluded IP ranges. For IPv4 addresses, the ranges
+	// are expressed using CIDR notation as specified in RFC 4632.
+	// For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+	// addresses.
+	// +kubebuilder:validation:Optional
+	ExcludedIPRanges []*string `json:"excludedIpRanges,omitempty" tf:"excluded_ip_ranges,omitempty"`
+
+	// Contains the excluded URIs that apply to the host part of the name.
+	// The value can be a hostname or a domain with a
+	// leading period (like .example.com)
+	// +kubebuilder:validation:Optional
+	ExcludedUris []*string `json:"excludedUris,omitempty" tf:"excluded_uris,omitempty"`
+
+	// Contains permitted DNS names. Any DNS name that can be
+	// constructed by simply adding zero or more labels to
+	// the left-hand side of the name satisfies the name constraint.
+	// For example, example.com, www.example.com, www.sub.example.com
+	// would satisfy example.com while example1.com does not.
+	// +kubebuilder:validation:Optional
+	PermittedDNSNames []*string `json:"permittedDnsNames,omitempty" tf:"permitted_dns_names,omitempty"`
+
+	// Contains the permitted email addresses. The value can be a particular
+	// email address, a hostname to indicate all email addresses on that host or
+	// a domain with a leading period (e.g. .example.com) to indicate
+	// all email addresses in that domain.
+	// +kubebuilder:validation:Optional
+	PermittedEmailAddresses []*string `json:"permittedEmailAddresses,omitempty" tf:"permitted_email_addresses,omitempty"`
+
+	// Contains the permitted IP ranges. For IPv4 addresses, the ranges
+	// are expressed using CIDR notation as specified in RFC 4632.
+	// For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+	// addresses.
+	// +kubebuilder:validation:Optional
+	PermittedIPRanges []*string `json:"permittedIpRanges,omitempty" tf:"permitted_ip_ranges,omitempty"`
+
+	// Contains the permitted URIs that apply to the host part of the name.
+	// The value can be a hostname or a domain with a
+	// leading period (like .example.com)
+	// +kubebuilder:validation:Optional
+	PermittedUris []*string `json:"permittedUris,omitempty" tf:"permitted_uris,omitempty"`
+}
+
 type PredefinedValuesObservation struct {
 
 	// Optional. Describes custom X.509 extensions.
@@ -595,6 +805,10 @@ type PredefinedValuesObservation struct {
 
 	// Optional. Indicates the intended use for keys that correspond to a certificate.
 	KeyUsage []PredefinedValuesKeyUsageObservation `json:"keyUsage,omitempty" tf:"key_usage,omitempty"`
+
+	// Describes the X.509 name constraints extension.
+	// Structure is documented below.
+	NameConstraints []PredefinedValuesNameConstraintsObservation `json:"nameConstraints,omitempty" tf:"name_constraints,omitempty"`
 
 	// Optional. Describes the X.509 certificate policy object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
 	PolicyIds []PredefinedValuesPolicyIdsObservation `json:"policyIds,omitempty" tf:"policy_ids,omitempty"`
@@ -617,6 +831,11 @@ type PredefinedValuesParameters struct {
 	// Optional. Indicates the intended use for keys that correspond to a certificate.
 	// +kubebuilder:validation:Optional
 	KeyUsage []PredefinedValuesKeyUsageParameters `json:"keyUsage,omitempty" tf:"key_usage,omitempty"`
+
+	// Describes the X.509 name constraints extension.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	NameConstraints []PredefinedValuesNameConstraintsParameters `json:"nameConstraints,omitempty" tf:"name_constraints,omitempty"`
 
 	// Optional. Describes the X.509 certificate policy object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
 	// +kubebuilder:validation:Optional

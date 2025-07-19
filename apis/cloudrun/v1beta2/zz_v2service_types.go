@@ -1239,6 +1239,10 @@ type V2ServiceInitParameters struct {
 	// For more information, see https://cloud.google.com/run/docs/configuring/custom-audiences.
 	CustomAudiences []*string `json:"customAudiences,omitempty" tf:"custom_audiences,omitempty"`
 
+	// Defaults to true.
+	// When the field is set to false, deleting the service is allowed.
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
+
 	// User-provided description of the Service. This field currently has a 512-character limit.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -1467,6 +1471,11 @@ type V2ServiceParameters struct {
 	// For more information, see https://cloud.google.com/run/docs/configuring/custom-audiences.
 	// +kubebuilder:validation:Optional
 	CustomAudiences []*string `json:"customAudiences,omitempty" tf:"custom_audiences,omitempty"`
+
+	// Defaults to true.
+	// When the field is set to false, deleting the service is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// User-provided description of the Service. This field currently has a 512-character limit.
 	// +kubebuilder:validation:Optional

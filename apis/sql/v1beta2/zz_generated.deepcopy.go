@@ -902,6 +902,11 @@ func (in *DatabaseInstanceInitParameters) DeepCopyInto(out *DatabaseInstanceInit
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionProtection != nil {
+		in, out := &in.DeletionProtection, &out.DeletionProtection
+		*out = new(bool)
+		**out = **in
+	}
 	if in.EncryptionKeyName != nil {
 		in, out := &in.EncryptionKeyName, &out.EncryptionKeyName
 		*out = new(string)
@@ -1179,6 +1184,11 @@ func (in *DatabaseInstanceParameters) DeepCopyInto(out *DatabaseInstanceParamete
 	if in.DatabaseVersion != nil {
 		in, out := &in.DatabaseVersion, &out.DatabaseVersion
 		*out = new(string)
+		**out = **in
+	}
+	if in.DeletionProtection != nil {
+		in, out := &in.DeletionProtection, &out.DeletionProtection
+		*out = new(bool)
 		**out = **in
 	}
 	if in.EncryptionKeyName != nil {

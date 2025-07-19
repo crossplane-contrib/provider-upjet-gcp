@@ -253,6 +253,27 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 	mg.Spec.ForProvider.ManagedZoneRef = rsp.ResolvedReference
 
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.RoutingPolicy); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "HealthCheck", "HealthCheckList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RoutingPolicy[i3].HealthCheck),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.ForProvider.RoutingPolicy[i3].HealthCheckRef,
+				Selector:     mg.Spec.ForProvider.RoutingPolicy[i3].HealthCheckSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.RoutingPolicy[i3].HealthCheck")
+		}
+		mg.Spec.ForProvider.RoutingPolicy[i3].HealthCheck = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.RoutingPolicy[i3].HealthCheckRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.RoutingPolicy); i3++ {
 		for i4 := 0; i4 < len(mg.Spec.ForProvider.RoutingPolicy[i3].PrimaryBackup); i4++ {
 			for i5 := 0; i5 < len(mg.Spec.ForProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary); i5++ {
 				for i6 := 0; i6 < len(mg.Spec.ForProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers); i6++ {
@@ -379,6 +400,27 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 	mg.Spec.InitProvider.ManagedZone = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ManagedZoneRef = rsp.ResolvedReference
 
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.RoutingPolicy); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "HealthCheck", "HealthCheckList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RoutingPolicy[i3].HealthCheck),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.InitProvider.RoutingPolicy[i3].HealthCheckRef,
+				Selector:     mg.Spec.InitProvider.RoutingPolicy[i3].HealthCheckSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.RoutingPolicy[i3].HealthCheck")
+		}
+		mg.Spec.InitProvider.RoutingPolicy[i3].HealthCheck = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.RoutingPolicy[i3].HealthCheckRef = rsp.ResolvedReference
+
+	}
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.RoutingPolicy); i3++ {
 		for i4 := 0; i4 < len(mg.Spec.InitProvider.RoutingPolicy[i3].PrimaryBackup); i4++ {
 			for i5 := 0; i5 < len(mg.Spec.InitProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary); i5++ {

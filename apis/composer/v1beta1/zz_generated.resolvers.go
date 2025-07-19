@@ -75,7 +75,7 @@ func (mg *Environment) ResolveReferences( // ResolveReferences of this Environme
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.Config); i3++ {
 		for i4 := 0; i4 < len(mg.Spec.ForProvider.Config[i3].NodeConfig); i4++ {
 			{
-				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Subnetwork", "SubnetworkList")
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Subnetwork", "SubnetworkList")
 				if err != nil {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
@@ -163,7 +163,7 @@ func (mg *Environment) ResolveReferences( // ResolveReferences of this Environme
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.Config); i3++ {
 		for i4 := 0; i4 < len(mg.Spec.InitProvider.Config[i3].NodeConfig); i4++ {
 			{
-				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Subnetwork", "SubnetworkList")
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Subnetwork", "SubnetworkList")
 				if err != nil {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}

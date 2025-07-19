@@ -44,6 +44,7 @@ metadata:
   name: folder
 spec:
   forProvider:
+    deletionProtection: false
     displayName: my-folder
     parentSelector:
       matchLabels:

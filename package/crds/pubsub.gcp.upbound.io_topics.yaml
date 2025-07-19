@@ -88,7 +88,7 @@ spec:
                               awsRoleArn:
                                 description: |-
                                   AWS role ARN to be used for Federated Identity authentication with
-                                  Kinesis. Check the Pub/Sub docs for how to set up this role and the
+                                  MSK. Check the Pub/Sub docs for how to set up this role and the
                                   required permissions that need to be attached to it.
                                 type: string
                               consumerArn:
@@ -100,13 +100,176 @@ spec:
                               gcpServiceAccount:
                                 description: |-
                                   The GCP service account to be used for Federated Identity authentication
-                                  with Kinesis (via a AssumeRoleWithWebIdentity call for the provided
-                                  role). The awsRoleArn must be set up with accounts.google.com:sub
-                                  equals to this service account number.
+                                  with Confluent Cloud.
                                 type: string
                               streamArn:
                                 description: The Kinesis stream ARN to ingest data
                                   from.
+                                type: string
+                            type: object
+                          type: array
+                        awsMsk:
+                          description: |-
+                            Settings for ingestion from Amazon Managed Streaming for Apache Kafka.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              awsRoleArn:
+                                description: |-
+                                  AWS role ARN to be used for Federated Identity authentication with
+                                  MSK. Check the Pub/Sub docs for how to set up this role and the
+                                  required permissions that need to be attached to it.
+                                type: string
+                              clusterArn:
+                                description: ARN that uniquely identifies the MSK
+                                  cluster.
+                                type: string
+                              gcpServiceAccount:
+                                description: |-
+                                  The GCP service account to be used for Federated Identity authentication
+                                  with Confluent Cloud.
+                                type: string
+                              topic:
+                                description: Name of the Confluent Cloud topic that
+                                  Pub/Sub will import from.
+                                type: string
+                            type: object
+                          type: array
+                        azureEventHubs:
+                          description: |-
+                            Settings for ingestion from Azure Event Hubs.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              clientId:
+                                description: The Azure event hub client ID to use
+                                  for ingestion.
+                                type: string
+                              eventHub:
+                                description: The Azure event hub to ingest data from.
+                                type: string
+                              gcpServiceAccount:
+                                description: |-
+                                  The GCP service account to be used for Federated Identity authentication
+                                  with Confluent Cloud.
+                                type: string
+                              namespace:
+                                description: The Azure event hub namespace to ingest
+                                  data from.
+                                type: string
+                              resourceGroup:
+                                description: The name of the resource group within
+                                  an Azure subscription.
+                                type: string
+                              subscriptionId:
+                                description: The Azure event hub subscription ID to
+                                  use for ingestion.
+                                type: string
+                              tenantId:
+                                description: The Azure event hub tenant ID to use
+                                  for ingestion.
+                                type: string
+                            type: object
+                          type: array
+                        cloudStorage:
+                          description: |-
+                            Settings for ingestion from Cloud Storage.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              avroFormat:
+                                description: |-
+                                  Configuration for reading Cloud Storage data in Avro binary format. The
+                                  bytes of each object will be set to the data field of a Pub/Sub message.
+                                items:
+                                  type: object
+                                type: array
+                              bucket:
+                                description: |-
+                                  Cloud Storage bucket. The bucket name must be without any
+                                  prefix like "gs://". See the bucket naming requirements:
+                                  https://cloud.google.com/storage/docs/buckets#naming.
+                                type: string
+                              matchGlob:
+                                description: |-
+                                  Glob pattern used to match objects that will be ingested. If unset, all
+                                  objects will be ingested. See the supported patterns:
+                                  https://cloud.google.com/storage/docs/json_api/v1/objects/list#list-objects-and-prefixes-using-glob
+                                type: string
+                              minimumObjectCreateTime:
+                                description: |-
+                                  The timestamp set in RFC3339 text format. If set, only objects with a
+                                  larger or equal timestamp will be ingested. Unset by default, meaning
+                                  all objects will be ingested.
+                                type: string
+                              pubsubAvroFormat:
+                                description: |-
+                                  Configuration for reading Cloud Storage data written via Cloud Storage
+                                  subscriptions(See https://cloud.google.com/pubsub/docs/cloudstorage). The
+                                  data and attributes fields of the originally exported Pub/Sub message
+                                  will be restored when publishing.
+                                items:
+                                  type: object
+                                type: array
+                              textFormat:
+                                description: |-
+                                  Configuration for reading Cloud Storage data in text format. Each line of
+                                  text as specified by the delimiter will be set to the data field of a
+                                  Pub/Sub message.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    delimiter:
+                                      description: |-
+                                        The delimiter to use when using the 'text' format. Each line of text as
+                                        specified by the delimiter will be set to the 'data' field of a Pub/Sub
+                                        message. When unset, '\n' is used.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        confluentCloud:
+                          description: |-
+                            Settings for ingestion from Confluent Cloud.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              bootstrapServer:
+                                description: The Confluent Cloud bootstrap server.
+                                  The format is url:port.
+                                type: string
+                              clusterId:
+                                description: The Confluent Cloud cluster ID.
+                                type: string
+                              gcpServiceAccount:
+                                description: |-
+                                  The GCP service account to be used for Federated Identity authentication
+                                  with Confluent Cloud.
+                                type: string
+                              identityPoolId:
+                                description: Identity pool ID to be used for Federated
+                                  Identity authentication with Confluent Cloud.
+                                type: string
+                              topic:
+                                description: Name of the Confluent Cloud topic that
+                                  Pub/Sub will import from.
+                                type: string
+                            type: object
+                          type: array
+                        platformLogsSettings:
+                          description: |-
+                            Settings for Platform Logs regarding ingestion to Pub/Sub. If unset,
+                            no Platform Logs will be generated.'
+                            Structure is documented below.
+                          items:
+                            properties:
+                              severity:
+                                description: |-
+                                  The minimum severity level of Platform Logs that will be written. If unspecified,
+                                  no Platform Logs will be written.
+                                  Default value is SEVERITY_UNSPECIFIED.
+                                  Possible values are: SEVERITY_UNSPECIFIED, DISABLED, DEBUG, INFO, WARNING, ERROR.
                                 type: string
                             type: object
                           type: array
@@ -230,6 +393,46 @@ spec:
                             and is not a valid configuration.
                           items:
                             type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        enforceInTransit:
+                          description: |-
+                            If true, allowedPersistenceRegions is also used to enforce in-transit
+                            guarantees for messages. That is, Pub/Sub will fail topics.publish
+                            operations on this topic and subscribe operations on any subscription
+                            attached to this topic in any region that is not in allowedPersistenceRegions.
+                          type: boolean
+                      type: object
+                    type: array
+                  messageTransforms:
+                    description: |-
+                      Transforms to be applied to messages published to the topic. Transforms are applied in the
+                      order specified.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        disabled:
+                          description: |-
+                            Controls whether or not to use this transform. If not set or false,
+                            the transform will be applied to messages. Default: true.
+                          type: boolean
+                        javascriptUdf:
+                          description: |-
+                            Javascript User Defined Function. If multiple Javascript UDFs are specified on a resource,
+                            each one must have a unique function_name.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              code:
+                                description: |-
+                                  JavaScript code that contains a function function_name with the
+                                  following signature:
+                                type: string
+                              functionName:
+                                description: Name of the JavaScript function that
+                                  should be applied to Pub/Sub messages.
+                                type: string
+                            type: object
                           type: array
                       type: object
                     type: array
@@ -288,7 +491,7 @@ spec:
                               awsRoleArn:
                                 description: |-
                                   AWS role ARN to be used for Federated Identity authentication with
-                                  Kinesis. Check the Pub/Sub docs for how to set up this role and the
+                                  MSK. Check the Pub/Sub docs for how to set up this role and the
                                   required permissions that need to be attached to it.
                                 type: string
                               consumerArn:
@@ -300,13 +503,176 @@ spec:
                               gcpServiceAccount:
                                 description: |-
                                   The GCP service account to be used for Federated Identity authentication
-                                  with Kinesis (via a AssumeRoleWithWebIdentity call for the provided
-                                  role). The awsRoleArn must be set up with accounts.google.com:sub
-                                  equals to this service account number.
+                                  with Confluent Cloud.
                                 type: string
                               streamArn:
                                 description: The Kinesis stream ARN to ingest data
                                   from.
+                                type: string
+                            type: object
+                          type: array
+                        awsMsk:
+                          description: |-
+                            Settings for ingestion from Amazon Managed Streaming for Apache Kafka.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              awsRoleArn:
+                                description: |-
+                                  AWS role ARN to be used for Federated Identity authentication with
+                                  MSK. Check the Pub/Sub docs for how to set up this role and the
+                                  required permissions that need to be attached to it.
+                                type: string
+                              clusterArn:
+                                description: ARN that uniquely identifies the MSK
+                                  cluster.
+                                type: string
+                              gcpServiceAccount:
+                                description: |-
+                                  The GCP service account to be used for Federated Identity authentication
+                                  with Confluent Cloud.
+                                type: string
+                              topic:
+                                description: Name of the Confluent Cloud topic that
+                                  Pub/Sub will import from.
+                                type: string
+                            type: object
+                          type: array
+                        azureEventHubs:
+                          description: |-
+                            Settings for ingestion from Azure Event Hubs.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              clientId:
+                                description: The Azure event hub client ID to use
+                                  for ingestion.
+                                type: string
+                              eventHub:
+                                description: The Azure event hub to ingest data from.
+                                type: string
+                              gcpServiceAccount:
+                                description: |-
+                                  The GCP service account to be used for Federated Identity authentication
+                                  with Confluent Cloud.
+                                type: string
+                              namespace:
+                                description: The Azure event hub namespace to ingest
+                                  data from.
+                                type: string
+                              resourceGroup:
+                                description: The name of the resource group within
+                                  an Azure subscription.
+                                type: string
+                              subscriptionId:
+                                description: The Azure event hub subscription ID to
+                                  use for ingestion.
+                                type: string
+                              tenantId:
+                                description: The Azure event hub tenant ID to use
+                                  for ingestion.
+                                type: string
+                            type: object
+                          type: array
+                        cloudStorage:
+                          description: |-
+                            Settings for ingestion from Cloud Storage.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              avroFormat:
+                                description: |-
+                                  Configuration for reading Cloud Storage data in Avro binary format. The
+                                  bytes of each object will be set to the data field of a Pub/Sub message.
+                                items:
+                                  type: object
+                                type: array
+                              bucket:
+                                description: |-
+                                  Cloud Storage bucket. The bucket name must be without any
+                                  prefix like "gs://". See the bucket naming requirements:
+                                  https://cloud.google.com/storage/docs/buckets#naming.
+                                type: string
+                              matchGlob:
+                                description: |-
+                                  Glob pattern used to match objects that will be ingested. If unset, all
+                                  objects will be ingested. See the supported patterns:
+                                  https://cloud.google.com/storage/docs/json_api/v1/objects/list#list-objects-and-prefixes-using-glob
+                                type: string
+                              minimumObjectCreateTime:
+                                description: |-
+                                  The timestamp set in RFC3339 text format. If set, only objects with a
+                                  larger or equal timestamp will be ingested. Unset by default, meaning
+                                  all objects will be ingested.
+                                type: string
+                              pubsubAvroFormat:
+                                description: |-
+                                  Configuration for reading Cloud Storage data written via Cloud Storage
+                                  subscriptions(See https://cloud.google.com/pubsub/docs/cloudstorage). The
+                                  data and attributes fields of the originally exported Pub/Sub message
+                                  will be restored when publishing.
+                                items:
+                                  type: object
+                                type: array
+                              textFormat:
+                                description: |-
+                                  Configuration for reading Cloud Storage data in text format. Each line of
+                                  text as specified by the delimiter will be set to the data field of a
+                                  Pub/Sub message.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    delimiter:
+                                      description: |-
+                                        The delimiter to use when using the 'text' format. Each line of text as
+                                        specified by the delimiter will be set to the 'data' field of a Pub/Sub
+                                        message. When unset, '\n' is used.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        confluentCloud:
+                          description: |-
+                            Settings for ingestion from Confluent Cloud.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              bootstrapServer:
+                                description: The Confluent Cloud bootstrap server.
+                                  The format is url:port.
+                                type: string
+                              clusterId:
+                                description: The Confluent Cloud cluster ID.
+                                type: string
+                              gcpServiceAccount:
+                                description: |-
+                                  The GCP service account to be used for Federated Identity authentication
+                                  with Confluent Cloud.
+                                type: string
+                              identityPoolId:
+                                description: Identity pool ID to be used for Federated
+                                  Identity authentication with Confluent Cloud.
+                                type: string
+                              topic:
+                                description: Name of the Confluent Cloud topic that
+                                  Pub/Sub will import from.
+                                type: string
+                            type: object
+                          type: array
+                        platformLogsSettings:
+                          description: |-
+                            Settings for Platform Logs regarding ingestion to Pub/Sub. If unset,
+                            no Platform Logs will be generated.'
+                            Structure is documented below.
+                          items:
+                            properties:
+                              severity:
+                                description: |-
+                                  The minimum severity level of Platform Logs that will be written. If unspecified,
+                                  no Platform Logs will be written.
+                                  Default value is SEVERITY_UNSPECIFIED.
+                                  Possible values are: SEVERITY_UNSPECIFIED, DISABLED, DEBUG, INFO, WARNING, ERROR.
                                 type: string
                             type: object
                           type: array
@@ -430,6 +796,46 @@ spec:
                             and is not a valid configuration.
                           items:
                             type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        enforceInTransit:
+                          description: |-
+                            If true, allowedPersistenceRegions is also used to enforce in-transit
+                            guarantees for messages. That is, Pub/Sub will fail topics.publish
+                            operations on this topic and subscribe operations on any subscription
+                            attached to this topic in any region that is not in allowedPersistenceRegions.
+                          type: boolean
+                      type: object
+                    type: array
+                  messageTransforms:
+                    description: |-
+                      Transforms to be applied to messages published to the topic. Transforms are applied in the
+                      order specified.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        disabled:
+                          description: |-
+                            Controls whether or not to use this transform. If not set or false,
+                            the transform will be applied to messages. Default: true.
+                          type: boolean
+                        javascriptUdf:
+                          description: |-
+                            Javascript User Defined Function. If multiple Javascript UDFs are specified on a resource,
+                            each one must have a unique function_name.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              code:
+                                description: |-
+                                  JavaScript code that contains a function function_name with the
+                                  following signature:
+                                type: string
+                              functionName:
+                                description: Name of the JavaScript function that
+                                  should be applied to Pub/Sub messages.
+                                type: string
+                            type: object
                           type: array
                       type: object
                     type: array
@@ -656,7 +1062,7 @@ spec:
                               awsRoleArn:
                                 description: |-
                                   AWS role ARN to be used for Federated Identity authentication with
-                                  Kinesis. Check the Pub/Sub docs for how to set up this role and the
+                                  MSK. Check the Pub/Sub docs for how to set up this role and the
                                   required permissions that need to be attached to it.
                                 type: string
                               consumerArn:
@@ -668,13 +1074,176 @@ spec:
                               gcpServiceAccount:
                                 description: |-
                                   The GCP service account to be used for Federated Identity authentication
-                                  with Kinesis (via a AssumeRoleWithWebIdentity call for the provided
-                                  role). The awsRoleArn must be set up with accounts.google.com:sub
-                                  equals to this service account number.
+                                  with Confluent Cloud.
                                 type: string
                               streamArn:
                                 description: The Kinesis stream ARN to ingest data
                                   from.
+                                type: string
+                            type: object
+                          type: array
+                        awsMsk:
+                          description: |-
+                            Settings for ingestion from Amazon Managed Streaming for Apache Kafka.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              awsRoleArn:
+                                description: |-
+                                  AWS role ARN to be used for Federated Identity authentication with
+                                  MSK. Check the Pub/Sub docs for how to set up this role and the
+                                  required permissions that need to be attached to it.
+                                type: string
+                              clusterArn:
+                                description: ARN that uniquely identifies the MSK
+                                  cluster.
+                                type: string
+                              gcpServiceAccount:
+                                description: |-
+                                  The GCP service account to be used for Federated Identity authentication
+                                  with Confluent Cloud.
+                                type: string
+                              topic:
+                                description: Name of the Confluent Cloud topic that
+                                  Pub/Sub will import from.
+                                type: string
+                            type: object
+                          type: array
+                        azureEventHubs:
+                          description: |-
+                            Settings for ingestion from Azure Event Hubs.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              clientId:
+                                description: The Azure event hub client ID to use
+                                  for ingestion.
+                                type: string
+                              eventHub:
+                                description: The Azure event hub to ingest data from.
+                                type: string
+                              gcpServiceAccount:
+                                description: |-
+                                  The GCP service account to be used for Federated Identity authentication
+                                  with Confluent Cloud.
+                                type: string
+                              namespace:
+                                description: The Azure event hub namespace to ingest
+                                  data from.
+                                type: string
+                              resourceGroup:
+                                description: The name of the resource group within
+                                  an Azure subscription.
+                                type: string
+                              subscriptionId:
+                                description: The Azure event hub subscription ID to
+                                  use for ingestion.
+                                type: string
+                              tenantId:
+                                description: The Azure event hub tenant ID to use
+                                  for ingestion.
+                                type: string
+                            type: object
+                          type: array
+                        cloudStorage:
+                          description: |-
+                            Settings for ingestion from Cloud Storage.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              avroFormat:
+                                description: |-
+                                  Configuration for reading Cloud Storage data in Avro binary format. The
+                                  bytes of each object will be set to the data field of a Pub/Sub message.
+                                items:
+                                  type: object
+                                type: array
+                              bucket:
+                                description: |-
+                                  Cloud Storage bucket. The bucket name must be without any
+                                  prefix like "gs://". See the bucket naming requirements:
+                                  https://cloud.google.com/storage/docs/buckets#naming.
+                                type: string
+                              matchGlob:
+                                description: |-
+                                  Glob pattern used to match objects that will be ingested. If unset, all
+                                  objects will be ingested. See the supported patterns:
+                                  https://cloud.google.com/storage/docs/json_api/v1/objects/list#list-objects-and-prefixes-using-glob
+                                type: string
+                              minimumObjectCreateTime:
+                                description: |-
+                                  The timestamp set in RFC3339 text format. If set, only objects with a
+                                  larger or equal timestamp will be ingested. Unset by default, meaning
+                                  all objects will be ingested.
+                                type: string
+                              pubsubAvroFormat:
+                                description: |-
+                                  Configuration for reading Cloud Storage data written via Cloud Storage
+                                  subscriptions(See https://cloud.google.com/pubsub/docs/cloudstorage). The
+                                  data and attributes fields of the originally exported Pub/Sub message
+                                  will be restored when publishing.
+                                items:
+                                  type: object
+                                type: array
+                              textFormat:
+                                description: |-
+                                  Configuration for reading Cloud Storage data in text format. Each line of
+                                  text as specified by the delimiter will be set to the data field of a
+                                  Pub/Sub message.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    delimiter:
+                                      description: |-
+                                        The delimiter to use when using the 'text' format. Each line of text as
+                                        specified by the delimiter will be set to the 'data' field of a Pub/Sub
+                                        message. When unset, '\n' is used.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        confluentCloud:
+                          description: |-
+                            Settings for ingestion from Confluent Cloud.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              bootstrapServer:
+                                description: The Confluent Cloud bootstrap server.
+                                  The format is url:port.
+                                type: string
+                              clusterId:
+                                description: The Confluent Cloud cluster ID.
+                                type: string
+                              gcpServiceAccount:
+                                description: |-
+                                  The GCP service account to be used for Federated Identity authentication
+                                  with Confluent Cloud.
+                                type: string
+                              identityPoolId:
+                                description: Identity pool ID to be used for Federated
+                                  Identity authentication with Confluent Cloud.
+                                type: string
+                              topic:
+                                description: Name of the Confluent Cloud topic that
+                                  Pub/Sub will import from.
+                                type: string
+                            type: object
+                          type: array
+                        platformLogsSettings:
+                          description: |-
+                            Settings for Platform Logs regarding ingestion to Pub/Sub. If unset,
+                            no Platform Logs will be generated.'
+                            Structure is documented below.
+                          items:
+                            properties:
+                              severity:
+                                description: |-
+                                  The minimum severity level of Platform Logs that will be written. If unspecified,
+                                  no Platform Logs will be written.
+                                  Default value is SEVERITY_UNSPECIFIED.
+                                  Possible values are: SEVERITY_UNSPECIFIED, DISABLED, DEBUG, INFO, WARNING, ERROR.
                                 type: string
                             type: object
                           type: array
@@ -724,6 +1293,46 @@ spec:
                             and is not a valid configuration.
                           items:
                             type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        enforceInTransit:
+                          description: |-
+                            If true, allowedPersistenceRegions is also used to enforce in-transit
+                            guarantees for messages. That is, Pub/Sub will fail topics.publish
+                            operations on this topic and subscribe operations on any subscription
+                            attached to this topic in any region that is not in allowedPersistenceRegions.
+                          type: boolean
+                      type: object
+                    type: array
+                  messageTransforms:
+                    description: |-
+                      Transforms to be applied to messages published to the topic. Transforms are applied in the
+                      order specified.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        disabled:
+                          description: |-
+                            Controls whether or not to use this transform. If not set or false,
+                            the transform will be applied to messages. Default: true.
+                          type: boolean
+                        javascriptUdf:
+                          description: |-
+                            Javascript User Defined Function. If multiple Javascript UDFs are specified on a resource,
+                            each one must have a unique function_name.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              code:
+                                description: |-
+                                  JavaScript code that contains a function function_name with the
+                                  following signature:
+                                type: string
+                              functionName:
+                                description: Name of the JavaScript function that
+                                  should be applied to Pub/Sub messages.
+                                type: string
+                            type: object
                           type: array
                       type: object
                     type: array

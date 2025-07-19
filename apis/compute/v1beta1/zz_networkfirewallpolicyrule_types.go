@@ -48,6 +48,47 @@ type MatchLayer4ConfigsParameters struct {
 	Ports []*string `json:"ports,omitempty" tf:"ports,omitempty"`
 }
 
+type MatchSrcSecureTagsInitParameters struct {
+
+	// Name of the secure tag, created with TagManager's TagValue API.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/tags/v1beta1.TagValue
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Reference to a TagValue in tags to populate name.
+	// +kubebuilder:validation:Optional
+	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
+
+	// Selector for a TagValue in tags to populate name.
+	// +kubebuilder:validation:Optional
+	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
+}
+
+type MatchSrcSecureTagsObservation struct {
+
+	// Name of the secure tag, created with TagManager's TagValue API.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// (Output)
+	// State of the secure tag, either EFFECTIVE or INEFFECTIVE. A secure tag is INEFFECTIVE when it is deleted or its network is deleted.
+	State *string `json:"state,omitempty" tf:"state,omitempty"`
+}
+
+type MatchSrcSecureTagsParameters struct {
+
+	// Name of the secure tag, created with TagManager's TagValue API.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/tags/v1beta1.TagValue
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Reference to a TagValue in tags to populate name.
+	// +kubebuilder:validation:Optional
+	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
+
+	// Selector for a TagValue in tags to populate name.
+	// +kubebuilder:validation:Optional
+	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
+}
+
 type NetworkFirewallPolicyRuleInitParameters struct {
 
 	// The Action to perform when the client connection triggers the rule. Valid actions are "allow", "deny", "goto_next" and "apply_security_profile_group".
@@ -95,7 +136,7 @@ type NetworkFirewallPolicyRuleInitParameters struct {
 	// If targetSecureTag are specified, then the firewall rule applies only to instances in the VPC network that have one of those EFFECTIVE secure tags, if all the targetSecureTag are in INEFFECTIVE state, then this rule will be ignored.
 	// targetSecureTag may not be set at the same time as targetServiceAccounts. If neither targetServiceAccounts nor targetSecureTag are specified, the firewall rule applies to all instances on the specified network. Maximum number of target label tags allowed is 256.
 	// Structure is documented below.
-	TargetSecureTags []TargetSecureTagsInitParameters `json:"targetSecureTags,omitempty" tf:"target_secure_tags,omitempty"`
+	TargetSecureTags []NetworkFirewallPolicyRuleTargetSecureTagsInitParameters `json:"targetSecureTags,omitempty" tf:"target_secure_tags,omitempty"`
 
 	// A list of service accounts indicating the sets of instances that are applied with this rule.
 	TargetServiceAccounts []*string `json:"targetServiceAccounts,omitempty" tf:"target_service_accounts,omitempty"`
@@ -146,7 +187,7 @@ type NetworkFirewallPolicyRuleMatchInitParameters struct {
 
 	// List of secure tag values, which should be matched at the source of the traffic. For INGRESS rule, if all the srcSecureTag are INEFFECTIVE, and there is no srcIpRange, this rule will be ignored. Maximum number of source tag values allowed is 256.
 	// Structure is documented below.
-	SrcSecureTags []SrcSecureTagsInitParameters `json:"srcSecureTags,omitempty" tf:"src_secure_tags,omitempty"`
+	SrcSecureTags []MatchSrcSecureTagsInitParameters `json:"srcSecureTags,omitempty" tf:"src_secure_tags,omitempty"`
 
 	// Names of Network Threat Intelligence lists. The IPs in these lists will be matched against traffic source.
 	SrcThreatIntelligences []*string `json:"srcThreatIntelligences,omitempty" tf:"src_threat_intelligences,omitempty"`
@@ -187,7 +228,7 @@ type NetworkFirewallPolicyRuleMatchObservation struct {
 
 	// List of secure tag values, which should be matched at the source of the traffic. For INGRESS rule, if all the srcSecureTag are INEFFECTIVE, and there is no srcIpRange, this rule will be ignored. Maximum number of source tag values allowed is 256.
 	// Structure is documented below.
-	SrcSecureTags []SrcSecureTagsObservation `json:"srcSecureTags,omitempty" tf:"src_secure_tags,omitempty"`
+	SrcSecureTags []MatchSrcSecureTagsObservation `json:"srcSecureTags,omitempty" tf:"src_secure_tags,omitempty"`
 
 	// Names of Network Threat Intelligence lists. The IPs in these lists will be matched against traffic source.
 	SrcThreatIntelligences []*string `json:"srcThreatIntelligences,omitempty" tf:"src_threat_intelligences,omitempty"`
@@ -249,7 +290,7 @@ type NetworkFirewallPolicyRuleMatchParameters struct {
 	// List of secure tag values, which should be matched at the source of the traffic. For INGRESS rule, if all the srcSecureTag are INEFFECTIVE, and there is no srcIpRange, this rule will be ignored. Maximum number of source tag values allowed is 256.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	SrcSecureTags []SrcSecureTagsParameters `json:"srcSecureTags,omitempty" tf:"src_secure_tags,omitempty"`
+	SrcSecureTags []MatchSrcSecureTagsParameters `json:"srcSecureTags,omitempty" tf:"src_secure_tags,omitempty"`
 
 	// Names of Network Threat Intelligence lists. The IPs in these lists will be matched against traffic source.
 	// +kubebuilder:validation:Optional
@@ -323,7 +364,7 @@ type NetworkFirewallPolicyRuleObservation struct {
 	// If targetSecureTag are specified, then the firewall rule applies only to instances in the VPC network that have one of those EFFECTIVE secure tags, if all the targetSecureTag are in INEFFECTIVE state, then this rule will be ignored.
 	// targetSecureTag may not be set at the same time as targetServiceAccounts. If neither targetServiceAccounts nor targetSecureTag are specified, the firewall rule applies to all instances on the specified network. Maximum number of target label tags allowed is 256.
 	// Structure is documented below.
-	TargetSecureTags []TargetSecureTagsObservation `json:"targetSecureTags,omitempty" tf:"target_secure_tags,omitempty"`
+	TargetSecureTags []NetworkFirewallPolicyRuleTargetSecureTagsObservation `json:"targetSecureTags,omitempty" tf:"target_secure_tags,omitempty"`
 
 	// A list of service accounts indicating the sets of instances that are applied with this rule.
 	TargetServiceAccounts []*string `json:"targetServiceAccounts,omitempty" tf:"target_service_accounts,omitempty"`
@@ -406,29 +447,20 @@ type NetworkFirewallPolicyRuleParameters struct {
 	// targetSecureTag may not be set at the same time as targetServiceAccounts. If neither targetServiceAccounts nor targetSecureTag are specified, the firewall rule applies to all instances on the specified network. Maximum number of target label tags allowed is 256.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	TargetSecureTags []TargetSecureTagsParameters `json:"targetSecureTags,omitempty" tf:"target_secure_tags,omitempty"`
+	TargetSecureTags []NetworkFirewallPolicyRuleTargetSecureTagsParameters `json:"targetSecureTags,omitempty" tf:"target_secure_tags,omitempty"`
 
 	// A list of service accounts indicating the sets of instances that are applied with this rule.
 	// +kubebuilder:validation:Optional
 	TargetServiceAccounts []*string `json:"targetServiceAccounts,omitempty" tf:"target_service_accounts,omitempty"`
 }
 
-type SrcSecureTagsInitParameters struct {
+type NetworkFirewallPolicyRuleTargetSecureTagsInitParameters struct {
 
 	// Name of the secure tag, created with TagManager's TagValue API.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/tags/v1beta1.TagValue
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
-	// Reference to a TagValue in tags to populate name.
-	// +kubebuilder:validation:Optional
-	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
-
-	// Selector for a TagValue in tags to populate name.
-	// +kubebuilder:validation:Optional
-	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
 }
 
-type SrcSecureTagsObservation struct {
+type NetworkFirewallPolicyRuleTargetSecureTagsObservation struct {
 
 	// Name of the secure tag, created with TagManager's TagValue API.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -438,39 +470,7 @@ type SrcSecureTagsObservation struct {
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }
 
-type SrcSecureTagsParameters struct {
-
-	// Name of the secure tag, created with TagManager's TagValue API.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/tags/v1beta1.TagValue
-	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
-	// Reference to a TagValue in tags to populate name.
-	// +kubebuilder:validation:Optional
-	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
-
-	// Selector for a TagValue in tags to populate name.
-	// +kubebuilder:validation:Optional
-	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
-}
-
-type TargetSecureTagsInitParameters struct {
-
-	// Name of the secure tag, created with TagManager's TagValue API.
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-}
-
-type TargetSecureTagsObservation struct {
-
-	// Name of the secure tag, created with TagManager's TagValue API.
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
-	// (Output)
-	// State of the secure tag, either EFFECTIVE or INEFFECTIVE. A secure tag is INEFFECTIVE when it is deleted or its network is deleted.
-	State *string `json:"state,omitempty" tf:"state,omitempty"`
-}
-
-type TargetSecureTagsParameters struct {
+type NetworkFirewallPolicyRuleTargetSecureTagsParameters struct {
 
 	// Name of the secure tag, created with TagManager's TagValue API.
 	// +kubebuilder:validation:Optional

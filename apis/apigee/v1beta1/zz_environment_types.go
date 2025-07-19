@@ -13,12 +13,38 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ClientIPResolutionConfigInitParameters struct {
+
+	// Resolves the client ip based on a custom header.
+	// Structure is documented below.
+	HeaderIndexAlgorithm []HeaderIndexAlgorithmInitParameters `json:"headerIndexAlgorithm,omitempty" tf:"header_index_algorithm,omitempty"`
+}
+
+type ClientIPResolutionConfigObservation struct {
+
+	// Resolves the client ip based on a custom header.
+	// Structure is documented below.
+	HeaderIndexAlgorithm []HeaderIndexAlgorithmObservation `json:"headerIndexAlgorithm,omitempty" tf:"header_index_algorithm,omitempty"`
+}
+
+type ClientIPResolutionConfigParameters struct {
+
+	// Resolves the client ip based on a custom header.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	HeaderIndexAlgorithm []HeaderIndexAlgorithmParameters `json:"headerIndexAlgorithm,omitempty" tf:"header_index_algorithm,omitempty"`
+}
+
 type EnvironmentInitParameters struct {
 
 	// Optional. API Proxy type supported by the environment. The type can be set when creating
 	// the Environment and cannot be changed.
 	// Possible values are: API_PROXY_TYPE_UNSPECIFIED, PROGRAMMABLE, CONFIGURABLE.
 	APIProxyType *string `json:"apiProxyType,omitempty" tf:"api_proxy_type,omitempty"`
+
+	// The algorithm to resolve IP. This will affect Analytics, API Security, and other features that use the client ip. To remove a client ip resolution config, update the field to an empty value. Example: '{ "clientIpResolutionConfig" = {} }' For more information, see: https://cloud.google.com/apigee/docs/api-platform/system-administration/client-ip-resolution
+	// Structure is documented below.
+	ClientIPResolutionConfig []ClientIPResolutionConfigInitParameters `json:"clientIpResolutionConfig,omitempty" tf:"client_ip_resolution_config,omitempty"`
 
 	// Optional. Deployment type supported by the environment. The deployment type can be
 	// set when creating the environment and cannot be changed. When you enable archive
@@ -43,6 +69,10 @@ type EnvironmentInitParameters struct {
 	// Structure is documented below.
 	NodeConfig []NodeConfigInitParameters `json:"nodeConfig,omitempty" tf:"node_config,omitempty"`
 
+	// Key-value pairs that may be used for customizing the environment.
+	// Structure is documented below.
+	Properties []PropertiesInitParameters `json:"properties,omitempty" tf:"properties,omitempty"`
+
 	// Types that can be selected for an Environment. Each of the types are
 	// limited by capability and capacity. Refer to Apigee's public documentation
 	// to understand about each of these types in details.
@@ -57,6 +87,10 @@ type EnvironmentObservation struct {
 	// the Environment and cannot be changed.
 	// Possible values are: API_PROXY_TYPE_UNSPECIFIED, PROGRAMMABLE, CONFIGURABLE.
 	APIProxyType *string `json:"apiProxyType,omitempty" tf:"api_proxy_type,omitempty"`
+
+	// The algorithm to resolve IP. This will affect Analytics, API Security, and other features that use the client ip. To remove a client ip resolution config, update the field to an empty value. Example: '{ "clientIpResolutionConfig" = {} }' For more information, see: https://cloud.google.com/apigee/docs/api-platform/system-administration/client-ip-resolution
+	// Structure is documented below.
+	ClientIPResolutionConfig []ClientIPResolutionConfigObservation `json:"clientIpResolutionConfig,omitempty" tf:"client_ip_resolution_config,omitempty"`
 
 	// Optional. Deployment type supported by the environment. The deployment type can be
 	// set when creating the environment and cannot be changed. When you enable archive
@@ -84,6 +118,10 @@ type EnvironmentObservation struct {
 	// Structure is documented below.
 	NodeConfig []NodeConfigObservation `json:"nodeConfig,omitempty" tf:"node_config,omitempty"`
 
+	// Key-value pairs that may be used for customizing the environment.
+	// Structure is documented below.
+	Properties []PropertiesObservation `json:"properties,omitempty" tf:"properties,omitempty"`
+
 	// The Apigee Organization associated with the Apigee environment,
 	// in the format organizations/{{org_name}}.
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
@@ -103,6 +141,11 @@ type EnvironmentParameters struct {
 	// Possible values are: API_PROXY_TYPE_UNSPECIFIED, PROGRAMMABLE, CONFIGURABLE.
 	// +kubebuilder:validation:Optional
 	APIProxyType *string `json:"apiProxyType,omitempty" tf:"api_proxy_type,omitempty"`
+
+	// The algorithm to resolve IP. This will affect Analytics, API Security, and other features that use the client ip. To remove a client ip resolution config, update the field to an empty value. Example: '{ "clientIpResolutionConfig" = {} }' For more information, see: https://cloud.google.com/apigee/docs/api-platform/system-administration/client-ip-resolution
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ClientIPResolutionConfig []ClientIPResolutionConfigParameters `json:"clientIpResolutionConfig,omitempty" tf:"client_ip_resolution_config,omitempty"`
 
 	// Optional. Deployment type supported by the environment. The deployment type can be
 	// set when creating the environment and cannot be changed. When you enable archive
@@ -147,6 +190,11 @@ type EnvironmentParameters struct {
 	// +kubebuilder:validation:Optional
 	OrgIDSelector *v1.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 
+	// Key-value pairs that may be used for customizing the environment.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Properties []PropertiesParameters `json:"properties,omitempty" tf:"properties,omitempty"`
+
 	// Types that can be selected for an Environment. Each of the types are
 	// limited by capability and capacity. Refer to Apigee's public documentation
 	// to understand about each of these types in details.
@@ -154,6 +202,35 @@ type EnvironmentParameters struct {
 	// Possible values are: ENVIRONMENT_TYPE_UNSPECIFIED, BASE, INTERMEDIATE, COMPREHENSIVE.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type HeaderIndexAlgorithmInitParameters struct {
+
+	// The index of the ip in the header. Positive indices 0, 1, 2, 3 chooses indices from the left (first ips). Negative indices -1, -2, -3 chooses indices from the right (last ips).
+	IPHeaderIndex *float64 `json:"ipHeaderIndex,omitempty" tf:"ip_header_index,omitempty"`
+
+	// The name of the header to extract the client ip from. We are currently only supporting the X-Forwarded-For header.
+	IPHeaderName *string `json:"ipHeaderName,omitempty" tf:"ip_header_name,omitempty"`
+}
+
+type HeaderIndexAlgorithmObservation struct {
+
+	// The index of the ip in the header. Positive indices 0, 1, 2, 3 chooses indices from the left (first ips). Negative indices -1, -2, -3 chooses indices from the right (last ips).
+	IPHeaderIndex *float64 `json:"ipHeaderIndex,omitempty" tf:"ip_header_index,omitempty"`
+
+	// The name of the header to extract the client ip from. We are currently only supporting the X-Forwarded-For header.
+	IPHeaderName *string `json:"ipHeaderName,omitempty" tf:"ip_header_name,omitempty"`
+}
+
+type HeaderIndexAlgorithmParameters struct {
+
+	// The index of the ip in the header. Positive indices 0, 1, 2, 3 chooses indices from the left (first ips). Negative indices -1, -2, -3 chooses indices from the right (last ips).
+	// +kubebuilder:validation:Optional
+	IPHeaderIndex *float64 `json:"ipHeaderIndex" tf:"ip_header_index,omitempty"`
+
+	// The name of the header to extract the client ip from. We are currently only supporting the X-Forwarded-For header.
+	// +kubebuilder:validation:Optional
+	IPHeaderName *string `json:"ipHeaderName" tf:"ip_header_name,omitempty"`
 }
 
 type NodeConfigInitParameters struct {
@@ -200,6 +277,57 @@ type NodeConfigParameters struct {
 	// recommended minimum number of nodes for that gateway.
 	// +kubebuilder:validation:Optional
 	MinNodeCount *string `json:"minNodeCount,omitempty" tf:"min_node_count,omitempty"`
+}
+
+type PropertiesInitParameters struct {
+
+	// List of all properties in the object.
+	// Structure is documented below.
+	Property []PropertyInitParameters `json:"property,omitempty" tf:"property,omitempty"`
+}
+
+type PropertiesObservation struct {
+
+	// List of all properties in the object.
+	// Structure is documented below.
+	Property []PropertyObservation `json:"property,omitempty" tf:"property,omitempty"`
+}
+
+type PropertiesParameters struct {
+
+	// List of all properties in the object.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Property []PropertyParameters `json:"property,omitempty" tf:"property,omitempty"`
+}
+
+type PropertyInitParameters struct {
+
+	// The property key.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The property value.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type PropertyObservation struct {
+
+	// The property key.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The property value.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type PropertyParameters struct {
+
+	// The property key.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The property value.
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 // EnvironmentSpec defines the desired state of Environment

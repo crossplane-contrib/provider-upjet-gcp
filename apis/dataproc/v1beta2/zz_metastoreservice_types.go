@@ -413,6 +413,9 @@ type MetastoreServiceInitParameters struct {
 	// Possible values are: MYSQL, SPANNER.
 	DatabaseType *string `json:"databaseType,omitempty" tf:"database_type,omitempty"`
 
+	// Indicates if the dataproc metastore should be protected against accidental deletions.
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
+
 	// Information used to configure the Dataproc Metastore service to encrypt
 	// customer data at rest.
 	// Structure is documented below.
@@ -593,6 +596,10 @@ type MetastoreServiceParameters struct {
 	// Possible values are: MYSQL, SPANNER.
 	// +kubebuilder:validation:Optional
 	DatabaseType *string `json:"databaseType,omitempty" tf:"database_type,omitempty"`
+
+	// Indicates if the dataproc metastore should be protected against accidental deletions.
+	// +kubebuilder:validation:Optional
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// Information used to configure the Dataproc Metastore service to encrypt
 	// customer data at rest.

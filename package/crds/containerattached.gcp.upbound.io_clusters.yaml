@@ -251,6 +251,19 @@ spec:
                           type: array
                       type: object
                     type: array
+                  securityPostureConfig:
+                    description: |-
+                      Enable/Disable Security Posture API features for the cluster.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        vulnerabilityMode:
+                          description: |-
+                            Sets the mode of the Kubernetes security posture API's workload vulnerability scanning.
+                            Possible values are: VULNERABILITY_DISABLED, VULNERABILITY_ENTERPRISE.
+                          type: string
+                      type: object
+                    type: array
                 required:
                 - location
                 type: object
@@ -440,6 +453,19 @@ spec:
                                 type: string
                             type: object
                           type: array
+                      type: object
+                    type: array
+                  securityPostureConfig:
+                    description: |-
+                      Enable/Disable Security Posture API features for the cluster.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        vulnerabilityMode:
+                          description: |-
+                            Sets the mode of the Kubernetes security posture API's workload vulnerability scanning.
+                            Possible values are: VULNERABILITY_DISABLED, VULNERABILITY_ENTERPRISE.
+                          type: string
                       type: object
                     type: array
                 type: object
@@ -852,6 +878,19 @@ spec:
                     description: If set, there are currently changes in flight to
                       the cluster.
                     type: boolean
+                  securityPostureConfig:
+                    description: |-
+                      Enable/Disable Security Posture API features for the cluster.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        vulnerabilityMode:
+                          description: |-
+                            Sets the mode of the Kubernetes security posture API's workload vulnerability scanning.
+                            Possible values are: VULNERABILITY_DISABLED, VULNERABILITY_ENTERPRISE.
+                          type: string
+                      type: object
+                    type: array
                   state:
                     description: |-
                       The current state of the cluster. Possible values:

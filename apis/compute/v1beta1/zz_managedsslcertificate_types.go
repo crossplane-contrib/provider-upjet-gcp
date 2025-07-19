@@ -37,9 +37,6 @@ type ManagedParameters struct {
 
 type ManagedSSLCertificateInitParameters struct {
 
-	// The unique identifier for the resource.
-	CertificateID *float64 `json:"certificateId,omitempty" tf:"certificate_id,omitempty"`
-
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -99,10 +96,6 @@ type ManagedSSLCertificateObservation struct {
 }
 
 type ManagedSSLCertificateParameters struct {
-
-	// The unique identifier for the resource.
-	// +kubebuilder:validation:Optional
-	CertificateID *float64 `json:"certificateId,omitempty" tf:"certificate_id,omitempty"`
 
 	// An optional description of this resource.
 	// +kubebuilder:validation:Optional

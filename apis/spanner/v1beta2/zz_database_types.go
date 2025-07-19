@@ -32,6 +32,10 @@ type DatabaseInitParameters struct {
 	// from the tz database. Default value is "America/Los_angeles".
 	DefaultTimeZone *string `json:"defaultTimeZone,omitempty" tf:"default_time_zone,omitempty"`
 
+	// Defaults to true.
+	// When the field is set to false, deleting the database is allowed.
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
+
 	// Whether drop protection is enabled for this database. Defaults to false.
 	// whereas setting “enableDropProtection” to true protects the database from deletions in all interfaces.
 	// (2) Setting "enableDropProtection" to true also prevents the deletion of the parent instance containing the database.
@@ -129,6 +133,11 @@ type DatabaseParameters struct {
 	// from the tz database. Default value is "America/Los_angeles".
 	// +kubebuilder:validation:Optional
 	DefaultTimeZone *string `json:"defaultTimeZone,omitempty" tf:"default_time_zone,omitempty"`
+
+	// Defaults to true.
+	// When the field is set to false, deleting the database is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// Whether drop protection is enabled for this database. Defaults to false.
 	// whereas setting “enableDropProtection” to true protects the database from deletions in all interfaces.

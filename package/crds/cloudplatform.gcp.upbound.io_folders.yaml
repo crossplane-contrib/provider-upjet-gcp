@@ -73,6 +73,10 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  deletionProtection:
+                    description: When the field is set to false, deleting the folder
+                      is allowed. Default value is true.
+                    type: boolean
                   displayName:
                     description: |-
                       The folder’s display name.
@@ -186,6 +190,10 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  deletionProtection:
+                    description: When the field is set to false, deleting the folder
+                      is allowed. Default value is true.
+                    type: boolean
                   displayName:
                     description: |-
                       The folder’s display name.

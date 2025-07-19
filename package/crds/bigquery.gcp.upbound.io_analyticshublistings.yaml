@@ -159,6 +159,94 @@ spec:
                                   type: string
                               type: object
                           type: object
+                        selectedResources:
+                          description: |-
+                            Resource in this dataset that is selectively shared. This field is required for data clean room exchanges.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              table:
+                                description: 'Format: For table: projects/{projectId}/datasets/{datasetId}/tables/{tableId}
+                                  Example:"projects/test_project/datasets/test_dataset/tables/test_table"'
+                                type: string
+                              tableRef:
+                                description: Reference to a Table in bigquery to populate
+                                  table.
+                                properties:
+                                  name:
+                                    description: Name of the referenced object.
+                                    type: string
+                                  policy:
+                                    description: Policies for referencing.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                required:
+                                - name
+                                type: object
+                              tableSelector:
+                                description: Selector for a Table in bigquery to populate
+                                  table.
+                                properties:
+                                  matchControllerRef:
+                                    description: |-
+                                      MatchControllerRef ensures an object with the same controller reference
+                                      as the selecting object is selected.
+                                    type: boolean
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    description: MatchLabels ensures an object with
+                                      matching labels is selected.
+                                    type: object
+                                  policy:
+                                    description: Policies for selection.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                type: object
+                            type: object
+                          type: array
                       type: object
                     type: array
                   categories:
@@ -283,6 +371,12 @@ spec:
                   location:
                     description: The name of the location this data exchange listing.
                     type: string
+                  logLinkedDatasetQueryUserEmail:
+                    description: If true, subscriber email logging is enabled and
+                      all queries on the linked dataset will log the email address
+                      of the querying user. Once enabled, this setting cannot be turned
+                      off.
+                    type: boolean
                   primaryContact:
                     description: Email or URL of the listing publisher.
                     type: string
@@ -303,6 +397,102 @@ spec:
                         primaryContact:
                           description: Email or URL of the listing publisher.
                           type: string
+                      type: object
+                    type: array
+                  pubsubTopic:
+                    description: |-
+                      Pub/Sub topic source.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        dataAffinityRegions:
+                          description: |-
+                            Region hint on where the data might be published. Data affinity regions are modifiable.
+                            See https://cloud.google.com/about/locations for full listing of possible Cloud regions.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        topic:
+                          description: Resource name of the Pub/Sub topic source for
+                            this listing. e.g. projects/myproject/topics/topicId
+                          type: string
+                        topicRef:
+                          description: Reference to a Topic in pubsub to populate
+                            topic.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        topicSelector:
+                          description: Selector for a Topic in pubsub to populate
+                            topic.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
                       type: object
                     type: array
                   requestAccess:
@@ -426,6 +616,94 @@ spec:
                                   type: string
                               type: object
                           type: object
+                        selectedResources:
+                          description: |-
+                            Resource in this dataset that is selectively shared. This field is required for data clean room exchanges.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              table:
+                                description: 'Format: For table: projects/{projectId}/datasets/{datasetId}/tables/{tableId}
+                                  Example:"projects/test_project/datasets/test_dataset/tables/test_table"'
+                                type: string
+                              tableRef:
+                                description: Reference to a Table in bigquery to populate
+                                  table.
+                                properties:
+                                  name:
+                                    description: Name of the referenced object.
+                                    type: string
+                                  policy:
+                                    description: Policies for referencing.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                required:
+                                - name
+                                type: object
+                              tableSelector:
+                                description: Selector for a Table in bigquery to populate
+                                  table.
+                                properties:
+                                  matchControllerRef:
+                                    description: |-
+                                      MatchControllerRef ensures an object with the same controller reference
+                                      as the selecting object is selected.
+                                    type: boolean
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    description: MatchLabels ensures an object with
+                                      matching labels is selected.
+                                    type: object
+                                  policy:
+                                    description: Policies for selection.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                type: object
+                            type: object
+                          type: array
                       type: object
                     type: array
                   categories:
@@ -466,6 +744,12 @@ spec:
                   icon:
                     description: Base64 encoded image representing the listing.
                     type: string
+                  logLinkedDatasetQueryUserEmail:
+                    description: If true, subscriber email logging is enabled and
+                      all queries on the linked dataset will log the email address
+                      of the querying user. Once enabled, this setting cannot be turned
+                      off.
+                    type: boolean
                   primaryContact:
                     description: Email or URL of the listing publisher.
                     type: string
@@ -486,6 +770,102 @@ spec:
                         primaryContact:
                           description: Email or URL of the listing publisher.
                           type: string
+                      type: object
+                    type: array
+                  pubsubTopic:
+                    description: |-
+                      Pub/Sub topic source.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        dataAffinityRegions:
+                          description: |-
+                            Region hint on where the data might be published. Data affinity regions are modifiable.
+                            See https://cloud.google.com/about/locations for full listing of possible Cloud regions.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        topic:
+                          description: Resource name of the Pub/Sub topic source for
+                            this listing. e.g. projects/myproject/topics/topicId
+                          type: string
+                        topicRef:
+                          description: Reference to a Topic in pubsub to populate
+                            topic.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        topicSelector:
+                          description: Selector for a Topic in pubsub to populate
+                            topic.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
                       type: object
                     type: array
                   requestAccess:
@@ -699,6 +1079,18 @@ spec:
                           description: Resource name of the dataset source for this
                             listing. e.g. projects/myproject/datasets/123
                           type: string
+                        selectedResources:
+                          description: |-
+                            Resource in this dataset that is selectively shared. This field is required for data clean room exchanges.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              table:
+                                description: 'Format: For table: projects/{projectId}/datasets/{datasetId}/tables/{tableId}
+                                  Example:"projects/test_project/datasets/test_dataset/tables/test_table"'
+                                type: string
+                            type: object
+                          type: array
                       type: object
                     type: array
                   categories:
@@ -750,6 +1142,12 @@ spec:
                   location:
                     description: The name of the location this data exchange listing.
                     type: string
+                  logLinkedDatasetQueryUserEmail:
+                    description: If true, subscriber email logging is enabled and
+                      all queries on the linked dataset will log the email address
+                      of the querying user. Once enabled, this setting cannot be turned
+                      off.
+                    type: boolean
                   name:
                     description: The resource name of the listing. e.g. "projects/myproject/locations/US/dataExchanges/123/listings/456"
                     type: string
@@ -775,6 +1173,26 @@ spec:
                           type: string
                       type: object
                     type: array
+                  pubsubTopic:
+                    description: |-
+                      Pub/Sub topic source.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        dataAffinityRegions:
+                          description: |-
+                            Region hint on where the data might be published. Data affinity regions are modifiable.
+                            See https://cloud.google.com/about/locations for full listing of possible Cloud regions.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        topic:
+                          description: Resource name of the Pub/Sub topic source for
+                            this listing. e.g. projects/myproject/topics/topicId
+                          type: string
+                      type: object
+                    type: array
                   requestAccess:
                     description: Email or URL of the request access of the listing.
                       Subscribers can use this reference to request access.
@@ -787,6 +1205,11 @@ spec:
                       properties:
                         enabled:
                           description: If true, enable restricted export.
+                          type: boolean
+                        restrictDirectTableAccess:
+                          description: |-
+                            (Output)
+                            If true, restrict direct table access(read api/tabledata.list) on linked table.
                           type: boolean
                         restrictQueryResult:
                           description: If true, restrict export of query result derived

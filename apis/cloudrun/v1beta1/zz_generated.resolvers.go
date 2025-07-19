@@ -567,6 +567,27 @@ func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) err
 	var mrsp reference.MultiResolutionResponse
 	var err error
 
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.BuildConfig); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "ServiceAccount", "ServiceAccountList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.BuildConfig[i3].ServiceAccount),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.ForProvider.BuildConfig[i3].ServiceAccountRef,
+				Selector:     mg.Spec.ForProvider.BuildConfig[i3].ServiceAccountSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.BuildConfig[i3].ServiceAccount")
+		}
+		mg.Spec.ForProvider.BuildConfig[i3].ServiceAccount = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.BuildConfig[i3].ServiceAccountRef = rsp.ResolvedReference
+
+	}
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.Template); i3++ {
 		for i4 := 0; i4 < len(mg.Spec.ForProvider.Template[i3].Containers); i4++ {
 			for i5 := 0; i5 < len(mg.Spec.ForProvider.Template[i3].Containers[i4].Env); i5++ {
@@ -625,7 +646,7 @@ func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) err
 		for i4 := 0; i4 < len(mg.Spec.ForProvider.Template[i3].Volumes); i4++ {
 			for i5 := 0; i5 < len(mg.Spec.ForProvider.Template[i3].Volumes[i4].Gcs); i5++ {
 				{
-					m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta1", "Bucket", "BucketList")
+					m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta2", "Bucket", "BucketList")
 					if err != nil {
 						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 					}
@@ -670,6 +691,27 @@ func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) err
 
 			}
 		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.BuildConfig); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "ServiceAccount", "ServiceAccountList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.BuildConfig[i3].ServiceAccount),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.InitProvider.BuildConfig[i3].ServiceAccountRef,
+				Selector:     mg.Spec.InitProvider.BuildConfig[i3].ServiceAccountSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.BuildConfig[i3].ServiceAccount")
+		}
+		mg.Spec.InitProvider.BuildConfig[i3].ServiceAccount = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.BuildConfig[i3].ServiceAccountRef = rsp.ResolvedReference
+
 	}
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.Template); i3++ {
 		for i4 := 0; i4 < len(mg.Spec.InitProvider.Template[i3].Containers); i4++ {
@@ -729,7 +771,7 @@ func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) err
 		for i4 := 0; i4 < len(mg.Spec.InitProvider.Template[i3].Volumes); i4++ {
 			for i5 := 0; i5 < len(mg.Spec.InitProvider.Template[i3].Volumes[i4].Gcs); i5++ {
 				{
-					m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta1", "Bucket", "BucketList")
+					m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta2", "Bucket", "BucketList")
 					if err != nil {
 						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 					}

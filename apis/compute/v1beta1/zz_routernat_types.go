@@ -31,12 +31,34 @@ type ActionInitParameters struct {
 	// +kubebuilder:validation:Optional
 	SourceNATActiveIpsSelector *v1.Selector `json:"sourceNatActiveIpsSelector,omitempty" tf:"-"`
 
+	// A list of URLs of the subnetworks used as source ranges for this NAT Rule.
+	// These subnetworks must have purpose set to PRIVATE_NAT.
+	// This field is used for private NAT.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
+	// +listType=set
+	SourceNATActiveRanges []*string `json:"sourceNatActiveRanges,omitempty" tf:"source_nat_active_ranges,omitempty"`
+
+	// References to Subnetwork in compute to populate sourceNatActiveRanges.
+	// +kubebuilder:validation:Optional
+	SourceNATActiveRangesRefs []v1.Reference `json:"sourceNatActiveRangesRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Subnetwork in compute to populate sourceNatActiveRanges.
+	// +kubebuilder:validation:Optional
+	SourceNATActiveRangesSelector *v1.Selector `json:"sourceNatActiveRangesSelector,omitempty" tf:"-"`
+
 	// A list of URLs of the IP resources to be drained.
 	// These IPs must be valid static external IPs that have been assigned to the NAT.
 	// These IPs should be used for updating/patching a NAT rule only.
 	// This field is used for public NAT.
 	// +listType=set
 	SourceNATDrainIps []*string `json:"sourceNatDrainIps,omitempty" tf:"source_nat_drain_ips,omitempty"`
+
+	// A list of URLs of subnetworks representing source ranges to be drained.
+	// This is only supported on patch/update, and these subnetworks must have previously been used as active ranges in this NAT Rule.
+	// This field is used for private NAT.
+	// +listType=set
+	SourceNATDrainRanges []*string `json:"sourceNatDrainRanges,omitempty" tf:"source_nat_drain_ranges,omitempty"`
 }
 
 type ActionObservation struct {
@@ -47,12 +69,24 @@ type ActionObservation struct {
 	// +listType=set
 	SourceNATActiveIps []*string `json:"sourceNatActiveIps,omitempty" tf:"source_nat_active_ips,omitempty"`
 
+	// A list of URLs of the subnetworks used as source ranges for this NAT Rule.
+	// These subnetworks must have purpose set to PRIVATE_NAT.
+	// This field is used for private NAT.
+	// +listType=set
+	SourceNATActiveRanges []*string `json:"sourceNatActiveRanges,omitempty" tf:"source_nat_active_ranges,omitempty"`
+
 	// A list of URLs of the IP resources to be drained.
 	// These IPs must be valid static external IPs that have been assigned to the NAT.
 	// These IPs should be used for updating/patching a NAT rule only.
 	// This field is used for public NAT.
 	// +listType=set
 	SourceNATDrainIps []*string `json:"sourceNatDrainIps,omitempty" tf:"source_nat_drain_ips,omitempty"`
+
+	// A list of URLs of subnetworks representing source ranges to be drained.
+	// This is only supported on patch/update, and these subnetworks must have previously been used as active ranges in this NAT Rule.
+	// This field is used for private NAT.
+	// +listType=set
+	SourceNATDrainRanges []*string `json:"sourceNatDrainRanges,omitempty" tf:"source_nat_drain_ranges,omitempty"`
 }
 
 type ActionParameters struct {
@@ -74,6 +108,23 @@ type ActionParameters struct {
 	// +kubebuilder:validation:Optional
 	SourceNATActiveIpsSelector *v1.Selector `json:"sourceNatActiveIpsSelector,omitempty" tf:"-"`
 
+	// A list of URLs of the subnetworks used as source ranges for this NAT Rule.
+	// These subnetworks must have purpose set to PRIVATE_NAT.
+	// This field is used for private NAT.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	SourceNATActiveRanges []*string `json:"sourceNatActiveRanges,omitempty" tf:"source_nat_active_ranges,omitempty"`
+
+	// References to Subnetwork in compute to populate sourceNatActiveRanges.
+	// +kubebuilder:validation:Optional
+	SourceNATActiveRangesRefs []v1.Reference `json:"sourceNatActiveRangesRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Subnetwork in compute to populate sourceNatActiveRanges.
+	// +kubebuilder:validation:Optional
+	SourceNATActiveRangesSelector *v1.Selector `json:"sourceNatActiveRangesSelector,omitempty" tf:"-"`
+
 	// A list of URLs of the IP resources to be drained.
 	// These IPs must be valid static external IPs that have been assigned to the NAT.
 	// These IPs should be used for updating/patching a NAT rule only.
@@ -81,6 +132,32 @@ type ActionParameters struct {
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	SourceNATDrainIps []*string `json:"sourceNatDrainIps,omitempty" tf:"source_nat_drain_ips,omitempty"`
+
+	// A list of URLs of subnetworks representing source ranges to be drained.
+	// This is only supported on patch/update, and these subnetworks must have previously been used as active ranges in this NAT Rule.
+	// This field is used for private NAT.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	SourceNATDrainRanges []*string `json:"sourceNatDrainRanges,omitempty" tf:"source_nat_drain_ranges,omitempty"`
+}
+
+type Nat64SubnetworkInitParameters struct {
+
+	// Self-link of the subnetwork resource that will use NAT64
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type Nat64SubnetworkObservation struct {
+
+	// Self-link of the subnetwork resource that will use NAT64
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type Nat64SubnetworkParameters struct {
+
+	// Self-link of the subnetwork resource that will use NAT64
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name" tf:"name,omitempty"`
 }
 
 type RouterNATInitParameters struct {

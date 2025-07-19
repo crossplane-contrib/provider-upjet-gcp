@@ -738,6 +738,14 @@ spec:
                                       type: string
                                   type: object
                                 type: array
+                              nodeSelector:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  Node Selector describes the hardware requirements of the resources.
+                                  Use the following node selector keys to configure features on a Revision:
+                                type: object
+                                x-kubernetes-map-type: granular
                               serviceAccountName:
                                 description: |-
                                   Email address of the IAM service account associated with the revision of the
@@ -757,9 +765,84 @@ spec:
                                   Structure is documented below.
                                 items:
                                   properties:
+                                    csi:
+                                      description: |-
+                                        A filesystem specified by the Container Storage Interface (CSI).
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          driver:
+                                            description: 'Unique name representing
+                                              the type of file system to be created.
+                                              Cloud Run supports the following values:'
+                                            type: string
+                                          readOnly:
+                                            description: If true, mount the NFS volume
+                                              as read only in all mounts. Defaults
+                                              to false.
+                                            type: boolean
+                                          volumeAttributes:
+                                            additionalProperties:
+                                              type: string
+                                            description: 'Driver-specific attributes.
+                                              The following options are supported
+                                              for available drivers:'
+                                            type: object
+                                            x-kubernetes-map-type: granular
+                                        type: object
+                                      type: array
+                                    emptyDir:
+                                      description: |-
+                                        Ephemeral storage which can be backed by real disks (HD, SSD), network storage or memory (i.e. tmpfs). For now only in memory (tmpfs) is supported. It is ephemeral in the sense that when the sandbox is taken down, the data is destroyed with it (it does not persist across sandbox runs).
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          medium:
+                                            description: The medium on which the data
+                                              is stored. The default is "" which means
+                                              to use the node's default medium. Must
+                                              be an empty string (default) or Memory.
+                                            type: string
+                                          sizeLimit:
+                                            description: 'Limit on the storage usable
+                                              by this EmptyDir volume. The size limit
+                                              is also applicable for memory medium.
+                                              The maximum usage on memory medium EmptyDir
+                                              would be the minimum value between the
+                                              SizeLimit specified here and the sum
+                                              of memory limits of all containers in
+                                              a pod. This field''s values are of the
+                                              ''Quantity'' k8s type: https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/.
+                                              The default is nil which means that
+                                              the limit is undefined. More info: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir.'
+                                            type: string
+                                        type: object
+                                      type: array
                                     name:
                                       description: Volume's name.
                                       type: string
+                                    nfs:
+                                      description: |-
+                                        A filesystem backed by a Network File System share. This filesystem requires the
+                                        run.googleapis.com/execution-environment annotation to be unset or set to "gen2"
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          path:
+                                            description: Path exported by the NFS
+                                              server
+                                            type: string
+                                          readOnly:
+                                            description: If true, mount the NFS volume
+                                              as read only in all mounts. Defaults
+                                              to false.
+                                            type: boolean
+                                          server:
+                                            description: IP address or hostname of
+                                              the NFS server
+                                            type: string
+                                        type: object
+                                      type: array
                                     secret:
                                       description: |-
                                         The secret's value will be presented as the content of a file whose
@@ -1610,6 +1693,14 @@ spec:
                                       type: string
                                   type: object
                                 type: array
+                              nodeSelector:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  Node Selector describes the hardware requirements of the resources.
+                                  Use the following node selector keys to configure features on a Revision:
+                                type: object
+                                x-kubernetes-map-type: granular
                               serviceAccountName:
                                 description: |-
                                   Email address of the IAM service account associated with the revision of the
@@ -1629,9 +1720,84 @@ spec:
                                   Structure is documented below.
                                 items:
                                   properties:
+                                    csi:
+                                      description: |-
+                                        A filesystem specified by the Container Storage Interface (CSI).
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          driver:
+                                            description: 'Unique name representing
+                                              the type of file system to be created.
+                                              Cloud Run supports the following values:'
+                                            type: string
+                                          readOnly:
+                                            description: If true, mount the NFS volume
+                                              as read only in all mounts. Defaults
+                                              to false.
+                                            type: boolean
+                                          volumeAttributes:
+                                            additionalProperties:
+                                              type: string
+                                            description: 'Driver-specific attributes.
+                                              The following options are supported
+                                              for available drivers:'
+                                            type: object
+                                            x-kubernetes-map-type: granular
+                                        type: object
+                                      type: array
+                                    emptyDir:
+                                      description: |-
+                                        Ephemeral storage which can be backed by real disks (HD, SSD), network storage or memory (i.e. tmpfs). For now only in memory (tmpfs) is supported. It is ephemeral in the sense that when the sandbox is taken down, the data is destroyed with it (it does not persist across sandbox runs).
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          medium:
+                                            description: The medium on which the data
+                                              is stored. The default is "" which means
+                                              to use the node's default medium. Must
+                                              be an empty string (default) or Memory.
+                                            type: string
+                                          sizeLimit:
+                                            description: 'Limit on the storage usable
+                                              by this EmptyDir volume. The size limit
+                                              is also applicable for memory medium.
+                                              The maximum usage on memory medium EmptyDir
+                                              would be the minimum value between the
+                                              SizeLimit specified here and the sum
+                                              of memory limits of all containers in
+                                              a pod. This field''s values are of the
+                                              ''Quantity'' k8s type: https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/.
+                                              The default is nil which means that
+                                              the limit is undefined. More info: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir.'
+                                            type: string
+                                        type: object
+                                      type: array
                                     name:
                                       description: Volume's name.
                                       type: string
+                                    nfs:
+                                      description: |-
+                                        A filesystem backed by a Network File System share. This filesystem requires the
+                                        run.googleapis.com/execution-environment annotation to be unset or set to "gen2"
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          path:
+                                            description: Path exported by the NFS
+                                              server
+                                            type: string
+                                          readOnly:
+                                            description: If true, mount the NFS volume
+                                              as read only in all mounts. Defaults
+                                              to false.
+                                            type: boolean
+                                          server:
+                                            description: IP address or hostname of
+                                              the NFS server
+                                            type: string
+                                        type: object
+                                      type: array
                                     secret:
                                       description: |-
                                         The secret's value will be presented as the content of a file whose
@@ -2658,6 +2824,14 @@ spec:
                                       type: string
                                   type: object
                                 type: array
+                              nodeSelector:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  Node Selector describes the hardware requirements of the resources.
+                                  Use the following node selector keys to configure features on a Revision:
+                                type: object
+                                x-kubernetes-map-type: granular
                               serviceAccountName:
                                 description: |-
                                   Email address of the IAM service account associated with the revision of the
@@ -2685,9 +2859,84 @@ spec:
                                   Structure is documented below.
                                 items:
                                   properties:
+                                    csi:
+                                      description: |-
+                                        A filesystem specified by the Container Storage Interface (CSI).
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          driver:
+                                            description: 'Unique name representing
+                                              the type of file system to be created.
+                                              Cloud Run supports the following values:'
+                                            type: string
+                                          readOnly:
+                                            description: If true, mount the NFS volume
+                                              as read only in all mounts. Defaults
+                                              to false.
+                                            type: boolean
+                                          volumeAttributes:
+                                            additionalProperties:
+                                              type: string
+                                            description: 'Driver-specific attributes.
+                                              The following options are supported
+                                              for available drivers:'
+                                            type: object
+                                            x-kubernetes-map-type: granular
+                                        type: object
+                                      type: array
+                                    emptyDir:
+                                      description: |-
+                                        Ephemeral storage which can be backed by real disks (HD, SSD), network storage or memory (i.e. tmpfs). For now only in memory (tmpfs) is supported. It is ephemeral in the sense that when the sandbox is taken down, the data is destroyed with it (it does not persist across sandbox runs).
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          medium:
+                                            description: The medium on which the data
+                                              is stored. The default is "" which means
+                                              to use the node's default medium. Must
+                                              be an empty string (default) or Memory.
+                                            type: string
+                                          sizeLimit:
+                                            description: 'Limit on the storage usable
+                                              by this EmptyDir volume. The size limit
+                                              is also applicable for memory medium.
+                                              The maximum usage on memory medium EmptyDir
+                                              would be the minimum value between the
+                                              SizeLimit specified here and the sum
+                                              of memory limits of all containers in
+                                              a pod. This field''s values are of the
+                                              ''Quantity'' k8s type: https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/.
+                                              The default is nil which means that
+                                              the limit is undefined. More info: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir.'
+                                            type: string
+                                        type: object
+                                      type: array
                                     name:
                                       description: Volume's name.
                                       type: string
+                                    nfs:
+                                      description: |-
+                                        A filesystem backed by a Network File System share. This filesystem requires the
+                                        run.googleapis.com/execution-environment annotation to be unset or set to "gen2"
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          path:
+                                            description: Path exported by the NFS
+                                              server
+                                            type: string
+                                          readOnly:
+                                            description: If true, mount the NFS volume
+                                              as read only in all mounts. Defaults
+                                              to false.
+                                            type: boolean
+                                          server:
+                                            description: IP address or hostname of
+                                              the NFS server
+                                            type: string
+                                        type: object
+                                      type: array
                                     secret:
                                       description: |-
                                         The secret's value will be presented as the content of a file whose

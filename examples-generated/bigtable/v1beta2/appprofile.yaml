@@ -39,3 +39,4 @@ spec:
       numNodes: 3
       storageType: HDD
       zone: us-central1-c
+    deletionProtection: true

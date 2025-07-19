@@ -20,6 +20,12 @@ type AdvancedSettingsInitParameters struct {
 
 	// Define behaviors for DTMF (dual tone multi frequency). DTMF settings does not override each other. DTMF settings set at different levels define DTMF detections running in parallel. Exposed at the following levels:
 	DtmfSettings []DtmfSettingsInitParameters `json:"dtmfSettings,omitempty" tf:"dtmf_settings,omitempty"`
+
+	// Settings for logging. Settings for Dialogflow History, Contact Center messages, StackDriver logs, and speech logging. Exposed at the following levels:
+	LoggingSettings []LoggingSettingsInitParameters `json:"loggingSettings,omitempty" tf:"logging_settings,omitempty"`
+
+	// Settings for speech to text detection. Exposed at the following levels:
+	SpeechSettings []SpeechSettingsInitParameters `json:"speechSettings,omitempty" tf:"speech_settings,omitempty"`
 }
 
 type AdvancedSettingsObservation struct {
@@ -29,6 +35,12 @@ type AdvancedSettingsObservation struct {
 
 	// Define behaviors for DTMF (dual tone multi frequency). DTMF settings does not override each other. DTMF settings set at different levels define DTMF detections running in parallel. Exposed at the following levels:
 	DtmfSettings []DtmfSettingsObservation `json:"dtmfSettings,omitempty" tf:"dtmf_settings,omitempty"`
+
+	// Settings for logging. Settings for Dialogflow History, Contact Center messages, StackDriver logs, and speech logging. Exposed at the following levels:
+	LoggingSettings []LoggingSettingsObservation `json:"loggingSettings,omitempty" tf:"logging_settings,omitempty"`
+
+	// Settings for speech to text detection. Exposed at the following levels:
+	SpeechSettings []SpeechSettingsObservation `json:"speechSettings,omitempty" tf:"speech_settings,omitempty"`
 }
 
 type AdvancedSettingsParameters struct {
@@ -40,6 +52,14 @@ type AdvancedSettingsParameters struct {
 	// Define behaviors for DTMF (dual tone multi frequency). DTMF settings does not override each other. DTMF settings set at different levels define DTMF detections running in parallel. Exposed at the following levels:
 	// +kubebuilder:validation:Optional
 	DtmfSettings []DtmfSettingsParameters `json:"dtmfSettings,omitempty" tf:"dtmf_settings,omitempty"`
+
+	// Settings for logging. Settings for Dialogflow History, Contact Center messages, StackDriver logs, and speech logging. Exposed at the following levels:
+	// +kubebuilder:validation:Optional
+	LoggingSettings []LoggingSettingsParameters `json:"loggingSettings,omitempty" tf:"logging_settings,omitempty"`
+
+	// Settings for speech to text detection. Exposed at the following levels:
+	// +kubebuilder:validation:Optional
+	SpeechSettings []SpeechSettingsParameters `json:"speechSettings,omitempty" tf:"speech_settings,omitempty"`
 }
 
 type AgentInitParameters struct {
@@ -56,6 +76,9 @@ type AgentInitParameters struct {
 	// for a list of the currently supported language codes. This field cannot be updated after creation.
 	DefaultLanguageCode *string `json:"defaultLanguageCode,omitempty" tf:"default_language_code,omitempty"`
 
+	// Otherwise, the chat engine will persist.
+	DeleteChatEngineOnDestroy *bool `json:"deleteChatEngineOnDestroy,omitempty" tf:"delete_chat_engine_on_destroy,omitempty"`
+
 	// The description of this agent. The maximum length is 500 characters. If exceeded, the request is rejected.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -67,6 +90,10 @@ type AgentInitParameters struct {
 
 	// Determines whether this agent should log conversation queries.
 	EnableStackdriverLogging *bool `json:"enableStackdriverLogging,omitempty" tf:"enable_stackdriver_logging,omitempty"`
+
+	// Gen App Builder-related agent-level settings.
+	// Structure is documented below.
+	GenAppBuilderSettings []GenAppBuilderSettingsInitParameters `json:"genAppBuilderSettings,omitempty" tf:"gen_app_builder_settings,omitempty"`
 
 	// Git integration settings for this agent.
 	// Structure is documented below.
@@ -115,6 +142,9 @@ type AgentObservation struct {
 	// for a list of the currently supported language codes. This field cannot be updated after creation.
 	DefaultLanguageCode *string `json:"defaultLanguageCode,omitempty" tf:"default_language_code,omitempty"`
 
+	// Otherwise, the chat engine will persist.
+	DeleteChatEngineOnDestroy *bool `json:"deleteChatEngineOnDestroy,omitempty" tf:"delete_chat_engine_on_destroy,omitempty"`
+
 	// The description of this agent. The maximum length is 500 characters. If exceeded, the request is rejected.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -126,6 +156,10 @@ type AgentObservation struct {
 
 	// Determines whether this agent should log conversation queries.
 	EnableStackdriverLogging *bool `json:"enableStackdriverLogging,omitempty" tf:"enable_stackdriver_logging,omitempty"`
+
+	// Gen App Builder-related agent-level settings.
+	// Structure is documented below.
+	GenAppBuilderSettings []GenAppBuilderSettingsObservation `json:"genAppBuilderSettings,omitempty" tf:"gen_app_builder_settings,omitempty"`
 
 	// Git integration settings for this agent.
 	// Structure is documented below.
@@ -186,6 +220,10 @@ type AgentParameters struct {
 	// +kubebuilder:validation:Optional
 	DefaultLanguageCode *string `json:"defaultLanguageCode,omitempty" tf:"default_language_code,omitempty"`
 
+	// Otherwise, the chat engine will persist.
+	// +kubebuilder:validation:Optional
+	DeleteChatEngineOnDestroy *bool `json:"deleteChatEngineOnDestroy,omitempty" tf:"delete_chat_engine_on_destroy,omitempty"`
+
 	// The description of this agent. The maximum length is 500 characters. If exceeded, the request is rejected.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -201,6 +239,11 @@ type AgentParameters struct {
 	// Determines whether this agent should log conversation queries.
 	// +kubebuilder:validation:Optional
 	EnableStackdriverLogging *bool `json:"enableStackdriverLogging,omitempty" tf:"enable_stackdriver_logging,omitempty"`
+
+	// Gen App Builder-related agent-level settings.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	GenAppBuilderSettings []GenAppBuilderSettingsParameters `json:"genAppBuilderSettings,omitempty" tf:"gen_app_builder_settings,omitempty"`
 
 	// Git integration settings for this agent.
 	// Structure is documented below.
@@ -304,6 +347,28 @@ type DtmfSettingsParameters struct {
 	MaxDigits *float64 `json:"maxDigits,omitempty" tf:"max_digits,omitempty"`
 }
 
+type GenAppBuilderSettingsInitParameters struct {
+
+	// The full name of the Gen App Builder engine related to this agent if there is one.
+	// Format: projects/{Project ID}/locations/{Location ID}/collections/{Collection ID}/engines/{Engine ID}
+	Engine *string `json:"engine,omitempty" tf:"engine,omitempty"`
+}
+
+type GenAppBuilderSettingsObservation struct {
+
+	// The full name of the Gen App Builder engine related to this agent if there is one.
+	// Format: projects/{Project ID}/locations/{Location ID}/collections/{Collection ID}/engines/{Engine ID}
+	Engine *string `json:"engine,omitempty" tf:"engine,omitempty"`
+}
+
+type GenAppBuilderSettingsParameters struct {
+
+	// The full name of the Gen App Builder engine related to this agent if there is one.
+	// Format: projects/{Project ID}/locations/{Location ID}/collections/{Collection ID}/engines/{Engine ID}
+	// +kubebuilder:validation:Optional
+	Engine *string `json:"engine" tf:"engine,omitempty"`
+}
+
 type GitIntegrationSettingsInitParameters struct {
 
 	// Settings of integration with GitHub.
@@ -382,6 +447,103 @@ type GithubSettingsParameters struct {
 	// The branch of the GitHub repository tracked for this agent.
 	// +kubebuilder:validation:Optional
 	TrackingBranch *string `json:"trackingBranch,omitempty" tf:"tracking_branch,omitempty"`
+}
+
+type LoggingSettingsInitParameters struct {
+
+	// Enables consent-based end-user input redaction, if true, a pre-defined session parameter $session.params.conversation-redaction will be used to determine if the utterance should be redacted.
+	EnableConsentBasedRedaction *bool `json:"enableConsentBasedRedaction,omitempty" tf:"enable_consent_based_redaction,omitempty"`
+
+	// Enables DF Interaction logging.
+	EnableInteractionLogging *bool `json:"enableInteractionLogging,omitempty" tf:"enable_interaction_logging,omitempty"`
+
+	// Enables Google Cloud Logging.
+	EnableStackdriverLogging *bool `json:"enableStackdriverLogging,omitempty" tf:"enable_stackdriver_logging,omitempty"`
+}
+
+type LoggingSettingsObservation struct {
+
+	// Enables consent-based end-user input redaction, if true, a pre-defined session parameter $session.params.conversation-redaction will be used to determine if the utterance should be redacted.
+	EnableConsentBasedRedaction *bool `json:"enableConsentBasedRedaction,omitempty" tf:"enable_consent_based_redaction,omitempty"`
+
+	// Enables DF Interaction logging.
+	EnableInteractionLogging *bool `json:"enableInteractionLogging,omitempty" tf:"enable_interaction_logging,omitempty"`
+
+	// Enables Google Cloud Logging.
+	EnableStackdriverLogging *bool `json:"enableStackdriverLogging,omitempty" tf:"enable_stackdriver_logging,omitempty"`
+}
+
+type LoggingSettingsParameters struct {
+
+	// Enables consent-based end-user input redaction, if true, a pre-defined session parameter $session.params.conversation-redaction will be used to determine if the utterance should be redacted.
+	// +kubebuilder:validation:Optional
+	EnableConsentBasedRedaction *bool `json:"enableConsentBasedRedaction,omitempty" tf:"enable_consent_based_redaction,omitempty"`
+
+	// Enables DF Interaction logging.
+	// +kubebuilder:validation:Optional
+	EnableInteractionLogging *bool `json:"enableInteractionLogging,omitempty" tf:"enable_interaction_logging,omitempty"`
+
+	// Enables Google Cloud Logging.
+	// +kubebuilder:validation:Optional
+	EnableStackdriverLogging *bool `json:"enableStackdriverLogging,omitempty" tf:"enable_stackdriver_logging,omitempty"`
+}
+
+type SpeechSettingsInitParameters struct {
+
+	// Sensitivity of the speech model that detects the end of speech. Scale from 0 to 100.
+	EndpointerSensitivity *float64 `json:"endpointerSensitivity,omitempty" tf:"endpointer_sensitivity,omitempty"`
+
+	// Mapping from language to Speech-to-Text model. The mapped Speech-to-Text model will be selected for requests from its corresponding language. For more information, see Speech models.
+	// An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	// +mapType=granular
+	Models map[string]*string `json:"models,omitempty" tf:"models,omitempty"`
+
+	// Timeout before detecting no speech.
+	// A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
+	NoSpeechTimeout *string `json:"noSpeechTimeout,omitempty" tf:"no_speech_timeout,omitempty"`
+
+	// Use timeout based endpointing, interpreting endpointer sensitivity as seconds of timeout value.
+	UseTimeoutBasedEndpointing *bool `json:"useTimeoutBasedEndpointing,omitempty" tf:"use_timeout_based_endpointing,omitempty"`
+}
+
+type SpeechSettingsObservation struct {
+
+	// Sensitivity of the speech model that detects the end of speech. Scale from 0 to 100.
+	EndpointerSensitivity *float64 `json:"endpointerSensitivity,omitempty" tf:"endpointer_sensitivity,omitempty"`
+
+	// Mapping from language to Speech-to-Text model. The mapped Speech-to-Text model will be selected for requests from its corresponding language. For more information, see Speech models.
+	// An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	// +mapType=granular
+	Models map[string]*string `json:"models,omitempty" tf:"models,omitempty"`
+
+	// Timeout before detecting no speech.
+	// A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
+	NoSpeechTimeout *string `json:"noSpeechTimeout,omitempty" tf:"no_speech_timeout,omitempty"`
+
+	// Use timeout based endpointing, interpreting endpointer sensitivity as seconds of timeout value.
+	UseTimeoutBasedEndpointing *bool `json:"useTimeoutBasedEndpointing,omitempty" tf:"use_timeout_based_endpointing,omitempty"`
+}
+
+type SpeechSettingsParameters struct {
+
+	// Sensitivity of the speech model that detects the end of speech. Scale from 0 to 100.
+	// +kubebuilder:validation:Optional
+	EndpointerSensitivity *float64 `json:"endpointerSensitivity,omitempty" tf:"endpointer_sensitivity,omitempty"`
+
+	// Mapping from language to Speech-to-Text model. The mapped Speech-to-Text model will be selected for requests from its corresponding language. For more information, see Speech models.
+	// An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Models map[string]*string `json:"models,omitempty" tf:"models,omitempty"`
+
+	// Timeout before detecting no speech.
+	// A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
+	// +kubebuilder:validation:Optional
+	NoSpeechTimeout *string `json:"noSpeechTimeout,omitempty" tf:"no_speech_timeout,omitempty"`
+
+	// Use timeout based endpointing, interpreting endpointer sensitivity as seconds of timeout value.
+	// +kubebuilder:validation:Optional
+	UseTimeoutBasedEndpointing *bool `json:"useTimeoutBasedEndpointing,omitempty" tf:"use_timeout_based_endpointing,omitempty"`
 }
 
 type SpeechToTextSettingsInitParameters struct {

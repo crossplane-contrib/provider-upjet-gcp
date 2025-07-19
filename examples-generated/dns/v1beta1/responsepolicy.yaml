@@ -86,6 +86,7 @@ spec:
   forProvider:
     defaultSnatStatus:
     - disabled: true
+    deletionProtection: true
     initialNodeCount: 1
     ipAllocationPolicy:
     - clusterSecondaryRangeName: pod

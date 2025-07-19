@@ -13,6 +13,67 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type InstanceFlexibilityPolicyInitParameters struct {
+
+	// , Named instance selections configuring properties that the group will use when creating new VMs. One can specify multiple instance selection to allow managed instance group to create VMs from multiple types of machines, based on preference and availability. Structure is documented below.
+	InstanceSelections []InstanceSelectionsInitParameters `json:"instanceSelections,omitempty" tf:"instance_selections,omitempty"`
+}
+
+type InstanceFlexibilityPolicyObservation struct {
+
+	// , Named instance selections configuring properties that the group will use when creating new VMs. One can specify multiple instance selection to allow managed instance group to create VMs from multiple types of machines, based on preference and availability. Structure is documented below.
+	InstanceSelections []InstanceSelectionsObservation `json:"instanceSelections,omitempty" tf:"instance_selections,omitempty"`
+}
+
+type InstanceFlexibilityPolicyParameters struct {
+
+	// , Named instance selections configuring properties that the group will use when creating new VMs. One can specify multiple instance selection to allow managed instance group to create VMs from multiple types of machines, based on preference and availability. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	InstanceSelections []InstanceSelectionsParameters `json:"instanceSelections,omitempty" tf:"instance_selections,omitempty"`
+}
+
+type InstanceSelectionsInitParameters struct {
+
+	// , A list of full machine-type names, e.g. "n1-standard-16".
+	// +listType=set
+	MachineTypes []*string `json:"machineTypes,omitempty" tf:"machine_types,omitempty"`
+
+	// , Name of the instance selection, e.g. instance_selection_with_n1_machines_types. Instance selection names must be unique within the flexibility policy.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// , Preference of this instance selection. Lower number means higher preference. Managed instance group will first try to create a VM based on the machine-type with lowest rank and fallback to next rank based on availability. Machine types and instance selections with the same rank have the same preference.
+	Rank *float64 `json:"rank,omitempty" tf:"rank,omitempty"`
+}
+
+type InstanceSelectionsObservation struct {
+
+	// , A list of full machine-type names, e.g. "n1-standard-16".
+	// +listType=set
+	MachineTypes []*string `json:"machineTypes,omitempty" tf:"machine_types,omitempty"`
+
+	// , Name of the instance selection, e.g. instance_selection_with_n1_machines_types. Instance selection names must be unique within the flexibility policy.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// , Preference of this instance selection. Lower number means higher preference. Managed instance group will first try to create a VM based on the machine-type with lowest rank and fallback to next rank based on availability. Machine types and instance selections with the same rank have the same preference.
+	Rank *float64 `json:"rank,omitempty" tf:"rank,omitempty"`
+}
+
+type InstanceSelectionsParameters struct {
+
+	// , A list of full machine-type names, e.g. "n1-standard-16".
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	MachineTypes []*string `json:"machineTypes" tf:"machine_types,omitempty"`
+
+	// , Name of the instance selection, e.g. instance_selection_with_n1_machines_types. Instance selection names must be unique within the flexibility policy.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name" tf:"name,omitempty"`
+
+	// , Preference of this instance selection. Lower number means higher preference. Managed instance group will first try to create a VM based on the machine-type with lowest rank and fallback to next rank based on availability. Machine types and instance selections with the same rank have the same preference.
+	// +kubebuilder:validation:Optional
+	Rank *float64 `json:"rank,omitempty" tf:"rank,omitempty"`
+}
+
 type RegionInstanceGroupManagerAllInstancesConfigInitParameters struct {
 
 	// , The label key-value pairs that you want to patch onto the instance.
@@ -131,6 +192,9 @@ type RegionInstanceGroupManagerInitParameters struct {
 	// +listType=set
 	DistributionPolicyZones []*string `json:"distributionPolicyZones,omitempty" tf:"distribution_policy_zones,omitempty"`
 
+	// The flexibility policy for managed instance group. Instance flexibility allows managed instance group to create VMs from multiple types of machines. Instance flexibility configuration on managed instance group overrides instance template configuration. Structure is documented below.
+	InstanceFlexibilityPolicy []InstanceFlexibilityPolicyInitParameters `json:"instanceFlexibilityPolicy,omitempty" tf:"instance_flexibility_policy,omitempty"`
+
 	InstanceLifecyclePolicy []RegionInstanceGroupManagerInstanceLifecyclePolicyInitParameters `json:"instanceLifecyclePolicy,omitempty" tf:"instance_lifecycle_policy,omitempty"`
 
 	// Pagination behavior of the listManagedInstances API
@@ -157,6 +221,9 @@ type RegionInstanceGroupManagerInitParameters struct {
 
 	// The region where the managed instance group resides. If not provided, the provider region is used.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// The standby policy for stopped and suspended instances. Structure is documented below. For more information, see the official documentation.
+	StandbyPolicy []RegionInstanceGroupManagerStandbyPolicyInitParameters `json:"standbyPolicy,omitempty" tf:"standby_policy,omitempty"`
 
 	// Disks created on the instances that will be preserved on instance delete, update, etc. Structure is documented below. For more information see the official documentation. Proactive cross zone instance redistribution must be disabled before you can update stateful disks on existing instance group managers. This can be controlled via the update_policy.
 	StatefulDisk []RegionInstanceGroupManagerStatefulDiskInitParameters `json:"statefulDisk,omitempty" tf:"stateful_disk,omitempty"`
@@ -188,6 +255,12 @@ type RegionInstanceGroupManagerInitParameters struct {
 	// when using one. If a value is required, such as to specify a creation-time target size for the MIG,
 	// lifecycle. Defaults to 0.
 	TargetSize *float64 `json:"targetSize,omitempty" tf:"target_size,omitempty"`
+
+	// The target number of stopped instances for this managed instance group.
+	TargetStoppedSize *float64 `json:"targetStoppedSize,omitempty" tf:"target_stopped_size,omitempty"`
+
+	// The target number of suspended instances for this managed instance group.
+	TargetSuspendedSize *float64 `json:"targetSuspendedSize,omitempty" tf:"target_suspended_size,omitempty"`
 
 	// The update policy for this managed instance group. Structure is documented below. For more information, see the official documentation and API
 	UpdatePolicy []RegionInstanceGroupManagerUpdatePolicyInitParameters `json:"updatePolicy,omitempty" tf:"update_policy,omitempty"`
@@ -305,8 +378,14 @@ type RegionInstanceGroupManagerObservation struct {
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/instanceGroupManagers/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The flexibility policy for managed instance group. Instance flexibility allows managed instance group to create VMs from multiple types of machines. Instance flexibility configuration on managed instance group overrides instance template configuration. Structure is documented below.
+	InstanceFlexibilityPolicy []InstanceFlexibilityPolicyObservation `json:"instanceFlexibilityPolicy,omitempty" tf:"instance_flexibility_policy,omitempty"`
+
 	// The full URL of the instance group created by the manager.
 	InstanceGroup *string `json:"instanceGroup,omitempty" tf:"instance_group,omitempty"`
+
+	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/instanceGroupManagers/{{name}}
+	InstanceGroupManagerID *float64 `json:"instanceGroupManagerId,omitempty" tf:"instance_group_manager_id,omitempty"`
 
 	InstanceLifecyclePolicy []RegionInstanceGroupManagerInstanceLifecyclePolicyObservation `json:"instanceLifecyclePolicy,omitempty" tf:"instance_lifecycle_policy,omitempty"`
 
@@ -338,6 +417,9 @@ type RegionInstanceGroupManagerObservation struct {
 	// The URL of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
+	// The standby policy for stopped and suspended instances. Structure is documented below. For more information, see the official documentation.
+	StandbyPolicy []RegionInstanceGroupManagerStandbyPolicyObservation `json:"standbyPolicy,omitempty" tf:"standby_policy,omitempty"`
+
 	// Disks created on the instances that will be preserved on instance delete, update, etc. Structure is documented below. For more information see the official documentation. Proactive cross zone instance redistribution must be disabled before you can update stateful disks on existing instance group managers. This can be controlled via the update_policy.
 	StatefulDisk []RegionInstanceGroupManagerStatefulDiskObservation `json:"statefulDisk,omitempty" tf:"stateful_disk,omitempty"`
 
@@ -360,6 +442,12 @@ type RegionInstanceGroupManagerObservation struct {
 	// when using one. If a value is required, such as to specify a creation-time target size for the MIG,
 	// lifecycle. Defaults to 0.
 	TargetSize *float64 `json:"targetSize,omitempty" tf:"target_size,omitempty"`
+
+	// The target number of stopped instances for this managed instance group.
+	TargetStoppedSize *float64 `json:"targetStoppedSize,omitempty" tf:"target_stopped_size,omitempty"`
+
+	// The target number of suspended instances for this managed instance group.
+	TargetSuspendedSize *float64 `json:"targetSuspendedSize,omitempty" tf:"target_suspended_size,omitempty"`
 
 	// The update policy for this managed instance group. Structure is documented below. For more information, see the official documentation and API
 	UpdatePolicy []RegionInstanceGroupManagerUpdatePolicyObservation `json:"updatePolicy,omitempty" tf:"update_policy,omitempty"`
@@ -416,6 +504,10 @@ type RegionInstanceGroupManagerParameters struct {
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	DistributionPolicyZones []*string `json:"distributionPolicyZones,omitempty" tf:"distribution_policy_zones,omitempty"`
+
+	// The flexibility policy for managed instance group. Instance flexibility allows managed instance group to create VMs from multiple types of machines. Instance flexibility configuration on managed instance group overrides instance template configuration. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	InstanceFlexibilityPolicy []InstanceFlexibilityPolicyParameters `json:"instanceFlexibilityPolicy,omitempty" tf:"instance_flexibility_policy,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	InstanceLifecyclePolicy []RegionInstanceGroupManagerInstanceLifecyclePolicyParameters `json:"instanceLifecyclePolicy,omitempty" tf:"instance_lifecycle_policy,omitempty"`
@@ -486,6 +578,14 @@ type RegionInstanceGroupManagerParameters struct {
 	// +kubebuilder:validation:Optional
 	TargetSize *float64 `json:"targetSize,omitempty" tf:"target_size,omitempty"`
 
+	// The target number of stopped instances for this managed instance group.
+	// +kubebuilder:validation:Optional
+	TargetStoppedSize *float64 `json:"targetStoppedSize,omitempty" tf:"target_stopped_size,omitempty"`
+
+	// The target number of suspended instances for this managed instance group.
+	// +kubebuilder:validation:Optional
+	TargetSuspendedSize *float64 `json:"targetSuspendedSize,omitempty" tf:"target_suspended_size,omitempty"`
+
 	// The update policy for this managed instance group. Structure is documented below. For more information, see the official documentation and API
 	// +kubebuilder:validation:Optional
 	UpdatePolicy []RegionInstanceGroupManagerUpdatePolicyParameters `json:"updatePolicy,omitempty" tf:"update_policy,omitempty"`
@@ -507,6 +607,35 @@ type RegionInstanceGroupManagerParameters struct {
 	// instances to be stable before returning. The possible values are STABLE and UPDATED
 	// +kubebuilder:validation:Optional
 	WaitForInstancesStatus *string `json:"waitForInstancesStatus,omitempty" tf:"wait_for_instances_status,omitempty"`
+}
+
+type RegionInstanceGroupManagerStandbyPolicyInitParameters struct {
+
+	// - Specifies the number of seconds that the MIG should wait to suspend or stop a VM after that VM was created. The initial delay gives the initialization script the time to prepare your VM for a quick scale out. The value of initial delay must be between 0 and 3600 seconds. The default value is 0.
+	InitialDelaySec *float64 `json:"initialDelaySec,omitempty" tf:"initial_delay_sec,omitempty"`
+
+	// - Defines how a MIG resumes or starts VMs from a standby pool when the group scales out. Valid options are: MANUAL, SCALE_OUT_POOL. If MANUAL(default), you have full control over which VMs are stopped and suspended in the MIG. If SCALE_OUT_POOL, the MIG uses the VMs from the standby pools to accelerate the scale out by resuming or starting them and then automatically replenishes the standby pool with new VMs to maintain the target sizes.
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+}
+
+type RegionInstanceGroupManagerStandbyPolicyObservation struct {
+
+	// - Specifies the number of seconds that the MIG should wait to suspend or stop a VM after that VM was created. The initial delay gives the initialization script the time to prepare your VM for a quick scale out. The value of initial delay must be between 0 and 3600 seconds. The default value is 0.
+	InitialDelaySec *float64 `json:"initialDelaySec,omitempty" tf:"initial_delay_sec,omitempty"`
+
+	// - Defines how a MIG resumes or starts VMs from a standby pool when the group scales out. Valid options are: MANUAL, SCALE_OUT_POOL. If MANUAL(default), you have full control over which VMs are stopped and suspended in the MIG. If SCALE_OUT_POOL, the MIG uses the VMs from the standby pools to accelerate the scale out by resuming or starting them and then automatically replenishes the standby pool with new VMs to maintain the target sizes.
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+}
+
+type RegionInstanceGroupManagerStandbyPolicyParameters struct {
+
+	// - Specifies the number of seconds that the MIG should wait to suspend or stop a VM after that VM was created. The initial delay gives the initialization script the time to prepare your VM for a quick scale out. The value of initial delay must be between 0 and 3600 seconds. The default value is 0.
+	// +kubebuilder:validation:Optional
+	InitialDelaySec *float64 `json:"initialDelaySec,omitempty" tf:"initial_delay_sec,omitempty"`
+
+	// - Defines how a MIG resumes or starts VMs from a standby pool when the group scales out. Valid options are: MANUAL, SCALE_OUT_POOL. If MANUAL(default), you have full control over which VMs are stopped and suspended in the MIG. If SCALE_OUT_POOL, the MIG uses the VMs from the standby pools to accelerate the scale out by resuming or starting them and then automatically replenishes the standby pool with new VMs to maintain the target sizes.
+	// +kubebuilder:validation:Optional
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 }
 
 type RegionInstanceGroupManagerStatefulDiskInitParameters struct {
