@@ -7,6 +7,7 @@ kind: Table
 metadata:
   annotations:
     meta.upbound.io/example-id: bigquery/v1beta1/table
+    uptest.upbound.io/disable-import: "true"
   labels:
     testing.upbound.io/example-name: default
   name: default
@@ -43,6 +44,7 @@ kind: Dataset
 metadata:
   annotations:
     meta.upbound.io/example-id: bigquery/v1beta1/table
+    uptest.upbound.io/disable-import: "true"
   labels:
     testing.upbound.io/example-name: default
   name: default

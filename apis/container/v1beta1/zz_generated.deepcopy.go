@@ -8086,8 +8086,10 @@ func (in *NetworkConfigObservation) DeepCopyInto(out *NetworkConfigObservation) 
 	}
 	if in.NetworkPerformanceConfig != nil {
 		in, out := &in.NetworkPerformanceConfig, &out.NetworkPerformanceConfig
-		*out = new(NetworkConfigNetworkPerformanceConfigObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]NetworkConfigNetworkPerformanceConfigObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.PodCidrOverprovisionConfig != nil {
 		in, out := &in.PodCidrOverprovisionConfig, &out.PodCidrOverprovisionConfig
@@ -9120,8 +9122,10 @@ func (in *NodeConfigDefaultsInitParameters) DeepCopyInto(out *NodeConfigDefaults
 	}
 	if in.GcfsConfig != nil {
 		in, out := &in.GcfsConfig, &out.GcfsConfig
-		*out = new(NodeConfigDefaultsGcfsConfigInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]NodeConfigDefaultsGcfsConfigInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.InsecureKubeletReadonlyPortEnabled != nil {
 		in, out := &in.InsecureKubeletReadonlyPortEnabled, &out.InsecureKubeletReadonlyPortEnabled
@@ -9157,8 +9161,10 @@ func (in *NodeConfigDefaultsObservation) DeepCopyInto(out *NodeConfigDefaultsObs
 	}
 	if in.GcfsConfig != nil {
 		in, out := &in.GcfsConfig, &out.GcfsConfig
-		*out = new(NodeConfigDefaultsGcfsConfigObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]NodeConfigDefaultsGcfsConfigObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.InsecureKubeletReadonlyPortEnabled != nil {
 		in, out := &in.InsecureKubeletReadonlyPortEnabled, &out.InsecureKubeletReadonlyPortEnabled
@@ -9194,8 +9200,10 @@ func (in *NodeConfigDefaultsParameters) DeepCopyInto(out *NodeConfigDefaultsPara
 	}
 	if in.GcfsConfig != nil {
 		in, out := &in.GcfsConfig, &out.GcfsConfig
-		*out = new(NodeConfigDefaultsGcfsConfigParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]NodeConfigDefaultsGcfsConfigParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.InsecureKubeletReadonlyPortEnabled != nil {
 		in, out := &in.InsecureKubeletReadonlyPortEnabled, &out.InsecureKubeletReadonlyPortEnabled

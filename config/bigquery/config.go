@@ -6,6 +6,7 @@ package bigquery
 
 import (
 	"github.com/crossplane/upjet/pkg/config"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
 
 // Configure configures individual resources by adding custom
@@ -88,6 +89,18 @@ func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("google_bigquery_analytics_hub_data_exchange_iam_member", func(r *config.Resource) {
 		r.References["data_exchange_id"] = config.Reference{
 			TerraformName: "google_bigquery_analytics_hub_data_exchange",
+		}
+	})
+	p.AddResourceConfigurator("google_bigquery_analytics_hub_data_exchange", func(r *config.Resource) {
+		r.LateInitializer = config.LateInitializer{
+			IgnoredFields: []string{"sharing_environment_config"},
+		}
+		r.TerraformCustomDiff = func(diff *terraform.InstanceDiff, _ *terraform.InstanceState, _ *terraform.ResourceConfig) (*terraform.InstanceDiff, error) {
+			if diff == nil || diff.Empty() || diff.Destroy || diff.Attributes == nil {
+				return diff, nil
+			}
+			delete(diff.Attributes, "sharing_environment_config.0.default_exchange_config.#")
+			return diff, nil
 		}
 	})
 }

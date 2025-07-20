@@ -3642,7 +3642,7 @@ type NetworkConfigObservation struct {
 	EnablePrivateNodes *bool `json:"enablePrivateNodes,omitempty" tf:"enable_private_nodes,omitempty"`
 
 	// Network bandwidth tier configuration.
-	NetworkPerformanceConfig *NetworkConfigNetworkPerformanceConfigObservation `json:"networkPerformanceConfig,omitempty" tf:"network_performance_config,omitempty"`
+	NetworkPerformanceConfig []NetworkConfigNetworkPerformanceConfigObservation `json:"networkPerformanceConfig,omitempty" tf:"network_performance_config,omitempty"`
 
 	PodCidrOverprovisionConfig []NetworkConfigPodCidrOverprovisionConfigObservation `json:"podCidrOverprovisionConfig,omitempty" tf:"pod_cidr_overprovision_config,omitempty"`
 
@@ -3924,7 +3924,7 @@ type NodeConfigDefaultsInitParameters struct {
 	ContainerdConfig []NodeConfigDefaultsContainerdConfigInitParameters `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
 
 	// The default Google Container Filesystem (GCFS) configuration at the cluster level. e.g. enable image streaming across all the node pools within the cluster. Structure is documented below.
-	GcfsConfig *NodeConfigDefaultsGcfsConfigInitParameters `json:"gcfsConfig,omitempty" tf:"gcfs_config,omitempty"`
+	GcfsConfig []NodeConfigDefaultsGcfsConfigInitParameters `json:"gcfsConfig,omitempty" tf:"gcfs_config,omitempty"`
 
 	// only port is enabled for newly created node pools in the cluster. It is strongly recommended to set this to FALSE. Possible values: TRUE, FALSE.
 	InsecureKubeletReadonlyPortEnabled *string `json:"insecureKubeletReadonlyPortEnabled,omitempty" tf:"insecure_kubelet_readonly_port_enabled,omitempty"`
@@ -3939,7 +3939,7 @@ type NodeConfigDefaultsObservation struct {
 	ContainerdConfig []NodeConfigDefaultsContainerdConfigObservation `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
 
 	// The default Google Container Filesystem (GCFS) configuration at the cluster level. e.g. enable image streaming across all the node pools within the cluster. Structure is documented below.
-	GcfsConfig *NodeConfigDefaultsGcfsConfigObservation `json:"gcfsConfig,omitempty" tf:"gcfs_config,omitempty"`
+	GcfsConfig []NodeConfigDefaultsGcfsConfigObservation `json:"gcfsConfig,omitempty" tf:"gcfs_config,omitempty"`
 
 	// only port is enabled for newly created node pools in the cluster. It is strongly recommended to set this to FALSE. Possible values: TRUE, FALSE.
 	InsecureKubeletReadonlyPortEnabled *string `json:"insecureKubeletReadonlyPortEnabled,omitempty" tf:"insecure_kubelet_readonly_port_enabled,omitempty"`
@@ -3956,7 +3956,7 @@ type NodeConfigDefaultsParameters struct {
 
 	// The default Google Container Filesystem (GCFS) configuration at the cluster level. e.g. enable image streaming across all the node pools within the cluster. Structure is documented below.
 	// +kubebuilder:validation:Optional
-	GcfsConfig *NodeConfigDefaultsGcfsConfigParameters `json:"gcfsConfig,omitempty" tf:"gcfs_config,omitempty"`
+	GcfsConfig []NodeConfigDefaultsGcfsConfigParameters `json:"gcfsConfig,omitempty" tf:"gcfs_config,omitempty"`
 
 	// only port is enabled for newly created node pools in the cluster. It is strongly recommended to set this to FALSE. Possible values: TRUE, FALSE.
 	// +kubebuilder:validation:Optional

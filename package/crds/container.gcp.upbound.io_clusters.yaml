@@ -2038,11 +2038,13 @@ spec:
                                   (GCFS) configuration at the cluster level. e.g.
                                   enable image streaming across all the node pools
                                   within the cluster. Structure is documented below.
-                                properties:
-                                  enabled:
-                                    description: Enables vertical pod autoscaling
-                                    type: boolean
-                                type: object
+                                items:
+                                  properties:
+                                    enabled:
+                                      description: Enables vertical pod autoscaling
+                                      type: boolean
+                                  type: object
+                                type: array
                               insecureKubeletReadonlyPortEnabled:
                                 description: 'only port is enabled for newly created
                                   node pools in the cluster. It is strongly recommended
@@ -4481,11 +4483,13 @@ spec:
                                   (GCFS) configuration at the cluster level. e.g.
                                   enable image streaming across all the node pools
                                   within the cluster. Structure is documented below.
-                                properties:
-                                  enabled:
-                                    description: Enables vertical pod autoscaling
-                                    type: boolean
-                                type: object
+                                items:
+                                  properties:
+                                    enabled:
+                                      description: Enables vertical pod autoscaling
+                                      type: boolean
+                                  type: object
+                                type: array
                               insecureKubeletReadonlyPortEnabled:
                                 description: 'only port is enabled for newly created
                                   node pools in the cluster. It is strongly recommended
@@ -7025,12 +7029,14 @@ spec:
                                 type: boolean
                               networkPerformanceConfig:
                                 description: Network bandwidth tier configuration.
-                                properties:
-                                  totalEgressBandwidthTier:
-                                    description: Specifies the total network bandwidth
-                                      tier for NodePools in the cluster.
-                                    type: string
-                                type: object
+                                items:
+                                  properties:
+                                    totalEgressBandwidthTier:
+                                      description: Specifies the total network bandwidth
+                                        tier for NodePools in the cluster.
+                                      type: string
+                                  type: object
+                                type: array
                               podCidrOverprovisionConfig:
                                 items:
                                   properties:
@@ -7904,11 +7910,13 @@ spec:
                                   (GCFS) configuration at the cluster level. e.g.
                                   enable image streaming across all the node pools
                                   within the cluster. Structure is documented below.
-                                properties:
-                                  enabled:
-                                    description: Enables vertical pod autoscaling
-                                    type: boolean
-                                type: object
+                                items:
+                                  properties:
+                                    enabled:
+                                      description: Enables vertical pod autoscaling
+                                      type: boolean
+                                  type: object
+                                type: array
                               insecureKubeletReadonlyPortEnabled:
                                 description: 'only port is enabled for newly created
                                   node pools in the cluster. It is strongly recommended
