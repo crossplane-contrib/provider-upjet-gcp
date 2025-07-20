@@ -5147,8 +5147,10 @@ func (in *WorkerPoolParameters) DeepCopyInto(out *WorkerPoolParameters) {
 	}
 	if in.PrivateServiceConnect != nil {
 		in, out := &in.PrivateServiceConnect, &out.PrivateServiceConnect
-		*out = new(PrivateServiceConnectParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]PrivateServiceConnectParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project

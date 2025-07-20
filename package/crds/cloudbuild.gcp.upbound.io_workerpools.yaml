@@ -188,12 +188,14 @@ spec:
                       type: object
                     type: array
                   privateServiceConnect:
-                    properties:
-                      networkAttachment:
-                        type: string
-                      routeAllTraffic:
-                        type: boolean
-                    type: object
+                    items:
+                      properties:
+                        networkAttachment:
+                          type: string
+                        routeAllTraffic:
+                          type: boolean
+                      type: object
+                    type: array
                   project:
                     description: The project for the resource
                     type: string

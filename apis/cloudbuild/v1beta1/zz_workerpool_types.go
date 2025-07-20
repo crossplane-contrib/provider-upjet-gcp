@@ -205,7 +205,7 @@ type WorkerPoolParameters struct {
 	NetworkConfig []NetworkConfigParameters `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	PrivateServiceConnect *PrivateServiceConnectParameters `json:"privateServiceConnect,omitempty" tf:"private_service_connect,omitempty"`
+	PrivateServiceConnect []PrivateServiceConnectParameters `json:"privateServiceConnect,omitempty" tf:"private_service_connect,omitempty"`
 
 	// The project for the resource
 	// +kubebuilder:validation:Optional
