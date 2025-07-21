@@ -33,21 +33,7 @@ metadata:
   name: persistent
 spec:
   forProvider:
-    image: image
+    image: projects/debian-cloud/global/images/debian-11-bullseye-v20250709
     size: 10
     type: pd-ssd
     zone: us-central1-a
-
----
-
-apiVersion: compute.gcp.upbound.io/v1beta1
-kind: Image
-metadata:
-  annotations:
-    meta.upbound.io/example-id: compute/v1beta1/snapshot
-  labels:
-    testing.upbound.io/example-name: image
-  name: image
-spec:
-  forProvider:
-    sourceImage: projects/debian-cloud/global/images/debian-11-bullseye-v20250709
