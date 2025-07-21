@@ -17,4 +17,6 @@ spec:
     clusterConfig:
       - preemptibleWorkerConfig:
         - diskConfig:
-            - bootDiskType: pd-standard
+          - bootDiskType: pd-standard
+        gceClusterConfig:
+          - serviceAccount: official-provider-testing@official-provider-testing.iam.gserviceaccount.com

@@ -7,6 +7,7 @@ kind: RouterNAT
 metadata:
   annotations:
     meta.upbound.io/example-id: compute/v1beta1/routernat
+    uptest.upbound.io/disable-import: "true"
   labels:
     testing.upbound.io/example-name: example_routernat
   name: example-routernat
