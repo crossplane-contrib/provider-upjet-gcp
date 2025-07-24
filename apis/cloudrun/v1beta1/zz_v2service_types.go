@@ -13,6 +13,139 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type BuildConfigInitParameters struct {
+
+	// The base image used to build the function.
+	BaseImage *string `json:"baseImage,omitempty" tf:"base_image,omitempty"`
+
+	// Sets whether the function will receive automatic base image updates.
+	EnableAutomaticUpdates *bool `json:"enableAutomaticUpdates,omitempty" tf:"enable_automatic_updates,omitempty"`
+
+	// User-provided build-time environment variables for the function.
+	// +mapType=granular
+	EnvironmentVariables map[string]*string `json:"environmentVariables,omitempty" tf:"environment_variables,omitempty"`
+
+	// The name of the function (as defined in source code) that will be executed. Defaults to the resource name suffix, if not specified. For backward compatibility, if function with given name is not found, then the system will try to use function named "function".
+	FunctionTarget *string `json:"functionTarget,omitempty" tf:"function_target,omitempty"`
+
+	// Artifact Registry URI to store the built image.
+	ImageURI *string `json:"imageUri,omitempty" tf:"image_uri,omitempty"`
+
+	// Service account to be used for building the container. The format of this field is projects/{projectId}/serviceAccounts/{serviceAccountEmail}.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
+
+	// Reference to a ServiceAccount in cloudplatform to populate serviceAccount.
+	// +kubebuilder:validation:Optional
+	ServiceAccountRef *v1.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
+	// +kubebuilder:validation:Optional
+	ServiceAccountSelector *v1.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
+
+	// The Cloud Storage bucket URI where the function source code is located.
+	SourceLocation *string `json:"sourceLocation,omitempty" tf:"source_location,omitempty"`
+
+	// Name of the Cloud Build Custom Worker Pool that should be used to build the Cloud Run function. The format of this field is projects/{project}/locations/{region}/workerPools/{workerPool} where {project} and {region} are the project id and region respectively where the worker pool is defined and {workerPool} is the short name of the worker pool.
+	WorkerPool *string `json:"workerPool,omitempty" tf:"worker_pool,omitempty"`
+}
+
+type BuildConfigObservation struct {
+
+	// The base image used to build the function.
+	BaseImage *string `json:"baseImage,omitempty" tf:"base_image,omitempty"`
+
+	// Sets whether the function will receive automatic base image updates.
+	EnableAutomaticUpdates *bool `json:"enableAutomaticUpdates,omitempty" tf:"enable_automatic_updates,omitempty"`
+
+	// User-provided build-time environment variables for the function.
+	// +mapType=granular
+	EnvironmentVariables map[string]*string `json:"environmentVariables,omitempty" tf:"environment_variables,omitempty"`
+
+	// The name of the function (as defined in source code) that will be executed. Defaults to the resource name suffix, if not specified. For backward compatibility, if function with given name is not found, then the system will try to use function named "function".
+	FunctionTarget *string `json:"functionTarget,omitempty" tf:"function_target,omitempty"`
+
+	// Artifact Registry URI to store the built image.
+	ImageURI *string `json:"imageUri,omitempty" tf:"image_uri,omitempty"`
+
+	// (Output)
+	// The Cloud Build name of the latest successful deployment of the function.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Service account to be used for building the container. The format of this field is projects/{projectId}/serviceAccounts/{serviceAccountEmail}.
+	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
+
+	// The Cloud Storage bucket URI where the function source code is located.
+	SourceLocation *string `json:"sourceLocation,omitempty" tf:"source_location,omitempty"`
+
+	// Name of the Cloud Build Custom Worker Pool that should be used to build the Cloud Run function. The format of this field is projects/{project}/locations/{region}/workerPools/{workerPool} where {project} and {region} are the project id and region respectively where the worker pool is defined and {workerPool} is the short name of the worker pool.
+	WorkerPool *string `json:"workerPool,omitempty" tf:"worker_pool,omitempty"`
+}
+
+type BuildConfigParameters struct {
+
+	// The base image used to build the function.
+	// +kubebuilder:validation:Optional
+	BaseImage *string `json:"baseImage,omitempty" tf:"base_image,omitempty"`
+
+	// Sets whether the function will receive automatic base image updates.
+	// +kubebuilder:validation:Optional
+	EnableAutomaticUpdates *bool `json:"enableAutomaticUpdates,omitempty" tf:"enable_automatic_updates,omitempty"`
+
+	// User-provided build-time environment variables for the function.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	EnvironmentVariables map[string]*string `json:"environmentVariables,omitempty" tf:"environment_variables,omitempty"`
+
+	// The name of the function (as defined in source code) that will be executed. Defaults to the resource name suffix, if not specified. For backward compatibility, if function with given name is not found, then the system will try to use function named "function".
+	// +kubebuilder:validation:Optional
+	FunctionTarget *string `json:"functionTarget,omitempty" tf:"function_target,omitempty"`
+
+	// Artifact Registry URI to store the built image.
+	// +kubebuilder:validation:Optional
+	ImageURI *string `json:"imageUri,omitempty" tf:"image_uri,omitempty"`
+
+	// Service account to be used for building the container. The format of this field is projects/{projectId}/serviceAccounts/{serviceAccountEmail}.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
+
+	// Reference to a ServiceAccount in cloudplatform to populate serviceAccount.
+	// +kubebuilder:validation:Optional
+	ServiceAccountRef *v1.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
+	// +kubebuilder:validation:Optional
+	ServiceAccountSelector *v1.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
+
+	// The Cloud Storage bucket URI where the function source code is located.
+	// +kubebuilder:validation:Optional
+	SourceLocation *string `json:"sourceLocation,omitempty" tf:"source_location,omitempty"`
+
+	// Name of the Cloud Build Custom Worker Pool that should be used to build the Cloud Run function. The format of this field is projects/{project}/locations/{region}/workerPools/{workerPool} where {project} and {region} are the project id and region respectively where the worker pool is defined and {workerPool} is the short name of the worker pool.
+	// +kubebuilder:validation:Optional
+	WorkerPool *string `json:"workerPool,omitempty" tf:"worker_pool,omitempty"`
+}
+
+type BuildInfoInitParameters struct {
+}
+
+type BuildInfoObservation struct {
+
+	// (Output)
+	// Entry point of the function when the image is a Cloud Run function.
+	FunctionTarget *string `json:"functionTarget,omitempty" tf:"function_target,omitempty"`
+
+	// (Output)
+	// Source code location of the image.
+	SourceLocation *string `json:"sourceLocation,omitempty" tf:"source_location,omitempty"`
+}
+
+type BuildInfoParameters struct {
+}
+
 type ContainersLivenessProbeInitParameters struct {
 
 	// Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1.
@@ -101,55 +234,36 @@ type ContainersLivenessProbeParameters struct {
 	TimeoutSeconds *float64 `json:"timeoutSeconds,omitempty" tf:"timeout_seconds,omitempty"`
 }
 
-type ContainersStartupProbeGRPCInitParameters struct {
+type ContainersStartupProbeHTTPGetHTTPHeadersInitParameters struct {
 
-	// Port number to access on the container. Must be in the range 1 to 65535.
-	// If not specified, defaults to the exposed port of the container, which
-	// is the value of container.ports[0].containerPort.
-	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+	// Volume's name.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// The name of the service to place in the gRPC HealthCheckRequest
-	// (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
-	// If this is not specified, the default behavior is defined by gRPC.
-	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+	// The header field value
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
-type ContainersStartupProbeGRPCObservation struct {
+type ContainersStartupProbeHTTPGetHTTPHeadersObservation struct {
 
-	// Port number to access on the container. Must be in the range 1 to 65535.
-	// If not specified, defaults to the exposed port of the container, which
-	// is the value of container.ports[0].containerPort.
-	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+	// Volume's name.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// The name of the service to place in the gRPC HealthCheckRequest
-	// (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
-	// If this is not specified, the default behavior is defined by gRPC.
-	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+	// The header field value
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
-type ContainersStartupProbeGRPCParameters struct {
+type ContainersStartupProbeHTTPGetHTTPHeadersParameters struct {
 
-	// Port number to access on the container. Must be in the range 1 to 65535.
-	// If not specified, defaults to the exposed port of the container, which
-	// is the value of container.ports[0].containerPort.
+	// Volume's name.
 	// +kubebuilder:validation:Optional
-	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 
-	// The name of the service to place in the gRPC HealthCheckRequest
-	// (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
-	// If this is not specified, the default behavior is defined by gRPC.
+	// The header field value
 	// +kubebuilder:validation:Optional
-	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
-type ContainersStartupProbeHTTPGetInitParameters struct {
-
-	// Custom headers to set in the request. HTTP allows repeated headers.
-	// Structure is documented below.
-	HTTPHeaders []StartupProbeHTTPGetHTTPHeadersInitParameters `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
-
-	// Path that is exported by the NFS server.
-	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+type ContainersStartupProbeTCPSocketInitParameters struct {
 
 	// Port number to access on the container. Must be in the range 1 to 65535.
 	// If not specified, defaults to the exposed port of the container, which
@@ -157,14 +271,7 @@ type ContainersStartupProbeHTTPGetInitParameters struct {
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 }
 
-type ContainersStartupProbeHTTPGetObservation struct {
-
-	// Custom headers to set in the request. HTTP allows repeated headers.
-	// Structure is documented below.
-	HTTPHeaders []StartupProbeHTTPGetHTTPHeadersObservation `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
-
-	// Path that is exported by the NFS server.
-	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+type ContainersStartupProbeTCPSocketObservation struct {
 
 	// Port number to access on the container. Must be in the range 1 to 65535.
 	// If not specified, defaults to the exposed port of the container, which
@@ -172,110 +279,13 @@ type ContainersStartupProbeHTTPGetObservation struct {
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 }
 
-type ContainersStartupProbeHTTPGetParameters struct {
-
-	// Custom headers to set in the request. HTTP allows repeated headers.
-	// Structure is documented below.
-	// +kubebuilder:validation:Optional
-	HTTPHeaders []StartupProbeHTTPGetHTTPHeadersParameters `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
-
-	// Path that is exported by the NFS server.
-	// +kubebuilder:validation:Optional
-	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+type ContainersStartupProbeTCPSocketParameters struct {
 
 	// Port number to access on the container. Must be in the range 1 to 65535.
 	// If not specified, defaults to the exposed port of the container, which
 	// is the value of container.ports[0].containerPort.
 	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
-}
-
-type ContainersStartupProbeInitParameters struct {
-
-	// Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1.
-	FailureThreshold *float64 `json:"failureThreshold,omitempty" tf:"failure_threshold,omitempty"`
-
-	// GRPC specifies an action involving a GRPC port.
-	// Structure is documented below.
-	GRPC []ContainersStartupProbeGRPCInitParameters `json:"grpc,omitempty" tf:"grpc,omitempty"`
-
-	// HTTPGet specifies the http request to perform. Exactly one of HTTPGet or TCPSocket must be specified.
-	// Structure is documented below.
-	HTTPGet []ContainersStartupProbeHTTPGetInitParameters `json:"httpGet,omitempty" tf:"http_get,omitempty"`
-
-	// Number of seconds after the container has started before the probe is initiated. Defaults to 0 seconds. Minimum value is 0. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
-	InitialDelaySeconds *float64 `json:"initialDelaySeconds,omitempty" tf:"initial_delay_seconds,omitempty"`
-
-	// How often (in seconds) to perform the probe. Default to 10 seconds. Minimum value is 1. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. Must be greater or equal than timeoutSeconds
-	PeriodSeconds *float64 `json:"periodSeconds,omitempty" tf:"period_seconds,omitempty"`
-
-	// TCPSocket specifies an action involving a TCP port. Exactly one of HTTPGet or TCPSocket must be specified.
-	// Structure is documented below.
-	TCPSocket []StartupProbeTCPSocketInitParameters `json:"tcpSocket,omitempty" tf:"tcp_socket,omitempty"`
-
-	// Number of seconds after which the probe times out. Defaults to 1 second. Minimum value is 1. Maximum value is 3600. Must be smaller than periodSeconds. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
-	TimeoutSeconds *float64 `json:"timeoutSeconds,omitempty" tf:"timeout_seconds,omitempty"`
-}
-
-type ContainersStartupProbeObservation struct {
-
-	// Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1.
-	FailureThreshold *float64 `json:"failureThreshold,omitempty" tf:"failure_threshold,omitempty"`
-
-	// GRPC specifies an action involving a GRPC port.
-	// Structure is documented below.
-	GRPC []ContainersStartupProbeGRPCObservation `json:"grpc,omitempty" tf:"grpc,omitempty"`
-
-	// HTTPGet specifies the http request to perform. Exactly one of HTTPGet or TCPSocket must be specified.
-	// Structure is documented below.
-	HTTPGet []ContainersStartupProbeHTTPGetObservation `json:"httpGet,omitempty" tf:"http_get,omitempty"`
-
-	// Number of seconds after the container has started before the probe is initiated. Defaults to 0 seconds. Minimum value is 0. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
-	InitialDelaySeconds *float64 `json:"initialDelaySeconds,omitempty" tf:"initial_delay_seconds,omitempty"`
-
-	// How often (in seconds) to perform the probe. Default to 10 seconds. Minimum value is 1. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. Must be greater or equal than timeoutSeconds
-	PeriodSeconds *float64 `json:"periodSeconds,omitempty" tf:"period_seconds,omitempty"`
-
-	// TCPSocket specifies an action involving a TCP port. Exactly one of HTTPGet or TCPSocket must be specified.
-	// Structure is documented below.
-	TCPSocket []StartupProbeTCPSocketObservation `json:"tcpSocket,omitempty" tf:"tcp_socket,omitempty"`
-
-	// Number of seconds after which the probe times out. Defaults to 1 second. Minimum value is 1. Maximum value is 3600. Must be smaller than periodSeconds. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
-	TimeoutSeconds *float64 `json:"timeoutSeconds,omitempty" tf:"timeout_seconds,omitempty"`
-}
-
-type ContainersStartupProbeParameters struct {
-
-	// Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1.
-	// +kubebuilder:validation:Optional
-	FailureThreshold *float64 `json:"failureThreshold,omitempty" tf:"failure_threshold,omitempty"`
-
-	// GRPC specifies an action involving a GRPC port.
-	// Structure is documented below.
-	// +kubebuilder:validation:Optional
-	GRPC []ContainersStartupProbeGRPCParameters `json:"grpc,omitempty" tf:"grpc,omitempty"`
-
-	// HTTPGet specifies the http request to perform. Exactly one of HTTPGet or TCPSocket must be specified.
-	// Structure is documented below.
-	// +kubebuilder:validation:Optional
-	HTTPGet []ContainersStartupProbeHTTPGetParameters `json:"httpGet,omitempty" tf:"http_get,omitempty"`
-
-	// Number of seconds after the container has started before the probe is initiated. Defaults to 0 seconds. Minimum value is 0. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
-	// +kubebuilder:validation:Optional
-	InitialDelaySeconds *float64 `json:"initialDelaySeconds,omitempty" tf:"initial_delay_seconds,omitempty"`
-
-	// How often (in seconds) to perform the probe. Default to 10 seconds. Minimum value is 1. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. Must be greater or equal than timeoutSeconds
-	// +kubebuilder:validation:Optional
-	PeriodSeconds *float64 `json:"periodSeconds,omitempty" tf:"period_seconds,omitempty"`
-
-	// TCPSocket specifies an action involving a TCP port. Exactly one of HTTPGet or TCPSocket must be specified.
-	// Structure is documented below.
-	// +kubebuilder:validation:Optional
-	TCPSocket []StartupProbeTCPSocketParameters `json:"tcpSocket,omitempty" tf:"tcp_socket,omitempty"`
-
-	// Number of seconds after which the probe times out. Defaults to 1 second. Minimum value is 1. Maximum value is 3600. Must be smaller than periodSeconds. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
-	// +kubebuilder:validation:Optional
-	TimeoutSeconds *float64 `json:"timeoutSeconds,omitempty" tf:"timeout_seconds,omitempty"`
 }
 
 type EnvValueSourceInitParameters struct {
@@ -348,53 +358,6 @@ type EnvValueSourceSecretKeyRefParameters struct {
 	// The Cloud Secret Manager secret version. Can be 'latest' for the latest value or an integer for a specific version.
 	// +kubebuilder:validation:Optional
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
-}
-
-type GcsInitParameters struct {
-
-	// GCS Bucket name
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/storage/v1beta1.Bucket
-	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
-
-	// Reference to a Bucket in storage to populate bucket.
-	// +kubebuilder:validation:Optional
-	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
-
-	// Selector for a Bucket in storage to populate bucket.
-	// +kubebuilder:validation:Optional
-	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
-
-	// If true, mount the NFS volume as read only
-	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
-}
-
-type GcsObservation struct {
-
-	// GCS Bucket name
-	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
-
-	// If true, mount the NFS volume as read only
-	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
-}
-
-type GcsParameters struct {
-
-	// GCS Bucket name
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/storage/v1beta1.Bucket
-	// +kubebuilder:validation:Optional
-	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
-
-	// Reference to a Bucket in storage to populate bucket.
-	// +kubebuilder:validation:Optional
-	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
-
-	// Selector for a Bucket in storage to populate bucket.
-	// +kubebuilder:validation:Optional
-	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
-
-	// If true, mount the NFS volume as read only
-	// +kubebuilder:validation:Optional
-	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
 }
 
 type LivenessProbeGRPCInitParameters struct {
@@ -540,43 +503,23 @@ type LivenessProbeTCPSocketParameters struct {
 	Port *float64 `json:"port" tf:"port,omitempty"`
 }
 
-type NFSInitParameters struct {
+type NodeSelectorInitParameters struct {
 
-	// Path that is exported by the NFS server.
-	Path *string `json:"path,omitempty" tf:"path,omitempty"`
-
-	// If true, mount the NFS volume as read only
-	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
-
-	// Hostname or IP address of the NFS server
-	Server *string `json:"server,omitempty" tf:"server,omitempty"`
+	// The GPU to attach to an instance. See https://cloud.google.com/run/docs/configuring/services/gpu for configuring GPU.
+	Accelerator *string `json:"accelerator,omitempty" tf:"accelerator,omitempty"`
 }
 
-type NFSObservation struct {
+type NodeSelectorObservation struct {
 
-	// Path that is exported by the NFS server.
-	Path *string `json:"path,omitempty" tf:"path,omitempty"`
-
-	// If true, mount the NFS volume as read only
-	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
-
-	// Hostname or IP address of the NFS server
-	Server *string `json:"server,omitempty" tf:"server,omitempty"`
+	// The GPU to attach to an instance. See https://cloud.google.com/run/docs/configuring/services/gpu for configuring GPU.
+	Accelerator *string `json:"accelerator,omitempty" tf:"accelerator,omitempty"`
 }
 
-type NFSParameters struct {
+type NodeSelectorParameters struct {
 
-	// Path that is exported by the NFS server.
+	// The GPU to attach to an instance. See https://cloud.google.com/run/docs/configuring/services/gpu for configuring GPU.
 	// +kubebuilder:validation:Optional
-	Path *string `json:"path" tf:"path,omitempty"`
-
-	// If true, mount the NFS volume as read only
-	// +kubebuilder:validation:Optional
-	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
-
-	// Hostname or IP address of the NFS server
-	// +kubebuilder:validation:Optional
-	Server *string `json:"server" tf:"server,omitempty"`
+	Accelerator *string `json:"accelerator" tf:"accelerator,omitempty"`
 }
 
 type ScalingInitParameters struct {
@@ -586,6 +529,10 @@ type ScalingInitParameters struct {
 
 	// Minimum number of serving instances that this resource should have.
 	MinInstanceCount *float64 `json:"minInstanceCount,omitempty" tf:"min_instance_count,omitempty"`
+
+	// The scaling mode for the service.
+	// Possible values are: AUTOMATIC, MANUAL.
+	ScalingMode *string `json:"scalingMode,omitempty" tf:"scaling_mode,omitempty"`
 }
 
 type ScalingObservation struct {
@@ -595,6 +542,10 @@ type ScalingObservation struct {
 
 	// Minimum number of serving instances that this resource should have.
 	MinInstanceCount *float64 `json:"minInstanceCount,omitempty" tf:"min_instance_count,omitempty"`
+
+	// The scaling mode for the service.
+	// Possible values are: AUTOMATIC, MANUAL.
+	ScalingMode *string `json:"scalingMode,omitempty" tf:"scaling_mode,omitempty"`
 }
 
 type ScalingParameters struct {
@@ -606,60 +557,11 @@ type ScalingParameters struct {
 	// Minimum number of serving instances that this resource should have.
 	// +kubebuilder:validation:Optional
 	MinInstanceCount *float64 `json:"minInstanceCount,omitempty" tf:"min_instance_count,omitempty"`
-}
 
-type StartupProbeHTTPGetHTTPHeadersInitParameters struct {
-
-	// Volume's name.
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
-	// The header field value
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
-
-type StartupProbeHTTPGetHTTPHeadersObservation struct {
-
-	// Volume's name.
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
-	// The header field value
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
-
-type StartupProbeHTTPGetHTTPHeadersParameters struct {
-
-	// Volume's name.
+	// The scaling mode for the service.
+	// Possible values are: AUTOMATIC, MANUAL.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name" tf:"name,omitempty"`
-
-	// The header field value
-	// +kubebuilder:validation:Optional
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
-
-type StartupProbeTCPSocketInitParameters struct {
-
-	// Port number to access on the container. Must be in the range 1 to 65535.
-	// If not specified, defaults to the exposed port of the container, which
-	// is the value of container.ports[0].containerPort.
-	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
-}
-
-type StartupProbeTCPSocketObservation struct {
-
-	// Port number to access on the container. Must be in the range 1 to 65535.
-	// If not specified, defaults to the exposed port of the container, which
-	// is the value of container.ports[0].containerPort.
-	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
-}
-
-type StartupProbeTCPSocketParameters struct {
-
-	// Port number to access on the container. Must be in the range 1 to 65535.
-	// If not specified, defaults to the exposed port of the container, which
-	// is the value of container.ports[0].containerPort.
-	// +kubebuilder:validation:Optional
-	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+	ScalingMode *string `json:"scalingMode,omitempty" tf:"scaling_mode,omitempty"`
 }
 
 type TemplateContainersEnvInitParameters struct {
@@ -778,6 +680,183 @@ type TemplateContainersResourcesParameters struct {
 	StartupCPUBoost *bool `json:"startupCpuBoost,omitempty" tf:"startup_cpu_boost,omitempty"`
 }
 
+type TemplateContainersStartupProbeGRPCInitParameters struct {
+
+	// Port number to access on the container. Must be in the range 1 to 65535.
+	// If not specified, defaults to the exposed port of the container, which
+	// is the value of container.ports[0].containerPort.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// The name of the service to place in the gRPC HealthCheckRequest
+	// (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
+	// If this is not specified, the default behavior is defined by gRPC.
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+}
+
+type TemplateContainersStartupProbeGRPCObservation struct {
+
+	// Port number to access on the container. Must be in the range 1 to 65535.
+	// If not specified, defaults to the exposed port of the container, which
+	// is the value of container.ports[0].containerPort.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// The name of the service to place in the gRPC HealthCheckRequest
+	// (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
+	// If this is not specified, the default behavior is defined by gRPC.
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+}
+
+type TemplateContainersStartupProbeGRPCParameters struct {
+
+	// Port number to access on the container. Must be in the range 1 to 65535.
+	// If not specified, defaults to the exposed port of the container, which
+	// is the value of container.ports[0].containerPort.
+	// +kubebuilder:validation:Optional
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// The name of the service to place in the gRPC HealthCheckRequest
+	// (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
+	// If this is not specified, the default behavior is defined by gRPC.
+	// +kubebuilder:validation:Optional
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+}
+
+type TemplateContainersStartupProbeHTTPGetInitParameters struct {
+
+	// Custom headers to set in the request. HTTP allows repeated headers.
+	// Structure is documented below.
+	HTTPHeaders []ContainersStartupProbeHTTPGetHTTPHeadersInitParameters `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
+
+	// Path that is exported by the NFS server.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// Port number to access on the container. Must be in the range 1 to 65535.
+	// If not specified, defaults to the exposed port of the container, which
+	// is the value of container.ports[0].containerPort.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+}
+
+type TemplateContainersStartupProbeHTTPGetObservation struct {
+
+	// Custom headers to set in the request. HTTP allows repeated headers.
+	// Structure is documented below.
+	HTTPHeaders []ContainersStartupProbeHTTPGetHTTPHeadersObservation `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
+
+	// Path that is exported by the NFS server.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// Port number to access on the container. Must be in the range 1 to 65535.
+	// If not specified, defaults to the exposed port of the container, which
+	// is the value of container.ports[0].containerPort.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+}
+
+type TemplateContainersStartupProbeHTTPGetParameters struct {
+
+	// Custom headers to set in the request. HTTP allows repeated headers.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	HTTPHeaders []ContainersStartupProbeHTTPGetHTTPHeadersParameters `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
+
+	// Path that is exported by the NFS server.
+	// +kubebuilder:validation:Optional
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// Port number to access on the container. Must be in the range 1 to 65535.
+	// If not specified, defaults to the exposed port of the container, which
+	// is the value of container.ports[0].containerPort.
+	// +kubebuilder:validation:Optional
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+}
+
+type TemplateContainersStartupProbeInitParameters struct {
+
+	// Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1.
+	FailureThreshold *float64 `json:"failureThreshold,omitempty" tf:"failure_threshold,omitempty"`
+
+	// GRPC specifies an action involving a GRPC port.
+	// Structure is documented below.
+	GRPC []TemplateContainersStartupProbeGRPCInitParameters `json:"grpc,omitempty" tf:"grpc,omitempty"`
+
+	// HTTPGet specifies the http request to perform. Exactly one of HTTPGet or TCPSocket must be specified.
+	// Structure is documented below.
+	HTTPGet []TemplateContainersStartupProbeHTTPGetInitParameters `json:"httpGet,omitempty" tf:"http_get,omitempty"`
+
+	// Number of seconds after the container has started before the probe is initiated. Defaults to 0 seconds. Minimum value is 0. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
+	InitialDelaySeconds *float64 `json:"initialDelaySeconds,omitempty" tf:"initial_delay_seconds,omitempty"`
+
+	// How often (in seconds) to perform the probe. Default to 10 seconds. Minimum value is 1. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. Must be greater or equal than timeoutSeconds
+	PeriodSeconds *float64 `json:"periodSeconds,omitempty" tf:"period_seconds,omitempty"`
+
+	// TCPSocket specifies an action involving a TCP port. Exactly one of HTTPGet or TCPSocket must be specified.
+	// Structure is documented below.
+	TCPSocket []ContainersStartupProbeTCPSocketInitParameters `json:"tcpSocket,omitempty" tf:"tcp_socket,omitempty"`
+
+	// Number of seconds after which the probe times out. Defaults to 1 second. Minimum value is 1. Maximum value is 3600. Must be smaller than periodSeconds. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
+	TimeoutSeconds *float64 `json:"timeoutSeconds,omitempty" tf:"timeout_seconds,omitempty"`
+}
+
+type TemplateContainersStartupProbeObservation struct {
+
+	// Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1.
+	FailureThreshold *float64 `json:"failureThreshold,omitempty" tf:"failure_threshold,omitempty"`
+
+	// GRPC specifies an action involving a GRPC port.
+	// Structure is documented below.
+	GRPC []TemplateContainersStartupProbeGRPCObservation `json:"grpc,omitempty" tf:"grpc,omitempty"`
+
+	// HTTPGet specifies the http request to perform. Exactly one of HTTPGet or TCPSocket must be specified.
+	// Structure is documented below.
+	HTTPGet []TemplateContainersStartupProbeHTTPGetObservation `json:"httpGet,omitempty" tf:"http_get,omitempty"`
+
+	// Number of seconds after the container has started before the probe is initiated. Defaults to 0 seconds. Minimum value is 0. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
+	InitialDelaySeconds *float64 `json:"initialDelaySeconds,omitempty" tf:"initial_delay_seconds,omitempty"`
+
+	// How often (in seconds) to perform the probe. Default to 10 seconds. Minimum value is 1. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. Must be greater or equal than timeoutSeconds
+	PeriodSeconds *float64 `json:"periodSeconds,omitempty" tf:"period_seconds,omitempty"`
+
+	// TCPSocket specifies an action involving a TCP port. Exactly one of HTTPGet or TCPSocket must be specified.
+	// Structure is documented below.
+	TCPSocket []ContainersStartupProbeTCPSocketObservation `json:"tcpSocket,omitempty" tf:"tcp_socket,omitempty"`
+
+	// Number of seconds after which the probe times out. Defaults to 1 second. Minimum value is 1. Maximum value is 3600. Must be smaller than periodSeconds. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
+	TimeoutSeconds *float64 `json:"timeoutSeconds,omitempty" tf:"timeout_seconds,omitempty"`
+}
+
+type TemplateContainersStartupProbeParameters struct {
+
+	// Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1.
+	// +kubebuilder:validation:Optional
+	FailureThreshold *float64 `json:"failureThreshold,omitempty" tf:"failure_threshold,omitempty"`
+
+	// GRPC specifies an action involving a GRPC port.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	GRPC []TemplateContainersStartupProbeGRPCParameters `json:"grpc,omitempty" tf:"grpc,omitempty"`
+
+	// HTTPGet specifies the http request to perform. Exactly one of HTTPGet or TCPSocket must be specified.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	HTTPGet []TemplateContainersStartupProbeHTTPGetParameters `json:"httpGet,omitempty" tf:"http_get,omitempty"`
+
+	// Number of seconds after the container has started before the probe is initiated. Defaults to 0 seconds. Minimum value is 0. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
+	// +kubebuilder:validation:Optional
+	InitialDelaySeconds *float64 `json:"initialDelaySeconds,omitempty" tf:"initial_delay_seconds,omitempty"`
+
+	// How often (in seconds) to perform the probe. Default to 10 seconds. Minimum value is 1. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. Must be greater or equal than timeoutSeconds
+	// +kubebuilder:validation:Optional
+	PeriodSeconds *float64 `json:"periodSeconds,omitempty" tf:"period_seconds,omitempty"`
+
+	// TCPSocket specifies an action involving a TCP port. Exactly one of HTTPGet or TCPSocket must be specified.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	TCPSocket []ContainersStartupProbeTCPSocketParameters `json:"tcpSocket,omitempty" tf:"tcp_socket,omitempty"`
+
+	// Number of seconds after which the probe times out. Defaults to 1 second. Minimum value is 1. Maximum value is 3600. Must be smaller than periodSeconds. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
+	// +kubebuilder:validation:Optional
+	TimeoutSeconds *float64 `json:"timeoutSeconds,omitempty" tf:"timeout_seconds,omitempty"`
+}
+
 type TemplateContainersVolumeMountsInitParameters struct {
 
 	// Path within the container at which the volume should be mounted. Must not contain ':'. For Cloud SQL volumes, it can be left empty, or must otherwise be /cloudsql. All instances defined in the Volume will be available as /cloudsql/[instance]. For more information on Cloud SQL volumes, visit https://cloud.google.com/sql/docs/mysql/connect-run
@@ -805,6 +884,38 @@ type TemplateContainersVolumeMountsParameters struct {
 	// Volume's name.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name" tf:"name,omitempty"`
+}
+
+type TemplateScalingInitParameters struct {
+
+	// Maximum number of serving instances that this resource should have. Must not be less than minimum instance count. If absent, Cloud Run will calculate
+	// a default value based on the project's available container instances quota in the region and specified instance size.
+	MaxInstanceCount *float64 `json:"maxInstanceCount,omitempty" tf:"max_instance_count,omitempty"`
+
+	// Minimum number of serving instances that this resource should have. Defaults to 0. Must not be greater than maximum instance count.
+	MinInstanceCount *float64 `json:"minInstanceCount,omitempty" tf:"min_instance_count,omitempty"`
+}
+
+type TemplateScalingObservation struct {
+
+	// Maximum number of serving instances that this resource should have. Must not be less than minimum instance count. If absent, Cloud Run will calculate
+	// a default value based on the project's available container instances quota in the region and specified instance size.
+	MaxInstanceCount *float64 `json:"maxInstanceCount,omitempty" tf:"max_instance_count,omitempty"`
+
+	// Minimum number of serving instances that this resource should have. Defaults to 0. Must not be greater than maximum instance count.
+	MinInstanceCount *float64 `json:"minInstanceCount,omitempty" tf:"min_instance_count,omitempty"`
+}
+
+type TemplateScalingParameters struct {
+
+	// Maximum number of serving instances that this resource should have. Must not be less than minimum instance count. If absent, Cloud Run will calculate
+	// a default value based on the project's available container instances quota in the region and specified instance size.
+	// +kubebuilder:validation:Optional
+	MaxInstanceCount *float64 `json:"maxInstanceCount,omitempty" tf:"max_instance_count,omitempty"`
+
+	// Minimum number of serving instances that this resource should have. Defaults to 0. Must not be greater than maximum instance count.
+	// +kubebuilder:validation:Optional
+	MinInstanceCount *float64 `json:"minInstanceCount,omitempty" tf:"min_instance_count,omitempty"`
 }
 
 type TemplateVPCAccessInitParameters struct {
@@ -850,6 +961,80 @@ type TemplateVPCAccessParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	NetworkInterfaces []VPCAccessNetworkInterfacesParameters `json:"networkInterfaces,omitempty" tf:"network_interfaces,omitempty"`
+}
+
+type TemplateVolumesEmptyDirInitParameters struct {
+
+	// The different types of medium supported for EmptyDir.
+	// Default value is MEMORY.
+	// Possible values are: MEMORY.
+	Medium *string `json:"medium,omitempty" tf:"medium,omitempty"`
+
+	// Limit on the storage usable by this EmptyDir volume. The size limit is also applicable for memory medium. The maximum usage on memory medium EmptyDir would be the minimum value between the SizeLimit specified here and the sum of memory limits of all containers in a pod. This field's values are of the 'Quantity' k8s type: https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/. The default is nil which means that the limit is undefined. More info: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir.
+	SizeLimit *string `json:"sizeLimit,omitempty" tf:"size_limit,omitempty"`
+}
+
+type TemplateVolumesEmptyDirObservation struct {
+
+	// The different types of medium supported for EmptyDir.
+	// Default value is MEMORY.
+	// Possible values are: MEMORY.
+	Medium *string `json:"medium,omitempty" tf:"medium,omitempty"`
+
+	// Limit on the storage usable by this EmptyDir volume. The size limit is also applicable for memory medium. The maximum usage on memory medium EmptyDir would be the minimum value between the SizeLimit specified here and the sum of memory limits of all containers in a pod. This field's values are of the 'Quantity' k8s type: https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/. The default is nil which means that the limit is undefined. More info: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir.
+	SizeLimit *string `json:"sizeLimit,omitempty" tf:"size_limit,omitempty"`
+}
+
+type TemplateVolumesEmptyDirParameters struct {
+
+	// The different types of medium supported for EmptyDir.
+	// Default value is MEMORY.
+	// Possible values are: MEMORY.
+	// +kubebuilder:validation:Optional
+	Medium *string `json:"medium,omitempty" tf:"medium,omitempty"`
+
+	// Limit on the storage usable by this EmptyDir volume. The size limit is also applicable for memory medium. The maximum usage on memory medium EmptyDir would be the minimum value between the SizeLimit specified here and the sum of memory limits of all containers in a pod. This field's values are of the 'Quantity' k8s type: https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/. The default is nil which means that the limit is undefined. More info: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir.
+	// +kubebuilder:validation:Optional
+	SizeLimit *string `json:"sizeLimit,omitempty" tf:"size_limit,omitempty"`
+}
+
+type TemplateVolumesNFSInitParameters struct {
+
+	// Path that is exported by the NFS server.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// If true, mount the NFS volume as read only
+	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
+
+	// Hostname or IP address of the NFS server
+	Server *string `json:"server,omitempty" tf:"server,omitempty"`
+}
+
+type TemplateVolumesNFSObservation struct {
+
+	// Path that is exported by the NFS server.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// If true, mount the NFS volume as read only
+	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
+
+	// Hostname or IP address of the NFS server
+	Server *string `json:"server,omitempty" tf:"server,omitempty"`
+}
+
+type TemplateVolumesNFSParameters struct {
+
+	// Path that is exported by the NFS server.
+	// +kubebuilder:validation:Optional
+	Path *string `json:"path" tf:"path,omitempty"`
+
+	// If true, mount the NFS volume as read only
+	// +kubebuilder:validation:Optional
+	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
+
+	// Hostname or IP address of the NFS server
+	// +kubebuilder:validation:Optional
+	Server *string `json:"server" tf:"server,omitempty"`
 }
 
 type TemplateVolumesSecretInitParameters struct {
@@ -1038,6 +1223,10 @@ type V2ServiceInitParameters struct {
 	// Structure is documented below.
 	BinaryAuthorization []V2ServiceBinaryAuthorizationInitParameters `json:"binaryAuthorization,omitempty" tf:"binary_authorization,omitempty"`
 
+	// Configuration for building a Cloud Run function.
+	// Structure is documented below.
+	BuildConfig []BuildConfigInitParameters `json:"buildConfig,omitempty" tf:"build_config,omitempty"`
+
 	// Arbitrary identifier for the API client.
 	Client *string `json:"client,omitempty" tf:"client,omitempty"`
 
@@ -1048,12 +1237,19 @@ type V2ServiceInitParameters struct {
 	// For more information, see https://cloud.google.com/run/docs/configuring/custom-audiences.
 	CustomAudiences []*string `json:"customAudiences,omitempty" tf:"custom_audiences,omitempty"`
 
+	// Defaults to true.
+	// When the field is set to false, deleting the service is allowed.
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
+
 	// User-provided description of the Service. This field currently has a 512-character limit.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Provides the ingress settings for this Service. On output, returns the currently observed ingress settings, or INGRESS_TRAFFIC_UNSPECIFIED if no revision is active.
 	// Possible values are: INGRESS_TRAFFIC_ALL, INGRESS_TRAFFIC_INTERNAL_ONLY, INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER.
 	Ingress *string `json:"ingress,omitempty" tf:"ingress,omitempty"`
+
+	// Disables IAM permission check for run.routes.invoke for callers of this service. For more information, visit https://cloud.google.com/run/docs/securing/managing-access#invoker_check.
+	InvokerIAMDisabled *bool `json:"invokerIamDisabled,omitempty" tf:"invoker_iam_disabled,omitempty"`
 
 	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component, environment, state, etc.
 	// For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
@@ -1071,6 +1267,10 @@ type V2ServiceInitParameters struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Scaling settings that apply to the whole service
+	// Structure is documented below.
+	Scaling []ScalingInitParameters `json:"scaling,omitempty" tf:"scaling,omitempty"`
 
 	// The template used to create revisions for this Service.
 	// Structure is documented below.
@@ -1094,6 +1294,10 @@ type V2ServiceObservation struct {
 	// Structure is documented below.
 	BinaryAuthorization []V2ServiceBinaryAuthorizationObservation `json:"binaryAuthorization,omitempty" tf:"binary_authorization,omitempty"`
 
+	// Configuration for building a Cloud Run function.
+	// Structure is documented below.
+	BuildConfig []BuildConfigObservation `json:"buildConfig,omitempty" tf:"build_config,omitempty"`
+
 	// Arbitrary identifier for the API client.
 	Client *string `json:"client,omitempty" tf:"client,omitempty"`
 
@@ -1116,6 +1320,10 @@ type V2ServiceObservation struct {
 
 	// The deletion time.
 	DeleteTime *string `json:"deleteTime,omitempty" tf:"delete_time,omitempty"`
+
+	// Defaults to true.
+	// When the field is set to false, deleting the service is allowed.
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// User-provided description of the Service. This field currently has a 512-character limit.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -1141,6 +1349,9 @@ type V2ServiceObservation struct {
 	// Provides the ingress settings for this Service. On output, returns the currently observed ingress settings, or INGRESS_TRAFFIC_UNSPECIFIED if no revision is active.
 	// Possible values are: INGRESS_TRAFFIC_ALL, INGRESS_TRAFFIC_INTERNAL_ONLY, INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER.
 	Ingress *string `json:"ingress,omitempty" tf:"ingress,omitempty"`
+
+	// Disables IAM permission check for run.routes.invoke for callers of this service. For more information, visit https://cloud.google.com/run/docs/securing/managing-access#invoker_check.
+	InvokerIAMDisabled *bool `json:"invokerIamDisabled,omitempty" tf:"invoker_iam_disabled,omitempty"`
 
 	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component, environment, state, etc.
 	// For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
@@ -1179,6 +1390,10 @@ type V2ServiceObservation struct {
 	// If reconciliation succeeded, the following fields will match: traffic and trafficStatuses, observedGeneration and generation, latestReadyRevision and latestCreatedRevision.
 	// If reconciliation failed, trafficStatuses, observedGeneration, and latestReadyRevision will have the state of the last serving revision, or empty for newly created Services. Additional information on the failure can be found in terminalCondition and conditions.
 	Reconciling *bool `json:"reconciling,omitempty" tf:"reconciling,omitempty"`
+
+	// Scaling settings that apply to the whole service
+	// Structure is documented below.
+	Scaling []ScalingObservation `json:"scaling,omitempty" tf:"scaling,omitempty"`
 
 	// The template used to create revisions for this Service.
 	// Structure is documented below.
@@ -1226,6 +1441,11 @@ type V2ServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	BinaryAuthorization []V2ServiceBinaryAuthorizationParameters `json:"binaryAuthorization,omitempty" tf:"binary_authorization,omitempty"`
 
+	// Configuration for building a Cloud Run function.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	BuildConfig []BuildConfigParameters `json:"buildConfig,omitempty" tf:"build_config,omitempty"`
+
 	// Arbitrary identifier for the API client.
 	// +kubebuilder:validation:Optional
 	Client *string `json:"client,omitempty" tf:"client,omitempty"`
@@ -1239,6 +1459,11 @@ type V2ServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	CustomAudiences []*string `json:"customAudiences,omitempty" tf:"custom_audiences,omitempty"`
 
+	// Defaults to true.
+	// When the field is set to false, deleting the service is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
+
 	// User-provided description of the Service. This field currently has a 512-character limit.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -1247,6 +1472,10 @@ type V2ServiceParameters struct {
 	// Possible values are: INGRESS_TRAFFIC_ALL, INGRESS_TRAFFIC_INTERNAL_ONLY, INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER.
 	// +kubebuilder:validation:Optional
 	Ingress *string `json:"ingress,omitempty" tf:"ingress,omitempty"`
+
+	// Disables IAM permission check for run.routes.invoke for callers of this service. For more information, visit https://cloud.google.com/run/docs/securing/managing-access#invoker_check.
+	// +kubebuilder:validation:Optional
+	InvokerIAMDisabled *bool `json:"invokerIamDisabled,omitempty" tf:"invoker_iam_disabled,omitempty"`
 
 	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component, environment, state, etc.
 	// For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
@@ -1272,6 +1501,11 @@ type V2ServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// Scaling settings that apply to the whole service
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Scaling []ScalingParameters `json:"scaling,omitempty" tf:"scaling,omitempty"`
+
 	// The template used to create revisions for this Service.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -1287,6 +1521,9 @@ type V2ServiceTemplateContainersInitParameters struct {
 
 	// Arguments to the entrypoint. The docker image's CMD is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. The $(VAR_NAME) syntax can be escaped with a double $$, ie: $$(VAR_NAME). Escaped references will never be expanded, regardless of whether the variable exists or not. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell
 	Args []*string `json:"args,omitempty" tf:"args,omitempty"`
+
+	// Base image for this container. If set, it indicates that the service is enrolled into automatic base image update.
+	BaseImageURI *string `json:"baseImageUri,omitempty" tf:"base_image_uri,omitempty"`
 
 	// Entrypoint array. Not executed within a shell. The docker image's ENTRYPOINT is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. The $(VAR_NAME) syntax can be escaped with a double $$, ie: $$(VAR_NAME). Escaped references will never be expanded, regardless of whether the variable exists or not. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell
 	Command []*string `json:"command,omitempty" tf:"command,omitempty"`
@@ -1319,7 +1556,7 @@ type V2ServiceTemplateContainersInitParameters struct {
 
 	// Startup probe of application within the container. All other probes are disabled if a startup probe is provided, until it succeeds. Container will not be added to service endpoints if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
 	// Structure is documented below.
-	StartupProbe []ContainersStartupProbeInitParameters `json:"startupProbe,omitempty" tf:"startup_probe,omitempty"`
+	StartupProbe []TemplateContainersStartupProbeInitParameters `json:"startupProbe,omitempty" tf:"startup_probe,omitempty"`
 
 	// Volume to mount into the container's filesystem.
 	// Structure is documented below.
@@ -1333,6 +1570,14 @@ type V2ServiceTemplateContainersObservation struct {
 
 	// Arguments to the entrypoint. The docker image's CMD is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. The $(VAR_NAME) syntax can be escaped with a double $$, ie: $$(VAR_NAME). Escaped references will never be expanded, regardless of whether the variable exists or not. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell
 	Args []*string `json:"args,omitempty" tf:"args,omitempty"`
+
+	// Base image for this container. If set, it indicates that the service is enrolled into automatic base image update.
+	BaseImageURI *string `json:"baseImageUri,omitempty" tf:"base_image_uri,omitempty"`
+
+	// (Output)
+	// The build info of the container image.
+	// Structure is documented below.
+	BuildInfo []BuildInfoObservation `json:"buildInfo,omitempty" tf:"build_info,omitempty"`
 
 	// Entrypoint array. Not executed within a shell. The docker image's ENTRYPOINT is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. The $(VAR_NAME) syntax can be escaped with a double $$, ie: $$(VAR_NAME). Escaped references will never be expanded, regardless of whether the variable exists or not. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell
 	Command []*string `json:"command,omitempty" tf:"command,omitempty"`
@@ -1365,7 +1610,7 @@ type V2ServiceTemplateContainersObservation struct {
 
 	// Startup probe of application within the container. All other probes are disabled if a startup probe is provided, until it succeeds. Container will not be added to service endpoints if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
 	// Structure is documented below.
-	StartupProbe []ContainersStartupProbeObservation `json:"startupProbe,omitempty" tf:"startup_probe,omitempty"`
+	StartupProbe []TemplateContainersStartupProbeObservation `json:"startupProbe,omitempty" tf:"startup_probe,omitempty"`
 
 	// Volume to mount into the container's filesystem.
 	// Structure is documented below.
@@ -1380,6 +1625,10 @@ type V2ServiceTemplateContainersParameters struct {
 	// Arguments to the entrypoint. The docker image's CMD is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. The $(VAR_NAME) syntax can be escaped with a double $$, ie: $$(VAR_NAME). Escaped references will never be expanded, regardless of whether the variable exists or not. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell
 	// +kubebuilder:validation:Optional
 	Args []*string `json:"args,omitempty" tf:"args,omitempty"`
+
+	// Base image for this container. If set, it indicates that the service is enrolled into automatic base image update.
+	// +kubebuilder:validation:Optional
+	BaseImageURI *string `json:"baseImageUri,omitempty" tf:"base_image_uri,omitempty"`
 
 	// Entrypoint array. Not executed within a shell. The docker image's ENTRYPOINT is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. The $(VAR_NAME) syntax can be escaped with a double $$, ie: $$(VAR_NAME). Escaped references will never be expanded, regardless of whether the variable exists or not. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell
 	// +kubebuilder:validation:Optional
@@ -1421,7 +1670,7 @@ type V2ServiceTemplateContainersParameters struct {
 	// Startup probe of application within the container. All other probes are disabled if a startup probe is provided, until it succeeds. Container will not be added to service endpoints if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	StartupProbe []ContainersStartupProbeParameters `json:"startupProbe,omitempty" tf:"startup_probe,omitempty"`
+	StartupProbe []TemplateContainersStartupProbeParameters `json:"startupProbe,omitempty" tf:"startup_probe,omitempty"`
 
 	// Volume to mount into the container's filesystem.
 	// Structure is documented below.
@@ -1453,6 +1702,9 @@ type V2ServiceTemplateInitParameters struct {
 	// Possible values are: EXECUTION_ENVIRONMENT_GEN1, EXECUTION_ENVIRONMENT_GEN2.
 	ExecutionEnvironment *string `json:"executionEnvironment,omitempty" tf:"execution_environment,omitempty"`
 
+	// True if GPU zonal redundancy is disabled on this revision.
+	GpuZonalRedundancyDisabled *bool `json:"gpuZonalRedundancyDisabled,omitempty" tf:"gpu_zonal_redundancy_disabled,omitempty"`
+
 	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component, environment, state, etc.
 	// For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
 	// Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
@@ -1462,6 +1714,10 @@ type V2ServiceTemplateInitParameters struct {
 
 	// Sets the maximum number of requests that each serving instance can receive.
 	MaxInstanceRequestConcurrency *float64 `json:"maxInstanceRequestConcurrency,omitempty" tf:"max_instance_request_concurrency,omitempty"`
+
+	// Node Selector describes the hardware requirements of the resources.
+	// Structure is documented below.
+	NodeSelector []NodeSelectorInitParameters `json:"nodeSelector,omitempty" tf:"node_selector,omitempty"`
 
 	// The unique name for the revision. If this field is omitted, it will be automatically generated based on the Service name.
 	Revision *string `json:"revision,omitempty" tf:"revision,omitempty"`
@@ -1509,6 +1765,9 @@ type V2ServiceTemplateObservation struct {
 	// Possible values are: EXECUTION_ENVIRONMENT_GEN1, EXECUTION_ENVIRONMENT_GEN2.
 	ExecutionEnvironment *string `json:"executionEnvironment,omitempty" tf:"execution_environment,omitempty"`
 
+	// True if GPU zonal redundancy is disabled on this revision.
+	GpuZonalRedundancyDisabled *bool `json:"gpuZonalRedundancyDisabled,omitempty" tf:"gpu_zonal_redundancy_disabled,omitempty"`
+
 	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component, environment, state, etc.
 	// For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
 	// Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
@@ -1518,6 +1777,10 @@ type V2ServiceTemplateObservation struct {
 
 	// Sets the maximum number of requests that each serving instance can receive.
 	MaxInstanceRequestConcurrency *float64 `json:"maxInstanceRequestConcurrency,omitempty" tf:"max_instance_request_concurrency,omitempty"`
+
+	// Node Selector describes the hardware requirements of the resources.
+	// Structure is documented below.
+	NodeSelector []NodeSelectorObservation `json:"nodeSelector,omitempty" tf:"node_selector,omitempty"`
 
 	// The unique name for the revision. If this field is omitted, it will be automatically generated based on the Service name.
 	Revision *string `json:"revision,omitempty" tf:"revision,omitempty"`
@@ -1569,6 +1832,10 @@ type V2ServiceTemplateParameters struct {
 	// +kubebuilder:validation:Optional
 	ExecutionEnvironment *string `json:"executionEnvironment,omitempty" tf:"execution_environment,omitempty"`
 
+	// True if GPU zonal redundancy is disabled on this revision.
+	// +kubebuilder:validation:Optional
+	GpuZonalRedundancyDisabled *bool `json:"gpuZonalRedundancyDisabled,omitempty" tf:"gpu_zonal_redundancy_disabled,omitempty"`
+
 	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component, environment, state, etc.
 	// For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
 	// Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
@@ -1580,6 +1847,11 @@ type V2ServiceTemplateParameters struct {
 	// Sets the maximum number of requests that each serving instance can receive.
 	// +kubebuilder:validation:Optional
 	MaxInstanceRequestConcurrency *float64 `json:"maxInstanceRequestConcurrency,omitempty" tf:"max_instance_request_concurrency,omitempty"`
+
+	// Node Selector describes the hardware requirements of the resources.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	NodeSelector []NodeSelectorParameters `json:"nodeSelector,omitempty" tf:"node_selector,omitempty"`
 
 	// The unique name for the revision. If this field is omitted, it will be automatically generated based on the Service name.
 	// +kubebuilder:validation:Optional
@@ -1620,13 +1892,17 @@ type V2ServiceTemplateVolumesInitParameters struct {
 	// Structure is documented below.
 	CloudSQLInstance []VolumesCloudSQLInstanceInitParameters `json:"cloudSqlInstance,omitempty" tf:"cloud_sql_instance,omitempty"`
 
-	// Represents a GCS Bucket mounted as a volume.
+	// Ephemeral storage used as a shared volume.
 	// Structure is documented below.
-	Gcs []GcsInitParameters `json:"gcs,omitempty" tf:"gcs,omitempty"`
+	EmptyDir []TemplateVolumesEmptyDirInitParameters `json:"emptyDir,omitempty" tf:"empty_dir,omitempty"`
+
+	// Cloud Storage bucket mounted as a volume using GCSFuse. This feature is only supported in the gen2 execution environment.
+	// Structure is documented below.
+	Gcs []VolumesGcsInitParameters `json:"gcs,omitempty" tf:"gcs,omitempty"`
 
 	// Represents an NFS mount.
 	// Structure is documented below.
-	NFS []NFSInitParameters `json:"nfs,omitempty" tf:"nfs,omitempty"`
+	NFS []TemplateVolumesNFSInitParameters `json:"nfs,omitempty" tf:"nfs,omitempty"`
 
 	// Volume's name.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -1642,13 +1918,17 @@ type V2ServiceTemplateVolumesObservation struct {
 	// Structure is documented below.
 	CloudSQLInstance []VolumesCloudSQLInstanceObservation `json:"cloudSqlInstance,omitempty" tf:"cloud_sql_instance,omitempty"`
 
-	// Represents a GCS Bucket mounted as a volume.
+	// Ephemeral storage used as a shared volume.
 	// Structure is documented below.
-	Gcs []GcsObservation `json:"gcs,omitempty" tf:"gcs,omitempty"`
+	EmptyDir []TemplateVolumesEmptyDirObservation `json:"emptyDir,omitempty" tf:"empty_dir,omitempty"`
+
+	// Cloud Storage bucket mounted as a volume using GCSFuse. This feature is only supported in the gen2 execution environment.
+	// Structure is documented below.
+	Gcs []VolumesGcsObservation `json:"gcs,omitempty" tf:"gcs,omitempty"`
 
 	// Represents an NFS mount.
 	// Structure is documented below.
-	NFS []NFSObservation `json:"nfs,omitempty" tf:"nfs,omitempty"`
+	NFS []TemplateVolumesNFSObservation `json:"nfs,omitempty" tf:"nfs,omitempty"`
 
 	// Volume's name.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -1665,15 +1945,20 @@ type V2ServiceTemplateVolumesParameters struct {
 	// +kubebuilder:validation:Optional
 	CloudSQLInstance []VolumesCloudSQLInstanceParameters `json:"cloudSqlInstance,omitempty" tf:"cloud_sql_instance,omitempty"`
 
-	// Represents a GCS Bucket mounted as a volume.
+	// Ephemeral storage used as a shared volume.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Gcs []GcsParameters `json:"gcs,omitempty" tf:"gcs,omitempty"`
+	EmptyDir []TemplateVolumesEmptyDirParameters `json:"emptyDir,omitempty" tf:"empty_dir,omitempty"`
+
+	// Cloud Storage bucket mounted as a volume using GCSFuse. This feature is only supported in the gen2 execution environment.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Gcs []VolumesGcsParameters `json:"gcs,omitempty" tf:"gcs,omitempty"`
 
 	// Represents an NFS mount.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	NFS []NFSParameters `json:"nfs,omitempty" tf:"nfs,omitempty"`
+	NFS []TemplateVolumesNFSParameters `json:"nfs,omitempty" tf:"nfs,omitempty"`
 
 	// Volume's name.
 	// +kubebuilder:validation:Optional
@@ -1869,6 +2154,53 @@ type VolumesCloudSQLInstanceParameters struct {
 	// Selector for a list of DatabaseInstance in sql to populate instances.
 	// +kubebuilder:validation:Optional
 	InstancesSelector *v1.Selector `json:"instancesSelector,omitempty" tf:"-"`
+}
+
+type VolumesGcsInitParameters struct {
+
+	// GCS Bucket name
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/storage/v1beta2.Bucket
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// Reference to a Bucket in storage to populate bucket.
+	// +kubebuilder:validation:Optional
+	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
+
+	// Selector for a Bucket in storage to populate bucket.
+	// +kubebuilder:validation:Optional
+	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+
+	// If true, mount the NFS volume as read only
+	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
+}
+
+type VolumesGcsObservation struct {
+
+	// GCS Bucket name
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// If true, mount the NFS volume as read only
+	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
+}
+
+type VolumesGcsParameters struct {
+
+	// GCS Bucket name
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/storage/v1beta2.Bucket
+	// +kubebuilder:validation:Optional
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// Reference to a Bucket in storage to populate bucket.
+	// +kubebuilder:validation:Optional
+	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
+
+	// Selector for a Bucket in storage to populate bucket.
+	// +kubebuilder:validation:Optional
+	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+
+	// If true, mount the NFS volume as read only
+	// +kubebuilder:validation:Optional
+	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
 }
 
 type VolumesSecretItemsInitParameters struct {

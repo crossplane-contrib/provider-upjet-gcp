@@ -15,9 +15,10 @@ import (
 
 type GatewayInitParameters struct {
 
-	// Zero or one IPv4-address on which the Gateway will receive the traffic. When no address is provided,
-	// an IP from the subnetwork is allocated This field only applies to gateways of type 'SECURE_WEB_GATEWAY'.
-	// Gateways of type 'OPEN_MESH' listen on 0.0.0.0.
+	// Zero or one IPv4 or IPv6 address on which the Gateway will receive the traffic.
+	// When no address is provided, an IP from the subnetwork is allocated.
+	// This field only applies to gateways of type 'SECURE_WEB_GATEWAY'.
+	// Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6.
 	Addresses []*string `json:"addresses,omitempty" tf:"addresses,omitempty"`
 
 	// A fully-qualified Certificates URL reference. The proxy presents a Certificate (selected based on SNI) when establishing a TLS connection.
@@ -41,8 +42,14 @@ type GatewayInitParameters struct {
 	// A free-text description of the resource. Max length 1024 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Determines if envoy will insert internal debug headers into upstream requests.
+	// Other Envoy headers may still be injected.
+	// By default, envoy will not insert any debug headers.
+	// Possible values are: NONE, DEBUG_HEADERS.
+	EnvoyHeaders *string `json:"envoyHeaders,omitempty" tf:"envoy_headers,omitempty"`
+
 	// A fully-qualified GatewaySecurityPolicy URL reference. Defines how a server should apply security policy to inbound (VM to Proxy) initiated connections.
-	// For example: projects/*/locations/*/gatewaySecurityPolicies/swg-policy.
+	// For example: 'projects//locations//gatewaySecurityPolicies/swg-policy'.
 	// This policy is specific to gateways of type 'SECURE_WEB_GATEWAY'.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/networksecurity/v1beta1.GatewaySecurityPolicy
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
@@ -56,14 +63,16 @@ type GatewayInitParameters struct {
 	// +kubebuilder:validation:Optional
 	GatewaySecurityPolicySelector *v1.Selector `json:"gatewaySecurityPolicySelector,omitempty" tf:"-"`
 
+	// The IP Version that will be used by this gateway.
+	// Possible values are: IPV4, IPV6.
+	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
+
 	// Set of label tags associated with the Gateway resource.
-	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
-	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The relative resource name identifying the VPC network that is using this configuration.
-	// For example: projects/*/global/networks/network-1.
+	// For example: 'projects/*/global/networks/network-1'.
 	// Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY'.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
@@ -78,27 +87,29 @@ type GatewayInitParameters struct {
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// One or more port numbers (1-65535), on which the Gateway will receive traffic.
-	// The proxy binds to the specified ports. Gateways of type 'SECURE_WEB_GATEWAY' are
-	// limited to 1 port. Gateways of type 'OPEN_MESH' listen on 0.0.0.0 and support multiple ports.
+	// The proxy binds to the specified ports. Gateways of type 'SECURE_WEB_GATEWAY' are limited to 1 port.
+	// Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6 and support multiple ports.
 	Ports []*float64 `json:"ports,omitempty" tf:"ports,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// The routing mode of the Gateway. This field is configurable only for gateways of type SECURE_WEB_GATEWAY. This field is required for gateways of type SECURE_WEB_GATEWAY.
+	// Possible values are: NEXT_HOP_ROUTING_MODE.
+	RoutingMode *string `json:"routingMode,omitempty" tf:"routing_mode,omitempty"`
+
 	// Immutable. Scope determines how configuration across multiple Gateway instances are merged.
-	// The configuration for multiple Gateway instances with the same scope will be merged as presented as
-	// a single coniguration to the proxy/load balancer.
+	// The configuration for multiple Gateway instances with the same scope will be merged as presented as a single coniguration to the proxy/load balancer.
 	// Max length 64 characters. Scope should start with a letter and can only have letters, numbers, hyphens.
 	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
 
-	// A fully-qualified ServerTLSPolicy URL reference. Specifies how TLS traffic is terminated.
-	// If empty, TLS termination is disabled.
+	// A fully-qualified ServerTLSPolicy URL reference. Specifies how TLS traffic is terminated. If empty, TLS termination is disabled.
 	ServerTLSPolicy *string `json:"serverTlsPolicy,omitempty" tf:"server_tls_policy,omitempty"`
 
 	// The relative resource name identifying the subnetwork in which this SWG is allocated.
 	// For example: projects/*/regions/us-central1/subnetworks/network-1.
-	// Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY.
+	// Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY'.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.Subnetwork
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
@@ -111,23 +122,24 @@ type GatewayInitParameters struct {
 	// +kubebuilder:validation:Optional
 	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 
-	// Immutable. The type of the customer-managed gateway. Possible values are: * OPEN_MESH * SECURE_WEB_GATEWAY.
-	// Possible values are: TYPE_UNSPECIFIED, OPEN_MESH, SECURE_WEB_GATEWAY.
+	// Immutable. The type of the customer managed gateway.
+	// Possible values are: OPEN_MESH, SECURE_WEB_GATEWAY.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type GatewayObservation struct {
 
-	// Zero or one IPv4-address on which the Gateway will receive the traffic. When no address is provided,
-	// an IP from the subnetwork is allocated This field only applies to gateways of type 'SECURE_WEB_GATEWAY'.
-	// Gateways of type 'OPEN_MESH' listen on 0.0.0.0.
+	// Zero or one IPv4 or IPv6 address on which the Gateway will receive the traffic.
+	// When no address is provided, an IP from the subnetwork is allocated.
+	// This field only applies to gateways of type 'SECURE_WEB_GATEWAY'.
+	// Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6.
 	Addresses []*string `json:"addresses,omitempty" tf:"addresses,omitempty"`
 
 	// A fully-qualified Certificates URL reference. The proxy presents a Certificate (selected based on SNI) when establishing a TLS connection.
 	// This feature only applies to gateways of type 'SECURE_WEB_GATEWAY'.
 	CertificateUrls []*string `json:"certificateUrls,omitempty" tf:"certificate_urls,omitempty"`
 
-	// Time the AccessPolicy was created in UTC.
+	// The timestamp when the resource was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
 	// When deleting a gateway of type 'SECURE_WEB_GATEWAY', this boolean option will also delete auto generated router by the gateway creation.
@@ -137,20 +149,29 @@ type GatewayObservation struct {
 	// A free-text description of the resource. Max length 1024 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// for all of the labels present on the resource.
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
 
+	// Determines if envoy will insert internal debug headers into upstream requests.
+	// Other Envoy headers may still be injected.
+	// By default, envoy will not insert any debug headers.
+	// Possible values are: NONE, DEBUG_HEADERS.
+	EnvoyHeaders *string `json:"envoyHeaders,omitempty" tf:"envoy_headers,omitempty"`
+
 	// A fully-qualified GatewaySecurityPolicy URL reference. Defines how a server should apply security policy to inbound (VM to Proxy) initiated connections.
-	// For example: projects/*/locations/*/gatewaySecurityPolicies/swg-policy.
+	// For example: 'projects//locations//gatewaySecurityPolicies/swg-policy'.
 	// This policy is specific to gateways of type 'SECURE_WEB_GATEWAY'.
 	GatewaySecurityPolicy *string `json:"gatewaySecurityPolicy,omitempty" tf:"gateway_security_policy,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/gateways/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The IP Version that will be used by this gateway.
+	// Possible values are: IPV4, IPV6.
+	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
+
 	// Set of label tags associated with the Gateway resource.
-	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
-	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -159,35 +180,37 @@ type GatewayObservation struct {
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// The relative resource name identifying the VPC network that is using this configuration.
-	// For example: projects/*/global/networks/network-1.
+	// For example: 'projects/*/global/networks/network-1'.
 	// Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY'.
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// One or more port numbers (1-65535), on which the Gateway will receive traffic.
-	// The proxy binds to the specified ports. Gateways of type 'SECURE_WEB_GATEWAY' are
-	// limited to 1 port. Gateways of type 'OPEN_MESH' listen on 0.0.0.0 and support multiple ports.
+	// The proxy binds to the specified ports. Gateways of type 'SECURE_WEB_GATEWAY' are limited to 1 port.
+	// Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6 and support multiple ports.
 	Ports []*float64 `json:"ports,omitempty" tf:"ports,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// The routing mode of the Gateway. This field is configurable only for gateways of type SECURE_WEB_GATEWAY. This field is required for gateways of type SECURE_WEB_GATEWAY.
+	// Possible values are: NEXT_HOP_ROUTING_MODE.
+	RoutingMode *string `json:"routingMode,omitempty" tf:"routing_mode,omitempty"`
+
 	// Immutable. Scope determines how configuration across multiple Gateway instances are merged.
-	// The configuration for multiple Gateway instances with the same scope will be merged as presented as
-	// a single coniguration to the proxy/load balancer.
+	// The configuration for multiple Gateway instances with the same scope will be merged as presented as a single coniguration to the proxy/load balancer.
 	// Max length 64 characters. Scope should start with a letter and can only have letters, numbers, hyphens.
 	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
 
 	// Server-defined URL of this resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
-	// A fully-qualified ServerTLSPolicy URL reference. Specifies how TLS traffic is terminated.
-	// If empty, TLS termination is disabled.
+	// A fully-qualified ServerTLSPolicy URL reference. Specifies how TLS traffic is terminated. If empty, TLS termination is disabled.
 	ServerTLSPolicy *string `json:"serverTlsPolicy,omitempty" tf:"server_tls_policy,omitempty"`
 
 	// The relative resource name identifying the subnetwork in which this SWG is allocated.
 	// For example: projects/*/regions/us-central1/subnetworks/network-1.
-	// Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY.
+	// Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY'.
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
 	// The combination of labels configured directly on the resource
@@ -195,19 +218,20 @@ type GatewayObservation struct {
 	// +mapType=granular
 	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
-	// Immutable. The type of the customer-managed gateway. Possible values are: * OPEN_MESH * SECURE_WEB_GATEWAY.
-	// Possible values are: TYPE_UNSPECIFIED, OPEN_MESH, SECURE_WEB_GATEWAY.
+	// Immutable. The type of the customer managed gateway.
+	// Possible values are: OPEN_MESH, SECURE_WEB_GATEWAY.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
-	// Time the AccessPolicy was updated in UTC.
+	// The timestamp when the resource was updated.
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`
 }
 
 type GatewayParameters struct {
 
-	// Zero or one IPv4-address on which the Gateway will receive the traffic. When no address is provided,
-	// an IP from the subnetwork is allocated This field only applies to gateways of type 'SECURE_WEB_GATEWAY'.
-	// Gateways of type 'OPEN_MESH' listen on 0.0.0.0.
+	// Zero or one IPv4 or IPv6 address on which the Gateway will receive the traffic.
+	// When no address is provided, an IP from the subnetwork is allocated.
+	// This field only applies to gateways of type 'SECURE_WEB_GATEWAY'.
+	// Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6.
 	// +kubebuilder:validation:Optional
 	Addresses []*string `json:"addresses,omitempty" tf:"addresses,omitempty"`
 
@@ -235,8 +259,15 @@ type GatewayParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Determines if envoy will insert internal debug headers into upstream requests.
+	// Other Envoy headers may still be injected.
+	// By default, envoy will not insert any debug headers.
+	// Possible values are: NONE, DEBUG_HEADERS.
+	// +kubebuilder:validation:Optional
+	EnvoyHeaders *string `json:"envoyHeaders,omitempty" tf:"envoy_headers,omitempty"`
+
 	// A fully-qualified GatewaySecurityPolicy URL reference. Defines how a server should apply security policy to inbound (VM to Proxy) initiated connections.
-	// For example: projects/*/locations/*/gatewaySecurityPolicies/swg-policy.
+	// For example: 'projects//locations//gatewaySecurityPolicies/swg-policy'.
 	// This policy is specific to gateways of type 'SECURE_WEB_GATEWAY'.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/networksecurity/v1beta1.GatewaySecurityPolicy
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
@@ -251,9 +282,12 @@ type GatewayParameters struct {
 	// +kubebuilder:validation:Optional
 	GatewaySecurityPolicySelector *v1.Selector `json:"gatewaySecurityPolicySelector,omitempty" tf:"-"`
 
+	// The IP Version that will be used by this gateway.
+	// Possible values are: IPV4, IPV6.
+	// +kubebuilder:validation:Optional
+	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
+
 	// Set of label tags associated with the Gateway resource.
-	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
-	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
@@ -264,7 +298,7 @@ type GatewayParameters struct {
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// The relative resource name identifying the VPC network that is using this configuration.
-	// For example: projects/*/global/networks/network-1.
+	// For example: 'projects/*/global/networks/network-1'.
 	// Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY'.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
@@ -280,8 +314,8 @@ type GatewayParameters struct {
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// One or more port numbers (1-65535), on which the Gateway will receive traffic.
-	// The proxy binds to the specified ports. Gateways of type 'SECURE_WEB_GATEWAY' are
-	// limited to 1 port. Gateways of type 'OPEN_MESH' listen on 0.0.0.0 and support multiple ports.
+	// The proxy binds to the specified ports. Gateways of type 'SECURE_WEB_GATEWAY' are limited to 1 port.
+	// Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6 and support multiple ports.
 	// +kubebuilder:validation:Optional
 	Ports []*float64 `json:"ports,omitempty" tf:"ports,omitempty"`
 
@@ -290,21 +324,24 @@ type GatewayParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// The routing mode of the Gateway. This field is configurable only for gateways of type SECURE_WEB_GATEWAY. This field is required for gateways of type SECURE_WEB_GATEWAY.
+	// Possible values are: NEXT_HOP_ROUTING_MODE.
+	// +kubebuilder:validation:Optional
+	RoutingMode *string `json:"routingMode,omitempty" tf:"routing_mode,omitempty"`
+
 	// Immutable. Scope determines how configuration across multiple Gateway instances are merged.
-	// The configuration for multiple Gateway instances with the same scope will be merged as presented as
-	// a single coniguration to the proxy/load balancer.
+	// The configuration for multiple Gateway instances with the same scope will be merged as presented as a single coniguration to the proxy/load balancer.
 	// Max length 64 characters. Scope should start with a letter and can only have letters, numbers, hyphens.
 	// +kubebuilder:validation:Optional
 	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
 
-	// A fully-qualified ServerTLSPolicy URL reference. Specifies how TLS traffic is terminated.
-	// If empty, TLS termination is disabled.
+	// A fully-qualified ServerTLSPolicy URL reference. Specifies how TLS traffic is terminated. If empty, TLS termination is disabled.
 	// +kubebuilder:validation:Optional
 	ServerTLSPolicy *string `json:"serverTlsPolicy,omitempty" tf:"server_tls_policy,omitempty"`
 
 	// The relative resource name identifying the subnetwork in which this SWG is allocated.
 	// For example: projects/*/regions/us-central1/subnetworks/network-1.
-	// Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY.
+	// Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY'.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.Subnetwork
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -318,8 +355,8 @@ type GatewayParameters struct {
 	// +kubebuilder:validation:Optional
 	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 
-	// Immutable. The type of the customer-managed gateway. Possible values are: * OPEN_MESH * SECURE_WEB_GATEWAY.
-	// Possible values are: TYPE_UNSPECIFIED, OPEN_MESH, SECURE_WEB_GATEWAY.
+	// Immutable. The type of the customer managed gateway.
+	// Possible values are: OPEN_MESH, SECURE_WEB_GATEWAY.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }

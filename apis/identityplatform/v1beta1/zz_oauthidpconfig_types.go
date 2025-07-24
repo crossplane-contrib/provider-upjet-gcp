@@ -36,6 +36,12 @@ type OAuthIdPConfigInitParameters struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The response type to request for in the OAuth authorization flow.
+	// You can set either idToken or code to true, but not both.
+	// Setting both types to be simultaneously true ({code: true, idToken: true}) is not yet supported.
+	// Structure is documented below.
+	ResponseType *ResponseTypeInitParameters `json:"responseType,omitempty" tf:"response_type,omitempty"`
 }
 
 type OAuthIdPConfigObservation struct {
@@ -58,6 +64,12 @@ type OAuthIdPConfigObservation struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The response type to request for in the OAuth authorization flow.
+	// You can set either idToken or code to true, but not both.
+	// Setting both types to be simultaneously true ({code: true, idToken: true}) is not yet supported.
+	// Structure is documented below.
+	ResponseType *ResponseTypeObservation `json:"responseType,omitempty" tf:"response_type,omitempty"`
 }
 
 type OAuthIdPConfigParameters struct {
@@ -90,6 +102,42 @@ type OAuthIdPConfigParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The response type to request for in the OAuth authorization flow.
+	// You can set either idToken or code to true, but not both.
+	// Setting both types to be simultaneously true ({code: true, idToken: true}) is not yet supported.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ResponseType *ResponseTypeParameters `json:"responseType,omitempty" tf:"response_type,omitempty"`
+}
+
+type ResponseTypeInitParameters struct {
+
+	// If true, authorization code is returned from IdP's authorization endpoint.
+	Code *bool `json:"code,omitempty" tf:"code,omitempty"`
+
+	// If true, ID token is returned from IdP's authorization endpoint.
+	IDToken *bool `json:"idToken,omitempty" tf:"id_token,omitempty"`
+}
+
+type ResponseTypeObservation struct {
+
+	// If true, authorization code is returned from IdP's authorization endpoint.
+	Code *bool `json:"code,omitempty" tf:"code,omitempty"`
+
+	// If true, ID token is returned from IdP's authorization endpoint.
+	IDToken *bool `json:"idToken,omitempty" tf:"id_token,omitempty"`
+}
+
+type ResponseTypeParameters struct {
+
+	// If true, authorization code is returned from IdP's authorization endpoint.
+	// +kubebuilder:validation:Optional
+	Code *bool `json:"code,omitempty" tf:"code,omitempty"`
+
+	// If true, ID token is returned from IdP's authorization endpoint.
+	// +kubebuilder:validation:Optional
+	IDToken *bool `json:"idToken,omitempty" tf:"id_token,omitempty"`
 }
 
 // OAuthIdPConfigSpec defines the desired state of OAuthIdPConfig

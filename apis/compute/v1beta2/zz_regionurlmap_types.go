@@ -161,6 +161,157 @@ type CorsPolicyParameters struct {
 	MaxAge *float64 `json:"maxAge,omitempty" tf:"max_age,omitempty"`
 }
 
+type DefaultRouteActionCorsPolicyInitParameters struct {
+
+	// In response to a preflight request, setting this to true indicates that the
+	// actual request can include user credentials. This translates to the Access-
+	// Control-Allow-Credentials header. Defaults to false.
+	AllowCredentials *bool `json:"allowCredentials,omitempty" tf:"allow_credentials,omitempty"`
+
+	// Specifies the content for the Access-Control-Allow-Headers header.
+	AllowHeaders []*string `json:"allowHeaders,omitempty" tf:"allow_headers,omitempty"`
+
+	// Specifies the content for the Access-Control-Allow-Methods header.
+	AllowMethods []*string `json:"allowMethods,omitempty" tf:"allow_methods,omitempty"`
+
+	// Specifies the regular expression patterns that match allowed origins. For
+	// regular expression grammar please see en.cppreference.com/w/cpp/regex/ecmascript
+	// An origin is allowed if it matches either allow_origins or allow_origin_regex.
+	AllowOriginRegexes []*string `json:"allowOriginRegexes,omitempty" tf:"allow_origin_regexes,omitempty"`
+
+	// Specifies the list of origins that will be allowed to do CORS requests. An
+	// origin is allowed if it matches either allow_origins or allow_origin_regex.
+	AllowOrigins []*string `json:"allowOrigins,omitempty" tf:"allow_origins,omitempty"`
+
+	// If true, specifies the CORS policy is disabled.
+	// which indicates that the CORS policy is in effect. Defaults to false.
+	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
+
+	// Specifies the content for the Access-Control-Expose-Headers header.
+	ExposeHeaders []*string `json:"exposeHeaders,omitempty" tf:"expose_headers,omitempty"`
+
+	// Specifies how long the results of a preflight request can be cached. This
+	// translates to the content for the Access-Control-Max-Age header.
+	MaxAge *float64 `json:"maxAge,omitempty" tf:"max_age,omitempty"`
+}
+
+type DefaultRouteActionCorsPolicyObservation struct {
+
+	// In response to a preflight request, setting this to true indicates that the
+	// actual request can include user credentials. This translates to the Access-
+	// Control-Allow-Credentials header. Defaults to false.
+	AllowCredentials *bool `json:"allowCredentials,omitempty" tf:"allow_credentials,omitempty"`
+
+	// Specifies the content for the Access-Control-Allow-Headers header.
+	AllowHeaders []*string `json:"allowHeaders,omitempty" tf:"allow_headers,omitempty"`
+
+	// Specifies the content for the Access-Control-Allow-Methods header.
+	AllowMethods []*string `json:"allowMethods,omitempty" tf:"allow_methods,omitempty"`
+
+	// Specifies the regular expression patterns that match allowed origins. For
+	// regular expression grammar please see en.cppreference.com/w/cpp/regex/ecmascript
+	// An origin is allowed if it matches either allow_origins or allow_origin_regex.
+	AllowOriginRegexes []*string `json:"allowOriginRegexes,omitempty" tf:"allow_origin_regexes,omitempty"`
+
+	// Specifies the list of origins that will be allowed to do CORS requests. An
+	// origin is allowed if it matches either allow_origins or allow_origin_regex.
+	AllowOrigins []*string `json:"allowOrigins,omitempty" tf:"allow_origins,omitempty"`
+
+	// If true, specifies the CORS policy is disabled.
+	// which indicates that the CORS policy is in effect. Defaults to false.
+	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
+
+	// Specifies the content for the Access-Control-Expose-Headers header.
+	ExposeHeaders []*string `json:"exposeHeaders,omitempty" tf:"expose_headers,omitempty"`
+
+	// Specifies how long the results of a preflight request can be cached. This
+	// translates to the content for the Access-Control-Max-Age header.
+	MaxAge *float64 `json:"maxAge,omitempty" tf:"max_age,omitempty"`
+}
+
+type DefaultRouteActionCorsPolicyParameters struct {
+
+	// In response to a preflight request, setting this to true indicates that the
+	// actual request can include user credentials. This translates to the Access-
+	// Control-Allow-Credentials header. Defaults to false.
+	// +kubebuilder:validation:Optional
+	AllowCredentials *bool `json:"allowCredentials,omitempty" tf:"allow_credentials,omitempty"`
+
+	// Specifies the content for the Access-Control-Allow-Headers header.
+	// +kubebuilder:validation:Optional
+	AllowHeaders []*string `json:"allowHeaders,omitempty" tf:"allow_headers,omitempty"`
+
+	// Specifies the content for the Access-Control-Allow-Methods header.
+	// +kubebuilder:validation:Optional
+	AllowMethods []*string `json:"allowMethods,omitempty" tf:"allow_methods,omitempty"`
+
+	// Specifies the regular expression patterns that match allowed origins. For
+	// regular expression grammar please see en.cppreference.com/w/cpp/regex/ecmascript
+	// An origin is allowed if it matches either allow_origins or allow_origin_regex.
+	// +kubebuilder:validation:Optional
+	AllowOriginRegexes []*string `json:"allowOriginRegexes,omitempty" tf:"allow_origin_regexes,omitempty"`
+
+	// Specifies the list of origins that will be allowed to do CORS requests. An
+	// origin is allowed if it matches either allow_origins or allow_origin_regex.
+	// +kubebuilder:validation:Optional
+	AllowOrigins []*string `json:"allowOrigins,omitempty" tf:"allow_origins,omitempty"`
+
+	// If true, specifies the CORS policy is disabled.
+	// which indicates that the CORS policy is in effect. Defaults to false.
+	// +kubebuilder:validation:Optional
+	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
+
+	// Specifies the content for the Access-Control-Expose-Headers header.
+	// +kubebuilder:validation:Optional
+	ExposeHeaders []*string `json:"exposeHeaders,omitempty" tf:"expose_headers,omitempty"`
+
+	// Specifies how long the results of a preflight request can be cached. This
+	// translates to the content for the Access-Control-Max-Age header.
+	// +kubebuilder:validation:Optional
+	MaxAge *float64 `json:"maxAge,omitempty" tf:"max_age,omitempty"`
+}
+
+type DefaultRouteActionFaultInjectionPolicyInitParameters struct {
+
+	// The specification for how client requests are aborted as part of fault
+	// injection.
+	// Structure is documented below.
+	Abort *FaultInjectionPolicyAbortInitParameters `json:"abort,omitempty" tf:"abort,omitempty"`
+
+	// The specification for how client requests are delayed as part of fault
+	// injection, before being sent to a backend service.
+	// Structure is documented below.
+	Delay *FaultInjectionPolicyDelayInitParameters `json:"delay,omitempty" tf:"delay,omitempty"`
+}
+
+type DefaultRouteActionFaultInjectionPolicyObservation struct {
+
+	// The specification for how client requests are aborted as part of fault
+	// injection.
+	// Structure is documented below.
+	Abort *FaultInjectionPolicyAbortObservation `json:"abort,omitempty" tf:"abort,omitempty"`
+
+	// The specification for how client requests are delayed as part of fault
+	// injection, before being sent to a backend service.
+	// Structure is documented below.
+	Delay *FaultInjectionPolicyDelayObservation `json:"delay,omitempty" tf:"delay,omitempty"`
+}
+
+type DefaultRouteActionFaultInjectionPolicyParameters struct {
+
+	// The specification for how client requests are aborted as part of fault
+	// injection.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Abort *FaultInjectionPolicyAbortParameters `json:"abort,omitempty" tf:"abort,omitempty"`
+
+	// The specification for how client requests are delayed as part of fault
+	// injection, before being sent to a backend service.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Delay *FaultInjectionPolicyDelayParameters `json:"delay,omitempty" tf:"delay,omitempty"`
+}
+
 type DefaultRouteActionInitParameters struct {
 
 	// The specification for allowing client side cross-origin requests. Please see
@@ -169,16 +320,16 @@ type DefaultRouteActionInitParameters struct {
 	CorsPolicy *CorsPolicyInitParameters `json:"corsPolicy,omitempty" tf:"cors_policy,omitempty"`
 
 	// The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure.
-	// As part of fault injection, when clients send requests to a backend service, delays can be introduced by a load balancer on a percentage of requests before sending those requests to the backend service.
-	// Similarly requests from clients can be aborted by the load balancer for a percentage of requests.
-	// timeout and retryPolicy is ignored by clients that are configured with a faultInjectionPolicy if: 1. The traffic is generated by fault injection AND 2. The fault injection is not a delay fault injection.
-	// Fault injection is not supported with the global external HTTP(S) load balancer (classic). To see which load balancers support fault injection, see Load balancing: Routing and traffic management features.
+	// As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a
+	// percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted
+	// by the Loadbalancer for a percentage of requests.
+	// timeout and retryPolicy will be ignored by clients that are configured with a faultInjectionPolicy.
 	// Structure is documented below.
 	FaultInjectionPolicy *FaultInjectionPolicyInitParameters `json:"faultInjectionPolicy,omitempty" tf:"fault_injection_policy,omitempty"`
 
 	// Specifies the policy on how requests intended for the route's backends are shadowed to a separate mirrored backend service.
-	// The load balancer does not wait for responses from the shadow service. Before sending traffic to the shadow service, the host / authority header is suffixed with -shadow.
-	// Not supported when the URL map is bound to a target gRPC proxy that has the validateForProxyless field set to true.
+	// Loadbalancer does not wait for responses from the shadow service. Prior to sending traffic to the shadow service,
+	// the host / authority header is suffixed with -shadow.
 	// Structure is documented below.
 	RequestMirrorPolicy *RequestMirrorPolicyInitParameters `json:"requestMirrorPolicy,omitempty" tf:"request_mirror_policy,omitempty"`
 
@@ -186,22 +337,63 @@ type DefaultRouteActionInitParameters struct {
 	// Structure is documented below.
 	RetryPolicy *RetryPolicyInitParameters `json:"retryPolicy,omitempty" tf:"retry_policy,omitempty"`
 
-	// Specifies the timeout for the selected route. Timeout is computed from the time the request has been fully processed (known as end-of-stream) up until the response has been processed. Timeout includes all retries.
-	// If not specified, this field uses the largest timeout among all backend services associated with the route.
-	// Not supported when the URL map is bound to a target gRPC proxy that has validateForProxyless field set to true.
+	// Specifies the timeout for the selected route. Timeout is computed from the time the request has been
+	// fully processed (i.e. end-of-stream) up until the response has been completely processed. Timeout includes all retries.
+	// If not specified, will use the largest timeout among all backend services associated with the route.
 	// Structure is documented below.
 	Timeout *TimeoutInitParameters `json:"timeout,omitempty" tf:"timeout,omitempty"`
 
-	// The spec to modify the URL of the request, before forwarding the request to the matched service.
-	// urlRewrite is the only action supported in UrlMaps for external HTTP(S) load balancers.
-	// Not supported when the URL map is bound to a target gRPC proxy that has the validateForProxyless field set to true.
+	// The spec to modify the URL of the request, prior to forwarding the request to the matched service.
 	// Structure is documented below.
 	URLRewrite *URLRewriteInitParameters `json:"urlRewrite,omitempty" tf:"url_rewrite,omitempty"`
 
-	// A list of weighted backend services to send traffic to when a route match occurs. The weights determine the fraction of traffic that flows to their corresponding backend service. If all traffic needs to go to a single backend service, there must be one weightedBackendService with weight set to a non-zero number.
-	// After a backend service is identified and before forwarding the request to the backend service, advanced routing actions such as URL rewrites and header transformations are applied depending on additional settings specified in this HttpRouteAction.
+	// A list of weighted backend services to send traffic to when a route match occurs.
+	// The weights determine the fraction of traffic that flows to their corresponding backend service.
+	// If all traffic needs to go to a single backend service, there must be one weightedBackendService
+	// with weight set to a non-zero number.
+	// Once a backendService is identified and before forwarding the request to the backend service,
+	// advanced routing actions like Url rewrites and header transformations are applied depending on
+	// additional settings specified in this HttpRouteAction.
 	// Structure is documented below.
 	WeightedBackendServices []WeightedBackendServicesInitParameters `json:"weightedBackendServices,omitempty" tf:"weighted_backend_services,omitempty"`
+}
+
+type DefaultRouteActionMaxStreamDurationInitParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type DefaultRouteActionMaxStreamDurationObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type DefaultRouteActionMaxStreamDurationParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
+	// +kubebuilder:validation:Optional
+	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
 }
 
 type DefaultRouteActionObservation struct {
@@ -212,16 +404,16 @@ type DefaultRouteActionObservation struct {
 	CorsPolicy *CorsPolicyObservation `json:"corsPolicy,omitempty" tf:"cors_policy,omitempty"`
 
 	// The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure.
-	// As part of fault injection, when clients send requests to a backend service, delays can be introduced by a load balancer on a percentage of requests before sending those requests to the backend service.
-	// Similarly requests from clients can be aborted by the load balancer for a percentage of requests.
-	// timeout and retryPolicy is ignored by clients that are configured with a faultInjectionPolicy if: 1. The traffic is generated by fault injection AND 2. The fault injection is not a delay fault injection.
-	// Fault injection is not supported with the global external HTTP(S) load balancer (classic). To see which load balancers support fault injection, see Load balancing: Routing and traffic management features.
+	// As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a
+	// percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted
+	// by the Loadbalancer for a percentage of requests.
+	// timeout and retryPolicy will be ignored by clients that are configured with a faultInjectionPolicy.
 	// Structure is documented below.
 	FaultInjectionPolicy *FaultInjectionPolicyObservation `json:"faultInjectionPolicy,omitempty" tf:"fault_injection_policy,omitempty"`
 
 	// Specifies the policy on how requests intended for the route's backends are shadowed to a separate mirrored backend service.
-	// The load balancer does not wait for responses from the shadow service. Before sending traffic to the shadow service, the host / authority header is suffixed with -shadow.
-	// Not supported when the URL map is bound to a target gRPC proxy that has the validateForProxyless field set to true.
+	// Loadbalancer does not wait for responses from the shadow service. Prior to sending traffic to the shadow service,
+	// the host / authority header is suffixed with -shadow.
 	// Structure is documented below.
 	RequestMirrorPolicy *RequestMirrorPolicyObservation `json:"requestMirrorPolicy,omitempty" tf:"request_mirror_policy,omitempty"`
 
@@ -229,20 +421,23 @@ type DefaultRouteActionObservation struct {
 	// Structure is documented below.
 	RetryPolicy *RetryPolicyObservation `json:"retryPolicy,omitempty" tf:"retry_policy,omitempty"`
 
-	// Specifies the timeout for the selected route. Timeout is computed from the time the request has been fully processed (known as end-of-stream) up until the response has been processed. Timeout includes all retries.
-	// If not specified, this field uses the largest timeout among all backend services associated with the route.
-	// Not supported when the URL map is bound to a target gRPC proxy that has validateForProxyless field set to true.
+	// Specifies the timeout for the selected route. Timeout is computed from the time the request has been
+	// fully processed (i.e. end-of-stream) up until the response has been completely processed. Timeout includes all retries.
+	// If not specified, will use the largest timeout among all backend services associated with the route.
 	// Structure is documented below.
 	Timeout *TimeoutObservation `json:"timeout,omitempty" tf:"timeout,omitempty"`
 
-	// The spec to modify the URL of the request, before forwarding the request to the matched service.
-	// urlRewrite is the only action supported in UrlMaps for external HTTP(S) load balancers.
-	// Not supported when the URL map is bound to a target gRPC proxy that has the validateForProxyless field set to true.
+	// The spec to modify the URL of the request, prior to forwarding the request to the matched service.
 	// Structure is documented below.
 	URLRewrite *URLRewriteObservation `json:"urlRewrite,omitempty" tf:"url_rewrite,omitempty"`
 
-	// A list of weighted backend services to send traffic to when a route match occurs. The weights determine the fraction of traffic that flows to their corresponding backend service. If all traffic needs to go to a single backend service, there must be one weightedBackendService with weight set to a non-zero number.
-	// After a backend service is identified and before forwarding the request to the backend service, advanced routing actions such as URL rewrites and header transformations are applied depending on additional settings specified in this HttpRouteAction.
+	// A list of weighted backend services to send traffic to when a route match occurs.
+	// The weights determine the fraction of traffic that flows to their corresponding backend service.
+	// If all traffic needs to go to a single backend service, there must be one weightedBackendService
+	// with weight set to a non-zero number.
+	// Once a backendService is identified and before forwarding the request to the backend service,
+	// advanced routing actions like Url rewrites and header transformations are applied depending on
+	// additional settings specified in this HttpRouteAction.
 	// Structure is documented below.
 	WeightedBackendServices []WeightedBackendServicesObservation `json:"weightedBackendServices,omitempty" tf:"weighted_backend_services,omitempty"`
 }
@@ -256,17 +451,17 @@ type DefaultRouteActionParameters struct {
 	CorsPolicy *CorsPolicyParameters `json:"corsPolicy,omitempty" tf:"cors_policy,omitempty"`
 
 	// The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure.
-	// As part of fault injection, when clients send requests to a backend service, delays can be introduced by a load balancer on a percentage of requests before sending those requests to the backend service.
-	// Similarly requests from clients can be aborted by the load balancer for a percentage of requests.
-	// timeout and retryPolicy is ignored by clients that are configured with a faultInjectionPolicy if: 1. The traffic is generated by fault injection AND 2. The fault injection is not a delay fault injection.
-	// Fault injection is not supported with the global external HTTP(S) load balancer (classic). To see which load balancers support fault injection, see Load balancing: Routing and traffic management features.
+	// As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a
+	// percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted
+	// by the Loadbalancer for a percentage of requests.
+	// timeout and retryPolicy will be ignored by clients that are configured with a faultInjectionPolicy.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	FaultInjectionPolicy *FaultInjectionPolicyParameters `json:"faultInjectionPolicy,omitempty" tf:"fault_injection_policy,omitempty"`
 
 	// Specifies the policy on how requests intended for the route's backends are shadowed to a separate mirrored backend service.
-	// The load balancer does not wait for responses from the shadow service. Before sending traffic to the shadow service, the host / authority header is suffixed with -shadow.
-	// Not supported when the URL map is bound to a target gRPC proxy that has the validateForProxyless field set to true.
+	// Loadbalancer does not wait for responses from the shadow service. Prior to sending traffic to the shadow service,
+	// the host / authority header is suffixed with -shadow.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	RequestMirrorPolicy *RequestMirrorPolicyParameters `json:"requestMirrorPolicy,omitempty" tf:"request_mirror_policy,omitempty"`
@@ -276,25 +471,323 @@ type DefaultRouteActionParameters struct {
 	// +kubebuilder:validation:Optional
 	RetryPolicy *RetryPolicyParameters `json:"retryPolicy,omitempty" tf:"retry_policy,omitempty"`
 
-	// Specifies the timeout for the selected route. Timeout is computed from the time the request has been fully processed (known as end-of-stream) up until the response has been processed. Timeout includes all retries.
-	// If not specified, this field uses the largest timeout among all backend services associated with the route.
-	// Not supported when the URL map is bound to a target gRPC proxy that has validateForProxyless field set to true.
+	// Specifies the timeout for the selected route. Timeout is computed from the time the request has been
+	// fully processed (i.e. end-of-stream) up until the response has been completely processed. Timeout includes all retries.
+	// If not specified, will use the largest timeout among all backend services associated with the route.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Timeout *TimeoutParameters `json:"timeout,omitempty" tf:"timeout,omitempty"`
 
-	// The spec to modify the URL of the request, before forwarding the request to the matched service.
-	// urlRewrite is the only action supported in UrlMaps for external HTTP(S) load balancers.
-	// Not supported when the URL map is bound to a target gRPC proxy that has the validateForProxyless field set to true.
+	// The spec to modify the URL of the request, prior to forwarding the request to the matched service.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	URLRewrite *URLRewriteParameters `json:"urlRewrite,omitempty" tf:"url_rewrite,omitempty"`
 
-	// A list of weighted backend services to send traffic to when a route match occurs. The weights determine the fraction of traffic that flows to their corresponding backend service. If all traffic needs to go to a single backend service, there must be one weightedBackendService with weight set to a non-zero number.
-	// After a backend service is identified and before forwarding the request to the backend service, advanced routing actions such as URL rewrites and header transformations are applied depending on additional settings specified in this HttpRouteAction.
+	// A list of weighted backend services to send traffic to when a route match occurs.
+	// The weights determine the fraction of traffic that flows to their corresponding backend service.
+	// If all traffic needs to go to a single backend service, there must be one weightedBackendService
+	// with weight set to a non-zero number.
+	// Once a backendService is identified and before forwarding the request to the backend service,
+	// advanced routing actions like Url rewrites and header transformations are applied depending on
+	// additional settings specified in this HttpRouteAction.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	WeightedBackendServices []WeightedBackendServicesParameters `json:"weightedBackendServices,omitempty" tf:"weighted_backend_services,omitempty"`
+}
+
+type DefaultRouteActionRequestMirrorPolicyInitParameters struct {
+
+	// The default RegionBackendService resource. Before
+	// forwarding the request to backendService, the loadbalancer applies any relevant
+	// headerActions specified as part of this backendServiceWeight.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.RegionBackendService
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
+
+	// Reference to a RegionBackendService in compute to populate backendService.
+	// +kubebuilder:validation:Optional
+	BackendServiceRef *v1.Reference `json:"backendServiceRef,omitempty" tf:"-"`
+
+	// Selector for a RegionBackendService in compute to populate backendService.
+	// +kubebuilder:validation:Optional
+	BackendServiceSelector *v1.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
+}
+
+type DefaultRouteActionRequestMirrorPolicyObservation struct {
+
+	// The default RegionBackendService resource. Before
+	// forwarding the request to backendService, the loadbalancer applies any relevant
+	// headerActions specified as part of this backendServiceWeight.
+	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
+}
+
+type DefaultRouteActionRequestMirrorPolicyParameters struct {
+
+	// The default RegionBackendService resource. Before
+	// forwarding the request to backendService, the loadbalancer applies any relevant
+	// headerActions specified as part of this backendServiceWeight.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.RegionBackendService
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
+
+	// Reference to a RegionBackendService in compute to populate backendService.
+	// +kubebuilder:validation:Optional
+	BackendServiceRef *v1.Reference `json:"backendServiceRef,omitempty" tf:"-"`
+
+	// Selector for a RegionBackendService in compute to populate backendService.
+	// +kubebuilder:validation:Optional
+	BackendServiceSelector *v1.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
+}
+
+type DefaultRouteActionRetryPolicyInitParameters struct {
+
+	// Specifies the allowed number retries. This number must be > 0.
+	NumRetries *float64 `json:"numRetries,omitempty" tf:"num_retries,omitempty"`
+
+	// Specifies a non-zero timeout per retry attempt.
+	// Structure is documented below.
+	PerTryTimeout *RetryPolicyPerTryTimeoutInitParameters `json:"perTryTimeout,omitempty" tf:"per_try_timeout,omitempty"`
+
+	// Specifies one or more conditions when this retry rule applies. Valid values are:
+	RetryConditions []*string `json:"retryConditions,omitempty" tf:"retry_conditions,omitempty"`
+}
+
+type DefaultRouteActionRetryPolicyObservation struct {
+
+	// Specifies the allowed number retries. This number must be > 0.
+	NumRetries *float64 `json:"numRetries,omitempty" tf:"num_retries,omitempty"`
+
+	// Specifies a non-zero timeout per retry attempt.
+	// Structure is documented below.
+	PerTryTimeout *RetryPolicyPerTryTimeoutObservation `json:"perTryTimeout,omitempty" tf:"per_try_timeout,omitempty"`
+
+	// Specifies one or more conditions when this retry rule applies. Valid values are:
+	RetryConditions []*string `json:"retryConditions,omitempty" tf:"retry_conditions,omitempty"`
+}
+
+type DefaultRouteActionRetryPolicyParameters struct {
+
+	// Specifies the allowed number retries. This number must be > 0.
+	// +kubebuilder:validation:Optional
+	NumRetries *float64 `json:"numRetries,omitempty" tf:"num_retries,omitempty"`
+
+	// Specifies a non-zero timeout per retry attempt.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PerTryTimeout *RetryPolicyPerTryTimeoutParameters `json:"perTryTimeout,omitempty" tf:"per_try_timeout,omitempty"`
+
+	// Specifies one or more conditions when this retry rule applies. Valid values are:
+	// +kubebuilder:validation:Optional
+	RetryConditions []*string `json:"retryConditions,omitempty" tf:"retry_conditions,omitempty"`
+}
+
+type DefaultRouteActionTimeoutInitParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type DefaultRouteActionTimeoutObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type DefaultRouteActionTimeoutParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
+	// +kubebuilder:validation:Optional
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type DefaultRouteActionURLRewriteInitParameters struct {
+
+	// Prior to forwarding the request to the selected service, the request's host
+	// header is replaced with contents of hostRewrite. The value must be between 1 and
+	// 255 characters.
+	HostRewrite *string `json:"hostRewrite,omitempty" tf:"host_rewrite,omitempty"`
+
+	// Prior to forwarding the request to the selected backend service, the matching
+	// portion of the request's path is replaced by pathPrefixRewrite. The value must
+	// be between 1 and 1024 characters.
+	PathPrefixRewrite *string `json:"pathPrefixRewrite,omitempty" tf:"path_prefix_rewrite,omitempty"`
+
+	// Prior to forwarding the request to the selected origin, if the
+	// request matched a pathTemplateMatch, the matching portion of the
+	// request's path is replaced re-written using the pattern specified
+	// by pathTemplateRewrite.
+	// pathTemplateRewrite must be between 1 and 255 characters
+	// (inclusive), must start with a '/', and must only use variables
+	// captured by the route's pathTemplate matchers.
+	// pathTemplateRewrite may only be used when all of a route's
+	// MatchRules specify pathTemplate.
+	// Only one of pathPrefixRewrite and pathTemplateRewrite may be
+	// specified.
+	PathTemplateRewrite *string `json:"pathTemplateRewrite,omitempty" tf:"path_template_rewrite,omitempty"`
+}
+
+type DefaultRouteActionURLRewriteObservation struct {
+
+	// Prior to forwarding the request to the selected service, the request's host
+	// header is replaced with contents of hostRewrite. The value must be between 1 and
+	// 255 characters.
+	HostRewrite *string `json:"hostRewrite,omitempty" tf:"host_rewrite,omitempty"`
+
+	// Prior to forwarding the request to the selected backend service, the matching
+	// portion of the request's path is replaced by pathPrefixRewrite. The value must
+	// be between 1 and 1024 characters.
+	PathPrefixRewrite *string `json:"pathPrefixRewrite,omitempty" tf:"path_prefix_rewrite,omitempty"`
+
+	// Prior to forwarding the request to the selected origin, if the
+	// request matched a pathTemplateMatch, the matching portion of the
+	// request's path is replaced re-written using the pattern specified
+	// by pathTemplateRewrite.
+	// pathTemplateRewrite must be between 1 and 255 characters
+	// (inclusive), must start with a '/', and must only use variables
+	// captured by the route's pathTemplate matchers.
+	// pathTemplateRewrite may only be used when all of a route's
+	// MatchRules specify pathTemplate.
+	// Only one of pathPrefixRewrite and pathTemplateRewrite may be
+	// specified.
+	PathTemplateRewrite *string `json:"pathTemplateRewrite,omitempty" tf:"path_template_rewrite,omitempty"`
+}
+
+type DefaultRouteActionURLRewriteParameters struct {
+
+	// Prior to forwarding the request to the selected service, the request's host
+	// header is replaced with contents of hostRewrite. The value must be between 1 and
+	// 255 characters.
+	// +kubebuilder:validation:Optional
+	HostRewrite *string `json:"hostRewrite,omitempty" tf:"host_rewrite,omitempty"`
+
+	// Prior to forwarding the request to the selected backend service, the matching
+	// portion of the request's path is replaced by pathPrefixRewrite. The value must
+	// be between 1 and 1024 characters.
+	// +kubebuilder:validation:Optional
+	PathPrefixRewrite *string `json:"pathPrefixRewrite,omitempty" tf:"path_prefix_rewrite,omitempty"`
+
+	// Prior to forwarding the request to the selected origin, if the
+	// request matched a pathTemplateMatch, the matching portion of the
+	// request's path is replaced re-written using the pattern specified
+	// by pathTemplateRewrite.
+	// pathTemplateRewrite must be between 1 and 255 characters
+	// (inclusive), must start with a '/', and must only use variables
+	// captured by the route's pathTemplate matchers.
+	// pathTemplateRewrite may only be used when all of a route's
+	// MatchRules specify pathTemplate.
+	// Only one of pathPrefixRewrite and pathTemplateRewrite may be
+	// specified.
+	// +kubebuilder:validation:Optional
+	PathTemplateRewrite *string `json:"pathTemplateRewrite,omitempty" tf:"path_template_rewrite,omitempty"`
+}
+
+type DefaultRouteActionWeightedBackendServicesInitParameters struct {
+
+	// The default RegionBackendService resource. Before
+	// forwarding the request to backendService, the loadbalancer applies any relevant
+	// headerActions specified as part of this backendServiceWeight.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.RegionBackendService
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
+
+	// Reference to a RegionBackendService in compute to populate backendService.
+	// +kubebuilder:validation:Optional
+	BackendServiceRef *v1.Reference `json:"backendServiceRef,omitempty" tf:"-"`
+
+	// Selector for a RegionBackendService in compute to populate backendService.
+	// +kubebuilder:validation:Optional
+	BackendServiceSelector *v1.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
+
+	// Specifies changes to request and response headers that need to take effect for
+	// the selected backendService. headerAction specified here take effect before
+	// headerAction in the enclosing HttpRouteRule, PathMatcher and UrlMap.
+	// Structure is documented below.
+	HeaderAction *WeightedBackendServicesHeaderActionInitParameters `json:"headerAction,omitempty" tf:"header_action,omitempty"`
+
+	// Specifies the fraction of traffic sent to backendService, computed as weight /
+	// (sum of all weightedBackendService weights in routeAction) . The selection of a
+	// backend service is determined only for new traffic. Once a user's request has
+	// been directed to a backendService, subsequent requests will be sent to the same
+	// backendService as determined by the BackendService's session affinity policy.
+	// The value must be between 0 and 1000
+	Weight *float64 `json:"weight,omitempty" tf:"weight,omitempty"`
+}
+
+type DefaultRouteActionWeightedBackendServicesObservation struct {
+
+	// The default RegionBackendService resource. Before
+	// forwarding the request to backendService, the loadbalancer applies any relevant
+	// headerActions specified as part of this backendServiceWeight.
+	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
+
+	// Specifies changes to request and response headers that need to take effect for
+	// the selected backendService. headerAction specified here take effect before
+	// headerAction in the enclosing HttpRouteRule, PathMatcher and UrlMap.
+	// Structure is documented below.
+	HeaderAction *WeightedBackendServicesHeaderActionObservation `json:"headerAction,omitempty" tf:"header_action,omitempty"`
+
+	// Specifies the fraction of traffic sent to backendService, computed as weight /
+	// (sum of all weightedBackendService weights in routeAction) . The selection of a
+	// backend service is determined only for new traffic. Once a user's request has
+	// been directed to a backendService, subsequent requests will be sent to the same
+	// backendService as determined by the BackendService's session affinity policy.
+	// The value must be between 0 and 1000
+	Weight *float64 `json:"weight,omitempty" tf:"weight,omitempty"`
+}
+
+type DefaultRouteActionWeightedBackendServicesParameters struct {
+
+	// The default RegionBackendService resource. Before
+	// forwarding the request to backendService, the loadbalancer applies any relevant
+	// headerActions specified as part of this backendServiceWeight.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.RegionBackendService
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
+
+	// Reference to a RegionBackendService in compute to populate backendService.
+	// +kubebuilder:validation:Optional
+	BackendServiceRef *v1.Reference `json:"backendServiceRef,omitempty" tf:"-"`
+
+	// Selector for a RegionBackendService in compute to populate backendService.
+	// +kubebuilder:validation:Optional
+	BackendServiceSelector *v1.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
+
+	// Specifies changes to request and response headers that need to take effect for
+	// the selected backendService. headerAction specified here take effect before
+	// headerAction in the enclosing HttpRouteRule, PathMatcher and UrlMap.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	HeaderAction *WeightedBackendServicesHeaderActionParameters `json:"headerAction,omitempty" tf:"header_action,omitempty"`
+
+	// Specifies the fraction of traffic sent to backendService, computed as weight /
+	// (sum of all weightedBackendService weights in routeAction) . The selection of a
+	// backend service is determined only for new traffic. Once a user's request has
+	// been directed to a backendService, subsequent requests will be sent to the same
+	// backendService as determined by the BackendService's session affinity policy.
+	// The value must be between 0 and 1000
+	// +kubebuilder:validation:Optional
+	Weight *float64 `json:"weight,omitempty" tf:"weight,omitempty"`
 }
 
 type DefaultURLRedirectInitParameters struct {
@@ -446,7 +939,7 @@ type DelayFixedDelayParameters struct {
 	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
 	// inclusive.
 	// +kubebuilder:validation:Optional
-	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type DelayInitParameters struct {
@@ -516,13 +1009,13 @@ type FaultInjectionPolicyAbortParameters struct {
 	// The HTTP status code used to abort the request. The value must be between 200
 	// and 599 inclusive.
 	// +kubebuilder:validation:Optional
-	HTTPStatus *float64 `json:"httpStatus" tf:"http_status,omitempty"`
+	HTTPStatus *float64 `json:"httpStatus,omitempty" tf:"http_status,omitempty"`
 
 	// The percentage of traffic (connections/operations/requests) on which delay will
 	// be introduced as part of fault injection. The value must be between 0.0 and
 	// 100.0 inclusive.
 	// +kubebuilder:validation:Optional
-	Percentage *float64 `json:"percentage" tf:"percentage,omitempty"`
+	Percentage *float64 `json:"percentage,omitempty" tf:"percentage,omitempty"`
 }
 
 type FaultInjectionPolicyDelayFixedDelayInitParameters struct {
@@ -592,13 +1085,13 @@ type FaultInjectionPolicyDelayParameters struct {
 	// Specifies the value of the fixed delay interval.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	FixedDelay *DelayFixedDelayParameters `json:"fixedDelay" tf:"fixed_delay,omitempty"`
+	FixedDelay *DelayFixedDelayParameters `json:"fixedDelay,omitempty" tf:"fixed_delay,omitempty"`
 
 	// The percentage of traffic (connections/operations/requests) on which delay will
 	// be introduced as part of fault injection. The value must be between 0.0 and
 	// 100.0 inclusive.
 	// +kubebuilder:validation:Optional
-	Percentage *float64 `json:"percentage" tf:"percentage,omitempty"`
+	Percentage *float64 `json:"percentage,omitempty" tf:"percentage,omitempty"`
 }
 
 type FaultInjectionPolicyInitParameters struct {
@@ -776,17 +1269,17 @@ type HeaderActionRequestHeadersToAddParameters struct {
 
 	// The name of the header.
 	// +kubebuilder:validation:Optional
-	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
 
 	// The value of the header to add.
 	// +kubebuilder:validation:Optional
-	HeaderValue *string `json:"headerValue" tf:"header_value,omitempty"`
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
 
 	// If false, headerValue is appended to any values that already exist for the
 	// header. If true, headerValue is set for the header, discarding any values that
 	// were set for that header.
 	// +kubebuilder:validation:Optional
-	Replace *bool `json:"replace" tf:"replace,omitempty"`
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
 
 type HeaderActionResponseHeadersToAddInitParameters struct {
@@ -821,17 +1314,17 @@ type HeaderActionResponseHeadersToAddParameters struct {
 
 	// The name of the header.
 	// +kubebuilder:validation:Optional
-	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
 
 	// The value of the header to add.
 	// +kubebuilder:validation:Optional
-	HeaderValue *string `json:"headerValue" tf:"header_value,omitempty"`
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
 
 	// If false, headerValue is appended to any values that already exist for the
 	// header. If true, headerValue is set for the header, discarding any values that
 	// were set for that header.
 	// +kubebuilder:validation:Optional
-	Replace *bool `json:"replace" tf:"replace,omitempty"`
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
 
 type HeaderMatchesInitParameters struct {
@@ -1292,6 +1785,194 @@ type MetadataFiltersFilterLabelsParameters struct {
 	Value *string `json:"value" tf:"value,omitempty"`
 }
 
+type PathMatcherDefaultRouteActionInitParameters struct {
+
+	// The specification for allowing client side cross-origin requests. Please see W3C
+	// Recommendation for Cross Origin Resource Sharing
+	// Structure is documented below.
+	CorsPolicy *DefaultRouteActionCorsPolicyInitParameters `json:"corsPolicy,omitempty" tf:"cors_policy,omitempty"`
+
+	// The specification for fault injection introduced into traffic to test the
+	// resiliency of clients to backend service failure. As part of fault injection,
+	// when clients send requests to a backend service, delays can be introduced by
+	// Loadbalancer on a percentage of requests before sending those request to the
+	// backend service. Similarly requests from clients can be aborted by the
+	// Loadbalancer for a percentage of requests. timeout and retry_policy will be
+	// ignored by clients that are configured with a fault_injection_policy.
+	// Structure is documented below.
+	FaultInjectionPolicy *DefaultRouteActionFaultInjectionPolicyInitParameters `json:"faultInjectionPolicy,omitempty" tf:"fault_injection_policy,omitempty"`
+
+	// Specifies the maximum duration (timeout) for streams on the selected route.
+	// Unlike the Timeout field where the timeout duration starts from the time the request
+	// has been fully processed (known as end-of-stream), the duration in this field
+	// is computed from the beginning of the stream until the response has been processed,
+	// including all retries. A stream that does not complete in this duration is closed.
+	// Structure is documented below.
+	MaxStreamDuration *DefaultRouteActionMaxStreamDurationInitParameters `json:"maxStreamDuration,omitempty" tf:"max_stream_duration,omitempty"`
+
+	// Specifies the policy on how requests intended for the route's backends are
+	// shadowed to a separate mirrored backend service. Loadbalancer does not wait for
+	// responses from the shadow service. Prior to sending traffic to the shadow
+	// service, the host / authority header is suffixed with -shadow.
+	// Structure is documented below.
+	RequestMirrorPolicy *DefaultRouteActionRequestMirrorPolicyInitParameters `json:"requestMirrorPolicy,omitempty" tf:"request_mirror_policy,omitempty"`
+
+	// Specifies the retry policy associated with this route.
+	// Structure is documented below.
+	RetryPolicy *DefaultRouteActionRetryPolicyInitParameters `json:"retryPolicy,omitempty" tf:"retry_policy,omitempty"`
+
+	// Specifies the timeout for the selected route. Timeout is computed from the time
+	// the request is has been fully processed (i.e. end-of-stream) up until the
+	// response has been completely processed. Timeout includes all retries. If not
+	// specified, the default value is 15 seconds.
+	// Structure is documented below.
+	Timeout *DefaultRouteActionTimeoutInitParameters `json:"timeout,omitempty" tf:"timeout,omitempty"`
+
+	// The spec to modify the URL of the request, prior to forwarding the request to
+	// the matched service
+	// Structure is documented below.
+	URLRewrite *DefaultRouteActionURLRewriteInitParameters `json:"urlRewrite,omitempty" tf:"url_rewrite,omitempty"`
+
+	// A list of weighted backend services to send traffic to when a route match
+	// occurs. The weights determine the fraction of traffic that flows to their
+	// corresponding backend service. If all traffic needs to go to a single backend
+	// service, there must be one  weightedBackendService with weight set to a non 0
+	// number. Once a backendService is identified and before forwarding the request to
+	// the backend service, advanced routing actions like Url rewrites and header
+	// transformations are applied depending on additional settings specified in this
+	// HttpRouteAction.
+	// Structure is documented below.
+	WeightedBackendServices []DefaultRouteActionWeightedBackendServicesInitParameters `json:"weightedBackendServices,omitempty" tf:"weighted_backend_services,omitempty"`
+}
+
+type PathMatcherDefaultRouteActionObservation struct {
+
+	// The specification for allowing client side cross-origin requests. Please see W3C
+	// Recommendation for Cross Origin Resource Sharing
+	// Structure is documented below.
+	CorsPolicy *DefaultRouteActionCorsPolicyObservation `json:"corsPolicy,omitempty" tf:"cors_policy,omitempty"`
+
+	// The specification for fault injection introduced into traffic to test the
+	// resiliency of clients to backend service failure. As part of fault injection,
+	// when clients send requests to a backend service, delays can be introduced by
+	// Loadbalancer on a percentage of requests before sending those request to the
+	// backend service. Similarly requests from clients can be aborted by the
+	// Loadbalancer for a percentage of requests. timeout and retry_policy will be
+	// ignored by clients that are configured with a fault_injection_policy.
+	// Structure is documented below.
+	FaultInjectionPolicy *DefaultRouteActionFaultInjectionPolicyObservation `json:"faultInjectionPolicy,omitempty" tf:"fault_injection_policy,omitempty"`
+
+	// Specifies the maximum duration (timeout) for streams on the selected route.
+	// Unlike the Timeout field where the timeout duration starts from the time the request
+	// has been fully processed (known as end-of-stream), the duration in this field
+	// is computed from the beginning of the stream until the response has been processed,
+	// including all retries. A stream that does not complete in this duration is closed.
+	// Structure is documented below.
+	MaxStreamDuration *DefaultRouteActionMaxStreamDurationObservation `json:"maxStreamDuration,omitempty" tf:"max_stream_duration,omitempty"`
+
+	// Specifies the policy on how requests intended for the route's backends are
+	// shadowed to a separate mirrored backend service. Loadbalancer does not wait for
+	// responses from the shadow service. Prior to sending traffic to the shadow
+	// service, the host / authority header is suffixed with -shadow.
+	// Structure is documented below.
+	RequestMirrorPolicy *DefaultRouteActionRequestMirrorPolicyObservation `json:"requestMirrorPolicy,omitempty" tf:"request_mirror_policy,omitempty"`
+
+	// Specifies the retry policy associated with this route.
+	// Structure is documented below.
+	RetryPolicy *DefaultRouteActionRetryPolicyObservation `json:"retryPolicy,omitempty" tf:"retry_policy,omitempty"`
+
+	// Specifies the timeout for the selected route. Timeout is computed from the time
+	// the request is has been fully processed (i.e. end-of-stream) up until the
+	// response has been completely processed. Timeout includes all retries. If not
+	// specified, the default value is 15 seconds.
+	// Structure is documented below.
+	Timeout *DefaultRouteActionTimeoutObservation `json:"timeout,omitempty" tf:"timeout,omitempty"`
+
+	// The spec to modify the URL of the request, prior to forwarding the request to
+	// the matched service
+	// Structure is documented below.
+	URLRewrite *DefaultRouteActionURLRewriteObservation `json:"urlRewrite,omitempty" tf:"url_rewrite,omitempty"`
+
+	// A list of weighted backend services to send traffic to when a route match
+	// occurs. The weights determine the fraction of traffic that flows to their
+	// corresponding backend service. If all traffic needs to go to a single backend
+	// service, there must be one  weightedBackendService with weight set to a non 0
+	// number. Once a backendService is identified and before forwarding the request to
+	// the backend service, advanced routing actions like Url rewrites and header
+	// transformations are applied depending on additional settings specified in this
+	// HttpRouteAction.
+	// Structure is documented below.
+	WeightedBackendServices []DefaultRouteActionWeightedBackendServicesObservation `json:"weightedBackendServices,omitempty" tf:"weighted_backend_services,omitempty"`
+}
+
+type PathMatcherDefaultRouteActionParameters struct {
+
+	// The specification for allowing client side cross-origin requests. Please see W3C
+	// Recommendation for Cross Origin Resource Sharing
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CorsPolicy *DefaultRouteActionCorsPolicyParameters `json:"corsPolicy,omitempty" tf:"cors_policy,omitempty"`
+
+	// The specification for fault injection introduced into traffic to test the
+	// resiliency of clients to backend service failure. As part of fault injection,
+	// when clients send requests to a backend service, delays can be introduced by
+	// Loadbalancer on a percentage of requests before sending those request to the
+	// backend service. Similarly requests from clients can be aborted by the
+	// Loadbalancer for a percentage of requests. timeout and retry_policy will be
+	// ignored by clients that are configured with a fault_injection_policy.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	FaultInjectionPolicy *DefaultRouteActionFaultInjectionPolicyParameters `json:"faultInjectionPolicy,omitempty" tf:"fault_injection_policy,omitempty"`
+
+	// Specifies the maximum duration (timeout) for streams on the selected route.
+	// Unlike the Timeout field where the timeout duration starts from the time the request
+	// has been fully processed (known as end-of-stream), the duration in this field
+	// is computed from the beginning of the stream until the response has been processed,
+	// including all retries. A stream that does not complete in this duration is closed.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	MaxStreamDuration *DefaultRouteActionMaxStreamDurationParameters `json:"maxStreamDuration,omitempty" tf:"max_stream_duration,omitempty"`
+
+	// Specifies the policy on how requests intended for the route's backends are
+	// shadowed to a separate mirrored backend service. Loadbalancer does not wait for
+	// responses from the shadow service. Prior to sending traffic to the shadow
+	// service, the host / authority header is suffixed with -shadow.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RequestMirrorPolicy *DefaultRouteActionRequestMirrorPolicyParameters `json:"requestMirrorPolicy,omitempty" tf:"request_mirror_policy,omitempty"`
+
+	// Specifies the retry policy associated with this route.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RetryPolicy *DefaultRouteActionRetryPolicyParameters `json:"retryPolicy,omitempty" tf:"retry_policy,omitempty"`
+
+	// Specifies the timeout for the selected route. Timeout is computed from the time
+	// the request is has been fully processed (i.e. end-of-stream) up until the
+	// response has been completely processed. Timeout includes all retries. If not
+	// specified, the default value is 15 seconds.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Timeout *DefaultRouteActionTimeoutParameters `json:"timeout,omitempty" tf:"timeout,omitempty"`
+
+	// The spec to modify the URL of the request, prior to forwarding the request to
+	// the matched service
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	URLRewrite *DefaultRouteActionURLRewriteParameters `json:"urlRewrite,omitempty" tf:"url_rewrite,omitempty"`
+
+	// A list of weighted backend services to send traffic to when a route match
+	// occurs. The weights determine the fraction of traffic that flows to their
+	// corresponding backend service. If all traffic needs to go to a single backend
+	// service, there must be one  weightedBackendService with weight set to a non 0
+	// number. Once a backendService is identified and before forwarding the request to
+	// the backend service, advanced routing actions like Url rewrites and header
+	// transformations are applied depending on additional settings specified in this
+	// HttpRouteAction.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	WeightedBackendServices []DefaultRouteActionWeightedBackendServicesParameters `json:"weightedBackendServices,omitempty" tf:"weighted_backend_services,omitempty"`
+}
+
 type PathMatcherDefaultURLRedirectInitParameters struct {
 
 	// If set to true, the URL scheme in the redirected request is set to https.
@@ -1414,6 +2095,14 @@ type PathMatcherDefaultURLRedirectParameters struct {
 
 type PathMatcherInitParameters struct {
 
+	// defaultRouteAction takes effect when none of the pathRules or routeRules match. The load balancer performs
+	// advanced routing actions like URL rewrites, header transformations, etc. prior to forwarding the request
+	// to the selected backend. If defaultRouteAction specifies any weightedBackendServices, defaultService must not be set.
+	// Conversely if defaultService is set, defaultRouteAction cannot contain any weightedBackendServices.
+	// Only one of defaultRouteAction or defaultUrlRedirect must be set.
+	// Structure is documented below.
+	DefaultRouteAction *PathMatcherDefaultRouteActionInitParameters `json:"defaultRouteAction,omitempty" tf:"default_route_action,omitempty"`
+
 	// A reference to a RegionBackendService resource. This will be used if
 	// none of the pathRules defined by this PathMatcher is matched by
 	// the URL's path portion.
@@ -1462,6 +2151,14 @@ type PathMatcherInitParameters struct {
 
 type PathMatcherObservation struct {
 
+	// defaultRouteAction takes effect when none of the pathRules or routeRules match. The load balancer performs
+	// advanced routing actions like URL rewrites, header transformations, etc. prior to forwarding the request
+	// to the selected backend. If defaultRouteAction specifies any weightedBackendServices, defaultService must not be set.
+	// Conversely if defaultService is set, defaultRouteAction cannot contain any weightedBackendServices.
+	// Only one of defaultRouteAction or defaultUrlRedirect must be set.
+	// Structure is documented below.
+	DefaultRouteAction *PathMatcherDefaultRouteActionObservation `json:"defaultRouteAction,omitempty" tf:"default_route_action,omitempty"`
+
 	// A reference to a RegionBackendService resource. This will be used if
 	// none of the pathRules defined by this PathMatcher is matched by
 	// the URL's path portion.
@@ -1499,6 +2196,15 @@ type PathMatcherObservation struct {
 }
 
 type PathMatcherParameters struct {
+
+	// defaultRouteAction takes effect when none of the pathRules or routeRules match. The load balancer performs
+	// advanced routing actions like URL rewrites, header transformations, etc. prior to forwarding the request
+	// to the selected backend. If defaultRouteAction specifies any weightedBackendServices, defaultService must not be set.
+	// Conversely if defaultService is set, defaultRouteAction cannot contain any weightedBackendServices.
+	// Only one of defaultRouteAction or defaultUrlRedirect must be set.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	DefaultRouteAction *PathMatcherDefaultRouteActionParameters `json:"defaultRouteAction,omitempty" tf:"default_route_action,omitempty"`
 
 	// A reference to a RegionBackendService resource. This will be used if
 	// none of the pathRules defined by this PathMatcher is matched by
@@ -2203,7 +2909,7 @@ type RetryPolicyPerTryTimeoutParameters struct {
 	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
 	// inclusive.
 	// +kubebuilder:validation:Optional
-	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type RouteActionCorsPolicyInitParameters struct {
@@ -2345,13 +3051,51 @@ type RouteActionFaultInjectionPolicyAbortParameters struct {
 	// The HTTP status code used to abort the request. The value must be between 200
 	// and 599 inclusive.
 	// +kubebuilder:validation:Optional
-	HTTPStatus *float64 `json:"httpStatus,omitempty" tf:"http_status,omitempty"`
+	HTTPStatus *float64 `json:"httpStatus" tf:"http_status,omitempty"`
 
 	// The percentage of traffic (connections/operations/requests) on which delay will
 	// be introduced as part of fault injection. The value must be between 0.0 and
 	// 100.0 inclusive.
 	// +kubebuilder:validation:Optional
-	Percentage *float64 `json:"percentage,omitempty" tf:"percentage,omitempty"`
+	Percentage *float64 `json:"percentage" tf:"percentage,omitempty"`
+}
+
+type RouteActionFaultInjectionPolicyDelayFixedDelayInitParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type RouteActionFaultInjectionPolicyDelayFixedDelayObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type RouteActionFaultInjectionPolicyDelayFixedDelayParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
+	// +kubebuilder:validation:Optional
+	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
 }
 
 type RouteActionFaultInjectionPolicyDelayInitParameters struct {
@@ -2383,13 +3127,13 @@ type RouteActionFaultInjectionPolicyDelayParameters struct {
 	// Specifies the value of the fixed delay interval.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	FixedDelay *FaultInjectionPolicyDelayFixedDelayParameters `json:"fixedDelay,omitempty" tf:"fixed_delay,omitempty"`
+	FixedDelay *FaultInjectionPolicyDelayFixedDelayParameters `json:"fixedDelay" tf:"fixed_delay,omitempty"`
 
 	// The percentage of traffic (connections/operations/requests) on which delay will
 	// be introduced as part of fault injection. The value must be between 0.0 and
 	// 100.0 inclusive.
 	// +kubebuilder:validation:Optional
-	Percentage *float64 `json:"percentage,omitempty" tf:"percentage,omitempty"`
+	Percentage *float64 `json:"percentage" tf:"percentage,omitempty"`
 }
 
 type RouteActionFaultInjectionPolicyInitParameters struct {
@@ -2397,12 +3141,12 @@ type RouteActionFaultInjectionPolicyInitParameters struct {
 	// The specification for how client requests are aborted as part of fault
 	// injection.
 	// Structure is documented below.
-	Abort *FaultInjectionPolicyAbortInitParameters `json:"abort,omitempty" tf:"abort,omitempty"`
+	Abort *RouteActionFaultInjectionPolicyAbortInitParameters `json:"abort,omitempty" tf:"abort,omitempty"`
 
 	// The specification for how client requests are delayed as part of fault
 	// injection, before being sent to a backend service.
 	// Structure is documented below.
-	Delay *FaultInjectionPolicyDelayInitParameters `json:"delay,omitempty" tf:"delay,omitempty"`
+	Delay *RouteActionFaultInjectionPolicyDelayInitParameters `json:"delay,omitempty" tf:"delay,omitempty"`
 }
 
 type RouteActionFaultInjectionPolicyObservation struct {
@@ -2410,12 +3154,12 @@ type RouteActionFaultInjectionPolicyObservation struct {
 	// The specification for how client requests are aborted as part of fault
 	// injection.
 	// Structure is documented below.
-	Abort *FaultInjectionPolicyAbortObservation `json:"abort,omitempty" tf:"abort,omitempty"`
+	Abort *RouteActionFaultInjectionPolicyAbortObservation `json:"abort,omitempty" tf:"abort,omitempty"`
 
 	// The specification for how client requests are delayed as part of fault
 	// injection, before being sent to a backend service.
 	// Structure is documented below.
-	Delay *FaultInjectionPolicyDelayObservation `json:"delay,omitempty" tf:"delay,omitempty"`
+	Delay *RouteActionFaultInjectionPolicyDelayObservation `json:"delay,omitempty" tf:"delay,omitempty"`
 }
 
 type RouteActionFaultInjectionPolicyParameters struct {
@@ -2424,13 +3168,13 @@ type RouteActionFaultInjectionPolicyParameters struct {
 	// injection.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Abort *FaultInjectionPolicyAbortParameters `json:"abort,omitempty" tf:"abort,omitempty"`
+	Abort *RouteActionFaultInjectionPolicyAbortParameters `json:"abort,omitempty" tf:"abort,omitempty"`
 
 	// The specification for how client requests are delayed as part of fault
 	// injection, before being sent to a backend service.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Delay *FaultInjectionPolicyDelayParameters `json:"delay,omitempty" tf:"delay,omitempty"`
+	Delay *RouteActionFaultInjectionPolicyDelayParameters `json:"delay,omitempty" tf:"delay,omitempty"`
 }
 
 type RouteActionInitParameters struct {
@@ -2648,7 +3392,7 @@ type RouteActionRetryPolicyInitParameters struct {
 
 	// Specifies a non-zero timeout per retry attempt.
 	// Structure is documented below.
-	PerTryTimeout *RetryPolicyPerTryTimeoutInitParameters `json:"perTryTimeout,omitempty" tf:"per_try_timeout,omitempty"`
+	PerTryTimeout *RouteActionRetryPolicyPerTryTimeoutInitParameters `json:"perTryTimeout,omitempty" tf:"per_try_timeout,omitempty"`
 
 	// Specifies one or more conditions when this retry rule applies. Valid values are:
 	RetryConditions []*string `json:"retryConditions,omitempty" tf:"retry_conditions,omitempty"`
@@ -2661,7 +3405,7 @@ type RouteActionRetryPolicyObservation struct {
 
 	// Specifies a non-zero timeout per retry attempt.
 	// Structure is documented below.
-	PerTryTimeout *RetryPolicyPerTryTimeoutObservation `json:"perTryTimeout,omitempty" tf:"per_try_timeout,omitempty"`
+	PerTryTimeout *RouteActionRetryPolicyPerTryTimeoutObservation `json:"perTryTimeout,omitempty" tf:"per_try_timeout,omitempty"`
 
 	// Specifies one or more conditions when this retry rule applies. Valid values are:
 	RetryConditions []*string `json:"retryConditions,omitempty" tf:"retry_conditions,omitempty"`
@@ -2676,7 +3420,7 @@ type RouteActionRetryPolicyParameters struct {
 	// Specifies a non-zero timeout per retry attempt.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	PerTryTimeout *RetryPolicyPerTryTimeoutParameters `json:"perTryTimeout,omitempty" tf:"per_try_timeout,omitempty"`
+	PerTryTimeout *RouteActionRetryPolicyPerTryTimeoutParameters `json:"perTryTimeout,omitempty" tf:"per_try_timeout,omitempty"`
 
 	// Specifies one or more conditions when this retry rule applies. Valid values are:
 	// +kubebuilder:validation:Optional
@@ -2864,6 +3608,96 @@ type RouteActionWeightedBackendServicesHeaderActionParameters struct {
 	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
 }
 
+type RouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddInitParameters struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
+}
+
+type RouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddObservation struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
+}
+
+type RouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddParameters struct {
+
+	// The name of the header.
+	// +kubebuilder:validation:Optional
+	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	// +kubebuilder:validation:Optional
+	HeaderValue *string `json:"headerValue" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	// +kubebuilder:validation:Optional
+	Replace *bool `json:"replace" tf:"replace,omitempty"`
+}
+
+type RouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddInitParameters struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
+}
+
+type RouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddObservation struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
+}
+
+type RouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddParameters struct {
+
+	// The name of the header.
+	// +kubebuilder:validation:Optional
+	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	// +kubebuilder:validation:Optional
+	HeaderValue *string `json:"headerValue" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	// +kubebuilder:validation:Optional
+	Replace *bool `json:"replace" tf:"replace,omitempty"`
+}
+
 type RouteActionWeightedBackendServicesInitParameters struct {
 
 	// The default RegionBackendService resource. Before
@@ -2885,7 +3719,7 @@ type RouteActionWeightedBackendServicesInitParameters struct {
 	// the selected backendService. headerAction specified here take effect before
 	// headerAction in the enclosing HttpRouteRule, PathMatcher and UrlMap.
 	// Structure is documented below.
-	HeaderAction *WeightedBackendServicesHeaderActionInitParameters `json:"headerAction,omitempty" tf:"header_action,omitempty"`
+	HeaderAction *RouteActionWeightedBackendServicesHeaderActionInitParameters `json:"headerAction,omitempty" tf:"header_action,omitempty"`
 
 	// Specifies the fraction of traffic sent to backendService, computed as weight /
 	// (sum of all weightedBackendService weights in routeAction) . The selection of a
@@ -2907,7 +3741,7 @@ type RouteActionWeightedBackendServicesObservation struct {
 	// the selected backendService. headerAction specified here take effect before
 	// headerAction in the enclosing HttpRouteRule, PathMatcher and UrlMap.
 	// Structure is documented below.
-	HeaderAction *WeightedBackendServicesHeaderActionObservation `json:"headerAction,omitempty" tf:"header_action,omitempty"`
+	HeaderAction *RouteActionWeightedBackendServicesHeaderActionObservation `json:"headerAction,omitempty" tf:"header_action,omitempty"`
 
 	// Specifies the fraction of traffic sent to backendService, computed as weight /
 	// (sum of all weightedBackendService weights in routeAction) . The selection of a
@@ -2941,7 +3775,7 @@ type RouteActionWeightedBackendServicesParameters struct {
 	// headerAction in the enclosing HttpRouteRule, PathMatcher and UrlMap.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	HeaderAction *WeightedBackendServicesHeaderActionParameters `json:"headerAction,omitempty" tf:"header_action,omitempty"`
+	HeaderAction *RouteActionWeightedBackendServicesHeaderActionParameters `json:"headerAction,omitempty" tf:"header_action,omitempty"`
 
 	// Specifies the fraction of traffic sent to backendService, computed as weight /
 	// (sum of all weightedBackendService weights in routeAction) . The selection of a
@@ -3381,17 +4215,93 @@ type RouteRulesRouteActionCorsPolicyParameters struct {
 	MaxAge *float64 `json:"maxAge,omitempty" tf:"max_age,omitempty"`
 }
 
+type RouteRulesRouteActionFaultInjectionPolicyAbortInitParameters struct {
+
+	// The HTTP status code used to abort the request. The value must be between 200
+	// and 599 inclusive.
+	HTTPStatus *float64 `json:"httpStatus,omitempty" tf:"http_status,omitempty"`
+
+	// The percentage of traffic (connections/operations/requests) on which delay will
+	// be introduced as part of fault injection. The value must be between 0.0 and
+	// 100.0 inclusive.
+	Percentage *float64 `json:"percentage,omitempty" tf:"percentage,omitempty"`
+}
+
+type RouteRulesRouteActionFaultInjectionPolicyAbortObservation struct {
+
+	// The HTTP status code used to abort the request. The value must be between 200
+	// and 599 inclusive.
+	HTTPStatus *float64 `json:"httpStatus,omitempty" tf:"http_status,omitempty"`
+
+	// The percentage of traffic (connections/operations/requests) on which delay will
+	// be introduced as part of fault injection. The value must be between 0.0 and
+	// 100.0 inclusive.
+	Percentage *float64 `json:"percentage,omitempty" tf:"percentage,omitempty"`
+}
+
+type RouteRulesRouteActionFaultInjectionPolicyAbortParameters struct {
+
+	// The HTTP status code used to abort the request. The value must be between 200
+	// and 599 inclusive.
+	// +kubebuilder:validation:Optional
+	HTTPStatus *float64 `json:"httpStatus,omitempty" tf:"http_status,omitempty"`
+
+	// The percentage of traffic (connections/operations/requests) on which delay will
+	// be introduced as part of fault injection. The value must be between 0.0 and
+	// 100.0 inclusive.
+	// +kubebuilder:validation:Optional
+	Percentage *float64 `json:"percentage,omitempty" tf:"percentage,omitempty"`
+}
+
+type RouteRulesRouteActionFaultInjectionPolicyDelayInitParameters struct {
+
+	// Specifies the value of the fixed delay interval.
+	// Structure is documented below.
+	FixedDelay *RouteActionFaultInjectionPolicyDelayFixedDelayInitParameters `json:"fixedDelay,omitempty" tf:"fixed_delay,omitempty"`
+
+	// The percentage of traffic (connections/operations/requests) on which delay will
+	// be introduced as part of fault injection. The value must be between 0.0 and
+	// 100.0 inclusive.
+	Percentage *float64 `json:"percentage,omitempty" tf:"percentage,omitempty"`
+}
+
+type RouteRulesRouteActionFaultInjectionPolicyDelayObservation struct {
+
+	// Specifies the value of the fixed delay interval.
+	// Structure is documented below.
+	FixedDelay *RouteActionFaultInjectionPolicyDelayFixedDelayObservation `json:"fixedDelay,omitempty" tf:"fixed_delay,omitempty"`
+
+	// The percentage of traffic (connections/operations/requests) on which delay will
+	// be introduced as part of fault injection. The value must be between 0.0 and
+	// 100.0 inclusive.
+	Percentage *float64 `json:"percentage,omitempty" tf:"percentage,omitempty"`
+}
+
+type RouteRulesRouteActionFaultInjectionPolicyDelayParameters struct {
+
+	// Specifies the value of the fixed delay interval.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	FixedDelay *RouteActionFaultInjectionPolicyDelayFixedDelayParameters `json:"fixedDelay,omitempty" tf:"fixed_delay,omitempty"`
+
+	// The percentage of traffic (connections/operations/requests) on which delay will
+	// be introduced as part of fault injection. The value must be between 0.0 and
+	// 100.0 inclusive.
+	// +kubebuilder:validation:Optional
+	Percentage *float64 `json:"percentage,omitempty" tf:"percentage,omitempty"`
+}
+
 type RouteRulesRouteActionFaultInjectionPolicyInitParameters struct {
 
 	// The specification for how client requests are aborted as part of fault
 	// injection.
 	// Structure is documented below.
-	Abort *RouteActionFaultInjectionPolicyAbortInitParameters `json:"abort,omitempty" tf:"abort,omitempty"`
+	Abort *RouteRulesRouteActionFaultInjectionPolicyAbortInitParameters `json:"abort,omitempty" tf:"abort,omitempty"`
 
 	// The specification for how client requests are delayed as part of fault
 	// injection, before being sent to a backend service.
 	// Structure is documented below.
-	Delay *RouteActionFaultInjectionPolicyDelayInitParameters `json:"delay,omitempty" tf:"delay,omitempty"`
+	Delay *RouteRulesRouteActionFaultInjectionPolicyDelayInitParameters `json:"delay,omitempty" tf:"delay,omitempty"`
 }
 
 type RouteRulesRouteActionFaultInjectionPolicyObservation struct {
@@ -3399,12 +4309,12 @@ type RouteRulesRouteActionFaultInjectionPolicyObservation struct {
 	// The specification for how client requests are aborted as part of fault
 	// injection.
 	// Structure is documented below.
-	Abort *RouteActionFaultInjectionPolicyAbortObservation `json:"abort,omitempty" tf:"abort,omitempty"`
+	Abort *RouteRulesRouteActionFaultInjectionPolicyAbortObservation `json:"abort,omitempty" tf:"abort,omitempty"`
 
 	// The specification for how client requests are delayed as part of fault
 	// injection, before being sent to a backend service.
 	// Structure is documented below.
-	Delay *RouteActionFaultInjectionPolicyDelayObservation `json:"delay,omitempty" tf:"delay,omitempty"`
+	Delay *RouteRulesRouteActionFaultInjectionPolicyDelayObservation `json:"delay,omitempty" tf:"delay,omitempty"`
 }
 
 type RouteRulesRouteActionFaultInjectionPolicyParameters struct {
@@ -3413,13 +4323,13 @@ type RouteRulesRouteActionFaultInjectionPolicyParameters struct {
 	// injection.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Abort *RouteActionFaultInjectionPolicyAbortParameters `json:"abort,omitempty" tf:"abort,omitempty"`
+	Abort *RouteRulesRouteActionFaultInjectionPolicyAbortParameters `json:"abort,omitempty" tf:"abort,omitempty"`
 
 	// The specification for how client requests are delayed as part of fault
 	// injection, before being sent to a backend service.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Delay *RouteActionFaultInjectionPolicyDelayParameters `json:"delay,omitempty" tf:"delay,omitempty"`
+	Delay *RouteRulesRouteActionFaultInjectionPolicyDelayParameters `json:"delay,omitempty" tf:"delay,omitempty"`
 }
 
 type RouteRulesRouteActionInitParameters struct {
@@ -3617,7 +4527,7 @@ type RouteRulesRouteActionRetryPolicyInitParameters struct {
 
 	// Specifies a non-zero timeout per retry attempt.
 	// Structure is documented below.
-	PerTryTimeout *RouteActionRetryPolicyPerTryTimeoutInitParameters `json:"perTryTimeout,omitempty" tf:"per_try_timeout,omitempty"`
+	PerTryTimeout *RouteRulesRouteActionRetryPolicyPerTryTimeoutInitParameters `json:"perTryTimeout,omitempty" tf:"per_try_timeout,omitempty"`
 
 	// Specifies one or more conditions when this retry rule applies. Valid values are:
 	RetryConditions []*string `json:"retryConditions,omitempty" tf:"retry_conditions,omitempty"`
@@ -3630,7 +4540,7 @@ type RouteRulesRouteActionRetryPolicyObservation struct {
 
 	// Specifies a non-zero timeout per retry attempt.
 	// Structure is documented below.
-	PerTryTimeout *RouteActionRetryPolicyPerTryTimeoutObservation `json:"perTryTimeout,omitempty" tf:"per_try_timeout,omitempty"`
+	PerTryTimeout *RouteRulesRouteActionRetryPolicyPerTryTimeoutObservation `json:"perTryTimeout,omitempty" tf:"per_try_timeout,omitempty"`
 
 	// Specifies one or more conditions when this retry rule applies. Valid values are:
 	RetryConditions []*string `json:"retryConditions,omitempty" tf:"retry_conditions,omitempty"`
@@ -3645,11 +4555,49 @@ type RouteRulesRouteActionRetryPolicyParameters struct {
 	// Specifies a non-zero timeout per retry attempt.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	PerTryTimeout *RouteActionRetryPolicyPerTryTimeoutParameters `json:"perTryTimeout,omitempty" tf:"per_try_timeout,omitempty"`
+	PerTryTimeout *RouteRulesRouteActionRetryPolicyPerTryTimeoutParameters `json:"perTryTimeout,omitempty" tf:"per_try_timeout,omitempty"`
 
 	// Specifies one or more conditions when this retry rule applies. Valid values are:
 	// +kubebuilder:validation:Optional
 	RetryConditions []*string `json:"retryConditions,omitempty" tf:"retry_conditions,omitempty"`
+}
+
+type RouteRulesRouteActionRetryPolicyPerTryTimeoutInitParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type RouteRulesRouteActionRetryPolicyPerTryTimeoutObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type RouteRulesRouteActionRetryPolicyPerTryTimeoutParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
+	// +kubebuilder:validation:Optional
+	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
 }
 
 type RouteRulesRouteActionTimeoutInitParameters struct {
@@ -3771,6 +4719,70 @@ type RouteRulesRouteActionURLRewriteParameters struct {
 	PathTemplateRewrite *string `json:"pathTemplateRewrite,omitempty" tf:"path_template_rewrite,omitempty"`
 }
 
+type RouteRulesRouteActionWeightedBackendServicesHeaderActionInitParameters struct {
+
+	// Headers to add to a matching request prior to forwarding the request to the
+	// backendService.
+	// Structure is documented below.
+	RequestHeadersToAdd []RouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddInitParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the request
+	// prior to forwarding the request to the backendService.
+	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
+
+	// Headers to add the response prior to sending the response back to the client.
+	// Structure is documented below.
+	ResponseHeadersToAdd []RouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddInitParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the response
+	// prior to sending the response back to the client.
+	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
+}
+
+type RouteRulesRouteActionWeightedBackendServicesHeaderActionObservation struct {
+
+	// Headers to add to a matching request prior to forwarding the request to the
+	// backendService.
+	// Structure is documented below.
+	RequestHeadersToAdd []RouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddObservation `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the request
+	// prior to forwarding the request to the backendService.
+	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
+
+	// Headers to add the response prior to sending the response back to the client.
+	// Structure is documented below.
+	ResponseHeadersToAdd []RouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddObservation `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the response
+	// prior to sending the response back to the client.
+	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
+}
+
+type RouteRulesRouteActionWeightedBackendServicesHeaderActionParameters struct {
+
+	// Headers to add to a matching request prior to forwarding the request to the
+	// backendService.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RequestHeadersToAdd []RouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the request
+	// prior to forwarding the request to the backendService.
+	// +kubebuilder:validation:Optional
+	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
+
+	// Headers to add the response prior to sending the response back to the client.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ResponseHeadersToAdd []RouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the response
+	// prior to sending the response back to the client.
+	// +kubebuilder:validation:Optional
+	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
+}
+
 type RouteRulesRouteActionWeightedBackendServicesInitParameters struct {
 
 	// The default RegionBackendService resource. Before
@@ -3782,7 +4794,7 @@ type RouteRulesRouteActionWeightedBackendServicesInitParameters struct {
 	// the selected backendService. headerAction specified here take effect before
 	// headerAction in the enclosing HttpRouteRule, PathMatcher and UrlMap.
 	// Structure is documented below.
-	HeaderAction *RouteActionWeightedBackendServicesHeaderActionInitParameters `json:"headerAction,omitempty" tf:"header_action,omitempty"`
+	HeaderAction *RouteRulesRouteActionWeightedBackendServicesHeaderActionInitParameters `json:"headerAction,omitempty" tf:"header_action,omitempty"`
 
 	// Specifies the fraction of traffic sent to backendService, computed as weight /
 	// (sum of all weightedBackendService weights in routeAction) . The selection of a
@@ -3804,7 +4816,7 @@ type RouteRulesRouteActionWeightedBackendServicesObservation struct {
 	// the selected backendService. headerAction specified here take effect before
 	// headerAction in the enclosing HttpRouteRule, PathMatcher and UrlMap.
 	// Structure is documented below.
-	HeaderAction *RouteActionWeightedBackendServicesHeaderActionObservation `json:"headerAction,omitempty" tf:"header_action,omitempty"`
+	HeaderAction *RouteRulesRouteActionWeightedBackendServicesHeaderActionObservation `json:"headerAction,omitempty" tf:"header_action,omitempty"`
 
 	// Specifies the fraction of traffic sent to backendService, computed as weight /
 	// (sum of all weightedBackendService weights in routeAction) . The selection of a
@@ -3828,7 +4840,7 @@ type RouteRulesRouteActionWeightedBackendServicesParameters struct {
 	// headerAction in the enclosing HttpRouteRule, PathMatcher and UrlMap.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	HeaderAction *RouteActionWeightedBackendServicesHeaderActionParameters `json:"headerAction,omitempty" tf:"header_action,omitempty"`
+	HeaderAction *RouteRulesRouteActionWeightedBackendServicesHeaderActionParameters `json:"headerAction,omitempty" tf:"header_action,omitempty"`
 
 	// Specifies the fraction of traffic sent to backendService, computed as weight /
 	// (sum of all weightedBackendService weights in routeAction) . The selection of a

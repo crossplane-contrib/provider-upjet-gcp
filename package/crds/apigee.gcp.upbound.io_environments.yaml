@@ -78,6 +78,33 @@ spec:
                       the Environment and cannot be changed.
                       Possible values are: API_PROXY_TYPE_UNSPECIFIED, PROGRAMMABLE, CONFIGURABLE.
                     type: string
+                  clientIpResolutionConfig:
+                    description: |-
+                      The algorithm to resolve IP. This will affect Analytics, API Security, and other features that use the client ip. To remove a client ip resolution config, update the field to an empty value. Example: '{ "clientIpResolutionConfig" = {} }' For more information, see: https://cloud.google.com/apigee/docs/api-platform/system-administration/client-ip-resolution
+                      Structure is documented below.
+                    items:
+                      properties:
+                        headerIndexAlgorithm:
+                          description: |-
+                            Resolves the client ip based on a custom header.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              ipHeaderIndex:
+                                description: The index of the ip in the header. Positive
+                                  indices 0, 1, 2, 3 chooses indices from the left
+                                  (first ips). Negative indices -1, -2, -3 chooses
+                                  indices from the right (last ips).
+                                type: number
+                              ipHeaderName:
+                                description: The name of the header to extract the
+                                  client ip from. We are currently only supporting
+                                  the X-Forwarded-For header.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   deploymentType:
                     description: |-
                       Optional. Deployment type supported by the environment. The deployment type can be
@@ -202,6 +229,28 @@ spec:
                             type: string
                         type: object
                     type: object
+                  properties:
+                    description: |-
+                      Key-value pairs that may be used for customizing the environment.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        property:
+                          description: |-
+                            List of all properties in the object.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              name:
+                                description: The property key.
+                                type: string
+                              value:
+                                description: The property value.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   type:
                     description: |-
                       Types that can be selected for an Environment. Each of the types are
@@ -230,6 +279,33 @@ spec:
                       the Environment and cannot be changed.
                       Possible values are: API_PROXY_TYPE_UNSPECIFIED, PROGRAMMABLE, CONFIGURABLE.
                     type: string
+                  clientIpResolutionConfig:
+                    description: |-
+                      The algorithm to resolve IP. This will affect Analytics, API Security, and other features that use the client ip. To remove a client ip resolution config, update the field to an empty value. Example: '{ "clientIpResolutionConfig" = {} }' For more information, see: https://cloud.google.com/apigee/docs/api-platform/system-administration/client-ip-resolution
+                      Structure is documented below.
+                    items:
+                      properties:
+                        headerIndexAlgorithm:
+                          description: |-
+                            Resolves the client ip based on a custom header.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              ipHeaderIndex:
+                                description: The index of the ip in the header. Positive
+                                  indices 0, 1, 2, 3 chooses indices from the left
+                                  (first ips). Negative indices -1, -2, -3 chooses
+                                  indices from the right (last ips).
+                                type: number
+                              ipHeaderName:
+                                description: The name of the header to extract the
+                                  client ip from. We are currently only supporting
+                                  the X-Forwarded-For header.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   deploymentType:
                     description: |-
                       Optional. Deployment type supported by the environment. The deployment type can be
@@ -271,6 +347,28 @@ spec:
                             has the specified environment. If not specified, the default is determined by the
                             recommended minimum number of nodes for that gateway.
                           type: string
+                      type: object
+                    type: array
+                  properties:
+                    description: |-
+                      Key-value pairs that may be used for customizing the environment.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        property:
+                          description: |-
+                            List of all properties in the object.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              name:
+                                description: The property key.
+                                type: string
+                              value:
+                                description: The property value.
+                                type: string
+                            type: object
+                          type: array
                       type: object
                     type: array
                   type:
@@ -460,6 +558,33 @@ spec:
                       the Environment and cannot be changed.
                       Possible values are: API_PROXY_TYPE_UNSPECIFIED, PROGRAMMABLE, CONFIGURABLE.
                     type: string
+                  clientIpResolutionConfig:
+                    description: |-
+                      The algorithm to resolve IP. This will affect Analytics, API Security, and other features that use the client ip. To remove a client ip resolution config, update the field to an empty value. Example: '{ "clientIpResolutionConfig" = {} }' For more information, see: https://cloud.google.com/apigee/docs/api-platform/system-administration/client-ip-resolution
+                      Structure is documented below.
+                    items:
+                      properties:
+                        headerIndexAlgorithm:
+                          description: |-
+                            Resolves the client ip based on a custom header.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              ipHeaderIndex:
+                                description: The index of the ip in the header. Positive
+                                  indices 0, 1, 2, 3 chooses indices from the left
+                                  (first ips). Negative indices -1, -2, -3 chooses
+                                  indices from the right (last ips).
+                                type: number
+                              ipHeaderName:
+                                description: The name of the header to extract the
+                                  client ip from. We are currently only supporting
+                                  the X-Forwarded-For header.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   deploymentType:
                     description: |-
                       Optional. Deployment type supported by the environment. The deployment type can be
@@ -517,6 +642,28 @@ spec:
                       The Apigee Organization associated with the Apigee environment,
                       in the format organizations/{{org_name}}.
                     type: string
+                  properties:
+                    description: |-
+                      Key-value pairs that may be used for customizing the environment.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        property:
+                          description: |-
+                            List of all properties in the object.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              name:
+                                description: The property key.
+                                type: string
+                              value:
+                                description: The property value.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   type:
                     description: |-
                       Types that can be selected for an Environment. Each of the types are
@@ -647,6 +794,29 @@ spec:
                       the Environment and cannot be changed.
                       Possible values are: API_PROXY_TYPE_UNSPECIFIED, PROGRAMMABLE, CONFIGURABLE.
                     type: string
+                  clientIpResolutionConfig:
+                    description: |-
+                      The algorithm to resolve IP. This will affect Analytics, API Security, and other features that use the client ip. To remove a client ip resolution config, update the field to an empty value. Example: '{ "clientIpResolutionConfig" = {} }' For more information, see: https://cloud.google.com/apigee/docs/api-platform/system-administration/client-ip-resolution
+                      Structure is documented below.
+                    properties:
+                      headerIndexAlgorithm:
+                        description: |-
+                          Resolves the client ip based on a custom header.
+                          Structure is documented below.
+                        properties:
+                          ipHeaderIndex:
+                            description: The index of the ip in the header. Positive
+                              indices 0, 1, 2, 3 chooses indices from the left (first
+                              ips). Negative indices -1, -2, -3 chooses indices from
+                              the right (last ips).
+                            type: number
+                          ipHeaderName:
+                            description: The name of the header to extract the client
+                              ip from. We are currently only supporting the X-Forwarded-For
+                              header.
+                            type: string
+                        type: object
+                    type: object
                   deploymentType:
                     description: |-
                       Optional. Deployment type supported by the environment. The deployment type can be
@@ -769,6 +939,26 @@ spec:
                             type: string
                         type: object
                     type: object
+                  properties:
+                    description: |-
+                      Key-value pairs that may be used for customizing the environment.
+                      Structure is documented below.
+                    properties:
+                      property:
+                        description: |-
+                          List of all properties in the object.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            name:
+                              description: The property key.
+                              type: string
+                            value:
+                              description: The property value.
+                              type: string
+                          type: object
+                        type: array
+                    type: object
                   type:
                     description: |-
                       Types that can be selected for an Environment. Each of the types are
@@ -797,6 +987,29 @@ spec:
                       the Environment and cannot be changed.
                       Possible values are: API_PROXY_TYPE_UNSPECIFIED, PROGRAMMABLE, CONFIGURABLE.
                     type: string
+                  clientIpResolutionConfig:
+                    description: |-
+                      The algorithm to resolve IP. This will affect Analytics, API Security, and other features that use the client ip. To remove a client ip resolution config, update the field to an empty value. Example: '{ "clientIpResolutionConfig" = {} }' For more information, see: https://cloud.google.com/apigee/docs/api-platform/system-administration/client-ip-resolution
+                      Structure is documented below.
+                    properties:
+                      headerIndexAlgorithm:
+                        description: |-
+                          Resolves the client ip based on a custom header.
+                          Structure is documented below.
+                        properties:
+                          ipHeaderIndex:
+                            description: The index of the ip in the header. Positive
+                              indices 0, 1, 2, 3 chooses indices from the left (first
+                              ips). Negative indices -1, -2, -3 chooses indices from
+                              the right (last ips).
+                            type: number
+                          ipHeaderName:
+                            description: The name of the header to extract the client
+                              ip from. We are currently only supporting the X-Forwarded-For
+                              header.
+                            type: string
+                        type: object
+                    type: object
                   deploymentType:
                     description: |-
                       Optional. Deployment type supported by the environment. The deployment type can be
@@ -837,6 +1050,26 @@ spec:
                           has the specified environment. If not specified, the default is determined by the
                           recommended minimum number of nodes for that gateway.
                         type: string
+                    type: object
+                  properties:
+                    description: |-
+                      Key-value pairs that may be used for customizing the environment.
+                      Structure is documented below.
+                    properties:
+                      property:
+                        description: |-
+                          List of all properties in the object.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            name:
+                              description: The property key.
+                              type: string
+                            value:
+                              description: The property value.
+                              type: string
+                          type: object
+                        type: array
                     type: object
                   type:
                     description: |-
@@ -1025,6 +1258,29 @@ spec:
                       the Environment and cannot be changed.
                       Possible values are: API_PROXY_TYPE_UNSPECIFIED, PROGRAMMABLE, CONFIGURABLE.
                     type: string
+                  clientIpResolutionConfig:
+                    description: |-
+                      The algorithm to resolve IP. This will affect Analytics, API Security, and other features that use the client ip. To remove a client ip resolution config, update the field to an empty value. Example: '{ "clientIpResolutionConfig" = {} }' For more information, see: https://cloud.google.com/apigee/docs/api-platform/system-administration/client-ip-resolution
+                      Structure is documented below.
+                    properties:
+                      headerIndexAlgorithm:
+                        description: |-
+                          Resolves the client ip based on a custom header.
+                          Structure is documented below.
+                        properties:
+                          ipHeaderIndex:
+                            description: The index of the ip in the header. Positive
+                              indices 0, 1, 2, 3 chooses indices from the left (first
+                              ips). Negative indices -1, -2, -3 chooses indices from
+                              the right (last ips).
+                            type: number
+                          ipHeaderName:
+                            description: The name of the header to extract the client
+                              ip from. We are currently only supporting the X-Forwarded-For
+                              header.
+                            type: string
+                        type: object
+                    type: object
                   deploymentType:
                     description: |-
                       Optional. Deployment type supported by the environment. The deployment type can be
@@ -1080,6 +1336,26 @@ spec:
                       The Apigee Organization associated with the Apigee environment,
                       in the format organizations/{{org_name}}.
                     type: string
+                  properties:
+                    description: |-
+                      Key-value pairs that may be used for customizing the environment.
+                      Structure is documented below.
+                    properties:
+                      property:
+                        description: |-
+                          List of all properties in the object.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            name:
+                              description: The property key.
+                              type: string
+                            value:
+                              description: The property value.
+                              type: string
+                          type: object
+                        type: array
+                    type: object
                   type:
                     description: |-
                       Types that can be selected for an Environment. Each of the types are

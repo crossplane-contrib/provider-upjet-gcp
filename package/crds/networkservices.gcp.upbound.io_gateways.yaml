@@ -75,9 +75,10 @@ spec:
                 properties:
                   addresses:
                     description: |-
-                      Zero or one IPv4-address on which the Gateway will receive the traffic. When no address is provided,
-                      an IP from the subnetwork is allocated This field only applies to gateways of type 'SECURE_WEB_GATEWAY'.
-                      Gateways of type 'OPEN_MESH' listen on 0.0.0.0.
+                      Zero or one IPv4 or IPv6 address on which the Gateway will receive the traffic.
+                      When no address is provided, an IP from the subnetwork is allocated.
+                      This field only applies to gateways of type 'SECURE_WEB_GATEWAY'.
+                      Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6.
                     items:
                       type: string
                     type: array
@@ -176,10 +177,17 @@ spec:
                     description: A free-text description of the resource. Max length
                       1024 characters.
                     type: string
+                  envoyHeaders:
+                    description: |-
+                      Determines if envoy will insert internal debug headers into upstream requests.
+                      Other Envoy headers may still be injected.
+                      By default, envoy will not insert any debug headers.
+                      Possible values are: NONE, DEBUG_HEADERS.
+                    type: string
                   gatewaySecurityPolicy:
                     description: |-
                       A fully-qualified GatewaySecurityPolicy URL reference. Defines how a server should apply security policy to inbound (VM to Proxy) initiated connections.
-                      For example: projects/*/locations/*/gatewaySecurityPolicies/swg-policy.
+                      For example: 'projects//locations//gatewaySecurityPolicies/swg-policy'.
                       This policy is specific to gateways of type 'SECURE_WEB_GATEWAY'.
                     type: string
                   gatewaySecurityPolicyRef:
@@ -258,13 +266,15 @@ spec:
                             type: string
                         type: object
                     type: object
+                  ipVersion:
+                    description: |-
+                      The IP Version that will be used by this gateway.
+                      Possible values are: IPV4, IPV6.
+                    type: string
                   labels:
                     additionalProperties:
                       type: string
-                    description: |-
-                      Set of label tags associated with the Gateway resource.
-                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
-                      Please refer to the field effective_labels for all of the labels present on the resource.
+                    description: Set of label tags associated with the Gateway resource.
                     type: object
                     x-kubernetes-map-type: granular
                   location:
@@ -275,7 +285,7 @@ spec:
                   network:
                     description: |-
                       The relative resource name identifying the VPC network that is using this configuration.
-                      For example: projects/*/global/networks/network-1.
+                      For example: 'projects/*/global/networks/network-1'.
                       Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY'.
                     type: string
                   networkRef:
@@ -355,8 +365,8 @@ spec:
                   ports:
                     description: |-
                       One or more port numbers (1-65535), on which the Gateway will receive traffic.
-                      The proxy binds to the specified ports. Gateways of type 'SECURE_WEB_GATEWAY' are
-                      limited to 1 port. Gateways of type 'OPEN_MESH' listen on 0.0.0.0 and support multiple ports.
+                      The proxy binds to the specified ports. Gateways of type 'SECURE_WEB_GATEWAY' are limited to 1 port.
+                      Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6 and support multiple ports.
                     items:
                       type: number
                     type: array
@@ -365,23 +375,27 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  routingMode:
+                    description: |-
+                      The routing mode of the Gateway. This field is configurable only for gateways of type SECURE_WEB_GATEWAY. This field is required for gateways of type SECURE_WEB_GATEWAY.
+                      Possible values are: NEXT_HOP_ROUTING_MODE.
+                    type: string
                   scope:
                     description: |-
                       Immutable. Scope determines how configuration across multiple Gateway instances are merged.
-                      The configuration for multiple Gateway instances with the same scope will be merged as presented as
-                      a single coniguration to the proxy/load balancer.
+                      The configuration for multiple Gateway instances with the same scope will be merged as presented as a single coniguration to the proxy/load balancer.
                       Max length 64 characters. Scope should start with a letter and can only have letters, numbers, hyphens.
                     type: string
                   serverTlsPolicy:
-                    description: |-
-                      A fully-qualified ServerTLSPolicy URL reference. Specifies how TLS traffic is terminated.
-                      If empty, TLS termination is disabled.
+                    description: A fully-qualified ServerTLSPolicy URL reference.
+                      Specifies how TLS traffic is terminated. If empty, TLS termination
+                      is disabled.
                     type: string
                   subnetwork:
                     description: |-
                       The relative resource name identifying the subnetwork in which this SWG is allocated.
                       For example: projects/*/regions/us-central1/subnetworks/network-1.
-                      Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY.
+                      Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY'.
                     type: string
                   subnetworkRef:
                     description: Reference to a Subnetwork in compute to populate
@@ -461,8 +475,8 @@ spec:
                     type: object
                   type:
                     description: |-
-                      Immutable. The type of the customer-managed gateway. Possible values are: * OPEN_MESH * SECURE_WEB_GATEWAY.
-                      Possible values are: TYPE_UNSPECIFIED, OPEN_MESH, SECURE_WEB_GATEWAY.
+                      Immutable. The type of the customer managed gateway.
+                      Possible values are: OPEN_MESH, SECURE_WEB_GATEWAY.
                     type: string
                 type: object
               initProvider:
@@ -480,9 +494,10 @@ spec:
                 properties:
                   addresses:
                     description: |-
-                      Zero or one IPv4-address on which the Gateway will receive the traffic. When no address is provided,
-                      an IP from the subnetwork is allocated This field only applies to gateways of type 'SECURE_WEB_GATEWAY'.
-                      Gateways of type 'OPEN_MESH' listen on 0.0.0.0.
+                      Zero or one IPv4 or IPv6 address on which the Gateway will receive the traffic.
+                      When no address is provided, an IP from the subnetwork is allocated.
+                      This field only applies to gateways of type 'SECURE_WEB_GATEWAY'.
+                      Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6.
                     items:
                       type: string
                     type: array
@@ -581,10 +596,17 @@ spec:
                     description: A free-text description of the resource. Max length
                       1024 characters.
                     type: string
+                  envoyHeaders:
+                    description: |-
+                      Determines if envoy will insert internal debug headers into upstream requests.
+                      Other Envoy headers may still be injected.
+                      By default, envoy will not insert any debug headers.
+                      Possible values are: NONE, DEBUG_HEADERS.
+                    type: string
                   gatewaySecurityPolicy:
                     description: |-
                       A fully-qualified GatewaySecurityPolicy URL reference. Defines how a server should apply security policy to inbound (VM to Proxy) initiated connections.
-                      For example: projects/*/locations/*/gatewaySecurityPolicies/swg-policy.
+                      For example: 'projects//locations//gatewaySecurityPolicies/swg-policy'.
                       This policy is specific to gateways of type 'SECURE_WEB_GATEWAY'.
                     type: string
                   gatewaySecurityPolicyRef:
@@ -663,19 +685,21 @@ spec:
                             type: string
                         type: object
                     type: object
+                  ipVersion:
+                    description: |-
+                      The IP Version that will be used by this gateway.
+                      Possible values are: IPV4, IPV6.
+                    type: string
                   labels:
                     additionalProperties:
                       type: string
-                    description: |-
-                      Set of label tags associated with the Gateway resource.
-                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
-                      Please refer to the field effective_labels for all of the labels present on the resource.
+                    description: Set of label tags associated with the Gateway resource.
                     type: object
                     x-kubernetes-map-type: granular
                   network:
                     description: |-
                       The relative resource name identifying the VPC network that is using this configuration.
-                      For example: projects/*/global/networks/network-1.
+                      For example: 'projects/*/global/networks/network-1'.
                       Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY'.
                     type: string
                   networkRef:
@@ -755,8 +779,8 @@ spec:
                   ports:
                     description: |-
                       One or more port numbers (1-65535), on which the Gateway will receive traffic.
-                      The proxy binds to the specified ports. Gateways of type 'SECURE_WEB_GATEWAY' are
-                      limited to 1 port. Gateways of type 'OPEN_MESH' listen on 0.0.0.0 and support multiple ports.
+                      The proxy binds to the specified ports. Gateways of type 'SECURE_WEB_GATEWAY' are limited to 1 port.
+                      Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6 and support multiple ports.
                     items:
                       type: number
                     type: array
@@ -765,23 +789,27 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  routingMode:
+                    description: |-
+                      The routing mode of the Gateway. This field is configurable only for gateways of type SECURE_WEB_GATEWAY. This field is required for gateways of type SECURE_WEB_GATEWAY.
+                      Possible values are: NEXT_HOP_ROUTING_MODE.
+                    type: string
                   scope:
                     description: |-
                       Immutable. Scope determines how configuration across multiple Gateway instances are merged.
-                      The configuration for multiple Gateway instances with the same scope will be merged as presented as
-                      a single coniguration to the proxy/load balancer.
+                      The configuration for multiple Gateway instances with the same scope will be merged as presented as a single coniguration to the proxy/load balancer.
                       Max length 64 characters. Scope should start with a letter and can only have letters, numbers, hyphens.
                     type: string
                   serverTlsPolicy:
-                    description: |-
-                      A fully-qualified ServerTLSPolicy URL reference. Specifies how TLS traffic is terminated.
-                      If empty, TLS termination is disabled.
+                    description: A fully-qualified ServerTLSPolicy URL reference.
+                      Specifies how TLS traffic is terminated. If empty, TLS termination
+                      is disabled.
                     type: string
                   subnetwork:
                     description: |-
                       The relative resource name identifying the subnetwork in which this SWG is allocated.
                       For example: projects/*/regions/us-central1/subnetworks/network-1.
-                      Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY.
+                      Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY'.
                     type: string
                   subnetworkRef:
                     description: Reference to a Subnetwork in compute to populate
@@ -861,8 +889,8 @@ spec:
                     type: object
                   type:
                     description: |-
-                      Immutable. The type of the customer-managed gateway. Possible values are: * OPEN_MESH * SECURE_WEB_GATEWAY.
-                      Possible values are: TYPE_UNSPECIFIED, OPEN_MESH, SECURE_WEB_GATEWAY.
+                      Immutable. The type of the customer managed gateway.
+                      Possible values are: OPEN_MESH, SECURE_WEB_GATEWAY.
                     type: string
                 type: object
               managementPolicies:
@@ -1048,9 +1076,10 @@ spec:
                 properties:
                   addresses:
                     description: |-
-                      Zero or one IPv4-address on which the Gateway will receive the traffic. When no address is provided,
-                      an IP from the subnetwork is allocated This field only applies to gateways of type 'SECURE_WEB_GATEWAY'.
-                      Gateways of type 'OPEN_MESH' listen on 0.0.0.0.
+                      Zero or one IPv4 or IPv6 address on which the Gateway will receive the traffic.
+                      When no address is provided, an IP from the subnetwork is allocated.
+                      This field only applies to gateways of type 'SECURE_WEB_GATEWAY'.
+                      Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6.
                     items:
                       type: string
                     type: array
@@ -1062,7 +1091,7 @@ spec:
                       type: string
                     type: array
                   createTime:
-                    description: Time the AccessPolicy was created in UTC.
+                    description: The timestamp when the resource was created.
                     type: string
                   deleteSwgAutogenRouterOnDestroy:
                     description: |-
@@ -1076,24 +1105,34 @@ spec:
                   effectiveLabels:
                     additionalProperties:
                       type: string
+                    description: for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
+                  envoyHeaders:
+                    description: |-
+                      Determines if envoy will insert internal debug headers into upstream requests.
+                      Other Envoy headers may still be injected.
+                      By default, envoy will not insert any debug headers.
+                      Possible values are: NONE, DEBUG_HEADERS.
+                    type: string
                   gatewaySecurityPolicy:
                     description: |-
                       A fully-qualified GatewaySecurityPolicy URL reference. Defines how a server should apply security policy to inbound (VM to Proxy) initiated connections.
-                      For example: projects/*/locations/*/gatewaySecurityPolicies/swg-policy.
+                      For example: 'projects//locations//gatewaySecurityPolicies/swg-policy'.
                       This policy is specific to gateways of type 'SECURE_WEB_GATEWAY'.
                     type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/gateways/{{name}}
                     type: string
+                  ipVersion:
+                    description: |-
+                      The IP Version that will be used by this gateway.
+                      Possible values are: IPV4, IPV6.
+                    type: string
                   labels:
                     additionalProperties:
                       type: string
-                    description: |-
-                      Set of label tags associated with the Gateway resource.
-                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
-                      Please refer to the field effective_labels for all of the labels present on the resource.
+                    description: Set of label tags associated with the Gateway resource.
                     type: object
                     x-kubernetes-map-type: granular
                   location:
@@ -1104,14 +1143,14 @@ spec:
                   network:
                     description: |-
                       The relative resource name identifying the VPC network that is using this configuration.
-                      For example: projects/*/global/networks/network-1.
+                      For example: 'projects/*/global/networks/network-1'.
                       Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY'.
                     type: string
                   ports:
                     description: |-
                       One or more port numbers (1-65535), on which the Gateway will receive traffic.
-                      The proxy binds to the specified ports. Gateways of type 'SECURE_WEB_GATEWAY' are
-                      limited to 1 port. Gateways of type 'OPEN_MESH' listen on 0.0.0.0 and support multiple ports.
+                      The proxy binds to the specified ports. Gateways of type 'SECURE_WEB_GATEWAY' are limited to 1 port.
+                      Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6 and support multiple ports.
                     items:
                       type: number
                     type: array
@@ -1120,26 +1159,30 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  routingMode:
+                    description: |-
+                      The routing mode of the Gateway. This field is configurable only for gateways of type SECURE_WEB_GATEWAY. This field is required for gateways of type SECURE_WEB_GATEWAY.
+                      Possible values are: NEXT_HOP_ROUTING_MODE.
+                    type: string
                   scope:
                     description: |-
                       Immutable. Scope determines how configuration across multiple Gateway instances are merged.
-                      The configuration for multiple Gateway instances with the same scope will be merged as presented as
-                      a single coniguration to the proxy/load balancer.
+                      The configuration for multiple Gateway instances with the same scope will be merged as presented as a single coniguration to the proxy/load balancer.
                       Max length 64 characters. Scope should start with a letter and can only have letters, numbers, hyphens.
                     type: string
                   selfLink:
                     description: Server-defined URL of this resource.
                     type: string
                   serverTlsPolicy:
-                    description: |-
-                      A fully-qualified ServerTLSPolicy URL reference. Specifies how TLS traffic is terminated.
-                      If empty, TLS termination is disabled.
+                    description: A fully-qualified ServerTLSPolicy URL reference.
+                      Specifies how TLS traffic is terminated. If empty, TLS termination
+                      is disabled.
                     type: string
                   subnetwork:
                     description: |-
                       The relative resource name identifying the subnetwork in which this SWG is allocated.
                       For example: projects/*/regions/us-central1/subnetworks/network-1.
-                      Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY.
+                      Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY'.
                     type: string
                   terraformLabels:
                     additionalProperties:
@@ -1151,11 +1194,11 @@ spec:
                     x-kubernetes-map-type: granular
                   type:
                     description: |-
-                      Immutable. The type of the customer-managed gateway. Possible values are: * OPEN_MESH * SECURE_WEB_GATEWAY.
-                      Possible values are: TYPE_UNSPECIFIED, OPEN_MESH, SECURE_WEB_GATEWAY.
+                      Immutable. The type of the customer managed gateway.
+                      Possible values are: OPEN_MESH, SECURE_WEB_GATEWAY.
                     type: string
                   updateTime:
-                    description: Time the AccessPolicy was updated in UTC.
+                    description: The timestamp when the resource was updated.
                     type: string
                 type: object
               conditions:

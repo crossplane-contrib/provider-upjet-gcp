@@ -95,6 +95,12 @@ type BucketInitParameters struct {
 	// boolean option will delete all contained objects.
 	ForceDestroy *bool `json:"forceDestroy,omitempty" tf:"force_destroy,omitempty"`
 
+	// The bucket's hierarchical namespace policy, which defines the bucket capability to handle folders in logical structure. Structure is documented below. To use this configuration, uniform_bucket_level_access must be enabled on bucket.
+	HierarchicalNamespace []HierarchicalNamespaceInitParameters `json:"hierarchicalNamespace,omitempty" tf:"hierarchical_namespace,omitempty"`
+
+	// The bucket IP filtering configuration. Specifies the network sources that can access the bucket, as well as its underlying objects. Structure is documented below.
+	IPFilter []IPFilterInitParameters `json:"ipFilter,omitempty" tf:"ip_filter,omitempty"`
+
 	// A map of key/value label pairs to assign to the bucket.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
@@ -168,7 +174,13 @@ type BucketObservation struct {
 	// boolean option will delete all contained objects.
 	ForceDestroy *bool `json:"forceDestroy,omitempty" tf:"force_destroy,omitempty"`
 
+	// The bucket's hierarchical namespace policy, which defines the bucket capability to handle folders in logical structure. Structure is documented below. To use this configuration, uniform_bucket_level_access must be enabled on bucket.
+	HierarchicalNamespace []HierarchicalNamespaceObservation `json:"hierarchicalNamespace,omitempty" tf:"hierarchical_namespace,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The bucket IP filtering configuration. Specifies the network sources that can access the bucket, as well as its underlying objects. Structure is documented below.
+	IPFilter []IPFilterObservation `json:"ipFilter,omitempty" tf:"ip_filter,omitempty"`
 
 	// A map of key/value label pairs to assign to the bucket.
 	// +mapType=granular
@@ -214,11 +226,17 @@ type BucketObservation struct {
 	// +mapType=granular
 	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
+	// (Computed) The creation time of the bucket in RFC 3339 format.
+	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
+
 	// The base URL of the bucket, in the format gs://<bucket-name>.
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
 
 	// Enables Uniform bucket-level access access to a bucket.
 	UniformBucketLevelAccess *bool `json:"uniformBucketLevelAccess,omitempty" tf:"uniform_bucket_level_access,omitempty"`
+
+	// (Computed) The time at which the bucket's metadata or IAM policy was last updated, in RFC 3339 format.
+	Updated *string `json:"updated,omitempty" tf:"updated,omitempty"`
 
 	// The bucket's Versioning configuration.  Structure is documented below.
 	Versioning []VersioningObservation `json:"versioning,omitempty" tf:"versioning,omitempty"`
@@ -257,6 +275,14 @@ type BucketParameters struct {
 	// boolean option will delete all contained objects.
 	// +kubebuilder:validation:Optional
 	ForceDestroy *bool `json:"forceDestroy,omitempty" tf:"force_destroy,omitempty"`
+
+	// The bucket's hierarchical namespace policy, which defines the bucket capability to handle folders in logical structure. Structure is documented below. To use this configuration, uniform_bucket_level_access must be enabled on bucket.
+	// +kubebuilder:validation:Optional
+	HierarchicalNamespace []HierarchicalNamespaceParameters `json:"hierarchicalNamespace,omitempty" tf:"hierarchical_namespace,omitempty"`
+
+	// The bucket IP filtering configuration. Specifies the network sources that can access the bucket, as well as its underlying objects. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	IPFilter []IPFilterParameters `json:"ipFilter,omitempty" tf:"ip_filter,omitempty"`
 
 	// A map of key/value label pairs to assign to the bucket.
 	// +kubebuilder:validation:Optional
@@ -343,9 +369,6 @@ type ConditionInitParameters struct {
 	// One or more matching name suffixes to satisfy this condition.
 	MatchesSuffix []*string `json:"matchesSuffix,omitempty" tf:"matches_suffix,omitempty"`
 
-	// While set true, age value will be omitted. Note Required to set true when age is unset in the config file.
-	NoAge *bool `json:"noAge,omitempty" tf:"no_age,omitempty"`
-
 	// Relevant only for versioned objects. The date in RFC 3339 (e.g. 2017-06-13) when the object became nonconcurrent.
 	NoncurrentTimeBefore *string `json:"noncurrentTimeBefore,omitempty" tf:"noncurrent_time_before,omitempty"`
 
@@ -393,9 +416,6 @@ type ConditionObservation struct {
 
 	// One or more matching name suffixes to satisfy this condition.
 	MatchesSuffix []*string `json:"matchesSuffix,omitempty" tf:"matches_suffix,omitempty"`
-
-	// While set true, age value will be omitted. Note Required to set true when age is unset in the config file.
-	NoAge *bool `json:"noAge,omitempty" tf:"no_age,omitempty"`
 
 	// Relevant only for versioned objects. The date in RFC 3339 (e.g. 2017-06-13) when the object became nonconcurrent.
 	NoncurrentTimeBefore *string `json:"noncurrentTimeBefore,omitempty" tf:"noncurrent_time_before,omitempty"`
@@ -452,10 +472,6 @@ type ConditionParameters struct {
 	// One or more matching name suffixes to satisfy this condition.
 	// +kubebuilder:validation:Optional
 	MatchesSuffix []*string `json:"matchesSuffix,omitempty" tf:"matches_suffix,omitempty"`
-
-	// While set true, age value will be omitted. Note Required to set true when age is unset in the config file.
-	// +kubebuilder:validation:Optional
-	NoAge *bool `json:"noAge,omitempty" tf:"no_age,omitempty"`
 
 	// Relevant only for versioned objects. The date in RFC 3339 (e.g. 2017-06-13) when the object became nonconcurrent.
 	// +kubebuilder:validation:Optional
@@ -582,6 +598,84 @@ type EncryptionParameters struct {
 	DefaultKMSKeyName *string `json:"defaultKmsKeyName" tf:"default_kms_key_name,omitempty"`
 }
 
+type HierarchicalNamespaceInitParameters struct {
+
+	// Enables hierarchical namespace for the bucket.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type HierarchicalNamespaceObservation struct {
+
+	// Enables hierarchical namespace for the bucket.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type HierarchicalNamespaceParameters struct {
+
+	// Enables hierarchical namespace for the bucket.
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+}
+
+type IPFilterInitParameters struct {
+
+	// While set true, allows all service agents to access the bucket regardless of the IP filter configuration.
+	AllowAllServiceAgentAccess *bool `json:"allowAllServiceAgentAccess,omitempty" tf:"allow_all_service_agent_access,omitempty"`
+
+	// While set true, allows cross-org VPCs in the bucket's IP filter configuration.
+	AllowCrossOrgVpcs *bool `json:"allowCrossOrgVpcs,omitempty" tf:"allow_cross_org_vpcs,omitempty"`
+
+	// The state of the IP filter configuration. Valid values are Enabled and Disabled. When set to Enabled, IP filtering rules are applied to a bucket and all incoming requests to the bucket are evaluated against these rules. When set to Disabled, IP filtering rules are not applied to a bucket. Note: allow_all_service_agent_access must be supplied when mode is set to Enabled, it can be ommited for other values.
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	// The public network IP address ranges that can access the bucket and its data. Structure is documented below.
+	PublicNetworkSource []PublicNetworkSourceInitParameters `json:"publicNetworkSource,omitempty" tf:"public_network_source,omitempty"`
+
+	// The list of VPC networks that can access the bucket. Structure is documented below.
+	VPCNetworkSources []VPCNetworkSourcesInitParameters `json:"vpcNetworkSources,omitempty" tf:"vpc_network_sources,omitempty"`
+}
+
+type IPFilterObservation struct {
+
+	// While set true, allows all service agents to access the bucket regardless of the IP filter configuration.
+	AllowAllServiceAgentAccess *bool `json:"allowAllServiceAgentAccess,omitempty" tf:"allow_all_service_agent_access,omitempty"`
+
+	// While set true, allows cross-org VPCs in the bucket's IP filter configuration.
+	AllowCrossOrgVpcs *bool `json:"allowCrossOrgVpcs,omitempty" tf:"allow_cross_org_vpcs,omitempty"`
+
+	// The state of the IP filter configuration. Valid values are Enabled and Disabled. When set to Enabled, IP filtering rules are applied to a bucket and all incoming requests to the bucket are evaluated against these rules. When set to Disabled, IP filtering rules are not applied to a bucket. Note: allow_all_service_agent_access must be supplied when mode is set to Enabled, it can be ommited for other values.
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	// The public network IP address ranges that can access the bucket and its data. Structure is documented below.
+	PublicNetworkSource []PublicNetworkSourceObservation `json:"publicNetworkSource,omitempty" tf:"public_network_source,omitempty"`
+
+	// The list of VPC networks that can access the bucket. Structure is documented below.
+	VPCNetworkSources []VPCNetworkSourcesObservation `json:"vpcNetworkSources,omitempty" tf:"vpc_network_sources,omitempty"`
+}
+
+type IPFilterParameters struct {
+
+	// While set true, allows all service agents to access the bucket regardless of the IP filter configuration.
+	// +kubebuilder:validation:Optional
+	AllowAllServiceAgentAccess *bool `json:"allowAllServiceAgentAccess,omitempty" tf:"allow_all_service_agent_access,omitempty"`
+
+	// While set true, allows cross-org VPCs in the bucket's IP filter configuration.
+	// +kubebuilder:validation:Optional
+	AllowCrossOrgVpcs *bool `json:"allowCrossOrgVpcs,omitempty" tf:"allow_cross_org_vpcs,omitempty"`
+
+	// The state of the IP filter configuration. Valid values are Enabled and Disabled. When set to Enabled, IP filtering rules are applied to a bucket and all incoming requests to the bucket are evaluated against these rules. When set to Disabled, IP filtering rules are not applied to a bucket. Note: allow_all_service_agent_access must be supplied when mode is set to Enabled, it can be ommited for other values.
+	// +kubebuilder:validation:Optional
+	Mode *string `json:"mode" tf:"mode,omitempty"`
+
+	// The public network IP address ranges that can access the bucket and its data. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PublicNetworkSource []PublicNetworkSourceParameters `json:"publicNetworkSource,omitempty" tf:"public_network_source,omitempty"`
+
+	// The list of VPC networks that can access the bucket. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	VPCNetworkSources []VPCNetworkSourcesParameters `json:"vpcNetworkSources,omitempty" tf:"vpc_network_sources,omitempty"`
+}
+
 type LifecycleRuleInitParameters struct {
 
 	// The Lifecycle Rule's action configuration. A single block of this type is supported. Structure is documented below.
@@ -643,6 +737,25 @@ type LoggingParameters struct {
 	LogObjectPrefix *string `json:"logObjectPrefix,omitempty" tf:"log_object_prefix,omitempty"`
 }
 
+type PublicNetworkSourceInitParameters struct {
+
+	// The list of public or private IPv4 and IPv6 CIDR ranges that can access the bucket.
+	AllowedIPCidrRanges []*string `json:"allowedIpCidrRanges,omitempty" tf:"allowed_ip_cidr_ranges,omitempty"`
+}
+
+type PublicNetworkSourceObservation struct {
+
+	// The list of public or private IPv4 and IPv6 CIDR ranges that can access the bucket.
+	AllowedIPCidrRanges []*string `json:"allowedIpCidrRanges,omitempty" tf:"allowed_ip_cidr_ranges,omitempty"`
+}
+
+type PublicNetworkSourceParameters struct {
+
+	// The list of public or private IPv4 and IPv6 CIDR ranges that can access the bucket.
+	// +kubebuilder:validation:Optional
+	AllowedIPCidrRanges []*string `json:"allowedIpCidrRanges" tf:"allowed_ip_cidr_ranges,omitempty"`
+}
+
 type RetentionPolicyInitParameters struct {
 
 	// If set to true, the bucket will be locked and permanently restrict edits to the bucket's retention policy.  Caution: Locking a bucket is an irreversible action.
@@ -692,6 +805,35 @@ type SoftDeletePolicyParameters struct {
 	// The duration in seconds that soft-deleted objects in the bucket will be retained and cannot be permanently deleted. Default value is 604800. The value must be in between 604800(7 days) and 7776000(90 days). Note: To disable the soft delete policy on a bucket, This field must be set to 0.
 	// +kubebuilder:validation:Optional
 	RetentionDurationSeconds *float64 `json:"retentionDurationSeconds,omitempty" tf:"retention_duration_seconds,omitempty"`
+}
+
+type VPCNetworkSourcesInitParameters struct {
+
+	// The list of public or private IPv4 and IPv6 CIDR ranges that can access the bucket.
+	AllowedIPCidrRanges []*string `json:"allowedIpCidrRanges,omitempty" tf:"allowed_ip_cidr_ranges,omitempty"`
+
+	// Name of the network. Format: projects/PROJECT_ID/global/networks/NETWORK_NAME
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+}
+
+type VPCNetworkSourcesObservation struct {
+
+	// The list of public or private IPv4 and IPv6 CIDR ranges that can access the bucket.
+	AllowedIPCidrRanges []*string `json:"allowedIpCidrRanges,omitempty" tf:"allowed_ip_cidr_ranges,omitempty"`
+
+	// Name of the network. Format: projects/PROJECT_ID/global/networks/NETWORK_NAME
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+}
+
+type VPCNetworkSourcesParameters struct {
+
+	// The list of public or private IPv4 and IPv6 CIDR ranges that can access the bucket.
+	// +kubebuilder:validation:Optional
+	AllowedIPCidrRanges []*string `json:"allowedIpCidrRanges" tf:"allowed_ip_cidr_ranges,omitempty"`
+
+	// Name of the network. Format: projects/PROJECT_ID/global/networks/NETWORK_NAME
+	// +kubebuilder:validation:Optional
+	Network *string `json:"network" tf:"network,omitempty"`
 }
 
 type VersioningInitParameters struct {

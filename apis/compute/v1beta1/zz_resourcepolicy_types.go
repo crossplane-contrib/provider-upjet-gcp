@@ -112,6 +112,9 @@ type GroupPlacementPolicyInitParameters struct {
 	// Possible values are: COLLOCATED.
 	Collocation *string `json:"collocation,omitempty" tf:"collocation,omitempty"`
 
+	// Specifies the shape of the GPU slice, in slice based GPU families eg. A4X.
+	GpuTopology *string `json:"gpuTopology,omitempty" tf:"gpu_topology,omitempty"`
+
 	// Number of VMs in this placement group. Google does not recommend that you use this field
 	// unless you use a compact policy and you want your policy to work only if it contains this
 	// exact number of VMs.
@@ -130,6 +133,9 @@ type GroupPlacementPolicyObservation struct {
 	// attached.
 	// Possible values are: COLLOCATED.
 	Collocation *string `json:"collocation,omitempty" tf:"collocation,omitempty"`
+
+	// Specifies the shape of the GPU slice, in slice based GPU families eg. A4X.
+	GpuTopology *string `json:"gpuTopology,omitempty" tf:"gpu_topology,omitempty"`
 
 	// Number of VMs in this placement group. Google does not recommend that you use this field
 	// unless you use a compact policy and you want your policy to work only if it contains this
@@ -151,6 +157,10 @@ type GroupPlacementPolicyParameters struct {
 	// Possible values are: COLLOCATED.
 	// +kubebuilder:validation:Optional
 	Collocation *string `json:"collocation,omitempty" tf:"collocation,omitempty"`
+
+	// Specifies the shape of the GPU slice, in slice based GPU families eg. A4X.
+	// +kubebuilder:validation:Optional
+	GpuTopology *string `json:"gpuTopology,omitempty" tf:"gpu_topology,omitempty"`
 
 	// Number of VMs in this placement group. Google does not recommend that you use this field
 	// unless you use a compact policy and you want your policy to work only if it contains this
@@ -283,6 +293,10 @@ type ResourcePolicyInitParameters struct {
 	// Policy for creating snapshots of persistent disks.
 	// Structure is documented below.
 	SnapshotSchedulePolicy []SnapshotSchedulePolicyInitParameters `json:"snapshotSchedulePolicy,omitempty" tf:"snapshot_schedule_policy,omitempty"`
+
+	// Represents the workload policy.
+	// Structure is documented below.
+	WorkloadPolicy []WorkloadPolicyInitParameters `json:"workloadPolicy,omitempty" tf:"workload_policy,omitempty"`
 }
 
 type ResourcePolicyObservation struct {
@@ -318,6 +332,10 @@ type ResourcePolicyObservation struct {
 	// Policy for creating snapshots of persistent disks.
 	// Structure is documented below.
 	SnapshotSchedulePolicy []SnapshotSchedulePolicyObservation `json:"snapshotSchedulePolicy,omitempty" tf:"snapshot_schedule_policy,omitempty"`
+
+	// Represents the workload policy.
+	// Structure is documented below.
+	WorkloadPolicy []WorkloadPolicyObservation `json:"workloadPolicy,omitempty" tf:"workload_policy,omitempty"`
 }
 
 type ResourcePolicyParameters struct {
@@ -354,6 +372,11 @@ type ResourcePolicyParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SnapshotSchedulePolicy []SnapshotSchedulePolicyParameters `json:"snapshotSchedulePolicy,omitempty" tf:"snapshot_schedule_policy,omitempty"`
+
+	// Represents the workload policy.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	WorkloadPolicy []WorkloadPolicyParameters `json:"workloadPolicy,omitempty" tf:"workload_policy,omitempty"`
 }
 
 type RetentionPolicyInitParameters struct {
@@ -612,6 +635,57 @@ type WeeklyScheduleParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	DayOfWeeks []DayOfWeeksParameters `json:"dayOfWeeks" tf:"day_of_weeks,omitempty"`
+}
+
+type WorkloadPolicyInitParameters struct {
+
+	// The accelerator topology. This field can be set only when the workload policy type is HIGH_THROUGHPUT
+	// and cannot be set if max topology distance is set.
+	AcceleratorTopology *string `json:"acceleratorTopology,omitempty" tf:"accelerator_topology,omitempty"`
+
+	// The maximum topology distance. This field can be set only when the workload policy type is HIGH_THROUGHPUT
+	// and cannot be set if accelerator topology is set.
+	// Possible values are: BLOCK, CLUSTER, SUBBLOCK.
+	MaxTopologyDistance *string `json:"maxTopologyDistance,omitempty" tf:"max_topology_distance,omitempty"`
+
+	// The type of workload policy.
+	// Possible values are: HIGH_AVAILABILITY, HIGH_THROUGHPUT.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type WorkloadPolicyObservation struct {
+
+	// The accelerator topology. This field can be set only when the workload policy type is HIGH_THROUGHPUT
+	// and cannot be set if max topology distance is set.
+	AcceleratorTopology *string `json:"acceleratorTopology,omitempty" tf:"accelerator_topology,omitempty"`
+
+	// The maximum topology distance. This field can be set only when the workload policy type is HIGH_THROUGHPUT
+	// and cannot be set if accelerator topology is set.
+	// Possible values are: BLOCK, CLUSTER, SUBBLOCK.
+	MaxTopologyDistance *string `json:"maxTopologyDistance,omitempty" tf:"max_topology_distance,omitempty"`
+
+	// The type of workload policy.
+	// Possible values are: HIGH_AVAILABILITY, HIGH_THROUGHPUT.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type WorkloadPolicyParameters struct {
+
+	// The accelerator topology. This field can be set only when the workload policy type is HIGH_THROUGHPUT
+	// and cannot be set if max topology distance is set.
+	// +kubebuilder:validation:Optional
+	AcceleratorTopology *string `json:"acceleratorTopology,omitempty" tf:"accelerator_topology,omitempty"`
+
+	// The maximum topology distance. This field can be set only when the workload policy type is HIGH_THROUGHPUT
+	// and cannot be set if accelerator topology is set.
+	// Possible values are: BLOCK, CLUSTER, SUBBLOCK.
+	// +kubebuilder:validation:Optional
+	MaxTopologyDistance *string `json:"maxTopologyDistance,omitempty" tf:"max_topology_distance,omitempty"`
+
+	// The type of workload policy.
+	// Possible values are: HIGH_AVAILABILITY, HIGH_THROUGHPUT.
+	// +kubebuilder:validation:Optional
+	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 // ResourcePolicySpec defines the desired state of ResourcePolicy

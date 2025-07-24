@@ -34,8 +34,9 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: FirewallPolicy is the Schema for the FirewallPolicys API. Creates
-          a hierarchical firewall policy
+        description: FirewallPolicy is the Schema for the FirewallPolicys API. Hierarchical
+          firewall policy rules let you create and enforce a consistent firewall policy
+          across your organization.
         properties:
           apiVersion:
             description: |-
@@ -81,14 +82,10 @@ spec:
                     description: The parent of the firewall policy.
                     type: string
                   shortName:
-                    description: User-provided name of the Organization firewall policy.
-                      The name should be unique in the organization in which the firewall
-                      policy is created. The name must be 1-63 characters long, and
-                      comply with RFC1035. Specifically, the name must be 1-63 characters
-                      long and match the regular expression a-z? which means the first
-                      character must be a lowercase letter, and all following characters
-                      must be a dash, lowercase letter, or digit, except the last
-                      character, which cannot be a dash.
+                    description: |-
+                      User-provided name of the Organization firewall policy. The name should be unique in the organization in which the firewall policy is created.
+                      This field is not applicable to network firewall policies. This name must be set on creation and cannot be changed. The name must be 1-63 characters long, and comply with RFC1035.
+                      Specifically, the name must be 1-63 characters long and match the regular expression a-z? which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash.
                     type: string
                 type: object
               initProvider:
@@ -112,14 +109,10 @@ spec:
                     description: The parent of the firewall policy.
                     type: string
                   shortName:
-                    description: User-provided name of the Organization firewall policy.
-                      The name should be unique in the organization in which the firewall
-                      policy is created. The name must be 1-63 characters long, and
-                      comply with RFC1035. Specifically, the name must be 1-63 characters
-                      long and match the regular expression a-z? which means the first
-                      character must be a lowercase letter, and all following characters
-                      must be a dash, lowercase letter, or digit, except the last
-                      character, which cannot be a dash.
+                    description: |-
+                      User-provided name of the Organization firewall policy. The name should be unique in the organization in which the firewall policy is created.
+                      This field is not applicable to network firewall policies. This name must be set on creation and cannot be changed. The name must be 1-63 characters long, and comply with RFC1035.
+                      Specifically, the name must be 1-63 characters long and match the regular expression a-z? which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash.
                     type: string
                 type: object
               managementPolicies:
@@ -315,7 +308,8 @@ spec:
                       during updates of this resource.
                     type: string
                   firewallPolicyId:
-                    description: an identifier for the resource with format locations/global/firewallPolicies/{{name}}
+                    description: The unique identifier for the resource. This identifier
+                      is defined by the server.
                     type: string
                   id:
                     description: an identifier for the resource with format locations/global/firewallPolicies/{{name}}
@@ -339,14 +333,10 @@ spec:
                       id.
                     type: string
                   shortName:
-                    description: User-provided name of the Organization firewall policy.
-                      The name should be unique in the organization in which the firewall
-                      policy is created. The name must be 1-63 characters long, and
-                      comply with RFC1035. Specifically, the name must be 1-63 characters
-                      long and match the regular expression a-z? which means the first
-                      character must be a lowercase letter, and all following characters
-                      must be a dash, lowercase letter, or digit, except the last
-                      character, which cannot be a dash.
+                    description: |-
+                      User-provided name of the Organization firewall policy. The name should be unique in the organization in which the firewall policy is created.
+                      This field is not applicable to network firewall policies. This name must be set on creation and cannot be changed. The name must be 1-63 characters long, and comply with RFC1035.
+                      Specifically, the name must be 1-63 characters long and match the regular expression a-z? which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash.
                     type: string
                 type: object
               conditions:

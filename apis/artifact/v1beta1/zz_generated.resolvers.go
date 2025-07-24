@@ -27,6 +27,29 @@ func (mg *RegistryRepository) ResolveReferences( // ResolveReferences of this Re
 	var err error
 
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.RemoteRepositoryConfig); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.RemoteRepositoryConfig[i3].CommonRepository); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("artifact.gcp.upbound.io", "v1beta2", "RegistryRepository", "RegistryRepositoryList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RemoteRepositoryConfig[i3].CommonRepository[i4].URI),
+					Extract:      resource.ExtractResourceID(),
+					Reference:    mg.Spec.ForProvider.RemoteRepositoryConfig[i3].CommonRepository[i4].URIRef,
+					Selector:     mg.Spec.ForProvider.RemoteRepositoryConfig[i3].CommonRepository[i4].URISelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.RemoteRepositoryConfig[i3].CommonRepository[i4].URI")
+			}
+			mg.Spec.ForProvider.RemoteRepositoryConfig[i3].CommonRepository[i4].URI = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.RemoteRepositoryConfig[i3].CommonRepository[i4].URIRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.RemoteRepositoryConfig); i3++ {
 		for i4 := 0; i4 < len(mg.Spec.ForProvider.RemoteRepositoryConfig[i3].UpstreamCredentials); i4++ {
 			for i5 := 0; i5 < len(mg.Spec.ForProvider.RemoteRepositoryConfig[i3].UpstreamCredentials[i4].UsernamePasswordCredentials); i5++ {
 				{
@@ -71,6 +94,29 @@ func (mg *RegistryRepository) ResolveReferences( // ResolveReferences of this Re
 			}
 			mg.Spec.ForProvider.VirtualRepositoryConfig[i3].UpstreamPolicies[i4].Repository = reference.ToPtrValue(rsp.ResolvedValue)
 			mg.Spec.ForProvider.VirtualRepositoryConfig[i3].UpstreamPolicies[i4].RepositoryRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.RemoteRepositoryConfig); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.RemoteRepositoryConfig[i3].CommonRepository); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("artifact.gcp.upbound.io", "v1beta2", "RegistryRepository", "RegistryRepositoryList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RemoteRepositoryConfig[i3].CommonRepository[i4].URI),
+					Extract:      resource.ExtractResourceID(),
+					Reference:    mg.Spec.InitProvider.RemoteRepositoryConfig[i3].CommonRepository[i4].URIRef,
+					Selector:     mg.Spec.InitProvider.RemoteRepositoryConfig[i3].CommonRepository[i4].URISelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.RemoteRepositoryConfig[i3].CommonRepository[i4].URI")
+			}
+			mg.Spec.InitProvider.RemoteRepositoryConfig[i3].CommonRepository[i4].URI = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.RemoteRepositoryConfig[i3].CommonRepository[i4].URIRef = rsp.ResolvedReference
 
 		}
 	}

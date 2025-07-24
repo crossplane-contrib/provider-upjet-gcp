@@ -65,12 +65,331 @@ type AppEngineRoutingOverrideParameters struct {
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
+type HTTPTargetInitParameters struct {
+
+	// The HTTP method to use for the request.
+	// When specified, it overrides HttpRequest for the task.
+	// Note that if the value is set to GET the body of the task will be ignored at execution time.
+	// Possible values are: HTTP_METHOD_UNSPECIFIED, POST, GET, HEAD, PUT, DELETE, PATCH, OPTIONS.
+	HTTPMethod *string `json:"httpMethod,omitempty" tf:"http_method,omitempty"`
+
+	// HTTP target headers.
+	// This map contains the header field names and values.
+	// Headers will be set when running the CreateTask and/or BufferTask.
+	// These headers represent a subset of the headers that will be configured for the task's HTTP request.
+	// Some HTTP request headers will be ignored or replaced.
+	// Headers which can have multiple values (according to RFC2616) can be specified using comma-separated values.
+	// The size of the headers must be less than 80KB. Queue-level headers to override headers of all the tasks in the queue.
+	// Structure is documented below.
+	HeaderOverrides []HeaderOverridesInitParameters `json:"headerOverrides,omitempty" tf:"header_overrides,omitempty"`
+
+	// If specified, an OAuth token is generated and attached as the Authorization header in the HTTP request.
+	// This type of authorization should generally be used only when calling Google APIs hosted on *.googleapis.com.
+	// Note that both the service account email and the scope MUST be specified when using the queue-level authorization override.
+	// Structure is documented below.
+	OAuthToken *OAuthTokenInitParameters `json:"oauthToken,omitempty" tf:"oauth_token,omitempty"`
+
+	// If specified, an OIDC token is generated and attached as an Authorization header in the HTTP request.
+	// This type of authorization can be used for many scenarios, including calling Cloud Run, or endpoints where you intend to validate the token yourself.
+	// Note that both the service account email and the audience MUST be specified when using the queue-level authorization override.
+	// Structure is documented below.
+	OidcToken *OidcTokenInitParameters `json:"oidcToken,omitempty" tf:"oidc_token,omitempty"`
+
+	// URI override.
+	// When specified, overrides the execution URI for all the tasks in the queue.
+	// Structure is documented below.
+	URIOverride *URIOverrideInitParameters `json:"uriOverride,omitempty" tf:"uri_override,omitempty"`
+}
+
+type HTTPTargetObservation struct {
+
+	// The HTTP method to use for the request.
+	// When specified, it overrides HttpRequest for the task.
+	// Note that if the value is set to GET the body of the task will be ignored at execution time.
+	// Possible values are: HTTP_METHOD_UNSPECIFIED, POST, GET, HEAD, PUT, DELETE, PATCH, OPTIONS.
+	HTTPMethod *string `json:"httpMethod,omitempty" tf:"http_method,omitempty"`
+
+	// HTTP target headers.
+	// This map contains the header field names and values.
+	// Headers will be set when running the CreateTask and/or BufferTask.
+	// These headers represent a subset of the headers that will be configured for the task's HTTP request.
+	// Some HTTP request headers will be ignored or replaced.
+	// Headers which can have multiple values (according to RFC2616) can be specified using comma-separated values.
+	// The size of the headers must be less than 80KB. Queue-level headers to override headers of all the tasks in the queue.
+	// Structure is documented below.
+	HeaderOverrides []HeaderOverridesObservation `json:"headerOverrides,omitempty" tf:"header_overrides,omitempty"`
+
+	// If specified, an OAuth token is generated and attached as the Authorization header in the HTTP request.
+	// This type of authorization should generally be used only when calling Google APIs hosted on *.googleapis.com.
+	// Note that both the service account email and the scope MUST be specified when using the queue-level authorization override.
+	// Structure is documented below.
+	OAuthToken *OAuthTokenObservation `json:"oauthToken,omitempty" tf:"oauth_token,omitempty"`
+
+	// If specified, an OIDC token is generated and attached as an Authorization header in the HTTP request.
+	// This type of authorization can be used for many scenarios, including calling Cloud Run, or endpoints where you intend to validate the token yourself.
+	// Note that both the service account email and the audience MUST be specified when using the queue-level authorization override.
+	// Structure is documented below.
+	OidcToken *OidcTokenObservation `json:"oidcToken,omitempty" tf:"oidc_token,omitempty"`
+
+	// URI override.
+	// When specified, overrides the execution URI for all the tasks in the queue.
+	// Structure is documented below.
+	URIOverride *URIOverrideObservation `json:"uriOverride,omitempty" tf:"uri_override,omitempty"`
+}
+
+type HTTPTargetParameters struct {
+
+	// The HTTP method to use for the request.
+	// When specified, it overrides HttpRequest for the task.
+	// Note that if the value is set to GET the body of the task will be ignored at execution time.
+	// Possible values are: HTTP_METHOD_UNSPECIFIED, POST, GET, HEAD, PUT, DELETE, PATCH, OPTIONS.
+	// +kubebuilder:validation:Optional
+	HTTPMethod *string `json:"httpMethod,omitempty" tf:"http_method,omitempty"`
+
+	// HTTP target headers.
+	// This map contains the header field names and values.
+	// Headers will be set when running the CreateTask and/or BufferTask.
+	// These headers represent a subset of the headers that will be configured for the task's HTTP request.
+	// Some HTTP request headers will be ignored or replaced.
+	// Headers which can have multiple values (according to RFC2616) can be specified using comma-separated values.
+	// The size of the headers must be less than 80KB. Queue-level headers to override headers of all the tasks in the queue.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	HeaderOverrides []HeaderOverridesParameters `json:"headerOverrides,omitempty" tf:"header_overrides,omitempty"`
+
+	// If specified, an OAuth token is generated and attached as the Authorization header in the HTTP request.
+	// This type of authorization should generally be used only when calling Google APIs hosted on *.googleapis.com.
+	// Note that both the service account email and the scope MUST be specified when using the queue-level authorization override.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	OAuthToken *OAuthTokenParameters `json:"oauthToken,omitempty" tf:"oauth_token,omitempty"`
+
+	// If specified, an OIDC token is generated and attached as an Authorization header in the HTTP request.
+	// This type of authorization can be used for many scenarios, including calling Cloud Run, or endpoints where you intend to validate the token yourself.
+	// Note that both the service account email and the audience MUST be specified when using the queue-level authorization override.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	OidcToken *OidcTokenParameters `json:"oidcToken,omitempty" tf:"oidc_token,omitempty"`
+
+	// URI override.
+	// When specified, overrides the execution URI for all the tasks in the queue.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	URIOverride *URIOverrideParameters `json:"uriOverride,omitempty" tf:"uri_override,omitempty"`
+}
+
+type HeaderInitParameters struct {
+
+	// The Key of the header.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// The Value of the header.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type HeaderObservation struct {
+
+	// The Key of the header.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// The Value of the header.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type HeaderOverridesInitParameters struct {
+
+	// Header embodying a key and a value.
+	// Structure is documented below.
+	Header *HeaderInitParameters `json:"header,omitempty" tf:"header,omitempty"`
+}
+
+type HeaderOverridesObservation struct {
+
+	// Header embodying a key and a value.
+	// Structure is documented below.
+	Header *HeaderObservation `json:"header,omitempty" tf:"header,omitempty"`
+}
+
+type HeaderOverridesParameters struct {
+
+	// Header embodying a key and a value.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Header *HeaderParameters `json:"header" tf:"header,omitempty"`
+}
+
+type HeaderParameters struct {
+
+	// The Key of the header.
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key" tf:"key,omitempty"`
+
+	// The Value of the header.
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value" tf:"value,omitempty"`
+}
+
+type OAuthTokenInitParameters struct {
+
+	// OAuth scope to be used for generating OAuth access token.
+	// If not specified, "https://www.googleapis.com/auth/cloud-platform" will be used.
+	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
+
+	// Service account email to be used for generating OIDC token.
+	// The service account must be within the same project as the queue.
+	// The caller must have iam.serviceAccounts.actAs permission for the service account.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("email",true)
+	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+
+	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailRef *v1.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailSelector *v1.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+}
+
+type OAuthTokenObservation struct {
+
+	// OAuth scope to be used for generating OAuth access token.
+	// If not specified, "https://www.googleapis.com/auth/cloud-platform" will be used.
+	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
+
+	// Service account email to be used for generating OIDC token.
+	// The service account must be within the same project as the queue.
+	// The caller must have iam.serviceAccounts.actAs permission for the service account.
+	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+}
+
+type OAuthTokenParameters struct {
+
+	// OAuth scope to be used for generating OAuth access token.
+	// If not specified, "https://www.googleapis.com/auth/cloud-platform" will be used.
+	// +kubebuilder:validation:Optional
+	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
+
+	// Service account email to be used for generating OIDC token.
+	// The service account must be within the same project as the queue.
+	// The caller must have iam.serviceAccounts.actAs permission for the service account.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("email",true)
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+
+	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailRef *v1.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailSelector *v1.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+}
+
+type OidcTokenInitParameters struct {
+
+	// Audience to be used when generating OIDC token. If not specified, the URI specified in target will be used.
+	Audience *string `json:"audience,omitempty" tf:"audience,omitempty"`
+
+	// Service account email to be used for generating OIDC token.
+	// The service account must be within the same project as the queue.
+	// The caller must have iam.serviceAccounts.actAs permission for the service account.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("email",true)
+	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+
+	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailRef *v1.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailSelector *v1.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+}
+
+type OidcTokenObservation struct {
+
+	// Audience to be used when generating OIDC token. If not specified, the URI specified in target will be used.
+	Audience *string `json:"audience,omitempty" tf:"audience,omitempty"`
+
+	// Service account email to be used for generating OIDC token.
+	// The service account must be within the same project as the queue.
+	// The caller must have iam.serviceAccounts.actAs permission for the service account.
+	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+}
+
+type OidcTokenParameters struct {
+
+	// Audience to be used when generating OIDC token. If not specified, the URI specified in target will be used.
+	// +kubebuilder:validation:Optional
+	Audience *string `json:"audience,omitempty" tf:"audience,omitempty"`
+
+	// Service account email to be used for generating OIDC token.
+	// The service account must be within the same project as the queue.
+	// The caller must have iam.serviceAccounts.actAs permission for the service account.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("email",true)
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+
+	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailRef *v1.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailSelector *v1.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+}
+
+type PathOverrideInitParameters struct {
+
+	// The URI path (e.g., /users/1234). Default is an empty string.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+}
+
+type PathOverrideObservation struct {
+
+	// The URI path (e.g., /users/1234). Default is an empty string.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+}
+
+type PathOverrideParameters struct {
+
+	// The URI path (e.g., /users/1234). Default is an empty string.
+	// +kubebuilder:validation:Optional
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+}
+
+type QueryOverrideInitParameters struct {
+
+	// The query parameters (e.g., qparam1=123&qparam2=456). Default is an empty string.
+	QueryParams *string `json:"queryParams,omitempty" tf:"query_params,omitempty"`
+}
+
+type QueryOverrideObservation struct {
+
+	// The query parameters (e.g., qparam1=123&qparam2=456). Default is an empty string.
+	QueryParams *string `json:"queryParams,omitempty" tf:"query_params,omitempty"`
+}
+
+type QueryOverrideParameters struct {
+
+	// The query parameters (e.g., qparam1=123&qparam2=456). Default is an empty string.
+	// +kubebuilder:validation:Optional
+	QueryParams *string `json:"queryParams,omitempty" tf:"query_params,omitempty"`
+}
+
 type QueueInitParameters struct {
 
 	// Overrides for task-level appEngineRouting. These settings apply only
 	// to App Engine tasks in this queue
 	// Structure is documented below.
 	AppEngineRoutingOverride *AppEngineRoutingOverrideInitParameters `json:"appEngineRoutingOverride,omitempty" tf:"app_engine_routing_override,omitempty"`
+
+	// Modifies HTTP target for HTTP tasks.
+	// Structure is documented below.
+	HTTPTarget *HTTPTargetInitParameters `json:"httpTarget,omitempty" tf:"http_target,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -105,6 +424,10 @@ type QueueObservation struct {
 	// Structure is documented below.
 	AppEngineRoutingOverride *AppEngineRoutingOverrideObservation `json:"appEngineRoutingOverride,omitempty" tf:"app_engine_routing_override,omitempty"`
 
+	// Modifies HTTP target for HTTP tasks.
+	// Structure is documented below.
+	HTTPTarget *HTTPTargetObservation `json:"httpTarget,omitempty" tf:"http_target,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/queues/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -135,6 +458,11 @@ type QueueParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AppEngineRoutingOverride *AppEngineRoutingOverrideParameters `json:"appEngineRoutingOverride,omitempty" tf:"app_engine_routing_override,omitempty"`
+
+	// Modifies HTTP target for HTTP tasks.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	HTTPTarget *HTTPTargetParameters `json:"httpTarget,omitempty" tf:"http_target,omitempty"`
 
 	// The location of the queue
 	// +kubebuilder:validation:Required
@@ -355,6 +683,126 @@ type StackdriverLoggingConfigParameters struct {
 	// default and means that no operations are logged.
 	// +kubebuilder:validation:Optional
 	SamplingRatio *float64 `json:"samplingRatio" tf:"sampling_ratio,omitempty"`
+}
+
+type URIOverrideInitParameters struct {
+
+	// Host override.
+	// When specified, replaces the host part of the task URL.
+	// For example, if the task URL is "https://www.google.com", and host value
+	// is set to "example.net", the overridden URI will be changed to "https://example.net".
+	// Host value cannot be an empty string (INVALID_ARGUMENT).
+	Host *string `json:"host,omitempty" tf:"host,omitempty"`
+
+	// URI path.
+	// When specified, replaces the existing path of the task URL.
+	// Setting the path value to an empty string clears the URI path segment.
+	// Structure is documented below.
+	PathOverride *PathOverrideInitParameters `json:"pathOverride,omitempty" tf:"path_override,omitempty"`
+
+	// Port override.
+	// When specified, replaces the port part of the task URI.
+	// For instance, for a URI http://www.google.com/foo and port=123, the overridden URI becomes http://www.google.com:123/foo.
+	// Note that the port value must be a positive integer.
+	// Setting the port to 0 (Zero) clears the URI port.
+	Port *string `json:"port,omitempty" tf:"port,omitempty"`
+
+	// URI query.
+	// When specified, replaces the query part of the task URI. Setting the query value to an empty string clears the URI query segment.
+	// Structure is documented below.
+	QueryOverride *QueryOverrideInitParameters `json:"queryOverride,omitempty" tf:"query_override,omitempty"`
+
+	// Scheme override.
+	// When specified, the task URI scheme is replaced by the provided value (HTTP or HTTPS).
+	// Possible values are: HTTP, HTTPS.
+	Scheme *string `json:"scheme,omitempty" tf:"scheme,omitempty"`
+
+	// URI Override Enforce Mode
+	// When specified, determines the Target UriOverride mode. If not specified, it defaults to ALWAYS.
+	// Possible values are: ALWAYS, IF_NOT_EXISTS.
+	URIOverrideEnforceMode *string `json:"uriOverrideEnforceMode,omitempty" tf:"uri_override_enforce_mode,omitempty"`
+}
+
+type URIOverrideObservation struct {
+
+	// Host override.
+	// When specified, replaces the host part of the task URL.
+	// For example, if the task URL is "https://www.google.com", and host value
+	// is set to "example.net", the overridden URI will be changed to "https://example.net".
+	// Host value cannot be an empty string (INVALID_ARGUMENT).
+	Host *string `json:"host,omitempty" tf:"host,omitempty"`
+
+	// URI path.
+	// When specified, replaces the existing path of the task URL.
+	// Setting the path value to an empty string clears the URI path segment.
+	// Structure is documented below.
+	PathOverride *PathOverrideObservation `json:"pathOverride,omitempty" tf:"path_override,omitempty"`
+
+	// Port override.
+	// When specified, replaces the port part of the task URI.
+	// For instance, for a URI http://www.google.com/foo and port=123, the overridden URI becomes http://www.google.com:123/foo.
+	// Note that the port value must be a positive integer.
+	// Setting the port to 0 (Zero) clears the URI port.
+	Port *string `json:"port,omitempty" tf:"port,omitempty"`
+
+	// URI query.
+	// When specified, replaces the query part of the task URI. Setting the query value to an empty string clears the URI query segment.
+	// Structure is documented below.
+	QueryOverride *QueryOverrideObservation `json:"queryOverride,omitempty" tf:"query_override,omitempty"`
+
+	// Scheme override.
+	// When specified, the task URI scheme is replaced by the provided value (HTTP or HTTPS).
+	// Possible values are: HTTP, HTTPS.
+	Scheme *string `json:"scheme,omitempty" tf:"scheme,omitempty"`
+
+	// URI Override Enforce Mode
+	// When specified, determines the Target UriOverride mode. If not specified, it defaults to ALWAYS.
+	// Possible values are: ALWAYS, IF_NOT_EXISTS.
+	URIOverrideEnforceMode *string `json:"uriOverrideEnforceMode,omitempty" tf:"uri_override_enforce_mode,omitempty"`
+}
+
+type URIOverrideParameters struct {
+
+	// Host override.
+	// When specified, replaces the host part of the task URL.
+	// For example, if the task URL is "https://www.google.com", and host value
+	// is set to "example.net", the overridden URI will be changed to "https://example.net".
+	// Host value cannot be an empty string (INVALID_ARGUMENT).
+	// +kubebuilder:validation:Optional
+	Host *string `json:"host,omitempty" tf:"host,omitempty"`
+
+	// URI path.
+	// When specified, replaces the existing path of the task URL.
+	// Setting the path value to an empty string clears the URI path segment.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PathOverride *PathOverrideParameters `json:"pathOverride,omitempty" tf:"path_override,omitempty"`
+
+	// Port override.
+	// When specified, replaces the port part of the task URI.
+	// For instance, for a URI http://www.google.com/foo and port=123, the overridden URI becomes http://www.google.com:123/foo.
+	// Note that the port value must be a positive integer.
+	// Setting the port to 0 (Zero) clears the URI port.
+	// +kubebuilder:validation:Optional
+	Port *string `json:"port,omitempty" tf:"port,omitempty"`
+
+	// URI query.
+	// When specified, replaces the query part of the task URI. Setting the query value to an empty string clears the URI query segment.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	QueryOverride *QueryOverrideParameters `json:"queryOverride,omitempty" tf:"query_override,omitempty"`
+
+	// Scheme override.
+	// When specified, the task URI scheme is replaced by the provided value (HTTP or HTTPS).
+	// Possible values are: HTTP, HTTPS.
+	// +kubebuilder:validation:Optional
+	Scheme *string `json:"scheme,omitempty" tf:"scheme,omitempty"`
+
+	// URI Override Enforce Mode
+	// When specified, determines the Target UriOverride mode. If not specified, it defaults to ALWAYS.
+	// Possible values are: ALWAYS, IF_NOT_EXISTS.
+	// +kubebuilder:validation:Optional
+	URIOverrideEnforceMode *string `json:"uriOverrideEnforceMode,omitempty" tf:"uri_override_enforce_mode,omitempty"`
 }
 
 // QueueSpec defines the desired state of Queue

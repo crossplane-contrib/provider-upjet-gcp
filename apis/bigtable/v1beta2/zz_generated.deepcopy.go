@@ -79,6 +79,11 @@ func (in *AppProfileInitParameters) DeepCopyInto(out *AppProfileInitParameters) 
 		*out = new(string)
 		**out = **in
 	}
+	if in.RowAffinity != nil {
+		in, out := &in.RowAffinity, &out.RowAffinity
+		*out = new(bool)
+		**out = **in
+	}
 	if in.SingleClusterRouting != nil {
 		in, out := &in.SingleClusterRouting, &out.SingleClusterRouting
 		*out = new(SingleClusterRoutingInitParameters)
@@ -187,6 +192,11 @@ func (in *AppProfileObservation) DeepCopyInto(out *AppProfileObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.RowAffinity != nil {
+		in, out := &in.RowAffinity, &out.RowAffinity
+		*out = new(bool)
+		**out = **in
+	}
 	if in.SingleClusterRouting != nil {
 		in, out := &in.SingleClusterRouting, &out.SingleClusterRouting
 		*out = new(SingleClusterRoutingObservation)
@@ -261,6 +271,11 @@ func (in *AppProfileParameters) DeepCopyInto(out *AppProfileParameters) {
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
 		*out = new(string)
+		**out = **in
+	}
+	if in.RowAffinity != nil {
+		in, out := &in.RowAffinity, &out.RowAffinity
+		*out = new(bool)
 		**out = **in
 	}
 	if in.SingleClusterRouting != nil {
@@ -443,6 +458,11 @@ func (in *ClusterInitParameters) DeepCopyInto(out *ClusterInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.NodeScalingFactor != nil {
+		in, out := &in.NodeScalingFactor, &out.NodeScalingFactor
+		*out = new(string)
+		**out = **in
+	}
 	if in.NumNodes != nil {
 		in, out := &in.NumNodes, &out.NumNodes
 		*out = new(float64)
@@ -485,6 +505,11 @@ func (in *ClusterObservation) DeepCopyInto(out *ClusterObservation) {
 	}
 	if in.KMSKeyName != nil {
 		in, out := &in.KMSKeyName, &out.KMSKeyName
+		*out = new(string)
+		**out = **in
+	}
+	if in.NodeScalingFactor != nil {
+		in, out := &in.NodeScalingFactor, &out.NodeScalingFactor
 		*out = new(string)
 		**out = **in
 	}
@@ -535,6 +560,11 @@ func (in *ClusterParameters) DeepCopyInto(out *ClusterParameters) {
 	}
 	if in.KMSKeyName != nil {
 		in, out := &in.KMSKeyName, &out.KMSKeyName
+		*out = new(string)
+		**out = **in
+	}
+	if in.NodeScalingFactor != nil {
+		in, out := &in.NodeScalingFactor, &out.NodeScalingFactor
 		*out = new(string)
 		**out = **in
 	}

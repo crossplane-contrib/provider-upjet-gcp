@@ -909,6 +909,10 @@ spec:
                             Defaults to 256M. Supported units are k, M, G, Mi, Gi. If no unit is
                             supplied the value is interpreted as bytes.
                           type: string
+                        binaryAuthorizationPolicy:
+                          description: The binary authorization policy to be checked
+                            when deploying the Cloud Run service.
+                          type: string
                         environmentVariables:
                           additionalProperties:
                             type: string
@@ -2116,6 +2120,10 @@ spec:
                             Defaults to 256M. Supported units are k, M, G, Mi, Gi. If no unit is
                             supplied the value is interpreted as bytes.
                           type: string
+                        binaryAuthorizationPolicy:
+                          description: The binary authorization policy to be checked
+                            when deploying the Cloud Run service.
+                          type: string
                         environmentVariables:
                           additionalProperties:
                             type: string
@@ -2904,6 +2912,10 @@ spec:
                             Defaults to 256M. Supported units are k, M, G, Mi, Gi. If no unit is
                             supplied the value is interpreted as bytes.
                           type: string
+                        binaryAuthorizationPolicy:
+                          description: The binary authorization policy to be checked
+                            when deploying the Cloud Run service.
+                          type: string
                         environmentVariables:
                           additionalProperties:
                             type: string
@@ -3400,7 +3412,7 @@ spec:
                                   NOT match the revision regex.
                                 type: boolean
                               projectId:
-                                description: Project identifier (preferrably project
+                                description: Project identifier (preferably project
                                   number but can also be the project ID) of the project
                                   that contains the secret. If not set, it will be
                                   populated with the function's project assuming that
@@ -3996,6 +4008,10 @@ spec:
                           Defaults to 256M. Supported units are k, M, G, Mi, Gi. If no unit is
                           supplied the value is interpreted as bytes.
                         type: string
+                      binaryAuthorizationPolicy:
+                        description: The binary authorization policy to be checked
+                          when deploying the Cloud Run service.
+                        type: string
                       environmentVariables:
                         additionalProperties:
                           type: string
@@ -4033,7 +4049,7 @@ spec:
                               description: Name of the environment variable.
                               type: string
                             projectId:
-                              description: Project identifier (preferrably project
+                              description: Project identifier (preferably project
                                 number but can also be the project ID) of the project
                                 that contains the secret. If not set, it will be populated
                                 with the function's project assuming that the secret
@@ -4142,7 +4158,7 @@ spec:
                                 any other secrets. Recommended mount path: /etc/secrets'
                               type: string
                             projectId:
-                              description: Project identifier (preferrably project
+                              description: Project identifier (preferably project
                                 number but can also be the project ID) of the project
                                 that contains the secret. If not set, it will be populated
                                 with the function's project assuming that the secret
@@ -4588,7 +4604,7 @@ spec:
                                   NOT match the revision regex.
                                 type: boolean
                               projectId:
-                                description: Project identifier (preferrably project
+                                description: Project identifier (preferably project
                                   number but can also be the project ID) of the project
                                   that contains the secret. If not set, it will be
                                   populated with the function's project assuming that
@@ -5181,6 +5197,10 @@ spec:
                           Defaults to 256M. Supported units are k, M, G, Mi, Gi. If no unit is
                           supplied the value is interpreted as bytes.
                         type: string
+                      binaryAuthorizationPolicy:
+                        description: The binary authorization policy to be checked
+                          when deploying the Cloud Run service.
+                        type: string
                       environmentVariables:
                         additionalProperties:
                           type: string
@@ -5218,7 +5238,7 @@ spec:
                               description: Name of the environment variable.
                               type: string
                             projectId:
-                              description: Project identifier (preferrably project
+                              description: Project identifier (preferably project
                                 number but can also be the project ID) of the project
                                 that contains the secret. If not set, it will be populated
                                 with the function's project assuming that the secret
@@ -5327,7 +5347,7 @@ spec:
                                 any other secrets. Recommended mount path: /etc/secrets'
                               type: string
                             projectId:
-                              description: Project identifier (preferrably project
+                              description: Project identifier (preferably project
                                 number but can also be the project ID) of the project
                                 that contains the secret. If not set, it will be populated
                                 with the function's project assuming that the secret
@@ -5790,7 +5810,7 @@ spec:
                                   NOT match the revision regex.
                                 type: boolean
                               projectId:
-                                description: Project identifier (preferrably project
+                                description: Project identifier (preferably project
                                   number but can also be the project ID) of the project
                                   that contains the secret. If not set, it will be
                                   populated with the function's project assuming that
@@ -5949,6 +5969,10 @@ spec:
                           Defaults to 256M. Supported units are k, M, G, Mi, Gi. If no unit is
                           supplied the value is interpreted as bytes.
                         type: string
+                      binaryAuthorizationPolicy:
+                        description: The binary authorization policy to be checked
+                          when deploying the Cloud Run service.
+                        type: string
                       environmentVariables:
                         additionalProperties:
                           type: string
@@ -5991,7 +6015,7 @@ spec:
                               description: Name of the environment variable.
                               type: string
                             projectId:
-                              description: Project identifier (preferrably project
+                              description: Project identifier (preferably project
                                 number but can also be the project ID) of the project
                                 that contains the secret. If not set, it will be populated
                                 with the function's project assuming that the secret
@@ -6024,7 +6048,7 @@ spec:
                                 any other secrets. Recommended mount path: /etc/secrets'
                               type: string
                             projectId:
-                              description: Project identifier (preferrably project
+                              description: Project identifier (preferably project
                                 number but can also be the project ID) of the project
                                 that contains the secret. If not set, it will be populated
                                 with the function's project assuming that the secret

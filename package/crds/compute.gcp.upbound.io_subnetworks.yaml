@@ -80,6 +80,13 @@ spec:
                       you create the resource. This field can be set only at resource
                       creation time.
                     type: string
+                  enableFlowLogs:
+                    description: |-
+                      Whether to enable flow logging for this subnetwork. If this field is not explicitly set,
+                      it will not appear in get listings. If not set the default behavior is determined by the
+                      org policy, if there is no org policy specified, then it will default to disabled.
+                      This field isn't supported if the subnet purpose field is set to REGIONAL_MANAGED_PROXY.
+                    type: boolean
                   externalIpv6Prefix:
                     description: The range of external IPv6 addresses that are owned
                       by this subnetwork.
@@ -90,6 +97,14 @@ spec:
                       Provide this property when you create the subnetwork. For example,
                       10.0.0.0/8 or 192.168.0.0/16. Ranges must be unique and
                       non-overlapping within a network. Only IPv4 is supported.
+                    type: string
+                  ipCollection:
+                    description: |-
+                      Resource reference of a PublicDelegatedPrefix. The PDP must be a sub-PDP
+                      in EXTERNAL_IPV6_SUBNETWORK_CREATION mode.
+                      Use one of the following formats to specify a sub-PDP when creating an
+                      IPv6 NetLB forwarding rule using BYOIP:
+                      Full resource URL, as in:
                     type: string
                   ipv6AccessType:
                     description: |-
@@ -254,6 +269,11 @@ spec:
                   region:
                     description: The GCP region for this subnetwork.
                     type: string
+                  reservedInternalRange:
+                    description: |-
+                      The ID of the reserved internal range. Must be prefixed with networkconnectivity.googleapis.com
+                      E.g. networkconnectivity.googleapis.com/projects/{project}/locations/global/internalRanges/{rangeId}
+                    type: string
                   role:
                     description: |-
                       The role of subnetwork.
@@ -283,6 +303,7 @@ spec:
                             range. Provide this property when you create the subnetwork.
                             Ranges must be unique and non-overlapping with all primary and
                             secondary IP ranges within a network. Only IPv4 is supported.
+                            Field is optional when reserved_internal_range is defined, otherwise required.
                           type: string
                         rangeName:
                           description: |-
@@ -290,6 +311,11 @@ spec:
                             when adding an alias IP range to a VM instance. The name must
                             be 1-63 characters long, and comply with RFC1035. The name
                             must be unique within the subnetwork.
+                          type: string
+                        reservedInternalRange:
+                          description: |-
+                            The ID of the reserved internal range. Must be prefixed with networkconnectivity.googleapis.com
+                            E.g. networkconnectivity.googleapis.com/projects/{project}/locations/global/internalRanges/{rangeId}
                           type: string
                       type: object
                     type: array
@@ -330,6 +356,13 @@ spec:
                       you create the resource. This field can be set only at resource
                       creation time.
                     type: string
+                  enableFlowLogs:
+                    description: |-
+                      Whether to enable flow logging for this subnetwork. If this field is not explicitly set,
+                      it will not appear in get listings. If not set the default behavior is determined by the
+                      org policy, if there is no org policy specified, then it will default to disabled.
+                      This field isn't supported if the subnet purpose field is set to REGIONAL_MANAGED_PROXY.
+                    type: boolean
                   externalIpv6Prefix:
                     description: The range of external IPv6 addresses that are owned
                       by this subnetwork.
@@ -340,6 +373,14 @@ spec:
                       Provide this property when you create the subnetwork. For example,
                       10.0.0.0/8 or 192.168.0.0/16. Ranges must be unique and
                       non-overlapping within a network. Only IPv4 is supported.
+                    type: string
+                  ipCollection:
+                    description: |-
+                      Resource reference of a PublicDelegatedPrefix. The PDP must be a sub-PDP
+                      in EXTERNAL_IPV6_SUBNETWORK_CREATION mode.
+                      Use one of the following formats to specify a sub-PDP when creating an
+                      IPv6 NetLB forwarding rule using BYOIP:
+                      Full resource URL, as in:
                     type: string
                   ipv6AccessType:
                     description: |-
@@ -501,6 +542,11 @@ spec:
                       Note that REGIONAL_MANAGED_PROXY is the preferred setting for all regional Envoy load balancers.
                       If unspecified, the purpose defaults to PRIVATE_RFC_1918.
                     type: string
+                  reservedInternalRange:
+                    description: |-
+                      The ID of the reserved internal range. Must be prefixed with networkconnectivity.googleapis.com
+                      E.g. networkconnectivity.googleapis.com/projects/{project}/locations/global/internalRanges/{rangeId}
+                    type: string
                   role:
                     description: |-
                       The role of subnetwork.
@@ -530,6 +576,7 @@ spec:
                             range. Provide this property when you create the subnetwork.
                             Ranges must be unique and non-overlapping with all primary and
                             secondary IP ranges within a network. Only IPv4 is supported.
+                            Field is optional when reserved_internal_range is defined, otherwise required.
                           type: string
                         rangeName:
                           description: |-
@@ -537,6 +584,11 @@ spec:
                             when adding an alias IP range to a VM instance. The name must
                             be 1-63 characters long, and comply with RFC1035. The name
                             must be unique within the subnetwork.
+                          type: string
+                        reservedInternalRange:
+                          description: |-
+                            The ID of the reserved internal range. Must be prefixed with networkconnectivity.googleapis.com
+                            E.g. networkconnectivity.googleapis.com/projects/{project}/locations/global/internalRanges/{rangeId}
                           type: string
                       type: object
                     type: array
@@ -742,6 +794,13 @@ spec:
                       you create the resource. This field can be set only at resource
                       creation time.
                     type: string
+                  enableFlowLogs:
+                    description: |-
+                      Whether to enable flow logging for this subnetwork. If this field is not explicitly set,
+                      it will not appear in get listings. If not set the default behavior is determined by the
+                      org policy, if there is no org policy specified, then it will default to disabled.
+                      This field isn't supported if the subnet purpose field is set to REGIONAL_MANAGED_PROXY.
+                    type: boolean
                   externalIpv6Prefix:
                     description: The range of external IPv6 addresses that are owned
                       by this subnetwork.
@@ -767,6 +826,14 @@ spec:
                       10.0.0.0/8 or 192.168.0.0/16. Ranges must be unique and
                       non-overlapping within a network. Only IPv4 is supported.
                     type: string
+                  ipCollection:
+                    description: |-
+                      Resource reference of a PublicDelegatedPrefix. The PDP must be a sub-PDP
+                      in EXTERNAL_IPV6_SUBNETWORK_CREATION mode.
+                      Use one of the following formats to specify a sub-PDP when creating an
+                      IPv6 NetLB forwarding rule using BYOIP:
+                      Full resource URL, as in:
+                    type: string
                   ipv6AccessType:
                     description: |-
                       The access type of IPv6 address this subnet holds. It's immutable and can only be specified during creation
@@ -777,6 +844,10 @@ spec:
                   ipv6CidrRange:
                     description: The range of internal IPv6 addresses that are owned
                       by this subnetwork.
+                    type: string
+                  ipv6GceEndpoint:
+                    description: 'Possible endpoints of this subnetwork. It can be
+                      one of the following:'
                     type: string
                   logConfig:
                     description: |-
@@ -860,6 +931,11 @@ spec:
                   region:
                     description: The GCP region for this subnetwork.
                     type: string
+                  reservedInternalRange:
+                    description: |-
+                      The ID of the reserved internal range. Must be prefixed with networkconnectivity.googleapis.com
+                      E.g. networkconnectivity.googleapis.com/projects/{project}/locations/global/internalRanges/{rangeId}
+                    type: string
                   role:
                     description: |-
                       The role of subnetwork.
@@ -889,6 +965,7 @@ spec:
                             range. Provide this property when you create the subnetwork.
                             Ranges must be unique and non-overlapping with all primary and
                             secondary IP ranges within a network. Only IPv4 is supported.
+                            Field is optional when reserved_internal_range is defined, otherwise required.
                           type: string
                         rangeName:
                           description: |-
@@ -896,6 +973,11 @@ spec:
                             when adding an alias IP range to a VM instance. The name must
                             be 1-63 characters long, and comply with RFC1035. The name
                             must be unique within the subnetwork.
+                          type: string
+                        reservedInternalRange:
+                          description: |-
+                            The ID of the reserved internal range. Must be prefixed with networkconnectivity.googleapis.com
+                            E.g. networkconnectivity.googleapis.com/projects/{project}/locations/global/internalRanges/{rangeId}
                           type: string
                       type: object
                     type: array
@@ -917,6 +999,17 @@ spec:
                       If not specified IPV4_ONLY will be used.
                       Possible values are: IPV4_ONLY, IPV4_IPV6.
                     type: string
+                  state:
+                    description: |-
+                      'The state of the subnetwork, which can be one of the following values:
+                      READY: Subnetwork is created and ready to use DRAINING: only applicable to subnetworks that have the purpose
+                      set to INTERNAL_HTTPS_LOAD_BALANCER and indicates that connections to the load balancer are being drained.
+                      A subnetwork that is draining cannot be used or modified until it reaches a status of READY'
+                    type: string
+                  subnetworkId:
+                    description: The unique identifier number for the resource. This
+                      identifier is defined by the server.
+                    type: number
                 type: object
               conditions:
                 description: Conditions of the resource.
@@ -1041,6 +1134,13 @@ spec:
                       you create the resource. This field can be set only at resource
                       creation time.
                     type: string
+                  enableFlowLogs:
+                    description: |-
+                      Whether to enable flow logging for this subnetwork. If this field is not explicitly set,
+                      it will not appear in get listings. If not set the default behavior is determined by the
+                      org policy, if there is no org policy specified, then it will default to disabled.
+                      This field isn't supported if the subnet purpose field is set to REGIONAL_MANAGED_PROXY.
+                    type: boolean
                   externalIpv6Prefix:
                     description: The range of external IPv6 addresses that are owned
                       by this subnetwork.
@@ -1051,6 +1151,15 @@ spec:
                       Provide this property when you create the subnetwork. For example,
                       10.0.0.0/8 or 192.168.0.0/16. Ranges must be unique and
                       non-overlapping within a network. Only IPv4 is supported.
+                      Field is optional when reserved_internal_range is defined, otherwise required.
+                    type: string
+                  ipCollection:
+                    description: |-
+                      Resource reference of a PublicDelegatedPrefix. The PDP must be a sub-PDP
+                      in EXTERNAL_IPV6_SUBNETWORK_CREATION mode.
+                      Use one of the following formats to specify a sub-PDP when creating an
+                      IPv6 NetLB forwarding rule using BYOIP:
+                      Full resource URL, as in:
                     type: string
                   ipv6AccessType:
                     description: |-
@@ -1202,16 +1311,22 @@ spec:
                     type: string
                   purpose:
                     description: |-
-                      The purpose of the resource. This field can be either PRIVATE_RFC_1918, REGIONAL_MANAGED_PROXY, GLOBAL_MANAGED_PROXY, PRIVATE_SERVICE_CONNECT or PRIVATE_NAT(Beta).
+                      The purpose of the resource. This field can be either PRIVATE, REGIONAL_MANAGED_PROXY, GLOBAL_MANAGED_PROXY, PRIVATE_SERVICE_CONNECT, PEER_MIGRATION or PRIVATE_NAT(Beta).
                       A subnet with purpose set to REGIONAL_MANAGED_PROXY is a user-created subnetwork that is reserved for regional Envoy-based load balancers.
                       A subnetwork in a given region with purpose set to GLOBAL_MANAGED_PROXY is a proxy-only subnet and is shared between all the cross-regional Envoy-based load balancers.
                       A subnetwork with purpose set to PRIVATE_SERVICE_CONNECT reserves the subnet for hosting a Private Service Connect published service.
+                      A subnetwork with purpose set to PEER_MIGRATION is a user created subnetwork that is reserved for migrating resources from one peered network to another.
                       A subnetwork with purpose set to PRIVATE_NAT is used as source range for Private NAT gateways.
                       Note that REGIONAL_MANAGED_PROXY is the preferred setting for all regional Envoy load balancers.
-                      If unspecified, the purpose defaults to PRIVATE_RFC_1918.
+                      If unspecified, the purpose defaults to PRIVATE.
                     type: string
                   region:
                     description: The GCP region for this subnetwork.
+                    type: string
+                  reservedInternalRange:
+                    description: |-
+                      The ID of the reserved internal range. Must be prefixed with networkconnectivity.googleapis.com
+                      E.g. networkconnectivity.googleapis.com/projects/{project}/locations/global/internalRanges/{rangeId}
                     type: string
                   role:
                     description: |-
@@ -1240,6 +1355,7 @@ spec:
                             range. Provide this property when you create the subnetwork.
                             Ranges must be unique and non-overlapping with all primary and
                             secondary IP ranges within a network. Only IPv4 is supported.
+                            Field is optional when reserved_internal_range is defined, otherwise required.
                           type: string
                         rangeName:
                           description: |-
@@ -1247,6 +1363,11 @@ spec:
                             when adding an alias IP range to a VM instance. The name must
                             be 1-63 characters long, and comply with RFC1035. The name
                             must be unique within the subnetwork.
+                          type: string
+                        reservedInternalRange:
+                          description: |-
+                            The ID of the reserved internal range. Must be prefixed with networkconnectivity.googleapis.com
+                            E.g. networkconnectivity.googleapis.com/projects/{project}/locations/global/internalRanges/{rangeId}
                           type: string
                       type: object
                     type: array
@@ -1263,7 +1384,7 @@ spec:
                     description: |-
                       The stack type for this subnet to identify whether the IPv6 feature is enabled or not.
                       If not specified IPV4_ONLY will be used.
-                      Possible values are: IPV4_ONLY, IPV4_IPV6.
+                      Possible values are: IPV4_ONLY, IPV4_IPV6, IPV6_ONLY.
                     type: string
                 required:
                 - region
@@ -1287,6 +1408,13 @@ spec:
                       you create the resource. This field can be set only at resource
                       creation time.
                     type: string
+                  enableFlowLogs:
+                    description: |-
+                      Whether to enable flow logging for this subnetwork. If this field is not explicitly set,
+                      it will not appear in get listings. If not set the default behavior is determined by the
+                      org policy, if there is no org policy specified, then it will default to disabled.
+                      This field isn't supported if the subnet purpose field is set to REGIONAL_MANAGED_PROXY.
+                    type: boolean
                   externalIpv6Prefix:
                     description: The range of external IPv6 addresses that are owned
                       by this subnetwork.
@@ -1297,6 +1425,15 @@ spec:
                       Provide this property when you create the subnetwork. For example,
                       10.0.0.0/8 or 192.168.0.0/16. Ranges must be unique and
                       non-overlapping within a network. Only IPv4 is supported.
+                      Field is optional when reserved_internal_range is defined, otherwise required.
+                    type: string
+                  ipCollection:
+                    description: |-
+                      Resource reference of a PublicDelegatedPrefix. The PDP must be a sub-PDP
+                      in EXTERNAL_IPV6_SUBNETWORK_CREATION mode.
+                      Use one of the following formats to specify a sub-PDP when creating an
+                      IPv6 NetLB forwarding rule using BYOIP:
+                      Full resource URL, as in:
                     type: string
                   ipv6AccessType:
                     description: |-
@@ -1448,13 +1585,19 @@ spec:
                     type: string
                   purpose:
                     description: |-
-                      The purpose of the resource. This field can be either PRIVATE_RFC_1918, REGIONAL_MANAGED_PROXY, GLOBAL_MANAGED_PROXY, PRIVATE_SERVICE_CONNECT or PRIVATE_NAT(Beta).
+                      The purpose of the resource. This field can be either PRIVATE, REGIONAL_MANAGED_PROXY, GLOBAL_MANAGED_PROXY, PRIVATE_SERVICE_CONNECT, PEER_MIGRATION or PRIVATE_NAT(Beta).
                       A subnet with purpose set to REGIONAL_MANAGED_PROXY is a user-created subnetwork that is reserved for regional Envoy-based load balancers.
                       A subnetwork in a given region with purpose set to GLOBAL_MANAGED_PROXY is a proxy-only subnet and is shared between all the cross-regional Envoy-based load balancers.
                       A subnetwork with purpose set to PRIVATE_SERVICE_CONNECT reserves the subnet for hosting a Private Service Connect published service.
+                      A subnetwork with purpose set to PEER_MIGRATION is a user created subnetwork that is reserved for migrating resources from one peered network to another.
                       A subnetwork with purpose set to PRIVATE_NAT is used as source range for Private NAT gateways.
                       Note that REGIONAL_MANAGED_PROXY is the preferred setting for all regional Envoy load balancers.
-                      If unspecified, the purpose defaults to PRIVATE_RFC_1918.
+                      If unspecified, the purpose defaults to PRIVATE.
+                    type: string
+                  reservedInternalRange:
+                    description: |-
+                      The ID of the reserved internal range. Must be prefixed with networkconnectivity.googleapis.com
+                      E.g. networkconnectivity.googleapis.com/projects/{project}/locations/global/internalRanges/{rangeId}
                     type: string
                   role:
                     description: |-
@@ -1483,6 +1626,7 @@ spec:
                             range. Provide this property when you create the subnetwork.
                             Ranges must be unique and non-overlapping with all primary and
                             secondary IP ranges within a network. Only IPv4 is supported.
+                            Field is optional when reserved_internal_range is defined, otherwise required.
                           type: string
                         rangeName:
                           description: |-
@@ -1490,6 +1634,11 @@ spec:
                             when adding an alias IP range to a VM instance. The name must
                             be 1-63 characters long, and comply with RFC1035. The name
                             must be unique within the subnetwork.
+                          type: string
+                        reservedInternalRange:
+                          description: |-
+                            The ID of the reserved internal range. Must be prefixed with networkconnectivity.googleapis.com
+                            E.g. networkconnectivity.googleapis.com/projects/{project}/locations/global/internalRanges/{rangeId}
                           type: string
                       type: object
                     type: array
@@ -1506,7 +1655,7 @@ spec:
                     description: |-
                       The stack type for this subnet to identify whether the IPv6 feature is enabled or not.
                       If not specified IPV4_ONLY will be used.
-                      Possible values are: IPV4_ONLY, IPV4_IPV6.
+                      Possible values are: IPV4_ONLY, IPV4_IPV6, IPV6_ONLY.
                     type: string
                 type: object
               managementPolicies:
@@ -1676,11 +1825,6 @@ spec:
             required:
             - forProvider
             type: object
-            x-kubernetes-validations:
-            - message: spec.forProvider.ipCidrRange is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.ipCidrRange)
-                || (has(self.initProvider) && has(self.initProvider.ipCidrRange))'
           status:
             description: SubnetworkStatus defines the observed state of Subnetwork.
             properties:
@@ -1695,6 +1839,13 @@ spec:
                       you create the resource. This field can be set only at resource
                       creation time.
                     type: string
+                  enableFlowLogs:
+                    description: |-
+                      Whether to enable flow logging for this subnetwork. If this field is not explicitly set,
+                      it will not appear in get listings. If not set the default behavior is determined by the
+                      org policy, if there is no org policy specified, then it will default to disabled.
+                      This field isn't supported if the subnet purpose field is set to REGIONAL_MANAGED_PROXY.
+                    type: boolean
                   externalIpv6Prefix:
                     description: The range of external IPv6 addresses that are owned
                       by this subnetwork.
@@ -1719,6 +1870,15 @@ spec:
                       Provide this property when you create the subnetwork. For example,
                       10.0.0.0/8 or 192.168.0.0/16. Ranges must be unique and
                       non-overlapping within a network. Only IPv4 is supported.
+                      Field is optional when reserved_internal_range is defined, otherwise required.
+                    type: string
+                  ipCollection:
+                    description: |-
+                      Resource reference of a PublicDelegatedPrefix. The PDP must be a sub-PDP
+                      in EXTERNAL_IPV6_SUBNETWORK_CREATION mode.
+                      Use one of the following formats to specify a sub-PDP when creating an
+                      IPv6 NetLB forwarding rule using BYOIP:
+                      Full resource URL, as in:
                     type: string
                   ipv6AccessType:
                     description: |-
@@ -1730,6 +1890,10 @@ spec:
                   ipv6CidrRange:
                     description: The range of internal IPv6 addresses that are owned
                       by this subnetwork.
+                    type: string
+                  ipv6GceEndpoint:
+                    description: 'Possible endpoints of this subnetwork. It can be
+                      one of the following:'
                     type: string
                   logConfig:
                     description: |-
@@ -1800,16 +1964,22 @@ spec:
                     type: string
                   purpose:
                     description: |-
-                      The purpose of the resource. This field can be either PRIVATE_RFC_1918, REGIONAL_MANAGED_PROXY, GLOBAL_MANAGED_PROXY, PRIVATE_SERVICE_CONNECT or PRIVATE_NAT(Beta).
+                      The purpose of the resource. This field can be either PRIVATE, REGIONAL_MANAGED_PROXY, GLOBAL_MANAGED_PROXY, PRIVATE_SERVICE_CONNECT, PEER_MIGRATION or PRIVATE_NAT(Beta).
                       A subnet with purpose set to REGIONAL_MANAGED_PROXY is a user-created subnetwork that is reserved for regional Envoy-based load balancers.
                       A subnetwork in a given region with purpose set to GLOBAL_MANAGED_PROXY is a proxy-only subnet and is shared between all the cross-regional Envoy-based load balancers.
                       A subnetwork with purpose set to PRIVATE_SERVICE_CONNECT reserves the subnet for hosting a Private Service Connect published service.
+                      A subnetwork with purpose set to PEER_MIGRATION is a user created subnetwork that is reserved for migrating resources from one peered network to another.
                       A subnetwork with purpose set to PRIVATE_NAT is used as source range for Private NAT gateways.
                       Note that REGIONAL_MANAGED_PROXY is the preferred setting for all regional Envoy load balancers.
-                      If unspecified, the purpose defaults to PRIVATE_RFC_1918.
+                      If unspecified, the purpose defaults to PRIVATE.
                     type: string
                   region:
                     description: The GCP region for this subnetwork.
+                    type: string
+                  reservedInternalRange:
+                    description: |-
+                      The ID of the reserved internal range. Must be prefixed with networkconnectivity.googleapis.com
+                      E.g. networkconnectivity.googleapis.com/projects/{project}/locations/global/internalRanges/{rangeId}
                     type: string
                   role:
                     description: |-
@@ -1838,6 +2008,7 @@ spec:
                             range. Provide this property when you create the subnetwork.
                             Ranges must be unique and non-overlapping with all primary and
                             secondary IP ranges within a network. Only IPv4 is supported.
+                            Field is optional when reserved_internal_range is defined, otherwise required.
                           type: string
                         rangeName:
                           description: |-
@@ -1845,6 +2016,11 @@ spec:
                             when adding an alias IP range to a VM instance. The name must
                             be 1-63 characters long, and comply with RFC1035. The name
                             must be unique within the subnetwork.
+                          type: string
+                        reservedInternalRange:
+                          description: |-
+                            The ID of the reserved internal range. Must be prefixed with networkconnectivity.googleapis.com
+                            E.g. networkconnectivity.googleapis.com/projects/{project}/locations/global/internalRanges/{rangeId}
                           type: string
                       type: object
                     type: array
@@ -1864,8 +2040,19 @@ spec:
                     description: |-
                       The stack type for this subnet to identify whether the IPv6 feature is enabled or not.
                       If not specified IPV4_ONLY will be used.
-                      Possible values are: IPV4_ONLY, IPV4_IPV6.
+                      Possible values are: IPV4_ONLY, IPV4_IPV6, IPV6_ONLY.
                     type: string
+                  state:
+                    description: |-
+                      'The state of the subnetwork, which can be one of the following values:
+                      READY: Subnetwork is created and ready to use DRAINING: only applicable to subnetworks that have the purpose
+                      set to INTERNAL_HTTPS_LOAD_BALANCER and indicates that connections to the load balancer are being drained.
+                      A subnetwork that is draining cannot be used or modified until it reaches a status of READY'
+                    type: string
+                  subnetworkId:
+                    description: The unique identifier number for the resource. This
+                      identifier is defined by the server.
+                    type: number
                 type: object
               conditions:
                 description: Conditions of the resource.

@@ -87,6 +87,11 @@ func (in *GatewayInitParameters) DeepCopyInto(out *GatewayInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.EnvoyHeaders != nil {
+		in, out := &in.EnvoyHeaders, &out.EnvoyHeaders
+		*out = new(string)
+		**out = **in
+	}
 	if in.GatewaySecurityPolicy != nil {
 		in, out := &in.GatewaySecurityPolicy, &out.GatewaySecurityPolicy
 		*out = new(string)
@@ -101,6 +106,11 @@ func (in *GatewayInitParameters) DeepCopyInto(out *GatewayInitParameters) {
 		in, out := &in.GatewaySecurityPolicySelector, &out.GatewaySecurityPolicySelector
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.IPVersion != nil {
+		in, out := &in.IPVersion, &out.IPVersion
+		*out = new(string)
+		**out = **in
 	}
 	if in.Labels != nil {
 		in, out := &in.Labels, &out.Labels
@@ -146,6 +156,11 @@ func (in *GatewayInitParameters) DeepCopyInto(out *GatewayInitParameters) {
 	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
+		*out = new(string)
+		**out = **in
+	}
+	if in.RoutingMode != nil {
+		in, out := &in.RoutingMode, &out.RoutingMode
 		*out = new(string)
 		**out = **in
 	}
@@ -279,6 +294,11 @@ func (in *GatewayObservation) DeepCopyInto(out *GatewayObservation) {
 			(*out)[key] = outVal
 		}
 	}
+	if in.EnvoyHeaders != nil {
+		in, out := &in.EnvoyHeaders, &out.EnvoyHeaders
+		*out = new(string)
+		**out = **in
+	}
 	if in.GatewaySecurityPolicy != nil {
 		in, out := &in.GatewaySecurityPolicy, &out.GatewaySecurityPolicy
 		*out = new(string)
@@ -286,6 +306,11 @@ func (in *GatewayObservation) DeepCopyInto(out *GatewayObservation) {
 	}
 	if in.ID != nil {
 		in, out := &in.ID, &out.ID
+		*out = new(string)
+		**out = **in
+	}
+	if in.IPVersion != nil {
+		in, out := &in.IPVersion, &out.IPVersion
 		*out = new(string)
 		**out = **in
 	}
@@ -328,6 +353,11 @@ func (in *GatewayObservation) DeepCopyInto(out *GatewayObservation) {
 	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
+		*out = new(string)
+		**out = **in
+	}
+	if in.RoutingMode != nil {
+		in, out := &in.RoutingMode, &out.RoutingMode
 		*out = new(string)
 		**out = **in
 	}
@@ -436,6 +466,11 @@ func (in *GatewayParameters) DeepCopyInto(out *GatewayParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.EnvoyHeaders != nil {
+		in, out := &in.EnvoyHeaders, &out.EnvoyHeaders
+		*out = new(string)
+		**out = **in
+	}
 	if in.GatewaySecurityPolicy != nil {
 		in, out := &in.GatewaySecurityPolicy, &out.GatewaySecurityPolicy
 		*out = new(string)
@@ -450,6 +485,11 @@ func (in *GatewayParameters) DeepCopyInto(out *GatewayParameters) {
 		in, out := &in.GatewaySecurityPolicySelector, &out.GatewaySecurityPolicySelector
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.IPVersion != nil {
+		in, out := &in.IPVersion, &out.IPVersion
+		*out = new(string)
+		**out = **in
 	}
 	if in.Labels != nil {
 		in, out := &in.Labels, &out.Labels
@@ -500,6 +540,11 @@ func (in *GatewayParameters) DeepCopyInto(out *GatewayParameters) {
 	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
+		*out = new(string)
+		**out = **in
+	}
+	if in.RoutingMode != nil {
+		in, out := &in.RoutingMode, &out.RoutingMode
 		*out = new(string)
 		**out = **in
 	}

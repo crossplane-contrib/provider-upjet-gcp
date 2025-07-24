@@ -74,6 +74,8 @@ spec:
               forProvider:
                 properties:
                   datasetId:
+                    description: Used to find the parent resource to bind the IAM
+                      policy to
                     type: string
                   datasetIdRef:
                     description: Reference to a Dataset in bigquery to populate datasetId.
@@ -160,6 +162,8 @@ spec:
                       If it is not provided, the project will be parsed from the identifier of the parent resource. If no project is provided in the parent identifier and no project is specified, the provider project is used.
                     type: string
                   tableId:
+                    description: Used to find the parent resource to bind the IAM
+                      policy to
                     type: string
                   tableIdRef:
                     description: Reference to a Table in bigquery to populate tableId.
@@ -250,6 +254,8 @@ spec:
                   autoscaler.
                 properties:
                   datasetId:
+                    description: Used to find the parent resource to bind the IAM
+                      policy to
                     type: string
                   datasetIdRef:
                     description: Reference to a Dataset in bigquery to populate datasetId.
@@ -336,6 +342,8 @@ spec:
                       If it is not provided, the project will be parsed from the identifier of the parent resource. If no project is provided in the parent identifier and no project is specified, the provider project is used.
                     type: string
                   tableId:
+                    description: Used to find the parent resource to bind the IAM
+                      policy to
                     type: string
                   tableIdRef:
                     description: Reference to a Table in bigquery to populate tableId.
@@ -590,6 +598,8 @@ spec:
               atProvider:
                 properties:
                   datasetId:
+                    description: Used to find the parent resource to bind the IAM
+                      policy to
                     type: string
                   etag:
                     description: (Computed) The etag of the IAM policy.
@@ -607,6 +617,8 @@ spec:
                       If it is not provided, the project will be parsed from the identifier of the parent resource. If no project is provided in the parent identifier and no project is specified, the provider project is used.
                     type: string
                   tableId:
+                    description: Used to find the parent resource to bind the IAM
+                      policy to
                     type: string
                 type: object
               conditions:

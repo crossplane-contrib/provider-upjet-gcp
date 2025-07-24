@@ -21,6 +21,19 @@ type GatewaySecurityPolicyInitParameters struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Name of a TlsInspectionPolicy resource that defines how TLS inspection is performed for any rule that enables it.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/networksecurity/v1beta1.TLSInspectionPolicy
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	TLSInspectionPolicy *string `json:"tlsInspectionPolicy,omitempty" tf:"tls_inspection_policy,omitempty"`
+
+	// Reference to a TLSInspectionPolicy in networksecurity to populate tlsInspectionPolicy.
+	// +kubebuilder:validation:Optional
+	TLSInspectionPolicyRef *v1.Reference `json:"tlsInspectionPolicyRef,omitempty" tf:"-"`
+
+	// Selector for a TLSInspectionPolicy in networksecurity to populate tlsInspectionPolicy.
+	// +kubebuilder:validation:Optional
+	TLSInspectionPolicySelector *v1.Selector `json:"tlsInspectionPolicySelector,omitempty" tf:"-"`
 }
 
 type GatewaySecurityPolicyObservation struct {
@@ -47,6 +60,9 @@ type GatewaySecurityPolicyObservation struct {
 	// Server-defined URL of this resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
+	// Name of a TlsInspectionPolicy resource that defines how TLS inspection is performed for any rule that enables it.
+	TLSInspectionPolicy *string `json:"tlsInspectionPolicy,omitempty" tf:"tls_inspection_policy,omitempty"`
+
 	// The timestamp when the resource was updated.
 	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits.
 	// Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
@@ -68,6 +84,20 @@ type GatewaySecurityPolicyParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Name of a TlsInspectionPolicy resource that defines how TLS inspection is performed for any rule that enables it.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/networksecurity/v1beta1.TLSInspectionPolicy
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	TLSInspectionPolicy *string `json:"tlsInspectionPolicy,omitempty" tf:"tls_inspection_policy,omitempty"`
+
+	// Reference to a TLSInspectionPolicy in networksecurity to populate tlsInspectionPolicy.
+	// +kubebuilder:validation:Optional
+	TLSInspectionPolicyRef *v1.Reference `json:"tlsInspectionPolicyRef,omitempty" tf:"-"`
+
+	// Selector for a TLSInspectionPolicy in networksecurity to populate tlsInspectionPolicy.
+	// +kubebuilder:validation:Optional
+	TLSInspectionPolicySelector *v1.Selector `json:"tlsInspectionPolicySelector,omitempty" tf:"-"`
 }
 
 // GatewaySecurityPolicySpec defines the desired state of GatewaySecurityPolicy

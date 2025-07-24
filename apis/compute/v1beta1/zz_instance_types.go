@@ -63,8 +63,17 @@ type AdvancedMachineFeaturesInitParameters struct {
 	// Defines whether the instance should have nested virtualization  enabled. Defaults to false.
 	EnableNestedVirtualization *bool `json:"enableNestedVirtualization,omitempty" tf:"enable_nested_virtualization,omitempty"`
 
-	// he number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1.
+	// Whether to enable UEFI networking for instance creation.
+	EnableUefiNetworking *bool `json:"enableUefiNetworking,omitempty" tf:"enable_uefi_networking,omitempty"`
+
+	// The PMU is a hardware component within the CPU core that monitors how the processor runs code. Valid values for the level of PMU are STANDARD, ENHANCED, and ARCHITECTURAL.
+	PerformanceMonitoringUnit *string `json:"performanceMonitoringUnit,omitempty" tf:"performance_monitoring_unit,omitempty"`
+
+	// The number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1.
 	ThreadsPerCore *float64 `json:"threadsPerCore,omitempty" tf:"threads_per_core,omitempty"`
+
+	// Turbo frequency mode to use for the instance. Supported modes are currently either ALL_CORE_MAX or unset (default).
+	TurboMode *string `json:"turboMode,omitempty" tf:"turbo_mode,omitempty"`
 
 	// The number of physical cores to expose to an instance. visible cores info (VC).
 	VisibleCoreCount *float64 `json:"visibleCoreCount,omitempty" tf:"visible_core_count,omitempty"`
@@ -75,8 +84,17 @@ type AdvancedMachineFeaturesObservation struct {
 	// Defines whether the instance should have nested virtualization  enabled. Defaults to false.
 	EnableNestedVirtualization *bool `json:"enableNestedVirtualization,omitempty" tf:"enable_nested_virtualization,omitempty"`
 
-	// he number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1.
+	// Whether to enable UEFI networking for instance creation.
+	EnableUefiNetworking *bool `json:"enableUefiNetworking,omitempty" tf:"enable_uefi_networking,omitempty"`
+
+	// The PMU is a hardware component within the CPU core that monitors how the processor runs code. Valid values for the level of PMU are STANDARD, ENHANCED, and ARCHITECTURAL.
+	PerformanceMonitoringUnit *string `json:"performanceMonitoringUnit,omitempty" tf:"performance_monitoring_unit,omitempty"`
+
+	// The number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1.
 	ThreadsPerCore *float64 `json:"threadsPerCore,omitempty" tf:"threads_per_core,omitempty"`
+
+	// Turbo frequency mode to use for the instance. Supported modes are currently either ALL_CORE_MAX or unset (default).
+	TurboMode *string `json:"turboMode,omitempty" tf:"turbo_mode,omitempty"`
 
 	// The number of physical cores to expose to an instance. visible cores info (VC).
 	VisibleCoreCount *float64 `json:"visibleCoreCount,omitempty" tf:"visible_core_count,omitempty"`
@@ -88,9 +106,21 @@ type AdvancedMachineFeaturesParameters struct {
 	// +kubebuilder:validation:Optional
 	EnableNestedVirtualization *bool `json:"enableNestedVirtualization,omitempty" tf:"enable_nested_virtualization,omitempty"`
 
-	// he number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1.
+	// Whether to enable UEFI networking for instance creation.
+	// +kubebuilder:validation:Optional
+	EnableUefiNetworking *bool `json:"enableUefiNetworking,omitempty" tf:"enable_uefi_networking,omitempty"`
+
+	// The PMU is a hardware component within the CPU core that monitors how the processor runs code. Valid values for the level of PMU are STANDARD, ENHANCED, and ARCHITECTURAL.
+	// +kubebuilder:validation:Optional
+	PerformanceMonitoringUnit *string `json:"performanceMonitoringUnit,omitempty" tf:"performance_monitoring_unit,omitempty"`
+
+	// The number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1.
 	// +kubebuilder:validation:Optional
 	ThreadsPerCore *float64 `json:"threadsPerCore,omitempty" tf:"threads_per_core,omitempty"`
+
+	// Turbo frequency mode to use for the instance. Supported modes are currently either ALL_CORE_MAX or unset (default).
+	// +kubebuilder:validation:Optional
+	TurboMode *string `json:"turboMode,omitempty" tf:"turbo_mode,omitempty"`
 
 	// The number of physical cores to expose to an instance. visible cores info (VC).
 	// +kubebuilder:validation:Optional
@@ -141,6 +171,130 @@ type AliasIPRangeParameters struct {
 	SubnetworkRangeName *string `json:"subnetworkRangeName,omitempty" tf:"subnetwork_range_name,omitempty"`
 }
 
+type InstanceAttachedDiskInitParameters struct {
+
+	// Name with which the attached disk will be accessible
+	// under /dev/disk/by-id/google-*
+	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
+
+	// A 256-bit [customer-supplied encryption key]
+	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption),
+	// encoded in RFC 4648 base64
+	// to encrypt this disk. Only one of kms_key_self_link, disk_encryption_key_rsa and disk_encryption_key_raw
+	// may be set.
+	DiskEncryptionKeyRawSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
+
+	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit [customer-supplied encryption key]
+	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) to encrypt this disk. Only one of kms_key_self_link, disk_encryption_key_rsa and disk_encryption_key_raw
+	// may be set.
+	DiskEncryptionKeyRsaSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRsaSecretRef,omitempty" tf:"-"`
+
+	// The service account being used for the encryption request for the given KMS key. If absent, the Compute Engine default service account is used.
+	DiskEncryptionServiceAccount *string `json:"diskEncryptionServiceAccount,omitempty" tf:"disk_encryption_service_account,omitempty"`
+
+	// boolean field that determines whether to force attach the regional
+	// disk even if it's currently attached to another instance. If you try to force attach a zonal
+	// disk to an instance, you will receive an error. Setting this parameter cause VM recreation.
+	ForceAttach *bool `json:"forceAttach,omitempty" tf:"force_attach,omitempty"`
+
+	// The self_link of the encryption key that is
+	// stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link, disk_encryption_key_rsa and disk_encryption_key_raw
+	// may be set.
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	// Either "READ_ONLY" or "READ_WRITE", defaults to "READ_WRITE"
+	// If you have a persistent disk with data that you want to share
+	// between multiple instances, detach it from any read-write instances and
+	// attach it to one or more instances in read-only mode.
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	// The name or self_link of the disk to attach to this instance.
+	Source *string `json:"source,omitempty" tf:"source,omitempty"`
+}
+
+type InstanceAttachedDiskObservation struct {
+
+	// Name with which the attached disk will be accessible
+	// under /dev/disk/by-id/google-*
+	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
+
+	// The RFC 4648 base64
+	// encoded SHA-256 hash of the [customer-supplied encryption key]
+	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) that protects this resource.
+	DiskEncryptionKeySha256 *string `json:"diskEncryptionKeySha256,omitempty" tf:"disk_encryption_key_sha256,omitempty"`
+
+	// The service account being used for the encryption request for the given KMS key. If absent, the Compute Engine default service account is used.
+	DiskEncryptionServiceAccount *string `json:"diskEncryptionServiceAccount,omitempty" tf:"disk_encryption_service_account,omitempty"`
+
+	// boolean field that determines whether to force attach the regional
+	// disk even if it's currently attached to another instance. If you try to force attach a zonal
+	// disk to an instance, you will receive an error. Setting this parameter cause VM recreation.
+	ForceAttach *bool `json:"forceAttach,omitempty" tf:"force_attach,omitempty"`
+
+	// The self_link of the encryption key that is
+	// stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link, disk_encryption_key_rsa and disk_encryption_key_raw
+	// may be set.
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	// Either "READ_ONLY" or "READ_WRITE", defaults to "READ_WRITE"
+	// If you have a persistent disk with data that you want to share
+	// between multiple instances, detach it from any read-write instances and
+	// attach it to one or more instances in read-only mode.
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	// The name or self_link of the disk to attach to this instance.
+	Source *string `json:"source,omitempty" tf:"source,omitempty"`
+}
+
+type InstanceAttachedDiskParameters struct {
+
+	// Name with which the attached disk will be accessible
+	// under /dev/disk/by-id/google-*
+	// +kubebuilder:validation:Optional
+	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
+
+	// A 256-bit [customer-supplied encryption key]
+	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption),
+	// encoded in RFC 4648 base64
+	// to encrypt this disk. Only one of kms_key_self_link, disk_encryption_key_rsa and disk_encryption_key_raw
+	// may be set.
+	// +kubebuilder:validation:Optional
+	DiskEncryptionKeyRawSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
+
+	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit [customer-supplied encryption key]
+	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) to encrypt this disk. Only one of kms_key_self_link, disk_encryption_key_rsa and disk_encryption_key_raw
+	// may be set.
+	// +kubebuilder:validation:Optional
+	DiskEncryptionKeyRsaSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRsaSecretRef,omitempty" tf:"-"`
+
+	// The service account being used for the encryption request for the given KMS key. If absent, the Compute Engine default service account is used.
+	// +kubebuilder:validation:Optional
+	DiskEncryptionServiceAccount *string `json:"diskEncryptionServiceAccount,omitempty" tf:"disk_encryption_service_account,omitempty"`
+
+	// boolean field that determines whether to force attach the regional
+	// disk even if it's currently attached to another instance. If you try to force attach a zonal
+	// disk to an instance, you will receive an error. Setting this parameter cause VM recreation.
+	// +kubebuilder:validation:Optional
+	ForceAttach *bool `json:"forceAttach,omitempty" tf:"force_attach,omitempty"`
+
+	// The self_link of the encryption key that is
+	// stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link, disk_encryption_key_rsa and disk_encryption_key_raw
+	// may be set.
+	// +kubebuilder:validation:Optional
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	// Either "READ_ONLY" or "READ_WRITE", defaults to "READ_WRITE"
+	// If you have a persistent disk with data that you want to share
+	// between multiple instances, detach it from any read-write instances and
+	// attach it to one or more instances in read-only mode.
+	// +kubebuilder:validation:Optional
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	// The name or self_link of the disk to attach to this instance.
+	// +kubebuilder:validation:Optional
+	Source *string `json:"source" tf:"source,omitempty"`
+}
+
 type BootDiskInitParameters struct {
 
 	// Whether the disk will be auto-deleted when the instance
@@ -154,18 +308,37 @@ type BootDiskInitParameters struct {
 	// A 256-bit [customer-supplied encryption key]
 	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption),
 	// encoded in RFC 4648 base64
-	// to encrypt this disk. Only one of kms_key_self_link and disk_encryption_key_raw
+	// to encrypt this disk. Only one of kms_key_self_link, disk_encryption_key_rsa and disk_encryption_key_raw
 	// may be set.
 	DiskEncryptionKeyRawSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
+
+	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit [customer-supplied encryption key]
+	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) to encrypt this disk. Only one of kms_key_self_link, disk_encryption_key_rsa and disk_encryption_key_raw
+	DiskEncryptionKeyRsaSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRsaSecretRef,omitempty" tf:"-"`
+
+	// The service account being used for the encryption request for the given KMS key. If absent, the Compute Engine default service account is used.
+	DiskEncryptionServiceAccount *string `json:"diskEncryptionServiceAccount,omitempty" tf:"disk_encryption_service_account,omitempty"`
+
+	// boolean field that determines whether to force attach the regional
+	// disk even if it's currently attached to another instance. If you try to force attach a zonal
+	// disk to an instance, you will receive an error. Setting this parameter cause VM recreation.
+	ForceAttach *bool `json:"forceAttach,omitempty" tf:"force_attach,omitempty"`
+
+	// A list of features to enable on the guest operating system. Applicable only for bootable images. Read Enabling guest operating system features to see a list of available options.
+	GuestOsFeatures []*string `json:"guestOsFeatures,omitempty" tf:"guest_os_features,omitempty"`
 
 	// Parameters for a new disk that will be created
 	// alongside the new instance. Either initialize_params or source must be set.
 	// Structure is documented below.
 	InitializeParams []InitializeParamsInitParameters `json:"initializeParams,omitempty" tf:"initialize_params,omitempty"`
 
+	// The disk interface to use for attaching this disk; either SCSI or NVME.
+	Interface *string `json:"interface,omitempty" tf:"interface,omitempty"`
+
 	// The self_link of the encryption key that is
-	// stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link
-	// and disk_encryption_key_raw may be set.
+	// stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link,
+	// disk_encryption_key_rsa and disk_encryption_key_raw
+	// may be set.
 	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
 
 	// The mode in which to attach this disk, either READ_WRITE
@@ -193,14 +366,29 @@ type BootDiskObservation struct {
 	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) that protects this resource.
 	DiskEncryptionKeySha256 *string `json:"diskEncryptionKeySha256,omitempty" tf:"disk_encryption_key_sha256,omitempty"`
 
+	// The service account being used for the encryption request for the given KMS key. If absent, the Compute Engine default service account is used.
+	DiskEncryptionServiceAccount *string `json:"diskEncryptionServiceAccount,omitempty" tf:"disk_encryption_service_account,omitempty"`
+
+	// boolean field that determines whether to force attach the regional
+	// disk even if it's currently attached to another instance. If you try to force attach a zonal
+	// disk to an instance, you will receive an error. Setting this parameter cause VM recreation.
+	ForceAttach *bool `json:"forceAttach,omitempty" tf:"force_attach,omitempty"`
+
+	// A list of features to enable on the guest operating system. Applicable only for bootable images. Read Enabling guest operating system features to see a list of available options.
+	GuestOsFeatures []*string `json:"guestOsFeatures,omitempty" tf:"guest_os_features,omitempty"`
+
 	// Parameters for a new disk that will be created
 	// alongside the new instance. Either initialize_params or source must be set.
 	// Structure is documented below.
 	InitializeParams []InitializeParamsObservation `json:"initializeParams,omitempty" tf:"initialize_params,omitempty"`
 
+	// The disk interface to use for attaching this disk; either SCSI or NVME.
+	Interface *string `json:"interface,omitempty" tf:"interface,omitempty"`
+
 	// The self_link of the encryption key that is
-	// stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link
-	// and disk_encryption_key_raw may be set.
+	// stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link,
+	// disk_encryption_key_rsa and disk_encryption_key_raw
+	// may be set.
 	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
 
 	// The mode in which to attach this disk, either READ_WRITE
@@ -228,10 +416,29 @@ type BootDiskParameters struct {
 	// A 256-bit [customer-supplied encryption key]
 	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption),
 	// encoded in RFC 4648 base64
-	// to encrypt this disk. Only one of kms_key_self_link and disk_encryption_key_raw
+	// to encrypt this disk. Only one of kms_key_self_link, disk_encryption_key_rsa and disk_encryption_key_raw
 	// may be set.
 	// +kubebuilder:validation:Optional
 	DiskEncryptionKeyRawSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
+
+	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit [customer-supplied encryption key]
+	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) to encrypt this disk. Only one of kms_key_self_link, disk_encryption_key_rsa and disk_encryption_key_raw
+	// +kubebuilder:validation:Optional
+	DiskEncryptionKeyRsaSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRsaSecretRef,omitempty" tf:"-"`
+
+	// The service account being used for the encryption request for the given KMS key. If absent, the Compute Engine default service account is used.
+	// +kubebuilder:validation:Optional
+	DiskEncryptionServiceAccount *string `json:"diskEncryptionServiceAccount,omitempty" tf:"disk_encryption_service_account,omitempty"`
+
+	// boolean field that determines whether to force attach the regional
+	// disk even if it's currently attached to another instance. If you try to force attach a zonal
+	// disk to an instance, you will receive an error. Setting this parameter cause VM recreation.
+	// +kubebuilder:validation:Optional
+	ForceAttach *bool `json:"forceAttach,omitempty" tf:"force_attach,omitempty"`
+
+	// A list of features to enable on the guest operating system. Applicable only for bootable images. Read Enabling guest operating system features to see a list of available options.
+	// +kubebuilder:validation:Optional
+	GuestOsFeatures []*string `json:"guestOsFeatures,omitempty" tf:"guest_os_features,omitempty"`
 
 	// Parameters for a new disk that will be created
 	// alongside the new instance. Either initialize_params or source must be set.
@@ -239,9 +446,14 @@ type BootDiskParameters struct {
 	// +kubebuilder:validation:Optional
 	InitializeParams []InitializeParamsParameters `json:"initializeParams,omitempty" tf:"initialize_params,omitempty"`
 
+	// The disk interface to use for attaching this disk; either SCSI or NVME.
+	// +kubebuilder:validation:Optional
+	Interface *string `json:"interface,omitempty" tf:"interface,omitempty"`
+
 	// The self_link of the encryption key that is
-	// stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link
-	// and disk_encryption_key_raw may be set.
+	// stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link,
+	// disk_encryption_key_rsa and disk_encryption_key_raw
+	// may be set.
 	// +kubebuilder:validation:Optional
 	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
 
@@ -259,40 +471,40 @@ type BootDiskParameters struct {
 
 type ConfidentialInstanceConfigInitParameters struct {
 
-	// Defines the confidential computing technology the instance uses. SEV is an AMD feature. One of the following values: SEV, SEV_SNP. on_host_maintenance can be set to MIGRATE if confidential_instance_type is set to SEV and min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM. If SEV_SNP, currently min_cpu_platform has to be set to "AMD Milan" or this will fail to create the VM.
+	// Defines the confidential computing technology the instance uses. SEV is an AMD feature. TDX is an Intel feature. One of the following values is required: SEV, SEV_SNP, TDX. on_host_maintenance can be set to MIGRATE if confidential_instance_type is set to SEV and min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM. If SEV_SNP, currently min_cpu_platform has to be set to "AMD Milan" or this will fail to create the VM.
 	ConfidentialInstanceType *string `json:"confidentialInstanceType,omitempty" tf:"confidential_instance_type,omitempty"`
 
-	// Defines whether the instance should have confidential compute enabled with AMD SEV. on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
+	// Defines whether the instance should have confidential compute enabled with AMD SEV. If enabled, on_host_maintenance can be set to MIGRATE if min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
 	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
 }
 
 type ConfidentialInstanceConfigObservation struct {
 
-	// Defines the confidential computing technology the instance uses. SEV is an AMD feature. One of the following values: SEV, SEV_SNP. on_host_maintenance can be set to MIGRATE if confidential_instance_type is set to SEV and min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM. If SEV_SNP, currently min_cpu_platform has to be set to "AMD Milan" or this will fail to create the VM.
+	// Defines the confidential computing technology the instance uses. SEV is an AMD feature. TDX is an Intel feature. One of the following values is required: SEV, SEV_SNP, TDX. on_host_maintenance can be set to MIGRATE if confidential_instance_type is set to SEV and min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM. If SEV_SNP, currently min_cpu_platform has to be set to "AMD Milan" or this will fail to create the VM.
 	ConfidentialInstanceType *string `json:"confidentialInstanceType,omitempty" tf:"confidential_instance_type,omitempty"`
 
-	// Defines whether the instance should have confidential compute enabled with AMD SEV. on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
+	// Defines whether the instance should have confidential compute enabled with AMD SEV. If enabled, on_host_maintenance can be set to MIGRATE if min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
 	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
 }
 
 type ConfidentialInstanceConfigParameters struct {
 
-	// Defines the confidential computing technology the instance uses. SEV is an AMD feature. One of the following values: SEV, SEV_SNP. on_host_maintenance can be set to MIGRATE if confidential_instance_type is set to SEV and min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM. If SEV_SNP, currently min_cpu_platform has to be set to "AMD Milan" or this will fail to create the VM.
+	// Defines the confidential computing technology the instance uses. SEV is an AMD feature. TDX is an Intel feature. One of the following values is required: SEV, SEV_SNP, TDX. on_host_maintenance can be set to MIGRATE if confidential_instance_type is set to SEV and min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM. If SEV_SNP, currently min_cpu_platform has to be set to "AMD Milan" or this will fail to create the VM.
 	// +kubebuilder:validation:Optional
 	ConfidentialInstanceType *string `json:"confidentialInstanceType,omitempty" tf:"confidential_instance_type,omitempty"`
 
-	// Defines whether the instance should have confidential compute enabled with AMD SEV. on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
+	// Defines whether the instance should have confidential compute enabled with AMD SEV. If enabled, on_host_maintenance can be set to MIGRATE if min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
 	// +kubebuilder:validation:Optional
-	EnableConfidentialCompute *bool `json:"enableConfidentialCompute" tf:"enable_confidential_compute,omitempty"`
+	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
 }
 
 type GuestAcceleratorInitParameters struct {
 
 	// The number of the guest accelerator cards exposed to this instance.
-	Count *float64 `json:"count,omitempty" tf:"count"`
+	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
 
 	// The accelerator type resource to expose to this instance. E.g. nvidia-tesla-k80.
-	Type *string `json:"type,omitempty" tf:"type"`
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type GuestAcceleratorObservation struct {
@@ -308,11 +520,11 @@ type GuestAcceleratorParameters struct {
 
 	// The number of the guest accelerator cards exposed to this instance.
 	// +kubebuilder:validation:Optional
-	Count *float64 `json:"count,omitempty" tf:"count"`
+	Count *float64 `json:"count" tf:"count,omitempty"`
 
 	// The accelerator type resource to expose to this instance. E.g. nvidia-tesla-k80.
 	// +kubebuilder:validation:Optional
-	Type *string `json:"type,omitempty" tf:"type"`
+	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 type IPv6AccessConfigInitParameters struct {
@@ -394,6 +606,9 @@ type IPv6AccessConfigParameters struct {
 
 type InitializeParamsInitParameters struct {
 
+	// The architecture of the attached disk. Valid values are ARM64 or x86_64.
+	Architecture *string `json:"architecture,omitempty" tf:"architecture,omitempty"`
+
 	// Whether this disk is using confidential compute mode.
 	// Note: Only supported on hyperdisk skus, disk_encryption_key is required when setting to true.
 	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
@@ -407,7 +622,7 @@ type InitializeParamsInitParameters struct {
 	// google_compute_image data source.
 	// For instance, the image centos-6-v20180104 includes its family name centos-6.
 	// These images can be referred by family name here.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Image
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.Image
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
 	// Reference to a Image in compute to populate image.
@@ -445,11 +660,23 @@ type InitializeParamsInitParameters struct {
 	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
+	// - A list of self_links of resource policies to attach to the instance. Modifying this list will cause the instance to recreate. Currently a max of 1 resource policy is supported.
+	ResourcePolicies []*string `json:"resourcePolicies,omitempty" tf:"resource_policies,omitempty"`
+
 	// The size of the image in gigabytes. If not specified, it
 	// will inherit the size of its base image.
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 
-	// The URL of the storage pool in which the new disk is created.
+	// The snapshot from which to initialize this disk. To create a disk with a snapshot that you created, specify the snapshot name in the following format: global/snapshots/my-backup
+	Snapshot *string `json:"snapshot,omitempty" tf:"snapshot,omitempty"`
+
+	// Encryption key used to decrypt the given image. Structure is documented below.
+	SourceImageEncryptionKey []InitializeParamsSourceImageEncryptionKeyInitParameters `json:"sourceImageEncryptionKey,omitempty" tf:"source_image_encryption_key,omitempty"`
+
+	// Encryption key used to decrypt the given snapshot. Structure is documented below.
+	SourceSnapshotEncryptionKey []InitializeParamsSourceSnapshotEncryptionKeyInitParameters `json:"sourceSnapshotEncryptionKey,omitempty" tf:"source_snapshot_encryption_key,omitempty"`
+
+	// The URL or the name of the storage pool in which the new disk is created.
 	// For example:
 	StoragePool *string `json:"storagePool,omitempty" tf:"storage_pool,omitempty"`
 
@@ -459,6 +686,9 @@ type InitializeParamsInitParameters struct {
 
 type InitializeParamsObservation struct {
 
+	// The architecture of the attached disk. Valid values are ARM64 or x86_64.
+	Architecture *string `json:"architecture,omitempty" tf:"architecture,omitempty"`
+
 	// Whether this disk is using confidential compute mode.
 	// Note: Only supported on hyperdisk skus, disk_encryption_key is required when setting to true.
 	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
@@ -501,11 +731,23 @@ type InitializeParamsObservation struct {
 	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
+	// - A list of self_links of resource policies to attach to the instance. Modifying this list will cause the instance to recreate. Currently a max of 1 resource policy is supported.
+	ResourcePolicies []*string `json:"resourcePolicies,omitempty" tf:"resource_policies,omitempty"`
+
 	// The size of the image in gigabytes. If not specified, it
 	// will inherit the size of its base image.
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 
-	// The URL of the storage pool in which the new disk is created.
+	// The snapshot from which to initialize this disk. To create a disk with a snapshot that you created, specify the snapshot name in the following format: global/snapshots/my-backup
+	Snapshot *string `json:"snapshot,omitempty" tf:"snapshot,omitempty"`
+
+	// Encryption key used to decrypt the given image. Structure is documented below.
+	SourceImageEncryptionKey []InitializeParamsSourceImageEncryptionKeyObservation `json:"sourceImageEncryptionKey,omitempty" tf:"source_image_encryption_key,omitempty"`
+
+	// Encryption key used to decrypt the given snapshot. Structure is documented below.
+	SourceSnapshotEncryptionKey []InitializeParamsSourceSnapshotEncryptionKeyObservation `json:"sourceSnapshotEncryptionKey,omitempty" tf:"source_snapshot_encryption_key,omitempty"`
+
+	// The URL or the name of the storage pool in which the new disk is created.
 	// For example:
 	StoragePool *string `json:"storagePool,omitempty" tf:"storage_pool,omitempty"`
 
@@ -514,6 +756,10 @@ type InitializeParamsObservation struct {
 }
 
 type InitializeParamsParameters struct {
+
+	// The architecture of the attached disk. Valid values are ARM64 or x86_64.
+	// +kubebuilder:validation:Optional
+	Architecture *string `json:"architecture,omitempty" tf:"architecture,omitempty"`
 
 	// Whether this disk is using confidential compute mode.
 	// Note: Only supported on hyperdisk skus, disk_encryption_key is required when setting to true.
@@ -529,7 +775,7 @@ type InitializeParamsParameters struct {
 	// google_compute_image data source.
 	// For instance, the image centos-6-v20180104 includes its family name centos-6.
 	// These images can be referred by family name here.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Image
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.Image
 	// +kubebuilder:validation:Optional
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
@@ -572,12 +818,28 @@ type InitializeParamsParameters struct {
 	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
+	// - A list of self_links of resource policies to attach to the instance. Modifying this list will cause the instance to recreate. Currently a max of 1 resource policy is supported.
+	// +kubebuilder:validation:Optional
+	ResourcePolicies []*string `json:"resourcePolicies,omitempty" tf:"resource_policies,omitempty"`
+
 	// The size of the image in gigabytes. If not specified, it
 	// will inherit the size of its base image.
 	// +kubebuilder:validation:Optional
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 
-	// The URL of the storage pool in which the new disk is created.
+	// The snapshot from which to initialize this disk. To create a disk with a snapshot that you created, specify the snapshot name in the following format: global/snapshots/my-backup
+	// +kubebuilder:validation:Optional
+	Snapshot *string `json:"snapshot,omitempty" tf:"snapshot,omitempty"`
+
+	// Encryption key used to decrypt the given image. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SourceImageEncryptionKey []InitializeParamsSourceImageEncryptionKeyParameters `json:"sourceImageEncryptionKey,omitempty" tf:"source_image_encryption_key,omitempty"`
+
+	// Encryption key used to decrypt the given snapshot. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SourceSnapshotEncryptionKey []InitializeParamsSourceSnapshotEncryptionKeyParameters `json:"sourceSnapshotEncryptionKey,omitempty" tf:"source_snapshot_encryption_key,omitempty"`
+
+	// The URL or the name of the storage pool in which the new disk is created.
 	// For example:
 	// +kubebuilder:validation:Optional
 	StoragePool *string `json:"storagePool,omitempty" tf:"storage_pool,omitempty"`
@@ -587,83 +849,173 @@ type InitializeParamsParameters struct {
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
-type InstanceAttachedDiskInitParameters struct {
-
-	// Name with which the attached disk will be accessible
-	// under /dev/disk/by-id/google-*
-	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
+type InitializeParamsSourceImageEncryptionKeyInitParameters struct {
 
 	// The self_link of the encryption key that is
-	// stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link
-	// and disk_encryption_key_raw may be set.
+	// stored in Google Cloud KMS to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
+	// may be set.
 	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
 
-	// Either "READ_ONLY" or "READ_WRITE", defaults to "READ_WRITE"
-	// If you have a persistent disk with data that you want to share
-	// between multiple instances, detach it from any read-write instances and
-	// attach it to one or more instances in read-only mode.
-	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
-
-	// The name or self_link of the disk to attach to this instance.
-	Source *string `json:"source,omitempty" tf:"source,omitempty"`
-}
-
-type InstanceAttachedDiskObservation struct {
-
-	// Name with which the attached disk will be accessible
-	// under /dev/disk/by-id/google-*
-	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
-
-	// The RFC 4648 base64
-	// encoded SHA-256 hash of the [customer-supplied encryption key]
-	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) that protects this resource.
-	DiskEncryptionKeySha256 *string `json:"diskEncryptionKeySha256,omitempty" tf:"disk_encryption_key_sha256,omitempty"`
-
-	// The self_link of the encryption key that is
-	// stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link
-	// and disk_encryption_key_raw may be set.
-	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
-
-	// Either "READ_ONLY" or "READ_WRITE", defaults to "READ_WRITE"
-	// If you have a persistent disk with data that you want to share
-	// between multiple instances, detach it from any read-write instances and
-	// attach it to one or more instances in read-only mode.
-	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
-
-	// The name or self_link of the disk to attach to this instance.
-	Source *string `json:"source,omitempty" tf:"source,omitempty"`
-}
-
-type InstanceAttachedDiskParameters struct {
-
-	// Name with which the attached disk will be accessible
-	// under /dev/disk/by-id/google-*
-	// +kubebuilder:validation:Optional
-	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
+	// The service account being used for the encryption request for the given KMS key. If absent, the Compute Engine default service account is used.
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
 
 	// A 256-bit [customer-supplied encryption key]
 	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption),
 	// encoded in RFC 4648 base64
-	// to encrypt this disk. Only one of kms_key_self_link and disk_encryption_key_raw may be set.
-	// +kubebuilder:validation:Optional
-	DiskEncryptionKeyRawSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
+	// to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
+	// may be set.
+	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+
+	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit [customer-supplied encryption key]
+	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
+	// may be set.
+	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+}
+
+type InitializeParamsSourceImageEncryptionKeyObservation struct {
 
 	// The self_link of the encryption key that is
-	// stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link
-	// and disk_encryption_key_raw may be set.
+	// stored in Google Cloud KMS to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
+	// may be set.
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	// The service account being used for the encryption request for the given KMS key. If absent, the Compute Engine default service account is used.
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+
+	// The RFC 4648 base64
+	// encoded SHA-256 hash of the [customer-supplied encryption key]
+	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) that protects this resource.
+	Sha256 *string `json:"sha256,omitempty" tf:"sha256,omitempty"`
+}
+
+type InitializeParamsSourceImageEncryptionKeyParameters struct {
+
+	// The self_link of the encryption key that is
+	// stored in Google Cloud KMS to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
+	// may be set.
 	// +kubebuilder:validation:Optional
 	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
 
-	// Either "READ_ONLY" or "READ_WRITE", defaults to "READ_WRITE"
-	// If you have a persistent disk with data that you want to share
-	// between multiple instances, detach it from any read-write instances and
-	// attach it to one or more instances in read-only mode.
+	// The service account being used for the encryption request for the given KMS key. If absent, the Compute Engine default service account is used.
 	// +kubebuilder:validation:Optional
-	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
 
-	// The name or self_link of the disk to attach to this instance.
+	// A 256-bit [customer-supplied encryption key]
+	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption),
+	// encoded in RFC 4648 base64
+	// to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
+	// may be set.
 	// +kubebuilder:validation:Optional
-	Source *string `json:"source" tf:"source,omitempty"`
+	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+
+	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit [customer-supplied encryption key]
+	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
+	// may be set.
+	// +kubebuilder:validation:Optional
+	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+}
+
+type InitializeParamsSourceSnapshotEncryptionKeyInitParameters struct {
+
+	// The self_link of the encryption key that is
+	// stored in Google Cloud KMS to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
+	// may be set.
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	// The service account being used for the encryption request for the given KMS key. If absent, the Compute Engine default service account is used.
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+
+	// A 256-bit [customer-supplied encryption key]
+	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption),
+	// encoded in RFC 4648 base64
+	// to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
+	// may be set.
+	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+
+	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit [customer-supplied encryption key]
+	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
+	// may be set.
+	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+}
+
+type InitializeParamsSourceSnapshotEncryptionKeyObservation struct {
+
+	// The self_link of the encryption key that is
+	// stored in Google Cloud KMS to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
+	// may be set.
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	// The service account being used for the encryption request for the given KMS key. If absent, the Compute Engine default service account is used.
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+
+	// The RFC 4648 base64
+	// encoded SHA-256 hash of the [customer-supplied encryption key]
+	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) that protects this resource.
+	Sha256 *string `json:"sha256,omitempty" tf:"sha256,omitempty"`
+}
+
+type InitializeParamsSourceSnapshotEncryptionKeyParameters struct {
+
+	// The self_link of the encryption key that is
+	// stored in Google Cloud KMS to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
+	// may be set.
+	// +kubebuilder:validation:Optional
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	// The service account being used for the encryption request for the given KMS key. If absent, the Compute Engine default service account is used.
+	// +kubebuilder:validation:Optional
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+
+	// A 256-bit [customer-supplied encryption key]
+	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption),
+	// encoded in RFC 4648 base64
+	// to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
+	// may be set.
+	// +kubebuilder:validation:Optional
+	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+
+	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit [customer-supplied encryption key]
+	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
+	// may be set.
+	// +kubebuilder:validation:Optional
+	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+}
+
+type InstanceEncryptionKeyInitParameters struct {
+
+	// The self_link of the encryption key that is
+	// stored in Google Cloud KMS to encrypt the data on this instance.
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	// The service account being used for the encryption request for the given KMS key. If absent, the Compute Engine default service account is used.
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+}
+
+type InstanceEncryptionKeyObservation struct {
+
+	// The self_link of the encryption key that is
+	// stored in Google Cloud KMS to encrypt the data on this instance.
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	// The service account being used for the encryption request for the given KMS key. If absent, the Compute Engine default service account is used.
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+
+	// The RFC 4648 base64
+	// encoded SHA-256 hash of the [customer-supplied encryption key]
+	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) that protects this resource.
+	Sha256 *string `json:"sha256,omitempty" tf:"sha256,omitempty"`
+}
+
+type InstanceEncryptionKeyParameters struct {
+
+	// The self_link of the encryption key that is
+	// stored in Google Cloud KMS to encrypt the data on this instance.
+	// +kubebuilder:validation:Optional
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	// The service account being used for the encryption request for the given KMS key. If absent, the Compute Engine default service account is used.
+	// +kubebuilder:validation:Optional
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
 }
 
 type InstanceInitParameters struct {
@@ -697,7 +1049,7 @@ type InstanceInitParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Desired status of the instance. Either
-	// "RUNNING" or "TERMINATED".
+	// "RUNNING", "SUSPENDED" or "TERMINATED".
 	DesiredStatus *string `json:"desiredStatus,omitempty" tf:"desired_status,omitempty"`
 
 	// Enable Virtual Displays on this instance.
@@ -706,17 +1058,22 @@ type InstanceInitParameters struct {
 
 	// List of the type and count of accelerator cards attached to the instance. Structure documented below.
 	// Note: GPU accelerators can only be used with on_host_maintenance option set to TERMINATE.
-	// Note: This field uses attr-as-block mode to avoid
-	// breaking users during the 0.12 upgrade. To explicitly send a list
-	// of zero objects you must use the following syntax:
-	// example=[]
-	// For more details about this behavior, see this section.
+	// Note: As of 6.0.0, argument syntax
+	// is no longer supported for this field in favor of block syntax.
+	// To dynamically set a list of guest accelerators, use dynamic blocks.
+	// To set an empty list, use a single guest_accelerator block with count = 0.
 	GuestAccelerator []GuestAcceleratorInitParameters `json:"guestAccelerator,omitempty" tf:"guest_accelerator,omitempty"`
 
 	// A custom hostname for the instance. Must be a fully qualified DNS name and RFC-1035-valid.
 	// Valid format is a series of labels 1-63 characters long matching the regular expression [a-z]([-a-z0-9]*[a-z0-9]), concatenated with periods.
 	// The entire hostname must not exceed 253 characters. Changing this forces a new resource to be created.
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
+
+	// Configuration for data encryption on the instance with encryption keys. Structure is documented below.
+	InstanceEncryptionKey []InstanceEncryptionKeyInitParameters `json:"instanceEncryptionKey,omitempty" tf:"instance_encryption_key,omitempty"`
+
+	// Action to be taken when a customer's encryption key is revoked. Supports STOP and NONE, with NONE being the default.
+	KeyRevocationActionType *string `json:"keyRevocationActionType,omitempty" tf:"key_revocation_action_type,omitempty"`
 
 	// A map of key/value label pairs to assign to the instance.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
@@ -729,8 +1086,8 @@ type InstanceInitParameters struct {
 
 	// Metadata key/value pairs to make available from
 	// within the instance. Ssh keys attached in the Cloud Console will be removed.
-	// Add them to your config in order to keep them attached to your instance. A
-	// list of default metadata values (e.g. ssh-keys) can be found here
+	// Add them to your config in order to keep them attached to your instance.
+	// A list of predefined metadata keys (e.g. ssh-keys) can be found here
 	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
@@ -760,7 +1117,7 @@ type InstanceInitParameters struct {
 
 	// Additional instance parameters.
 	// .
-	Params []ParamsInitParameters `json:"params,omitempty" tf:"params,omitempty"`
+	Params []InstanceParamsInitParameters `json:"params,omitempty" tf:"params,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
@@ -822,7 +1179,10 @@ type InstanceObservation struct {
 	// Enable Confidential Mode on this VM. Structure is documented below
 	ConfidentialInstanceConfig []ConfidentialInstanceConfigObservation `json:"confidentialInstanceConfig,omitempty" tf:"confidential_instance_config,omitempty"`
 
-	// The current status of the instance. This could be one of the following values: PROVISIONING, STAGING, RUNNING, STOPPING, SUSPENDING, SUSPENDED, REPAIRING, and TERMINATED. For more information about the status of the instance, see Instance life cycle.`,
+	// Creation timestamp in RFC3339 text format.
+	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
+	// The current status of the instance. This could be one of the following values: PROVISIONING, STAGING, RUNNING, STOPPING, SUSPENDING, SUSPENDED, REPAIRING, and TERMINATED. For more information about the status of the instance, see Instance life cycle.
 	CurrentStatus *string `json:"currentStatus,omitempty" tf:"current_status,omitempty"`
 
 	// Enable deletion protection on this instance. Defaults to false.
@@ -833,7 +1193,7 @@ type InstanceObservation struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Desired status of the instance. Either
-	// "RUNNING" or "TERMINATED".
+	// "RUNNING", "SUSPENDED" or "TERMINATED".
 	DesiredStatus *string `json:"desiredStatus,omitempty" tf:"desired_status,omitempty"`
 
 	// +mapType=granular
@@ -845,11 +1205,10 @@ type InstanceObservation struct {
 
 	// List of the type and count of accelerator cards attached to the instance. Structure documented below.
 	// Note: GPU accelerators can only be used with on_host_maintenance option set to TERMINATE.
-	// Note: This field uses attr-as-block mode to avoid
-	// breaking users during the 0.12 upgrade. To explicitly send a list
-	// of zero objects you must use the following syntax:
-	// example=[]
-	// For more details about this behavior, see this section.
+	// Note: As of 6.0.0, argument syntax
+	// is no longer supported for this field in favor of block syntax.
+	// To dynamically set a list of guest accelerators, use dynamic blocks.
+	// To set an empty list, use a single guest_accelerator block with count = 0.
 	GuestAccelerator []GuestAcceleratorObservation `json:"guestAccelerator,omitempty" tf:"guest_accelerator,omitempty"`
 
 	// A custom hostname for the instance. Must be a fully qualified DNS name and RFC-1035-valid.
@@ -860,8 +1219,14 @@ type InstanceObservation struct {
 	// an identifier for the resource with format projects/{{project}}/zones/{{zone}}/instances/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Configuration for data encryption on the instance with encryption keys. Structure is documented below.
+	InstanceEncryptionKey []InstanceEncryptionKeyObservation `json:"instanceEncryptionKey,omitempty" tf:"instance_encryption_key,omitempty"`
+
 	// The server-assigned unique identifier of this instance.
 	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
+
+	// Action to be taken when a customer's encryption key is revoked. Supports STOP and NONE, with NONE being the default.
+	KeyRevocationActionType *string `json:"keyRevocationActionType,omitempty" tf:"key_revocation_action_type,omitempty"`
 
 	// The unique fingerprint of the labels.
 	LabelFingerprint *string `json:"labelFingerprint,omitempty" tf:"label_fingerprint,omitempty"`
@@ -877,8 +1242,8 @@ type InstanceObservation struct {
 
 	// Metadata key/value pairs to make available from
 	// within the instance. Ssh keys attached in the Cloud Console will be removed.
-	// Add them to your config in order to keep them attached to your instance. A
-	// list of default metadata values (e.g. ssh-keys) can be found here
+	// Add them to your config in order to keep them attached to your instance.
+	// A list of predefined metadata keys (e.g. ssh-keys) can be found here
 	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
@@ -911,7 +1276,7 @@ type InstanceObservation struct {
 
 	// Additional instance parameters.
 	// .
-	Params []ParamsObservation `json:"params,omitempty" tf:"params,omitempty"`
+	Params []InstanceParamsObservation `json:"params,omitempty" tf:"params,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
@@ -999,7 +1364,7 @@ type InstanceParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Desired status of the instance. Either
-	// "RUNNING" or "TERMINATED".
+	// "RUNNING", "SUSPENDED" or "TERMINATED".
 	// +kubebuilder:validation:Optional
 	DesiredStatus *string `json:"desiredStatus,omitempty" tf:"desired_status,omitempty"`
 
@@ -1010,11 +1375,10 @@ type InstanceParameters struct {
 
 	// List of the type and count of accelerator cards attached to the instance. Structure documented below.
 	// Note: GPU accelerators can only be used with on_host_maintenance option set to TERMINATE.
-	// Note: This field uses attr-as-block mode to avoid
-	// breaking users during the 0.12 upgrade. To explicitly send a list
-	// of zero objects you must use the following syntax:
-	// example=[]
-	// For more details about this behavior, see this section.
+	// Note: As of 6.0.0, argument syntax
+	// is no longer supported for this field in favor of block syntax.
+	// To dynamically set a list of guest accelerators, use dynamic blocks.
+	// To set an empty list, use a single guest_accelerator block with count = 0.
 	// +kubebuilder:validation:Optional
 	GuestAccelerator []GuestAcceleratorParameters `json:"guestAccelerator,omitempty" tf:"guest_accelerator,omitempty"`
 
@@ -1023,6 +1387,14 @@ type InstanceParameters struct {
 	// The entire hostname must not exceed 253 characters. Changing this forces a new resource to be created.
 	// +kubebuilder:validation:Optional
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
+
+	// Configuration for data encryption on the instance with encryption keys. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	InstanceEncryptionKey []InstanceEncryptionKeyParameters `json:"instanceEncryptionKey,omitempty" tf:"instance_encryption_key,omitempty"`
+
+	// Action to be taken when a customer's encryption key is revoked. Supports STOP and NONE, with NONE being the default.
+	// +kubebuilder:validation:Optional
+	KeyRevocationActionType *string `json:"keyRevocationActionType,omitempty" tf:"key_revocation_action_type,omitempty"`
 
 	// A map of key/value label pairs to assign to the instance.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
@@ -1037,8 +1409,8 @@ type InstanceParameters struct {
 
 	// Metadata key/value pairs to make available from
 	// within the instance. Ssh keys attached in the Cloud Console will be removed.
-	// Add them to your config in order to keep them attached to your instance. A
-	// list of default metadata values (e.g. ssh-keys) can be found here
+	// Add them to your config in order to keep them attached to your instance.
+	// A list of predefined metadata keys (e.g. ssh-keys) can be found here
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
@@ -1074,7 +1446,7 @@ type InstanceParameters struct {
 	// Additional instance parameters.
 	// .
 	// +kubebuilder:validation:Optional
-	Params []ParamsParameters `json:"params,omitempty" tf:"params,omitempty"`
+	Params []InstanceParamsParameters `json:"params,omitempty" tf:"params,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
@@ -1122,6 +1494,28 @@ type InstanceParameters struct {
 	Zone *string `json:"zone" tf:"zone,omitempty"`
 }
 
+type InstanceParamsInitParameters struct {
+
+	// A tag is a key-value pair that can be attached to a Google Cloud resource. You can use tags to conditionally allow or deny policies based on whether a resource has a specific tag. This value is not returned by the API.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type InstanceParamsObservation struct {
+
+	// A tag is a key-value pair that can be attached to a Google Cloud resource. You can use tags to conditionally allow or deny policies based on whether a resource has a specific tag. This value is not returned by the API.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type InstanceParamsParameters struct {
+
+	// A tag is a key-value pair that can be attached to a Google Cloud resource. You can use tags to conditionally allow or deny policies based on whether a resource has a specific tag. This value is not returned by the API.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
 type LocalSsdRecoveryTimeoutInitParameters struct {
 
 	// Span of time that's a fraction of a second at nanosecond
@@ -1130,9 +1524,8 @@ type LocalSsdRecoveryTimeoutInitParameters struct {
 	// 999,999,999 inclusive.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to
-	// 315,576,000,000 inclusive. Note: these bounds are computed from: 60
-	// sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years.
+	// Span of time at a resolution of a second.
+	// The value must be between 1 and 3600, which is 3,600 seconds (one hour).`
 	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
@@ -1144,9 +1537,8 @@ type LocalSsdRecoveryTimeoutObservation struct {
 	// 999,999,999 inclusive.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to
-	// 315,576,000,000 inclusive. Note: these bounds are computed from: 60
-	// sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years.
+	// Span of time at a resolution of a second.
+	// The value must be between 1 and 3600, which is 3,600 seconds (one hour).`
 	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
@@ -1159,9 +1551,8 @@ type LocalSsdRecoveryTimeoutParameters struct {
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to
-	// 315,576,000,000 inclusive. Note: these bounds are computed from: 60
-	// sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years.
+	// Span of time at a resolution of a second.
+	// The value must be between 1 and 3600, which is 3,600 seconds (one hour).`
 	// +kubebuilder:validation:Optional
 	Seconds *float64 `json:"seconds" tf:"seconds,omitempty"`
 }
@@ -1174,9 +1565,8 @@ type MaxRunDurationInitParameters struct {
 	// 999,999,999 inclusive.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to
-	// 315,576,000,000 inclusive. Note: these bounds are computed from: 60
-	// sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years.
+	// Span of time at a resolution of a second.
+	// The value must be between 1 and 3600, which is 3,600 seconds (one hour).`
 	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
@@ -1188,9 +1578,8 @@ type MaxRunDurationObservation struct {
 	// 999,999,999 inclusive.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to
-	// 315,576,000,000 inclusive. Note: these bounds are computed from: 60
-	// sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years.
+	// Span of time at a resolution of a second.
+	// The value must be between 1 and 3600, which is 3,600 seconds (one hour).`
 	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
@@ -1203,9 +1592,8 @@ type MaxRunDurationParameters struct {
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to
-	// 315,576,000,000 inclusive. Note: these bounds are computed from: 60
-	// sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years.
+	// Span of time at a resolution of a second.
+	// The value must be between 1 and 3600, which is 3,600 seconds (one hour).`
 	// +kubebuilder:validation:Optional
 	Seconds *float64 `json:"seconds" tf:"seconds,omitempty"`
 }
@@ -1216,7 +1604,7 @@ type NetworkInterfaceInitParameters struct {
 	// instance can be accessed via the Internet. Omit to ensure that the instance
 	// is not accessible from the Internet.g. via
 	// tunnel or because it is running on another cloud instance on that network).
-	// This block can be repeated multiple times. Structure documented below.
+	// This block can be specified once per network_interface. Structure documented below.
 	AccessConfig []AccessConfigInitParameters `json:"accessConfig,omitempty" tf:"access_config,omitempty"`
 
 	// An
@@ -1240,6 +1628,9 @@ type NetworkInterfaceInitParameters struct {
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
+	// The URL of the network attachment that this interface should connect to in the following format: projects/{projectNumber}/regions/{region_name}/networkAttachments/{network_attachment_name}.
+	NetworkAttachment *string `json:"networkAttachment,omitempty" tf:"network_attachment,omitempty"`
+
 	// The private IP address to assign to the instance. If
 	// empty, the address will be automatically assigned.
 	NetworkIP *string `json:"networkIp,omitempty" tf:"network_ip,omitempty"`
@@ -1252,13 +1643,13 @@ type NetworkInterfaceInitParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
-	// The type of vNIC to be used on this interface. Possible values: GVNIC, VIRTIO_NET.
+	// The type of vNIC to be used on this interface. Possible values: GVNIC, VIRTIO_NET, IDPF, MRDMA, IRDMA.
 	NicType *string `json:"nicType,omitempty" tf:"nic_type,omitempty"`
 
 	// The networking queue count that's specified by users for the network interface. Both Rx and Tx queues will be set to this number. It will be empty if not specified.
 	QueueCount *float64 `json:"queueCount,omitempty" tf:"queue_count,omitempty"`
 
-	// The stack type for this network interface to identify whether the IPv6 feature is enabled or not. Values are IPV4_IPV6 or IPV4_ONLY. If not specified, IPV4_ONLY will be used.
+	// The stack type for this network interface to identify whether the IPv6 feature is enabled or not. Values are IPV4_IPV6, IPV6_ONLY or IPV4_ONLY. If not specified, IPV4_ONLY will be used.
 	StackType *string `json:"stackType,omitempty" tf:"stack_type,omitempty"`
 
 	// The name or self_link of the subnetwork to attach this
@@ -1268,12 +1659,12 @@ type NetworkInterfaceInitParameters struct {
 	// legacy mode, do not specify this field. If the
 	// network is in auto subnet mode, specifying the subnetwork is optional. If the network is
 	// in custom subnet mode, specifying the subnetwork is required.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.Subnetwork
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
 	// The project in which the subnetwork belongs.
-	// If the subnetwork is a self_link, this field is ignored in favor of the project
+	// If the subnetwork is a self_link, this field is set to the project
 	// defined in the subnetwork self_link. If the subnetwork is a name and this
 	// field is not provided, the provider project is used.
 	SubnetworkProject *string `json:"subnetworkProject,omitempty" tf:"subnetwork_project,omitempty"`
@@ -1293,7 +1684,7 @@ type NetworkInterfaceObservation struct {
 	// instance can be accessed via the Internet. Omit to ensure that the instance
 	// is not accessible from the Internet.g. via
 	// tunnel or because it is running on another cloud instance on that network).
-	// This block can be repeated multiple times. Structure documented below.
+	// This block can be specified once per network_interface. Structure documented below.
 	AccessConfig []AccessConfigObservation `json:"accessConfig,omitempty" tf:"access_config,omitempty"`
 
 	// An
@@ -1323,17 +1714,20 @@ type NetworkInterfaceObservation struct {
 	// be inferred from the subnetwork.
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
+	// The URL of the network attachment that this interface should connect to in the following format: projects/{projectNumber}/regions/{region_name}/networkAttachments/{network_attachment_name}.
+	NetworkAttachment *string `json:"networkAttachment,omitempty" tf:"network_attachment,omitempty"`
+
 	// The private IP address to assign to the instance. If
 	// empty, the address will be automatically assigned.
 	NetworkIP *string `json:"networkIp,omitempty" tf:"network_ip,omitempty"`
 
-	// The type of vNIC to be used on this interface. Possible values: GVNIC, VIRTIO_NET.
+	// The type of vNIC to be used on this interface. Possible values: GVNIC, VIRTIO_NET, IDPF, MRDMA, IRDMA.
 	NicType *string `json:"nicType,omitempty" tf:"nic_type,omitempty"`
 
 	// The networking queue count that's specified by users for the network interface. Both Rx and Tx queues will be set to this number. It will be empty if not specified.
 	QueueCount *float64 `json:"queueCount,omitempty" tf:"queue_count,omitempty"`
 
-	// The stack type for this network interface to identify whether the IPv6 feature is enabled or not. Values are IPV4_IPV6 or IPV4_ONLY. If not specified, IPV4_ONLY will be used.
+	// The stack type for this network interface to identify whether the IPv6 feature is enabled or not. Values are IPV4_IPV6, IPV6_ONLY or IPV4_ONLY. If not specified, IPV4_ONLY will be used.
 	StackType *string `json:"stackType,omitempty" tf:"stack_type,omitempty"`
 
 	// The name or self_link of the subnetwork to attach this
@@ -1346,7 +1740,7 @@ type NetworkInterfaceObservation struct {
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
 	// The project in which the subnetwork belongs.
-	// If the subnetwork is a self_link, this field is ignored in favor of the project
+	// If the subnetwork is a self_link, this field is set to the project
 	// defined in the subnetwork self_link. If the subnetwork is a name and this
 	// field is not provided, the provider project is used.
 	SubnetworkProject *string `json:"subnetworkProject,omitempty" tf:"subnetwork_project,omitempty"`
@@ -1358,7 +1752,7 @@ type NetworkInterfaceParameters struct {
 	// instance can be accessed via the Internet. Omit to ensure that the instance
 	// is not accessible from the Internet.g. via
 	// tunnel or because it is running on another cloud instance on that network).
-	// This block can be repeated multiple times. Structure documented below.
+	// This block can be specified once per network_interface. Structure documented below.
 	// +kubebuilder:validation:Optional
 	AccessConfig []AccessConfigParameters `json:"accessConfig,omitempty" tf:"access_config,omitempty"`
 
@@ -1388,6 +1782,10 @@ type NetworkInterfaceParameters struct {
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
+	// The URL of the network attachment that this interface should connect to in the following format: projects/{projectNumber}/regions/{region_name}/networkAttachments/{network_attachment_name}.
+	// +kubebuilder:validation:Optional
+	NetworkAttachment *string `json:"networkAttachment,omitempty" tf:"network_attachment,omitempty"`
+
 	// The private IP address to assign to the instance. If
 	// empty, the address will be automatically assigned.
 	// +kubebuilder:validation:Optional
@@ -1401,7 +1799,7 @@ type NetworkInterfaceParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
-	// The type of vNIC to be used on this interface. Possible values: GVNIC, VIRTIO_NET.
+	// The type of vNIC to be used on this interface. Possible values: GVNIC, VIRTIO_NET, IDPF, MRDMA, IRDMA.
 	// +kubebuilder:validation:Optional
 	NicType *string `json:"nicType,omitempty" tf:"nic_type,omitempty"`
 
@@ -1409,7 +1807,7 @@ type NetworkInterfaceParameters struct {
 	// +kubebuilder:validation:Optional
 	QueueCount *float64 `json:"queueCount,omitempty" tf:"queue_count,omitempty"`
 
-	// The stack type for this network interface to identify whether the IPv6 feature is enabled or not. Values are IPV4_IPV6 or IPV4_ONLY. If not specified, IPV4_ONLY will be used.
+	// The stack type for this network interface to identify whether the IPv6 feature is enabled or not. Values are IPV4_IPV6, IPV6_ONLY or IPV4_ONLY. If not specified, IPV4_ONLY will be used.
 	// +kubebuilder:validation:Optional
 	StackType *string `json:"stackType,omitempty" tf:"stack_type,omitempty"`
 
@@ -1420,13 +1818,13 @@ type NetworkInterfaceParameters struct {
 	// legacy mode, do not specify this field. If the
 	// network is in auto subnet mode, specifying the subnetwork is optional. If the network is
 	// in custom subnet mode, specifying the subnetwork is required.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.Subnetwork
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
 	// The project in which the subnetwork belongs.
-	// If the subnetwork is a self_link, this field is ignored in favor of the project
+	// If the subnetwork is a self_link, this field is set to the project
 	// defined in the subnetwork self_link. If the subnetwork is a name and this
 	// field is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
@@ -1527,28 +1925,6 @@ type OnInstanceStopActionParameters struct {
 	DiscardLocalSsd *bool `json:"discardLocalSsd,omitempty" tf:"discard_local_ssd,omitempty"`
 }
 
-type ParamsInitParameters struct {
-
-	// A tag is a key-value pair that can be attached to a Google Cloud resource. You can use tags to conditionally allow or deny policies based on whether a resource has a specific tag. This value is not returned by the API.
-	// +mapType=granular
-	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
-}
-
-type ParamsObservation struct {
-
-	// A tag is a key-value pair that can be attached to a Google Cloud resource. You can use tags to conditionally allow or deny policies based on whether a resource has a specific tag. This value is not returned by the API.
-	// +mapType=granular
-	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
-}
-
-type ParamsParameters struct {
-
-	// A tag is a key-value pair that can be attached to a Google Cloud resource. You can use tags to conditionally allow or deny policies based on whether a resource has a specific tag. This value is not returned by the API.
-	// +kubebuilder:validation:Optional
-	// +mapType=granular
-	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
-}
-
 type ReservationAffinityInitParameters struct {
 
 	// Specifies the label selector for the reservation to use..
@@ -1588,11 +1964,13 @@ type SchedulingInitParameters struct {
 	// Defaults to true.
 	AutomaticRestart *bool `json:"automaticRestart,omitempty" tf:"automatic_restart,omitempty"`
 
+	// Specifies the availability domain to place the instance in. The value must be a number between 1 and the number of availability domains specified in the spread placement policy attached to the instance.
+	AvailabilityDomain *float64 `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
+
 	// Describe the type of termination action for VM. Can be STOP or DELETE.  Read more on here
 	InstanceTerminationAction *string `json:"instanceTerminationAction,omitempty" tf:"instance_termination_action,omitempty"`
 
 	// io/docs/providers/google/guides/provider_versions.html) Specifies the maximum amount of time a Local Ssd Vm should wait while recovery of the Local Ssd state is attempted. Its value should be in between 0 and 168 hours with hour granularity and the default value being 1 hour. Structure is documented below.
-	// The local_ssd_recovery_timeout block supports:
 	LocalSsdRecoveryTimeout []LocalSsdRecoveryTimeoutInitParameters `json:"localSsdRecoveryTimeout,omitempty" tf:"local_ssd_recovery_timeout,omitempty"`
 
 	// The duration of the instance. Instance will run and be terminated after then, the termination action could be defined in instance_termination_action. Structure is documented below.
@@ -1626,6 +2004,9 @@ type SchedulingInitParameters struct {
 	// false. For more info about
 	// SPOT, read here
 	ProvisioningModel *string `json:"provisioningModel,omitempty" tf:"provisioning_model,omitempty"`
+
+	// Specifies the timestamp, when the instance will be terminated, in RFC3339 text format. If specified, the instance termination action will be performed at the termination time.
+	TerminationTime *string `json:"terminationTime,omitempty" tf:"termination_time,omitempty"`
 }
 
 type SchedulingObservation struct {
@@ -1635,11 +2016,13 @@ type SchedulingObservation struct {
 	// Defaults to true.
 	AutomaticRestart *bool `json:"automaticRestart,omitempty" tf:"automatic_restart,omitempty"`
 
+	// Specifies the availability domain to place the instance in. The value must be a number between 1 and the number of availability domains specified in the spread placement policy attached to the instance.
+	AvailabilityDomain *float64 `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
+
 	// Describe the type of termination action for VM. Can be STOP or DELETE.  Read more on here
 	InstanceTerminationAction *string `json:"instanceTerminationAction,omitempty" tf:"instance_termination_action,omitempty"`
 
 	// io/docs/providers/google/guides/provider_versions.html) Specifies the maximum amount of time a Local Ssd Vm should wait while recovery of the Local Ssd state is attempted. Its value should be in between 0 and 168 hours with hour granularity and the default value being 1 hour. Structure is documented below.
-	// The local_ssd_recovery_timeout block supports:
 	LocalSsdRecoveryTimeout []LocalSsdRecoveryTimeoutObservation `json:"localSsdRecoveryTimeout,omitempty" tf:"local_ssd_recovery_timeout,omitempty"`
 
 	// The duration of the instance. Instance will run and be terminated after then, the termination action could be defined in instance_termination_action. Structure is documented below.
@@ -1673,6 +2056,9 @@ type SchedulingObservation struct {
 	// false. For more info about
 	// SPOT, read here
 	ProvisioningModel *string `json:"provisioningModel,omitempty" tf:"provisioning_model,omitempty"`
+
+	// Specifies the timestamp, when the instance will be terminated, in RFC3339 text format. If specified, the instance termination action will be performed at the termination time.
+	TerminationTime *string `json:"terminationTime,omitempty" tf:"termination_time,omitempty"`
 }
 
 type SchedulingParameters struct {
@@ -1683,12 +2069,15 @@ type SchedulingParameters struct {
 	// +kubebuilder:validation:Optional
 	AutomaticRestart *bool `json:"automaticRestart,omitempty" tf:"automatic_restart,omitempty"`
 
+	// Specifies the availability domain to place the instance in. The value must be a number between 1 and the number of availability domains specified in the spread placement policy attached to the instance.
+	// +kubebuilder:validation:Optional
+	AvailabilityDomain *float64 `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
+
 	// Describe the type of termination action for VM. Can be STOP or DELETE.  Read more on here
 	// +kubebuilder:validation:Optional
 	InstanceTerminationAction *string `json:"instanceTerminationAction,omitempty" tf:"instance_termination_action,omitempty"`
 
 	// io/docs/providers/google/guides/provider_versions.html) Specifies the maximum amount of time a Local Ssd Vm should wait while recovery of the Local Ssd state is attempted. Its value should be in between 0 and 168 hours with hour granularity and the default value being 1 hour. Structure is documented below.
-	// The local_ssd_recovery_timeout block supports:
 	// +kubebuilder:validation:Optional
 	LocalSsdRecoveryTimeout []LocalSsdRecoveryTimeoutParameters `json:"localSsdRecoveryTimeout,omitempty" tf:"local_ssd_recovery_timeout,omitempty"`
 
@@ -1730,6 +2119,10 @@ type SchedulingParameters struct {
 	// SPOT, read here
 	// +kubebuilder:validation:Optional
 	ProvisioningModel *string `json:"provisioningModel,omitempty" tf:"provisioning_model,omitempty"`
+
+	// Specifies the timestamp, when the instance will be terminated, in RFC3339 text format. If specified, the instance termination action will be performed at the termination time.
+	// +kubebuilder:validation:Optional
+	TerminationTime *string `json:"terminationTime,omitempty" tf:"termination_time,omitempty"`
 }
 
 type ScratchDiskInitParameters struct {

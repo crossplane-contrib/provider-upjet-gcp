@@ -231,6 +231,77 @@ type ContainersParameters struct {
 	WorkingDir *string `json:"workingDir,omitempty" tf:"working_dir,omitempty"`
 }
 
+type CsiInitParameters struct {
+
+	// Unique name representing the type of file system to be created. Cloud Run supports the following values:
+	Driver *string `json:"driver,omitempty" tf:"driver,omitempty"`
+
+	// If true, mount the NFS volume as read only in all mounts. Defaults to false.
+	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
+
+	// Driver-specific attributes. The following options are supported for available drivers:
+	// +mapType=granular
+	VolumeAttributes map[string]*string `json:"volumeAttributes,omitempty" tf:"volume_attributes,omitempty"`
+}
+
+type CsiObservation struct {
+
+	// Unique name representing the type of file system to be created. Cloud Run supports the following values:
+	Driver *string `json:"driver,omitempty" tf:"driver,omitempty"`
+
+	// If true, mount the NFS volume as read only in all mounts. Defaults to false.
+	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
+
+	// Driver-specific attributes. The following options are supported for available drivers:
+	// +mapType=granular
+	VolumeAttributes map[string]*string `json:"volumeAttributes,omitempty" tf:"volume_attributes,omitempty"`
+}
+
+type CsiParameters struct {
+
+	// Unique name representing the type of file system to be created. Cloud Run supports the following values:
+	// +kubebuilder:validation:Optional
+	Driver *string `json:"driver" tf:"driver,omitempty"`
+
+	// If true, mount the NFS volume as read only in all mounts. Defaults to false.
+	// +kubebuilder:validation:Optional
+	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
+
+	// Driver-specific attributes. The following options are supported for available drivers:
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	VolumeAttributes map[string]*string `json:"volumeAttributes,omitempty" tf:"volume_attributes,omitempty"`
+}
+
+type EmptyDirInitParameters struct {
+
+	// The medium on which the data is stored. The default is "" which means to use the node's default medium. Must be an empty string (default) or Memory.
+	Medium *string `json:"medium,omitempty" tf:"medium,omitempty"`
+
+	// Limit on the storage usable by this EmptyDir volume. The size limit is also applicable for memory medium. The maximum usage on memory medium EmptyDir would be the minimum value between the SizeLimit specified here and the sum of memory limits of all containers in a pod. This field's values are of the 'Quantity' k8s type: https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/. The default is nil which means that the limit is undefined. More info: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir.
+	SizeLimit *string `json:"sizeLimit,omitempty" tf:"size_limit,omitempty"`
+}
+
+type EmptyDirObservation struct {
+
+	// The medium on which the data is stored. The default is "" which means to use the node's default medium. Must be an empty string (default) or Memory.
+	Medium *string `json:"medium,omitempty" tf:"medium,omitempty"`
+
+	// Limit on the storage usable by this EmptyDir volume. The size limit is also applicable for memory medium. The maximum usage on memory medium EmptyDir would be the minimum value between the SizeLimit specified here and the sum of memory limits of all containers in a pod. This field's values are of the 'Quantity' k8s type: https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/. The default is nil which means that the limit is undefined. More info: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir.
+	SizeLimit *string `json:"sizeLimit,omitempty" tf:"size_limit,omitempty"`
+}
+
+type EmptyDirParameters struct {
+
+	// The medium on which the data is stored. The default is "" which means to use the node's default medium. Must be an empty string (default) or Memory.
+	// +kubebuilder:validation:Optional
+	Medium *string `json:"medium,omitempty" tf:"medium,omitempty"`
+
+	// Limit on the storage usable by this EmptyDir volume. The size limit is also applicable for memory medium. The maximum usage on memory medium EmptyDir would be the minimum value between the SizeLimit specified here and the sum of memory limits of all containers in a pod. This field's values are of the 'Quantity' k8s type: https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/. The default is nil which means that the limit is undefined. More info: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir.
+	// +kubebuilder:validation:Optional
+	SizeLimit *string `json:"sizeLimit,omitempty" tf:"size_limit,omitempty"`
+}
+
 type EnvFromInitParameters struct {
 
 	// The ConfigMap to select from.
@@ -622,6 +693,45 @@ type LocalObjectReferenceParameters struct {
 	Name *string `json:"name" tf:"name,omitempty"`
 }
 
+type NFSInitParameters struct {
+
+	// Path exported by the NFS server
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// If true, mount the NFS volume as read only in all mounts. Defaults to false.
+	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
+
+	// IP address or hostname of the NFS server
+	Server *string `json:"server,omitempty" tf:"server,omitempty"`
+}
+
+type NFSObservation struct {
+
+	// Path exported by the NFS server
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// If true, mount the NFS volume as read only in all mounts. Defaults to false.
+	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
+
+	// IP address or hostname of the NFS server
+	Server *string `json:"server,omitempty" tf:"server,omitempty"`
+}
+
+type NFSParameters struct {
+
+	// Path exported by the NFS server
+	// +kubebuilder:validation:Optional
+	Path *string `json:"path" tf:"path,omitempty"`
+
+	// If true, mount the NFS volume as read only in all mounts. Defaults to false.
+	// +kubebuilder:validation:Optional
+	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
+
+	// IP address or hostname of the NFS server
+	// +kubebuilder:validation:Optional
+	Server *string `json:"server" tf:"server,omitempty"`
+}
+
 type PortsInitParameters struct {
 
 	// Port number the container listens on. This must be a valid port number (between 1 and 65535). Defaults to "8080".
@@ -929,13 +1039,8 @@ type ServiceInitParameters struct {
 	// this field is set to false, the revision name will still autogenerate.)
 	AutogenerateRevisionName *bool `json:"autogenerateRevisionName,omitempty" tf:"autogenerate_revision_name,omitempty"`
 
-	// Optional metadata for this Revision, including labels and annotations.
-	// Name will be generated by the Configuration. To set minimum instances
-	// for this revision, use the "autoscaling.knative.dev/minScale" annotation
-	// key. To set maximum instances for this revision, use the
-	// "autoscaling.knative.dev/maxScale" annotation key. To set Cloud SQL
-	// connections for the revision, use the "run.googleapis.com/cloudsql-instances"
-	// annotation key.
+	// Metadata associated with this Service, including name, namespace, labels,
+	// and annotations.
 	// Structure is documented below.
 	Metadata *ServiceMetadataInitParameters `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
@@ -955,7 +1060,6 @@ type ServiceInitParameters struct {
 	// Structure is documented below.
 	Template *TemplateInitParameters `json:"template,omitempty" tf:"template,omitempty"`
 
-	// (Output)
 	// Traffic specifies how to distribute traffic over a collection of Knative Revisions
 	// and Configurations
 	// Structure is documented below.
@@ -1094,13 +1198,8 @@ type ServiceObservation struct {
 	// The location of the cloud run instance. eg us-central1
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
-	// Optional metadata for this Revision, including labels and annotations.
-	// Name will be generated by the Configuration. To set minimum instances
-	// for this revision, use the "autoscaling.knative.dev/minScale" annotation
-	// key. To set maximum instances for this revision, use the
-	// "autoscaling.knative.dev/maxScale" annotation key. To set Cloud SQL
-	// connections for the revision, use the "run.googleapis.com/cloudsql-instances"
-	// annotation key.
+	// Metadata associated with this Service, including name, namespace, labels,
+	// and annotations.
 	// Structure is documented below.
 	Metadata *ServiceMetadataObservation `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
@@ -1124,7 +1223,6 @@ type ServiceObservation struct {
 	// Structure is documented below.
 	Template *TemplateObservation `json:"template,omitempty" tf:"template,omitempty"`
 
-	// (Output)
 	// Traffic specifies how to distribute traffic over a collection of Knative Revisions
 	// and Configurations
 	// Structure is documented below.
@@ -1145,13 +1243,8 @@ type ServiceParameters struct {
 	// +kubebuilder:validation:Required
 	Location *string `json:"location" tf:"location,omitempty"`
 
-	// Optional metadata for this Revision, including labels and annotations.
-	// Name will be generated by the Configuration. To set minimum instances
-	// for this revision, use the "autoscaling.knative.dev/minScale" annotation
-	// key. To set maximum instances for this revision, use the
-	// "autoscaling.knative.dev/maxScale" annotation key. To set Cloud SQL
-	// connections for the revision, use the "run.googleapis.com/cloudsql-instances"
-	// annotation key.
+	// Metadata associated with this Service, including name, namespace, labels,
+	// and annotations.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Metadata *ServiceMetadataParameters `json:"metadata,omitempty" tf:"metadata,omitempty"`
@@ -1174,7 +1267,6 @@ type ServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	Template *TemplateParameters `json:"template,omitempty" tf:"template,omitempty"`
 
-	// (Output)
 	// Traffic specifies how to distribute traffic over a collection of Knative Revisions
 	// and Configurations
 	// Structure is documented below.
@@ -1688,6 +1780,11 @@ type TemplateSpecInitParameters struct {
 	// Structure is documented below.
 	Containers []ContainersInitParameters `json:"containers,omitempty" tf:"containers,omitempty"`
 
+	// Node Selector describes the hardware requirements of the resources.
+	// Use the following node selector keys to configure features on a Revision:
+	// +mapType=granular
+	NodeSelector map[string]*string `json:"nodeSelector,omitempty" tf:"node_selector,omitempty"`
+
 	// Email address of the IAM service account associated with the revision of the
 	// service. The service account represents the identity of the running revision,
 	// and determines what permissions the revision has. If not provided, the revision
@@ -1714,6 +1811,11 @@ type TemplateSpecObservation struct {
 	// Containers defines the unit of execution for this Revision.
 	// Structure is documented below.
 	Containers []ContainersObservation `json:"containers,omitempty" tf:"containers,omitempty"`
+
+	// Node Selector describes the hardware requirements of the resources.
+	// Use the following node selector keys to configure features on a Revision:
+	// +mapType=granular
+	NodeSelector map[string]*string `json:"nodeSelector,omitempty" tf:"node_selector,omitempty"`
 
 	// Email address of the IAM service account associated with the revision of the
 	// service. The service account represents the identity of the running revision,
@@ -1750,6 +1852,12 @@ type TemplateSpecParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Containers []ContainersParameters `json:"containers,omitempty" tf:"containers,omitempty"`
+
+	// Node Selector describes the hardware requirements of the resources.
+	// Use the following node selector keys to configure features on a Revision:
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	NodeSelector map[string]*string `json:"nodeSelector,omitempty" tf:"node_selector,omitempty"`
 
 	// Email address of the IAM service account associated with the revision of the
 	// service. The service account represents the identity of the running revision,
@@ -1856,6 +1964,19 @@ type VolumeMountsParameters struct {
 
 type VolumesInitParameters struct {
 
+	// A filesystem specified by the Container Storage Interface (CSI).
+	// Structure is documented below.
+	Csi *CsiInitParameters `json:"csi,omitempty" tf:"csi,omitempty"`
+
+	// Ephemeral storage which can be backed by real disks (HD, SSD), network storage or memory (i.e. tmpfs). For now only in memory (tmpfs) is supported. It is ephemeral in the sense that when the sandbox is taken down, the data is destroyed with it (it does not persist across sandbox runs).
+	// Structure is documented below.
+	EmptyDir *EmptyDirInitParameters `json:"emptyDir,omitempty" tf:"empty_dir,omitempty"`
+
+	// A filesystem backed by a Network File System share. This filesystem requires the
+	// run.googleapis.com/execution-environment annotation to be unset or set to "gen2"
+	// Structure is documented below.
+	NFS *NFSInitParameters `json:"nfs,omitempty" tf:"nfs,omitempty"`
+
 	// Volume's name.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
@@ -1868,6 +1989,19 @@ type VolumesInitParameters struct {
 
 type VolumesObservation struct {
 
+	// A filesystem specified by the Container Storage Interface (CSI).
+	// Structure is documented below.
+	Csi *CsiObservation `json:"csi,omitempty" tf:"csi,omitempty"`
+
+	// Ephemeral storage which can be backed by real disks (HD, SSD), network storage or memory (i.e. tmpfs). For now only in memory (tmpfs) is supported. It is ephemeral in the sense that when the sandbox is taken down, the data is destroyed with it (it does not persist across sandbox runs).
+	// Structure is documented below.
+	EmptyDir *EmptyDirObservation `json:"emptyDir,omitempty" tf:"empty_dir,omitempty"`
+
+	// A filesystem backed by a Network File System share. This filesystem requires the
+	// run.googleapis.com/execution-environment annotation to be unset or set to "gen2"
+	// Structure is documented below.
+	NFS *NFSObservation `json:"nfs,omitempty" tf:"nfs,omitempty"`
+
 	// Volume's name.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
@@ -1879,6 +2013,22 @@ type VolumesObservation struct {
 }
 
 type VolumesParameters struct {
+
+	// A filesystem specified by the Container Storage Interface (CSI).
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Csi *CsiParameters `json:"csi,omitempty" tf:"csi,omitempty"`
+
+	// Ephemeral storage which can be backed by real disks (HD, SSD), network storage or memory (i.e. tmpfs). For now only in memory (tmpfs) is supported. It is ephemeral in the sense that when the sandbox is taken down, the data is destroyed with it (it does not persist across sandbox runs).
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	EmptyDir *EmptyDirParameters `json:"emptyDir,omitempty" tf:"empty_dir,omitempty"`
+
+	// A filesystem backed by a Network File System share. This filesystem requires the
+	// run.googleapis.com/execution-environment annotation to be unset or set to "gen2"
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	NFS *NFSParameters `json:"nfs,omitempty" tf:"nfs,omitempty"`
 
 	// Volume's name.
 	// +kubebuilder:validation:Optional

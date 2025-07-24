@@ -15,6 +15,7 @@ spec:
     binaryAuthorization:
     - breakglassJustification: Some justification
       useDefault: true
+    deletionProtection: false
     ingress: "INGRESS_TRAFFIC_ALL"
     location: us-central1
     template:

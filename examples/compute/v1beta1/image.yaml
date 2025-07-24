@@ -12,5 +12,4 @@ metadata:
   name: image
 spec:
   forProvider:
-    rawDisk:
-      - source: https://storage.googleapis.com/bosh-gce-raw-stemcells/bosh-stemcell-97.98-google-kvm-ubuntu-xenial-go_agent-raw-1557960142.tar.gz
+    sourceImage: projects/debian-cloud/global/images/debian-11-bullseye-v20250709

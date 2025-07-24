@@ -141,6 +141,11 @@ spec:
                             Structure is documented below.
                           items:
                             properties:
+                              useTopicSchema:
+                                description: |-
+                                  When true, use the topic's schema as the columns to write to in BigQuery, if it exists.
+                                  Only one of use_topic_schema and use_table_schema can be set.
+                                type: boolean
                               writeMetadata:
                                 description: |-
                                   When true, writes the Pub/Sub message metadata to
@@ -176,6 +181,93 @@ spec:
                             May not exceed the subscription's acknowledgement deadline.
                             A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
                           type: string
+                        maxMessages:
+                          description: The maximum messages that can be written to
+                            a Cloud Storage file before a new file is created. Min
+                            1000 messages.
+                          type: number
+                        serviceAccountEmail:
+                          description: |-
+                            The service account to use to write to Cloud Storage. If not specified, the Pub/Sub
+                            service agent,
+                            service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com, is used.
+                          type: string
+                        serviceAccountEmailRef:
+                          description: Reference to a ServiceAccount in cloudplatform
+                            to populate serviceAccountEmail.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        serviceAccountEmailSelector:
+                          description: Selector for a ServiceAccount in cloudplatform
+                            to populate serviceAccountEmail.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
                       type: object
                     type: array
                   deadLetterPolicy:
@@ -345,10 +437,42 @@ spec:
                       retain_acked_messages is true, then this also configures the retention
                       of acknowledged messages, and thus configures how far back in time a
                       subscriptions.seek can be done. Defaults to 7 days. Cannot be more
-                      than 7 days ("604800s") or less than 10 minutes ("600s").
+                      than 31 days ("2678400s") or less than 10 minutes ("600s").
                       A duration in seconds with up to nine fractional digits, terminated
                       by 's'. Example: "600.5s".
                     type: string
+                  messageTransforms:
+                    description: |-
+                      Transforms to be applied to messages published to the topic. Transforms are applied in the
+                      order specified.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        disabled:
+                          description: |-
+                            Controls whether or not to use this transform. If not set or false,
+                            the transform will be applied to messages. Default: true.
+                          type: boolean
+                        javascriptUdf:
+                          description: |-
+                            Javascript User Defined Function. If multiple Javascript UDFs are specified on a resource,
+                            each one must have a unique function_name.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              code:
+                                description: |-
+                                  JavaScript code that contains a function function_name with the
+                                  following signature:
+                                type: string
+                              functionName:
+                                description: Name of the JavaScript function that
+                                  should be applied to Pub/Sub messages.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -620,6 +744,11 @@ spec:
                             Structure is documented below.
                           items:
                             properties:
+                              useTopicSchema:
+                                description: |-
+                                  When true, use the topic's schema as the columns to write to in BigQuery, if it exists.
+                                  Only one of use_topic_schema and use_table_schema can be set.
+                                type: boolean
                               writeMetadata:
                                 description: |-
                                   When true, writes the Pub/Sub message metadata to
@@ -655,6 +784,93 @@ spec:
                             May not exceed the subscription's acknowledgement deadline.
                             A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
                           type: string
+                        maxMessages:
+                          description: The maximum messages that can be written to
+                            a Cloud Storage file before a new file is created. Min
+                            1000 messages.
+                          type: number
+                        serviceAccountEmail:
+                          description: |-
+                            The service account to use to write to Cloud Storage. If not specified, the Pub/Sub
+                            service agent,
+                            service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com, is used.
+                          type: string
+                        serviceAccountEmailRef:
+                          description: Reference to a ServiceAccount in cloudplatform
+                            to populate serviceAccountEmail.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        serviceAccountEmailSelector:
+                          description: Selector for a ServiceAccount in cloudplatform
+                            to populate serviceAccountEmail.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
                       type: object
                     type: array
                   deadLetterPolicy:
@@ -824,10 +1040,42 @@ spec:
                       retain_acked_messages is true, then this also configures the retention
                       of acknowledged messages, and thus configures how far back in time a
                       subscriptions.seek can be done. Defaults to 7 days. Cannot be more
-                      than 7 days ("604800s") or less than 10 minutes ("600s").
+                      than 31 days ("2678400s") or less than 10 minutes ("600s").
                       A duration in seconds with up to nine fractional digits, terminated
                       by 's'. Example: "600.5s".
                     type: string
+                  messageTransforms:
+                    description: |-
+                      Transforms to be applied to messages published to the topic. Transforms are applied in the
+                      order specified.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        disabled:
+                          description: |-
+                            Controls whether or not to use this transform. If not set or false,
+                            the transform will be applied to messages. Default: true.
+                          type: boolean
+                        javascriptUdf:
+                          description: |-
+                            Javascript User Defined Function. If multiple Javascript UDFs are specified on a resource,
+                            each one must have a unique function_name.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              code:
+                                description: |-
+                                  JavaScript code that contains a function function_name with the
+                                  following signature:
+                                type: string
+                              functionName:
+                                description: Name of the JavaScript function that
+                                  should be applied to Pub/Sub messages.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -1258,6 +1506,11 @@ spec:
                             Structure is documented below.
                           items:
                             properties:
+                              useTopicSchema:
+                                description: |-
+                                  When true, use the topic's schema as the columns to write to in BigQuery, if it exists.
+                                  Only one of use_topic_schema and use_table_schema can be set.
+                                type: boolean
                               writeMetadata:
                                 description: |-
                                   When true, writes the Pub/Sub message metadata to
@@ -1292,6 +1545,17 @@ spec:
                             The maximum duration that can elapse before a new Cloud Storage file is created. Min 1 minute, max 10 minutes, default 5 minutes.
                             May not exceed the subscription's acknowledgement deadline.
                             A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
+                          type: string
+                        maxMessages:
+                          description: The maximum messages that can be written to
+                            a Cloud Storage file before a new file is created. Min
+                            1000 messages.
+                          type: number
+                        serviceAccountEmail:
+                          description: |-
+                            The service account to use to write to Cloud Storage. If not specified, the Pub/Sub
+                            service agent,
+                            service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com, is used.
                           type: string
                         state:
                           description: |-
@@ -1400,10 +1664,42 @@ spec:
                       retain_acked_messages is true, then this also configures the retention
                       of acknowledged messages, and thus configures how far back in time a
                       subscriptions.seek can be done. Defaults to 7 days. Cannot be more
-                      than 7 days ("604800s") or less than 10 minutes ("600s").
+                      than 31 days ("2678400s") or less than 10 minutes ("600s").
                       A duration in seconds with up to nine fractional digits, terminated
                       by 's'. Example: "600.5s".
                     type: string
+                  messageTransforms:
+                    description: |-
+                      Transforms to be applied to messages published to the topic. Transforms are applied in the
+                      order specified.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        disabled:
+                          description: |-
+                            Controls whether or not to use this transform. If not set or false,
+                            the transform will be applied to messages. Default: true.
+                          type: boolean
+                        javascriptUdf:
+                          description: |-
+                            Javascript User Defined Function. If multiple Javascript UDFs are specified on a resource,
+                            each one must have a unique function_name.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              code:
+                                description: |-
+                                  JavaScript code that contains a function function_name with the
+                                  following signature:
+                                type: string
+                              functionName:
+                                description: Name of the JavaScript function that
+                                  should be applied to Pub/Sub messages.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -1791,6 +2087,11 @@ spec:
                           If set, message data will be written to Cloud Storage in Avro format.
                           Structure is documented below.
                         properties:
+                          useTopicSchema:
+                            description: |-
+                              When true, use the topic's schema as the columns to write to in BigQuery, if it exists.
+                              Only one of use_topic_schema and use_table_schema can be set.
+                            type: boolean
                           writeMetadata:
                             description: |-
                               When true, writes the Pub/Sub message metadata to
@@ -1825,6 +2126,11 @@ spec:
                           May not exceed the subscription's acknowledgement deadline.
                           A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
                         type: string
+                      maxMessages:
+                        description: The maximum messages that can be written to a
+                          Cloud Storage file before a new file is created. Min 1000
+                          messages.
+                        type: number
                       serviceAccountEmail:
                         description: |-
                           The service account to use to write to Cloud Storage. If not specified, the Pub/Sub
@@ -2069,10 +2375,40 @@ spec:
                       retain_acked_messages is true, then this also configures the retention
                       of acknowledged messages, and thus configures how far back in time a
                       subscriptions.seek can be done. Defaults to 7 days. Cannot be more
-                      than 7 days ("604800s") or less than 10 minutes ("600s").
+                      than 31 days ("2678400s") or less than 10 minutes ("600s").
                       A duration in seconds with up to nine fractional digits, terminated
                       by 's'. Example: "600.5s".
                     type: string
+                  messageTransforms:
+                    description: |-
+                      Transforms to be applied to messages published to the topic. Transforms are applied in the
+                      order specified.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        disabled:
+                          description: |-
+                            Controls whether or not to use this transform. If not set or false,
+                            the transform will be applied to messages. Default: true.
+                          type: boolean
+                        javascriptUdf:
+                          description: |-
+                            Javascript User Defined Function. If multiple Javascript UDFs are specified on a resource,
+                            each one must have a unique function_name.
+                            Structure is documented below.
+                          properties:
+                            code:
+                              description: |-
+                                JavaScript code that contains a function function_name with the
+                                following signature:
+                              type: string
+                            functionName:
+                              description: Name of the JavaScript function that should
+                                be applied to Pub/Sub messages.
+                              type: string
+                          type: object
+                      type: object
+                    type: array
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -2414,6 +2750,11 @@ spec:
                           If set, message data will be written to Cloud Storage in Avro format.
                           Structure is documented below.
                         properties:
+                          useTopicSchema:
+                            description: |-
+                              When true, use the topic's schema as the columns to write to in BigQuery, if it exists.
+                              Only one of use_topic_schema and use_table_schema can be set.
+                            type: boolean
                           writeMetadata:
                             description: |-
                               When true, writes the Pub/Sub message metadata to
@@ -2448,6 +2789,11 @@ spec:
                           May not exceed the subscription's acknowledgement deadline.
                           A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
                         type: string
+                      maxMessages:
+                        description: The maximum messages that can be written to a
+                          Cloud Storage file before a new file is created. Min 1000
+                          messages.
+                        type: number
                       serviceAccountEmail:
                         description: |-
                           The service account to use to write to Cloud Storage. If not specified, the Pub/Sub
@@ -2692,10 +3038,40 @@ spec:
                       retain_acked_messages is true, then this also configures the retention
                       of acknowledged messages, and thus configures how far back in time a
                       subscriptions.seek can be done. Defaults to 7 days. Cannot be more
-                      than 7 days ("604800s") or less than 10 minutes ("600s").
+                      than 31 days ("2678400s") or less than 10 minutes ("600s").
                       A duration in seconds with up to nine fractional digits, terminated
                       by 's'. Example: "600.5s".
                     type: string
+                  messageTransforms:
+                    description: |-
+                      Transforms to be applied to messages published to the topic. Transforms are applied in the
+                      order specified.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        disabled:
+                          description: |-
+                            Controls whether or not to use this transform. If not set or false,
+                            the transform will be applied to messages. Default: true.
+                          type: boolean
+                        javascriptUdf:
+                          description: |-
+                            Javascript User Defined Function. If multiple Javascript UDFs are specified on a resource,
+                            each one must have a unique function_name.
+                            Structure is documented below.
+                          properties:
+                            code:
+                              description: |-
+                                JavaScript code that contains a function function_name with the
+                                following signature:
+                              type: string
+                            functionName:
+                              description: Name of the JavaScript function that should
+                                be applied to Pub/Sub messages.
+                              type: string
+                          type: object
+                      type: object
+                    type: array
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -3120,6 +3496,11 @@ spec:
                           If set, message data will be written to Cloud Storage in Avro format.
                           Structure is documented below.
                         properties:
+                          useTopicSchema:
+                            description: |-
+                              When true, use the topic's schema as the columns to write to in BigQuery, if it exists.
+                              Only one of use_topic_schema and use_table_schema can be set.
+                            type: boolean
                           writeMetadata:
                             description: |-
                               When true, writes the Pub/Sub message metadata to
@@ -3154,6 +3535,11 @@ spec:
                           May not exceed the subscription's acknowledgement deadline.
                           A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
                         type: string
+                      maxMessages:
+                        description: The maximum messages that can be written to a
+                          Cloud Storage file before a new file is created. Min 1000
+                          messages.
+                        type: number
                       serviceAccountEmail:
                         description: |-
                           The service account to use to write to Cloud Storage. If not specified, the Pub/Sub
@@ -3262,10 +3648,40 @@ spec:
                       retain_acked_messages is true, then this also configures the retention
                       of acknowledged messages, and thus configures how far back in time a
                       subscriptions.seek can be done. Defaults to 7 days. Cannot be more
-                      than 7 days ("604800s") or less than 10 minutes ("600s").
+                      than 31 days ("2678400s") or less than 10 minutes ("600s").
                       A duration in seconds with up to nine fractional digits, terminated
                       by 's'. Example: "600.5s".
                     type: string
+                  messageTransforms:
+                    description: |-
+                      Transforms to be applied to messages published to the topic. Transforms are applied in the
+                      order specified.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        disabled:
+                          description: |-
+                            Controls whether or not to use this transform. If not set or false,
+                            the transform will be applied to messages. Default: true.
+                          type: boolean
+                        javascriptUdf:
+                          description: |-
+                            Javascript User Defined Function. If multiple Javascript UDFs are specified on a resource,
+                            each one must have a unique function_name.
+                            Structure is documented below.
+                          properties:
+                            code:
+                              description: |-
+                                JavaScript code that contains a function function_name with the
+                                following signature:
+                              type: string
+                            functionName:
+                              description: Name of the JavaScript function that should
+                                be applied to Pub/Sub messages.
+                              type: string
+                          type: object
+                      type: object
+                    type: array
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.

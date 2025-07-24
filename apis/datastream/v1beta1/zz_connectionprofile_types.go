@@ -296,12 +296,19 @@ type MySQLProfileInitParameters struct {
 	// Hostname for the MySQL connection.
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 
+	// Password for the MySQL connection.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+
 	// Port for the MySQL connection.
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
 	// SSL configuration for the MySQL connection.
 	// Structure is documented below.
 	SSLConfig []SSLConfigInitParameters `json:"sslConfig,omitempty" tf:"ssl_config,omitempty"`
+
+	// A reference to a Secret Manager resource name storing the user's password.
+	SecretManagerStoredPassword *string `json:"secretManagerStoredPassword,omitempty" tf:"secret_manager_stored_password,omitempty"`
 
 	// Username for the MySQL connection.
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
@@ -319,6 +326,9 @@ type MySQLProfileObservation struct {
 	// Structure is documented below.
 	SSLConfig []SSLConfigObservation `json:"sslConfig,omitempty" tf:"ssl_config,omitempty"`
 
+	// A reference to a Secret Manager resource name storing the user's password.
+	SecretManagerStoredPassword *string `json:"secretManagerStoredPassword,omitempty" tf:"secret_manager_stored_password,omitempty"`
+
 	// Username for the MySQL connection.
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
@@ -331,8 +341,8 @@ type MySQLProfileParameters struct {
 
 	// Password for the MySQL connection.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	// +kubebuilder:validation:Required
-	PasswordSecretRef v1.SecretKeySelector `json:"passwordSecretRef" tf:"-"`
+	// +kubebuilder:validation:Optional
+	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// Port for the MySQL connection.
 	// +kubebuilder:validation:Optional
@@ -342,6 +352,10 @@ type MySQLProfileParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SSLConfig []SSLConfigParameters `json:"sslConfig,omitempty" tf:"ssl_config,omitempty"`
+
+	// A reference to a Secret Manager resource name storing the user's password.
+	// +kubebuilder:validation:Optional
+	SecretManagerStoredPassword *string `json:"secretManagerStoredPassword,omitempty" tf:"secret_manager_stored_password,omitempty"`
 
 	// Username for the MySQL connection.
 	// +kubebuilder:validation:Optional
@@ -360,8 +374,15 @@ type OracleProfileInitParameters struct {
 	// Hostname for the Oracle connection.
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 
+	// Password for the Oracle connection.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+
 	// Port for the Oracle connection.
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// A reference to a Secret Manager resource name storing the user's password.
+	SecretManagerStoredPassword *string `json:"secretManagerStoredPassword,omitempty" tf:"secret_manager_stored_password,omitempty"`
 
 	// Username for the Oracle connection.
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
@@ -381,6 +402,9 @@ type OracleProfileObservation struct {
 
 	// Port for the Oracle connection.
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// A reference to a Secret Manager resource name storing the user's password.
+	SecretManagerStoredPassword *string `json:"secretManagerStoredPassword,omitempty" tf:"secret_manager_stored_password,omitempty"`
 
 	// Username for the Oracle connection.
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
@@ -403,12 +427,16 @@ type OracleProfileParameters struct {
 
 	// Password for the Oracle connection.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	// +kubebuilder:validation:Required
-	PasswordSecretRef v1.SecretKeySelector `json:"passwordSecretRef" tf:"-"`
+	// +kubebuilder:validation:Optional
+	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// Port for the Oracle connection.
 	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// A reference to a Secret Manager resource name storing the user's password.
+	// +kubebuilder:validation:Optional
+	SecretManagerStoredPassword *string `json:"secretManagerStoredPassword,omitempty" tf:"secret_manager_stored_password,omitempty"`
 
 	// Username for the Oracle connection.
 	// +kubebuilder:validation:Optional
@@ -442,11 +470,18 @@ type PostgresqlProfileInitParameters struct {
 	// +kubebuilder:validation:Optional
 	HostnameSelector *v1.Selector `json:"hostnameSelector,omitempty" tf:"-"`
 
+	// Password for the PostgreSQL connection.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+
 	// Port for the PostgreSQL connection.
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
+	// A reference to a Secret Manager resource name storing the user's password.
+	SecretManagerStoredPassword *string `json:"secretManagerStoredPassword,omitempty" tf:"secret_manager_stored_password,omitempty"`
+
 	// Username for the PostgreSQL connection.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/sql/v1beta1.User
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/sql/v1beta2.User
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 
 	// Reference to a User in sql to populate username.
@@ -468,6 +503,9 @@ type PostgresqlProfileObservation struct {
 
 	// Port for the PostgreSQL connection.
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// A reference to a Secret Manager resource name storing the user's password.
+	SecretManagerStoredPassword *string `json:"secretManagerStoredPassword,omitempty" tf:"secret_manager_stored_password,omitempty"`
 
 	// Username for the PostgreSQL connection.
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
@@ -504,12 +542,16 @@ type PostgresqlProfileParameters struct {
 
 	// Password for the PostgreSQL connection.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	// +kubebuilder:validation:Required
-	PasswordSecretRef v1.SecretKeySelector `json:"passwordSecretRef" tf:"-"`
+	// +kubebuilder:validation:Optional
+	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// Port for the PostgreSQL connection.
 	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// A reference to a Secret Manager resource name storing the user's password.
+	// +kubebuilder:validation:Optional
+	SecretManagerStoredPassword *string `json:"secretManagerStoredPassword,omitempty" tf:"secret_manager_stored_password,omitempty"`
 
 	// Username for the PostgreSQL connection.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/sql/v1beta1.User
@@ -593,10 +635,13 @@ type SQLServerProfileInitParameters struct {
 
 	// Password for the SQL Server connection.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	PasswordSecretRef v1.SecretKeySelector `json:"passwordSecretRef" tf:"-"`
+	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// Port for the SQL Server connection.
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// A reference to a Secret Manager resource name storing the user's password.
+	SecretManagerStoredPassword *string `json:"secretManagerStoredPassword,omitempty" tf:"secret_manager_stored_password,omitempty"`
 
 	// Username for the SQL Server connection.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/sql/v1beta2.User
@@ -621,6 +666,9 @@ type SQLServerProfileObservation struct {
 
 	// Port for the SQL Server connection.
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// A reference to a Secret Manager resource name storing the user's password.
+	SecretManagerStoredPassword *string `json:"secretManagerStoredPassword,omitempty" tf:"secret_manager_stored_password,omitempty"`
 
 	// Username for the SQL Server connection.
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
@@ -658,11 +706,15 @@ type SQLServerProfileParameters struct {
 	// Password for the SQL Server connection.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef v1.SecretKeySelector `json:"passwordSecretRef" tf:"-"`
+	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// Port for the SQL Server connection.
 	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// A reference to a Secret Manager resource name storing the user's password.
+	// +kubebuilder:validation:Optional
+	SecretManagerStoredPassword *string `json:"secretManagerStoredPassword,omitempty" tf:"secret_manager_stored_password,omitempty"`
 
 	// Username for the SQL Server connection.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/sql/v1beta2.User

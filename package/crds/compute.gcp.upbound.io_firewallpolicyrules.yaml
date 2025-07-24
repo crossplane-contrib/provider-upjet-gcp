@@ -266,6 +266,94 @@ spec:
                           items:
                             type: string
                           type: array
+                        srcSecureTags:
+                          description: |-
+                            List of secure tag values, which should be matched at the source of the traffic. For INGRESS rule, if all the srcSecureTag are INEFFECTIVE, and there is no srcIpRange, this rule will be ignored. Maximum number of source tag values allowed is 256.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              name:
+                                description: Name of the secure tag, created with
+                                  TagManager's TagValue API.
+                                type: string
+                              nameRef:
+                                description: Reference to a TagValue in tags to populate
+                                  name.
+                                properties:
+                                  name:
+                                    description: Name of the referenced object.
+                                    type: string
+                                  policy:
+                                    description: Policies for referencing.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                required:
+                                - name
+                                type: object
+                              nameSelector:
+                                description: Selector for a TagValue in tags to populate
+                                  name.
+                                properties:
+                                  matchControllerRef:
+                                    description: |-
+                                      MatchControllerRef ensures an object with the same controller reference
+                                      as the selecting object is selected.
+                                    type: boolean
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    description: MatchLabels ensures an object with
+                                      matching labels is selected.
+                                    type: object
+                                  policy:
+                                    description: Policies for selection.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                type: object
+                            type: object
+                          type: array
                         srcThreatIntelligences:
                           description: Name of the Google Cloud Threat Intelligence
                             list.
@@ -293,6 +381,96 @@ spec:
                       organization will receive the rule.
                     items:
                       type: string
+                    type: array
+                  targetSecureTags:
+                    description: |-
+                      A list of secure tags that controls which instances the firewall rule applies to.
+                      If targetSecureTag are specified, then the firewall rule applies only to instances in the VPC network that have one of those EFFECTIVE secure tags, if all the targetSecureTag are in INEFFECTIVE state, then this rule will be ignored.
+                      targetSecureTag may not be set at the same time as targetServiceAccounts. If neither targetServiceAccounts nor targetSecureTag are specified, the firewall rule applies to all instances on the specified network. Maximum number of target secure tags allowed is 256.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        name:
+                          description: Name of the secure tag, created with TagManager's
+                            TagValue API.
+                          type: string
+                        nameRef:
+                          description: Reference to a TagValue in tags to populate
+                            name.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        nameSelector:
+                          description: Selector for a TagValue in tags to populate
+                            name.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                      type: object
                     type: array
                   targetServiceAccounts:
                     description: A list of service accounts indicating the sets of
@@ -512,6 +690,94 @@ spec:
                           items:
                             type: string
                           type: array
+                        srcSecureTags:
+                          description: |-
+                            List of secure tag values, which should be matched at the source of the traffic. For INGRESS rule, if all the srcSecureTag are INEFFECTIVE, and there is no srcIpRange, this rule will be ignored. Maximum number of source tag values allowed is 256.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              name:
+                                description: Name of the secure tag, created with
+                                  TagManager's TagValue API.
+                                type: string
+                              nameRef:
+                                description: Reference to a TagValue in tags to populate
+                                  name.
+                                properties:
+                                  name:
+                                    description: Name of the referenced object.
+                                    type: string
+                                  policy:
+                                    description: Policies for referencing.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                required:
+                                - name
+                                type: object
+                              nameSelector:
+                                description: Selector for a TagValue in tags to populate
+                                  name.
+                                properties:
+                                  matchControllerRef:
+                                    description: |-
+                                      MatchControllerRef ensures an object with the same controller reference
+                                      as the selecting object is selected.
+                                    type: boolean
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    description: MatchLabels ensures an object with
+                                      matching labels is selected.
+                                    type: object
+                                  policy:
+                                    description: Policies for selection.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                type: object
+                            type: object
+                          type: array
                         srcThreatIntelligences:
                           description: Name of the Google Cloud Threat Intelligence
                             list.
@@ -539,6 +805,96 @@ spec:
                       organization will receive the rule.
                     items:
                       type: string
+                    type: array
+                  targetSecureTags:
+                    description: |-
+                      A list of secure tags that controls which instances the firewall rule applies to.
+                      If targetSecureTag are specified, then the firewall rule applies only to instances in the VPC network that have one of those EFFECTIVE secure tags, if all the targetSecureTag are in INEFFECTIVE state, then this rule will be ignored.
+                      targetSecureTag may not be set at the same time as targetServiceAccounts. If neither targetServiceAccounts nor targetSecureTag are specified, the firewall rule applies to all instances on the specified network. Maximum number of target secure tags allowed is 256.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        name:
+                          description: Name of the secure tag, created with TagManager's
+                            TagValue API.
+                          type: string
+                        nameRef:
+                          description: Reference to a TagValue in tags to populate
+                            name.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        nameSelector:
+                          description: Selector for a TagValue in tags to populate
+                            name.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                      type: object
                     type: array
                   targetServiceAccounts:
                     description: A list of service accounts indicating the sets of
@@ -865,6 +1221,23 @@ spec:
                           items:
                             type: string
                           type: array
+                        srcSecureTags:
+                          description: |-
+                            List of secure tag values, which should be matched at the source of the traffic. For INGRESS rule, if all the srcSecureTag are INEFFECTIVE, and there is no srcIpRange, this rule will be ignored. Maximum number of source tag values allowed is 256.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              name:
+                                description: Name of the secure tag, created with
+                                  TagManager's TagValue API.
+                                type: string
+                              state:
+                                description: |-
+                                  (Output)
+                                  State of the secure tag, either EFFECTIVE or INEFFECTIVE. A secure tag is INEFFECTIVE when it is deleted or its network is deleted.
+                                type: string
+                            type: object
+                          type: array
                         srcThreatIntelligences:
                           description: Name of the Google Cloud Threat Intelligence
                             list.
@@ -896,6 +1269,25 @@ spec:
                       organization will receive the rule.
                     items:
                       type: string
+                    type: array
+                  targetSecureTags:
+                    description: |-
+                      A list of secure tags that controls which instances the firewall rule applies to.
+                      If targetSecureTag are specified, then the firewall rule applies only to instances in the VPC network that have one of those EFFECTIVE secure tags, if all the targetSecureTag are in INEFFECTIVE state, then this rule will be ignored.
+                      targetSecureTag may not be set at the same time as targetServiceAccounts. If neither targetServiceAccounts nor targetSecureTag are specified, the firewall rule applies to all instances on the specified network. Maximum number of target secure tags allowed is 256.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        name:
+                          description: Name of the secure tag, created with TagManager's
+                            TagValue API.
+                          type: string
+                        state:
+                          description: |-
+                            (Output)
+                            State of the secure tag, either EFFECTIVE or INEFFECTIVE. A secure tag is INEFFECTIVE when it is deleted or its network is deleted.
+                          type: string
+                      type: object
                     type: array
                   targetServiceAccounts:
                     description: A list of service accounts indicating the sets of
@@ -987,7 +1379,9 @@ spec:
     schema:
       openAPIV3Schema:
         description: FirewallPolicyRule is the Schema for the FirewallPolicyRules
-          API. The Compute FirewallPolicyRule resource
+          API. Represents a rule that describes one or more match conditions along
+          with the action to be taken when traffic matches this condition (allow or
+          deny).
         properties:
           apiVersion:
             description: |-
@@ -1034,20 +1428,22 @@ spec:
                     description: An optional description for this resource.
                     type: string
                   direction:
-                    description: 'The direction in which this rule applies. Possible
-                      values: INGRESS, EGRESS'
+                    description: |-
+                      The direction in which this rule applies.
+                      Possible values are: INGRESS, EGRESS.
                     type: string
                   disabled:
-                    description: Denotes whether the firewall policy rule is disabled.
-                      When set to true, the firewall policy rule is not enforced and
-                      traffic behaves as if it did not exist. If this is unspecified,
-                      the firewall policy rule will be enabled.
+                    description: |-
+                      Denotes whether the firewall policy rule is disabled.
+                      When set to true, the firewall policy rule is not enforced and traffic behaves as if it did not exist.
+                      If this is unspecified, the firewall policy rule will be enabled.
                     type: boolean
                   enableLogging:
-                    description: 'Denotes whether to enable logging for a particular
-                      rule. If logging is enabled, logs will be exported to the configured
-                      export destination in Stackdriver. Logs may be exported to BigQuery
-                      or Pub/Sub. Note: you cannot enable logging on "goto_next" rules.'
+                    description: |-
+                      Denotes whether to enable logging for a particular rule.
+                      If logging is enabled, logs will be exported to the configured export destination in Stackdriver.
+                      Logs may be exported to BigQuery or Pub/Sub.
+                      Note: you cannot enable logging on "goto_next" rules.
                     type: boolean
                   firewallPolicy:
                     description: The firewall policy of the resource.
@@ -1129,15 +1525,14 @@ spec:
                         type: object
                     type: object
                   match:
-                    description: A match condition that incoming traffic is evaluated
-                      against. If it evaluates to true, the corresponding 'action'
-                      is enforced.
+                    description: |-
+                      A match condition that incoming traffic is evaluated against. If it evaluates to true, the corresponding 'action' is enforced.
+                      Structure is documented below.
                     properties:
                       destAddressGroups:
                         description: Address groups which should be matched against
                           the traffic destination. Maximum number of destination address
-                          groups is 10. Destination address groups is only supported
-                          in Egress rules.
+                          groups is 10.
                         items:
                           type: string
                         type: array
@@ -1221,42 +1616,43 @@ spec:
                             type: object
                         type: object
                       destFqdns:
-                        description: Domain names that will be used to match against
-                          the resolved domain name of destination of traffic. Can
-                          only be specified if DIRECTION is egress.
+                        description: Fully Qualified Domain Name (FQDN) which should
+                          be matched against traffic destination. Maximum number of
+                          destination fqdn allowed is 100.
                         items:
                           type: string
                         type: array
                       destIpRanges:
                         description: CIDR IP address range. Maximum number of destination
-                          CIDR IP ranges allowed is 256.
+                          CIDR IP ranges allowed is 5000.
                         items:
                           type: string
                         type: array
                       destRegionCodes:
-                        description: The Unicode country codes whose IP addresses
-                          will be used to match against the source of traffic. Can
-                          only be specified if DIRECTION is egress.
+                        description: Region codes whose IP addresses will be used
+                          to match for destination of traffic. Should be specified
+                          as 2 letter country code defined as per ISO 3166 alpha-2
+                          country codes. ex."US" Maximum number of dest region codes
+                          allowed is 5000.
                         items:
                           type: string
                         type: array
                       destThreatIntelligences:
-                        description: Name of the Google Cloud Threat Intelligence
-                          list.
+                        description: Names of Network Threat Intelligence lists. The
+                          IPs in these lists will be matched against traffic destination.
                         items:
                           type: string
                         type: array
                       layer4Configs:
-                        description: Pairs of IP protocols and ports that the rule
-                          should match.
+                        description: |-
+                          Pairs of IP protocols and ports that the rule should match.
+                          Structure is documented below.
                         items:
                           properties:
                             ipProtocol:
-                              description: The IP protocol to which this rule applies.
-                                The protocol type is required when creating a firewall
-                                rule. This value can either be one of the following
-                                well known protocol strings (tcp, udp, icmp, esp,
-                                ah, ipip, sctp), or the IP protocol number.
+                              description: |-
+                                The IP protocol to which this rule applies. The protocol type is required when creating a firewall rule.
+                                This value can either be one of the following well known protocol strings (tcp, udp, icmp, esp, ah, ipip, sctp), or the IP protocol number.
                               type: string
                             ports:
                               description: An optional list of ports to which this
@@ -1272,57 +1668,236 @@ spec:
                       srcAddressGroups:
                         description: Address groups which should be matched against
                           the traffic source. Maximum number of source address groups
-                          is 10. Source address groups is only supported in Ingress
-                          rules.
+                          is 10.
                         items:
                           type: string
                         type: array
                       srcFqdns:
-                        description: Domain names that will be used to match against
-                          the resolved domain name of source of traffic. Can only
-                          be specified if DIRECTION is ingress.
+                        description: Fully Qualified Domain Name (FQDN) which should
+                          be matched against traffic source. Maximum number of source
+                          fqdn allowed is 100.
                         items:
                           type: string
                         type: array
                       srcIpRanges:
                         description: CIDR IP address range. Maximum number of source
-                          CIDR IP ranges allowed is 256.
+                          CIDR IP ranges allowed is 5000.
                         items:
                           type: string
                         type: array
                       srcRegionCodes:
-                        description: The Unicode country codes whose IP addresses
-                          will be used to match against the source of traffic. Can
-                          only be specified if DIRECTION is ingress.
+                        description: Region codes whose IP addresses will be used
+                          to match for source of traffic. Should be specified as 2
+                          letter country code defined as per ISO 3166 alpha-2 country
+                          codes. ex."US" Maximum number of source region codes allowed
+                          is 5000.
                         items:
                           type: string
                         type: array
+                      srcSecureTags:
+                        description: |-
+                          List of secure tag values, which should be matched at the source of the traffic. For INGRESS rule, if all the srcSecureTag are INEFFECTIVE, and there is no srcIpRange, this rule will be ignored. Maximum number of source tag values allowed is 256.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            name:
+                              description: Name of the secure tag, created with TagManager's
+                                TagValue API.
+                              type: string
+                            nameRef:
+                              description: Reference to a TagValue in tags to populate
+                                name.
+                              properties:
+                                name:
+                                  description: Name of the referenced object.
+                                  type: string
+                                policy:
+                                  description: Policies for referencing.
+                                  properties:
+                                    resolution:
+                                      default: Required
+                                      description: |-
+                                        Resolution specifies whether resolution of this reference is required.
+                                        The default is 'Required', which means the reconcile will fail if the
+                                        reference cannot be resolved. 'Optional' means this reference will be
+                                        a no-op if it cannot be resolved.
+                                      enum:
+                                      - Required
+                                      - Optional
+                                      type: string
+                                    resolve:
+                                      description: |-
+                                        Resolve specifies when this reference should be resolved. The default
+                                        is 'IfNotPresent', which will attempt to resolve the reference only when
+                                        the corresponding field is not present. Use 'Always' to resolve the
+                                        reference on every reconcile.
+                                      enum:
+                                      - Always
+                                      - IfNotPresent
+                                      type: string
+                                  type: object
+                              required:
+                              - name
+                              type: object
+                            nameSelector:
+                              description: Selector for a TagValue in tags to populate
+                                name.
+                              properties:
+                                matchControllerRef:
+                                  description: |-
+                                    MatchControllerRef ensures an object with the same controller reference
+                                    as the selecting object is selected.
+                                  type: boolean
+                                matchLabels:
+                                  additionalProperties:
+                                    type: string
+                                  description: MatchLabels ensures an object with
+                                    matching labels is selected.
+                                  type: object
+                                policy:
+                                  description: Policies for selection.
+                                  properties:
+                                    resolution:
+                                      default: Required
+                                      description: |-
+                                        Resolution specifies whether resolution of this reference is required.
+                                        The default is 'Required', which means the reconcile will fail if the
+                                        reference cannot be resolved. 'Optional' means this reference will be
+                                        a no-op if it cannot be resolved.
+                                      enum:
+                                      - Required
+                                      - Optional
+                                      type: string
+                                    resolve:
+                                      description: |-
+                                        Resolve specifies when this reference should be resolved. The default
+                                        is 'IfNotPresent', which will attempt to resolve the reference only when
+                                        the corresponding field is not present. Use 'Always' to resolve the
+                                        reference on every reconcile.
+                                      enum:
+                                      - Always
+                                      - IfNotPresent
+                                      type: string
+                                  type: object
+                              type: object
+                          type: object
+                        type: array
                       srcThreatIntelligences:
-                        description: Name of the Google Cloud Threat Intelligence
-                          list.
+                        description: Names of Network Threat Intelligence lists. The
+                          IPs in these lists will be matched against traffic source.
                         items:
                           type: string
                         type: array
                     type: object
                   priority:
-                    description: An integer indicating the priority of a rule in the
-                      list. The priority must be a positive value between 0 and 2147483647.
-                      Rules are evaluated from highest to lowest priority where 0
-                      is the highest priority and 2147483647 is the lowest prority.
+                    description: |-
+                      An integer indicating the priority of a rule in the list.
+                      The priority must be a positive value between 0 and 2147483647.
+                      Rules are evaluated from highest to lowest priority where 0 is the highest priority and 2147483647 is the lowest prority.
                     type: number
                   securityProfileGroup:
-                    description: 'A fully-qualified URL of a SecurityProfileGroup
-                      resource. Example: https://networksecurity.googleapis.com/v1/organizations/{organizationId}/locations/global/securityProfileGroups/my-security-profile-group.
-                      It must be specified if action = ''apply_security_profile_group''
-                      and cannot be specified for other actions.'
+                    description: |-
+                      A fully-qualified URL of a SecurityProfile resource instance.
+                      Example: https://networksecurity.googleapis.com/v1/projects/{project}/locations/{location}/securityProfileGroups/my-security-profile-group
+                      Must be specified if action = 'apply_security_profile_group' and cannot be specified for other actions.
                     type: string
                   targetResources:
-                    description: A list of network resource URLs to which this rule
-                      applies. This field allows you to control which network's VMs
-                      get this rule. If this field is left blank, all VMs within the
-                      organization will receive the rule.
+                    description: |-
+                      A list of network resource URLs to which this rule applies.
+                      This field allows you to control which network's VMs get this rule.
+                      If this field is left blank, all VMs within the organization will receive the rule.
                     items:
                       type: string
+                    type: array
+                  targetSecureTags:
+                    description: |-
+                      A list of secure tags that controls which instances the firewall rule applies to.
+                      If targetSecureTag are specified, then the firewall rule applies only to instances in the VPC network that have one of those EFFECTIVE secure tags, if all the targetSecureTag are in INEFFECTIVE state, then this rule will be ignored.
+                      targetSecureTag may not be set at the same time as targetServiceAccounts. If neither targetServiceAccounts nor targetSecureTag are specified, the firewall rule applies to all instances on the specified network. Maximum number of target secure tags allowed is 256.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        name:
+                          description: Name of the secure tag, created with TagManager's
+                            TagValue API.
+                          type: string
+                        nameRef:
+                          description: Reference to a TagValue in tags to populate
+                            name.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        nameSelector:
+                          description: Selector for a TagValue in tags to populate
+                            name.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                      type: object
                     type: array
                   targetServiceAccounts:
                     description: A list of service accounts indicating the sets of
@@ -1331,9 +1906,9 @@ spec:
                       type: string
                     type: array
                   tlsInspect:
-                    description: Boolean flag indicating if the traffic should be
-                      TLS decrypted. It can be set only if action = 'apply_security_profile_group'
-                      and cannot be set for other actions.
+                    description: |-
+                      Boolean flag indicating if the traffic should be TLS decrypted.
+                      Can be set only if action = 'apply_security_profile_group' and cannot be set for other actions.
                     type: boolean
                 type: object
               initProvider:
@@ -1358,20 +1933,22 @@ spec:
                     description: An optional description for this resource.
                     type: string
                   direction:
-                    description: 'The direction in which this rule applies. Possible
-                      values: INGRESS, EGRESS'
+                    description: |-
+                      The direction in which this rule applies.
+                      Possible values are: INGRESS, EGRESS.
                     type: string
                   disabled:
-                    description: Denotes whether the firewall policy rule is disabled.
-                      When set to true, the firewall policy rule is not enforced and
-                      traffic behaves as if it did not exist. If this is unspecified,
-                      the firewall policy rule will be enabled.
+                    description: |-
+                      Denotes whether the firewall policy rule is disabled.
+                      When set to true, the firewall policy rule is not enforced and traffic behaves as if it did not exist.
+                      If this is unspecified, the firewall policy rule will be enabled.
                     type: boolean
                   enableLogging:
-                    description: 'Denotes whether to enable logging for a particular
-                      rule. If logging is enabled, logs will be exported to the configured
-                      export destination in Stackdriver. Logs may be exported to BigQuery
-                      or Pub/Sub. Note: you cannot enable logging on "goto_next" rules.'
+                    description: |-
+                      Denotes whether to enable logging for a particular rule.
+                      If logging is enabled, logs will be exported to the configured export destination in Stackdriver.
+                      Logs may be exported to BigQuery or Pub/Sub.
+                      Note: you cannot enable logging on "goto_next" rules.
                     type: boolean
                   firewallPolicy:
                     description: The firewall policy of the resource.
@@ -1453,15 +2030,14 @@ spec:
                         type: object
                     type: object
                   match:
-                    description: A match condition that incoming traffic is evaluated
-                      against. If it evaluates to true, the corresponding 'action'
-                      is enforced.
+                    description: |-
+                      A match condition that incoming traffic is evaluated against. If it evaluates to true, the corresponding 'action' is enforced.
+                      Structure is documented below.
                     properties:
                       destAddressGroups:
                         description: Address groups which should be matched against
                           the traffic destination. Maximum number of destination address
-                          groups is 10. Destination address groups is only supported
-                          in Egress rules.
+                          groups is 10.
                         items:
                           type: string
                         type: array
@@ -1545,42 +2121,43 @@ spec:
                             type: object
                         type: object
                       destFqdns:
-                        description: Domain names that will be used to match against
-                          the resolved domain name of destination of traffic. Can
-                          only be specified if DIRECTION is egress.
+                        description: Fully Qualified Domain Name (FQDN) which should
+                          be matched against traffic destination. Maximum number of
+                          destination fqdn allowed is 100.
                         items:
                           type: string
                         type: array
                       destIpRanges:
                         description: CIDR IP address range. Maximum number of destination
-                          CIDR IP ranges allowed is 256.
+                          CIDR IP ranges allowed is 5000.
                         items:
                           type: string
                         type: array
                       destRegionCodes:
-                        description: The Unicode country codes whose IP addresses
-                          will be used to match against the source of traffic. Can
-                          only be specified if DIRECTION is egress.
+                        description: Region codes whose IP addresses will be used
+                          to match for destination of traffic. Should be specified
+                          as 2 letter country code defined as per ISO 3166 alpha-2
+                          country codes. ex."US" Maximum number of dest region codes
+                          allowed is 5000.
                         items:
                           type: string
                         type: array
                       destThreatIntelligences:
-                        description: Name of the Google Cloud Threat Intelligence
-                          list.
+                        description: Names of Network Threat Intelligence lists. The
+                          IPs in these lists will be matched against traffic destination.
                         items:
                           type: string
                         type: array
                       layer4Configs:
-                        description: Pairs of IP protocols and ports that the rule
-                          should match.
+                        description: |-
+                          Pairs of IP protocols and ports that the rule should match.
+                          Structure is documented below.
                         items:
                           properties:
                             ipProtocol:
-                              description: The IP protocol to which this rule applies.
-                                The protocol type is required when creating a firewall
-                                rule. This value can either be one of the following
-                                well known protocol strings (tcp, udp, icmp, esp,
-                                ah, ipip, sctp), or the IP protocol number.
+                              description: |-
+                                The IP protocol to which this rule applies. The protocol type is required when creating a firewall rule.
+                                This value can either be one of the following well known protocol strings (tcp, udp, icmp, esp, ah, ipip, sctp), or the IP protocol number.
                               type: string
                             ports:
                               description: An optional list of ports to which this
@@ -1596,57 +2173,236 @@ spec:
                       srcAddressGroups:
                         description: Address groups which should be matched against
                           the traffic source. Maximum number of source address groups
-                          is 10. Source address groups is only supported in Ingress
-                          rules.
+                          is 10.
                         items:
                           type: string
                         type: array
                       srcFqdns:
-                        description: Domain names that will be used to match against
-                          the resolved domain name of source of traffic. Can only
-                          be specified if DIRECTION is ingress.
+                        description: Fully Qualified Domain Name (FQDN) which should
+                          be matched against traffic source. Maximum number of source
+                          fqdn allowed is 100.
                         items:
                           type: string
                         type: array
                       srcIpRanges:
                         description: CIDR IP address range. Maximum number of source
-                          CIDR IP ranges allowed is 256.
+                          CIDR IP ranges allowed is 5000.
                         items:
                           type: string
                         type: array
                       srcRegionCodes:
-                        description: The Unicode country codes whose IP addresses
-                          will be used to match against the source of traffic. Can
-                          only be specified if DIRECTION is ingress.
+                        description: Region codes whose IP addresses will be used
+                          to match for source of traffic. Should be specified as 2
+                          letter country code defined as per ISO 3166 alpha-2 country
+                          codes. ex."US" Maximum number of source region codes allowed
+                          is 5000.
                         items:
                           type: string
                         type: array
+                      srcSecureTags:
+                        description: |-
+                          List of secure tag values, which should be matched at the source of the traffic. For INGRESS rule, if all the srcSecureTag are INEFFECTIVE, and there is no srcIpRange, this rule will be ignored. Maximum number of source tag values allowed is 256.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            name:
+                              description: Name of the secure tag, created with TagManager's
+                                TagValue API.
+                              type: string
+                            nameRef:
+                              description: Reference to a TagValue in tags to populate
+                                name.
+                              properties:
+                                name:
+                                  description: Name of the referenced object.
+                                  type: string
+                                policy:
+                                  description: Policies for referencing.
+                                  properties:
+                                    resolution:
+                                      default: Required
+                                      description: |-
+                                        Resolution specifies whether resolution of this reference is required.
+                                        The default is 'Required', which means the reconcile will fail if the
+                                        reference cannot be resolved. 'Optional' means this reference will be
+                                        a no-op if it cannot be resolved.
+                                      enum:
+                                      - Required
+                                      - Optional
+                                      type: string
+                                    resolve:
+                                      description: |-
+                                        Resolve specifies when this reference should be resolved. The default
+                                        is 'IfNotPresent', which will attempt to resolve the reference only when
+                                        the corresponding field is not present. Use 'Always' to resolve the
+                                        reference on every reconcile.
+                                      enum:
+                                      - Always
+                                      - IfNotPresent
+                                      type: string
+                                  type: object
+                              required:
+                              - name
+                              type: object
+                            nameSelector:
+                              description: Selector for a TagValue in tags to populate
+                                name.
+                              properties:
+                                matchControllerRef:
+                                  description: |-
+                                    MatchControllerRef ensures an object with the same controller reference
+                                    as the selecting object is selected.
+                                  type: boolean
+                                matchLabels:
+                                  additionalProperties:
+                                    type: string
+                                  description: MatchLabels ensures an object with
+                                    matching labels is selected.
+                                  type: object
+                                policy:
+                                  description: Policies for selection.
+                                  properties:
+                                    resolution:
+                                      default: Required
+                                      description: |-
+                                        Resolution specifies whether resolution of this reference is required.
+                                        The default is 'Required', which means the reconcile will fail if the
+                                        reference cannot be resolved. 'Optional' means this reference will be
+                                        a no-op if it cannot be resolved.
+                                      enum:
+                                      - Required
+                                      - Optional
+                                      type: string
+                                    resolve:
+                                      description: |-
+                                        Resolve specifies when this reference should be resolved. The default
+                                        is 'IfNotPresent', which will attempt to resolve the reference only when
+                                        the corresponding field is not present. Use 'Always' to resolve the
+                                        reference on every reconcile.
+                                      enum:
+                                      - Always
+                                      - IfNotPresent
+                                      type: string
+                                  type: object
+                              type: object
+                          type: object
+                        type: array
                       srcThreatIntelligences:
-                        description: Name of the Google Cloud Threat Intelligence
-                          list.
+                        description: Names of Network Threat Intelligence lists. The
+                          IPs in these lists will be matched against traffic source.
                         items:
                           type: string
                         type: array
                     type: object
                   priority:
-                    description: An integer indicating the priority of a rule in the
-                      list. The priority must be a positive value between 0 and 2147483647.
-                      Rules are evaluated from highest to lowest priority where 0
-                      is the highest priority and 2147483647 is the lowest prority.
+                    description: |-
+                      An integer indicating the priority of a rule in the list.
+                      The priority must be a positive value between 0 and 2147483647.
+                      Rules are evaluated from highest to lowest priority where 0 is the highest priority and 2147483647 is the lowest prority.
                     type: number
                   securityProfileGroup:
-                    description: 'A fully-qualified URL of a SecurityProfileGroup
-                      resource. Example: https://networksecurity.googleapis.com/v1/organizations/{organizationId}/locations/global/securityProfileGroups/my-security-profile-group.
-                      It must be specified if action = ''apply_security_profile_group''
-                      and cannot be specified for other actions.'
+                    description: |-
+                      A fully-qualified URL of a SecurityProfile resource instance.
+                      Example: https://networksecurity.googleapis.com/v1/projects/{project}/locations/{location}/securityProfileGroups/my-security-profile-group
+                      Must be specified if action = 'apply_security_profile_group' and cannot be specified for other actions.
                     type: string
                   targetResources:
-                    description: A list of network resource URLs to which this rule
-                      applies. This field allows you to control which network's VMs
-                      get this rule. If this field is left blank, all VMs within the
-                      organization will receive the rule.
+                    description: |-
+                      A list of network resource URLs to which this rule applies.
+                      This field allows you to control which network's VMs get this rule.
+                      If this field is left blank, all VMs within the organization will receive the rule.
                     items:
                       type: string
+                    type: array
+                  targetSecureTags:
+                    description: |-
+                      A list of secure tags that controls which instances the firewall rule applies to.
+                      If targetSecureTag are specified, then the firewall rule applies only to instances in the VPC network that have one of those EFFECTIVE secure tags, if all the targetSecureTag are in INEFFECTIVE state, then this rule will be ignored.
+                      targetSecureTag may not be set at the same time as targetServiceAccounts. If neither targetServiceAccounts nor targetSecureTag are specified, the firewall rule applies to all instances on the specified network. Maximum number of target secure tags allowed is 256.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        name:
+                          description: Name of the secure tag, created with TagManager's
+                            TagValue API.
+                          type: string
+                        nameRef:
+                          description: Reference to a TagValue in tags to populate
+                            name.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        nameSelector:
+                          description: Selector for a TagValue in tags to populate
+                            name.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                      type: object
                     type: array
                   targetServiceAccounts:
                     description: A list of service accounts indicating the sets of
@@ -1655,9 +2411,9 @@ spec:
                       type: string
                     type: array
                   tlsInspect:
-                    description: Boolean flag indicating if the traffic should be
-                      TLS decrypted. It can be set only if action = 'apply_security_profile_group'
-                      and cannot be set for other actions.
+                    description: |-
+                      Boolean flag indicating if the traffic should be TLS decrypted.
+                      Can be set only if action = 'apply_security_profile_group' and cannot be set for other actions.
                     type: boolean
                 type: object
               managementPolicies:
@@ -1854,24 +2610,29 @@ spec:
                       triggers the rule. Valid actions are "allow", "deny", "goto_next"
                       and "apply_security_profile_group".
                     type: string
+                  creationTimestamp:
+                    description: Creation timestamp in RFC3339 text format.
+                    type: string
                   description:
                     description: An optional description for this resource.
                     type: string
                   direction:
-                    description: 'The direction in which this rule applies. Possible
-                      values: INGRESS, EGRESS'
+                    description: |-
+                      The direction in which this rule applies.
+                      Possible values are: INGRESS, EGRESS.
                     type: string
                   disabled:
-                    description: Denotes whether the firewall policy rule is disabled.
-                      When set to true, the firewall policy rule is not enforced and
-                      traffic behaves as if it did not exist. If this is unspecified,
-                      the firewall policy rule will be enabled.
+                    description: |-
+                      Denotes whether the firewall policy rule is disabled.
+                      When set to true, the firewall policy rule is not enforced and traffic behaves as if it did not exist.
+                      If this is unspecified, the firewall policy rule will be enabled.
                     type: boolean
                   enableLogging:
-                    description: 'Denotes whether to enable logging for a particular
-                      rule. If logging is enabled, logs will be exported to the configured
-                      export destination in Stackdriver. Logs may be exported to BigQuery
-                      or Pub/Sub. Note: you cannot enable logging on "goto_next" rules.'
+                    description: |-
+                      Denotes whether to enable logging for a particular rule.
+                      If logging is enabled, logs will be exported to the configured export destination in Stackdriver.
+                      Logs may be exported to BigQuery or Pub/Sub.
+                      Note: you cannot enable logging on "goto_next" rules.
                     type: boolean
                   firewallPolicy:
                     description: The firewall policy of the resource.
@@ -1884,55 +2645,55 @@ spec:
                       for firewall policy rules
                     type: string
                   match:
-                    description: A match condition that incoming traffic is evaluated
-                      against. If it evaluates to true, the corresponding 'action'
-                      is enforced.
+                    description: |-
+                      A match condition that incoming traffic is evaluated against. If it evaluates to true, the corresponding 'action' is enforced.
+                      Structure is documented below.
                     properties:
                       destAddressGroups:
                         description: Address groups which should be matched against
                           the traffic destination. Maximum number of destination address
-                          groups is 10. Destination address groups is only supported
-                          in Egress rules.
+                          groups is 10.
                         items:
                           type: string
                         type: array
                       destFqdns:
-                        description: Domain names that will be used to match against
-                          the resolved domain name of destination of traffic. Can
-                          only be specified if DIRECTION is egress.
+                        description: Fully Qualified Domain Name (FQDN) which should
+                          be matched against traffic destination. Maximum number of
+                          destination fqdn allowed is 100.
                         items:
                           type: string
                         type: array
                       destIpRanges:
                         description: CIDR IP address range. Maximum number of destination
-                          CIDR IP ranges allowed is 256.
+                          CIDR IP ranges allowed is 5000.
                         items:
                           type: string
                         type: array
                       destRegionCodes:
-                        description: The Unicode country codes whose IP addresses
-                          will be used to match against the source of traffic. Can
-                          only be specified if DIRECTION is egress.
+                        description: Region codes whose IP addresses will be used
+                          to match for destination of traffic. Should be specified
+                          as 2 letter country code defined as per ISO 3166 alpha-2
+                          country codes. ex."US" Maximum number of dest region codes
+                          allowed is 5000.
                         items:
                           type: string
                         type: array
                       destThreatIntelligences:
-                        description: Name of the Google Cloud Threat Intelligence
-                          list.
+                        description: Names of Network Threat Intelligence lists. The
+                          IPs in these lists will be matched against traffic destination.
                         items:
                           type: string
                         type: array
                       layer4Configs:
-                        description: Pairs of IP protocols and ports that the rule
-                          should match.
+                        description: |-
+                          Pairs of IP protocols and ports that the rule should match.
+                          Structure is documented below.
                         items:
                           properties:
                             ipProtocol:
-                              description: The IP protocol to which this rule applies.
-                                The protocol type is required when creating a firewall
-                                rule. This value can either be one of the following
-                                well known protocol strings (tcp, udp, icmp, esp,
-                                ah, ipip, sctp), or the IP protocol number.
+                              description: |-
+                                The IP protocol to which this rule applies. The protocol type is required when creating a firewall rule.
+                                This value can either be one of the following well known protocol strings (tcp, udp, icmp, esp, ah, ipip, sctp), or the IP protocol number.
                               type: string
                             ports:
                               description: An optional list of ports to which this
@@ -1948,61 +2709,98 @@ spec:
                       srcAddressGroups:
                         description: Address groups which should be matched against
                           the traffic source. Maximum number of source address groups
-                          is 10. Source address groups is only supported in Ingress
-                          rules.
+                          is 10.
                         items:
                           type: string
                         type: array
                       srcFqdns:
-                        description: Domain names that will be used to match against
-                          the resolved domain name of source of traffic. Can only
-                          be specified if DIRECTION is ingress.
+                        description: Fully Qualified Domain Name (FQDN) which should
+                          be matched against traffic source. Maximum number of source
+                          fqdn allowed is 100.
                         items:
                           type: string
                         type: array
                       srcIpRanges:
                         description: CIDR IP address range. Maximum number of source
-                          CIDR IP ranges allowed is 256.
+                          CIDR IP ranges allowed is 5000.
                         items:
                           type: string
                         type: array
                       srcRegionCodes:
-                        description: The Unicode country codes whose IP addresses
-                          will be used to match against the source of traffic. Can
-                          only be specified if DIRECTION is ingress.
+                        description: Region codes whose IP addresses will be used
+                          to match for source of traffic. Should be specified as 2
+                          letter country code defined as per ISO 3166 alpha-2 country
+                          codes. ex."US" Maximum number of source region codes allowed
+                          is 5000.
                         items:
                           type: string
                         type: array
+                      srcSecureTags:
+                        description: |-
+                          List of secure tag values, which should be matched at the source of the traffic. For INGRESS rule, if all the srcSecureTag are INEFFECTIVE, and there is no srcIpRange, this rule will be ignored. Maximum number of source tag values allowed is 256.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            name:
+                              description: Name of the secure tag, created with TagManager's
+                                TagValue API.
+                              type: string
+                            state:
+                              description: |-
+                                (Output)
+                                State of the secure tag, either EFFECTIVE or INEFFECTIVE. A secure tag is INEFFECTIVE when it is deleted or its network is deleted.
+                              type: string
+                          type: object
+                        type: array
                       srcThreatIntelligences:
-                        description: Name of the Google Cloud Threat Intelligence
-                          list.
+                        description: Names of Network Threat Intelligence lists. The
+                          IPs in these lists will be matched against traffic source.
                         items:
                           type: string
                         type: array
                     type: object
                   priority:
-                    description: An integer indicating the priority of a rule in the
-                      list. The priority must be a positive value between 0 and 2147483647.
-                      Rules are evaluated from highest to lowest priority where 0
-                      is the highest priority and 2147483647 is the lowest prority.
+                    description: |-
+                      An integer indicating the priority of a rule in the list.
+                      The priority must be a positive value between 0 and 2147483647.
+                      Rules are evaluated from highest to lowest priority where 0 is the highest priority and 2147483647 is the lowest prority.
                     type: number
                   ruleTupleCount:
                     description: Calculation of the complexity of a single firewall
                       policy rule.
                     type: number
                   securityProfileGroup:
-                    description: 'A fully-qualified URL of a SecurityProfileGroup
-                      resource. Example: https://networksecurity.googleapis.com/v1/organizations/{organizationId}/locations/global/securityProfileGroups/my-security-profile-group.
-                      It must be specified if action = ''apply_security_profile_group''
-                      and cannot be specified for other actions.'
+                    description: |-
+                      A fully-qualified URL of a SecurityProfile resource instance.
+                      Example: https://networksecurity.googleapis.com/v1/projects/{project}/locations/{location}/securityProfileGroups/my-security-profile-group
+                      Must be specified if action = 'apply_security_profile_group' and cannot be specified for other actions.
                     type: string
                   targetResources:
-                    description: A list of network resource URLs to which this rule
-                      applies. This field allows you to control which network's VMs
-                      get this rule. If this field is left blank, all VMs within the
-                      organization will receive the rule.
+                    description: |-
+                      A list of network resource URLs to which this rule applies.
+                      This field allows you to control which network's VMs get this rule.
+                      If this field is left blank, all VMs within the organization will receive the rule.
                     items:
                       type: string
+                    type: array
+                  targetSecureTags:
+                    description: |-
+                      A list of secure tags that controls which instances the firewall rule applies to.
+                      If targetSecureTag are specified, then the firewall rule applies only to instances in the VPC network that have one of those EFFECTIVE secure tags, if all the targetSecureTag are in INEFFECTIVE state, then this rule will be ignored.
+                      targetSecureTag may not be set at the same time as targetServiceAccounts. If neither targetServiceAccounts nor targetSecureTag are specified, the firewall rule applies to all instances on the specified network. Maximum number of target secure tags allowed is 256.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        name:
+                          description: Name of the secure tag, created with TagManager's
+                            TagValue API.
+                          type: string
+                        state:
+                          description: |-
+                            (Output)
+                            State of the secure tag, either EFFECTIVE or INEFFECTIVE. A secure tag is INEFFECTIVE when it is deleted or its network is deleted.
+                          type: string
+                      type: object
                     type: array
                   targetServiceAccounts:
                     description: A list of service accounts indicating the sets of
@@ -2011,9 +2809,9 @@ spec:
                       type: string
                     type: array
                   tlsInspect:
-                    description: Boolean flag indicating if the traffic should be
-                      TLS decrypted. It can be set only if action = 'apply_security_profile_group'
-                      and cannot be set for other actions.
+                    description: |-
+                      Boolean flag indicating if the traffic should be TLS decrypted.
+                      Can be set only if action = 'apply_security_profile_group' and cannot be set for other actions.
                     type: boolean
                 type: object
               conditions:

@@ -73,6 +73,18 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  activationPolicy:
+                    description: |-
+                      'Specifies whether an instance needs to spin up. Once the instance is
+                      active, the activation policy can be updated to the NEVER to stop the
+                      instance. Likewise, the activation policy can be updated to ALWAYS to
+                      start the instance.
+                      There are restrictions around when an instance can/cannot be activated (for
+                      example, a read pool instance should be stopped before stopping primary
+                      etc.). Please refer to the API documentation for more details.
+                      Possible values are: ACTIVATION_POLICY_UNSPECIFIED, ALWAYS, NEVER.'
+                      Possible values are: ACTIVATION_POLICY_UNSPECIFIED, ALWAYS, NEVER.
+                    type: string
                   annotations:
                     additionalProperties:
                       type: string
@@ -327,6 +339,12 @@ spec:
                       Structure is documented below.
                     items:
                       properties:
+                        allocatedIpRangeOverride:
+                          description: |-
+                            Name of the allocated IP range for the private IP AlloyDB instance, for example: "google-managed-services-default".
+                            If set, the instance IPs will be created from this allocated range and will override the IP range used by the parent cluster.
+                            The range name must comply with RFC 1035. Specifically, the name must be 1-63 characters long and match the regular expression a-z?.
+                          type: string
                         authorizedExternalNetworks:
                           description: |-
                             A list of external networks authorized to access this instance. This
@@ -341,6 +359,9 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        enableOutboundPublicIp:
+                          description: Enabling outbound public ip for the instance.
+                          type: boolean
                         enablePublicIp:
                           description: |-
                             Enabling public ip for the instance. If a user wishes to disable this,
@@ -361,6 +382,43 @@ spec:
                             These should be specified as project numbers only.
                           items:
                             type: string
+                          type: array
+                        pscAutoConnections:
+                          description: |-
+                            Configurations for setting up PSC service automation.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              consumerNetwork:
+                                description: |-
+                                  The consumer network for the PSC service automation, example:
+                                  "projects/vpc-host-project/global/networks/default".
+                                  The consumer network might be hosted a different project than the
+                                  consumer project. The API expects the consumer project specified to be
+                                  the project ID (and not the project number)
+                                type: string
+                              consumerProject:
+                                description: |-
+                                  The consumer project to which the PSC service automation endpoint will
+                                  be created. The API expects the consumer project to be the project ID(
+                                  and not the project number).
+                                type: string
+                            type: object
+                          type: array
+                        pscInterfaceConfigs:
+                          description: |-
+                            Configurations for setting up PSC interfaces attached to the instance
+                            which are used for outbound connectivity. Currently, AlloyDB supports only 0 or 1 PSC interface.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              networkAttachmentResource:
+                                description: |-
+                                  The network attachment resource created in the consumer project to which the PSC interface will be linked.
+                                  This is of the format: "projects/${CONSUMER_PROJECT}/regions/${REGION}/networkAttachments/${NETWORK_ATTACHMENT_NAME}".
+                                  The network attachment must be in the same region as the instance.
+                                type: string
+                            type: object
                           type: array
                       type: object
                     type: array
@@ -417,6 +475,18 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  activationPolicy:
+                    description: |-
+                      'Specifies whether an instance needs to spin up. Once the instance is
+                      active, the activation policy can be updated to the NEVER to stop the
+                      instance. Likewise, the activation policy can be updated to ALWAYS to
+                      start the instance.
+                      There are restrictions around when an instance can/cannot be activated (for
+                      example, a read pool instance should be stopped before stopping primary
+                      etc.). Please refer to the API documentation for more details.
+                      Possible values are: ACTIVATION_POLICY_UNSPECIFIED, ALWAYS, NEVER.'
+                      Possible values are: ACTIVATION_POLICY_UNSPECIFIED, ALWAYS, NEVER.
+                    type: string
                   annotations:
                     additionalProperties:
                       type: string
@@ -592,6 +662,12 @@ spec:
                       Structure is documented below.
                     items:
                       properties:
+                        allocatedIpRangeOverride:
+                          description: |-
+                            Name of the allocated IP range for the private IP AlloyDB instance, for example: "google-managed-services-default".
+                            If set, the instance IPs will be created from this allocated range and will override the IP range used by the parent cluster.
+                            The range name must comply with RFC 1035. Specifically, the name must be 1-63 characters long and match the regular expression a-z?.
+                          type: string
                         authorizedExternalNetworks:
                           description: |-
                             A list of external networks authorized to access this instance. This
@@ -606,6 +682,9 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        enableOutboundPublicIp:
+                          description: Enabling outbound public ip for the instance.
+                          type: boolean
                         enablePublicIp:
                           description: |-
                             Enabling public ip for the instance. If a user wishes to disable this,
@@ -626,6 +705,43 @@ spec:
                             These should be specified as project numbers only.
                           items:
                             type: string
+                          type: array
+                        pscAutoConnections:
+                          description: |-
+                            Configurations for setting up PSC service automation.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              consumerNetwork:
+                                description: |-
+                                  The consumer network for the PSC service automation, example:
+                                  "projects/vpc-host-project/global/networks/default".
+                                  The consumer network might be hosted a different project than the
+                                  consumer project. The API expects the consumer project specified to be
+                                  the project ID (and not the project number)
+                                type: string
+                              consumerProject:
+                                description: |-
+                                  The consumer project to which the PSC service automation endpoint will
+                                  be created. The API expects the consumer project to be the project ID(
+                                  and not the project number).
+                                type: string
+                            type: object
+                          type: array
+                        pscInterfaceConfigs:
+                          description: |-
+                            Configurations for setting up PSC interfaces attached to the instance
+                            which are used for outbound connectivity. Currently, AlloyDB supports only 0 or 1 PSC interface.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              networkAttachmentResource:
+                                description: |-
+                                  The network attachment resource created in the consumer project to which the PSC interface will be linked.
+                                  This is of the format: "projects/${CONSUMER_PROJECT}/regions/${REGION}/networkAttachments/${NETWORK_ATTACHMENT_NAME}".
+                                  The network attachment must be in the same region as the instance.
+                                type: string
+                            type: object
                           type: array
                       type: object
                     type: array
@@ -841,6 +957,18 @@ spec:
             properties:
               atProvider:
                 properties:
+                  activationPolicy:
+                    description: |-
+                      'Specifies whether an instance needs to spin up. Once the instance is
+                      active, the activation policy can be updated to the NEVER to stop the
+                      instance. Likewise, the activation policy can be updated to ALWAYS to
+                      start the instance.
+                      There are restrictions around when an instance can/cannot be activated (for
+                      example, a read pool instance should be stopped before stopping primary
+                      etc.). Please refer to the API documentation for more details.
+                      Possible values are: ACTIVATION_POLICY_UNSPECIFIED, ALWAYS, NEVER.'
+                      Possible values are: ACTIVATION_POLICY_UNSPECIFIED, ALWAYS, NEVER.
+                    type: string
                   annotations:
                     additionalProperties:
                       type: string
@@ -970,6 +1098,12 @@ spec:
                       Structure is documented below.
                     items:
                       properties:
+                        allocatedIpRangeOverride:
+                          description: |-
+                            Name of the allocated IP range for the private IP AlloyDB instance, for example: "google-managed-services-default".
+                            If set, the instance IPs will be created from this allocated range and will override the IP range used by the parent cluster.
+                            The range name must comply with RFC 1035. Specifically, the name must be 1-63 characters long and match the regular expression a-z?.
+                          type: string
                         authorizedExternalNetworks:
                           description: |-
                             A list of external networks authorized to access this instance. This
@@ -984,6 +1118,9 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        enableOutboundPublicIp:
+                          description: Enabling outbound public ip for the instance.
+                          type: boolean
                         enablePublicIp:
                           description: |-
                             Enabling public ip for the instance. If a user wishes to disable this,
@@ -991,6 +1128,14 @@ spec:
                             the same instance.
                           type: boolean
                       type: object
+                    type: array
+                  outboundPublicIpAddresses:
+                    description: |-
+                      The outbound public IP addresses for the instance. This is available ONLY when
+                      networkConfig.enableOutboundPublicIp is set to true. These IP addresses are used
+                      for outbound connections.
+                    items:
+                      type: string
                     type: array
                   pscInstanceConfig:
                     description: |-
@@ -1005,12 +1150,64 @@ spec:
                           items:
                             type: string
                           type: array
+                        pscAutoConnections:
+                          description: |-
+                            Configurations for setting up PSC service automation.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              consumerNetwork:
+                                description: |-
+                                  The consumer network for the PSC service automation, example:
+                                  "projects/vpc-host-project/global/networks/default".
+                                  The consumer network might be hosted a different project than the
+                                  consumer project. The API expects the consumer project specified to be
+                                  the project ID (and not the project number)
+                                type: string
+                              consumerNetworkStatus:
+                                description: |-
+                                  (Output)
+                                  The status of the service connection policy.
+                                type: string
+                              consumerProject:
+                                description: |-
+                                  The consumer project to which the PSC service automation endpoint will
+                                  be created. The API expects the consumer project to be the project ID(
+                                  and not the project number).
+                                type: string
+                              ipAddress:
+                                description: |-
+                                  (Output)
+                                  The IP address of the PSC service automation endpoint.
+                                type: string
+                              status:
+                                description: |-
+                                  (Output)
+                                  The status of the PSC service automation connection.
+                                type: string
+                            type: object
+                          type: array
                         pscDnsName:
                           description: |-
                             (Output)
                             The DNS name of the instance for PSC connectivity.
                             Name convention: ...alloydb-psc.goog
                           type: string
+                        pscInterfaceConfigs:
+                          description: |-
+                            Configurations for setting up PSC interfaces attached to the instance
+                            which are used for outbound connectivity. Currently, AlloyDB supports only 0 or 1 PSC interface.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              networkAttachmentResource:
+                                description: |-
+                                  The network attachment resource created in the consumer project to which the PSC interface will be linked.
+                                  This is of the format: "projects/${CONSUMER_PROJECT}/regions/${REGION}/networkAttachments/${NETWORK_ATTACHMENT_NAME}".
+                                  The network attachment must be in the same region as the instance.
+                                type: string
+                            type: object
+                          type: array
                         serviceAttachmentLink:
                           description: |-
                             (Output)
@@ -1206,6 +1403,18 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  activationPolicy:
+                    description: |-
+                      'Specifies whether an instance needs to spin up. Once the instance is
+                      active, the activation policy can be updated to the NEVER to stop the
+                      instance. Likewise, the activation policy can be updated to ALWAYS to
+                      start the instance.
+                      There are restrictions around when an instance can/cannot be activated (for
+                      example, a read pool instance should be stopped before stopping primary
+                      etc.). Please refer to the API documentation for more details.
+                      Possible values are: ACTIVATION_POLICY_UNSPECIFIED, ALWAYS, NEVER.'
+                      Possible values are: ACTIVATION_POLICY_UNSPECIFIED, ALWAYS, NEVER.
+                    type: string
                   annotations:
                     additionalProperties:
                       type: string
@@ -1219,10 +1428,10 @@ spec:
                     description: |-
                       'Availability type of an Instance. Defaults to REGIONAL for both primary and read instances.
                       Note that primary and read instances can have different availability types.
-                      Only READ_POOL instance supports ZONAL type. Users can't specify the zone for READ_POOL instance.
-                      Zone is automatically chosen from the list of zones in the region specified.
-                      Read pool of size 1 can only have zonal availability. Read pools with node count of 2 or more
-                      can have regional availability (nodes are present in 2 or more zones in a region).'
+                      Primary instances can be either ZONAL or REGIONAL. Read Pool instances can also be either ZONAL or REGIONAL.
+                      Read pools of size 1 can only have zonal availability. Read pools with a node count of 2 or more
+                      can have regional availability (nodes are present in 2 or more zones in a region).
+                      Possible values are: AVAILABILITY_TYPE_UNSPECIFIED, ZONAL, REGIONAL.'
                       Possible values are: AVAILABILITY_TYPE_UNSPECIFIED, ZONAL, REGIONAL.
                     type: string
                   clientConnectionConfig:
@@ -1453,6 +1662,12 @@ spec:
                       Instance level network configuration.
                       Structure is documented below.
                     properties:
+                      allocatedIpRangeOverride:
+                        description: |-
+                          Name of the allocated IP range for the private IP AlloyDB instance, for example: "google-managed-services-default".
+                          If set, the instance IPs will be created from this allocated range and will override the IP range used by the parent cluster.
+                          The range name must comply with RFC 1035. Specifically, the name must be 1-63 characters long and match the regular expression a-z?.
+                        type: string
                       authorizedExternalNetworks:
                         description: |-
                           A list of external networks authorized to access this instance. This
@@ -1467,6 +1682,9 @@ spec:
                               type: string
                           type: object
                         type: array
+                      enableOutboundPublicIp:
+                        description: Enabling outbound public ip for the instance.
+                        type: boolean
                       enablePublicIp:
                         description: |-
                           Enabling public ip for the instance. If a user wishes to disable this,
@@ -1485,6 +1703,43 @@ spec:
                           These should be specified as project numbers only.
                         items:
                           type: string
+                        type: array
+                      pscAutoConnections:
+                        description: |-
+                          Configurations for setting up PSC service automation.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            consumerNetwork:
+                              description: |-
+                                The consumer network for the PSC service automation, example:
+                                "projects/vpc-host-project/global/networks/default".
+                                The consumer network might be hosted a different project than the
+                                consumer project. The API expects the consumer project specified to be
+                                the project ID (and not the project number)
+                              type: string
+                            consumerProject:
+                              description: |-
+                                The consumer project to which the PSC service automation endpoint will
+                                be created. The API expects the consumer project to be the project ID(
+                                and not the project number).
+                              type: string
+                          type: object
+                        type: array
+                      pscInterfaceConfigs:
+                        description: |-
+                          Configurations for setting up PSC interfaces attached to the instance
+                          which are used for outbound connectivity. Currently, AlloyDB supports only 0 or 1 PSC interface.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            networkAttachmentResource:
+                              description: |-
+                                The network attachment resource created in the consumer project to which the PSC interface will be linked.
+                                This is of the format: "projects/${CONSUMER_PROJECT}/regions/${REGION}/networkAttachments/${NETWORK_ATTACHMENT_NAME}".
+                                The network attachment must be in the same region as the instance.
+                              type: string
+                          type: object
                         type: array
                     type: object
                   queryInsightsConfig:
@@ -1535,6 +1790,18 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  activationPolicy:
+                    description: |-
+                      'Specifies whether an instance needs to spin up. Once the instance is
+                      active, the activation policy can be updated to the NEVER to stop the
+                      instance. Likewise, the activation policy can be updated to ALWAYS to
+                      start the instance.
+                      There are restrictions around when an instance can/cannot be activated (for
+                      example, a read pool instance should be stopped before stopping primary
+                      etc.). Please refer to the API documentation for more details.
+                      Possible values are: ACTIVATION_POLICY_UNSPECIFIED, ALWAYS, NEVER.'
+                      Possible values are: ACTIVATION_POLICY_UNSPECIFIED, ALWAYS, NEVER.
+                    type: string
                   annotations:
                     additionalProperties:
                       type: string
@@ -1548,10 +1815,10 @@ spec:
                     description: |-
                       'Availability type of an Instance. Defaults to REGIONAL for both primary and read instances.
                       Note that primary and read instances can have different availability types.
-                      Only READ_POOL instance supports ZONAL type. Users can't specify the zone for READ_POOL instance.
-                      Zone is automatically chosen from the list of zones in the region specified.
-                      Read pool of size 1 can only have zonal availability. Read pools with node count of 2 or more
-                      can have regional availability (nodes are present in 2 or more zones in a region).'
+                      Primary instances can be either ZONAL or REGIONAL. Read Pool instances can also be either ZONAL or REGIONAL.
+                      Read pools of size 1 can only have zonal availability. Read pools with a node count of 2 or more
+                      can have regional availability (nodes are present in 2 or more zones in a region).
+                      Possible values are: AVAILABILITY_TYPE_UNSPECIFIED, ZONAL, REGIONAL.'
                       Possible values are: AVAILABILITY_TYPE_UNSPECIFIED, ZONAL, REGIONAL.
                     type: string
                   clientConnectionConfig:
@@ -1703,6 +1970,12 @@ spec:
                       Instance level network configuration.
                       Structure is documented below.
                     properties:
+                      allocatedIpRangeOverride:
+                        description: |-
+                          Name of the allocated IP range for the private IP AlloyDB instance, for example: "google-managed-services-default".
+                          If set, the instance IPs will be created from this allocated range and will override the IP range used by the parent cluster.
+                          The range name must comply with RFC 1035. Specifically, the name must be 1-63 characters long and match the regular expression a-z?.
+                        type: string
                       authorizedExternalNetworks:
                         description: |-
                           A list of external networks authorized to access this instance. This
@@ -1717,6 +1990,9 @@ spec:
                               type: string
                           type: object
                         type: array
+                      enableOutboundPublicIp:
+                        description: Enabling outbound public ip for the instance.
+                        type: boolean
                       enablePublicIp:
                         description: |-
                           Enabling public ip for the instance. If a user wishes to disable this,
@@ -1735,6 +2011,43 @@ spec:
                           These should be specified as project numbers only.
                         items:
                           type: string
+                        type: array
+                      pscAutoConnections:
+                        description: |-
+                          Configurations for setting up PSC service automation.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            consumerNetwork:
+                              description: |-
+                                The consumer network for the PSC service automation, example:
+                                "projects/vpc-host-project/global/networks/default".
+                                The consumer network might be hosted a different project than the
+                                consumer project. The API expects the consumer project specified to be
+                                the project ID (and not the project number)
+                              type: string
+                            consumerProject:
+                              description: |-
+                                The consumer project to which the PSC service automation endpoint will
+                                be created. The API expects the consumer project to be the project ID(
+                                and not the project number).
+                              type: string
+                          type: object
+                        type: array
+                      pscInterfaceConfigs:
+                        description: |-
+                          Configurations for setting up PSC interfaces attached to the instance
+                          which are used for outbound connectivity. Currently, AlloyDB supports only 0 or 1 PSC interface.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            networkAttachmentResource:
+                              description: |-
+                                The network attachment resource created in the consumer project to which the PSC interface will be linked.
+                                This is of the format: "projects/${CONSUMER_PROJECT}/regions/${REGION}/networkAttachments/${NETWORK_ATTACHMENT_NAME}".
+                                The network attachment must be in the same region as the instance.
+                              type: string
+                          type: object
                         type: array
                     type: object
                   queryInsightsConfig:
@@ -1944,6 +2257,18 @@ spec:
             properties:
               atProvider:
                 properties:
+                  activationPolicy:
+                    description: |-
+                      'Specifies whether an instance needs to spin up. Once the instance is
+                      active, the activation policy can be updated to the NEVER to stop the
+                      instance. Likewise, the activation policy can be updated to ALWAYS to
+                      start the instance.
+                      There are restrictions around when an instance can/cannot be activated (for
+                      example, a read pool instance should be stopped before stopping primary
+                      etc.). Please refer to the API documentation for more details.
+                      Possible values are: ACTIVATION_POLICY_UNSPECIFIED, ALWAYS, NEVER.'
+                      Possible values are: ACTIVATION_POLICY_UNSPECIFIED, ALWAYS, NEVER.
+                    type: string
                   annotations:
                     additionalProperties:
                       type: string
@@ -1957,10 +2282,10 @@ spec:
                     description: |-
                       'Availability type of an Instance. Defaults to REGIONAL for both primary and read instances.
                       Note that primary and read instances can have different availability types.
-                      Only READ_POOL instance supports ZONAL type. Users can't specify the zone for READ_POOL instance.
-                      Zone is automatically chosen from the list of zones in the region specified.
-                      Read pool of size 1 can only have zonal availability. Read pools with node count of 2 or more
-                      can have regional availability (nodes are present in 2 or more zones in a region).'
+                      Primary instances can be either ZONAL or REGIONAL. Read Pool instances can also be either ZONAL or REGIONAL.
+                      Read pools of size 1 can only have zonal availability. Read pools with a node count of 2 or more
+                      can have regional availability (nodes are present in 2 or more zones in a region).
+                      Possible values are: AVAILABILITY_TYPE_UNSPECIFIED, ZONAL, REGIONAL.'
                       Possible values are: AVAILABILITY_TYPE_UNSPECIFIED, ZONAL, REGIONAL.
                     type: string
                   clientConnectionConfig:
@@ -2066,6 +2391,12 @@ spec:
                       Instance level network configuration.
                       Structure is documented below.
                     properties:
+                      allocatedIpRangeOverride:
+                        description: |-
+                          Name of the allocated IP range for the private IP AlloyDB instance, for example: "google-managed-services-default".
+                          If set, the instance IPs will be created from this allocated range and will override the IP range used by the parent cluster.
+                          The range name must comply with RFC 1035. Specifically, the name must be 1-63 characters long and match the regular expression a-z?.
+                        type: string
                       authorizedExternalNetworks:
                         description: |-
                           A list of external networks authorized to access this instance. This
@@ -2080,6 +2411,9 @@ spec:
                               type: string
                           type: object
                         type: array
+                      enableOutboundPublicIp:
+                        description: Enabling outbound public ip for the instance.
+                        type: boolean
                       enablePublicIp:
                         description: |-
                           Enabling public ip for the instance. If a user wishes to disable this,
@@ -2087,6 +2421,14 @@ spec:
                           the same instance.
                         type: boolean
                     type: object
+                  outboundPublicIpAddresses:
+                    description: |-
+                      The outbound public IP addresses for the instance. This is available ONLY when
+                      networkConfig.enableOutboundPublicIp is set to true. These IP addresses are used
+                      for outbound connections.
+                    items:
+                      type: string
+                    type: array
                   pscInstanceConfig:
                     description: |-
                       Configuration for Private Service Connect (PSC) for the instance.
@@ -2099,12 +2441,64 @@ spec:
                         items:
                           type: string
                         type: array
+                      pscAutoConnections:
+                        description: |-
+                          Configurations for setting up PSC service automation.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            consumerNetwork:
+                              description: |-
+                                The consumer network for the PSC service automation, example:
+                                "projects/vpc-host-project/global/networks/default".
+                                The consumer network might be hosted a different project than the
+                                consumer project. The API expects the consumer project specified to be
+                                the project ID (and not the project number)
+                              type: string
+                            consumerNetworkStatus:
+                              description: |-
+                                (Output)
+                                The status of the service connection policy.
+                              type: string
+                            consumerProject:
+                              description: |-
+                                The consumer project to which the PSC service automation endpoint will
+                                be created. The API expects the consumer project to be the project ID(
+                                and not the project number).
+                              type: string
+                            ipAddress:
+                              description: |-
+                                (Output)
+                                The IP address of the PSC service automation endpoint.
+                              type: string
+                            status:
+                              description: |-
+                                (Output)
+                                The status of the PSC service automation connection.
+                              type: string
+                          type: object
+                        type: array
                       pscDnsName:
                         description: |-
                           (Output)
                           The DNS name of the instance for PSC connectivity.
                           Name convention: ...alloydb-psc.goog
                         type: string
+                      pscInterfaceConfigs:
+                        description: |-
+                          Configurations for setting up PSC interfaces attached to the instance
+                          which are used for outbound connectivity. Currently, AlloyDB supports only 0 or 1 PSC interface.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            networkAttachmentResource:
+                              description: |-
+                                The network attachment resource created in the consumer project to which the PSC interface will be linked.
+                                This is of the format: "projects/${CONSUMER_PROJECT}/regions/${REGION}/networkAttachments/${NETWORK_ATTACHMENT_NAME}".
+                                The network attachment must be in the same region as the instance.
+                              type: string
+                          type: object
+                        type: array
                       serviceAttachmentLink:
                         description: |-
                           (Output)

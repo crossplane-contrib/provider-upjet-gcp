@@ -144,33 +144,134 @@ type ConfigParameters struct {
 	SrcIPRanges []*string `json:"srcIpRanges" tf:"src_ip_ranges,omitempty"`
 }
 
+type EnforceOnKeyConfigsInitParameters struct {
+
+	// Rate limit key name applicable only for the following key types:
+	EnforceOnKeyName *string `json:"enforceOnKeyName,omitempty" tf:"enforce_on_key_name,omitempty"`
+
+	// Determines the key to enforce the rate_limit_threshold on. If not specified, defaults to ALL.
+	EnforceOnKeyType *string `json:"enforceOnKeyType,omitempty" tf:"enforce_on_key_type,omitempty"`
+}
+
+type EnforceOnKeyConfigsObservation struct {
+
+	// Rate limit key name applicable only for the following key types:
+	EnforceOnKeyName *string `json:"enforceOnKeyName,omitempty" tf:"enforce_on_key_name,omitempty"`
+
+	// Determines the key to enforce the rate_limit_threshold on. If not specified, defaults to ALL.
+	EnforceOnKeyType *string `json:"enforceOnKeyType,omitempty" tf:"enforce_on_key_type,omitempty"`
+}
+
+type EnforceOnKeyConfigsParameters struct {
+
+	// Rate limit key name applicable only for the following key types:
+	// +kubebuilder:validation:Optional
+	EnforceOnKeyName *string `json:"enforceOnKeyName,omitempty" tf:"enforce_on_key_name,omitempty"`
+
+	// Determines the key to enforce the rate_limit_threshold on. If not specified, defaults to ALL.
+	// +kubebuilder:validation:Optional
+	EnforceOnKeyType *string `json:"enforceOnKeyType,omitempty" tf:"enforce_on_key_type,omitempty"`
+}
+
 type ExceedRedirectOptionsInitParameters struct {
 
-	// Target for the redirect action. This is required if the type is EXTERNAL_302 and cannot be specified for GOOGLE_RECAPTCHA.
+	// External redirection target when EXTERNAL_302 is set in type.
 	Target *string `json:"target,omitempty" tf:"target,omitempty"`
 
-	// Type of the redirect action.
+	// The type indicates the intended use of the security policy. This field can be set only at resource creation time.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type ExceedRedirectOptionsObservation struct {
 
-	// Target for the redirect action. This is required if the type is EXTERNAL_302 and cannot be specified for GOOGLE_RECAPTCHA.
+	// External redirection target when EXTERNAL_302 is set in type.
 	Target *string `json:"target,omitempty" tf:"target,omitempty"`
 
-	// Type of the redirect action.
+	// The type indicates the intended use of the security policy. This field can be set only at resource creation time.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type ExceedRedirectOptionsParameters struct {
 
-	// Target for the redirect action. This is required if the type is EXTERNAL_302 and cannot be specified for GOOGLE_RECAPTCHA.
+	// External redirection target when EXTERNAL_302 is set in type.
 	// +kubebuilder:validation:Optional
 	Target *string `json:"target,omitempty" tf:"target,omitempty"`
 
-	// Type of the redirect action.
+	// The type indicates the intended use of the security policy. This field can be set only at resource creation time.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type" tf:"type,omitempty"`
+}
+
+type ExclusionInitParameters struct {
+
+	// Request cookie whose value will be excluded from inspection during preconfigured WAF evaluation. Structure is documented below.
+	RequestCookie []RequestCookieInitParameters `json:"requestCookie,omitempty" tf:"request_cookie,omitempty"`
+
+	// Request header whose value will be excluded from inspection during preconfigured WAF evaluation. Structure is documented below.
+	RequestHeader []RequestHeaderInitParameters `json:"requestHeader,omitempty" tf:"request_header,omitempty"`
+
+	// Request query parameter whose value will be excluded from inspection during preconfigured WAF evaluation. Note that the parameter can be in the query string or in the POST body. Structure is documented below.
+	RequestQueryParam []RequestQueryParamInitParameters `json:"requestQueryParam,omitempty" tf:"request_query_param,omitempty"`
+
+	// Request URI from the request line to be excluded from inspection during preconfigured WAF evaluation. When specifying this field, the query or fragment part should be excluded. Structure is documented below.
+	RequestURI []RequestURIInitParameters `json:"requestUri,omitempty" tf:"request_uri,omitempty"`
+
+	// A list of target rule IDs under the WAF rule set to apply the preconfigured WAF exclusion. If omitted, it refers to all the rule IDs under the WAF rule set.
+	// +listType=set
+	TargetRuleIds []*string `json:"targetRuleIds,omitempty" tf:"target_rule_ids,omitempty"`
+
+	// Target WAF rule set to apply the preconfigured WAF exclusion.
+	TargetRuleSet *string `json:"targetRuleSet,omitempty" tf:"target_rule_set,omitempty"`
+}
+
+type ExclusionObservation struct {
+
+	// Request cookie whose value will be excluded from inspection during preconfigured WAF evaluation. Structure is documented below.
+	RequestCookie []RequestCookieObservation `json:"requestCookie,omitempty" tf:"request_cookie,omitempty"`
+
+	// Request header whose value will be excluded from inspection during preconfigured WAF evaluation. Structure is documented below.
+	RequestHeader []RequestHeaderObservation `json:"requestHeader,omitempty" tf:"request_header,omitempty"`
+
+	// Request query parameter whose value will be excluded from inspection during preconfigured WAF evaluation. Note that the parameter can be in the query string or in the POST body. Structure is documented below.
+	RequestQueryParam []RequestQueryParamObservation `json:"requestQueryParam,omitempty" tf:"request_query_param,omitempty"`
+
+	// Request URI from the request line to be excluded from inspection during preconfigured WAF evaluation. When specifying this field, the query or fragment part should be excluded. Structure is documented below.
+	RequestURI []RequestURIObservation `json:"requestUri,omitempty" tf:"request_uri,omitempty"`
+
+	// A list of target rule IDs under the WAF rule set to apply the preconfigured WAF exclusion. If omitted, it refers to all the rule IDs under the WAF rule set.
+	// +listType=set
+	TargetRuleIds []*string `json:"targetRuleIds,omitempty" tf:"target_rule_ids,omitempty"`
+
+	// Target WAF rule set to apply the preconfigured WAF exclusion.
+	TargetRuleSet *string `json:"targetRuleSet,omitempty" tf:"target_rule_set,omitempty"`
+}
+
+type ExclusionParameters struct {
+
+	// Request cookie whose value will be excluded from inspection during preconfigured WAF evaluation. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RequestCookie []RequestCookieParameters `json:"requestCookie,omitempty" tf:"request_cookie,omitempty"`
+
+	// Request header whose value will be excluded from inspection during preconfigured WAF evaluation. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RequestHeader []RequestHeaderParameters `json:"requestHeader,omitempty" tf:"request_header,omitempty"`
+
+	// Request query parameter whose value will be excluded from inspection during preconfigured WAF evaluation. Note that the parameter can be in the query string or in the POST body. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RequestQueryParam []RequestQueryParamParameters `json:"requestQueryParam,omitempty" tf:"request_query_param,omitempty"`
+
+	// Request URI from the request line to be excluded from inspection during preconfigured WAF evaluation. When specifying this field, the query or fragment part should be excluded. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RequestURI []RequestURIParameters `json:"requestUri,omitempty" tf:"request_uri,omitempty"`
+
+	// A list of target rule IDs under the WAF rule set to apply the preconfigured WAF exclusion. If omitted, it refers to all the rule IDs under the WAF rule set.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	TargetRuleIds []*string `json:"targetRuleIds,omitempty" tf:"target_rule_ids,omitempty"`
+
+	// Target WAF rule set to apply the preconfigured WAF exclusion.
+	// +kubebuilder:validation:Optional
+	TargetRuleSet *string `json:"targetRuleSet" tf:"target_rule_set,omitempty"`
 }
 
 type ExprInitParameters struct {
@@ -255,6 +356,9 @@ type Layer7DdosDefenseConfigInitParameters struct {
 
 	// Rule visibility can be one of the following:
 	RuleVisibility *string `json:"ruleVisibility,omitempty" tf:"rule_visibility,omitempty"`
+
+	// Configuration options for layer7 adaptive protection for various customizable thresholds. Structure is documented below.
+	ThresholdConfigs []ThresholdConfigsInitParameters `json:"thresholdConfigs,omitempty" tf:"threshold_configs,omitempty"`
 }
 
 type Layer7DdosDefenseConfigObservation struct {
@@ -264,6 +368,9 @@ type Layer7DdosDefenseConfigObservation struct {
 
 	// Rule visibility can be one of the following:
 	RuleVisibility *string `json:"ruleVisibility,omitempty" tf:"rule_visibility,omitempty"`
+
+	// Configuration options for layer7 adaptive protection for various customizable thresholds. Structure is documented below.
+	ThresholdConfigs []ThresholdConfigsObservation `json:"thresholdConfigs,omitempty" tf:"threshold_configs,omitempty"`
 }
 
 type Layer7DdosDefenseConfigParameters struct {
@@ -275,6 +382,29 @@ type Layer7DdosDefenseConfigParameters struct {
 	// Rule visibility can be one of the following:
 	// +kubebuilder:validation:Optional
 	RuleVisibility *string `json:"ruleVisibility,omitempty" tf:"rule_visibility,omitempty"`
+
+	// Configuration options for layer7 adaptive protection for various customizable thresholds. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ThresholdConfigs []ThresholdConfigsParameters `json:"thresholdConfigs,omitempty" tf:"threshold_configs,omitempty"`
+}
+
+type PreconfiguredWafConfigInitParameters struct {
+
+	// An exclusion to apply during preconfigured WAF evaluation. Structure is documented below.
+	Exclusion []ExclusionInitParameters `json:"exclusion,omitempty" tf:"exclusion,omitempty"`
+}
+
+type PreconfiguredWafConfigObservation struct {
+
+	// An exclusion to apply during preconfigured WAF evaluation. Structure is documented below.
+	Exclusion []ExclusionObservation `json:"exclusion,omitempty" tf:"exclusion,omitempty"`
+}
+
+type PreconfiguredWafConfigParameters struct {
+
+	// An exclusion to apply during preconfigured WAF evaluation. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Exclusion []ExclusionParameters `json:"exclusion,omitempty" tf:"exclusion,omitempty"`
 }
 
 type RateLimitOptionsInitParameters struct {
@@ -294,6 +424,9 @@ type RateLimitOptionsInitParameters struct {
 	// Determines the key to enforce the rate_limit_threshold on. If not specified, defaults to ALL.
 	EnforceOnKey *string `json:"enforceOnKey,omitempty" tf:"enforce_on_key,omitempty"`
 
+	// If specified, any combination of values of enforce_on_key_type/enforce_on_key_name is treated as the key on which rate limit threshold/action is enforced. You can specify up to 3 enforce_on_key_configs. If enforce_on_key_configs is specified, enforce_on_key must be set to an empty string. Structure is documented below.
+	EnforceOnKeyConfigs []EnforceOnKeyConfigsInitParameters `json:"enforceOnKeyConfigs,omitempty" tf:"enforce_on_key_configs,omitempty"`
+
 	// Rate limit key name applicable only for the following key types:
 	EnforceOnKeyName *string `json:"enforceOnKeyName,omitempty" tf:"enforce_on_key_name,omitempty"`
 
@@ -301,7 +434,7 @@ type RateLimitOptionsInitParameters struct {
 	// Valid options are deny() where valid values for status are 403, 404, 429, and 502.
 	ExceedAction *string `json:"exceedAction,omitempty" tf:"exceed_action,omitempty"`
 
-	// block supports:
+	// Parameters defining the redirect action that is used as the exceed action. Cannot be specified if the exceed action is not redirect. Structure is documented below.
 	ExceedRedirectOptions []ExceedRedirectOptionsInitParameters `json:"exceedRedirectOptions,omitempty" tf:"exceed_redirect_options,omitempty"`
 
 	// Threshold at which to begin ratelimiting. Structure is documented below.
@@ -325,6 +458,9 @@ type RateLimitOptionsObservation struct {
 	// Determines the key to enforce the rate_limit_threshold on. If not specified, defaults to ALL.
 	EnforceOnKey *string `json:"enforceOnKey,omitempty" tf:"enforce_on_key,omitempty"`
 
+	// If specified, any combination of values of enforce_on_key_type/enforce_on_key_name is treated as the key on which rate limit threshold/action is enforced. You can specify up to 3 enforce_on_key_configs. If enforce_on_key_configs is specified, enforce_on_key must be set to an empty string. Structure is documented below.
+	EnforceOnKeyConfigs []EnforceOnKeyConfigsObservation `json:"enforceOnKeyConfigs,omitempty" tf:"enforce_on_key_configs,omitempty"`
+
 	// Rate limit key name applicable only for the following key types:
 	EnforceOnKeyName *string `json:"enforceOnKeyName,omitempty" tf:"enforce_on_key_name,omitempty"`
 
@@ -332,7 +468,7 @@ type RateLimitOptionsObservation struct {
 	// Valid options are deny() where valid values for status are 403, 404, 429, and 502.
 	ExceedAction *string `json:"exceedAction,omitempty" tf:"exceed_action,omitempty"`
 
-	// block supports:
+	// Parameters defining the redirect action that is used as the exceed action. Cannot be specified if the exceed action is not redirect. Structure is documented below.
 	ExceedRedirectOptions []ExceedRedirectOptionsObservation `json:"exceedRedirectOptions,omitempty" tf:"exceed_redirect_options,omitempty"`
 
 	// Threshold at which to begin ratelimiting. Structure is documented below.
@@ -360,6 +496,10 @@ type RateLimitOptionsParameters struct {
 	// +kubebuilder:validation:Optional
 	EnforceOnKey *string `json:"enforceOnKey,omitempty" tf:"enforce_on_key,omitempty"`
 
+	// If specified, any combination of values of enforce_on_key_type/enforce_on_key_name is treated as the key on which rate limit threshold/action is enforced. You can specify up to 3 enforce_on_key_configs. If enforce_on_key_configs is specified, enforce_on_key must be set to an empty string. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	EnforceOnKeyConfigs []EnforceOnKeyConfigsParameters `json:"enforceOnKeyConfigs,omitempty" tf:"enforce_on_key_configs,omitempty"`
+
 	// Rate limit key name applicable only for the following key types:
 	// +kubebuilder:validation:Optional
 	EnforceOnKeyName *string `json:"enforceOnKeyName,omitempty" tf:"enforce_on_key_name,omitempty"`
@@ -369,7 +509,7 @@ type RateLimitOptionsParameters struct {
 	// +kubebuilder:validation:Optional
 	ExceedAction *string `json:"exceedAction" tf:"exceed_action,omitempty"`
 
-	// block supports:
+	// Parameters defining the redirect action that is used as the exceed action. Cannot be specified if the exceed action is not redirect. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ExceedRedirectOptions []ExceedRedirectOptionsParameters `json:"exceedRedirectOptions,omitempty" tf:"exceed_redirect_options,omitempty"`
 
@@ -457,31 +597,89 @@ type RecaptchaOptionsParameters struct {
 
 type RedirectOptionsInitParameters struct {
 
-	// Target for the redirect action. This is required if the type is EXTERNAL_302 and cannot be specified for GOOGLE_RECAPTCHA.
+	// External redirection target when EXTERNAL_302 is set in type.
 	Target *string `json:"target,omitempty" tf:"target,omitempty"`
 
-	// Type of the redirect action.
+	// The type indicates the intended use of the security policy. This field can be set only at resource creation time.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type RedirectOptionsObservation struct {
 
-	// Target for the redirect action. This is required if the type is EXTERNAL_302 and cannot be specified for GOOGLE_RECAPTCHA.
+	// External redirection target when EXTERNAL_302 is set in type.
 	Target *string `json:"target,omitempty" tf:"target,omitempty"`
 
-	// Type of the redirect action.
+	// The type indicates the intended use of the security policy. This field can be set only at resource creation time.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type RedirectOptionsParameters struct {
 
-	// Target for the redirect action. This is required if the type is EXTERNAL_302 and cannot be specified for GOOGLE_RECAPTCHA.
+	// External redirection target when EXTERNAL_302 is set in type.
 	// +kubebuilder:validation:Optional
 	Target *string `json:"target,omitempty" tf:"target,omitempty"`
 
-	// Type of the redirect action.
+	// The type indicates the intended use of the security policy. This field can be set only at resource creation time.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type" tf:"type,omitempty"`
+}
+
+type RequestCookieInitParameters struct {
+
+	// You can specify an exact match or a partial match by using a field operator and a field value.
+	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+
+	// Requests that match this value constitute a granular traffic unit.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type RequestCookieObservation struct {
+
+	// You can specify an exact match or a partial match by using a field operator and a field value.
+	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+
+	// Requests that match this value constitute a granular traffic unit.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type RequestCookieParameters struct {
+
+	// You can specify an exact match or a partial match by using a field operator and a field value.
+	// +kubebuilder:validation:Optional
+	Operator *string `json:"operator" tf:"operator,omitempty"`
+
+	// Requests that match this value constitute a granular traffic unit.
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type RequestHeaderInitParameters struct {
+
+	// You can specify an exact match or a partial match by using a field operator and a field value.
+	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+
+	// Requests that match this value constitute a granular traffic unit.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type RequestHeaderObservation struct {
+
+	// You can specify an exact match or a partial match by using a field operator and a field value.
+	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+
+	// Requests that match this value constitute a granular traffic unit.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type RequestHeaderParameters struct {
+
+	// You can specify an exact match or a partial match by using a field operator and a field value.
+	// +kubebuilder:validation:Optional
+	Operator *string `json:"operator" tf:"operator,omitempty"`
+
+	// Requests that match this value constitute a granular traffic unit.
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type RequestHeadersToAddsInitParameters struct {
@@ -511,6 +709,64 @@ type RequestHeadersToAddsParameters struct {
 	// The value to set the named header to.
 	// +kubebuilder:validation:Optional
 	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+}
+
+type RequestQueryParamInitParameters struct {
+
+	// You can specify an exact match or a partial match by using a field operator and a field value.
+	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+
+	// Requests that match this value constitute a granular traffic unit.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type RequestQueryParamObservation struct {
+
+	// You can specify an exact match or a partial match by using a field operator and a field value.
+	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+
+	// Requests that match this value constitute a granular traffic unit.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type RequestQueryParamParameters struct {
+
+	// You can specify an exact match or a partial match by using a field operator and a field value.
+	// +kubebuilder:validation:Optional
+	Operator *string `json:"operator" tf:"operator,omitempty"`
+
+	// Requests that match this value constitute a granular traffic unit.
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type RequestURIInitParameters struct {
+
+	// You can specify an exact match or a partial match by using a field operator and a field value.
+	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+
+	// Requests that match this value constitute a granular traffic unit.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type RequestURIObservation struct {
+
+	// You can specify an exact match or a partial match by using a field operator and a field value.
+	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+
+	// Requests that match this value constitute a granular traffic unit.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type RequestURIParameters struct {
+
+	// You can specify an exact match or a partial match by using a field operator and a field value.
+	// +kubebuilder:validation:Optional
+	Operator *string `json:"operator" tf:"operator,omitempty"`
+
+	// Requests that match this value constitute a granular traffic unit.
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type RuleHeaderActionInitParameters struct {
@@ -546,6 +802,9 @@ type RuleInitParameters struct {
 	// A match condition that incoming traffic is evaluated against.
 	// If it evaluates to true, the corresponding action is enforced. Structure is documented below.
 	Match []RuleMatchInitParameters `json:"match,omitempty" tf:"match,omitempty"`
+
+	// Preconfigured WAF configuration to be applied for the rule. If the rule does not evaluate preconfigured WAF rules, i.e., if evaluatePreconfiguredWaf() is not used, this field will have no effect. Structure is documented below.
+	PreconfiguredWafConfig []PreconfiguredWafConfigInitParameters `json:"preconfiguredWafConfig,omitempty" tf:"preconfigured_waf_config,omitempty"`
 
 	// When set to true, the action specified above is not enforced.
 	// Stackdriver logs for requests that trigger a preview action are annotated as such.
@@ -644,6 +903,9 @@ type RuleObservation struct {
 	// If it evaluates to true, the corresponding action is enforced. Structure is documented below.
 	Match []RuleMatchObservation `json:"match,omitempty" tf:"match,omitempty"`
 
+	// Preconfigured WAF configuration to be applied for the rule. If the rule does not evaluate preconfigured WAF rules, i.e., if evaluatePreconfiguredWaf() is not used, this field will have no effect. Structure is documented below.
+	PreconfiguredWafConfig []PreconfiguredWafConfigObservation `json:"preconfiguredWafConfig,omitempty" tf:"preconfigured_waf_config,omitempty"`
+
 	// When set to true, the action specified above is not enforced.
 	// Stackdriver logs for requests that trigger a preview action are annotated as such.
 	Preview *bool `json:"preview,omitempty" tf:"preview,omitempty"`
@@ -677,6 +939,10 @@ type RuleParameters struct {
 	// If it evaluates to true, the corresponding action is enforced. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Match []RuleMatchParameters `json:"match" tf:"match,omitempty"`
+
+	// Preconfigured WAF configuration to be applied for the rule. If the rule does not evaluate preconfigured WAF rules, i.e., if evaluatePreconfiguredWaf() is not used, this field will have no effect. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PreconfiguredWafConfig []PreconfiguredWafConfigParameters `json:"preconfiguredWafConfig,omitempty" tf:"preconfigured_waf_config,omitempty"`
 
 	// When set to true, the action specified above is not enforced.
 	// Stackdriver logs for requests that trigger a preview action are annotated as such.
@@ -795,6 +1061,144 @@ type SecurityPolicyParameters struct {
 	// The type indicates the intended use of the security policy. This field can be set only at resource creation time.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type ThresholdConfigsInitParameters struct {
+
+	// Confidence threshold above which Adaptive Protection's auto-deploy takes actions.
+	AutoDeployConfidenceThreshold *float64 `json:"autoDeployConfidenceThreshold,omitempty" tf:"auto_deploy_confidence_threshold,omitempty"`
+
+	// Duration over which Adaptive Protection's auto-deployed actions last.
+	AutoDeployExpirationSec *float64 `json:"autoDeployExpirationSec,omitempty" tf:"auto_deploy_expiration_sec,omitempty"`
+
+	// Impacted baseline threshold below which Adaptive Protection's auto-deploy takes actions.
+	AutoDeployImpactedBaselineThreshold *float64 `json:"autoDeployImpactedBaselineThreshold,omitempty" tf:"auto_deploy_impacted_baseline_threshold,omitempty"`
+
+	// Load threshold above which Adaptive Protection automatically deploy threshold based on the backend load threshold and detect a new rule during an alerted attack.
+	AutoDeployLoadThreshold *float64 `json:"autoDeployLoadThreshold,omitempty" tf:"auto_deploy_load_threshold,omitempty"`
+
+	// Detection threshold based on absolute QPS.
+	DetectionAbsoluteQPS *float64 `json:"detectionAbsoluteQps,omitempty" tf:"detection_absolute_qps,omitempty"`
+
+	// Detection threshold based on the backend service's load.
+	DetectionLoadThreshold *float64 `json:"detectionLoadThreshold,omitempty" tf:"detection_load_threshold,omitempty"`
+
+	// Detection threshold based on QPS relative to the average of baseline traffic.
+	DetectionRelativeToBaselineQPS *float64 `json:"detectionRelativeToBaselineQps,omitempty" tf:"detection_relative_to_baseline_qps,omitempty"`
+
+	// The name of config. The name must be 1-63 characters long, and comply with RFC1035. The name must be unique within the security policy.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Configuration options for enabling Adaptive Protection to work on the specified service granularity. Structure is documented below.
+	TrafficGranularityConfigs []TrafficGranularityConfigsInitParameters `json:"trafficGranularityConfigs,omitempty" tf:"traffic_granularity_configs,omitempty"`
+}
+
+type ThresholdConfigsObservation struct {
+
+	// Confidence threshold above which Adaptive Protection's auto-deploy takes actions.
+	AutoDeployConfidenceThreshold *float64 `json:"autoDeployConfidenceThreshold,omitempty" tf:"auto_deploy_confidence_threshold,omitempty"`
+
+	// Duration over which Adaptive Protection's auto-deployed actions last.
+	AutoDeployExpirationSec *float64 `json:"autoDeployExpirationSec,omitempty" tf:"auto_deploy_expiration_sec,omitempty"`
+
+	// Impacted baseline threshold below which Adaptive Protection's auto-deploy takes actions.
+	AutoDeployImpactedBaselineThreshold *float64 `json:"autoDeployImpactedBaselineThreshold,omitempty" tf:"auto_deploy_impacted_baseline_threshold,omitempty"`
+
+	// Load threshold above which Adaptive Protection automatically deploy threshold based on the backend load threshold and detect a new rule during an alerted attack.
+	AutoDeployLoadThreshold *float64 `json:"autoDeployLoadThreshold,omitempty" tf:"auto_deploy_load_threshold,omitempty"`
+
+	// Detection threshold based on absolute QPS.
+	DetectionAbsoluteQPS *float64 `json:"detectionAbsoluteQps,omitempty" tf:"detection_absolute_qps,omitempty"`
+
+	// Detection threshold based on the backend service's load.
+	DetectionLoadThreshold *float64 `json:"detectionLoadThreshold,omitempty" tf:"detection_load_threshold,omitempty"`
+
+	// Detection threshold based on QPS relative to the average of baseline traffic.
+	DetectionRelativeToBaselineQPS *float64 `json:"detectionRelativeToBaselineQps,omitempty" tf:"detection_relative_to_baseline_qps,omitempty"`
+
+	// The name of config. The name must be 1-63 characters long, and comply with RFC1035. The name must be unique within the security policy.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Configuration options for enabling Adaptive Protection to work on the specified service granularity. Structure is documented below.
+	TrafficGranularityConfigs []TrafficGranularityConfigsObservation `json:"trafficGranularityConfigs,omitempty" tf:"traffic_granularity_configs,omitempty"`
+}
+
+type ThresholdConfigsParameters struct {
+
+	// Confidence threshold above which Adaptive Protection's auto-deploy takes actions.
+	// +kubebuilder:validation:Optional
+	AutoDeployConfidenceThreshold *float64 `json:"autoDeployConfidenceThreshold,omitempty" tf:"auto_deploy_confidence_threshold,omitempty"`
+
+	// Duration over which Adaptive Protection's auto-deployed actions last.
+	// +kubebuilder:validation:Optional
+	AutoDeployExpirationSec *float64 `json:"autoDeployExpirationSec,omitempty" tf:"auto_deploy_expiration_sec,omitempty"`
+
+	// Impacted baseline threshold below which Adaptive Protection's auto-deploy takes actions.
+	// +kubebuilder:validation:Optional
+	AutoDeployImpactedBaselineThreshold *float64 `json:"autoDeployImpactedBaselineThreshold,omitempty" tf:"auto_deploy_impacted_baseline_threshold,omitempty"`
+
+	// Load threshold above which Adaptive Protection automatically deploy threshold based on the backend load threshold and detect a new rule during an alerted attack.
+	// +kubebuilder:validation:Optional
+	AutoDeployLoadThreshold *float64 `json:"autoDeployLoadThreshold,omitempty" tf:"auto_deploy_load_threshold,omitempty"`
+
+	// Detection threshold based on absolute QPS.
+	// +kubebuilder:validation:Optional
+	DetectionAbsoluteQPS *float64 `json:"detectionAbsoluteQps,omitempty" tf:"detection_absolute_qps,omitempty"`
+
+	// Detection threshold based on the backend service's load.
+	// +kubebuilder:validation:Optional
+	DetectionLoadThreshold *float64 `json:"detectionLoadThreshold,omitempty" tf:"detection_load_threshold,omitempty"`
+
+	// Detection threshold based on QPS relative to the average of baseline traffic.
+	// +kubebuilder:validation:Optional
+	DetectionRelativeToBaselineQPS *float64 `json:"detectionRelativeToBaselineQps,omitempty" tf:"detection_relative_to_baseline_qps,omitempty"`
+
+	// The name of config. The name must be 1-63 characters long, and comply with RFC1035. The name must be unique within the security policy.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name" tf:"name,omitempty"`
+
+	// Configuration options for enabling Adaptive Protection to work on the specified service granularity. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	TrafficGranularityConfigs []TrafficGranularityConfigsParameters `json:"trafficGranularityConfigs,omitempty" tf:"traffic_granularity_configs,omitempty"`
+}
+
+type TrafficGranularityConfigsInitParameters struct {
+
+	// If enabled, traffic matching each unique value for the specified type constitutes a separate traffic unit. It can only be set to true if value is empty.
+	EnableEachUniqueValue *bool `json:"enableEachUniqueValue,omitempty" tf:"enable_each_unique_value,omitempty"`
+
+	// The type indicates the intended use of the security policy. This field can be set only at resource creation time.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+
+	// Requests that match this value constitute a granular traffic unit.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type TrafficGranularityConfigsObservation struct {
+
+	// If enabled, traffic matching each unique value for the specified type constitutes a separate traffic unit. It can only be set to true if value is empty.
+	EnableEachUniqueValue *bool `json:"enableEachUniqueValue,omitempty" tf:"enable_each_unique_value,omitempty"`
+
+	// The type indicates the intended use of the security policy. This field can be set only at resource creation time.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+
+	// Requests that match this value constitute a granular traffic unit.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type TrafficGranularityConfigsParameters struct {
+
+	// If enabled, traffic matching each unique value for the specified type constitutes a separate traffic unit. It can only be set to true if value is empty.
+	// +kubebuilder:validation:Optional
+	EnableEachUniqueValue *bool `json:"enableEachUniqueValue,omitempty" tf:"enable_each_unique_value,omitempty"`
+
+	// The type indicates the intended use of the security policy. This field can be set only at resource creation time.
+	// +kubebuilder:validation:Optional
+	Type *string `json:"type" tf:"type,omitempty"`
+
+	// Requests that match this value constitute a granular traffic unit.
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 // SecurityPolicySpec defines the desired state of SecurityPolicy

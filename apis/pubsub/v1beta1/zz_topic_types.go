@@ -13,10 +13,19 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AvroFormatInitParameters struct {
+}
+
+type AvroFormatObservation struct {
+}
+
+type AvroFormatParameters struct {
+}
+
 type AwsKinesisInitParameters struct {
 
 	// AWS role ARN to be used for Federated Identity authentication with
-	// Kinesis. Check the Pub/Sub docs for how to set up this role and the
+	// MSK. Check the Pub/Sub docs for how to set up this role and the
 	// required permissions that need to be attached to it.
 	AwsRoleArn *string `json:"awsRoleArn,omitempty" tf:"aws_role_arn,omitempty"`
 
@@ -26,9 +35,7 @@ type AwsKinesisInitParameters struct {
 	ConsumerArn *string `json:"consumerArn,omitempty" tf:"consumer_arn,omitempty"`
 
 	// The GCP service account to be used for Federated Identity authentication
-	// with Kinesis (via a AssumeRoleWithWebIdentity call for the provided
-	// role). The awsRoleArn must be set up with accounts.google.com:sub
-	// equals to this service account number.
+	// with Confluent Cloud.
 	GCPServiceAccount *string `json:"gcpServiceAccount,omitempty" tf:"gcp_service_account,omitempty"`
 
 	// The Kinesis stream ARN to ingest data from.
@@ -38,7 +45,7 @@ type AwsKinesisInitParameters struct {
 type AwsKinesisObservation struct {
 
 	// AWS role ARN to be used for Federated Identity authentication with
-	// Kinesis. Check the Pub/Sub docs for how to set up this role and the
+	// MSK. Check the Pub/Sub docs for how to set up this role and the
 	// required permissions that need to be attached to it.
 	AwsRoleArn *string `json:"awsRoleArn,omitempty" tf:"aws_role_arn,omitempty"`
 
@@ -48,9 +55,7 @@ type AwsKinesisObservation struct {
 	ConsumerArn *string `json:"consumerArn,omitempty" tf:"consumer_arn,omitempty"`
 
 	// The GCP service account to be used for Federated Identity authentication
-	// with Kinesis (via a AssumeRoleWithWebIdentity call for the provided
-	// role). The awsRoleArn must be set up with accounts.google.com:sub
-	// equals to this service account number.
+	// with Confluent Cloud.
 	GCPServiceAccount *string `json:"gcpServiceAccount,omitempty" tf:"gcp_service_account,omitempty"`
 
 	// The Kinesis stream ARN to ingest data from.
@@ -60,7 +65,7 @@ type AwsKinesisObservation struct {
 type AwsKinesisParameters struct {
 
 	// AWS role ARN to be used for Federated Identity authentication with
-	// Kinesis. Check the Pub/Sub docs for how to set up this role and the
+	// MSK. Check the Pub/Sub docs for how to set up this role and the
 	// required permissions that need to be attached to it.
 	// +kubebuilder:validation:Optional
 	AwsRoleArn *string `json:"awsRoleArn" tf:"aws_role_arn,omitempty"`
@@ -72,9 +77,7 @@ type AwsKinesisParameters struct {
 	ConsumerArn *string `json:"consumerArn" tf:"consumer_arn,omitempty"`
 
 	// The GCP service account to be used for Federated Identity authentication
-	// with Kinesis (via a AssumeRoleWithWebIdentity call for the provided
-	// role). The awsRoleArn must be set up with accounts.google.com:sub
-	// equals to this service account number.
+	// with Confluent Cloud.
 	// +kubebuilder:validation:Optional
 	GCPServiceAccount *string `json:"gcpServiceAccount" tf:"gcp_service_account,omitempty"`
 
@@ -83,11 +86,342 @@ type AwsKinesisParameters struct {
 	StreamArn *string `json:"streamArn" tf:"stream_arn,omitempty"`
 }
 
+type AwsMskInitParameters struct {
+
+	// AWS role ARN to be used for Federated Identity authentication with
+	// MSK. Check the Pub/Sub docs for how to set up this role and the
+	// required permissions that need to be attached to it.
+	AwsRoleArn *string `json:"awsRoleArn,omitempty" tf:"aws_role_arn,omitempty"`
+
+	// ARN that uniquely identifies the MSK cluster.
+	ClusterArn *string `json:"clusterArn,omitempty" tf:"cluster_arn,omitempty"`
+
+	// The GCP service account to be used for Federated Identity authentication
+	// with Confluent Cloud.
+	GCPServiceAccount *string `json:"gcpServiceAccount,omitempty" tf:"gcp_service_account,omitempty"`
+
+	// Name of the Confluent Cloud topic that Pub/Sub will import from.
+	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
+}
+
+type AwsMskObservation struct {
+
+	// AWS role ARN to be used for Federated Identity authentication with
+	// MSK. Check the Pub/Sub docs for how to set up this role and the
+	// required permissions that need to be attached to it.
+	AwsRoleArn *string `json:"awsRoleArn,omitempty" tf:"aws_role_arn,omitempty"`
+
+	// ARN that uniquely identifies the MSK cluster.
+	ClusterArn *string `json:"clusterArn,omitempty" tf:"cluster_arn,omitempty"`
+
+	// The GCP service account to be used for Federated Identity authentication
+	// with Confluent Cloud.
+	GCPServiceAccount *string `json:"gcpServiceAccount,omitempty" tf:"gcp_service_account,omitempty"`
+
+	// Name of the Confluent Cloud topic that Pub/Sub will import from.
+	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
+}
+
+type AwsMskParameters struct {
+
+	// AWS role ARN to be used for Federated Identity authentication with
+	// MSK. Check the Pub/Sub docs for how to set up this role and the
+	// required permissions that need to be attached to it.
+	// +kubebuilder:validation:Optional
+	AwsRoleArn *string `json:"awsRoleArn" tf:"aws_role_arn,omitempty"`
+
+	// ARN that uniquely identifies the MSK cluster.
+	// +kubebuilder:validation:Optional
+	ClusterArn *string `json:"clusterArn" tf:"cluster_arn,omitempty"`
+
+	// The GCP service account to be used for Federated Identity authentication
+	// with Confluent Cloud.
+	// +kubebuilder:validation:Optional
+	GCPServiceAccount *string `json:"gcpServiceAccount" tf:"gcp_service_account,omitempty"`
+
+	// Name of the Confluent Cloud topic that Pub/Sub will import from.
+	// +kubebuilder:validation:Optional
+	Topic *string `json:"topic" tf:"topic,omitempty"`
+}
+
+type AzureEventHubsInitParameters struct {
+
+	// The Azure event hub client ID to use for ingestion.
+	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
+
+	// The Azure event hub to ingest data from.
+	EventHub *string `json:"eventHub,omitempty" tf:"event_hub,omitempty"`
+
+	// The GCP service account to be used for Federated Identity authentication
+	// with Confluent Cloud.
+	GCPServiceAccount *string `json:"gcpServiceAccount,omitempty" tf:"gcp_service_account,omitempty"`
+
+	// The Azure event hub namespace to ingest data from.
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+
+	// The name of the resource group within an Azure subscription.
+	ResourceGroup *string `json:"resourceGroup,omitempty" tf:"resource_group,omitempty"`
+
+	// The Azure event hub subscription ID to use for ingestion.
+	SubscriptionID *string `json:"subscriptionId,omitempty" tf:"subscription_id,omitempty"`
+
+	// The Azure event hub tenant ID to use for ingestion.
+	TenantID *string `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
+}
+
+type AzureEventHubsObservation struct {
+
+	// The Azure event hub client ID to use for ingestion.
+	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
+
+	// The Azure event hub to ingest data from.
+	EventHub *string `json:"eventHub,omitempty" tf:"event_hub,omitempty"`
+
+	// The GCP service account to be used for Federated Identity authentication
+	// with Confluent Cloud.
+	GCPServiceAccount *string `json:"gcpServiceAccount,omitempty" tf:"gcp_service_account,omitempty"`
+
+	// The Azure event hub namespace to ingest data from.
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+
+	// The name of the resource group within an Azure subscription.
+	ResourceGroup *string `json:"resourceGroup,omitempty" tf:"resource_group,omitempty"`
+
+	// The Azure event hub subscription ID to use for ingestion.
+	SubscriptionID *string `json:"subscriptionId,omitempty" tf:"subscription_id,omitempty"`
+
+	// The Azure event hub tenant ID to use for ingestion.
+	TenantID *string `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
+}
+
+type AzureEventHubsParameters struct {
+
+	// The Azure event hub client ID to use for ingestion.
+	// +kubebuilder:validation:Optional
+	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
+
+	// The Azure event hub to ingest data from.
+	// +kubebuilder:validation:Optional
+	EventHub *string `json:"eventHub,omitempty" tf:"event_hub,omitempty"`
+
+	// The GCP service account to be used for Federated Identity authentication
+	// with Confluent Cloud.
+	// +kubebuilder:validation:Optional
+	GCPServiceAccount *string `json:"gcpServiceAccount,omitempty" tf:"gcp_service_account,omitempty"`
+
+	// The Azure event hub namespace to ingest data from.
+	// +kubebuilder:validation:Optional
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+
+	// The name of the resource group within an Azure subscription.
+	// +kubebuilder:validation:Optional
+	ResourceGroup *string `json:"resourceGroup,omitempty" tf:"resource_group,omitempty"`
+
+	// The Azure event hub subscription ID to use for ingestion.
+	// +kubebuilder:validation:Optional
+	SubscriptionID *string `json:"subscriptionId,omitempty" tf:"subscription_id,omitempty"`
+
+	// The Azure event hub tenant ID to use for ingestion.
+	// +kubebuilder:validation:Optional
+	TenantID *string `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
+}
+
+type CloudStorageInitParameters struct {
+
+	// Configuration for reading Cloud Storage data in Avro binary format. The
+	// bytes of each object will be set to the data field of a Pub/Sub message.
+	AvroFormat []AvroFormatInitParameters `json:"avroFormat,omitempty" tf:"avro_format,omitempty"`
+
+	// Cloud Storage bucket. The bucket name must be without any
+	// prefix like "gs://". See the bucket naming requirements:
+	// https://cloud.google.com/storage/docs/buckets#naming.
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// Glob pattern used to match objects that will be ingested. If unset, all
+	// objects will be ingested. See the supported patterns:
+	// https://cloud.google.com/storage/docs/json_api/v1/objects/list#list-objects-and-prefixes-using-glob
+	MatchGlob *string `json:"matchGlob,omitempty" tf:"match_glob,omitempty"`
+
+	// The timestamp set in RFC3339 text format. If set, only objects with a
+	// larger or equal timestamp will be ingested. Unset by default, meaning
+	// all objects will be ingested.
+	MinimumObjectCreateTime *string `json:"minimumObjectCreateTime,omitempty" tf:"minimum_object_create_time,omitempty"`
+
+	// Configuration for reading Cloud Storage data written via Cloud Storage
+	// subscriptions(See https://cloud.google.com/pubsub/docs/cloudstorage). The
+	// data and attributes fields of the originally exported Pub/Sub message
+	// will be restored when publishing.
+	PubsubAvroFormat []PubsubAvroFormatInitParameters `json:"pubsubAvroFormat,omitempty" tf:"pubsub_avro_format,omitempty"`
+
+	// Configuration for reading Cloud Storage data in text format. Each line of
+	// text as specified by the delimiter will be set to the data field of a
+	// Pub/Sub message.
+	// Structure is documented below.
+	TextFormat []TextFormatInitParameters `json:"textFormat,omitempty" tf:"text_format,omitempty"`
+}
+
+type CloudStorageObservation struct {
+
+	// Configuration for reading Cloud Storage data in Avro binary format. The
+	// bytes of each object will be set to the data field of a Pub/Sub message.
+	AvroFormat []AvroFormatParameters `json:"avroFormat,omitempty" tf:"avro_format,omitempty"`
+
+	// Cloud Storage bucket. The bucket name must be without any
+	// prefix like "gs://". See the bucket naming requirements:
+	// https://cloud.google.com/storage/docs/buckets#naming.
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// Glob pattern used to match objects that will be ingested. If unset, all
+	// objects will be ingested. See the supported patterns:
+	// https://cloud.google.com/storage/docs/json_api/v1/objects/list#list-objects-and-prefixes-using-glob
+	MatchGlob *string `json:"matchGlob,omitempty" tf:"match_glob,omitempty"`
+
+	// The timestamp set in RFC3339 text format. If set, only objects with a
+	// larger or equal timestamp will be ingested. Unset by default, meaning
+	// all objects will be ingested.
+	MinimumObjectCreateTime *string `json:"minimumObjectCreateTime,omitempty" tf:"minimum_object_create_time,omitempty"`
+
+	// Configuration for reading Cloud Storage data written via Cloud Storage
+	// subscriptions(See https://cloud.google.com/pubsub/docs/cloudstorage). The
+	// data and attributes fields of the originally exported Pub/Sub message
+	// will be restored when publishing.
+	PubsubAvroFormat []PubsubAvroFormatParameters `json:"pubsubAvroFormat,omitempty" tf:"pubsub_avro_format,omitempty"`
+
+	// Configuration for reading Cloud Storage data in text format. Each line of
+	// text as specified by the delimiter will be set to the data field of a
+	// Pub/Sub message.
+	// Structure is documented below.
+	TextFormat []TextFormatObservation `json:"textFormat,omitempty" tf:"text_format,omitempty"`
+}
+
+type CloudStorageParameters struct {
+
+	// Configuration for reading Cloud Storage data in Avro binary format. The
+	// bytes of each object will be set to the data field of a Pub/Sub message.
+	// +kubebuilder:validation:Optional
+	AvroFormat []AvroFormatParameters `json:"avroFormat,omitempty" tf:"avro_format,omitempty"`
+
+	// Cloud Storage bucket. The bucket name must be without any
+	// prefix like "gs://". See the bucket naming requirements:
+	// https://cloud.google.com/storage/docs/buckets#naming.
+	// +kubebuilder:validation:Optional
+	Bucket *string `json:"bucket" tf:"bucket,omitempty"`
+
+	// Glob pattern used to match objects that will be ingested. If unset, all
+	// objects will be ingested. See the supported patterns:
+	// https://cloud.google.com/storage/docs/json_api/v1/objects/list#list-objects-and-prefixes-using-glob
+	// +kubebuilder:validation:Optional
+	MatchGlob *string `json:"matchGlob,omitempty" tf:"match_glob,omitempty"`
+
+	// The timestamp set in RFC3339 text format. If set, only objects with a
+	// larger or equal timestamp will be ingested. Unset by default, meaning
+	// all objects will be ingested.
+	// +kubebuilder:validation:Optional
+	MinimumObjectCreateTime *string `json:"minimumObjectCreateTime,omitempty" tf:"minimum_object_create_time,omitempty"`
+
+	// Configuration for reading Cloud Storage data written via Cloud Storage
+	// subscriptions(See https://cloud.google.com/pubsub/docs/cloudstorage). The
+	// data and attributes fields of the originally exported Pub/Sub message
+	// will be restored when publishing.
+	// +kubebuilder:validation:Optional
+	PubsubAvroFormat []PubsubAvroFormatParameters `json:"pubsubAvroFormat,omitempty" tf:"pubsub_avro_format,omitempty"`
+
+	// Configuration for reading Cloud Storage data in text format. Each line of
+	// text as specified by the delimiter will be set to the data field of a
+	// Pub/Sub message.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	TextFormat []TextFormatParameters `json:"textFormat,omitempty" tf:"text_format,omitempty"`
+}
+
+type ConfluentCloudInitParameters struct {
+
+	// The Confluent Cloud bootstrap server. The format is url:port.
+	BootstrapServer *string `json:"bootstrapServer,omitempty" tf:"bootstrap_server,omitempty"`
+
+	// The Confluent Cloud cluster ID.
+	ClusterID *string `json:"clusterId,omitempty" tf:"cluster_id,omitempty"`
+
+	// The GCP service account to be used for Federated Identity authentication
+	// with Confluent Cloud.
+	GCPServiceAccount *string `json:"gcpServiceAccount,omitempty" tf:"gcp_service_account,omitempty"`
+
+	// Identity pool ID to be used for Federated Identity authentication with Confluent Cloud.
+	IdentityPoolID *string `json:"identityPoolId,omitempty" tf:"identity_pool_id,omitempty"`
+
+	// Name of the Confluent Cloud topic that Pub/Sub will import from.
+	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
+}
+
+type ConfluentCloudObservation struct {
+
+	// The Confluent Cloud bootstrap server. The format is url:port.
+	BootstrapServer *string `json:"bootstrapServer,omitempty" tf:"bootstrap_server,omitempty"`
+
+	// The Confluent Cloud cluster ID.
+	ClusterID *string `json:"clusterId,omitempty" tf:"cluster_id,omitempty"`
+
+	// The GCP service account to be used for Federated Identity authentication
+	// with Confluent Cloud.
+	GCPServiceAccount *string `json:"gcpServiceAccount,omitempty" tf:"gcp_service_account,omitempty"`
+
+	// Identity pool ID to be used for Federated Identity authentication with Confluent Cloud.
+	IdentityPoolID *string `json:"identityPoolId,omitempty" tf:"identity_pool_id,omitempty"`
+
+	// Name of the Confluent Cloud topic that Pub/Sub will import from.
+	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
+}
+
+type ConfluentCloudParameters struct {
+
+	// The Confluent Cloud bootstrap server. The format is url:port.
+	// +kubebuilder:validation:Optional
+	BootstrapServer *string `json:"bootstrapServer" tf:"bootstrap_server,omitempty"`
+
+	// The Confluent Cloud cluster ID.
+	// +kubebuilder:validation:Optional
+	ClusterID *string `json:"clusterId,omitempty" tf:"cluster_id,omitempty"`
+
+	// The GCP service account to be used for Federated Identity authentication
+	// with Confluent Cloud.
+	// +kubebuilder:validation:Optional
+	GCPServiceAccount *string `json:"gcpServiceAccount" tf:"gcp_service_account,omitempty"`
+
+	// Identity pool ID to be used for Federated Identity authentication with Confluent Cloud.
+	// +kubebuilder:validation:Optional
+	IdentityPoolID *string `json:"identityPoolId" tf:"identity_pool_id,omitempty"`
+
+	// Name of the Confluent Cloud topic that Pub/Sub will import from.
+	// +kubebuilder:validation:Optional
+	Topic *string `json:"topic" tf:"topic,omitempty"`
+}
+
 type IngestionDataSourceSettingsInitParameters struct {
 
 	// Settings for ingestion from Amazon Kinesis Data Streams.
 	// Structure is documented below.
 	AwsKinesis []AwsKinesisInitParameters `json:"awsKinesis,omitempty" tf:"aws_kinesis,omitempty"`
+
+	// Settings for ingestion from Amazon Managed Streaming for Apache Kafka.
+	// Structure is documented below.
+	AwsMsk []AwsMskInitParameters `json:"awsMsk,omitempty" tf:"aws_msk,omitempty"`
+
+	// Settings for ingestion from Azure Event Hubs.
+	// Structure is documented below.
+	AzureEventHubs []AzureEventHubsInitParameters `json:"azureEventHubs,omitempty" tf:"azure_event_hubs,omitempty"`
+
+	// Settings for ingestion from Cloud Storage.
+	// Structure is documented below.
+	CloudStorage []CloudStorageInitParameters `json:"cloudStorage,omitempty" tf:"cloud_storage,omitempty"`
+
+	// Settings for ingestion from Confluent Cloud.
+	// Structure is documented below.
+	ConfluentCloud []ConfluentCloudInitParameters `json:"confluentCloud,omitempty" tf:"confluent_cloud,omitempty"`
+
+	// Settings for Platform Logs regarding ingestion to Pub/Sub. If unset,
+	// no Platform Logs will be generated.'
+	// Structure is documented below.
+	PlatformLogsSettings []PlatformLogsSettingsInitParameters `json:"platformLogsSettings,omitempty" tf:"platform_logs_settings,omitempty"`
 }
 
 type IngestionDataSourceSettingsObservation struct {
@@ -95,6 +429,27 @@ type IngestionDataSourceSettingsObservation struct {
 	// Settings for ingestion from Amazon Kinesis Data Streams.
 	// Structure is documented below.
 	AwsKinesis []AwsKinesisObservation `json:"awsKinesis,omitempty" tf:"aws_kinesis,omitempty"`
+
+	// Settings for ingestion from Amazon Managed Streaming for Apache Kafka.
+	// Structure is documented below.
+	AwsMsk []AwsMskObservation `json:"awsMsk,omitempty" tf:"aws_msk,omitempty"`
+
+	// Settings for ingestion from Azure Event Hubs.
+	// Structure is documented below.
+	AzureEventHubs []AzureEventHubsObservation `json:"azureEventHubs,omitempty" tf:"azure_event_hubs,omitempty"`
+
+	// Settings for ingestion from Cloud Storage.
+	// Structure is documented below.
+	CloudStorage []CloudStorageObservation `json:"cloudStorage,omitempty" tf:"cloud_storage,omitempty"`
+
+	// Settings for ingestion from Confluent Cloud.
+	// Structure is documented below.
+	ConfluentCloud []ConfluentCloudObservation `json:"confluentCloud,omitempty" tf:"confluent_cloud,omitempty"`
+
+	// Settings for Platform Logs regarding ingestion to Pub/Sub. If unset,
+	// no Platform Logs will be generated.'
+	// Structure is documented below.
+	PlatformLogsSettings []PlatformLogsSettingsObservation `json:"platformLogsSettings,omitempty" tf:"platform_logs_settings,omitempty"`
 }
 
 type IngestionDataSourceSettingsParameters struct {
@@ -103,6 +458,32 @@ type IngestionDataSourceSettingsParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AwsKinesis []AwsKinesisParameters `json:"awsKinesis,omitempty" tf:"aws_kinesis,omitempty"`
+
+	// Settings for ingestion from Amazon Managed Streaming for Apache Kafka.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AwsMsk []AwsMskParameters `json:"awsMsk,omitempty" tf:"aws_msk,omitempty"`
+
+	// Settings for ingestion from Azure Event Hubs.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AzureEventHubs []AzureEventHubsParameters `json:"azureEventHubs,omitempty" tf:"azure_event_hubs,omitempty"`
+
+	// Settings for ingestion from Cloud Storage.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CloudStorage []CloudStorageParameters `json:"cloudStorage,omitempty" tf:"cloud_storage,omitempty"`
+
+	// Settings for ingestion from Confluent Cloud.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ConfluentCloud []ConfluentCloudParameters `json:"confluentCloud,omitempty" tf:"confluent_cloud,omitempty"`
+
+	// Settings for Platform Logs regarding ingestion to Pub/Sub. If unset,
+	// no Platform Logs will be generated.'
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PlatformLogsSettings []PlatformLogsSettingsParameters `json:"platformLogsSettings,omitempty" tf:"platform_logs_settings,omitempty"`
 }
 
 type MessageStoragePolicyInitParameters struct {
@@ -113,7 +494,14 @@ type MessageStoragePolicyInitParameters struct {
 	// of GCP altogether) will be routed for storage in one of the
 	// allowed regions. An empty list means that no regions are allowed,
 	// and is not a valid configuration.
+	// +listType=set
 	AllowedPersistenceRegions []*string `json:"allowedPersistenceRegions,omitempty" tf:"allowed_persistence_regions,omitempty"`
+
+	// If true, allowedPersistenceRegions is also used to enforce in-transit
+	// guarantees for messages. That is, Pub/Sub will fail topics.publish
+	// operations on this topic and subscribe operations on any subscription
+	// attached to this topic in any region that is not in allowedPersistenceRegions.
+	EnforceInTransit *bool `json:"enforceInTransit,omitempty" tf:"enforce_in_transit,omitempty"`
 }
 
 type MessageStoragePolicyObservation struct {
@@ -124,7 +512,14 @@ type MessageStoragePolicyObservation struct {
 	// of GCP altogether) will be routed for storage in one of the
 	// allowed regions. An empty list means that no regions are allowed,
 	// and is not a valid configuration.
+	// +listType=set
 	AllowedPersistenceRegions []*string `json:"allowedPersistenceRegions,omitempty" tf:"allowed_persistence_regions,omitempty"`
+
+	// If true, allowedPersistenceRegions is also used to enforce in-transit
+	// guarantees for messages. That is, Pub/Sub will fail topics.publish
+	// operations on this topic and subscribe operations on any subscription
+	// attached to this topic in any region that is not in allowedPersistenceRegions.
+	EnforceInTransit *bool `json:"enforceInTransit,omitempty" tf:"enforce_in_transit,omitempty"`
 }
 
 type MessageStoragePolicyParameters struct {
@@ -136,7 +531,84 @@ type MessageStoragePolicyParameters struct {
 	// allowed regions. An empty list means that no regions are allowed,
 	// and is not a valid configuration.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	AllowedPersistenceRegions []*string `json:"allowedPersistenceRegions" tf:"allowed_persistence_regions,omitempty"`
+
+	// If true, allowedPersistenceRegions is also used to enforce in-transit
+	// guarantees for messages. That is, Pub/Sub will fail topics.publish
+	// operations on this topic and subscribe operations on any subscription
+	// attached to this topic in any region that is not in allowedPersistenceRegions.
+	// +kubebuilder:validation:Optional
+	EnforceInTransit *bool `json:"enforceInTransit,omitempty" tf:"enforce_in_transit,omitempty"`
+}
+
+type MessageTransformsJavascriptUdfInitParameters struct {
+
+	// JavaScript code that contains a function function_name with the
+	// following signature:
+	Code *string `json:"code,omitempty" tf:"code,omitempty"`
+
+	// Name of the JavaScript function that should be applied to Pub/Sub messages.
+	FunctionName *string `json:"functionName,omitempty" tf:"function_name,omitempty"`
+}
+
+type MessageTransformsJavascriptUdfObservation struct {
+
+	// JavaScript code that contains a function function_name with the
+	// following signature:
+	Code *string `json:"code,omitempty" tf:"code,omitempty"`
+
+	// Name of the JavaScript function that should be applied to Pub/Sub messages.
+	FunctionName *string `json:"functionName,omitempty" tf:"function_name,omitempty"`
+}
+
+type MessageTransformsJavascriptUdfParameters struct {
+
+	// JavaScript code that contains a function function_name with the
+	// following signature:
+	// +kubebuilder:validation:Optional
+	Code *string `json:"code" tf:"code,omitempty"`
+
+	// Name of the JavaScript function that should be applied to Pub/Sub messages.
+	// +kubebuilder:validation:Optional
+	FunctionName *string `json:"functionName" tf:"function_name,omitempty"`
+}
+
+type PlatformLogsSettingsInitParameters struct {
+
+	// The minimum severity level of Platform Logs that will be written. If unspecified,
+	// no Platform Logs will be written.
+	// Default value is SEVERITY_UNSPECIFIED.
+	// Possible values are: SEVERITY_UNSPECIFIED, DISABLED, DEBUG, INFO, WARNING, ERROR.
+	Severity *string `json:"severity,omitempty" tf:"severity,omitempty"`
+}
+
+type PlatformLogsSettingsObservation struct {
+
+	// The minimum severity level of Platform Logs that will be written. If unspecified,
+	// no Platform Logs will be written.
+	// Default value is SEVERITY_UNSPECIFIED.
+	// Possible values are: SEVERITY_UNSPECIFIED, DISABLED, DEBUG, INFO, WARNING, ERROR.
+	Severity *string `json:"severity,omitempty" tf:"severity,omitempty"`
+}
+
+type PlatformLogsSettingsParameters struct {
+
+	// The minimum severity level of Platform Logs that will be written. If unspecified,
+	// no Platform Logs will be written.
+	// Default value is SEVERITY_UNSPECIFIED.
+	// Possible values are: SEVERITY_UNSPECIFIED, DISABLED, DEBUG, INFO, WARNING, ERROR.
+	// +kubebuilder:validation:Optional
+	Severity *string `json:"severity,omitempty" tf:"severity,omitempty"`
+}
+
+type PubsubAvroFormatInitParameters struct {
+}
+
+type PubsubAvroFormatObservation struct {
+}
+
+type PubsubAvroFormatParameters struct {
 }
 
 type SchemaSettingsInitParameters struct {
@@ -183,6 +655,31 @@ type SchemaSettingsParameters struct {
 	Schema *string `json:"schema" tf:"schema,omitempty"`
 }
 
+type TextFormatInitParameters struct {
+
+	// The delimiter to use when using the 'text' format. Each line of text as
+	// specified by the delimiter will be set to the 'data' field of a Pub/Sub
+	// message. When unset, '\n' is used.
+	Delimiter *string `json:"delimiter,omitempty" tf:"delimiter,omitempty"`
+}
+
+type TextFormatObservation struct {
+
+	// The delimiter to use when using the 'text' format. Each line of text as
+	// specified by the delimiter will be set to the 'data' field of a Pub/Sub
+	// message. When unset, '\n' is used.
+	Delimiter *string `json:"delimiter,omitempty" tf:"delimiter,omitempty"`
+}
+
+type TextFormatParameters struct {
+
+	// The delimiter to use when using the 'text' format. Each line of text as
+	// specified by the delimiter will be set to the 'data' field of a Pub/Sub
+	// message. When unset, '\n' is used.
+	// +kubebuilder:validation:Optional
+	Delimiter *string `json:"delimiter,omitempty" tf:"delimiter,omitempty"`
+}
+
 type TopicInitParameters struct {
 
 	// Settings for ingestion from a data source into this topic.
@@ -194,7 +691,7 @@ type TopicInitParameters struct {
 	// (service-{{PROJECT_NUMBER}}@gcp-sa-pubsub.iam.gserviceaccount.com) must have
 	// roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
 	// The expected format is projects/*/locations/*/keyRings/*/cryptoKeys/*
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/kms/v1beta2.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
@@ -226,6 +723,11 @@ type TopicInitParameters struct {
 	// Structure is documented below.
 	MessageStoragePolicy []MessageStoragePolicyInitParameters `json:"messageStoragePolicy,omitempty" tf:"message_storage_policy,omitempty"`
 
+	// Transforms to be applied to messages published to the topic. Transforms are applied in the
+	// order specified.
+	// Structure is documented below.
+	MessageTransforms []TopicMessageTransformsInitParameters `json:"messageTransforms,omitempty" tf:"message_transforms,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -233,6 +735,44 @@ type TopicInitParameters struct {
 	// Settings for validating messages published against a schema.
 	// Structure is documented below.
 	SchemaSettings []SchemaSettingsInitParameters `json:"schemaSettings,omitempty" tf:"schema_settings,omitempty"`
+}
+
+type TopicMessageTransformsInitParameters struct {
+
+	// Controls whether or not to use this transform. If not set or false,
+	// the transform will be applied to messages. Default: true.
+	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
+
+	// Javascript User Defined Function. If multiple Javascript UDFs are specified on a resource,
+	// each one must have a unique function_name.
+	// Structure is documented below.
+	JavascriptUdf []MessageTransformsJavascriptUdfInitParameters `json:"javascriptUdf,omitempty" tf:"javascript_udf,omitempty"`
+}
+
+type TopicMessageTransformsObservation struct {
+
+	// Controls whether or not to use this transform. If not set or false,
+	// the transform will be applied to messages. Default: true.
+	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
+
+	// Javascript User Defined Function. If multiple Javascript UDFs are specified on a resource,
+	// each one must have a unique function_name.
+	// Structure is documented below.
+	JavascriptUdf []MessageTransformsJavascriptUdfObservation `json:"javascriptUdf,omitempty" tf:"javascript_udf,omitempty"`
+}
+
+type TopicMessageTransformsParameters struct {
+
+	// Controls whether or not to use this transform. If not set or false,
+	// the transform will be applied to messages. Default: true.
+	// +kubebuilder:validation:Optional
+	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
+
+	// Javascript User Defined Function. If multiple Javascript UDFs are specified on a resource,
+	// each one must have a unique function_name.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	JavascriptUdf []MessageTransformsJavascriptUdfParameters `json:"javascriptUdf,omitempty" tf:"javascript_udf,omitempty"`
 }
 
 type TopicObservation struct {
@@ -275,6 +815,11 @@ type TopicObservation struct {
 	// Structure is documented below.
 	MessageStoragePolicy []MessageStoragePolicyObservation `json:"messageStoragePolicy,omitempty" tf:"message_storage_policy,omitempty"`
 
+	// Transforms to be applied to messages published to the topic. Transforms are applied in the
+	// order specified.
+	// Structure is documented below.
+	MessageTransforms []TopicMessageTransformsObservation `json:"messageTransforms,omitempty" tf:"message_transforms,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -301,7 +846,7 @@ type TopicParameters struct {
 	// (service-{{PROJECT_NUMBER}}@gcp-sa-pubsub.iam.gserviceaccount.com) must have
 	// roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
 	// The expected format is projects/*/locations/*/keyRings/*/cryptoKeys/*
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/kms/v1beta2.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
@@ -336,6 +881,12 @@ type TopicParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	MessageStoragePolicy []MessageStoragePolicyParameters `json:"messageStoragePolicy,omitempty" tf:"message_storage_policy,omitempty"`
+
+	// Transforms to be applied to messages published to the topic. Transforms are applied in the
+	// order specified.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	MessageTransforms []TopicMessageTransformsParameters `json:"messageTransforms,omitempty" tf:"message_transforms,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.

@@ -49,7 +49,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 	}
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.Destination); i3++ {
 		{
-			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Instance", "InstanceList")
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Instance", "InstanceList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
@@ -133,7 +133,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 	}
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.Source); i3++ {
 		{
-			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Instance", "InstanceList")
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Instance", "InstanceList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
@@ -217,7 +217,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 	}
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.Destination); i3++ {
 		{
-			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Instance", "InstanceList")
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Instance", "InstanceList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
@@ -301,7 +301,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 	}
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.Source); i3++ {
 		{
-			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Instance", "InstanceList")
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Instance", "InstanceList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}

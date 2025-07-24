@@ -123,6 +123,46 @@ spec:
                             given KMS key. If absent, the Compute Engine default service
                             account is used.
                           type: string
+                        rawKeySecretRef:
+                          description: |-
+                            Specifies a 256-bit customer-supplied encryption key, encoded in
+                            RFC 4648 base64 to either encrypt or decrypt this resource.
+                            Note: This property is sensitive and will not be displayed in the plan.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                        rsaEncryptedKeySecretRef:
+                          description: |-
+                            Specifies a 256-bit customer-supplied encryption key, encoded in
+                            RFC 4648 base64 to either encrypt or decrypt this resource.
+                            Note: This property is sensitive and will not be displayed in the plan.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
                       type: object
                     type: array
                   labels:
@@ -172,22 +212,360 @@ spec:
                           type: string
                       type: object
                     type: array
+                  shieldedInstanceInitialState:
+                    description: |-
+                      Set the secure boot keys of shielded instance.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        dbs:
+                          description: |-
+                            The Key Database (db).
+                            Structure is documented below.
+                          items:
+                            properties:
+                              content:
+                                description: |-
+                                  The raw content in the secure keys file.
+                                  A base64-encoded string.
+                                type: string
+                              fileType:
+                                description: The file type of source file.
+                                type: string
+                            type: object
+                          type: array
+                        dbxs:
+                          description: |-
+                            The forbidden key database (dbx).
+                            Structure is documented below.
+                          items:
+                            properties:
+                              content:
+                                description: |-
+                                  The raw content in the secure keys file.
+                                  A base64-encoded string.
+                                type: string
+                              fileType:
+                                description: The file type of source file.
+                                type: string
+                            type: object
+                          type: array
+                        keks:
+                          description: |-
+                            The Key Exchange Key (KEK).
+                            Structure is documented below.
+                          items:
+                            properties:
+                              content:
+                                description: |-
+                                  The raw content in the secure keys file.
+                                  A base64-encoded string.
+                                type: string
+                              fileType:
+                                description: The file type of source file.
+                                type: string
+                            type: object
+                          type: array
+                        pk:
+                          description: |-
+                            The Platform Key (PK).
+                            Structure is documented below.
+                          items:
+                            properties:
+                              content:
+                                description: |-
+                                  The raw content in the secure keys file.
+                                  A base64-encoded string.
+                                type: string
+                              fileType:
+                                description: The file type of source file.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   sourceDisk:
                     description: |-
                       The source disk to create this image based on.
                       You must provide either this property or the
                       rawDisk.source property but not both to create an image.
                     type: string
+                  sourceDiskEncryptionKey:
+                    description: |-
+                      The customer-supplied encryption key of the source disk. Required if
+                      the source disk is protected by a customer-supplied encryption key.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        kmsKeySelfLink:
+                          description: |-
+                            The self link of the encryption key used to decrypt this resource. Also called KmsKeyName
+                            in the cloud console. Your project's Compute Engine System service account
+                            (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com) must have
+                            roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
+                            See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
+                          type: string
+                        kmsKeyServiceAccount:
+                          description: |-
+                            The service account being used for the encryption request for the
+                            given KMS key. If absent, the Compute Engine default service
+                            account is used.
+                          type: string
+                        rawKeySecretRef:
+                          description: |-
+                            Specifies a 256-bit customer-supplied encryption key, encoded in
+                            RFC 4648 base64 to either encrypt or decrypt this resource.
+                            Note: This property is sensitive and will not be displayed in the plan.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                        rsaEncryptedKeySecretRef:
+                          description: |-
+                            Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
+                            customer-supplied encryption key to either encrypt or decrypt
+                            this resource. You can provide either the rawKey or the rsaEncryptedKey.
+                            Note: This property is sensitive and will not be displayed in the plan.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                      type: object
+                    type: array
+                  sourceDiskRef:
+                    description: Reference to a Disk in compute to populate sourceDisk.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  sourceDiskSelector:
+                    description: Selector for a Disk in compute to populate sourceDisk.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                   sourceImage:
                     description: |-
                       URL of the source image used to create this image. In order to create an image, you must provide the full or partial
                       URL of one of the following:
                     type: string
+                  sourceImageEncryptionKey:
+                    description: |-
+                      The customer-supplied encryption key of the source image. Required if
+                      the source image is protected by a customer-supplied encryption key.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        kmsKeySelfLink:
+                          description: |-
+                            The self link of the encryption key used to decrypt this resource. Also called KmsKeyName
+                            in the cloud console. Your project's Compute Engine System service account
+                            (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com) must have
+                            roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
+                            See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
+                          type: string
+                        kmsKeyServiceAccount:
+                          description: |-
+                            The service account being used for the encryption request for the
+                            given KMS key. If absent, the Compute Engine default service
+                            account is used.
+                          type: string
+                        rawKeySecretRef:
+                          description: |-
+                            Specifies a 256-bit customer-supplied encryption key, encoded in
+                            RFC 4648 base64 to either encrypt or decrypt this resource.
+                            Note: This property is sensitive and will not be displayed in the plan.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                        rsaEncryptedKeySecretRef:
+                          description: |-
+                            Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
+                            customer-supplied encryption key to either encrypt or decrypt
+                            this resource. You can provide either the rawKey or the rsaEncryptedKey.
+                            Note: This property is sensitive and will not be displayed in the plan.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                      type: object
+                    type: array
                   sourceSnapshot:
                     description: |-
                       URL of the source snapshot used to create this image.
                       In order to create an image, you must provide the full or partial URL of one of the following:
                     type: string
+                  sourceSnapshotEncryptionKey:
+                    description: |-
+                      The customer-supplied encryption key of the source snapshot. Required if
+                      the source snapshot is protected by a customer-supplied encryption key.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        kmsKeySelfLink:
+                          description: |-
+                            The self link of the encryption key used to decrypt this resource. Also called KmsKeyName
+                            in the cloud console. Your project's Compute Engine System service account
+                            (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com) must have
+                            roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
+                            See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
+                          type: string
+                        kmsKeyServiceAccount:
+                          description: |-
+                            The service account being used for the encryption request for the
+                            given KMS key. If absent, the Compute Engine default service
+                            account is used.
+                          type: string
+                        rawKeySecretRef:
+                          description: |-
+                            Specifies a 256-bit customer-supplied encryption key, encoded in
+                            RFC 4648 base64 to either encrypt or decrypt this resource.
+                            Note: This property is sensitive and will not be displayed in the plan.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                        rsaEncryptedKeySecretRef:
+                          description: |-
+                            Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
+                            customer-supplied encryption key to either encrypt or decrypt
+                            this resource. You can provide either the rawKey or the rsaEncryptedKey.
+                            Note: This property is sensitive and will not be displayed in the plan.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                      type: object
+                    type: array
                   storageLocations:
                     description: |-
                       Cloud Storage bucket storage location of the image
@@ -261,6 +639,46 @@ spec:
                             given KMS key. If absent, the Compute Engine default service
                             account is used.
                           type: string
+                        rawKeySecretRef:
+                          description: |-
+                            Specifies a 256-bit customer-supplied encryption key, encoded in
+                            RFC 4648 base64 to either encrypt or decrypt this resource.
+                            Note: This property is sensitive and will not be displayed in the plan.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                        rsaEncryptedKeySecretRef:
+                          description: |-
+                            Specifies a 256-bit customer-supplied encryption key, encoded in
+                            RFC 4648 base64 to either encrypt or decrypt this resource.
+                            Note: This property is sensitive and will not be displayed in the plan.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
                       type: object
                     type: array
                   labels:
@@ -310,22 +728,360 @@ spec:
                           type: string
                       type: object
                     type: array
+                  shieldedInstanceInitialState:
+                    description: |-
+                      Set the secure boot keys of shielded instance.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        dbs:
+                          description: |-
+                            The Key Database (db).
+                            Structure is documented below.
+                          items:
+                            properties:
+                              content:
+                                description: |-
+                                  The raw content in the secure keys file.
+                                  A base64-encoded string.
+                                type: string
+                              fileType:
+                                description: The file type of source file.
+                                type: string
+                            type: object
+                          type: array
+                        dbxs:
+                          description: |-
+                            The forbidden key database (dbx).
+                            Structure is documented below.
+                          items:
+                            properties:
+                              content:
+                                description: |-
+                                  The raw content in the secure keys file.
+                                  A base64-encoded string.
+                                type: string
+                              fileType:
+                                description: The file type of source file.
+                                type: string
+                            type: object
+                          type: array
+                        keks:
+                          description: |-
+                            The Key Exchange Key (KEK).
+                            Structure is documented below.
+                          items:
+                            properties:
+                              content:
+                                description: |-
+                                  The raw content in the secure keys file.
+                                  A base64-encoded string.
+                                type: string
+                              fileType:
+                                description: The file type of source file.
+                                type: string
+                            type: object
+                          type: array
+                        pk:
+                          description: |-
+                            The Platform Key (PK).
+                            Structure is documented below.
+                          items:
+                            properties:
+                              content:
+                                description: |-
+                                  The raw content in the secure keys file.
+                                  A base64-encoded string.
+                                type: string
+                              fileType:
+                                description: The file type of source file.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   sourceDisk:
                     description: |-
                       The source disk to create this image based on.
                       You must provide either this property or the
                       rawDisk.source property but not both to create an image.
                     type: string
+                  sourceDiskEncryptionKey:
+                    description: |-
+                      The customer-supplied encryption key of the source disk. Required if
+                      the source disk is protected by a customer-supplied encryption key.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        kmsKeySelfLink:
+                          description: |-
+                            The self link of the encryption key used to decrypt this resource. Also called KmsKeyName
+                            in the cloud console. Your project's Compute Engine System service account
+                            (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com) must have
+                            roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
+                            See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
+                          type: string
+                        kmsKeyServiceAccount:
+                          description: |-
+                            The service account being used for the encryption request for the
+                            given KMS key. If absent, the Compute Engine default service
+                            account is used.
+                          type: string
+                        rawKeySecretRef:
+                          description: |-
+                            Specifies a 256-bit customer-supplied encryption key, encoded in
+                            RFC 4648 base64 to either encrypt or decrypt this resource.
+                            Note: This property is sensitive and will not be displayed in the plan.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                        rsaEncryptedKeySecretRef:
+                          description: |-
+                            Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
+                            customer-supplied encryption key to either encrypt or decrypt
+                            this resource. You can provide either the rawKey or the rsaEncryptedKey.
+                            Note: This property is sensitive and will not be displayed in the plan.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                      type: object
+                    type: array
+                  sourceDiskRef:
+                    description: Reference to a Disk in compute to populate sourceDisk.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  sourceDiskSelector:
+                    description: Selector for a Disk in compute to populate sourceDisk.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                   sourceImage:
                     description: |-
                       URL of the source image used to create this image. In order to create an image, you must provide the full or partial
                       URL of one of the following:
                     type: string
+                  sourceImageEncryptionKey:
+                    description: |-
+                      The customer-supplied encryption key of the source image. Required if
+                      the source image is protected by a customer-supplied encryption key.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        kmsKeySelfLink:
+                          description: |-
+                            The self link of the encryption key used to decrypt this resource. Also called KmsKeyName
+                            in the cloud console. Your project's Compute Engine System service account
+                            (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com) must have
+                            roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
+                            See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
+                          type: string
+                        kmsKeyServiceAccount:
+                          description: |-
+                            The service account being used for the encryption request for the
+                            given KMS key. If absent, the Compute Engine default service
+                            account is used.
+                          type: string
+                        rawKeySecretRef:
+                          description: |-
+                            Specifies a 256-bit customer-supplied encryption key, encoded in
+                            RFC 4648 base64 to either encrypt or decrypt this resource.
+                            Note: This property is sensitive and will not be displayed in the plan.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                        rsaEncryptedKeySecretRef:
+                          description: |-
+                            Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
+                            customer-supplied encryption key to either encrypt or decrypt
+                            this resource. You can provide either the rawKey or the rsaEncryptedKey.
+                            Note: This property is sensitive and will not be displayed in the plan.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                      type: object
+                    type: array
                   sourceSnapshot:
                     description: |-
                       URL of the source snapshot used to create this image.
                       In order to create an image, you must provide the full or partial URL of one of the following:
                     type: string
+                  sourceSnapshotEncryptionKey:
+                    description: |-
+                      The customer-supplied encryption key of the source snapshot. Required if
+                      the source snapshot is protected by a customer-supplied encryption key.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        kmsKeySelfLink:
+                          description: |-
+                            The self link of the encryption key used to decrypt this resource. Also called KmsKeyName
+                            in the cloud console. Your project's Compute Engine System service account
+                            (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com) must have
+                            roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
+                            See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
+                          type: string
+                        kmsKeyServiceAccount:
+                          description: |-
+                            The service account being used for the encryption request for the
+                            given KMS key. If absent, the Compute Engine default service
+                            account is used.
+                          type: string
+                        rawKeySecretRef:
+                          description: |-
+                            Specifies a 256-bit customer-supplied encryption key, encoded in
+                            RFC 4648 base64 to either encrypt or decrypt this resource.
+                            Note: This property is sensitive and will not be displayed in the plan.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                        rsaEncryptedKeySecretRef:
+                          description: |-
+                            Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
+                            customer-supplied encryption key to either encrypt or decrypt
+                            this resource. You can provide either the rawKey or the rsaEncryptedKey.
+                            Note: This property is sensitive and will not be displayed in the plan.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                      type: object
+                    type: array
                   storageLocations:
                     description: |-
                       Cloud Storage bucket storage location of the image
@@ -631,22 +1387,163 @@ spec:
                   selfLink:
                     description: The URI of the created resource.
                     type: string
+                  shieldedInstanceInitialState:
+                    description: |-
+                      Set the secure boot keys of shielded instance.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        dbs:
+                          description: |-
+                            The Key Database (db).
+                            Structure is documented below.
+                          items:
+                            properties:
+                              content:
+                                description: |-
+                                  The raw content in the secure keys file.
+                                  A base64-encoded string.
+                                type: string
+                              fileType:
+                                description: The file type of source file.
+                                type: string
+                            type: object
+                          type: array
+                        dbxs:
+                          description: |-
+                            The forbidden key database (dbx).
+                            Structure is documented below.
+                          items:
+                            properties:
+                              content:
+                                description: |-
+                                  The raw content in the secure keys file.
+                                  A base64-encoded string.
+                                type: string
+                              fileType:
+                                description: The file type of source file.
+                                type: string
+                            type: object
+                          type: array
+                        keks:
+                          description: |-
+                            The Key Exchange Key (KEK).
+                            Structure is documented below.
+                          items:
+                            properties:
+                              content:
+                                description: |-
+                                  The raw content in the secure keys file.
+                                  A base64-encoded string.
+                                type: string
+                              fileType:
+                                description: The file type of source file.
+                                type: string
+                            type: object
+                          type: array
+                        pk:
+                          description: |-
+                            The Platform Key (PK).
+                            Structure is documented below.
+                          items:
+                            properties:
+                              content:
+                                description: |-
+                                  The raw content in the secure keys file.
+                                  A base64-encoded string.
+                                type: string
+                              fileType:
+                                description: The file type of source file.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   sourceDisk:
                     description: |-
                       The source disk to create this image based on.
                       You must provide either this property or the
                       rawDisk.source property but not both to create an image.
                     type: string
+                  sourceDiskEncryptionKey:
+                    description: |-
+                      The customer-supplied encryption key of the source disk. Required if
+                      the source disk is protected by a customer-supplied encryption key.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        kmsKeySelfLink:
+                          description: |-
+                            The self link of the encryption key used to decrypt this resource. Also called KmsKeyName
+                            in the cloud console. Your project's Compute Engine System service account
+                            (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com) must have
+                            roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
+                            See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
+                          type: string
+                        kmsKeyServiceAccount:
+                          description: |-
+                            The service account being used for the encryption request for the
+                            given KMS key. If absent, the Compute Engine default service
+                            account is used.
+                          type: string
+                      type: object
+                    type: array
                   sourceImage:
                     description: |-
                       URL of the source image used to create this image. In order to create an image, you must provide the full or partial
                       URL of one of the following:
                     type: string
+                  sourceImageEncryptionKey:
+                    description: |-
+                      The customer-supplied encryption key of the source image. Required if
+                      the source image is protected by a customer-supplied encryption key.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        kmsKeySelfLink:
+                          description: |-
+                            The self link of the encryption key used to decrypt this resource. Also called KmsKeyName
+                            in the cloud console. Your project's Compute Engine System service account
+                            (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com) must have
+                            roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
+                            See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
+                          type: string
+                        kmsKeyServiceAccount:
+                          description: |-
+                            The service account being used for the encryption request for the
+                            given KMS key. If absent, the Compute Engine default service
+                            account is used.
+                          type: string
+                      type: object
+                    type: array
                   sourceSnapshot:
                     description: |-
                       URL of the source snapshot used to create this image.
                       In order to create an image, you must provide the full or partial URL of one of the following:
                     type: string
+                  sourceSnapshotEncryptionKey:
+                    description: |-
+                      The customer-supplied encryption key of the source snapshot. Required if
+                      the source snapshot is protected by a customer-supplied encryption key.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        kmsKeySelfLink:
+                          description: |-
+                            The self link of the encryption key used to decrypt this resource. Also called KmsKeyName
+                            in the cloud console. Your project's Compute Engine System service account
+                            (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com) must have
+                            roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
+                            See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
+                          type: string
+                        kmsKeyServiceAccount:
+                          description: |-
+                            The service account being used for the encryption request for the
+                            given KMS key. If absent, the Compute Engine default service
+                            account is used.
+                          type: string
+                      type: object
+                    type: array
                   storageLocations:
                     description: |-
                       Cloud Storage bucket storage location of the image
@@ -806,7 +1703,7 @@ spec:
                         type:
                           description: |-
                             The type of supported feature. Read Enabling guest operating system features to see a list of available options.
-                            Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE, SEV_LIVE_MIGRATABLE_V2.
+                            Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, IDPF, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE, SEV_LIVE_MIGRATABLE_V2.
                           type: string
                       type: object
                     type: array
@@ -829,6 +1726,46 @@ spec:
                           given KMS key. If absent, the Compute Engine default service
                           account is used.
                         type: string
+                      rawKeySecretRef:
+                        description: |-
+                          Specifies a 256-bit customer-supplied encryption key, encoded in
+                          RFC 4648 base64 to either encrypt or decrypt this resource.
+                          Note: This property is sensitive and will not be displayed in the plan.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
+                      rsaEncryptedKeySecretRef:
+                        description: |-
+                          Specifies a 256-bit customer-supplied encryption key, encoded in
+                          RFC 4648 base64 to either encrypt or decrypt this resource.
+                          Note: This property is sensitive and will not be displayed in the plan.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
                     type: object
                   labels:
                     additionalProperties:
@@ -875,22 +1812,350 @@ spec:
                           but not both.
                         type: string
                     type: object
+                  shieldedInstanceInitialState:
+                    description: |-
+                      Set the secure boot keys of shielded instance.
+                      Structure is documented below.
+                    properties:
+                      dbs:
+                        description: |-
+                          The Key Database (db).
+                          Structure is documented below.
+                        items:
+                          properties:
+                            content:
+                              description: |-
+                                The raw content in the secure keys file.
+                                A base64-encoded string.
+                              type: string
+                            fileType:
+                              description: The file type of source file.
+                              type: string
+                          type: object
+                        type: array
+                      dbxs:
+                        description: |-
+                          The forbidden key database (dbx).
+                          Structure is documented below.
+                        items:
+                          properties:
+                            content:
+                              description: |-
+                                The raw content in the secure keys file.
+                                A base64-encoded string.
+                              type: string
+                            fileType:
+                              description: The file type of source file.
+                              type: string
+                          type: object
+                        type: array
+                      keks:
+                        description: |-
+                          The Key Exchange Key (KEK).
+                          Structure is documented below.
+                        items:
+                          properties:
+                            content:
+                              description: |-
+                                The raw content in the secure keys file.
+                                A base64-encoded string.
+                              type: string
+                            fileType:
+                              description: The file type of source file.
+                              type: string
+                          type: object
+                        type: array
+                      pk:
+                        description: |-
+                          The Platform Key (PK).
+                          Structure is documented below.
+                        properties:
+                          content:
+                            description: |-
+                              The raw content in the secure keys file.
+                              A base64-encoded string.
+                            type: string
+                          fileType:
+                            description: The file type of source file.
+                            type: string
+                        type: object
+                    type: object
                   sourceDisk:
                     description: |-
                       The source disk to create this image based on.
                       You must provide either this property or the
                       rawDisk.source property but not both to create an image.
                     type: string
+                  sourceDiskEncryptionKey:
+                    description: |-
+                      The customer-supplied encryption key of the source disk. Required if
+                      the source disk is protected by a customer-supplied encryption key.
+                      Structure is documented below.
+                    properties:
+                      kmsKeySelfLink:
+                        description: |-
+                          The self link of the encryption key used to decrypt this resource. Also called KmsKeyName
+                          in the cloud console. Your project's Compute Engine System service account
+                          (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com) must have
+                          roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
+                          See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
+                        type: string
+                      kmsKeyServiceAccount:
+                        description: |-
+                          The service account being used for the encryption request for the
+                          given KMS key. If absent, the Compute Engine default service
+                          account is used.
+                        type: string
+                      rawKeySecretRef:
+                        description: |-
+                          Specifies a 256-bit customer-supplied encryption key, encoded in
+                          RFC 4648 base64 to either encrypt or decrypt this resource.
+                          Note: This property is sensitive and will not be displayed in the plan.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
+                      rsaEncryptedKeySecretRef:
+                        description: |-
+                          Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
+                          customer-supplied encryption key to either encrypt or decrypt
+                          this resource. You can provide either the rawKey or the rsaEncryptedKey.
+                          Note: This property is sensitive and will not be displayed in the plan.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
+                    type: object
+                  sourceDiskRef:
+                    description: Reference to a Disk in compute to populate sourceDisk.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  sourceDiskSelector:
+                    description: Selector for a Disk in compute to populate sourceDisk.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                   sourceImage:
                     description: |-
                       URL of the source image used to create this image. In order to create an image, you must provide the full or partial
                       URL of one of the following:
                     type: string
+                  sourceImageEncryptionKey:
+                    description: |-
+                      The customer-supplied encryption key of the source image. Required if
+                      the source image is protected by a customer-supplied encryption key.
+                      Structure is documented below.
+                    properties:
+                      kmsKeySelfLink:
+                        description: |-
+                          The self link of the encryption key used to decrypt this resource. Also called KmsKeyName
+                          in the cloud console. Your project's Compute Engine System service account
+                          (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com) must have
+                          roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
+                          See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
+                        type: string
+                      kmsKeyServiceAccount:
+                        description: |-
+                          The service account being used for the encryption request for the
+                          given KMS key. If absent, the Compute Engine default service
+                          account is used.
+                        type: string
+                      rawKeySecretRef:
+                        description: |-
+                          Specifies a 256-bit customer-supplied encryption key, encoded in
+                          RFC 4648 base64 to either encrypt or decrypt this resource.
+                          Note: This property is sensitive and will not be displayed in the plan.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
+                      rsaEncryptedKeySecretRef:
+                        description: |-
+                          Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
+                          customer-supplied encryption key to either encrypt or decrypt
+                          this resource. You can provide either the rawKey or the rsaEncryptedKey.
+                          Note: This property is sensitive and will not be displayed in the plan.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
+                    type: object
                   sourceSnapshot:
                     description: |-
                       URL of the source snapshot used to create this image.
                       In order to create an image, you must provide the full or partial URL of one of the following:
                     type: string
+                  sourceSnapshotEncryptionKey:
+                    description: |-
+                      The customer-supplied encryption key of the source snapshot. Required if
+                      the source snapshot is protected by a customer-supplied encryption key.
+                      Structure is documented below.
+                    properties:
+                      kmsKeySelfLink:
+                        description: |-
+                          The self link of the encryption key used to decrypt this resource. Also called KmsKeyName
+                          in the cloud console. Your project's Compute Engine System service account
+                          (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com) must have
+                          roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
+                          See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
+                        type: string
+                      kmsKeyServiceAccount:
+                        description: |-
+                          The service account being used for the encryption request for the
+                          given KMS key. If absent, the Compute Engine default service
+                          account is used.
+                        type: string
+                      rawKeySecretRef:
+                        description: |-
+                          Specifies a 256-bit customer-supplied encryption key, encoded in
+                          RFC 4648 base64 to either encrypt or decrypt this resource.
+                          Note: This property is sensitive and will not be displayed in the plan.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
+                      rsaEncryptedKeySecretRef:
+                        description: |-
+                          Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
+                          customer-supplied encryption key to either encrypt or decrypt
+                          this resource. You can provide either the rawKey or the rsaEncryptedKey.
+                          Note: This property is sensitive and will not be displayed in the plan.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
+                    type: object
                   storageLocations:
                     description: |-
                       Cloud Storage bucket storage location of the image
@@ -940,7 +2205,7 @@ spec:
                         type:
                           description: |-
                             The type of supported feature. Read Enabling guest operating system features to see a list of available options.
-                            Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE, SEV_LIVE_MIGRATABLE_V2.
+                            Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, IDPF, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE, SEV_LIVE_MIGRATABLE_V2.
                           type: string
                       type: object
                     type: array
@@ -963,6 +2228,46 @@ spec:
                           given KMS key. If absent, the Compute Engine default service
                           account is used.
                         type: string
+                      rawKeySecretRef:
+                        description: |-
+                          Specifies a 256-bit customer-supplied encryption key, encoded in
+                          RFC 4648 base64 to either encrypt or decrypt this resource.
+                          Note: This property is sensitive and will not be displayed in the plan.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
+                      rsaEncryptedKeySecretRef:
+                        description: |-
+                          Specifies a 256-bit customer-supplied encryption key, encoded in
+                          RFC 4648 base64 to either encrypt or decrypt this resource.
+                          Note: This property is sensitive and will not be displayed in the plan.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
                     type: object
                   labels:
                     additionalProperties:
@@ -1009,22 +2314,350 @@ spec:
                           but not both.
                         type: string
                     type: object
+                  shieldedInstanceInitialState:
+                    description: |-
+                      Set the secure boot keys of shielded instance.
+                      Structure is documented below.
+                    properties:
+                      dbs:
+                        description: |-
+                          The Key Database (db).
+                          Structure is documented below.
+                        items:
+                          properties:
+                            content:
+                              description: |-
+                                The raw content in the secure keys file.
+                                A base64-encoded string.
+                              type: string
+                            fileType:
+                              description: The file type of source file.
+                              type: string
+                          type: object
+                        type: array
+                      dbxs:
+                        description: |-
+                          The forbidden key database (dbx).
+                          Structure is documented below.
+                        items:
+                          properties:
+                            content:
+                              description: |-
+                                The raw content in the secure keys file.
+                                A base64-encoded string.
+                              type: string
+                            fileType:
+                              description: The file type of source file.
+                              type: string
+                          type: object
+                        type: array
+                      keks:
+                        description: |-
+                          The Key Exchange Key (KEK).
+                          Structure is documented below.
+                        items:
+                          properties:
+                            content:
+                              description: |-
+                                The raw content in the secure keys file.
+                                A base64-encoded string.
+                              type: string
+                            fileType:
+                              description: The file type of source file.
+                              type: string
+                          type: object
+                        type: array
+                      pk:
+                        description: |-
+                          The Platform Key (PK).
+                          Structure is documented below.
+                        properties:
+                          content:
+                            description: |-
+                              The raw content in the secure keys file.
+                              A base64-encoded string.
+                            type: string
+                          fileType:
+                            description: The file type of source file.
+                            type: string
+                        type: object
+                    type: object
                   sourceDisk:
                     description: |-
                       The source disk to create this image based on.
                       You must provide either this property or the
                       rawDisk.source property but not both to create an image.
                     type: string
+                  sourceDiskEncryptionKey:
+                    description: |-
+                      The customer-supplied encryption key of the source disk. Required if
+                      the source disk is protected by a customer-supplied encryption key.
+                      Structure is documented below.
+                    properties:
+                      kmsKeySelfLink:
+                        description: |-
+                          The self link of the encryption key used to decrypt this resource. Also called KmsKeyName
+                          in the cloud console. Your project's Compute Engine System service account
+                          (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com) must have
+                          roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
+                          See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
+                        type: string
+                      kmsKeyServiceAccount:
+                        description: |-
+                          The service account being used for the encryption request for the
+                          given KMS key. If absent, the Compute Engine default service
+                          account is used.
+                        type: string
+                      rawKeySecretRef:
+                        description: |-
+                          Specifies a 256-bit customer-supplied encryption key, encoded in
+                          RFC 4648 base64 to either encrypt or decrypt this resource.
+                          Note: This property is sensitive and will not be displayed in the plan.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
+                      rsaEncryptedKeySecretRef:
+                        description: |-
+                          Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
+                          customer-supplied encryption key to either encrypt or decrypt
+                          this resource. You can provide either the rawKey or the rsaEncryptedKey.
+                          Note: This property is sensitive and will not be displayed in the plan.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
+                    type: object
+                  sourceDiskRef:
+                    description: Reference to a Disk in compute to populate sourceDisk.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  sourceDiskSelector:
+                    description: Selector for a Disk in compute to populate sourceDisk.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                   sourceImage:
                     description: |-
                       URL of the source image used to create this image. In order to create an image, you must provide the full or partial
                       URL of one of the following:
                     type: string
+                  sourceImageEncryptionKey:
+                    description: |-
+                      The customer-supplied encryption key of the source image. Required if
+                      the source image is protected by a customer-supplied encryption key.
+                      Structure is documented below.
+                    properties:
+                      kmsKeySelfLink:
+                        description: |-
+                          The self link of the encryption key used to decrypt this resource. Also called KmsKeyName
+                          in the cloud console. Your project's Compute Engine System service account
+                          (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com) must have
+                          roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
+                          See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
+                        type: string
+                      kmsKeyServiceAccount:
+                        description: |-
+                          The service account being used for the encryption request for the
+                          given KMS key. If absent, the Compute Engine default service
+                          account is used.
+                        type: string
+                      rawKeySecretRef:
+                        description: |-
+                          Specifies a 256-bit customer-supplied encryption key, encoded in
+                          RFC 4648 base64 to either encrypt or decrypt this resource.
+                          Note: This property is sensitive and will not be displayed in the plan.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
+                      rsaEncryptedKeySecretRef:
+                        description: |-
+                          Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
+                          customer-supplied encryption key to either encrypt or decrypt
+                          this resource. You can provide either the rawKey or the rsaEncryptedKey.
+                          Note: This property is sensitive and will not be displayed in the plan.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
+                    type: object
                   sourceSnapshot:
                     description: |-
                       URL of the source snapshot used to create this image.
                       In order to create an image, you must provide the full or partial URL of one of the following:
                     type: string
+                  sourceSnapshotEncryptionKey:
+                    description: |-
+                      The customer-supplied encryption key of the source snapshot. Required if
+                      the source snapshot is protected by a customer-supplied encryption key.
+                      Structure is documented below.
+                    properties:
+                      kmsKeySelfLink:
+                        description: |-
+                          The self link of the encryption key used to decrypt this resource. Also called KmsKeyName
+                          in the cloud console. Your project's Compute Engine System service account
+                          (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com) must have
+                          roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
+                          See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
+                        type: string
+                      kmsKeyServiceAccount:
+                        description: |-
+                          The service account being used for the encryption request for the
+                          given KMS key. If absent, the Compute Engine default service
+                          account is used.
+                        type: string
+                      rawKeySecretRef:
+                        description: |-
+                          Specifies a 256-bit customer-supplied encryption key, encoded in
+                          RFC 4648 base64 to either encrypt or decrypt this resource.
+                          Note: This property is sensitive and will not be displayed in the plan.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
+                      rsaEncryptedKeySecretRef:
+                        description: |-
+                          Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
+                          customer-supplied encryption key to either encrypt or decrypt
+                          this resource. You can provide either the rawKey or the rsaEncryptedKey.
+                          Note: This property is sensitive and will not be displayed in the plan.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
+                    type: object
                   storageLocations:
                     description: |-
                       Cloud Storage bucket storage location of the image
@@ -1246,7 +2879,7 @@ spec:
                         type:
                           description: |-
                             The type of supported feature. Read Enabling guest operating system features to see a list of available options.
-                            Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE, SEV_LIVE_MIGRATABLE_V2.
+                            Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, IDPF, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE, SEV_LIVE_MIGRATABLE_V2.
                           type: string
                       type: object
                     type: array
@@ -1326,22 +2959,153 @@ spec:
                   selfLink:
                     description: The URI of the created resource.
                     type: string
+                  shieldedInstanceInitialState:
+                    description: |-
+                      Set the secure boot keys of shielded instance.
+                      Structure is documented below.
+                    properties:
+                      dbs:
+                        description: |-
+                          The Key Database (db).
+                          Structure is documented below.
+                        items:
+                          properties:
+                            content:
+                              description: |-
+                                The raw content in the secure keys file.
+                                A base64-encoded string.
+                              type: string
+                            fileType:
+                              description: The file type of source file.
+                              type: string
+                          type: object
+                        type: array
+                      dbxs:
+                        description: |-
+                          The forbidden key database (dbx).
+                          Structure is documented below.
+                        items:
+                          properties:
+                            content:
+                              description: |-
+                                The raw content in the secure keys file.
+                                A base64-encoded string.
+                              type: string
+                            fileType:
+                              description: The file type of source file.
+                              type: string
+                          type: object
+                        type: array
+                      keks:
+                        description: |-
+                          The Key Exchange Key (KEK).
+                          Structure is documented below.
+                        items:
+                          properties:
+                            content:
+                              description: |-
+                                The raw content in the secure keys file.
+                                A base64-encoded string.
+                              type: string
+                            fileType:
+                              description: The file type of source file.
+                              type: string
+                          type: object
+                        type: array
+                      pk:
+                        description: |-
+                          The Platform Key (PK).
+                          Structure is documented below.
+                        properties:
+                          content:
+                            description: |-
+                              The raw content in the secure keys file.
+                              A base64-encoded string.
+                            type: string
+                          fileType:
+                            description: The file type of source file.
+                            type: string
+                        type: object
+                    type: object
                   sourceDisk:
                     description: |-
                       The source disk to create this image based on.
                       You must provide either this property or the
                       rawDisk.source property but not both to create an image.
                     type: string
+                  sourceDiskEncryptionKey:
+                    description: |-
+                      The customer-supplied encryption key of the source disk. Required if
+                      the source disk is protected by a customer-supplied encryption key.
+                      Structure is documented below.
+                    properties:
+                      kmsKeySelfLink:
+                        description: |-
+                          The self link of the encryption key used to decrypt this resource. Also called KmsKeyName
+                          in the cloud console. Your project's Compute Engine System service account
+                          (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com) must have
+                          roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
+                          See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
+                        type: string
+                      kmsKeyServiceAccount:
+                        description: |-
+                          The service account being used for the encryption request for the
+                          given KMS key. If absent, the Compute Engine default service
+                          account is used.
+                        type: string
+                    type: object
                   sourceImage:
                     description: |-
                       URL of the source image used to create this image. In order to create an image, you must provide the full or partial
                       URL of one of the following:
                     type: string
+                  sourceImageEncryptionKey:
+                    description: |-
+                      The customer-supplied encryption key of the source image. Required if
+                      the source image is protected by a customer-supplied encryption key.
+                      Structure is documented below.
+                    properties:
+                      kmsKeySelfLink:
+                        description: |-
+                          The self link of the encryption key used to decrypt this resource. Also called KmsKeyName
+                          in the cloud console. Your project's Compute Engine System service account
+                          (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com) must have
+                          roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
+                          See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
+                        type: string
+                      kmsKeyServiceAccount:
+                        description: |-
+                          The service account being used for the encryption request for the
+                          given KMS key. If absent, the Compute Engine default service
+                          account is used.
+                        type: string
+                    type: object
                   sourceSnapshot:
                     description: |-
                       URL of the source snapshot used to create this image.
                       In order to create an image, you must provide the full or partial URL of one of the following:
                     type: string
+                  sourceSnapshotEncryptionKey:
+                    description: |-
+                      The customer-supplied encryption key of the source snapshot. Required if
+                      the source snapshot is protected by a customer-supplied encryption key.
+                      Structure is documented below.
+                    properties:
+                      kmsKeySelfLink:
+                        description: |-
+                          The self link of the encryption key used to decrypt this resource. Also called KmsKeyName
+                          in the cloud console. Your project's Compute Engine System service account
+                          (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com) must have
+                          roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
+                          See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
+                        type: string
+                      kmsKeyServiceAccount:
+                        description: |-
+                          The service account being used for the encryption request for the
+                          given KMS key. If absent, the Compute Engine default service
+                          account is used.
+                        type: string
+                    type: object
                   storageLocations:
                     description: |-
                       Cloud Storage bucket storage location of the image

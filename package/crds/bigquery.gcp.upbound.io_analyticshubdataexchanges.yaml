@@ -97,6 +97,12 @@ spec:
                   location:
                     description: The name of the location this data exchange.
                     type: string
+                  logLinkedDatasetQueryUserEmail:
+                    description: If true, subscriber email logging is enabled and
+                      all queries on the linked dataset will log the email address
+                      of the querying user. Once enabled, this setting cannot be turned
+                      off.
+                    type: boolean
                   primaryContact:
                     description: Email or URL of the primary point of contact of the
                       data exchange.
@@ -106,6 +112,21 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  sharingEnvironmentConfig:
+                    description: |-
+                      Configurable data sharing environment option for a data exchange.
+                      This field is required for data clean room exchanges.
+                      Structure is documented below.
+                    properties:
+                      dcrExchangeConfig:
+                        description: Data Clean Room (DCR), used for privacy-safe
+                          and secured data sharing.
+                        type: object
+                      defaultExchangeConfig:
+                        description: Default Analytics Hub data exchange, used for
+                          secured data sharing.
+                        type: object
+                    type: object
                 type: object
               initProvider:
                 description: |-
@@ -143,6 +164,12 @@ spec:
                   location:
                     description: The name of the location this data exchange.
                     type: string
+                  logLinkedDatasetQueryUserEmail:
+                    description: If true, subscriber email logging is enabled and
+                      all queries on the linked dataset will log the email address
+                      of the querying user. Once enabled, this setting cannot be turned
+                      off.
+                    type: boolean
                   primaryContact:
                     description: Email or URL of the primary point of contact of the
                       data exchange.
@@ -152,6 +179,21 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  sharingEnvironmentConfig:
+                    description: |-
+                      Configurable data sharing environment option for a data exchange.
+                      This field is required for data clean room exchanges.
+                      Structure is documented below.
+                    properties:
+                      dcrExchangeConfig:
+                        description: Data Clean Room (DCR), used for privacy-safe
+                          and secured data sharing.
+                        type: object
+                      defaultExchangeConfig:
+                        description: Default Analytics Hub data exchange, used for
+                          secured data sharing.
+                        type: object
+                    type: object
                 type: object
               managementPolicies:
                 default:
@@ -368,6 +410,12 @@ spec:
                   location:
                     description: The name of the location this data exchange.
                     type: string
+                  logLinkedDatasetQueryUserEmail:
+                    description: If true, subscriber email logging is enabled and
+                      all queries on the linked dataset will log the email address
+                      of the querying user. Once enabled, this setting cannot be turned
+                      off.
+                    type: boolean
                   name:
                     description: |-
                       The resource name of the data exchange, for example:
@@ -382,6 +430,21 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  sharingEnvironmentConfig:
+                    description: |-
+                      Configurable data sharing environment option for a data exchange.
+                      This field is required for data clean room exchanges.
+                      Structure is documented below.
+                    properties:
+                      dcrExchangeConfig:
+                        description: Data Clean Room (DCR), used for privacy-safe
+                          and secured data sharing.
+                        type: object
+                      defaultExchangeConfig:
+                        description: Default Analytics Hub data exchange, used for
+                          secured data sharing.
+                        type: object
+                    type: object
                 type: object
               conditions:
                 description: Conditions of the resource.

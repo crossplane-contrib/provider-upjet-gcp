@@ -910,6 +910,10 @@ spec:
                           type: string
                       type: object
                     type: array
+                  healthCheckId:
+                    description: The unique identifier number for the resource. This
+                      identifier is defined by the server.
+                    type: number
                   healthyThreshold:
                     description: |-
                       A so-far unhealthy instance will be marked healthy after this many
@@ -1316,7 +1320,7 @@ spec:
                     type: string
                   grpcHealthCheck:
                     description: |-
-                      A nested object resource
+                      A nested object resource.
                       Structure is documented below.
                     properties:
                       grpcServiceName:
@@ -1348,7 +1352,7 @@ spec:
                     type: number
                   http2HealthCheck:
                     description: |-
-                      A nested object resource
+                      A nested object resource.
                       Structure is documented below.
                     properties:
                       host:
@@ -1393,7 +1397,7 @@ spec:
                     type: object
                   httpHealthCheck:
                     description: |-
-                      A nested object resource
+                      A nested object resource.
                       Structure is documented below.
                     properties:
                       host:
@@ -1438,7 +1442,7 @@ spec:
                     type: object
                   httpsHealthCheck:
                     description: |-
-                      A nested object resource
+                      A nested object resource.
                       Structure is documented below.
                     properties:
                       host:
@@ -1504,7 +1508,7 @@ spec:
                     type: string
                   sslHealthCheck:
                     description: |-
-                      A nested object resource
+                      A nested object resource.
                       Structure is documented below.
                     properties:
                       port:
@@ -1545,7 +1549,7 @@ spec:
                     type: object
                   tcpHealthCheck:
                     description: |-
-                      A nested object resource
+                      A nested object resource.
                       Structure is documented below.
                     properties:
                       port:
@@ -1623,7 +1627,7 @@ spec:
                     type: string
                   grpcHealthCheck:
                     description: |-
-                      A nested object resource
+                      A nested object resource.
                       Structure is documented below.
                     properties:
                       grpcServiceName:
@@ -1655,7 +1659,7 @@ spec:
                     type: number
                   http2HealthCheck:
                     description: |-
-                      A nested object resource
+                      A nested object resource.
                       Structure is documented below.
                     properties:
                       host:
@@ -1700,7 +1704,7 @@ spec:
                     type: object
                   httpHealthCheck:
                     description: |-
-                      A nested object resource
+                      A nested object resource.
                       Structure is documented below.
                     properties:
                       host:
@@ -1745,7 +1749,7 @@ spec:
                     type: object
                   httpsHealthCheck:
                     description: |-
-                      A nested object resource
+                      A nested object resource.
                       Structure is documented below.
                     properties:
                       host:
@@ -1806,7 +1810,7 @@ spec:
                     type: string
                   sslHealthCheck:
                     description: |-
-                      A nested object resource
+                      A nested object resource.
                       Structure is documented below.
                     properties:
                       port:
@@ -1847,7 +1851,7 @@ spec:
                     type: object
                   tcpHealthCheck:
                     description: |-
-                      A nested object resource
+                      A nested object resource.
                       Structure is documented below.
                     properties:
                       port:
@@ -2085,7 +2089,7 @@ spec:
                     type: string
                   grpcHealthCheck:
                     description: |-
-                      A nested object resource
+                      A nested object resource.
                       Structure is documented below.
                     properties:
                       grpcServiceName:
@@ -2110,6 +2114,10 @@ spec:
                           following values:
                         type: string
                     type: object
+                  healthCheckId:
+                    description: The unique identifier number for the resource. This
+                      identifier is defined by the server.
+                    type: number
                   healthyThreshold:
                     description: |-
                       A so-far unhealthy instance will be marked healthy after this many
@@ -2117,7 +2125,7 @@ spec:
                     type: number
                   http2HealthCheck:
                     description: |-
-                      A nested object resource
+                      A nested object resource.
                       Structure is documented below.
                     properties:
                       host:
@@ -2162,7 +2170,7 @@ spec:
                     type: object
                   httpHealthCheck:
                     description: |-
-                      A nested object resource
+                      A nested object resource.
                       Structure is documented below.
                     properties:
                       host:
@@ -2207,7 +2215,7 @@ spec:
                     type: object
                   httpsHealthCheck:
                     description: |-
-                      A nested object resource
+                      A nested object resource.
                       Structure is documented below.
                     properties:
                       host:
@@ -2279,7 +2287,7 @@ spec:
                     type: string
                   sslHealthCheck:
                     description: |-
-                      A nested object resource
+                      A nested object resource.
                       Structure is documented below.
                     properties:
                       port:
@@ -2320,7 +2328,7 @@ spec:
                     type: object
                   tcpHealthCheck:
                     description: |-
-                      A nested object resource
+                      A nested object resource.
                       Structure is documented below.
                     properties:
                       port:

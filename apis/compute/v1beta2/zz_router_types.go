@@ -195,6 +195,38 @@ type BGPParameters struct {
 	KeepaliveInterval *float64 `json:"keepaliveInterval,omitempty" tf:"keepalive_interval,omitempty"`
 }
 
+type Md5AuthenticationKeysInitParameters struct {
+
+	// Value of the key used for MD5 authentication.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// Name used to identify the key. Must be unique within a router.
+	// Must be referenced by exactly one bgpPeer. Must comply with RFC1035.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type Md5AuthenticationKeysObservation struct {
+
+	// Value of the key used for MD5 authentication.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// Name used to identify the key. Must be unique within a router.
+	// Must be referenced by exactly one bgpPeer. Must comply with RFC1035.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type Md5AuthenticationKeysParameters struct {
+
+	// Value of the key used for MD5 authentication.
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key" tf:"key,omitempty"`
+
+	// Name used to identify the key. Must be unique within a router.
+	// Must be referenced by exactly one bgpPeer. Must comply with RFC1035.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name" tf:"name,omitempty"`
+}
+
 type RouterInitParameters struct {
 
 	// BGP information specific to this router.
@@ -207,6 +239,10 @@ type RouterInitParameters struct {
 	// Indicates if a router is dedicated for use with encrypted VLAN
 	// attachments (interconnectAttachments).
 	EncryptedInterconnectRouter *bool `json:"encryptedInterconnectRouter,omitempty" tf:"encrypted_interconnect_router,omitempty"`
+
+	// Keys used for MD5 authentication.
+	// Structure is documented below.
+	Md5AuthenticationKeys *Md5AuthenticationKeysInitParameters `json:"md5AuthenticationKeys,omitempty" tf:"md5_authentication_keys,omitempty"`
 
 	// A reference to the network to which this router belongs.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
@@ -245,6 +281,10 @@ type RouterObservation struct {
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/routers/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Keys used for MD5 authentication.
+	// Structure is documented below.
+	Md5AuthenticationKeys *Md5AuthenticationKeysObservation `json:"md5AuthenticationKeys,omitempty" tf:"md5_authentication_keys,omitempty"`
+
 	// A reference to the network to which this router belongs.
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
@@ -274,6 +314,11 @@ type RouterParameters struct {
 	// attachments (interconnectAttachments).
 	// +kubebuilder:validation:Optional
 	EncryptedInterconnectRouter *bool `json:"encryptedInterconnectRouter,omitempty" tf:"encrypted_interconnect_router,omitempty"`
+
+	// Keys used for MD5 authentication.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Md5AuthenticationKeys *Md5AuthenticationKeysParameters `json:"md5AuthenticationKeys,omitempty" tf:"md5_authentication_keys,omitempty"`
 
 	// A reference to the network to which this router belongs.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network

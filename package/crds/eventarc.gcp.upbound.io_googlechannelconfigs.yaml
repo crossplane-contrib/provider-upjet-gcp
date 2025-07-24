@@ -82,7 +82,9 @@ spec:
                     description: The location for the resource
                     type: string
                   project:
-                    description: The project for the resource
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                 required:
                 - location
@@ -106,7 +108,9 @@ spec:
                       match the pattern projects/*/locations/*/keyRings/*/cryptoKeys/*.
                     type: string
                   project:
-                    description: The project for the resource
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                 type: object
               managementPolicies:
@@ -293,7 +297,9 @@ spec:
                     description: The location for the resource
                     type: string
                   project:
-                    description: The project for the resource
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   updateTime:
                     description: Output only. The last-modified time.

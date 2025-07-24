@@ -278,6 +278,50 @@ type CloneParameters struct {
 	SourceInstanceName *string `json:"sourceInstanceName" tf:"source_instance_name,omitempty"`
 }
 
+type ConnectionPoolConfigInitParameters struct {
+
+	// :  True if the manager connection pooling configuration is enabled.
+	ConnectionPoolingEnabled *bool `json:"connectionPoolingEnabled,omitempty" tf:"connection_pooling_enabled,omitempty"`
+
+	Flags []FlagsInitParameters `json:"flags,omitempty" tf:"flags,omitempty"`
+}
+
+type ConnectionPoolConfigObservation struct {
+
+	// :  True if the manager connection pooling configuration is enabled.
+	ConnectionPoolingEnabled *bool `json:"connectionPoolingEnabled,omitempty" tf:"connection_pooling_enabled,omitempty"`
+
+	Flags []FlagsObservation `json:"flags,omitempty" tf:"flags,omitempty"`
+}
+
+type ConnectionPoolConfigParameters struct {
+
+	// :  True if the manager connection pooling configuration is enabled.
+	// +kubebuilder:validation:Optional
+	ConnectionPoolingEnabled *bool `json:"connectionPoolingEnabled,omitempty" tf:"connection_pooling_enabled,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Flags []FlagsParameters `json:"flags,omitempty" tf:"flags,omitempty"`
+}
+
+type DNSNamesInitParameters struct {
+}
+
+type DNSNamesObservation struct {
+
+	// The connection type of the DNS name. Can be either PUBLIC, PRIVATE_SERVICES_ACCESS, or PRIVATE_SERVICE_CONNECT.
+	ConnectionType *string `json:"connectionType,omitempty" tf:"connection_type,omitempty"`
+
+	// The scope that the DNS name applies to.
+	DNSScope *string `json:"dnsScope,omitempty" tf:"dns_scope,omitempty"`
+
+	// A name for this whitelist entry.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type DNSNamesParameters struct {
+}
+
 type DataCacheConfigInitParameters struct {
 
 	// Whether data cache is enabled for the instance. Defaults to false. Can be used with MYSQL and PostgreSQL only.
@@ -340,16 +384,16 @@ type DatabaseInstanceInitParameters struct {
 
 	// The MySQL, PostgreSQL or
 	// SQL Server version to use. Supported values include MYSQL_5_6,
-	// MYSQL_5_7, MYSQL_8_0, POSTGRES_9_6,POSTGRES_10, POSTGRES_11,
-	// POSTGRES_12, POSTGRES_13, POSTGRES_14, POSTGRES_15, SQLSERVER_2017_STANDARD,
-	// SQLSERVER_2017_ENTERPRISE, SQLSERVER_2017_EXPRESS, SQLSERVER_2017_WEB.
+	// MYSQL_5_7, MYSQL_8_0, MYSQL_8_4, POSTGRES_9_6,POSTGRES_10, POSTGRES_11,
+	// POSTGRES_12, POSTGRES_13, POSTGRES_14, POSTGRES_15, POSTGRES_16, POSTGRES_17,
+	// SQLSERVER_2017_STANDARD, SQLSERVER_2017_ENTERPRISE, SQLSERVER_2017_EXPRESS, SQLSERVER_2017_WEB.
 	// SQLSERVER_2019_STANDARD, SQLSERVER_2019_ENTERPRISE, SQLSERVER_2019_EXPRESS,
 	// SQLSERVER_2019_WEB.
 	// Database Version Policies
 	// includes an up-to-date reference of supported versions.
 	DatabaseVersion *string `json:"databaseVersion,omitempty" tf:"database_version,omitempty"`
 
-	// Defaults to true.
+	// When the field is set to false, deleting the instance is allowed.
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// The full path to the encryption key used for the CMEK disk encryption.
@@ -381,6 +425,11 @@ type DatabaseInstanceInitParameters struct {
 	// configuration is detailed below. Valid only for MySQL instances.
 	ReplicaConfiguration []ReplicaConfigurationInitParameters `json:"replicaConfiguration,omitempty" tf:"replica_configuration,omitempty"`
 
+	// List of replica names. Can be updated.
+	ReplicaNames []*string `json:"replicaNames,omitempty" tf:"replica_names,omitempty"`
+
+	ReplicationCluster []ReplicationClusterInitParameters `json:"replicationCluster,omitempty" tf:"replication_cluster,omitempty"`
+
 	// The context needed to restore the database to a backup run. The configuration is detailed below. Adding or modifying this
 	// block during resource creation/update will trigger the restore action after the resource is created/updated.
 	RestoreBackupContext []RestoreBackupContextInitParameters `json:"restoreBackupContext,omitempty" tf:"restore_backup_context,omitempty"`
@@ -410,11 +459,14 @@ type DatabaseInstanceObservation struct {
 	// up to one week.
 	DNSName *string `json:"dnsName,omitempty" tf:"dns_name,omitempty"`
 
+	// The list of DNS names used by this instance. Different connection types for an instance may have different DNS names. DNS names can apply to an individual instance or a cluster of instances.
+	DNSNames []DNSNamesObservation `json:"dnsNames,omitempty" tf:"dns_names,omitempty"`
+
 	// The MySQL, PostgreSQL or
 	// SQL Server version to use. Supported values include MYSQL_5_6,
-	// MYSQL_5_7, MYSQL_8_0, POSTGRES_9_6,POSTGRES_10, POSTGRES_11,
-	// POSTGRES_12, POSTGRES_13, POSTGRES_14, POSTGRES_15, SQLSERVER_2017_STANDARD,
-	// SQLSERVER_2017_ENTERPRISE, SQLSERVER_2017_EXPRESS, SQLSERVER_2017_WEB.
+	// MYSQL_5_7, MYSQL_8_0, MYSQL_8_4, POSTGRES_9_6,POSTGRES_10, POSTGRES_11,
+	// POSTGRES_12, POSTGRES_13, POSTGRES_14, POSTGRES_15, POSTGRES_16, POSTGRES_17,
+	// SQLSERVER_2017_STANDARD, SQLSERVER_2017_ENTERPRISE, SQLSERVER_2017_EXPRESS, SQLSERVER_2017_WEB.
 	// SQLSERVER_2019_STANDARD, SQLSERVER_2019_ENTERPRISE, SQLSERVER_2019_EXPRESS,
 	// SQLSERVER_2019_WEB.
 	// Database Version Policies
@@ -473,6 +525,11 @@ type DatabaseInstanceObservation struct {
 	// configuration is detailed below. Valid only for MySQL instances.
 	ReplicaConfiguration []ReplicaConfigurationObservation `json:"replicaConfiguration,omitempty" tf:"replica_configuration,omitempty"`
 
+	// List of replica names. Can be updated.
+	ReplicaNames []*string `json:"replicaNames,omitempty" tf:"replica_names,omitempty"`
+
+	ReplicationCluster []ReplicationClusterObservation `json:"replicationCluster,omitempty" tf:"replication_cluster,omitempty"`
+
 	// The context needed to restore the database to a backup run. The configuration is detailed below. Adding or modifying this
 	// block during resource creation/update will trigger the restore action after the resource is created/updated.
 	RestoreBackupContext []RestoreBackupContextObservation `json:"restoreBackupContext,omitempty" tf:"restore_backup_context,omitempty"`
@@ -498,9 +555,9 @@ type DatabaseInstanceParameters struct {
 
 	// The MySQL, PostgreSQL or
 	// SQL Server version to use. Supported values include MYSQL_5_6,
-	// MYSQL_5_7, MYSQL_8_0, POSTGRES_9_6,POSTGRES_10, POSTGRES_11,
-	// POSTGRES_12, POSTGRES_13, POSTGRES_14, POSTGRES_15, SQLSERVER_2017_STANDARD,
-	// SQLSERVER_2017_ENTERPRISE, SQLSERVER_2017_EXPRESS, SQLSERVER_2017_WEB.
+	// MYSQL_5_7, MYSQL_8_0, MYSQL_8_4, POSTGRES_9_6,POSTGRES_10, POSTGRES_11,
+	// POSTGRES_12, POSTGRES_13, POSTGRES_14, POSTGRES_15, POSTGRES_16, POSTGRES_17,
+	// SQLSERVER_2017_STANDARD, SQLSERVER_2017_ENTERPRISE, SQLSERVER_2017_EXPRESS, SQLSERVER_2017_WEB.
 	// SQLSERVER_2019_STANDARD, SQLSERVER_2019_ENTERPRISE, SQLSERVER_2019_EXPRESS,
 	// SQLSERVER_2019_WEB.
 	// Database Version Policies
@@ -508,7 +565,7 @@ type DatabaseInstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	DatabaseVersion *string `json:"databaseVersion,omitempty" tf:"database_version,omitempty"`
 
-	// Defaults to true.
+	// When the field is set to false, deleting the instance is allowed.
 	// +kubebuilder:validation:Optional
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
@@ -546,6 +603,13 @@ type DatabaseInstanceParameters struct {
 	// configuration is detailed below. Valid only for MySQL instances.
 	// +kubebuilder:validation:Optional
 	ReplicaConfiguration []ReplicaConfigurationParameters `json:"replicaConfiguration,omitempty" tf:"replica_configuration,omitempty"`
+
+	// List of replica names. Can be updated.
+	// +kubebuilder:validation:Optional
+	ReplicaNames []*string `json:"replicaNames,omitempty" tf:"replica_names,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ReplicationCluster []ReplicationClusterParameters `json:"replicationCluster,omitempty" tf:"replication_cluster,omitempty"`
 
 	// The context needed to restore the database to a backup run. The configuration is detailed below. Adding or modifying this
 	// block during resource creation/update will trigger the restore action after the resource is created/updated.
@@ -601,6 +665,41 @@ type DenyMaintenancePeriodParameters struct {
 	Time *string `json:"time" tf:"time,omitempty"`
 }
 
+type FlagsInitParameters struct {
+
+	// A name for this whitelist entry.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// A CIDR notation IPv4 or IPv6 address that is allowed to
+	// access this instance. Must be set even if other two attributes are not for
+	// the whitelist to become active.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type FlagsObservation struct {
+
+	// A name for this whitelist entry.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// A CIDR notation IPv4 or IPv6 address that is allowed to
+	// access this instance. Must be set even if other two attributes are not for
+	// the whitelist to become active.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type FlagsParameters struct {
+
+	// A name for this whitelist entry.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name" tf:"name,omitempty"`
+
+	// A CIDR notation IPv4 or IPv6 address that is allowed to
+	// access this instance. Must be set even if other two attributes are not for
+	// the whitelist to become active.
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value" tf:"value,omitempty"`
+}
+
 type IPAddressInitParameters struct {
 }
 
@@ -626,6 +725,10 @@ type IPConfigurationInitParameters struct {
 	AllocatedIPRange *string `json:"allocatedIpRange,omitempty" tf:"allocated_ip_range,omitempty"`
 
 	AuthorizedNetworks []AuthorizedNetworksInitParameters `json:"authorizedNetworks,omitempty" tf:"authorized_networks,omitempty"`
+
+	// The custom subject alternative names for an instance with CUSTOMER_MANAGED_CAS_CA as the server_ca_mode.
+	// +listType=set
+	CustomSubjectAlternativeNames []*string `json:"customSubjectAlternativeNames,omitempty" tf:"custom_subject_alternative_names,omitempty"`
 
 	// Whether Google Cloud services such as BigQuery are allowed to access data in this Cloud SQL instance over a private IP connection. SQLSERVER database type is not supported.
 	EnablePrivatePathForGoogleCloudServices *bool `json:"enablePrivatePathForGoogleCloudServices,omitempty" tf:"enable_private_path_for_google_cloud_services,omitempty"`
@@ -654,14 +757,14 @@ type IPConfigurationInitParameters struct {
 
 	PscConfig []PscConfigInitParameters `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
 
-	// Whether SSL connections over IP are enforced or not. To change this field, also set the corresponding value in ssl_mode.
-	RequireSSL *bool `json:"requireSsl,omitempty" tf:"require_ssl,omitempty"`
-
 	// Specify how SSL connection should be enforced in DB connections. This field provides more SSL enforcment options compared to require_ssl. To change this field, also set the correspoding value in require_ssl.
 	SSLMode *string `json:"sslMode,omitempty" tf:"ssl_mode,omitempty"`
 
 	// Specify how the server certificate's Certificate Authority is hosted. Supported value is GOOGLE_MANAGED_INTERNAL_CA.
 	ServerCAMode *string `json:"serverCaMode,omitempty" tf:"server_ca_mode,omitempty"`
+
+	// The resource name of the server CA pool for an instance with CUSTOMER_MANAGED_CAS_CA as the server_ca_mode.
+	ServerCAPool *string `json:"serverCaPool,omitempty" tf:"server_ca_pool,omitempty"`
 }
 
 type IPConfigurationObservation struct {
@@ -670,6 +773,10 @@ type IPConfigurationObservation struct {
 	AllocatedIPRange *string `json:"allocatedIpRange,omitempty" tf:"allocated_ip_range,omitempty"`
 
 	AuthorizedNetworks []AuthorizedNetworksObservation `json:"authorizedNetworks,omitempty" tf:"authorized_networks,omitempty"`
+
+	// The custom subject alternative names for an instance with CUSTOMER_MANAGED_CAS_CA as the server_ca_mode.
+	// +listType=set
+	CustomSubjectAlternativeNames []*string `json:"customSubjectAlternativeNames,omitempty" tf:"custom_subject_alternative_names,omitempty"`
 
 	// Whether Google Cloud services such as BigQuery are allowed to access data in this Cloud SQL instance over a private IP connection. SQLSERVER database type is not supported.
 	EnablePrivatePathForGoogleCloudServices *bool `json:"enablePrivatePathForGoogleCloudServices,omitempty" tf:"enable_private_path_for_google_cloud_services,omitempty"`
@@ -688,14 +795,14 @@ type IPConfigurationObservation struct {
 
 	PscConfig []PscConfigObservation `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
 
-	// Whether SSL connections over IP are enforced or not. To change this field, also set the corresponding value in ssl_mode.
-	RequireSSL *bool `json:"requireSsl,omitempty" tf:"require_ssl,omitempty"`
-
 	// Specify how SSL connection should be enforced in DB connections. This field provides more SSL enforcment options compared to require_ssl. To change this field, also set the correspoding value in require_ssl.
 	SSLMode *string `json:"sslMode,omitempty" tf:"ssl_mode,omitempty"`
 
 	// Specify how the server certificate's Certificate Authority is hosted. Supported value is GOOGLE_MANAGED_INTERNAL_CA.
 	ServerCAMode *string `json:"serverCaMode,omitempty" tf:"server_ca_mode,omitempty"`
+
+	// The resource name of the server CA pool for an instance with CUSTOMER_MANAGED_CAS_CA as the server_ca_mode.
+	ServerCAPool *string `json:"serverCaPool,omitempty" tf:"server_ca_pool,omitempty"`
 }
 
 type IPConfigurationParameters struct {
@@ -706,6 +813,11 @@ type IPConfigurationParameters struct {
 
 	// +kubebuilder:validation:Optional
 	AuthorizedNetworks []AuthorizedNetworksParameters `json:"authorizedNetworks,omitempty" tf:"authorized_networks,omitempty"`
+
+	// The custom subject alternative names for an instance with CUSTOMER_MANAGED_CAS_CA as the server_ca_mode.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	CustomSubjectAlternativeNames []*string `json:"customSubjectAlternativeNames,omitempty" tf:"custom_subject_alternative_names,omitempty"`
 
 	// Whether Google Cloud services such as BigQuery are allowed to access data in this Cloud SQL instance over a private IP connection. SQLSERVER database type is not supported.
 	// +kubebuilder:validation:Optional
@@ -738,10 +850,6 @@ type IPConfigurationParameters struct {
 	// +kubebuilder:validation:Optional
 	PscConfig []PscConfigParameters `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
 
-	// Whether SSL connections over IP are enforced or not. To change this field, also set the corresponding value in ssl_mode.
-	// +kubebuilder:validation:Optional
-	RequireSSL *bool `json:"requireSsl,omitempty" tf:"require_ssl,omitempty"`
-
 	// Specify how SSL connection should be enforced in DB connections. This field provides more SSL enforcment options compared to require_ssl. To change this field, also set the correspoding value in require_ssl.
 	// +kubebuilder:validation:Optional
 	SSLMode *string `json:"sslMode,omitempty" tf:"ssl_mode,omitempty"`
@@ -749,6 +857,10 @@ type IPConfigurationParameters struct {
 	// Specify how the server certificate's Certificate Authority is hosted. Supported value is GOOGLE_MANAGED_INTERNAL_CA.
 	// +kubebuilder:validation:Optional
 	ServerCAMode *string `json:"serverCaMode,omitempty" tf:"server_ca_mode,omitempty"`
+
+	// The resource name of the server CA pool for an instance with CUSTOMER_MANAGED_CAS_CA as the server_ca_mode.
+	// +kubebuilder:validation:Optional
+	ServerCAPool *string `json:"serverCaPool,omitempty" tf:"server_ca_pool,omitempty"`
 }
 
 type InsightsConfigInitParameters struct {
@@ -966,11 +1078,43 @@ type PasswordValidationPolicyParameters struct {
 	ReuseInterval *float64 `json:"reuseInterval,omitempty" tf:"reuse_interval,omitempty"`
 }
 
+type PscAutoConnectionsInitParameters struct {
+
+	// "The consumer network of this consumer endpoint. This must be a resource path that includes both the host project and the network name. For example, projects/project1/global/networks/network1. The consumer host project of this network might be different from the consumer service project."
+	ConsumerNetwork *string `json:"consumerNetwork,omitempty" tf:"consumer_network,omitempty"`
+
+	// The project ID of consumer service project of this consumer endpoint.
+	ConsumerServiceProjectID *string `json:"consumerServiceProjectId,omitempty" tf:"consumer_service_project_id,omitempty"`
+}
+
+type PscAutoConnectionsObservation struct {
+
+	// "The consumer network of this consumer endpoint. This must be a resource path that includes both the host project and the network name. For example, projects/project1/global/networks/network1. The consumer host project of this network might be different from the consumer service project."
+	ConsumerNetwork *string `json:"consumerNetwork,omitempty" tf:"consumer_network,omitempty"`
+
+	// The project ID of consumer service project of this consumer endpoint.
+	ConsumerServiceProjectID *string `json:"consumerServiceProjectId,omitempty" tf:"consumer_service_project_id,omitempty"`
+}
+
+type PscAutoConnectionsParameters struct {
+
+	// "The consumer network of this consumer endpoint. This must be a resource path that includes both the host project and the network name. For example, projects/project1/global/networks/network1. The consumer host project of this network might be different from the consumer service project."
+	// +kubebuilder:validation:Optional
+	ConsumerNetwork *string `json:"consumerNetwork" tf:"consumer_network,omitempty"`
+
+	// The project ID of consumer service project of this consumer endpoint.
+	// +kubebuilder:validation:Optional
+	ConsumerServiceProjectID *string `json:"consumerServiceProjectId,omitempty" tf:"consumer_service_project_id,omitempty"`
+}
+
 type PscConfigInitParameters struct {
 
 	// List of consumer projects that are allow-listed for PSC connections to this instance. This instance can be connected to with PSC from any network in these projects. Each consumer project in this list may be represented by a project number (numeric) or by a project id (alphanumeric).
 	// +listType=set
 	AllowedConsumerProjects []*string `json:"allowedConsumerProjects,omitempty" tf:"allowed_consumer_projects,omitempty"`
+
+	// A comma-separated list of networks or a comma-separated list of network-project pairs. Each project in this list is represented by a project number (numeric) or by a project ID (alphanumeric). This allows Private Service Connect connections to be created automatically for the specified networks.
+	PscAutoConnections []PscAutoConnectionsInitParameters `json:"pscAutoConnections,omitempty" tf:"psc_auto_connections,omitempty"`
 
 	// Whether PSC connectivity is enabled for this instance.
 	PscEnabled *bool `json:"pscEnabled,omitempty" tf:"psc_enabled,omitempty"`
@@ -981,6 +1125,9 @@ type PscConfigObservation struct {
 	// List of consumer projects that are allow-listed for PSC connections to this instance. This instance can be connected to with PSC from any network in these projects. Each consumer project in this list may be represented by a project number (numeric) or by a project id (alphanumeric).
 	// +listType=set
 	AllowedConsumerProjects []*string `json:"allowedConsumerProjects,omitempty" tf:"allowed_consumer_projects,omitempty"`
+
+	// A comma-separated list of networks or a comma-separated list of network-project pairs. Each project in this list is represented by a project number (numeric) or by a project ID (alphanumeric). This allows Private Service Connect connections to be created automatically for the specified networks.
+	PscAutoConnections []PscAutoConnectionsObservation `json:"pscAutoConnections,omitempty" tf:"psc_auto_connections,omitempty"`
 
 	// Whether PSC connectivity is enabled for this instance.
 	PscEnabled *bool `json:"pscEnabled,omitempty" tf:"psc_enabled,omitempty"`
@@ -993,6 +1140,10 @@ type PscConfigParameters struct {
 	// +listType=set
 	AllowedConsumerProjects []*string `json:"allowedConsumerProjects,omitempty" tf:"allowed_consumer_projects,omitempty"`
 
+	// A comma-separated list of networks or a comma-separated list of network-project pairs. Each project in this list is represented by a project number (numeric) or by a project ID (alphanumeric). This allows Private Service Connect connections to be created automatically for the specified networks.
+	// +kubebuilder:validation:Optional
+	PscAutoConnections []PscAutoConnectionsParameters `json:"pscAutoConnections,omitempty" tf:"psc_auto_connections,omitempty"`
+
 	// Whether PSC connectivity is enabled for this instance.
 	// +kubebuilder:validation:Optional
 	PscEnabled *bool `json:"pscEnabled,omitempty" tf:"psc_enabled,omitempty"`
@@ -1003,6 +1154,9 @@ type ReplicaConfigurationInitParameters struct {
 	// PEM representation of the trusted CA's x509
 	// certificate.
 	CACertificate *string `json:"caCertificate,omitempty" tf:"ca_certificate,omitempty"`
+
+	// Specifies if the replica is a cascadable replica. If true, instance must be in different region from primary.
+	CascadableReplica *bool `json:"cascadableReplica,omitempty" tf:"cascadable_replica,omitempty"`
 
 	// PEM representation of the replica's x509
 	// certificate.
@@ -1051,6 +1205,9 @@ type ReplicaConfigurationObservation struct {
 	// certificate.
 	CACertificate *string `json:"caCertificate,omitempty" tf:"ca_certificate,omitempty"`
 
+	// Specifies if the replica is a cascadable replica. If true, instance must be in different region from primary.
+	CascadableReplica *bool `json:"cascadableReplica,omitempty" tf:"cascadable_replica,omitempty"`
+
 	// PEM representation of the replica's x509
 	// certificate.
 	ClientCertificate *string `json:"clientCertificate,omitempty" tf:"client_certificate,omitempty"`
@@ -1095,6 +1252,10 @@ type ReplicaConfigurationParameters struct {
 	// certificate.
 	// +kubebuilder:validation:Optional
 	CACertificate *string `json:"caCertificate,omitempty" tf:"ca_certificate,omitempty"`
+
+	// Specifies if the replica is a cascadable replica. If true, instance must be in different region from primary.
+	// +kubebuilder:validation:Optional
+	CascadableReplica *bool `json:"cascadableReplica,omitempty" tf:"cascadable_replica,omitempty"`
 
 	// PEM representation of the replica's x509
 	// certificate.
@@ -1145,6 +1306,28 @@ type ReplicaConfigurationParameters struct {
 	// value is checked during the SSL handshake.
 	// +kubebuilder:validation:Optional
 	VerifyServerCertificate *bool `json:"verifyServerCertificate,omitempty" tf:"verify_server_certificate,omitempty"`
+}
+
+type ReplicationClusterInitParameters struct {
+
+	// project:your-instance". You can also set this field to "your-instance", but cloud SQL backend will convert it to the aforementioned standard format.
+	FailoverDrReplicaName *string `json:"failoverDrReplicaName,omitempty" tf:"failover_dr_replica_name,omitempty"`
+}
+
+type ReplicationClusterObservation struct {
+
+	// only field that indicates whether the replica is a DR replica.
+	DrReplica *bool `json:"drReplica,omitempty" tf:"dr_replica,omitempty"`
+
+	// project:your-instance". You can also set this field to "your-instance", but cloud SQL backend will convert it to the aforementioned standard format.
+	FailoverDrReplicaName *string `json:"failoverDrReplicaName,omitempty" tf:"failover_dr_replica_name,omitempty"`
+}
+
+type ReplicationClusterParameters struct {
+
+	// project:your-instance". You can also set this field to "your-instance", but cloud SQL backend will convert it to the aforementioned standard format.
+	// +kubebuilder:validation:Optional
+	FailoverDrReplicaName *string `json:"failoverDrReplicaName,omitempty" tf:"failover_dr_replica_name,omitempty"`
 }
 
 type RestoreBackupContextInitParameters struct {
@@ -1276,6 +1459,8 @@ type SettingsInitParameters struct {
 	// The name of server instance collation.
 	Collation *string `json:"collation,omitempty" tf:"collation,omitempty"`
 
+	ConnectionPoolConfig []ConnectionPoolConfigInitParameters `json:"connectionPoolConfig,omitempty" tf:"connection_pool_config,omitempty"`
+
 	// Specifies if connections must use Cloud SQL connectors.
 	ConnectorEnforcement *string `json:"connectorEnforcement,omitempty" tf:"connector_enforcement,omitempty"`
 
@@ -1322,6 +1507,9 @@ type SettingsInitParameters struct {
 	// Pricing plan for this instance, can only be PER_USE.
 	PricingPlan *string `json:"pricingPlan,omitempty" tf:"pricing_plan,omitempty"`
 
+	// When this parameter is set to true, Cloud SQL retains backups of the instance even after the instance is deleted. The ON_DEMAND backup will be retained until customer deletes the backup or the project. The AUTOMATED backup will be retained based on the backups retention setting.
+	RetainBackupsOnDelete *bool `json:"retainBackupsOnDelete,omitempty" tf:"retain_backups_on_delete,omitempty"`
+
 	SQLServerAuditConfig []SQLServerAuditConfigInitParameters `json:"sqlServerAuditConfig,omitempty" tf:"sql_server_audit_config,omitempty"`
 
 	// The machine type to use. See tiers
@@ -1359,6 +1547,8 @@ type SettingsObservation struct {
 
 	// The name of server instance collation.
 	Collation *string `json:"collation,omitempty" tf:"collation,omitempty"`
+
+	ConnectionPoolConfig []ConnectionPoolConfigObservation `json:"connectionPoolConfig,omitempty" tf:"connection_pool_config,omitempty"`
 
 	// Specifies if connections must use Cloud SQL connectors.
 	ConnectorEnforcement *string `json:"connectorEnforcement,omitempty" tf:"connector_enforcement,omitempty"`
@@ -1405,6 +1595,9 @@ type SettingsObservation struct {
 
 	// Pricing plan for this instance, can only be PER_USE.
 	PricingPlan *string `json:"pricingPlan,omitempty" tf:"pricing_plan,omitempty"`
+
+	// When this parameter is set to true, Cloud SQL retains backups of the instance even after the instance is deleted. The ON_DEMAND backup will be retained until customer deletes the backup or the project. The AUTOMATED backup will be retained based on the backups retention setting.
+	RetainBackupsOnDelete *bool `json:"retainBackupsOnDelete,omitempty" tf:"retain_backups_on_delete,omitempty"`
 
 	SQLServerAuditConfig []SQLServerAuditConfigObservation `json:"sqlServerAuditConfig,omitempty" tf:"sql_server_audit_config,omitempty"`
 
@@ -1453,6 +1646,9 @@ type SettingsParameters struct {
 	// The name of server instance collation.
 	// +kubebuilder:validation:Optional
 	Collation *string `json:"collation,omitempty" tf:"collation,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ConnectionPoolConfig []ConnectionPoolConfigParameters `json:"connectionPoolConfig,omitempty" tf:"connection_pool_config,omitempty"`
 
 	// Specifies if connections must use Cloud SQL connectors.
 	// +kubebuilder:validation:Optional
@@ -1517,6 +1713,10 @@ type SettingsParameters struct {
 	// Pricing plan for this instance, can only be PER_USE.
 	// +kubebuilder:validation:Optional
 	PricingPlan *string `json:"pricingPlan,omitempty" tf:"pricing_plan,omitempty"`
+
+	// When this parameter is set to true, Cloud SQL retains backups of the instance even after the instance is deleted. The ON_DEMAND backup will be retained until customer deletes the backup or the project. The AUTOMATED backup will be retained based on the backups retention setting.
+	// +kubebuilder:validation:Optional
+	RetainBackupsOnDelete *bool `json:"retainBackupsOnDelete,omitempty" tf:"retain_backups_on_delete,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	SQLServerAuditConfig []SQLServerAuditConfigParameters `json:"sqlServerAuditConfig,omitempty" tf:"sql_server_audit_config,omitempty"`

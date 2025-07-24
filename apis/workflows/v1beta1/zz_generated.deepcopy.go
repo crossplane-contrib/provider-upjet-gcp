@@ -53,8 +53,18 @@ func (in *WorkflowInitParameters) DeepCopyInto(out *WorkflowInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionProtection != nil {
+		in, out := &in.DeletionProtection, &out.DeletionProtection
+		*out = new(bool)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
+		*out = new(string)
+		**out = **in
+	}
+	if in.ExecutionHistoryLevel != nil {
+		in, out := &in.ExecutionHistoryLevel, &out.ExecutionHistoryLevel
 		*out = new(string)
 		**out = **in
 	}
@@ -113,6 +123,22 @@ func (in *WorkflowInitParameters) DeepCopyInto(out *WorkflowInitParameters) {
 		in, out := &in.SourceContents, &out.SourceContents
 		*out = new(string)
 		**out = **in
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.UserEnvVars != nil {
 		in, out := &in.UserEnvVars, &out.UserEnvVars
@@ -192,6 +218,11 @@ func (in *WorkflowObservation) DeepCopyInto(out *WorkflowObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionProtection != nil {
+		in, out := &in.DeletionProtection, &out.DeletionProtection
+		*out = new(bool)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -212,6 +243,11 @@ func (in *WorkflowObservation) DeepCopyInto(out *WorkflowObservation) {
 			}
 			(*out)[key] = outVal
 		}
+	}
+	if in.ExecutionHistoryLevel != nil {
+		in, out := &in.ExecutionHistoryLevel, &out.ExecutionHistoryLevel
+		*out = new(string)
+		**out = **in
 	}
 	if in.ID != nil {
 		in, out := &in.ID, &out.ID
@@ -273,6 +309,22 @@ func (in *WorkflowObservation) DeepCopyInto(out *WorkflowObservation) {
 		in, out := &in.State, &out.State
 		*out = new(string)
 		**out = **in
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.TerraformLabels != nil {
 		in, out := &in.TerraformLabels, &out.TerraformLabels
@@ -336,8 +388,18 @@ func (in *WorkflowParameters) DeepCopyInto(out *WorkflowParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionProtection != nil {
+		in, out := &in.DeletionProtection, &out.DeletionProtection
+		*out = new(bool)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
+		*out = new(string)
+		**out = **in
+	}
+	if in.ExecutionHistoryLevel != nil {
+		in, out := &in.ExecutionHistoryLevel, &out.ExecutionHistoryLevel
 		*out = new(string)
 		**out = **in
 	}
@@ -396,6 +458,22 @@ func (in *WorkflowParameters) DeepCopyInto(out *WorkflowParameters) {
 		in, out := &in.SourceContents, &out.SourceContents
 		*out = new(string)
 		**out = **in
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.UserEnvVars != nil {
 		in, out := &in.UserEnvVars, &out.UserEnvVars

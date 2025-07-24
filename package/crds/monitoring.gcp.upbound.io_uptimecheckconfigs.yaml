@@ -150,9 +150,8 @@ spec:
                           items:
                             properties:
                               passwordSecretRef:
-                                description: |-
-                                  The password to authenticate.
-                                  Note: This property is sensitive and will not be displayed in the plan.
+                                description: A SecretKeySelector is a reference to
+                                  a secret key in an arbitrary namespace.
                                 properties:
                                   key:
                                     description: The key to select.
@@ -168,11 +167,14 @@ spec:
                                 - name
                                 - namespace
                                 type: object
-                              username:
-                                description: The username to authenticate.
+                              passwordWo:
                                 type: string
-                            required:
-                            - passwordSecretRef
+                              passwordWoVersion:
+                                type: string
+                              username:
+                                description: A unique resource name for this UptimeCheckConfig.
+                                  The format is projects/[PROJECT_ID]/uptimeCheckConfigs/[UPTIME_CHECK_ID].
+                                type: string
                             type: object
                           type: array
                         body:
@@ -278,6 +280,10 @@ spec:
                           type: boolean
                       type: object
                     type: array
+                  logCheckFailures:
+                    description: Specifies whether to log the results of failed probes
+                      to Cloud Logging.
+                    type: boolean
                   monitoredResource:
                     description: |-
                       The [monitored resource]
@@ -645,8 +651,31 @@ spec:
                             Structure is documented below.
                           items:
                             properties:
+                              passwordSecretRef:
+                                description: A SecretKeySelector is a reference to
+                                  a secret key in an arbitrary namespace.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                              passwordWo:
+                                type: string
+                              passwordWoVersion:
+                                type: string
                               username:
-                                description: The username to authenticate.
+                                description: A unique resource name for this UptimeCheckConfig.
+                                  The format is projects/[PROJECT_ID]/uptimeCheckConfigs/[UPTIME_CHECK_ID].
                                 type: string
                             type: object
                           type: array
@@ -753,6 +782,10 @@ spec:
                           type: boolean
                       type: object
                     type: array
+                  logCheckFailures:
+                    description: Specifies whether to log the results of failed probes
+                      to Cloud Logging.
+                    type: boolean
                   monitoredResource:
                     description: |-
                       The [monitored resource]
@@ -1288,8 +1321,13 @@ spec:
                             Structure is documented below.
                           items:
                             properties:
+                              passwordWo:
+                                type: string
+                              passwordWoVersion:
+                                type: string
                               username:
-                                description: The username to authenticate.
+                                description: A unique resource name for this UptimeCheckConfig.
+                                  The format is projects/[PROJECT_ID]/uptimeCheckConfigs/[UPTIME_CHECK_ID].
                                 type: string
                             type: object
                           type: array
@@ -1399,6 +1437,10 @@ spec:
                   id:
                     description: an identifier for the resource with format {{name}}
                     type: string
+                  logCheckFailures:
+                    description: Specifies whether to log the results of failed probes
+                      to Cloud Logging.
+                    type: boolean
                   monitoredResource:
                     description: |-
                       The [monitored resource]
@@ -1720,9 +1762,8 @@ spec:
                           Structure is documented below.
                         properties:
                           passwordSecretRef:
-                            description: |-
-                              The password to authenticate.
-                              Note: This property is sensitive and will not be displayed in the plan.
+                            description: A SecretKeySelector is a reference to a secret
+                              key in an arbitrary namespace.
                             properties:
                               key:
                                 description: The key to select.
@@ -1738,8 +1779,13 @@ spec:
                             - name
                             - namespace
                             type: object
+                          passwordWo:
+                            type: string
+                          passwordWoVersion:
+                            type: string
                           username:
-                            description: The username to authenticate.
+                            description: A unique resource name for this UptimeCheckConfig.
+                              The format is projects/[PROJECT_ID]/uptimeCheckConfigs/[UPTIME_CHECK_ID].
                             type: string
                         type: object
                       body:
@@ -1838,6 +1884,10 @@ spec:
                           use_ssl is false, setting validate_ssl to true has no effect.
                         type: boolean
                     type: object
+                  logCheckFailures:
+                    description: Specifies whether to log the results of failed probes
+                      to Cloud Logging.
+                    type: boolean
                   monitoredResource:
                     description: |-
                       The [monitored resource]
@@ -2189,9 +2239,8 @@ spec:
                           Structure is documented below.
                         properties:
                           passwordSecretRef:
-                            description: |-
-                              The password to authenticate.
-                              Note: This property is sensitive and will not be displayed in the plan.
+                            description: A SecretKeySelector is a reference to a secret
+                              key in an arbitrary namespace.
                             properties:
                               key:
                                 description: The key to select.
@@ -2207,11 +2256,14 @@ spec:
                             - name
                             - namespace
                             type: object
-                          username:
-                            description: The username to authenticate.
+                          passwordWo:
                             type: string
-                        required:
-                        - passwordSecretRef
+                          passwordWoVersion:
+                            type: string
+                          username:
+                            description: A unique resource name for this UptimeCheckConfig.
+                              The format is projects/[PROJECT_ID]/uptimeCheckConfigs/[UPTIME_CHECK_ID].
+                            type: string
                         type: object
                       body:
                         description: The request body associated with the HTTP POST
@@ -2309,6 +2361,10 @@ spec:
                           use_ssl is false, setting validate_ssl to true has no effect.
                         type: boolean
                     type: object
+                  logCheckFailures:
+                    description: Specifies whether to log the results of failed probes
+                      to Cloud Logging.
+                    type: boolean
                   monitoredResource:
                     description: |-
                       The [monitored resource]
@@ -2827,8 +2883,13 @@ spec:
                           The authentication information using username and password. Optional when creating an HTTP check; defaults to empty. Do not use with other authentication fields.
                           Structure is documented below.
                         properties:
+                          passwordWo:
+                            type: string
+                          passwordWoVersion:
+                            type: string
                           username:
-                            description: The username to authenticate.
+                            description: A unique resource name for this UptimeCheckConfig.
+                              The format is projects/[PROJECT_ID]/uptimeCheckConfigs/[UPTIME_CHECK_ID].
                             type: string
                         type: object
                       body:
@@ -2930,6 +2991,10 @@ spec:
                   id:
                     description: an identifier for the resource with format {{name}}
                     type: string
+                  logCheckFailures:
+                    description: Specifies whether to log the results of failed probes
+                      to Cloud Logging.
+                    type: boolean
                   monitoredResource:
                     description: |-
                       The [monitored resource]

@@ -125,6 +125,22 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  responseType:
+                    description: |-
+                      The response type to request for in the OAuth authorization flow.
+                      You can set either idToken or code to true, but not both.
+                      Setting both types to be simultaneously true ({code: true, idToken: true}) is not yet supported.
+                      Structure is documented below.
+                    properties:
+                      code:
+                        description: If true, authorization code is returned from
+                          IdP's authorization endpoint.
+                        type: boolean
+                      idToken:
+                        description: If true, ID token is returned from IdP's authorization
+                          endpoint.
+                        type: boolean
+                    type: object
                 type: object
               initProvider:
                 description: |-
@@ -191,6 +207,22 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  responseType:
+                    description: |-
+                      The response type to request for in the OAuth authorization flow.
+                      You can set either idToken or code to true, but not both.
+                      Setting both types to be simultaneously true ({code: true, idToken: true}) is not yet supported.
+                      Structure is documented below.
+                    properties:
+                      code:
+                        description: If true, authorization code is returned from
+                          IdP's authorization endpoint.
+                        type: boolean
+                      idToken:
+                        description: If true, ID token is returned from IdP's authorization
+                          endpoint.
+                        type: boolean
+                    type: object
                 required:
                 - clientIdSecretRef
                 type: object
@@ -398,6 +430,22 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  responseType:
+                    description: |-
+                      The response type to request for in the OAuth authorization flow.
+                      You can set either idToken or code to true, but not both.
+                      Setting both types to be simultaneously true ({code: true, idToken: true}) is not yet supported.
+                      Structure is documented below.
+                    properties:
+                      code:
+                        description: If true, authorization code is returned from
+                          IdP's authorization endpoint.
+                        type: boolean
+                      idToken:
+                        description: If true, ID token is returned from IdP's authorization
+                          endpoint.
+                        type: boolean
+                    type: object
                 type: object
               conditions:
                 description: Conditions of the resource.

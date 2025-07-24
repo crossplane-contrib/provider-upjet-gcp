@@ -73,6 +73,13 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  deletionProtectionEnabled:
+                    description: Indicates whether the instance is protected against
+                      deletion.
+                    type: boolean
+                  deletionProtectionReason:
+                    description: The reason for enabling deletion protection.
+                    type: string
                   description:
                     description: A description of the instance.
                     type: string
@@ -139,6 +146,32 @@ spec:
                             The resource name of the backup, in the format
                             projects/{projectId}/locations/{locationId}/backups/{backupId},
                             that this file share has been restored from.
+                          type: string
+                      type: object
+                    type: array
+                  initialReplication:
+                    description: |-
+                      Replication configuration, once set, this cannot be updated.
+                      Additionally this should be specified on the replica instance only, indicating the active as the peer_instance
+                      Structure is documented below.
+                    items:
+                      properties:
+                        replicas:
+                          description: |-
+                            The replication role.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              peerInstance:
+                                description: The peer instance.
+                                type: string
+                            type: object
+                          type: array
+                        role:
+                          description: |-
+                            The replication role.
+                            Default value is STANDBY.
+                            Possible values are: ROLE_UNSPECIFIED, ACTIVE, STANDBY.
                           type: string
                       type: object
                     type: array
@@ -242,7 +275,7 @@ spec:
                             If not provided, the connect mode defaults to
                             DIRECT_PEERING.
                             Default value is DIRECT_PEERING.
-                            Possible values are: DIRECT_PEERING, PRIVATE_SERVICE_ACCESS.
+                            Possible values are: DIRECT_PEERING, PRIVATE_SERVICE_ACCESS, PRIVATE_SERVICE_CONNECT.
                           type: string
                         modes:
                           description: |-
@@ -264,11 +297,76 @@ spec:
                           type: string
                       type: object
                     type: array
+                  performanceConfig:
+                    description: |-
+                      Performance configuration for the instance. If not provided,
+                      the default performance settings will be used.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        fixedIops:
+                          description: |-
+                            The instance will have a fixed provisioned IOPS value,
+                            which will remain constant regardless of instance
+                            capacity.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              maxIops:
+                                description: |-
+                                  The number of IOPS to provision for the instance.
+                                  max_iops must be in multiple of 1000.
+                                type: number
+                            type: object
+                          type: array
+                        iopsPerTb:
+                          description: |-
+                            The instance provisioned IOPS will change dynamically
+                            based on the capacity of the instance.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              maxIopsPerTb:
+                                description: |-
+                                  The instance max IOPS will be calculated by multiplying
+                                  the capacity of the instance (TB) by max_iops_per_tb,
+                                  and rounding to the nearest 1000. The instance max IOPS
+                                  will be changed dynamically based on the instance
+                                  capacity.
+                                type: number
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  protocol:
+                    description: |-
+                      Either NFSv3, for using NFS version 3 as file sharing protocol,
+                      or NFSv4.1, for using NFS version 4.1 as file sharing protocol.
+                      NFSv4.1 can be used with HIGH_SCALE_SSD, ZONAL, REGIONAL and ENTERPRISE.
+                      The default is NFSv3.
+                      Default value is NFS_V3.
+                      Possible values are: NFS_V3, NFS_V4_1.
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      A map of resource manager tags. Resource manager tag keys
+                      and values have the same definition as resource manager
+                      tags. Keys must be in the format tagKeys/{tag_key_id},
+                      and values are in the format tagValues/456. The field is
+                      ignored when empty. The field is immutable and causes
+                      resource replacement when mutated. This field is only set
+                      at create time and modifying this field after creation
+                      will trigger recreation. To apply tags to an existing
+                      resource, see the google_tags_tag_value resource.
+                    type: object
+                    x-kubernetes-map-type: granular
                   tier:
                     description: |-
                       The service tier of the instance.
@@ -291,6 +389,13 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  deletionProtectionEnabled:
+                    description: Indicates whether the instance is protected against
+                      deletion.
+                    type: boolean
+                  deletionProtectionReason:
+                    description: The reason for enabling deletion protection.
+                    type: string
                   description:
                     description: A description of the instance.
                     type: string
@@ -357,6 +462,32 @@ spec:
                             The resource name of the backup, in the format
                             projects/{projectId}/locations/{locationId}/backups/{backupId},
                             that this file share has been restored from.
+                          type: string
+                      type: object
+                    type: array
+                  initialReplication:
+                    description: |-
+                      Replication configuration, once set, this cannot be updated.
+                      Additionally this should be specified on the replica instance only, indicating the active as the peer_instance
+                      Structure is documented below.
+                    items:
+                      properties:
+                        replicas:
+                          description: |-
+                            The replication role.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              peerInstance:
+                                description: The peer instance.
+                                type: string
+                            type: object
+                          type: array
+                        role:
+                          description: |-
+                            The replication role.
+                            Default value is STANDBY.
+                            Possible values are: ROLE_UNSPECIFIED, ACTIVE, STANDBY.
                           type: string
                       type: object
                     type: array
@@ -456,7 +587,7 @@ spec:
                             If not provided, the connect mode defaults to
                             DIRECT_PEERING.
                             Default value is DIRECT_PEERING.
-                            Possible values are: DIRECT_PEERING, PRIVATE_SERVICE_ACCESS.
+                            Possible values are: DIRECT_PEERING, PRIVATE_SERVICE_ACCESS, PRIVATE_SERVICE_CONNECT.
                           type: string
                         modes:
                           description: |-
@@ -478,11 +609,76 @@ spec:
                           type: string
                       type: object
                     type: array
+                  performanceConfig:
+                    description: |-
+                      Performance configuration for the instance. If not provided,
+                      the default performance settings will be used.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        fixedIops:
+                          description: |-
+                            The instance will have a fixed provisioned IOPS value,
+                            which will remain constant regardless of instance
+                            capacity.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              maxIops:
+                                description: |-
+                                  The number of IOPS to provision for the instance.
+                                  max_iops must be in multiple of 1000.
+                                type: number
+                            type: object
+                          type: array
+                        iopsPerTb:
+                          description: |-
+                            The instance provisioned IOPS will change dynamically
+                            based on the capacity of the instance.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              maxIopsPerTb:
+                                description: |-
+                                  The instance max IOPS will be calculated by multiplying
+                                  the capacity of the instance (TB) by max_iops_per_tb,
+                                  and rounding to the nearest 1000. The instance max IOPS
+                                  will be changed dynamically based on the instance
+                                  capacity.
+                                type: number
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  protocol:
+                    description: |-
+                      Either NFSv3, for using NFS version 3 as file sharing protocol,
+                      or NFSv4.1, for using NFS version 4.1 as file sharing protocol.
+                      NFSv4.1 can be used with HIGH_SCALE_SSD, ZONAL, REGIONAL and ENTERPRISE.
+                      The default is NFSv3.
+                      Default value is NFS_V3.
+                      Possible values are: NFS_V3, NFS_V4_1.
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      A map of resource manager tags. Resource manager tag keys
+                      and values have the same definition as resource manager
+                      tags. Keys must be in the format tagKeys/{tag_key_id},
+                      and values are in the format tagValues/456. The field is
+                      ignored when empty. The field is immutable and causes
+                      resource replacement when mutated. This field is only set
+                      at create time and modifying this field after creation
+                      will trigger recreation. To apply tags to an existing
+                      resource, see the google_tags_tag_value resource.
+                    type: object
+                    x-kubernetes-map-type: granular
                   tier:
                     description: |-
                       The service tier of the instance.
@@ -680,14 +876,65 @@ spec:
                   createTime:
                     description: Creation timestamp in RFC3339 text format.
                     type: string
+                  deletionProtectionEnabled:
+                    description: Indicates whether the instance is protected against
+                      deletion.
+                    type: boolean
+                  deletionProtectionReason:
+                    description: The reason for enabling deletion protection.
+                    type: string
                   description:
                     description: A description of the instance.
                     type: string
                   effectiveLabels:
                     additionalProperties:
                       type: string
+                    description: for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
+                  effectiveReplication:
+                    description: |-
+                      Output only fields for replication configuration.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        replicas:
+                          description: |-
+                            The replication role.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              lastActiveSyncTime:
+                                description: |-
+                                  (Output)
+                                  Output only. The timestamp of the latest replication snapshot taken on the active instance and is already replicated safely.
+                                  A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits.
+                                  Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z"
+                                type: string
+                              peerInstance:
+                                description: The peer instance.
+                                type: string
+                              state:
+                                description: |-
+                                  (Output)
+                                  Output only. The replica state
+                                type: string
+                              stateReasons:
+                                description: |-
+                                  (Output)
+                                  Output only. Additional information about the replication state, if available.
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                        role:
+                          description: |-
+                            (Output)
+                            The replication role.
+                          type: string
+                      type: object
+                    type: array
                   etag:
                     description: |-
                       Server-specified ETag for the instance resource to prevent
@@ -762,6 +1009,32 @@ spec:
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/instances/{{name}}
                     type: string
+                  initialReplication:
+                    description: |-
+                      Replication configuration, once set, this cannot be updated.
+                      Additionally this should be specified on the replica instance only, indicating the active as the peer_instance
+                      Structure is documented below.
+                    items:
+                      properties:
+                        replicas:
+                          description: |-
+                            The replication role.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              peerInstance:
+                                description: The peer instance.
+                                type: string
+                            type: object
+                          type: array
+                        role:
+                          description: |-
+                            The replication role.
+                            Default value is STANDBY.
+                            Possible values are: ROLE_UNSPECIFIED, ACTIVE, STANDBY.
+                          type: string
+                      type: object
+                    type: array
                   kmsKeyName:
                     description: KMS key name used for data encryption.
                     type: string
@@ -788,7 +1061,7 @@ spec:
                             If not provided, the connect mode defaults to
                             DIRECT_PEERING.
                             Default value is DIRECT_PEERING.
-                            Possible values are: DIRECT_PEERING, PRIVATE_SERVICE_ACCESS.
+                            Possible values are: DIRECT_PEERING, PRIVATE_SERVICE_ACCESS, PRIVATE_SERVICE_CONNECT.
                           type: string
                         ipAddresses:
                           description: |-
@@ -817,11 +1090,76 @@ spec:
                           type: string
                       type: object
                     type: array
+                  performanceConfig:
+                    description: |-
+                      Performance configuration for the instance. If not provided,
+                      the default performance settings will be used.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        fixedIops:
+                          description: |-
+                            The instance will have a fixed provisioned IOPS value,
+                            which will remain constant regardless of instance
+                            capacity.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              maxIops:
+                                description: |-
+                                  The number of IOPS to provision for the instance.
+                                  max_iops must be in multiple of 1000.
+                                type: number
+                            type: object
+                          type: array
+                        iopsPerTb:
+                          description: |-
+                            The instance provisioned IOPS will change dynamically
+                            based on the capacity of the instance.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              maxIopsPerTb:
+                                description: |-
+                                  The instance max IOPS will be calculated by multiplying
+                                  the capacity of the instance (TB) by max_iops_per_tb,
+                                  and rounding to the nearest 1000. The instance max IOPS
+                                  will be changed dynamically based on the instance
+                                  capacity.
+                                type: number
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  protocol:
+                    description: |-
+                      Either NFSv3, for using NFS version 3 as file sharing protocol,
+                      or NFSv4.1, for using NFS version 4.1 as file sharing protocol.
+                      NFSv4.1 can be used with HIGH_SCALE_SSD, ZONAL, REGIONAL and ENTERPRISE.
+                      The default is NFSv3.
+                      Default value is NFS_V3.
+                      Possible values are: NFS_V3, NFS_V4_1.
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      A map of resource manager tags. Resource manager tag keys
+                      and values have the same definition as resource manager
+                      tags. Keys must be in the format tagKeys/{tag_key_id},
+                      and values are in the format tagValues/456. The field is
+                      ignored when empty. The field is immutable and causes
+                      resource replacement when mutated. This field is only set
+                      at create time and modifying this field after creation
+                      will trigger recreation. To apply tags to an existing
+                      resource, see the google_tags_tag_value resource.
+                    type: object
+                    x-kubernetes-map-type: granular
                   terraformLabels:
                     additionalProperties:
                       type: string
@@ -955,6 +1293,13 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  deletionProtectionEnabled:
+                    description: Indicates whether the instance is protected against
+                      deletion.
+                    type: boolean
+                  deletionProtectionReason:
+                    description: The reason for enabling deletion protection.
+                    type: string
                   description:
                     description: A description of the instance.
                     type: string
@@ -1019,6 +1364,30 @@ spec:
                           The resource name of the backup, in the format
                           projects/{projectId}/locations/{locationId}/backups/{backupId},
                           that this file share has been restored from.
+                        type: string
+                    type: object
+                  initialReplication:
+                    description: |-
+                      Replication configuration, once set, this cannot be updated.
+                      Additionally this should be specified on the replica instance only, indicating the active as the peer_instance
+                      Structure is documented below.
+                    properties:
+                      replicas:
+                        description: |-
+                          The replication role.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            peerInstance:
+                              description: The peer instance.
+                              type: string
+                          type: object
+                        type: array
+                      role:
+                        description: |-
+                          The replication role.
+                          Default value is STANDBY.
+                          Possible values are: ROLE_UNSPECIFIED, ACTIVE, STANDBY.
                         type: string
                     type: object
                   kmsKeyName:
@@ -1121,7 +1490,7 @@ spec:
                             If not provided, the connect mode defaults to
                             DIRECT_PEERING.
                             Default value is DIRECT_PEERING.
-                            Possible values are: DIRECT_PEERING, PRIVATE_SERVICE_ACCESS.
+                            Possible values are: DIRECT_PEERING, PRIVATE_SERVICE_ACCESS, PRIVATE_SERVICE_CONNECT.
                           type: string
                         modes:
                           description: |-
@@ -1143,11 +1512,70 @@ spec:
                           type: string
                       type: object
                     type: array
+                  performanceConfig:
+                    description: |-
+                      Performance configuration for the instance. If not provided,
+                      the default performance settings will be used.
+                      Structure is documented below.
+                    properties:
+                      fixedIops:
+                        description: |-
+                          The instance will have a fixed provisioned IOPS value,
+                          which will remain constant regardless of instance
+                          capacity.
+                          Structure is documented below.
+                        properties:
+                          maxIops:
+                            description: |-
+                              The number of IOPS to provision for the instance.
+                              max_iops must be in multiple of 1000.
+                            type: number
+                        type: object
+                      iopsPerTb:
+                        description: |-
+                          The instance provisioned IOPS will change dynamically
+                          based on the capacity of the instance.
+                          Structure is documented below.
+                        properties:
+                          maxIopsPerTb:
+                            description: |-
+                              The instance max IOPS will be calculated by multiplying
+                              the capacity of the instance (TB) by max_iops_per_tb,
+                              and rounding to the nearest 1000. The instance max IOPS
+                              will be changed dynamically based on the instance
+                              capacity.
+                            type: number
+                        type: object
+                    type: object
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  protocol:
+                    description: |-
+                      Either NFSv3, for using NFS version 3 as file sharing protocol,
+                      or NFSv4.1, for using NFS version 4.1 as file sharing protocol.
+                      NFSv4.1 can be used with HIGH_SCALE_SSD, ZONAL, REGIONAL and ENTERPRISE.
+                      The default is NFSv3.
+                      Default value is NFS_V3.
+                      Possible values are: NFS_V3, NFS_V4_1.
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      A map of resource manager tags. Resource manager tag keys
+                      and values have the same definition as resource manager
+                      tags. Keys must be in the format tagKeys/{tag_key_id},
+                      and values are in the format tagValues/456. The field is
+                      ignored when empty. The field is immutable and causes
+                      resource replacement when mutated. This field is only set
+                      at create time and modifying this field after creation
+                      will trigger recreation. To apply tags to an existing
+                      resource, see the google_tags_tag_value resource.
+                    type: object
+                    x-kubernetes-map-type: granular
                   tier:
                     description: |-
                       The service tier of the instance.
@@ -1170,6 +1598,13 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  deletionProtectionEnabled:
+                    description: Indicates whether the instance is protected against
+                      deletion.
+                    type: boolean
+                  deletionProtectionReason:
+                    description: The reason for enabling deletion protection.
+                    type: string
                   description:
                     description: A description of the instance.
                     type: string
@@ -1234,6 +1669,30 @@ spec:
                           The resource name of the backup, in the format
                           projects/{projectId}/locations/{locationId}/backups/{backupId},
                           that this file share has been restored from.
+                        type: string
+                    type: object
+                  initialReplication:
+                    description: |-
+                      Replication configuration, once set, this cannot be updated.
+                      Additionally this should be specified on the replica instance only, indicating the active as the peer_instance
+                      Structure is documented below.
+                    properties:
+                      replicas:
+                        description: |-
+                          The replication role.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            peerInstance:
+                              description: The peer instance.
+                              type: string
+                          type: object
+                        type: array
+                      role:
+                        description: |-
+                          The replication role.
+                          Default value is STANDBY.
+                          Possible values are: ROLE_UNSPECIFIED, ACTIVE, STANDBY.
                         type: string
                     type: object
                   kmsKeyName:
@@ -1332,7 +1791,7 @@ spec:
                             If not provided, the connect mode defaults to
                             DIRECT_PEERING.
                             Default value is DIRECT_PEERING.
-                            Possible values are: DIRECT_PEERING, PRIVATE_SERVICE_ACCESS.
+                            Possible values are: DIRECT_PEERING, PRIVATE_SERVICE_ACCESS, PRIVATE_SERVICE_CONNECT.
                           type: string
                         modes:
                           description: |-
@@ -1354,11 +1813,70 @@ spec:
                           type: string
                       type: object
                     type: array
+                  performanceConfig:
+                    description: |-
+                      Performance configuration for the instance. If not provided,
+                      the default performance settings will be used.
+                      Structure is documented below.
+                    properties:
+                      fixedIops:
+                        description: |-
+                          The instance will have a fixed provisioned IOPS value,
+                          which will remain constant regardless of instance
+                          capacity.
+                          Structure is documented below.
+                        properties:
+                          maxIops:
+                            description: |-
+                              The number of IOPS to provision for the instance.
+                              max_iops must be in multiple of 1000.
+                            type: number
+                        type: object
+                      iopsPerTb:
+                        description: |-
+                          The instance provisioned IOPS will change dynamically
+                          based on the capacity of the instance.
+                          Structure is documented below.
+                        properties:
+                          maxIopsPerTb:
+                            description: |-
+                              The instance max IOPS will be calculated by multiplying
+                              the capacity of the instance (TB) by max_iops_per_tb,
+                              and rounding to the nearest 1000. The instance max IOPS
+                              will be changed dynamically based on the instance
+                              capacity.
+                            type: number
+                        type: object
+                    type: object
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  protocol:
+                    description: |-
+                      Either NFSv3, for using NFS version 3 as file sharing protocol,
+                      or NFSv4.1, for using NFS version 4.1 as file sharing protocol.
+                      NFSv4.1 can be used with HIGH_SCALE_SSD, ZONAL, REGIONAL and ENTERPRISE.
+                      The default is NFSv3.
+                      Default value is NFS_V3.
+                      Possible values are: NFS_V3, NFS_V4_1.
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      A map of resource manager tags. Resource manager tag keys
+                      and values have the same definition as resource manager
+                      tags. Keys must be in the format tagKeys/{tag_key_id},
+                      and values are in the format tagValues/456. The field is
+                      ignored when empty. The field is immutable and causes
+                      resource replacement when mutated. This field is only set
+                      at create time and modifying this field after creation
+                      will trigger recreation. To apply tags to an existing
+                      resource, see the google_tags_tag_value resource.
+                    type: object
+                    x-kubernetes-map-type: granular
                   tier:
                     description: |-
                       The service tier of the instance.
@@ -1556,14 +2074,65 @@ spec:
                   createTime:
                     description: Creation timestamp in RFC3339 text format.
                     type: string
+                  deletionProtectionEnabled:
+                    description: Indicates whether the instance is protected against
+                      deletion.
+                    type: boolean
+                  deletionProtectionReason:
+                    description: The reason for enabling deletion protection.
+                    type: string
                   description:
                     description: A description of the instance.
                     type: string
                   effectiveLabels:
                     additionalProperties:
                       type: string
+                    description: for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
+                  effectiveReplication:
+                    description: |-
+                      Output only fields for replication configuration.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        replicas:
+                          description: |-
+                            The replication role.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              lastActiveSyncTime:
+                                description: |-
+                                  (Output)
+                                  Output only. The timestamp of the latest replication snapshot taken on the active instance and is already replicated safely.
+                                  A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits.
+                                  Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z"
+                                type: string
+                              peerInstance:
+                                description: The peer instance.
+                                type: string
+                              state:
+                                description: |-
+                                  (Output)
+                                  Output only. The replica state
+                                type: string
+                              stateReasons:
+                                description: |-
+                                  (Output)
+                                  Output only. Additional information about the replication state, if available.
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                        role:
+                          description: |-
+                            (Output)
+                            The replication role.
+                          type: string
+                      type: object
+                    type: array
                   etag:
                     description: |-
                       Server-specified ETag for the instance resource to prevent
@@ -1635,6 +2204,30 @@ spec:
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/instances/{{name}}
                     type: string
+                  initialReplication:
+                    description: |-
+                      Replication configuration, once set, this cannot be updated.
+                      Additionally this should be specified on the replica instance only, indicating the active as the peer_instance
+                      Structure is documented below.
+                    properties:
+                      replicas:
+                        description: |-
+                          The replication role.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            peerInstance:
+                              description: The peer instance.
+                              type: string
+                          type: object
+                        type: array
+                      role:
+                        description: |-
+                          The replication role.
+                          Default value is STANDBY.
+                          Possible values are: ROLE_UNSPECIFIED, ACTIVE, STANDBY.
+                        type: string
+                    type: object
                   kmsKeyName:
                     description: KMS key name used for data encryption.
                     type: string
@@ -1661,7 +2254,7 @@ spec:
                             If not provided, the connect mode defaults to
                             DIRECT_PEERING.
                             Default value is DIRECT_PEERING.
-                            Possible values are: DIRECT_PEERING, PRIVATE_SERVICE_ACCESS.
+                            Possible values are: DIRECT_PEERING, PRIVATE_SERVICE_ACCESS, PRIVATE_SERVICE_CONNECT.
                           type: string
                         ipAddresses:
                           description: |-
@@ -1690,11 +2283,70 @@ spec:
                           type: string
                       type: object
                     type: array
+                  performanceConfig:
+                    description: |-
+                      Performance configuration for the instance. If not provided,
+                      the default performance settings will be used.
+                      Structure is documented below.
+                    properties:
+                      fixedIops:
+                        description: |-
+                          The instance will have a fixed provisioned IOPS value,
+                          which will remain constant regardless of instance
+                          capacity.
+                          Structure is documented below.
+                        properties:
+                          maxIops:
+                            description: |-
+                              The number of IOPS to provision for the instance.
+                              max_iops must be in multiple of 1000.
+                            type: number
+                        type: object
+                      iopsPerTb:
+                        description: |-
+                          The instance provisioned IOPS will change dynamically
+                          based on the capacity of the instance.
+                          Structure is documented below.
+                        properties:
+                          maxIopsPerTb:
+                            description: |-
+                              The instance max IOPS will be calculated by multiplying
+                              the capacity of the instance (TB) by max_iops_per_tb,
+                              and rounding to the nearest 1000. The instance max IOPS
+                              will be changed dynamically based on the instance
+                              capacity.
+                            type: number
+                        type: object
+                    type: object
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  protocol:
+                    description: |-
+                      Either NFSv3, for using NFS version 3 as file sharing protocol,
+                      or NFSv4.1, for using NFS version 4.1 as file sharing protocol.
+                      NFSv4.1 can be used with HIGH_SCALE_SSD, ZONAL, REGIONAL and ENTERPRISE.
+                      The default is NFSv3.
+                      Default value is NFS_V3.
+                      Possible values are: NFS_V3, NFS_V4_1.
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      A map of resource manager tags. Resource manager tag keys
+                      and values have the same definition as resource manager
+                      tags. Keys must be in the format tagKeys/{tag_key_id},
+                      and values are in the format tagValues/456. The field is
+                      ignored when empty. The field is immutable and causes
+                      resource replacement when mutated. This field is only set
+                      at create time and modifying this field after creation
+                      will trigger recreation. To apply tags to an existing
+                      resource, see the google_tags_tag_value resource.
+                    type: object
+                    x-kubernetes-map-type: granular
                   terraformLabels:
                     additionalProperties:
                       type: string

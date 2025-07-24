@@ -183,6 +183,94 @@ spec:
                           type: boolean
                       type: object
                     type: array
+                  encryptionConfiguration:
+                    description: |-
+                      Represents the encryption configuration for a transfer.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        kmsKeyName:
+                          description: The name of the KMS key used for encrypting
+                            BigQuery data.
+                          type: string
+                        kmsKeyNameRef:
+                          description: Reference to a CryptoKey in kms to populate
+                            kmsKeyName.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        kmsKeyNameSelector:
+                          description: Selector for a CryptoKey in kms to populate
+                            kmsKeyName.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                      type: object
+                    type: array
                   location:
                     description: |-
                       The geographic location where the transfer config should reside.
@@ -262,9 +350,8 @@ spec:
                     items:
                       properties:
                         secretAccessKeySecretRef:
-                          description: |-
-                            The Secret Access Key of the AWS account transferring data from.
-                            Note: This property is sensitive and will not be displayed in the plan.
+                          description: A SecretKeySelector is a reference to a secret
+                            key in an arbitrary namespace.
                           properties:
                             key:
                               description: The key to select.
@@ -280,8 +367,13 @@ spec:
                           - name
                           - namespace
                           type: object
-                      required:
-                      - secretAccessKeySecretRef
+                        secretAccessKeyWo:
+                          description: |-
+                            The Secret Access Key of the AWS account transferring data from.
+                            Note: This property is write-only and will not be read from the API.
+                          type: string
+                        secretAccessKeyWoVersion:
+                          type: number
                       type: object
                     type: array
                   serviceAccountName:
@@ -414,6 +506,94 @@ spec:
                           type: boolean
                       type: object
                     type: array
+                  encryptionConfiguration:
+                    description: |-
+                      Represents the encryption configuration for a transfer.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        kmsKeyName:
+                          description: The name of the KMS key used for encrypting
+                            BigQuery data.
+                          type: string
+                        kmsKeyNameRef:
+                          description: Reference to a CryptoKey in kms to populate
+                            kmsKeyName.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        kmsKeyNameSelector:
+                          description: Selector for a CryptoKey in kms to populate
+                            kmsKeyName.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                      type: object
+                    type: array
                   location:
                     description: |-
                       The geographic location where the transfer config should reside.
@@ -491,6 +671,32 @@ spec:
                       to a different credential configuration in the config will require an apply to update state.
                       Structure is documented below.
                     items:
+                      properties:
+                        secretAccessKeySecretRef:
+                          description: A SecretKeySelector is a reference to a secret
+                            key in an arbitrary namespace.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                        secretAccessKeyWo:
+                          description: |-
+                            The Secret Access Key of the AWS account transferring data from.
+                            Note: This property is write-only and will not be read from the API.
+                          type: string
+                        secretAccessKeyWoVersion:
+                          type: number
                       type: object
                     type: array
                   serviceAccountName:
@@ -721,6 +927,18 @@ spec:
                           type: boolean
                       type: object
                     type: array
+                  encryptionConfiguration:
+                    description: |-
+                      Represents the encryption configuration for a transfer.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        kmsKeyName:
+                          description: The name of the KMS key used for encrypting
+                            BigQuery data.
+                          type: string
+                      type: object
+                    type: array
                   id:
                     description: an identifier for the resource with format {{name}}
                     type: string
@@ -810,27 +1028,13 @@ spec:
                       Structure is documented below.
                     items:
                       properties:
-                        secretAccessKeySecretRef:
+                        secretAccessKeyWo:
                           description: |-
                             The Secret Access Key of the AWS account transferring data from.
-                            Note: This property is sensitive and will not be displayed in the plan.
-                          properties:
-                            key:
-                              description: The key to select.
-                              type: string
-                            name:
-                              description: Name of the secret.
-                              type: string
-                            namespace:
-                              description: Namespace of the secret.
-                              type: string
-                          required:
-                          - key
-                          - name
-                          - namespace
-                          type: object
-                      required:
-                      - secretAccessKeySecretRef
+                            Note: This property is write-only and will not be read from the API.
+                          type: string
+                        secretAccessKeyWoVersion:
+                          type: number
                       type: object
                     type: array
                   serviceAccountName:
@@ -1064,6 +1268,90 @@ spec:
                           transfer run failures.
                         type: boolean
                     type: object
+                  encryptionConfiguration:
+                    description: |-
+                      Represents the encryption configuration for a transfer.
+                      Structure is documented below.
+                    properties:
+                      kmsKeyName:
+                        description: The name of the KMS key used for encrypting BigQuery
+                          data.
+                        type: string
+                      kmsKeyNameRef:
+                        description: Reference to a CryptoKey in kms to populate kmsKeyName.
+                        properties:
+                          name:
+                            description: Name of the referenced object.
+                            type: string
+                          policy:
+                            description: Policies for referencing.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        required:
+                        - name
+                        type: object
+                      kmsKeyNameSelector:
+                        description: Selector for a CryptoKey in kms to populate kmsKeyName.
+                        properties:
+                          matchControllerRef:
+                            description: |-
+                              MatchControllerRef ensures an object with the same controller reference
+                              as the selecting object is selected.
+                            type: boolean
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: MatchLabels ensures an object with matching
+                              labels is selected.
+                            type: object
+                          policy:
+                            description: Policies for selection.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        type: object
+                    type: object
                   location:
                     description: |-
                       The geographic location where the transfer config should reside.
@@ -1141,9 +1429,8 @@ spec:
                       Structure is documented below.
                     properties:
                       secretAccessKeySecretRef:
-                        description: |-
-                          The Secret Access Key of the AWS account transferring data from.
-                          Note: This property is sensitive and will not be displayed in the plan.
+                        description: A SecretKeySelector is a reference to a secret
+                          key in an arbitrary namespace.
                         properties:
                           key:
                             description: The key to select.
@@ -1159,6 +1446,13 @@ spec:
                         - name
                         - namespace
                         type: object
+                      secretAccessKeyWo:
+                        description: |-
+                          The Secret Access Key of the AWS account transferring data from.
+                          Note: This property is write-only and will not be read from the API.
+                        type: string
+                      secretAccessKeyWoVersion:
+                        type: number
                     type: object
                   serviceAccountName:
                     description: |-
@@ -1288,6 +1582,90 @@ spec:
                           transfer run failures.
                         type: boolean
                     type: object
+                  encryptionConfiguration:
+                    description: |-
+                      Represents the encryption configuration for a transfer.
+                      Structure is documented below.
+                    properties:
+                      kmsKeyName:
+                        description: The name of the KMS key used for encrypting BigQuery
+                          data.
+                        type: string
+                      kmsKeyNameRef:
+                        description: Reference to a CryptoKey in kms to populate kmsKeyName.
+                        properties:
+                          name:
+                            description: Name of the referenced object.
+                            type: string
+                          policy:
+                            description: Policies for referencing.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        required:
+                        - name
+                        type: object
+                      kmsKeyNameSelector:
+                        description: Selector for a CryptoKey in kms to populate kmsKeyName.
+                        properties:
+                          matchControllerRef:
+                            description: |-
+                              MatchControllerRef ensures an object with the same controller reference
+                              as the selecting object is selected.
+                            type: boolean
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: MatchLabels ensures an object with matching
+                              labels is selected.
+                            type: object
+                          policy:
+                            description: Policies for selection.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        type: object
+                    type: object
                   location:
                     description: |-
                       The geographic location where the transfer config should reside.
@@ -1365,9 +1743,8 @@ spec:
                       Structure is documented below.
                     properties:
                       secretAccessKeySecretRef:
-                        description: |-
-                          The Secret Access Key of the AWS account transferring data from.
-                          Note: This property is sensitive and will not be displayed in the plan.
+                        description: A SecretKeySelector is a reference to a secret
+                          key in an arbitrary namespace.
                         properties:
                           key:
                             description: The key to select.
@@ -1383,8 +1760,13 @@ spec:
                         - name
                         - namespace
                         type: object
-                    required:
-                    - secretAccessKeySecretRef
+                      secretAccessKeyWo:
+                        description: |-
+                          The Secret Access Key of the AWS account transferring data from.
+                          Note: This property is write-only and will not be read from the API.
+                        type: string
+                      secretAccessKeyWoVersion:
+                        type: number
                     type: object
                   serviceAccountName:
                     description: |-
@@ -1612,6 +1994,16 @@ spec:
                           transfer run failures.
                         type: boolean
                     type: object
+                  encryptionConfiguration:
+                    description: |-
+                      Represents the encryption configuration for a transfer.
+                      Structure is documented below.
+                    properties:
+                      kmsKeyName:
+                        description: The name of the KMS key used for encrypting BigQuery
+                          data.
+                        type: string
+                    type: object
                   id:
                     description: an identifier for the resource with format {{name}}
                     type: string
@@ -1699,25 +2091,13 @@ spec:
                       to a different credential configuration in the config will require an apply to update state.
                       Structure is documented below.
                     properties:
-                      secretAccessKeySecretRef:
+                      secretAccessKeyWo:
                         description: |-
                           The Secret Access Key of the AWS account transferring data from.
-                          Note: This property is sensitive and will not be displayed in the plan.
-                        properties:
-                          key:
-                            description: The key to select.
-                            type: string
-                          name:
-                            description: Name of the secret.
-                            type: string
-                          namespace:
-                            description: Namespace of the secret.
-                            type: string
-                        required:
-                        - key
-                        - name
-                        - namespace
-                        type: object
+                          Note: This property is write-only and will not be read from the API.
+                        type: string
+                      secretAccessKeyWoVersion:
+                        type: number
                     type: object
                   serviceAccountName:
                     description: |-

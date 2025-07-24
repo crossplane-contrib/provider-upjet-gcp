@@ -120,6 +120,54 @@ spec:
                                 type: number
                             type: object
                           type: array
+                        loggingSettings:
+                          description: 'Settings for logging. Settings for Dialogflow
+                            History, Contact Center messages, StackDriver logs, and
+                            speech logging. Exposed at the following levels:'
+                          items:
+                            properties:
+                              enableConsentBasedRedaction:
+                                description: Enables consent-based end-user input
+                                  redaction, if true, a pre-defined session parameter
+                                  $session.params.conversation-redaction will be used
+                                  to determine if the utterance should be redacted.
+                                type: boolean
+                              enableInteractionLogging:
+                                description: Enables DF Interaction logging.
+                                type: boolean
+                              enableStackdriverLogging:
+                                description: Enables Google Cloud Logging.
+                                type: boolean
+                            type: object
+                          type: array
+                        speechSettings:
+                          description: 'Settings for speech to text detection. Exposed
+                            at the following levels:'
+                          items:
+                            properties:
+                              endpointerSensitivity:
+                                description: Sensitivity of the speech model that
+                                  detects the end of speech. Scale from 0 to 100.
+                                type: number
+                              models:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  Mapping from language to Speech-to-Text model. The mapped Speech-to-Text model will be selected for requests from its corresponding language. For more information, see Speech models.
+                                  An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+                                type: object
+                                x-kubernetes-map-type: granular
+                              noSpeechTimeout:
+                                description: |-
+                                  Timeout before detecting no speech.
+                                  A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
+                                type: string
+                              useTimeoutBasedEndpointing:
+                                description: Use timeout based endpointing, interpreting
+                                  endpointer sensitivity as seconds of timeout value.
+                                type: boolean
+                            type: object
+                          type: array
                       type: object
                     type: array
                   avatarUri:
@@ -131,6 +179,9 @@ spec:
                       The default language of the agent as a language tag. See Language Support
                       for a list of the currently supported language codes. This field cannot be updated after creation.
                     type: string
+                  deleteChatEngineOnDestroy:
+                    description: Otherwise, the chat engine will persist.
+                    type: boolean
                   description:
                     description: The description of this agent. The maximum length
                       is 500 characters. If exceeded, the request is rejected.
@@ -147,6 +198,19 @@ spec:
                     description: Determines whether this agent should log conversation
                       queries.
                     type: boolean
+                  genAppBuilderSettings:
+                    description: |-
+                      Gen App Builder-related agent-level settings.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        engine:
+                          description: |-
+                            The full name of the Gen App Builder engine related to this agent if there is one.
+                            Format: projects/{Project ID}/locations/{Location ID}/collections/{Collection ID}/engines/{Engine ID}
+                          type: string
+                      type: object
+                    type: array
                   gitIntegrationSettings:
                     description: |-
                       Git integration settings for this agent.
@@ -312,6 +376,54 @@ spec:
                                 type: number
                             type: object
                           type: array
+                        loggingSettings:
+                          description: 'Settings for logging. Settings for Dialogflow
+                            History, Contact Center messages, StackDriver logs, and
+                            speech logging. Exposed at the following levels:'
+                          items:
+                            properties:
+                              enableConsentBasedRedaction:
+                                description: Enables consent-based end-user input
+                                  redaction, if true, a pre-defined session parameter
+                                  $session.params.conversation-redaction will be used
+                                  to determine if the utterance should be redacted.
+                                type: boolean
+                              enableInteractionLogging:
+                                description: Enables DF Interaction logging.
+                                type: boolean
+                              enableStackdriverLogging:
+                                description: Enables Google Cloud Logging.
+                                type: boolean
+                            type: object
+                          type: array
+                        speechSettings:
+                          description: 'Settings for speech to text detection. Exposed
+                            at the following levels:'
+                          items:
+                            properties:
+                              endpointerSensitivity:
+                                description: Sensitivity of the speech model that
+                                  detects the end of speech. Scale from 0 to 100.
+                                type: number
+                              models:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  Mapping from language to Speech-to-Text model. The mapped Speech-to-Text model will be selected for requests from its corresponding language. For more information, see Speech models.
+                                  An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+                                type: object
+                                x-kubernetes-map-type: granular
+                              noSpeechTimeout:
+                                description: |-
+                                  Timeout before detecting no speech.
+                                  A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
+                                type: string
+                              useTimeoutBasedEndpointing:
+                                description: Use timeout based endpointing, interpreting
+                                  endpointer sensitivity as seconds of timeout value.
+                                type: boolean
+                            type: object
+                          type: array
                       type: object
                     type: array
                   avatarUri:
@@ -323,6 +435,9 @@ spec:
                       The default language of the agent as a language tag. See Language Support
                       for a list of the currently supported language codes. This field cannot be updated after creation.
                     type: string
+                  deleteChatEngineOnDestroy:
+                    description: Otherwise, the chat engine will persist.
+                    type: boolean
                   description:
                     description: The description of this agent. The maximum length
                       is 500 characters. If exceeded, the request is rejected.
@@ -339,6 +454,19 @@ spec:
                     description: Determines whether this agent should log conversation
                       queries.
                     type: boolean
+                  genAppBuilderSettings:
+                    description: |-
+                      Gen App Builder-related agent-level settings.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        engine:
+                          description: |-
+                            The full name of the Gen App Builder engine related to this agent if there is one.
+                            Format: projects/{Project ID}/locations/{Location ID}/collections/{Collection ID}/engines/{Engine ID}
+                          type: string
+                      type: object
+                    type: array
                   gitIntegrationSettings:
                     description: |-
                       Git integration settings for this agent.
@@ -680,6 +808,54 @@ spec:
                                 type: number
                             type: object
                           type: array
+                        loggingSettings:
+                          description: 'Settings for logging. Settings for Dialogflow
+                            History, Contact Center messages, StackDriver logs, and
+                            speech logging. Exposed at the following levels:'
+                          items:
+                            properties:
+                              enableConsentBasedRedaction:
+                                description: Enables consent-based end-user input
+                                  redaction, if true, a pre-defined session parameter
+                                  $session.params.conversation-redaction will be used
+                                  to determine if the utterance should be redacted.
+                                type: boolean
+                              enableInteractionLogging:
+                                description: Enables DF Interaction logging.
+                                type: boolean
+                              enableStackdriverLogging:
+                                description: Enables Google Cloud Logging.
+                                type: boolean
+                            type: object
+                          type: array
+                        speechSettings:
+                          description: 'Settings for speech to text detection. Exposed
+                            at the following levels:'
+                          items:
+                            properties:
+                              endpointerSensitivity:
+                                description: Sensitivity of the speech model that
+                                  detects the end of speech. Scale from 0 to 100.
+                                type: number
+                              models:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  Mapping from language to Speech-to-Text model. The mapped Speech-to-Text model will be selected for requests from its corresponding language. For more information, see Speech models.
+                                  An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+                                type: object
+                                x-kubernetes-map-type: granular
+                              noSpeechTimeout:
+                                description: |-
+                                  Timeout before detecting no speech.
+                                  A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
+                                type: string
+                              useTimeoutBasedEndpointing:
+                                description: Use timeout based endpointing, interpreting
+                                  endpointer sensitivity as seconds of timeout value.
+                                type: boolean
+                            type: object
+                          type: array
                       type: object
                     type: array
                   avatarUri:
@@ -691,6 +867,9 @@ spec:
                       The default language of the agent as a language tag. See Language Support
                       for a list of the currently supported language codes. This field cannot be updated after creation.
                     type: string
+                  deleteChatEngineOnDestroy:
+                    description: Otherwise, the chat engine will persist.
+                    type: boolean
                   description:
                     description: The description of this agent. The maximum length
                       is 500 characters. If exceeded, the request is rejected.
@@ -707,6 +886,19 @@ spec:
                     description: Determines whether this agent should log conversation
                       queries.
                     type: boolean
+                  genAppBuilderSettings:
+                    description: |-
+                      Gen App Builder-related agent-level settings.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        engine:
+                          description: |-
+                            The full name of the Gen App Builder engine related to this agent if there is one.
+                            Format: projects/{Project ID}/locations/{Location ID}/collections/{Collection ID}/engines/{Engine ID}
+                          type: string
+                      type: object
+                    type: array
                   gitIntegrationSettings:
                     description: |-
                       Git integration settings for this agent.
@@ -961,6 +1153,50 @@ spec:
                             description: Max length of DTMF digits.
                             type: number
                         type: object
+                      loggingSettings:
+                        description: 'Settings for logging. Settings for Dialogflow
+                          History, Contact Center messages, StackDriver logs, and
+                          speech logging. Exposed at the following levels:'
+                        properties:
+                          enableConsentBasedRedaction:
+                            description: Enables consent-based end-user input redaction,
+                              if true, a pre-defined session parameter $session.params.conversation-redaction
+                              will be used to determine if the utterance should be
+                              redacted.
+                            type: boolean
+                          enableInteractionLogging:
+                            description: Enables DF Interaction logging.
+                            type: boolean
+                          enableStackdriverLogging:
+                            description: Enables Google Cloud Logging.
+                            type: boolean
+                        type: object
+                      speechSettings:
+                        description: 'Settings for speech to text detection. Exposed
+                          at the following levels:'
+                        properties:
+                          endpointerSensitivity:
+                            description: Sensitivity of the speech model that detects
+                              the end of speech. Scale from 0 to 100.
+                            type: number
+                          models:
+                            additionalProperties:
+                              type: string
+                            description: |-
+                              Mapping from language to Speech-to-Text model. The mapped Speech-to-Text model will be selected for requests from its corresponding language. For more information, see Speech models.
+                              An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+                            type: object
+                            x-kubernetes-map-type: granular
+                          noSpeechTimeout:
+                            description: |-
+                              Timeout before detecting no speech.
+                              A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
+                            type: string
+                          useTimeoutBasedEndpointing:
+                            description: Use timeout based endpointing, interpreting
+                              endpointer sensitivity as seconds of timeout value.
+                            type: boolean
+                        type: object
                     type: object
                   avatarUri:
                     description: The URI of the agent's avatar. Avatars are used throughout
@@ -971,6 +1207,9 @@ spec:
                       The default language of the agent as a language tag. See Language Support
                       for a list of the currently supported language codes. This field cannot be updated after creation.
                     type: string
+                  deleteChatEngineOnDestroy:
+                    description: Otherwise, the chat engine will persist.
+                    type: boolean
                   description:
                     description: The description of this agent. The maximum length
                       is 500 characters. If exceeded, the request is rejected.
@@ -987,6 +1226,17 @@ spec:
                     description: Determines whether this agent should log conversation
                       queries.
                     type: boolean
+                  genAppBuilderSettings:
+                    description: |-
+                      Gen App Builder-related agent-level settings.
+                      Structure is documented below.
+                    properties:
+                      engine:
+                        description: |-
+                          The full name of the Gen App Builder engine related to this agent if there is one.
+                          Format: projects/{Project ID}/locations/{Location ID}/collections/{Collection ID}/engines/{Engine ID}
+                        type: string
+                    type: object
                   gitIntegrationSettings:
                     description: |-
                       Git integration settings for this agent.
@@ -1136,6 +1386,50 @@ spec:
                             description: Max length of DTMF digits.
                             type: number
                         type: object
+                      loggingSettings:
+                        description: 'Settings for logging. Settings for Dialogflow
+                          History, Contact Center messages, StackDriver logs, and
+                          speech logging. Exposed at the following levels:'
+                        properties:
+                          enableConsentBasedRedaction:
+                            description: Enables consent-based end-user input redaction,
+                              if true, a pre-defined session parameter $session.params.conversation-redaction
+                              will be used to determine if the utterance should be
+                              redacted.
+                            type: boolean
+                          enableInteractionLogging:
+                            description: Enables DF Interaction logging.
+                            type: boolean
+                          enableStackdriverLogging:
+                            description: Enables Google Cloud Logging.
+                            type: boolean
+                        type: object
+                      speechSettings:
+                        description: 'Settings for speech to text detection. Exposed
+                          at the following levels:'
+                        properties:
+                          endpointerSensitivity:
+                            description: Sensitivity of the speech model that detects
+                              the end of speech. Scale from 0 to 100.
+                            type: number
+                          models:
+                            additionalProperties:
+                              type: string
+                            description: |-
+                              Mapping from language to Speech-to-Text model. The mapped Speech-to-Text model will be selected for requests from its corresponding language. For more information, see Speech models.
+                              An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+                            type: object
+                            x-kubernetes-map-type: granular
+                          noSpeechTimeout:
+                            description: |-
+                              Timeout before detecting no speech.
+                              A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
+                            type: string
+                          useTimeoutBasedEndpointing:
+                            description: Use timeout based endpointing, interpreting
+                              endpointer sensitivity as seconds of timeout value.
+                            type: boolean
+                        type: object
                     type: object
                   avatarUri:
                     description: The URI of the agent's avatar. Avatars are used throughout
@@ -1146,6 +1440,9 @@ spec:
                       The default language of the agent as a language tag. See Language Support
                       for a list of the currently supported language codes. This field cannot be updated after creation.
                     type: string
+                  deleteChatEngineOnDestroy:
+                    description: Otherwise, the chat engine will persist.
+                    type: boolean
                   description:
                     description: The description of this agent. The maximum length
                       is 500 characters. If exceeded, the request is rejected.
@@ -1162,6 +1459,17 @@ spec:
                     description: Determines whether this agent should log conversation
                       queries.
                     type: boolean
+                  genAppBuilderSettings:
+                    description: |-
+                      Gen App Builder-related agent-level settings.
+                      Structure is documented below.
+                    properties:
+                      engine:
+                        description: |-
+                          The full name of the Gen App Builder engine related to this agent if there is one.
+                          Format: projects/{Project ID}/locations/{Location ID}/collections/{Collection ID}/engines/{Engine ID}
+                        type: string
+                    type: object
                   gitIntegrationSettings:
                     description: |-
                       Git integration settings for this agent.
@@ -1487,6 +1795,50 @@ spec:
                             description: Max length of DTMF digits.
                             type: number
                         type: object
+                      loggingSettings:
+                        description: 'Settings for logging. Settings for Dialogflow
+                          History, Contact Center messages, StackDriver logs, and
+                          speech logging. Exposed at the following levels:'
+                        properties:
+                          enableConsentBasedRedaction:
+                            description: Enables consent-based end-user input redaction,
+                              if true, a pre-defined session parameter $session.params.conversation-redaction
+                              will be used to determine if the utterance should be
+                              redacted.
+                            type: boolean
+                          enableInteractionLogging:
+                            description: Enables DF Interaction logging.
+                            type: boolean
+                          enableStackdriverLogging:
+                            description: Enables Google Cloud Logging.
+                            type: boolean
+                        type: object
+                      speechSettings:
+                        description: 'Settings for speech to text detection. Exposed
+                          at the following levels:'
+                        properties:
+                          endpointerSensitivity:
+                            description: Sensitivity of the speech model that detects
+                              the end of speech. Scale from 0 to 100.
+                            type: number
+                          models:
+                            additionalProperties:
+                              type: string
+                            description: |-
+                              Mapping from language to Speech-to-Text model. The mapped Speech-to-Text model will be selected for requests from its corresponding language. For more information, see Speech models.
+                              An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+                            type: object
+                            x-kubernetes-map-type: granular
+                          noSpeechTimeout:
+                            description: |-
+                              Timeout before detecting no speech.
+                              A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
+                            type: string
+                          useTimeoutBasedEndpointing:
+                            description: Use timeout based endpointing, interpreting
+                              endpointer sensitivity as seconds of timeout value.
+                            type: boolean
+                        type: object
                     type: object
                   avatarUri:
                     description: The URI of the agent's avatar. Avatars are used throughout
@@ -1497,6 +1849,9 @@ spec:
                       The default language of the agent as a language tag. See Language Support
                       for a list of the currently supported language codes. This field cannot be updated after creation.
                     type: string
+                  deleteChatEngineOnDestroy:
+                    description: Otherwise, the chat engine will persist.
+                    type: boolean
                   description:
                     description: The description of this agent. The maximum length
                       is 500 characters. If exceeded, the request is rejected.
@@ -1513,6 +1868,17 @@ spec:
                     description: Determines whether this agent should log conversation
                       queries.
                     type: boolean
+                  genAppBuilderSettings:
+                    description: |-
+                      Gen App Builder-related agent-level settings.
+                      Structure is documented below.
+                    properties:
+                      engine:
+                        description: |-
+                          The full name of the Gen App Builder engine related to this agent if there is one.
+                          Format: projects/{Project ID}/locations/{Location ID}/collections/{Collection ID}/engines/{Engine ID}
+                        type: string
+                    type: object
                   gitIntegrationSettings:
                     description: |-
                       Git integration settings for this agent.

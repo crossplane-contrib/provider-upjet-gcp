@@ -247,6 +247,57 @@ spec:
                             type: string
                         type: object
                     type: object
+                  x509:
+                    description: |-
+                      An X.509-type identity provider represents a CA. It is trusted to assert a
+                      client identity if the client has a certificate that chains up to this CA.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        trustStore:
+                          description: |-
+                            A Trust store, use this trust store as a wrapper to config the trust
+                            anchor and optional intermediate cas to help build the trust chain for
+                            the incoming end entity certificate. Follow the x509 guidelines to
+                            define those PEM encoded certs. Only 1 trust store is currently
+                            supported.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              intermediateCas:
+                                description: |-
+                                  Set of intermediate CA certificates used for building the trust chain to
+                                  trust anchor.
+                                  IMPORTANT: Intermediate CAs are only supported when configuring x509 federation.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    pemCertificate:
+                                      description: |-
+                                        PEM certificate of the PKI used for validation. Must only contain one
+                                        ca certificate(either root or intermediate cert).
+                                      type: string
+                                  type: object
+                                type: array
+                              trustAnchors:
+                                description: |-
+                                  List of Trust Anchors to be used while performing validation
+                                  against a given TrustStore. The incoming end entity's certificate
+                                  must be chained up to one of the trust anchors here.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    pemCertificate:
+                                      description: |-
+                                        PEM certificate of the PKI used for validation. Must only contain one
+                                        ca certificate(either root or intermediate cert).
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                 type: object
               initProvider:
                 description: |-
@@ -350,6 +401,57 @@ spec:
                           description: SAML Identity provider configuration metadata
                             xml doc.
                           type: string
+                      type: object
+                    type: array
+                  x509:
+                    description: |-
+                      An X.509-type identity provider represents a CA. It is trusted to assert a
+                      client identity if the client has a certificate that chains up to this CA.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        trustStore:
+                          description: |-
+                            A Trust store, use this trust store as a wrapper to config the trust
+                            anchor and optional intermediate cas to help build the trust chain for
+                            the incoming end entity certificate. Follow the x509 guidelines to
+                            define those PEM encoded certs. Only 1 trust store is currently
+                            supported.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              intermediateCas:
+                                description: |-
+                                  Set of intermediate CA certificates used for building the trust chain to
+                                  trust anchor.
+                                  IMPORTANT: Intermediate CAs are only supported when configuring x509 federation.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    pemCertificate:
+                                      description: |-
+                                        PEM certificate of the PKI used for validation. Must only contain one
+                                        ca certificate(either root or intermediate cert).
+                                      type: string
+                                  type: object
+                                type: array
+                              trustAnchors:
+                                description: |-
+                                  List of Trust Anchors to be used while performing validation
+                                  against a given TrustStore. The incoming end entity's certificate
+                                  must be chained up to one of the trust anchors here.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    pemCertificate:
+                                      description: |-
+                                        PEM certificate of the PKI used for validation. Must only contain one
+                                        ca certificate(either root or intermediate cert).
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
                       type: object
                     type: array
                 type: object
@@ -634,6 +736,57 @@ spec:
                       value should be 4-32 characters, and may contain the characters [a-z0-9-]. The prefix
                       gcp- is reserved for use by Google, and may not be specified.
                     type: string
+                  x509:
+                    description: |-
+                      An X.509-type identity provider represents a CA. It is trusted to assert a
+                      client identity if the client has a certificate that chains up to this CA.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        trustStore:
+                          description: |-
+                            A Trust store, use this trust store as a wrapper to config the trust
+                            anchor and optional intermediate cas to help build the trust chain for
+                            the incoming end entity certificate. Follow the x509 guidelines to
+                            define those PEM encoded certs. Only 1 trust store is currently
+                            supported.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              intermediateCas:
+                                description: |-
+                                  Set of intermediate CA certificates used for building the trust chain to
+                                  trust anchor.
+                                  IMPORTANT: Intermediate CAs are only supported when configuring x509 federation.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    pemCertificate:
+                                      description: |-
+                                        PEM certificate of the PKI used for validation. Must only contain one
+                                        ca certificate(either root or intermediate cert).
+                                      type: string
+                                  type: object
+                                type: array
+                              trustAnchors:
+                                description: |-
+                                  List of Trust Anchors to be used while performing validation
+                                  against a given TrustStore. The incoming end entity's certificate
+                                  must be chained up to one of the trust anchors here.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    pemCertificate:
+                                      description: |-
+                                        PEM certificate of the PKI used for validation. Must only contain one
+                                        ca certificate(either root or intermediate cert).
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                 type: object
               conditions:
                 description: Conditions of the resource.
@@ -919,6 +1072,53 @@ spec:
                             type: string
                         type: object
                     type: object
+                  x509:
+                    description: |-
+                      An X.509-type identity provider represents a CA. It is trusted to assert a
+                      client identity if the client has a certificate that chains up to this CA.
+                      Structure is documented below.
+                    properties:
+                      trustStore:
+                        description: |-
+                          A Trust store, use this trust store as a wrapper to config the trust
+                          anchor and optional intermediate cas to help build the trust chain for
+                          the incoming end entity certificate. Follow the x509 guidelines to
+                          define those PEM encoded certs. Only 1 trust store is currently
+                          supported.
+                          Structure is documented below.
+                        properties:
+                          intermediateCas:
+                            description: |-
+                              Set of intermediate CA certificates used for building the trust chain to
+                              trust anchor.
+                              IMPORTANT: Intermediate CAs are only supported when configuring x509 federation.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                pemCertificate:
+                                  description: |-
+                                    PEM certificate of the PKI used for validation. Must only contain one
+                                    ca certificate(either root or intermediate cert).
+                                  type: string
+                              type: object
+                            type: array
+                          trustAnchors:
+                            description: |-
+                              List of Trust Anchors to be used while performing validation
+                              against a given TrustStore. The incoming end entity's certificate
+                              must be chained up to one of the trust anchors here.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                pemCertificate:
+                                  description: |-
+                                    PEM certificate of the PKI used for validation. Must only contain one
+                                    ca certificate(either root or intermediate cert).
+                                  type: string
+                              type: object
+                            type: array
+                        type: object
+                    type: object
                 type: object
               initProvider:
                 description: |-
@@ -1017,6 +1217,53 @@ spec:
                         description: SAML Identity provider configuration metadata
                           xml doc.
                         type: string
+                    type: object
+                  x509:
+                    description: |-
+                      An X.509-type identity provider represents a CA. It is trusted to assert a
+                      client identity if the client has a certificate that chains up to this CA.
+                      Structure is documented below.
+                    properties:
+                      trustStore:
+                        description: |-
+                          A Trust store, use this trust store as a wrapper to config the trust
+                          anchor and optional intermediate cas to help build the trust chain for
+                          the incoming end entity certificate. Follow the x509 guidelines to
+                          define those PEM encoded certs. Only 1 trust store is currently
+                          supported.
+                          Structure is documented below.
+                        properties:
+                          intermediateCas:
+                            description: |-
+                              Set of intermediate CA certificates used for building the trust chain to
+                              trust anchor.
+                              IMPORTANT: Intermediate CAs are only supported when configuring x509 federation.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                pemCertificate:
+                                  description: |-
+                                    PEM certificate of the PKI used for validation. Must only contain one
+                                    ca certificate(either root or intermediate cert).
+                                  type: string
+                              type: object
+                            type: array
+                          trustAnchors:
+                            description: |-
+                              List of Trust Anchors to be used while performing validation
+                              against a given TrustStore. The incoming end entity's certificate
+                              must be chained up to one of the trust anchors here.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                pemCertificate:
+                                  description: |-
+                                    PEM certificate of the PKI used for validation. Must only contain one
+                                    ca certificate(either root or intermediate cert).
+                                  type: string
+                              type: object
+                            type: array
+                        type: object
                     type: object
                 type: object
               managementPolicies:
@@ -1294,6 +1541,53 @@ spec:
                       value should be 4-32 characters, and may contain the characters [a-z0-9-]. The prefix
                       gcp- is reserved for use by Google, and may not be specified.
                     type: string
+                  x509:
+                    description: |-
+                      An X.509-type identity provider represents a CA. It is trusted to assert a
+                      client identity if the client has a certificate that chains up to this CA.
+                      Structure is documented below.
+                    properties:
+                      trustStore:
+                        description: |-
+                          A Trust store, use this trust store as a wrapper to config the trust
+                          anchor and optional intermediate cas to help build the trust chain for
+                          the incoming end entity certificate. Follow the x509 guidelines to
+                          define those PEM encoded certs. Only 1 trust store is currently
+                          supported.
+                          Structure is documented below.
+                        properties:
+                          intermediateCas:
+                            description: |-
+                              Set of intermediate CA certificates used for building the trust chain to
+                              trust anchor.
+                              IMPORTANT: Intermediate CAs are only supported when configuring x509 federation.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                pemCertificate:
+                                  description: |-
+                                    PEM certificate of the PKI used for validation. Must only contain one
+                                    ca certificate(either root or intermediate cert).
+                                  type: string
+                              type: object
+                            type: array
+                          trustAnchors:
+                            description: |-
+                              List of Trust Anchors to be used while performing validation
+                              against a given TrustStore. The incoming end entity's certificate
+                              must be chained up to one of the trust anchors here.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                pemCertificate:
+                                  description: |-
+                                    PEM certificate of the PKI used for validation. Must only contain one
+                                    ca certificate(either root or intermediate cert).
+                                  type: string
+                              type: object
+                            type: array
+                        type: object
+                    type: object
                 type: object
               conditions:
                 description: Conditions of the resource.

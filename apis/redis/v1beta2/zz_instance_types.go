@@ -179,6 +179,13 @@ type InstanceObservation struct {
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
 
+	// The CIDR range of internal addresses that are reserved for this
+	// instance. If not provided, the service will choose an unused /29
+	// block, for example, 10.0.0.0/29 or 192.168.0.0/29. Ranges must be
+	// unique and non-overlapping with existing subnets in an authorized
+	// network.
+	EffectiveReservedIPRange *string `json:"effectiveReservedIpRange,omitempty" tf:"effective_reserved_ip_range,omitempty"`
+
 	// Hostname or IP address of the exposed Redis endpoint used by clients
 	// to connect to the service.
 	Host *string `json:"host,omitempty" tf:"host,omitempty"`

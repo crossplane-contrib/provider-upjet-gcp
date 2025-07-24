@@ -12,4 +12,9 @@ metadata:
   name: composer-environment
 spec:
   forProvider:
-    region: us-east1
+    region: us-central1
+    config:
+      - softwareConfig:
+          - imageVersion: "composer-3-airflow-2.10.5"
+        nodeConfig:
+          - serviceAccount: official-provider-testing@official-provider-testing.iam.gserviceaccount.com

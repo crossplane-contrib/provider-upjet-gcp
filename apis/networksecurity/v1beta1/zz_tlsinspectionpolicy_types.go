@@ -38,6 +38,7 @@ type TLSInspectionPolicyInitParameters struct {
 	ExcludePublicCASet *bool `json:"excludePublicCaSet,omitempty" tf:"exclude_public_ca_set,omitempty"`
 
 	// Minimum TLS version that the firewall should use when negotiating connections with both clients and servers. If this is not set, then the default value is to allow the broadest set of clients and servers (TLS 1.0 or higher). Setting this to more restrictive values may improve security, but may also prevent the firewall from connecting to some clients or servers. Note that Secure Web Proxy does not yet honor this field.
+	// Default value is TLS_VERSION_UNSPECIFIED.
 	// Possible values are: TLS_VERSION_UNSPECIFIED, TLS_1_0, TLS_1_1, TLS_1_2, TLS_1_3.
 	MinTLSVersion *string `json:"minTlsVersion,omitempty" tf:"min_tls_version,omitempty"`
 
@@ -46,6 +47,7 @@ type TLSInspectionPolicyInitParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The selected Profile. If this is not set, then the default value is to allow the broadest set of clients and servers ("PROFILE_COMPATIBLE"). Setting this to more restrictive values may improve security, but may also prevent the TLS inspection proxy from connecting to some clients or servers. Note that Secure Web Proxy does not yet honor this field.
+	// Default value is PROFILE_UNSPECIFIED.
 	// Possible values are: PROFILE_UNSPECIFIED, PROFILE_COMPATIBLE, PROFILE_MODERN, PROFILE_RESTRICTED, PROFILE_CUSTOM.
 	TLSFeatureProfile *string `json:"tlsFeatureProfile,omitempty" tf:"tls_feature_profile,omitempty"`
 
@@ -87,6 +89,7 @@ type TLSInspectionPolicyObservation struct {
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// Minimum TLS version that the firewall should use when negotiating connections with both clients and servers. If this is not set, then the default value is to allow the broadest set of clients and servers (TLS 1.0 or higher). Setting this to more restrictive values may improve security, but may also prevent the firewall from connecting to some clients or servers. Note that Secure Web Proxy does not yet honor this field.
+	// Default value is TLS_VERSION_UNSPECIFIED.
 	// Possible values are: TLS_VERSION_UNSPECIFIED, TLS_1_0, TLS_1_1, TLS_1_2, TLS_1_3.
 	MinTLSVersion *string `json:"minTlsVersion,omitempty" tf:"min_tls_version,omitempty"`
 
@@ -95,6 +98,7 @@ type TLSInspectionPolicyObservation struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The selected Profile. If this is not set, then the default value is to allow the broadest set of clients and servers ("PROFILE_COMPATIBLE"). Setting this to more restrictive values may improve security, but may also prevent the TLS inspection proxy from connecting to some clients or servers. Note that Secure Web Proxy does not yet honor this field.
+	// Default value is PROFILE_UNSPECIFIED.
 	// Possible values are: PROFILE_UNSPECIFIED, PROFILE_COMPATIBLE, PROFILE_MODERN, PROFILE_RESTRICTED, PROFILE_CUSTOM.
 	TLSFeatureProfile *string `json:"tlsFeatureProfile,omitempty" tf:"tls_feature_profile,omitempty"`
 
@@ -138,6 +142,7 @@ type TLSInspectionPolicyParameters struct {
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// Minimum TLS version that the firewall should use when negotiating connections with both clients and servers. If this is not set, then the default value is to allow the broadest set of clients and servers (TLS 1.0 or higher). Setting this to more restrictive values may improve security, but may also prevent the firewall from connecting to some clients or servers. Note that Secure Web Proxy does not yet honor this field.
+	// Default value is TLS_VERSION_UNSPECIFIED.
 	// Possible values are: TLS_VERSION_UNSPECIFIED, TLS_1_0, TLS_1_1, TLS_1_2, TLS_1_3.
 	// +kubebuilder:validation:Optional
 	MinTLSVersion *string `json:"minTlsVersion,omitempty" tf:"min_tls_version,omitempty"`
@@ -148,6 +153,7 @@ type TLSInspectionPolicyParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The selected Profile. If this is not set, then the default value is to allow the broadest set of clients and servers ("PROFILE_COMPATIBLE"). Setting this to more restrictive values may improve security, but may also prevent the TLS inspection proxy from connecting to some clients or servers. Note that Secure Web Proxy does not yet honor this field.
+	// Default value is PROFILE_UNSPECIFIED.
 	// Possible values are: PROFILE_UNSPECIFIED, PROFILE_COMPATIBLE, PROFILE_MODERN, PROFILE_RESTRICTED, PROFILE_CUSTOM.
 	// +kubebuilder:validation:Optional
 	TLSFeatureProfile *string `json:"tlsFeatureProfile,omitempty" tf:"tls_feature_profile,omitempty"`

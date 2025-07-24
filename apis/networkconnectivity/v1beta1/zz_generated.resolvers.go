@@ -118,6 +118,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)
 
 	var rsp reference.ResolutionResponse
+	var mrsp reference.MultiResolutionResponse
 	var err error
 	{
 		m, l, err = apisresolver.GetManagedResource("networkconnectivity.gcp.upbound.io", "v1beta1", "Hub", "HubList")
@@ -139,6 +140,69 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 	mg.Spec.ForProvider.Hub = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.HubRef = rsp.ResolvedReference
 
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.LinkedInterconnectAttachments); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "InterconnectAttachment", "InterconnectAttachmentList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+				CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.LinkedInterconnectAttachments[i3].Uris),
+				Extract:       resource.ExtractParamPath("self_link", true),
+				References:    mg.Spec.ForProvider.LinkedInterconnectAttachments[i3].UrisRefs,
+				Selector:      mg.Spec.ForProvider.LinkedInterconnectAttachments[i3].UrisSelector,
+				To:            reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.LinkedInterconnectAttachments[i3].Uris")
+		}
+		mg.Spec.ForProvider.LinkedInterconnectAttachments[i3].Uris = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.ForProvider.LinkedInterconnectAttachments[i3].UrisRefs = mrsp.ResolvedReferences
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.LinkedProducerVPCNetwork); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Network", "NetworkList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.LinkedProducerVPCNetwork[i3].Network),
+				Extract:      reference.ExternalName(),
+				Reference:    mg.Spec.ForProvider.LinkedProducerVPCNetwork[i3].NetworkRef,
+				Selector:     mg.Spec.ForProvider.LinkedProducerVPCNetwork[i3].NetworkSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.LinkedProducerVPCNetwork[i3].Network")
+		}
+		mg.Spec.ForProvider.LinkedProducerVPCNetwork[i3].Network = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.LinkedProducerVPCNetwork[i3].NetworkRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.LinkedProducerVPCNetwork); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("servicenetworking.gcp.upbound.io", "v1beta1", "Connection", "ConnectionList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.LinkedProducerVPCNetwork[i3].Peering),
+				Extract:      resource.ExtractParamPath("peering", true),
+				Reference:    mg.Spec.ForProvider.LinkedProducerVPCNetwork[i3].PeeringRef,
+				Selector:     mg.Spec.ForProvider.LinkedProducerVPCNetwork[i3].PeeringSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.LinkedProducerVPCNetwork[i3].Peering")
+		}
+		mg.Spec.ForProvider.LinkedProducerVPCNetwork[i3].Peering = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.LinkedProducerVPCNetwork[i3].PeeringRef = rsp.ResolvedReference
+
+	}
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.LinkedRouterApplianceInstances); i3++ {
 		for i4 := 0; i4 < len(mg.Spec.ForProvider.LinkedRouterApplianceInstances[i3].Instances); i4++ {
 			{
@@ -183,6 +247,27 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 		mg.Spec.ForProvider.LinkedVPCNetwork[i3].URIRef = rsp.ResolvedReference
 
 	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.LinkedVPNTunnels); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "VPNTunnel", "VPNTunnelList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+				CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.LinkedVPNTunnels[i3].Uris),
+				Extract:       resource.ExtractParamPath("self_link", true),
+				References:    mg.Spec.ForProvider.LinkedVPNTunnels[i3].UrisRefs,
+				Selector:      mg.Spec.ForProvider.LinkedVPNTunnels[i3].UrisSelector,
+				To:            reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.LinkedVPNTunnels[i3].Uris")
+		}
+		mg.Spec.ForProvider.LinkedVPNTunnels[i3].Uris = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.ForProvider.LinkedVPNTunnels[i3].UrisRefs = mrsp.ResolvedReferences
+
+	}
 	{
 		m, l, err = apisresolver.GetManagedResource("networkconnectivity.gcp.upbound.io", "v1beta1", "Hub", "HubList")
 		if err != nil {
@@ -202,6 +287,69 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 	mg.Spec.InitProvider.Hub = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.HubRef = rsp.ResolvedReference
 
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.LinkedInterconnectAttachments); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "InterconnectAttachment", "InterconnectAttachmentList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+				CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.LinkedInterconnectAttachments[i3].Uris),
+				Extract:       resource.ExtractParamPath("self_link", true),
+				References:    mg.Spec.InitProvider.LinkedInterconnectAttachments[i3].UrisRefs,
+				Selector:      mg.Spec.InitProvider.LinkedInterconnectAttachments[i3].UrisSelector,
+				To:            reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.LinkedInterconnectAttachments[i3].Uris")
+		}
+		mg.Spec.InitProvider.LinkedInterconnectAttachments[i3].Uris = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.InitProvider.LinkedInterconnectAttachments[i3].UrisRefs = mrsp.ResolvedReferences
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.LinkedProducerVPCNetwork); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Network", "NetworkList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.LinkedProducerVPCNetwork[i3].Network),
+				Extract:      reference.ExternalName(),
+				Reference:    mg.Spec.InitProvider.LinkedProducerVPCNetwork[i3].NetworkRef,
+				Selector:     mg.Spec.InitProvider.LinkedProducerVPCNetwork[i3].NetworkSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.LinkedProducerVPCNetwork[i3].Network")
+		}
+		mg.Spec.InitProvider.LinkedProducerVPCNetwork[i3].Network = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.LinkedProducerVPCNetwork[i3].NetworkRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.LinkedProducerVPCNetwork); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("servicenetworking.gcp.upbound.io", "v1beta1", "Connection", "ConnectionList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.LinkedProducerVPCNetwork[i3].Peering),
+				Extract:      resource.ExtractParamPath("peering", true),
+				Reference:    mg.Spec.InitProvider.LinkedProducerVPCNetwork[i3].PeeringRef,
+				Selector:     mg.Spec.InitProvider.LinkedProducerVPCNetwork[i3].PeeringSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.LinkedProducerVPCNetwork[i3].Peering")
+		}
+		mg.Spec.InitProvider.LinkedProducerVPCNetwork[i3].Peering = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.LinkedProducerVPCNetwork[i3].PeeringRef = rsp.ResolvedReference
+
+	}
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.LinkedRouterApplianceInstances); i3++ {
 		for i4 := 0; i4 < len(mg.Spec.InitProvider.LinkedRouterApplianceInstances[i3].Instances); i4++ {
 			{
@@ -244,6 +392,27 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 		}
 		mg.Spec.InitProvider.LinkedVPCNetwork[i3].URI = reference.ToPtrValue(rsp.ResolvedValue)
 		mg.Spec.InitProvider.LinkedVPCNetwork[i3].URIRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.LinkedVPNTunnels); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "VPNTunnel", "VPNTunnelList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+				CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.LinkedVPNTunnels[i3].Uris),
+				Extract:       resource.ExtractParamPath("self_link", true),
+				References:    mg.Spec.InitProvider.LinkedVPNTunnels[i3].UrisRefs,
+				Selector:      mg.Spec.InitProvider.LinkedVPNTunnels[i3].UrisSelector,
+				To:            reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.LinkedVPNTunnels[i3].Uris")
+		}
+		mg.Spec.InitProvider.LinkedVPNTunnels[i3].Uris = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.InitProvider.LinkedVPNTunnels[i3].UrisRefs = mrsp.ResolvedReferences
 
 	}
 

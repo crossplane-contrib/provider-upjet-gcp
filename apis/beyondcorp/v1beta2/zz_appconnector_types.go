@@ -36,6 +36,7 @@ type AppConnectorObservation struct {
 	// An arbitrary user-provided name for the AppConnector.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	// for all of the labels present on the resource.
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
 

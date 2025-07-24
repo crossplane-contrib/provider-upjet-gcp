@@ -66,6 +66,17 @@ type ClientConnectionConfigParameters struct {
 
 type InstanceInitParameters struct {
 
+	// 'Specifies whether an instance needs to spin up. Once the instance is
+	// active, the activation policy can be updated to the NEVER to stop the
+	// instance. Likewise, the activation policy can be updated to ALWAYS to
+	// start the instance.
+	// There are restrictions around when an instance can/cannot be activated (for
+	// example, a read pool instance should be stopped before stopping primary
+	// etc.). Please refer to the API documentation for more details.
+	// Possible values are: ACTIVATION_POLICY_UNSPECIFIED, ALWAYS, NEVER.'
+	// Possible values are: ACTIVATION_POLICY_UNSPECIFIED, ALWAYS, NEVER.
+	ActivationPolicy *string `json:"activationPolicy,omitempty" tf:"activation_policy,omitempty"`
+
 	// Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels.
 	// Note: This field is non-authoritative, and will only manage the annotations present in your configuration.
 	// Please refer to the field effective_annotations for all of the annotations present on the resource.
@@ -74,10 +85,10 @@ type InstanceInitParameters struct {
 
 	// 'Availability type of an Instance. Defaults to REGIONAL for both primary and read instances.
 	// Note that primary and read instances can have different availability types.
-	// Only READ_POOL instance supports ZONAL type. Users can't specify the zone for READ_POOL instance.
-	// Zone is automatically chosen from the list of zones in the region specified.
-	// Read pool of size 1 can only have zonal availability. Read pools with node count of 2 or more
-	// can have regional availability (nodes are present in 2 or more zones in a region).'
+	// Primary instances can be either ZONAL or REGIONAL. Read Pool instances can also be either ZONAL or REGIONAL.
+	// Read pools of size 1 can only have zonal availability. Read pools with a node count of 2 or more
+	// can have regional availability (nodes are present in 2 or more zones in a region).
+	// Possible values are: AVAILABILITY_TYPE_UNSPECIFIED, ZONAL, REGIONAL.'
 	// Possible values are: AVAILABILITY_TYPE_UNSPECIFIED, ZONAL, REGIONAL.
 	AvailabilityType *string `json:"availabilityType,omitempty" tf:"availability_type,omitempty"`
 
@@ -142,11 +153,19 @@ type InstanceInitParameters struct {
 
 type InstanceNetworkConfigInitParameters struct {
 
+	// Name of the allocated IP range for the private IP AlloyDB instance, for example: "google-managed-services-default".
+	// If set, the instance IPs will be created from this allocated range and will override the IP range used by the parent cluster.
+	// The range name must comply with RFC 1035. Specifically, the name must be 1-63 characters long and match the regular expression a-z?.
+	AllocatedIPRangeOverride *string `json:"allocatedIpRangeOverride,omitempty" tf:"allocated_ip_range_override,omitempty"`
+
 	// A list of external networks authorized to access this instance. This
 	// field is only allowed to be set when enable_public_ip is set to
 	// true.
 	// Structure is documented below.
 	AuthorizedExternalNetworks []AuthorizedExternalNetworksInitParameters `json:"authorizedExternalNetworks,omitempty" tf:"authorized_external_networks,omitempty"`
+
+	// Enabling outbound public ip for the instance.
+	EnableOutboundPublicIP *bool `json:"enableOutboundPublicIp,omitempty" tf:"enable_outbound_public_ip,omitempty"`
 
 	// Enabling public ip for the instance. If a user wishes to disable this,
 	// please also clear the list of the authorized external networks set on
@@ -156,11 +175,19 @@ type InstanceNetworkConfigInitParameters struct {
 
 type InstanceNetworkConfigObservation struct {
 
+	// Name of the allocated IP range for the private IP AlloyDB instance, for example: "google-managed-services-default".
+	// If set, the instance IPs will be created from this allocated range and will override the IP range used by the parent cluster.
+	// The range name must comply with RFC 1035. Specifically, the name must be 1-63 characters long and match the regular expression a-z?.
+	AllocatedIPRangeOverride *string `json:"allocatedIpRangeOverride,omitempty" tf:"allocated_ip_range_override,omitempty"`
+
 	// A list of external networks authorized to access this instance. This
 	// field is only allowed to be set when enable_public_ip is set to
 	// true.
 	// Structure is documented below.
 	AuthorizedExternalNetworks []AuthorizedExternalNetworksObservation `json:"authorizedExternalNetworks,omitempty" tf:"authorized_external_networks,omitempty"`
+
+	// Enabling outbound public ip for the instance.
+	EnableOutboundPublicIP *bool `json:"enableOutboundPublicIp,omitempty" tf:"enable_outbound_public_ip,omitempty"`
 
 	// Enabling public ip for the instance. If a user wishes to disable this,
 	// please also clear the list of the authorized external networks set on
@@ -170,12 +197,22 @@ type InstanceNetworkConfigObservation struct {
 
 type InstanceNetworkConfigParameters struct {
 
+	// Name of the allocated IP range for the private IP AlloyDB instance, for example: "google-managed-services-default".
+	// If set, the instance IPs will be created from this allocated range and will override the IP range used by the parent cluster.
+	// The range name must comply with RFC 1035. Specifically, the name must be 1-63 characters long and match the regular expression a-z?.
+	// +kubebuilder:validation:Optional
+	AllocatedIPRangeOverride *string `json:"allocatedIpRangeOverride,omitempty" tf:"allocated_ip_range_override,omitempty"`
+
 	// A list of external networks authorized to access this instance. This
 	// field is only allowed to be set when enable_public_ip is set to
 	// true.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AuthorizedExternalNetworks []AuthorizedExternalNetworksParameters `json:"authorizedExternalNetworks,omitempty" tf:"authorized_external_networks,omitempty"`
+
+	// Enabling outbound public ip for the instance.
+	// +kubebuilder:validation:Optional
+	EnableOutboundPublicIP *bool `json:"enableOutboundPublicIp,omitempty" tf:"enable_outbound_public_ip,omitempty"`
 
 	// Enabling public ip for the instance. If a user wishes to disable this,
 	// please also clear the list of the authorized external networks set on
@@ -186,6 +223,17 @@ type InstanceNetworkConfigParameters struct {
 
 type InstanceObservation struct {
 
+	// 'Specifies whether an instance needs to spin up. Once the instance is
+	// active, the activation policy can be updated to the NEVER to stop the
+	// instance. Likewise, the activation policy can be updated to ALWAYS to
+	// start the instance.
+	// There are restrictions around when an instance can/cannot be activated (for
+	// example, a read pool instance should be stopped before stopping primary
+	// etc.). Please refer to the API documentation for more details.
+	// Possible values are: ACTIVATION_POLICY_UNSPECIFIED, ALWAYS, NEVER.'
+	// Possible values are: ACTIVATION_POLICY_UNSPECIFIED, ALWAYS, NEVER.
+	ActivationPolicy *string `json:"activationPolicy,omitempty" tf:"activation_policy,omitempty"`
+
 	// Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels.
 	// Note: This field is non-authoritative, and will only manage the annotations present in your configuration.
 	// Please refer to the field effective_annotations for all of the annotations present on the resource.
@@ -194,10 +242,10 @@ type InstanceObservation struct {
 
 	// 'Availability type of an Instance. Defaults to REGIONAL for both primary and read instances.
 	// Note that primary and read instances can have different availability types.
-	// Only READ_POOL instance supports ZONAL type. Users can't specify the zone for READ_POOL instance.
-	// Zone is automatically chosen from the list of zones in the region specified.
-	// Read pool of size 1 can only have zonal availability. Read pools with node count of 2 or more
-	// can have regional availability (nodes are present in 2 or more zones in a region).'
+	// Primary instances can be either ZONAL or REGIONAL. Read Pool instances can also be either ZONAL or REGIONAL.
+	// Read pools of size 1 can only have zonal availability. Read pools with a node count of 2 or more
+	// can have regional availability (nodes are present in 2 or more zones in a region).
+	// Possible values are: AVAILABILITY_TYPE_UNSPECIFIED, ZONAL, REGIONAL.'
 	// Possible values are: AVAILABILITY_TYPE_UNSPECIFIED, ZONAL, REGIONAL.
 	AvailabilityType *string `json:"availabilityType,omitempty" tf:"availability_type,omitempty"`
 
@@ -259,6 +307,11 @@ type InstanceObservation struct {
 	// Structure is documented below.
 	NetworkConfig *InstanceNetworkConfigObservation `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
 
+	// The outbound public IP addresses for the instance. This is available ONLY when
+	// networkConfig.enableOutboundPublicIp is set to true. These IP addresses are used
+	// for outbound connections.
+	OutboundPublicIPAddresses []*string `json:"outboundPublicIpAddresses,omitempty" tf:"outbound_public_ip_addresses,omitempty"`
+
 	// Configuration for Private Service Connect (PSC) for the instance.
 	// Structure is documented below.
 	PscInstanceConfig *PscInstanceConfigObservation `json:"pscInstanceConfig,omitempty" tf:"psc_instance_config,omitempty"`
@@ -296,6 +349,18 @@ type InstanceObservation struct {
 
 type InstanceParameters struct {
 
+	// 'Specifies whether an instance needs to spin up. Once the instance is
+	// active, the activation policy can be updated to the NEVER to stop the
+	// instance. Likewise, the activation policy can be updated to ALWAYS to
+	// start the instance.
+	// There are restrictions around when an instance can/cannot be activated (for
+	// example, a read pool instance should be stopped before stopping primary
+	// etc.). Please refer to the API documentation for more details.
+	// Possible values are: ACTIVATION_POLICY_UNSPECIFIED, ALWAYS, NEVER.'
+	// Possible values are: ACTIVATION_POLICY_UNSPECIFIED, ALWAYS, NEVER.
+	// +kubebuilder:validation:Optional
+	ActivationPolicy *string `json:"activationPolicy,omitempty" tf:"activation_policy,omitempty"`
+
 	// Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels.
 	// Note: This field is non-authoritative, and will only manage the annotations present in your configuration.
 	// Please refer to the field effective_annotations for all of the annotations present on the resource.
@@ -305,10 +370,10 @@ type InstanceParameters struct {
 
 	// 'Availability type of an Instance. Defaults to REGIONAL for both primary and read instances.
 	// Note that primary and read instances can have different availability types.
-	// Only READ_POOL instance supports ZONAL type. Users can't specify the zone for READ_POOL instance.
-	// Zone is automatically chosen from the list of zones in the region specified.
-	// Read pool of size 1 can only have zonal availability. Read pools with node count of 2 or more
-	// can have regional availability (nodes are present in 2 or more zones in a region).'
+	// Primary instances can be either ZONAL or REGIONAL. Read Pool instances can also be either ZONAL or REGIONAL.
+	// Read pools of size 1 can only have zonal availability. Read pools with a node count of 2 or more
+	// can have regional availability (nodes are present in 2 or more zones in a region).
+	// Possible values are: AVAILABILITY_TYPE_UNSPECIFIED, ZONAL, REGIONAL.'
 	// Possible values are: AVAILABILITY_TYPE_UNSPECIFIED, ZONAL, REGIONAL.
 	// +kubebuilder:validation:Optional
 	AvailabilityType *string `json:"availabilityType,omitempty" tf:"availability_type,omitempty"`
@@ -417,11 +482,79 @@ type MachineConfigParameters struct {
 	CPUCount *float64 `json:"cpuCount,omitempty" tf:"cpu_count,omitempty"`
 }
 
+type PscAutoConnectionsInitParameters struct {
+
+	// The consumer network for the PSC service automation, example:
+	// "projects/vpc-host-project/global/networks/default".
+	// The consumer network might be hosted a different project than the
+	// consumer project. The API expects the consumer project specified to be
+	// the project ID (and not the project number)
+	ConsumerNetwork *string `json:"consumerNetwork,omitempty" tf:"consumer_network,omitempty"`
+
+	// The consumer project to which the PSC service automation endpoint will
+	// be created. The API expects the consumer project to be the project ID(
+	// and not the project number).
+	ConsumerProject *string `json:"consumerProject,omitempty" tf:"consumer_project,omitempty"`
+}
+
+type PscAutoConnectionsObservation struct {
+
+	// The consumer network for the PSC service automation, example:
+	// "projects/vpc-host-project/global/networks/default".
+	// The consumer network might be hosted a different project than the
+	// consumer project. The API expects the consumer project specified to be
+	// the project ID (and not the project number)
+	ConsumerNetwork *string `json:"consumerNetwork,omitempty" tf:"consumer_network,omitempty"`
+
+	// (Output)
+	// The status of the service connection policy.
+	ConsumerNetworkStatus *string `json:"consumerNetworkStatus,omitempty" tf:"consumer_network_status,omitempty"`
+
+	// The consumer project to which the PSC service automation endpoint will
+	// be created. The API expects the consumer project to be the project ID(
+	// and not the project number).
+	ConsumerProject *string `json:"consumerProject,omitempty" tf:"consumer_project,omitempty"`
+
+	// (Output)
+	// The IP address of the PSC service automation endpoint.
+	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// (Output)
+	// The status of the PSC service automation connection.
+	Status *string `json:"status,omitempty" tf:"status,omitempty"`
+}
+
+type PscAutoConnectionsParameters struct {
+
+	// The consumer network for the PSC service automation, example:
+	// "projects/vpc-host-project/global/networks/default".
+	// The consumer network might be hosted a different project than the
+	// consumer project. The API expects the consumer project specified to be
+	// the project ID (and not the project number)
+	// +kubebuilder:validation:Optional
+	ConsumerNetwork *string `json:"consumerNetwork,omitempty" tf:"consumer_network,omitempty"`
+
+	// The consumer project to which the PSC service automation endpoint will
+	// be created. The API expects the consumer project to be the project ID(
+	// and not the project number).
+	// +kubebuilder:validation:Optional
+	ConsumerProject *string `json:"consumerProject,omitempty" tf:"consumer_project,omitempty"`
+}
+
 type PscInstanceConfigInitParameters struct {
 
 	// List of consumer projects that are allowed to create PSC endpoints to service-attachments to this instance.
 	// These should be specified as project numbers only.
 	AllowedConsumerProjects []*string `json:"allowedConsumerProjects,omitempty" tf:"allowed_consumer_projects,omitempty"`
+
+	// Configurations for setting up PSC service automation.
+	// Structure is documented below.
+	PscAutoConnections []PscAutoConnectionsInitParameters `json:"pscAutoConnections,omitempty" tf:"psc_auto_connections,omitempty"`
+
+	// Configurations for setting up PSC interfaces attached to the instance
+	// which are used for outbound connectivity. Currently, AlloyDB supports only 0 or 1 PSC interface.
+	// Structure is documented below.
+	PscInterfaceConfigs []PscInterfaceConfigsInitParameters `json:"pscInterfaceConfigs,omitempty" tf:"psc_interface_configs,omitempty"`
 }
 
 type PscInstanceConfigObservation struct {
@@ -430,10 +563,19 @@ type PscInstanceConfigObservation struct {
 	// These should be specified as project numbers only.
 	AllowedConsumerProjects []*string `json:"allowedConsumerProjects,omitempty" tf:"allowed_consumer_projects,omitempty"`
 
+	// Configurations for setting up PSC service automation.
+	// Structure is documented below.
+	PscAutoConnections []PscAutoConnectionsObservation `json:"pscAutoConnections,omitempty" tf:"psc_auto_connections,omitempty"`
+
 	// (Output)
 	// The DNS name of the instance for PSC connectivity.
 	// Name convention: ...alloydb-psc.goog
 	PscDNSName *string `json:"pscDnsName,omitempty" tf:"psc_dns_name,omitempty"`
+
+	// Configurations for setting up PSC interfaces attached to the instance
+	// which are used for outbound connectivity. Currently, AlloyDB supports only 0 or 1 PSC interface.
+	// Structure is documented below.
+	PscInterfaceConfigs []PscInterfaceConfigsObservation `json:"pscInterfaceConfigs,omitempty" tf:"psc_interface_configs,omitempty"`
 
 	// (Output)
 	// The service attachment created when Private Service Connect (PSC) is enabled for the instance.
@@ -448,6 +590,42 @@ type PscInstanceConfigParameters struct {
 	// These should be specified as project numbers only.
 	// +kubebuilder:validation:Optional
 	AllowedConsumerProjects []*string `json:"allowedConsumerProjects,omitempty" tf:"allowed_consumer_projects,omitempty"`
+
+	// Configurations for setting up PSC service automation.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PscAutoConnections []PscAutoConnectionsParameters `json:"pscAutoConnections,omitempty" tf:"psc_auto_connections,omitempty"`
+
+	// Configurations for setting up PSC interfaces attached to the instance
+	// which are used for outbound connectivity. Currently, AlloyDB supports only 0 or 1 PSC interface.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PscInterfaceConfigs []PscInterfaceConfigsParameters `json:"pscInterfaceConfigs,omitempty" tf:"psc_interface_configs,omitempty"`
+}
+
+type PscInterfaceConfigsInitParameters struct {
+
+	// The network attachment resource created in the consumer project to which the PSC interface will be linked.
+	// This is of the format: "projects/${CONSUMER_PROJECT}/regions/${REGION}/networkAttachments/${NETWORK_ATTACHMENT_NAME}".
+	// The network attachment must be in the same region as the instance.
+	NetworkAttachmentResource *string `json:"networkAttachmentResource,omitempty" tf:"network_attachment_resource,omitempty"`
+}
+
+type PscInterfaceConfigsObservation struct {
+
+	// The network attachment resource created in the consumer project to which the PSC interface will be linked.
+	// This is of the format: "projects/${CONSUMER_PROJECT}/regions/${REGION}/networkAttachments/${NETWORK_ATTACHMENT_NAME}".
+	// The network attachment must be in the same region as the instance.
+	NetworkAttachmentResource *string `json:"networkAttachmentResource,omitempty" tf:"network_attachment_resource,omitempty"`
+}
+
+type PscInterfaceConfigsParameters struct {
+
+	// The network attachment resource created in the consumer project to which the PSC interface will be linked.
+	// This is of the format: "projects/${CONSUMER_PROJECT}/regions/${REGION}/networkAttachments/${NETWORK_ATTACHMENT_NAME}".
+	// The network attachment must be in the same region as the instance.
+	// +kubebuilder:validation:Optional
+	NetworkAttachmentResource *string `json:"networkAttachmentResource,omitempty" tf:"network_attachment_resource,omitempty"`
 }
 
 type QueryInsightsConfigInitParameters struct {

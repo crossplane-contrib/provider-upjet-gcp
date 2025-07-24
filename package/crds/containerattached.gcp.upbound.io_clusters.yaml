@@ -251,6 +251,19 @@ spec:
                           type: array
                       type: object
                     type: array
+                  securityPostureConfig:
+                    description: |-
+                      Enable/Disable Security Posture API features for the cluster.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        vulnerabilityMode:
+                          description: |-
+                            Sets the mode of the Kubernetes security posture API's workload vulnerability scanning.
+                            Possible values are: VULNERABILITY_DISABLED, VULNERABILITY_ENTERPRISE.
+                          type: string
+                      type: object
+                    type: array
                 required:
                 - location
                 type: object
@@ -440,6 +453,19 @@ spec:
                                 type: string
                             type: object
                           type: array
+                      type: object
+                    type: array
+                  securityPostureConfig:
+                    description: |-
+                      Enable/Disable Security Posture API features for the cluster.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        vulnerabilityMode:
+                          description: |-
+                            Sets the mode of the Kubernetes security posture API's workload vulnerability scanning.
+                            Possible values are: VULNERABILITY_DISABLED, VULNERABILITY_ENTERPRISE.
+                          type: string
                       type: object
                     type: array
                 type: object
@@ -852,6 +878,19 @@ spec:
                     description: If set, there are currently changes in flight to
                       the cluster.
                     type: boolean
+                  securityPostureConfig:
+                    description: |-
+                      Enable/Disable Security Posture API features for the cluster.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        vulnerabilityMode:
+                          description: |-
+                            Sets the mode of the Kubernetes security posture API's workload vulnerability scanning.
+                            Possible values are: VULNERABILITY_DISABLED, VULNERABILITY_ENTERPRISE.
+                          type: string
+                      type: object
+                    type: array
                   state:
                     description: |-
                       The current state of the cluster. Possible values:
@@ -1051,7 +1090,8 @@ spec:
                         type: string
                     type: object
                   deletionPolicy:
-                    description: Policy to determine what flags to send on delete.
+                    description: 'Policy to determine what flags to send on delete.
+                      Possible values: DELETE, DELETE_IGNORE_ERRORS'
                     type: string
                   description:
                     description: |-
@@ -1136,8 +1176,9 @@ spec:
                     description: The platform version for the cluster (e.g. 1.23.0-gke.1).
                     type: string
                   project:
-                    description: The number of the Fleet host project where this cluster
-                      will be registered.
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   proxyConfig:
                     description: |-
@@ -1158,6 +1199,17 @@ spec:
                               the proxy config.
                             type: string
                         type: object
+                    type: object
+                  securityPostureConfig:
+                    description: |-
+                      Enable/Disable Security Posture API features for the cluster.
+                      Structure is documented below.
+                    properties:
+                      vulnerabilityMode:
+                        description: |-
+                          Sets the mode of the Kubernetes security posture API's workload vulnerability scanning.
+                          Possible values are: VULNERABILITY_DISABLED, VULNERABILITY_ENTERPRISE.
+                        type: string
                     type: object
                 required:
                 - location
@@ -1225,7 +1277,8 @@ spec:
                         type: string
                     type: object
                   deletionPolicy:
-                    description: Policy to determine what flags to send on delete.
+                    description: 'Policy to determine what flags to send on delete.
+                      Possible values: DELETE, DELETE_IGNORE_ERRORS'
                     type: string
                   description:
                     description: |-
@@ -1307,8 +1360,9 @@ spec:
                     description: The platform version for the cluster (e.g. 1.23.0-gke.1).
                     type: string
                   project:
-                    description: The number of the Fleet host project where this cluster
-                      will be registered.
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   proxyConfig:
                     description: |-
@@ -1329,6 +1383,17 @@ spec:
                               the proxy config.
                             type: string
                         type: object
+                    type: object
+                  securityPostureConfig:
+                    description: |-
+                      Enable/Disable Security Posture API features for the cluster.
+                      Structure is documented below.
+                    properties:
+                      vulnerabilityMode:
+                        description: |-
+                          Sets the mode of the Kubernetes security posture API's workload vulnerability scanning.
+                          Possible values are: VULNERABILITY_DISABLED, VULNERABILITY_ENTERPRISE.
+                        type: string
                     type: object
                 type: object
               managementPolicies:
@@ -1579,7 +1644,8 @@ spec:
                     description: Output only. The time at which this cluster was created.
                     type: string
                   deletionPolicy:
-                    description: Policy to determine what flags to send on delete.
+                    description: 'Policy to determine what flags to send on delete.
+                      Possible values: DELETE, DELETE_IGNORE_ERRORS'
                     type: string
                   description:
                     description: |-
@@ -1595,6 +1661,7 @@ spec:
                   effectiveAnnotations:
                     additionalProperties:
                       type: string
+                    description: for all of the annotations present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   errors:
@@ -1693,8 +1760,9 @@ spec:
                     description: The platform version for the cluster (e.g. 1.23.0-gke.1).
                     type: string
                   project:
-                    description: The number of the Fleet host project where this cluster
-                      will be registered.
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   proxyConfig:
                     description: |-
@@ -1720,6 +1788,17 @@ spec:
                     description: If set, there are currently changes in flight to
                       the cluster.
                     type: boolean
+                  securityPostureConfig:
+                    description: |-
+                      Enable/Disable Security Posture API features for the cluster.
+                      Structure is documented below.
+                    properties:
+                      vulnerabilityMode:
+                        description: |-
+                          Sets the mode of the Kubernetes security posture API's workload vulnerability scanning.
+                          Possible values are: VULNERABILITY_DISABLED, VULNERABILITY_ENTERPRISE.
+                        type: string
+                    type: object
                   state:
                     description: |-
                       The current state of the cluster. Possible values:

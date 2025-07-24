@@ -135,11 +135,17 @@ type InstanceGroupManagerInitParameters struct {
 
 	// The named port configuration. See the section below
 	// for details on configuration.
-	NamedPort []InstanceGroupManagerNamedPortInitParameters `json:"namedPort,omitempty" tf:"named_port,omitempty"`
+	NamedPort []NamedPortInitParameters `json:"namedPort,omitempty" tf:"named_port,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Resource policies for this managed instance group. Structure is documented below.
+	ResourcePolicies []ResourcePoliciesInitParameters `json:"resourcePolicies,omitempty" tf:"resource_policies,omitempty"`
+
+	// The standby policy for stopped and suspended instances. Structure is documented below. For more information, see the official documentation.
+	StandbyPolicy []StandbyPolicyInitParameters `json:"standbyPolicy,omitempty" tf:"standby_policy,omitempty"`
 
 	// Disks created on the instances that will be preserved on instance delete, update, etc. Structure is documented below. For more information see the official documentation.
 	StatefulDisk []StatefulDiskInitParameters `json:"statefulDisk,omitempty" tf:"stateful_disk,omitempty"`
@@ -172,7 +178,13 @@ type InstanceGroupManagerInitParameters struct {
 	// lifecycle. Defaults to 0.
 	TargetSize *float64 `json:"targetSize,omitempty" tf:"target_size,omitempty"`
 
-	// The update policy for this managed instance group. Structure is documented below. For more information, see the official documentation and API
+	// The target number of stopped instances for this managed instance group.
+	TargetStoppedSize *float64 `json:"targetStoppedSize,omitempty" tf:"target_stopped_size,omitempty"`
+
+	// The target number of suspended instances for this managed instance group.
+	TargetSuspendedSize *float64 `json:"targetSuspendedSize,omitempty" tf:"target_suspended_size,omitempty"`
+
+	// The update policy for this managed instance group. Structure is documented below. For more information, see the official documentation and API.
 	UpdatePolicy []UpdatePolicyInitParameters `json:"updatePolicy,omitempty" tf:"update_policy,omitempty"`
 
 	// Application versions managed by this instance group. Each
@@ -239,6 +251,7 @@ type InstanceGroupManagerObservation struct {
 	// name.
 	BaseInstanceName *string `json:"baseInstanceName,omitempty" tf:"base_instance_name,omitempty"`
 
+	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
 	// An optional textual description of the instance
@@ -254,6 +267,9 @@ type InstanceGroupManagerObservation struct {
 	// The full URL of the instance group created by the manager.
 	InstanceGroup *string `json:"instanceGroup,omitempty" tf:"instance_group,omitempty"`
 
+	// an identifier for the resource with format projects/{{project}}/zones/{{zone}}/instanceGroupManagers/{{name}}
+	InstanceGroupManagerID *float64 `json:"instanceGroupManagerId,omitempty" tf:"instance_group_manager_id,omitempty"`
+
 	InstanceLifecyclePolicy []InstanceLifecyclePolicyObservation `json:"instanceLifecyclePolicy,omitempty" tf:"instance_lifecycle_policy,omitempty"`
 
 	// Pagination behavior of the listManagedInstances API
@@ -266,7 +282,7 @@ type InstanceGroupManagerObservation struct {
 
 	// The named port configuration. See the section below
 	// for details on configuration.
-	NamedPort []InstanceGroupManagerNamedPortObservation `json:"namedPort,omitempty" tf:"named_port,omitempty"`
+	NamedPort []NamedPortObservation `json:"namedPort,omitempty" tf:"named_port,omitempty"`
 
 	Operation *string `json:"operation,omitempty" tf:"operation,omitempty"`
 
@@ -274,8 +290,14 @@ type InstanceGroupManagerObservation struct {
 	// is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// Resource policies for this managed instance group. Structure is documented below.
+	ResourcePolicies []ResourcePoliciesObservation `json:"resourcePolicies,omitempty" tf:"resource_policies,omitempty"`
+
 	// The URL of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
+
+	// The standby policy for stopped and suspended instances. Structure is documented below. For more information, see the official documentation.
+	StandbyPolicy []StandbyPolicyObservation `json:"standbyPolicy,omitempty" tf:"standby_policy,omitempty"`
 
 	// Disks created on the instances that will be preserved on instance delete, update, etc. Structure is documented below. For more information see the official documentation.
 	StatefulDisk []StatefulDiskObservation `json:"statefulDisk,omitempty" tf:"stateful_disk,omitempty"`
@@ -301,7 +323,13 @@ type InstanceGroupManagerObservation struct {
 	// lifecycle. Defaults to 0.
 	TargetSize *float64 `json:"targetSize,omitempty" tf:"target_size,omitempty"`
 
-	// The update policy for this managed instance group. Structure is documented below. For more information, see the official documentation and API
+	// The target number of stopped instances for this managed instance group.
+	TargetStoppedSize *float64 `json:"targetStoppedSize,omitempty" tf:"target_stopped_size,omitempty"`
+
+	// The target number of suspended instances for this managed instance group.
+	TargetSuspendedSize *float64 `json:"targetSuspendedSize,omitempty" tf:"target_suspended_size,omitempty"`
+
+	// The update policy for this managed instance group. Structure is documented below. For more information, see the official documentation and API.
 	UpdatePolicy []UpdatePolicyObservation `json:"updatePolicy,omitempty" tf:"update_policy,omitempty"`
 
 	// Application versions managed by this instance group. Each
@@ -366,12 +394,20 @@ type InstanceGroupManagerParameters struct {
 	// The named port configuration. See the section below
 	// for details on configuration.
 	// +kubebuilder:validation:Optional
-	NamedPort []InstanceGroupManagerNamedPortParameters `json:"namedPort,omitempty" tf:"named_port,omitempty"`
+	NamedPort []NamedPortParameters `json:"namedPort,omitempty" tf:"named_port,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Resource policies for this managed instance group. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ResourcePolicies []ResourcePoliciesParameters `json:"resourcePolicies,omitempty" tf:"resource_policies,omitempty"`
+
+	// The standby policy for stopped and suspended instances. Structure is documented below. For more information, see the official documentation.
+	// +kubebuilder:validation:Optional
+	StandbyPolicy []StandbyPolicyParameters `json:"standbyPolicy,omitempty" tf:"standby_policy,omitempty"`
 
 	// Disks created on the instances that will be preserved on instance delete, update, etc. Structure is documented below. For more information see the official documentation.
 	// +kubebuilder:validation:Optional
@@ -409,7 +445,15 @@ type InstanceGroupManagerParameters struct {
 	// +kubebuilder:validation:Optional
 	TargetSize *float64 `json:"targetSize,omitempty" tf:"target_size,omitempty"`
 
-	// The update policy for this managed instance group. Structure is documented below. For more information, see the official documentation and API
+	// The target number of stopped instances for this managed instance group.
+	// +kubebuilder:validation:Optional
+	TargetStoppedSize *float64 `json:"targetStoppedSize,omitempty" tf:"target_stopped_size,omitempty"`
+
+	// The target number of suspended instances for this managed instance group.
+	// +kubebuilder:validation:Optional
+	TargetSuspendedSize *float64 `json:"targetSuspendedSize,omitempty" tf:"target_suspended_size,omitempty"`
+
+	// The update policy for this managed instance group. Structure is documented below. For more information, see the official documentation and API.
 	// +kubebuilder:validation:Optional
 	UpdatePolicy []UpdatePolicyParameters `json:"updatePolicy,omitempty" tf:"update_policy,omitempty"`
 
@@ -476,6 +520,74 @@ type PerInstanceConfigsObservation struct {
 }
 
 type PerInstanceConfigsParameters struct {
+}
+
+type ResourcePoliciesInitParameters struct {
+
+	// The URL of the workload policy that is specified for this managed instance group. It can be a full or partial URL.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.ResourcePolicy
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
+	WorkloadPolicy *string `json:"workloadPolicy,omitempty" tf:"workload_policy,omitempty"`
+
+	// Reference to a ResourcePolicy in compute to populate workloadPolicy.
+	// +kubebuilder:validation:Optional
+	WorkloadPolicyRef *v1.Reference `json:"workloadPolicyRef,omitempty" tf:"-"`
+
+	// Selector for a ResourcePolicy in compute to populate workloadPolicy.
+	// +kubebuilder:validation:Optional
+	WorkloadPolicySelector *v1.Selector `json:"workloadPolicySelector,omitempty" tf:"-"`
+}
+
+type ResourcePoliciesObservation struct {
+
+	// The URL of the workload policy that is specified for this managed instance group. It can be a full or partial URL.
+	WorkloadPolicy *string `json:"workloadPolicy,omitempty" tf:"workload_policy,omitempty"`
+}
+
+type ResourcePoliciesParameters struct {
+
+	// The URL of the workload policy that is specified for this managed instance group. It can be a full or partial URL.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.ResourcePolicy
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
+	// +kubebuilder:validation:Optional
+	WorkloadPolicy *string `json:"workloadPolicy,omitempty" tf:"workload_policy,omitempty"`
+
+	// Reference to a ResourcePolicy in compute to populate workloadPolicy.
+	// +kubebuilder:validation:Optional
+	WorkloadPolicyRef *v1.Reference `json:"workloadPolicyRef,omitempty" tf:"-"`
+
+	// Selector for a ResourcePolicy in compute to populate workloadPolicy.
+	// +kubebuilder:validation:Optional
+	WorkloadPolicySelector *v1.Selector `json:"workloadPolicySelector,omitempty" tf:"-"`
+}
+
+type StandbyPolicyInitParameters struct {
+
+	// - Specifies the number of seconds that the MIG should wait to suspend or stop a VM after that VM was created. The initial delay gives the initialization script the time to prepare your VM for a quick scale out. The value of initial delay must be between 0 and 3600 seconds. The default value is 0.
+	InitialDelaySec *float64 `json:"initialDelaySec,omitempty" tf:"initial_delay_sec,omitempty"`
+
+	// - Defines how a MIG resumes or starts VMs from a standby pool when the group scales out. Valid options are: MANUAL, SCALE_OUT_POOL. If MANUAL(default), you have full control over which VMs are stopped and suspended in the MIG. If SCALE_OUT_POOL, the MIG uses the VMs from the standby pools to accelerate the scale out by resuming or starting them and then automatically replenishes the standby pool with new VMs to maintain the target sizes.
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+}
+
+type StandbyPolicyObservation struct {
+
+	// - Specifies the number of seconds that the MIG should wait to suspend or stop a VM after that VM was created. The initial delay gives the initialization script the time to prepare your VM for a quick scale out. The value of initial delay must be between 0 and 3600 seconds. The default value is 0.
+	InitialDelaySec *float64 `json:"initialDelaySec,omitempty" tf:"initial_delay_sec,omitempty"`
+
+	// - Defines how a MIG resumes or starts VMs from a standby pool when the group scales out. Valid options are: MANUAL, SCALE_OUT_POOL. If MANUAL(default), you have full control over which VMs are stopped and suspended in the MIG. If SCALE_OUT_POOL, the MIG uses the VMs from the standby pools to accelerate the scale out by resuming or starting them and then automatically replenishes the standby pool with new VMs to maintain the target sizes.
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+}
+
+type StandbyPolicyParameters struct {
+
+	// - Specifies the number of seconds that the MIG should wait to suspend or stop a VM after that VM was created. The initial delay gives the initialization script the time to prepare your VM for a quick scale out. The value of initial delay must be between 0 and 3600 seconds. The default value is 0.
+	// +kubebuilder:validation:Optional
+	InitialDelaySec *float64 `json:"initialDelaySec,omitempty" tf:"initial_delay_sec,omitempty"`
+
+	// - Defines how a MIG resumes or starts VMs from a standby pool when the group scales out. Valid options are: MANUAL, SCALE_OUT_POOL. If MANUAL(default), you have full control over which VMs are stopped and suspended in the MIG. If SCALE_OUT_POOL, the MIG uses the VMs from the standby pools to accelerate the scale out by resuming or starting them and then automatically replenishes the standby pool with new VMs to maintain the target sizes.
+	// +kubebuilder:validation:Optional
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 }
 
 type StatefulDiskInitParameters struct {

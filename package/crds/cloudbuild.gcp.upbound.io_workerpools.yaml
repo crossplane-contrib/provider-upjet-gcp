@@ -187,6 +187,15 @@ spec:
                           type: object
                       type: object
                     type: array
+                  privateServiceConnect:
+                    items:
+                      properties:
+                        networkAttachment:
+                          type: string
+                        routeAllTraffic:
+                          type: boolean
+                      type: object
+                    type: array
                   project:
                     description: The project for the resource
                     type: string
@@ -337,6 +346,15 @@ spec:
                                   type: string
                               type: object
                           type: object
+                      type: object
+                    type: array
+                  privateServiceConnect:
+                    items:
+                      properties:
+                        networkAttachment:
+                          type: string
+                        routeAllTraffic:
+                          type: boolean
                       type: object
                     type: array
                   project:
@@ -589,6 +607,15 @@ spec:
                             the peered VPC. If unspecified, a value of /24 will be
                             used.
                           type: string
+                      type: object
+                    type: array
+                  privateServiceConnect:
+                    items:
+                      properties:
+                        networkAttachment:
+                          type: string
+                        routeAllTraffic:
+                          type: boolean
                       type: object
                     type: array
                   project:
@@ -855,6 +882,13 @@ spec:
                             type: object
                         type: object
                     type: object
+                  privateServiceConnect:
+                    properties:
+                      networkAttachment:
+                        type: string
+                      routeAllTraffic:
+                        type: boolean
+                    type: object
                   project:
                     description: The project for the resource
                     type: string
@@ -864,14 +898,12 @@ spec:
                     properties:
                       diskSizeGb:
                         description: Size of the disk attached to the worker, in GB.
-                          See (https://cloud.google.com/cloud-build/docs/custom-workers/worker-pool-config-file).
-                          Specify a value of up to 1000. If 0 is specified, Cloud
-                          Build will use a standard disk size.
+                          See diskSizeGb. Specify a value of up to 1000. If 0 is specified,
+                          Cloud Build will use a standard disk size.
                         type: number
                       machineType:
                         description: Machine type of a worker, such as n1-standard-1.
-                          See (https://cloud.google.com/cloud-build/docs/custom-workers/worker-pool-config-file).
-                          If left blank, Cloud Build will use n1-standard-1.
+                          See machineType. If left blank, Cloud Build will use n1-standard-1.
                         type: string
                       noExternalIp:
                         description: If true, workers are created without any public
@@ -1002,6 +1034,13 @@ spec:
                             type: object
                         type: object
                     type: object
+                  privateServiceConnect:
+                    properties:
+                      networkAttachment:
+                        type: string
+                      routeAllTraffic:
+                        type: boolean
+                    type: object
                   project:
                     description: The project for the resource
                     type: string
@@ -1011,14 +1050,12 @@ spec:
                     properties:
                       diskSizeGb:
                         description: Size of the disk attached to the worker, in GB.
-                          See (https://cloud.google.com/cloud-build/docs/custom-workers/worker-pool-config-file).
-                          Specify a value of up to 1000. If 0 is specified, Cloud
-                          Build will use a standard disk size.
+                          See diskSizeGb. Specify a value of up to 1000. If 0 is specified,
+                          Cloud Build will use a standard disk size.
                         type: number
                       machineType:
                         description: Machine type of a worker, such as n1-standard-1.
-                          See (https://cloud.google.com/cloud-build/docs/custom-workers/worker-pool-config-file).
-                          If left blank, Cloud Build will use n1-standard-1.
+                          See machineType. If left blank, Cloud Build will use n1-standard-1.
                         type: string
                       noExternalIp:
                         description: If true, workers are created without any public
@@ -1249,6 +1286,13 @@ spec:
                           peered VPC. If unspecified, a value of /24 will be used.
                         type: string
                     type: object
+                  privateServiceConnect:
+                    properties:
+                      networkAttachment:
+                        type: string
+                      routeAllTraffic:
+                        type: boolean
+                    type: object
                   project:
                     description: The project for the resource
                     type: string
@@ -1269,14 +1313,12 @@ spec:
                     properties:
                       diskSizeGb:
                         description: Size of the disk attached to the worker, in GB.
-                          See (https://cloud.google.com/cloud-build/docs/custom-workers/worker-pool-config-file).
-                          Specify a value of up to 1000. If 0 is specified, Cloud
-                          Build will use a standard disk size.
+                          See diskSizeGb. Specify a value of up to 1000. If 0 is specified,
+                          Cloud Build will use a standard disk size.
                         type: number
                       machineType:
                         description: Machine type of a worker, such as n1-standard-1.
-                          See (https://cloud.google.com/cloud-build/docs/custom-workers/worker-pool-config-file).
-                          If left blank, Cloud Build will use n1-standard-1.
+                          See machineType. If left blank, Cloud Build will use n1-standard-1.
                         type: string
                       noExternalIp:
                         description: If true, workers are created without any public

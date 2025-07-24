@@ -69,6 +69,13 @@ type ForwardingRuleInitParameters struct {
 	// +kubebuilder:validation:Optional
 	IPAddressSelector *v1.Selector `json:"ipAddressSelector,omitempty" tf:"-"`
 
+	// Resource reference of a PublicDelegatedPrefix. The PDP must be a sub-PDP
+	// in EXTERNAL_IPV6_FORWARDING_RULE_CREATION mode.
+	// Use one of the following formats to specify a sub-PDP when creating an
+	// IPv6 NetLB forwarding rule using BYOIP:
+	// Full resource URL, as in:
+	IPCollection *string `json:"ipCollection,omitempty" tf:"ip_collection,omitempty"`
+
 	// The IP protocol to which this rule applies.
 	// For protocol forwarding, valid
 	// options are TCP, UDP, ESP,
@@ -102,6 +109,9 @@ type ForwardingRuleInitParameters struct {
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Specifies the forwarding rule type.
+	// Note that an empty string value ("") is also supported for some use
+	// cases, for example PSC (private service connection) regional forwarding
+	// rules.
 	// For more information about forwarding rules, refer to
 	// Forwarding rule concepts.
 	// Default value is EXTERNAL.
@@ -269,6 +279,13 @@ type ForwardingRuleObservation struct {
 	// required under the following circumstances:
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
+	// Resource reference of a PublicDelegatedPrefix. The PDP must be a sub-PDP
+	// in EXTERNAL_IPV6_FORWARDING_RULE_CREATION mode.
+	// Use one of the following formats to specify a sub-PDP when creating an
+	// IPv6 NetLB forwarding rule using BYOIP:
+	// Full resource URL, as in:
+	IPCollection *string `json:"ipCollection,omitempty" tf:"ip_collection,omitempty"`
+
 	// The IP protocol to which this rule applies.
 	// For protocol forwarding, valid
 	// options are TCP, UDP, ESP,
@@ -306,6 +323,9 @@ type ForwardingRuleObservation struct {
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Specifies the forwarding rule type.
+	// Note that an empty string value ("") is also supported for some use
+	// cases, for example PSC (private service connection) regional forwarding
+	// rules.
 	// For more information about forwarding rules, refer to
 	// Forwarding rule concepts.
 	// Default value is EXTERNAL.
@@ -475,6 +495,14 @@ type ForwardingRuleParameters struct {
 	// +kubebuilder:validation:Optional
 	IPAddressSelector *v1.Selector `json:"ipAddressSelector,omitempty" tf:"-"`
 
+	// Resource reference of a PublicDelegatedPrefix. The PDP must be a sub-PDP
+	// in EXTERNAL_IPV6_FORWARDING_RULE_CREATION mode.
+	// Use one of the following formats to specify a sub-PDP when creating an
+	// IPv6 NetLB forwarding rule using BYOIP:
+	// Full resource URL, as in:
+	// +kubebuilder:validation:Optional
+	IPCollection *string `json:"ipCollection,omitempty" tf:"ip_collection,omitempty"`
+
 	// The IP protocol to which this rule applies.
 	// For protocol forwarding, valid
 	// options are TCP, UDP, ESP,
@@ -512,6 +540,9 @@ type ForwardingRuleParameters struct {
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Specifies the forwarding rule type.
+	// Note that an empty string value ("") is also supported for some use
+	// cases, for example PSC (private service connection) regional forwarding
+	// rules.
 	// For more information about forwarding rules, refer to
 	// Forwarding rule concepts.
 	// Default value is EXTERNAL.

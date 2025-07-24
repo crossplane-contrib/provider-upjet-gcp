@@ -329,6 +329,82 @@ spec:
                                   only. The topic you provide here will not be deleted
                                   by Eventarc at trigger deletion.'
                                 type: string
+                              topicRef:
+                                description: Reference to a Topic in pubsub to populate
+                                  topic.
+                                properties:
+                                  name:
+                                    description: Name of the referenced object.
+                                    type: string
+                                  policy:
+                                    description: Policies for referencing.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                required:
+                                - name
+                                type: object
+                              topicSelector:
+                                description: Selector for a Topic in pubsub to populate
+                                  topic.
+                                properties:
+                                  matchControllerRef:
+                                    description: |-
+                                      MatchControllerRef ensures an object with the same controller reference
+                                      as the selecting object is selected.
+                                    type: boolean
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    description: MatchLabels ensures an object with
+                                      matching labels is selected.
+                                    type: object
+                                  policy:
+                                    description: Policies for selection.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                type: object
                             type: object
                           type: array
                       type: object
@@ -597,6 +673,82 @@ spec:
                                   only. The topic you provide here will not be deleted
                                   by Eventarc at trigger deletion.'
                                 type: string
+                              topicRef:
+                                description: Reference to a Topic in pubsub to populate
+                                  topic.
+                                properties:
+                                  name:
+                                    description: Name of the referenced object.
+                                    type: string
+                                  policy:
+                                    description: Policies for referencing.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                required:
+                                - name
+                                type: object
+                              topicSelector:
+                                description: Selector for a Topic in pubsub to populate
+                                  topic.
+                                properties:
+                                  matchControllerRef:
+                                    description: |-
+                                      MatchControllerRef ensures an object with the same controller reference
+                                      as the selecting object is selected.
+                                    type: boolean
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    description: MatchLabels ensures an object with
+                                      matching labels is selected.
+                                    type: object
+                                  policy:
+                                    description: Policies for selection.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                type: object
                             type: object
                           type: array
                       type: object
@@ -992,9 +1144,9 @@ spec:
                           items:
                             properties:
                               subscription:
-                                description: 'Output only. The name of the Pub/Sub
-                                  subscription created and managed by Eventarc system
-                                  as a transport for the event delivery. Format: projects/{PROJECT_ID}/subscriptions/{SUBSCRIPTION_NAME}.'
+                                description: |-
+                                  (Output)
+                                  Output only. The name of the Pub/Sub subscription created and managed by Eventarc system as a transport for the event delivery. Format: projects/{PROJECT_ID}/subscriptions/{SUBSCRIPTION_NAME}.
                                 type: string
                               topic:
                                 description: 'Optional. The name of the Pub/Sub topic
@@ -1141,13 +1293,14 @@ spec:
                       SaaS partners.
                     type: string
                   destination:
-                    description: Required. Destination specifies where the events
-                      should be sent to.
+                    description: |-
+                      Required. Destination specifies where the events should be sent to.
+                      Structure is documented below.
                     properties:
                       cloudRunService:
-                        description: Cloud Run fully-managed service that receives
-                          the events. The service should be running in the same project
-                          of the trigger.
+                        description: |-
+                          Cloud Run fully-managed service that receives the events. The service should be running in the same project of the trigger.
+                          Structure is documented below.
                         properties:
                           path:
                             description: 'Optional. The relative path on the GKE service
@@ -1240,8 +1393,9 @@ spec:
                             type: object
                         type: object
                       gke:
-                        description: A GKE service capable of receiving events. The
-                          service should be running in the same project as the trigger.
+                        description: |-
+                          A GKE service capable of receiving events. The service should be running in the same project as the trigger.
+                          Structure is documented below.
                         properties:
                           cluster:
                             description: Required. The name of the cluster the GKE
@@ -1268,8 +1422,9 @@ spec:
                         - location
                         type: object
                       httpEndpoint:
-                        description: An HTTP endpoint destination described by an
-                          URI.
+                        description: |-
+                          An HTTP endpoint destination described by an URI.
+                          Structure is documented below.
                         properties:
                           uri:
                             description: 'Required. The URI of the HTTP enpdoint.
@@ -1282,9 +1437,9 @@ spec:
                             type: string
                         type: object
                       networkConfig:
-                        description: Optional. Network config is used to configure
-                          how Eventarc resolves and connect to a destination. This
-                          should only be used with HttpEndpoint destination type.
+                        description: |-
+                          Optional. Network config is used to configure how Eventarc resolves and connect to a destination. This should only be used with HttpEndpoint destination type.
+                          Structure is documented below.
                         properties:
                           networkAttachment:
                             description: 'Required. Name of the NetworkAttachment
@@ -1307,17 +1462,19 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: Optional. User labels attached to the triggers that
-                      can be used to group resources.
+                    description: |-
+                      Optional. User labels attached to the triggers that can be used to group resources.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   location:
                     description: The location for the resource
                     type: string
                   matchingCriteria:
-                    description: Required. null The list of filters that applies to
-                      event attributes. Only events that match all the provided filters
-                      will be sent to the destination.
+                    description: |-
+                      Required. null The list of filters that applies to event attributes. Only events that match all the provided filters will be sent to the destination.
+                      Structure is documented below.
                     items:
                       properties:
                         attribute:
@@ -1340,7 +1497,9 @@ spec:
                       type: object
                     type: array
                   project:
-                    description: The project for the resource
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   serviceAccount:
                     description: Optional. The IAM service account email associated
@@ -1355,14 +1514,14 @@ spec:
                       also have roles/eventarc.eventReceiver IAM role.
                     type: string
                   transport:
-                    description: Optional. In order to deliver messages, Eventarc
-                      may use other GCP products as transport intermediary. This field
-                      contains a reference to that transport intermediary. This information
-                      can be used for debugging purposes.
+                    description: |-
+                      Optional. In order to deliver messages, Eventarc may use other GCP products as transport intermediary. This field contains a reference to that transport intermediary. This information can be used for debugging purposes.
+                      Structure is documented below.
                     properties:
                       pubsub:
-                        description: The Pub/Sub topic and subscription used by Eventarc
-                          as delivery intermediary.
+                        description: |-
+                          The Pub/Sub topic and subscription used by Eventarc as delivery intermediary.
+                          Structure is documented below.
                         properties:
                           topic:
                             description: 'Optional. The name of the Pub/Sub topic
@@ -1373,6 +1532,82 @@ spec:
                               The topic you provide here will not be deleted by Eventarc
                               at trigger deletion.'
                             type: string
+                          topicRef:
+                            description: Reference to a Topic in pubsub to populate
+                              topic.
+                            properties:
+                              name:
+                                description: Name of the referenced object.
+                                type: string
+                              policy:
+                                description: Policies for referencing.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            required:
+                            - name
+                            type: object
+                          topicSelector:
+                            description: Selector for a Topic in pubsub to populate
+                              topic.
+                            properties:
+                              matchControllerRef:
+                                description: |-
+                                  MatchControllerRef ensures an object with the same controller reference
+                                  as the selecting object is selected.
+                                type: boolean
+                              matchLabels:
+                                additionalProperties:
+                                  type: string
+                                description: MatchLabels ensures an object with matching
+                                  labels is selected.
+                                type: object
+                              policy:
+                                description: Policies for selection.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            type: object
                         type: object
                     type: object
                 required:
@@ -1398,13 +1633,14 @@ spec:
                       SaaS partners.
                     type: string
                   destination:
-                    description: Required. Destination specifies where the events
-                      should be sent to.
+                    description: |-
+                      Required. Destination specifies where the events should be sent to.
+                      Structure is documented below.
                     properties:
                       cloudRunService:
-                        description: Cloud Run fully-managed service that receives
-                          the events. The service should be running in the same project
-                          of the trigger.
+                        description: |-
+                          Cloud Run fully-managed service that receives the events. The service should be running in the same project of the trigger.
+                          Structure is documented below.
                         properties:
                           path:
                             description: 'Optional. The relative path on the GKE service
@@ -1497,8 +1733,9 @@ spec:
                             type: object
                         type: object
                       gke:
-                        description: A GKE service capable of receiving events. The
-                          service should be running in the same project as the trigger.
+                        description: |-
+                          A GKE service capable of receiving events. The service should be running in the same project as the trigger.
+                          Structure is documented below.
                         properties:
                           cluster:
                             description: Required. The name of the cluster the GKE
@@ -1520,8 +1757,9 @@ spec:
                             type: string
                         type: object
                       httpEndpoint:
-                        description: An HTTP endpoint destination described by an
-                          URI.
+                        description: |-
+                          An HTTP endpoint destination described by an URI.
+                          Structure is documented below.
                         properties:
                           uri:
                             description: 'Required. The URI of the HTTP enpdoint.
@@ -1534,9 +1772,9 @@ spec:
                             type: string
                         type: object
                       networkConfig:
-                        description: Optional. Network config is used to configure
-                          how Eventarc resolves and connect to a destination. This
-                          should only be used with HttpEndpoint destination type.
+                        description: |-
+                          Optional. Network config is used to configure how Eventarc resolves and connect to a destination. This should only be used with HttpEndpoint destination type.
+                          Structure is documented below.
                         properties:
                           networkAttachment:
                             description: 'Required. Name of the NetworkAttachment
@@ -1559,14 +1797,16 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: Optional. User labels attached to the triggers that
-                      can be used to group resources.
+                    description: |-
+                      Optional. User labels attached to the triggers that can be used to group resources.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   matchingCriteria:
-                    description: Required. null The list of filters that applies to
-                      event attributes. Only events that match all the provided filters
-                      will be sent to the destination.
+                    description: |-
+                      Required. null The list of filters that applies to event attributes. Only events that match all the provided filters will be sent to the destination.
+                      Structure is documented below.
                     items:
                       properties:
                         attribute:
@@ -1589,7 +1829,9 @@ spec:
                       type: object
                     type: array
                   project:
-                    description: The project for the resource
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   serviceAccount:
                     description: Optional. The IAM service account email associated
@@ -1604,14 +1846,14 @@ spec:
                       also have roles/eventarc.eventReceiver IAM role.
                     type: string
                   transport:
-                    description: Optional. In order to deliver messages, Eventarc
-                      may use other GCP products as transport intermediary. This field
-                      contains a reference to that transport intermediary. This information
-                      can be used for debugging purposes.
+                    description: |-
+                      Optional. In order to deliver messages, Eventarc may use other GCP products as transport intermediary. This field contains a reference to that transport intermediary. This information can be used for debugging purposes.
+                      Structure is documented below.
                     properties:
                       pubsub:
-                        description: The Pub/Sub topic and subscription used by Eventarc
-                          as delivery intermediary.
+                        description: |-
+                          The Pub/Sub topic and subscription used by Eventarc as delivery intermediary.
+                          Structure is documented below.
                         properties:
                           topic:
                             description: 'Optional. The name of the Pub/Sub topic
@@ -1622,6 +1864,82 @@ spec:
                               The topic you provide here will not be deleted by Eventarc
                               at trigger deletion.'
                             type: string
+                          topicRef:
+                            description: Reference to a Topic in pubsub to populate
+                              topic.
+                            properties:
+                              name:
+                                description: Name of the referenced object.
+                                type: string
+                              policy:
+                                description: Policies for referencing.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            required:
+                            - name
+                            type: object
+                          topicSelector:
+                            description: Selector for a Topic in pubsub to populate
+                              topic.
+                            properties:
+                              matchControllerRef:
+                                description: |-
+                                  MatchControllerRef ensures an object with the same controller reference
+                                  as the selecting object is selected.
+                                type: boolean
+                              matchLabels:
+                                additionalProperties:
+                                  type: string
+                                description: MatchLabels ensures an object with matching
+                                  labels is selected.
+                                type: object
+                              policy:
+                                description: Policies for selection.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            type: object
                         type: object
                     type: object
                 type: object
@@ -1823,20 +2141,19 @@ spec:
                     description: Output only. The creation time.
                     type: string
                   destination:
-                    description: Required. Destination specifies where the events
-                      should be sent to.
+                    description: |-
+                      Required. Destination specifies where the events should be sent to.
+                      Structure is documented below.
                     properties:
                       cloudFunction:
-                        description: The Cloud Function resource name. Only Cloud
-                          Functions V2 is supported. Format projects/{project}/locations/{location}/functions/{function}
-                          This is a read-only field. [WARNING] Creating Cloud Functions
-                          V2 triggers is only supported via the Cloud Functions product.
-                          An error will be returned if the user sets this value.
+                        description: |-
+                          (Output)
+                          The Cloud Function resource name. Only Cloud Functions V2 is supported. Format projects/{project}/locations/{location}/functions/{function} This is a read-only field. [WARNING] Creating Cloud Functions V2 triggers is only supported via the Cloud Functions product. An error will be returned if the user sets this value.
                         type: string
                       cloudRunService:
-                        description: Cloud Run fully-managed service that receives
-                          the events. The service should be running in the same project
-                          of the trigger.
+                        description: |-
+                          Cloud Run fully-managed service that receives the events. The service should be running in the same project of the trigger.
+                          Structure is documented below.
                         properties:
                           path:
                             description: 'Optional. The relative path on the GKE service
@@ -1853,8 +2170,9 @@ spec:
                             type: string
                         type: object
                       gke:
-                        description: A GKE service capable of receiving events. The
-                          service should be running in the same project as the trigger.
+                        description: |-
+                          A GKE service capable of receiving events. The service should be running in the same project as the trigger.
+                          Structure is documented below.
                         properties:
                           cluster:
                             description: Required. The name of the cluster the GKE
@@ -1879,8 +2197,9 @@ spec:
                             type: string
                         type: object
                       httpEndpoint:
-                        description: An HTTP endpoint destination described by an
-                          URI.
+                        description: |-
+                          An HTTP endpoint destination described by an URI.
+                          Structure is documented below.
                         properties:
                           uri:
                             description: 'Required. The URI of the HTTP enpdoint.
@@ -1893,9 +2212,9 @@ spec:
                             type: string
                         type: object
                       networkConfig:
-                        description: Optional. Network config is used to configure
-                          how Eventarc resolves and connect to a destination. This
-                          should only be used with HttpEndpoint destination type.
+                        description: |-
+                          Optional. Network config is used to configure how Eventarc resolves and connect to a destination. This should only be used with HttpEndpoint destination type.
+                          Structure is documented below.
                         properties:
                           networkAttachment:
                             description: 'Required. Name of the NetworkAttachment
@@ -1932,17 +2251,19 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: Optional. User labels attached to the triggers that
-                      can be used to group resources.
+                    description: |-
+                      Optional. User labels attached to the triggers that can be used to group resources.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   location:
                     description: The location for the resource
                     type: string
                   matchingCriteria:
-                    description: Required. null The list of filters that applies to
-                      event attributes. Only events that match all the provided filters
-                      will be sent to the destination.
+                    description: |-
+                      Required. null The list of filters that applies to event attributes. Only events that match all the provided filters will be sent to the destination.
+                      Structure is documented below.
                     items:
                       properties:
                         attribute:
@@ -1965,7 +2286,9 @@ spec:
                       type: object
                     type: array
                   project:
-                    description: The project for the resource
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   serviceAccount:
                     description: Optional. The IAM service account email associated
@@ -1982,24 +2305,25 @@ spec:
                   terraformLabels:
                     additionalProperties:
                       type: string
-                    description: The combination of labels configured directly on
-                      the resource and default labels configured on the provider.
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
                     type: object
                     x-kubernetes-map-type: granular
                   transport:
-                    description: Optional. In order to deliver messages, Eventarc
-                      may use other GCP products as transport intermediary. This field
-                      contains a reference to that transport intermediary. This information
-                      can be used for debugging purposes.
+                    description: |-
+                      Optional. In order to deliver messages, Eventarc may use other GCP products as transport intermediary. This field contains a reference to that transport intermediary. This information can be used for debugging purposes.
+                      Structure is documented below.
                     properties:
                       pubsub:
-                        description: The Pub/Sub topic and subscription used by Eventarc
-                          as delivery intermediary.
+                        description: |-
+                          The Pub/Sub topic and subscription used by Eventarc as delivery intermediary.
+                          Structure is documented below.
                         properties:
                           subscription:
-                            description: 'Output only. The name of the Pub/Sub subscription
-                              created and managed by Eventarc system as a transport
-                              for the event delivery. Format: projects/{PROJECT_ID}/subscriptions/{SUBSCRIPTION_NAME}.'
+                            description: |-
+                              (Output)
+                              Output only. The name of the Pub/Sub subscription created and managed by Eventarc system as a transport for the event delivery. Format: projects/{PROJECT_ID}/subscriptions/{SUBSCRIPTION_NAME}.
                             type: string
                           topic:
                             description: 'Optional. The name of the Pub/Sub topic

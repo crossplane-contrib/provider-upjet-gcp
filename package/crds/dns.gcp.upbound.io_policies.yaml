@@ -106,6 +106,26 @@ spec:
                   description:
                     description: A textual description field.
                     type: string
+                  dns64Config:
+                    description: |-
+                      Configurations related to DNS64 for this Policy.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        scope:
+                          description: |-
+                            The scope to which DNS64 config will be applied to.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              allQueries:
+                                description: Controls whether DNS64 is enabled globally
+                                  at the network level.
+                                type: boolean
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   enableInboundForwarding:
                     description: |-
                       Allows networks bound to this policy to receive DNS queries sent
@@ -260,6 +280,26 @@ spec:
                   description:
                     description: A textual description field.
                     type: string
+                  dns64Config:
+                    description: |-
+                      Configurations related to DNS64 for this Policy.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        scope:
+                          description: |-
+                            The scope to which DNS64 config will be applied to.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              allQueries:
+                                description: Controls whether DNS64 is enabled globally
+                                  at the network level.
+                                type: boolean
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   enableInboundForwarding:
                     description: |-
                       Allows networks bound to this policy to receive DNS queries sent
@@ -573,6 +613,26 @@ spec:
                   description:
                     description: A textual description field.
                     type: string
+                  dns64Config:
+                    description: |-
+                      Configurations related to DNS64 for this Policy.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        scope:
+                          description: |-
+                            The scope to which DNS64 config will be applied to.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              allQueries:
+                                description: Controls whether DNS64 is enabled globally
+                                  at the network level.
+                                type: boolean
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   enableInboundForwarding:
                     description: |-
                       Allows networks bound to this policy to receive DNS queries sent
@@ -755,6 +815,22 @@ spec:
                   description:
                     description: A textual description field.
                     type: string
+                  dns64Config:
+                    description: |-
+                      Configurations related to DNS64 for this Policy.
+                      Structure is documented below.
+                    properties:
+                      scope:
+                        description: |-
+                          The scope to which DNS64 config will be applied to.
+                          Structure is documented below.
+                        properties:
+                          allQueries:
+                            description: Controls whether DNS64 is enabled globally
+                              at the network level.
+                            type: boolean
+                        type: object
+                    type: object
                   enableInboundForwarding:
                     description: |-
                       Allows networks bound to this policy to receive DNS queries sent
@@ -907,6 +983,22 @@ spec:
                   description:
                     description: A textual description field.
                     type: string
+                  dns64Config:
+                    description: |-
+                      Configurations related to DNS64 for this Policy.
+                      Structure is documented below.
+                    properties:
+                      scope:
+                        description: |-
+                          The scope to which DNS64 config will be applied to.
+                          Structure is documented below.
+                        properties:
+                          allQueries:
+                            description: Controls whether DNS64 is enabled globally
+                              at the network level.
+                            type: boolean
+                        type: object
+                    type: object
                   enableInboundForwarding:
                     description: |-
                       Allows networks bound to this policy to receive DNS queries sent
@@ -1218,6 +1310,22 @@ spec:
                   description:
                     description: A textual description field.
                     type: string
+                  dns64Config:
+                    description: |-
+                      Configurations related to DNS64 for this Policy.
+                      Structure is documented below.
+                    properties:
+                      scope:
+                        description: |-
+                          The scope to which DNS64 config will be applied to.
+                          Structure is documented below.
+                        properties:
+                          allQueries:
+                            description: Controls whether DNS64 is enabled globally
+                              at the network level.
+                            type: boolean
+                        type: object
+                    type: object
                   enableInboundForwarding:
                     description: |-
                       Allows networks bound to this policy to receive DNS queries sent

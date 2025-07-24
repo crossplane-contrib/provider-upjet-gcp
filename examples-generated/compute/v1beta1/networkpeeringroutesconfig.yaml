@@ -9,7 +9,9 @@ metadata:
 spec:
   forProvider:
     exportCustomRoutes: true
+    exportSubnetRoutesWithPublicIp: true
     importCustomRoutes: true
+    importSubnetRoutesWithPublicIp: true
     networkSelector:
       matchLabels:
         testing.upbound.io/example-name: network_primary
@@ -58,7 +60,9 @@ metadata:
 spec:
   forProvider:
     exportCustomRoutes: true
+    exportSubnetRoutesWithPublicIp: true
     importCustomRoutes: true
+    importSubnetRoutesWithPublicIp: true
     networkSelector:
       matchLabels:
         testing.upbound.io/example-name: network_primary

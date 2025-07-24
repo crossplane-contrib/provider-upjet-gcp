@@ -53,8 +53,8 @@ type AppConnectionInitParameters struct {
 	// The region of the AppConnection.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
-	// The type of hosting used by the gateway. Refer to
-	// https://cloud.google.com/beyondcorp/docs/reference/rest/v1/projects.locations.appConnections#Type_1
+	// The type of network connectivity used by the AppConnection. Refer
+	// to https://cloud.google.com/beyondcorp/docs/reference/rest/v1/projects.locations.appConnections#type
 	// for a list of possible values.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
@@ -71,6 +71,7 @@ type AppConnectionObservation struct {
 	// An arbitrary user-provided name for the AppConnection.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	// for all of the labels present on the resource.
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
 
@@ -100,8 +101,8 @@ type AppConnectionObservation struct {
 	// +mapType=granular
 	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
-	// The type of hosting used by the gateway. Refer to
-	// https://cloud.google.com/beyondcorp/docs/reference/rest/v1/projects.locations.appConnections#Type_1
+	// The type of network connectivity used by the AppConnection. Refer
+	// to https://cloud.google.com/beyondcorp/docs/reference/rest/v1/projects.locations.appConnections#type
 	// for a list of possible values.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
@@ -154,8 +155,8 @@ type AppConnectionParameters struct {
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
-	// The type of hosting used by the gateway. Refer to
-	// https://cloud.google.com/beyondcorp/docs/reference/rest/v1/projects.locations.appConnections#Type_1
+	// The type of network connectivity used by the AppConnection. Refer
+	// to https://cloud.google.com/beyondcorp/docs/reference/rest/v1/projects.locations.appConnections#type
 	// for a list of possible values.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`

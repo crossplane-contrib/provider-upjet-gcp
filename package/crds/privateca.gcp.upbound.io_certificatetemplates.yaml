@@ -233,18 +233,27 @@ spec:
                             properties:
                               isCa:
                                 description: Optional. Refers to the "CA" X.509 extension,
-                                  which is a boolean value. When this value is missing,
-                                  the extension will be omitted from the CA certificate.
+                                  which is a boolean value. When this value is true,
+                                  the "CA" in Basic Constraints extension will be
+                                  set to true.
                                 type: boolean
                               maxIssuerPathLength:
-                                description: Optional. Refers to the path length restriction
-                                  X.509 extension. For a CA certificate, this value
-                                  describes the depth of subordinate CA certificates
-                                  that are allowed. If this value is less than 0,
-                                  the request will fail. If this value is missing,
-                                  the max path length will be omitted from the CA
-                                  certificate.
+                                description: |-
+                                  Optional. Refers to the "path length constraint" in Basic Constraints extension. For a CA certificate, this value describes the depth of
+                                  subordinate CA certificates that are allowed. If this value is less than 0, the request will fail.
                                 type: number
+                              nullCa:
+                                description: |-
+                                  Optional. When true, the "CA" in Basic Constraints extension will be set to null and omitted from the CA certificate.
+                                  If both is_ca and null_ca are unset, the "CA" in Basic Constraints extension will be set to false.
+                                  Note that the behavior when is_ca = false for this resource is different from the behavior in the Certificate Authority, Certificate and CaPool resources.
+                                type: boolean
+                              zeroMaxIssuerPathLength:
+                                description: |-
+                                  Optional. When true, the "path length constraint" in Basic Constraints extension will be set to 0.
+                                  if both max_issuer_path_length and zero_max_issuer_path_length are unset,
+                                  the max path length will be omitted from the CA certificate.
+                                type: boolean
                             type: object
                           type: array
                         keyUsage:
@@ -344,6 +353,90 @@ spec:
                                         type: number
                                       type: array
                                   type: object
+                                type: array
+                            type: object
+                          type: array
+                        nameConstraints:
+                          description: |-
+                            Describes the X.509 name constraints extension.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              critical:
+                                description: Indicates whether or not the name constraints
+                                  are marked critical.
+                                type: boolean
+                              excludedDnsNames:
+                                description: |-
+                                  Contains excluded DNS names. Any DNS name that can be
+                                  constructed by simply adding zero or more labels to
+                                  the left-hand side of the name satisfies the name constraint.
+                                  For example, example.com, www.example.com, www.sub.example.com
+                                  would satisfy example.com while example1.com does not.
+                                items:
+                                  type: string
+                                type: array
+                              excludedEmailAddresses:
+                                description: |-
+                                  Contains the excluded email addresses. The value can be a particular
+                                  email address, a hostname to indicate all email addresses on that host or
+                                  a domain with a leading period (e.g. .example.com) to indicate
+                                  all email addresses in that domain.
+                                items:
+                                  type: string
+                                type: array
+                              excludedIpRanges:
+                                description: |-
+                                  Contains the excluded IP ranges. For IPv4 addresses, the ranges
+                                  are expressed using CIDR notation as specified in RFC 4632.
+                                  For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+                                  addresses.
+                                items:
+                                  type: string
+                                type: array
+                              excludedUris:
+                                description: |-
+                                  Contains the excluded URIs that apply to the host part of the name.
+                                  The value can be a hostname or a domain with a
+                                  leading period (like .example.com)
+                                items:
+                                  type: string
+                                type: array
+                              permittedDnsNames:
+                                description: |-
+                                  Contains permitted DNS names. Any DNS name that can be
+                                  constructed by simply adding zero or more labels to
+                                  the left-hand side of the name satisfies the name constraint.
+                                  For example, example.com, www.example.com, www.sub.example.com
+                                  would satisfy example.com while example1.com does not.
+                                items:
+                                  type: string
+                                type: array
+                              permittedEmailAddresses:
+                                description: |-
+                                  Contains the permitted email addresses. The value can be a particular
+                                  email address, a hostname to indicate all email addresses on that host or
+                                  a domain with a leading period (e.g. .example.com) to indicate
+                                  all email addresses in that domain.
+                                items:
+                                  type: string
+                                type: array
+                              permittedIpRanges:
+                                description: |-
+                                  Contains the permitted IP ranges. For IPv4 addresses, the ranges
+                                  are expressed using CIDR notation as specified in RFC 4632.
+                                  For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+                                  addresses.
+                                items:
+                                  type: string
+                                type: array
+                              permittedUris:
+                                description: |-
+                                  Contains the permitted URIs that apply to the host part of the name.
+                                  The value can be a hostname or a domain with a
+                                  leading period (like .example.com)
+                                items:
+                                  type: string
                                 type: array
                             type: object
                           type: array
@@ -531,18 +624,27 @@ spec:
                             properties:
                               isCa:
                                 description: Optional. Refers to the "CA" X.509 extension,
-                                  which is a boolean value. When this value is missing,
-                                  the extension will be omitted from the CA certificate.
+                                  which is a boolean value. When this value is true,
+                                  the "CA" in Basic Constraints extension will be
+                                  set to true.
                                 type: boolean
                               maxIssuerPathLength:
-                                description: Optional. Refers to the path length restriction
-                                  X.509 extension. For a CA certificate, this value
-                                  describes the depth of subordinate CA certificates
-                                  that are allowed. If this value is less than 0,
-                                  the request will fail. If this value is missing,
-                                  the max path length will be omitted from the CA
-                                  certificate.
+                                description: |-
+                                  Optional. Refers to the "path length constraint" in Basic Constraints extension. For a CA certificate, this value describes the depth of
+                                  subordinate CA certificates that are allowed. If this value is less than 0, the request will fail.
                                 type: number
+                              nullCa:
+                                description: |-
+                                  Optional. When true, the "CA" in Basic Constraints extension will be set to null and omitted from the CA certificate.
+                                  If both is_ca and null_ca are unset, the "CA" in Basic Constraints extension will be set to false.
+                                  Note that the behavior when is_ca = false for this resource is different from the behavior in the Certificate Authority, Certificate and CaPool resources.
+                                type: boolean
+                              zeroMaxIssuerPathLength:
+                                description: |-
+                                  Optional. When true, the "path length constraint" in Basic Constraints extension will be set to 0.
+                                  if both max_issuer_path_length and zero_max_issuer_path_length are unset,
+                                  the max path length will be omitted from the CA certificate.
+                                type: boolean
                             type: object
                           type: array
                         keyUsage:
@@ -642,6 +744,90 @@ spec:
                                         type: number
                                       type: array
                                   type: object
+                                type: array
+                            type: object
+                          type: array
+                        nameConstraints:
+                          description: |-
+                            Describes the X.509 name constraints extension.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              critical:
+                                description: Indicates whether or not the name constraints
+                                  are marked critical.
+                                type: boolean
+                              excludedDnsNames:
+                                description: |-
+                                  Contains excluded DNS names. Any DNS name that can be
+                                  constructed by simply adding zero or more labels to
+                                  the left-hand side of the name satisfies the name constraint.
+                                  For example, example.com, www.example.com, www.sub.example.com
+                                  would satisfy example.com while example1.com does not.
+                                items:
+                                  type: string
+                                type: array
+                              excludedEmailAddresses:
+                                description: |-
+                                  Contains the excluded email addresses. The value can be a particular
+                                  email address, a hostname to indicate all email addresses on that host or
+                                  a domain with a leading period (e.g. .example.com) to indicate
+                                  all email addresses in that domain.
+                                items:
+                                  type: string
+                                type: array
+                              excludedIpRanges:
+                                description: |-
+                                  Contains the excluded IP ranges. For IPv4 addresses, the ranges
+                                  are expressed using CIDR notation as specified in RFC 4632.
+                                  For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+                                  addresses.
+                                items:
+                                  type: string
+                                type: array
+                              excludedUris:
+                                description: |-
+                                  Contains the excluded URIs that apply to the host part of the name.
+                                  The value can be a hostname or a domain with a
+                                  leading period (like .example.com)
+                                items:
+                                  type: string
+                                type: array
+                              permittedDnsNames:
+                                description: |-
+                                  Contains permitted DNS names. Any DNS name that can be
+                                  constructed by simply adding zero or more labels to
+                                  the left-hand side of the name satisfies the name constraint.
+                                  For example, example.com, www.example.com, www.sub.example.com
+                                  would satisfy example.com while example1.com does not.
+                                items:
+                                  type: string
+                                type: array
+                              permittedEmailAddresses:
+                                description: |-
+                                  Contains the permitted email addresses. The value can be a particular
+                                  email address, a hostname to indicate all email addresses on that host or
+                                  a domain with a leading period (e.g. .example.com) to indicate
+                                  all email addresses in that domain.
+                                items:
+                                  type: string
+                                type: array
+                              permittedIpRanges:
+                                description: |-
+                                  Contains the permitted IP ranges. For IPv4 addresses, the ranges
+                                  are expressed using CIDR notation as specified in RFC 4632.
+                                  For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+                                  addresses.
+                                items:
+                                  type: string
+                                type: array
+                              permittedUris:
+                                description: |-
+                                  Contains the permitted URIs that apply to the host part of the name.
+                                  The value can be a hostname or a domain with a
+                                  leading period (like .example.com)
+                                items:
+                                  type: string
                                 type: array
                             type: object
                           type: array
@@ -1004,18 +1190,27 @@ spec:
                             properties:
                               isCa:
                                 description: Optional. Refers to the "CA" X.509 extension,
-                                  which is a boolean value. When this value is missing,
-                                  the extension will be omitted from the CA certificate.
+                                  which is a boolean value. When this value is true,
+                                  the "CA" in Basic Constraints extension will be
+                                  set to true.
                                 type: boolean
                               maxIssuerPathLength:
-                                description: Optional. Refers to the path length restriction
-                                  X.509 extension. For a CA certificate, this value
-                                  describes the depth of subordinate CA certificates
-                                  that are allowed. If this value is less than 0,
-                                  the request will fail. If this value is missing,
-                                  the max path length will be omitted from the CA
-                                  certificate.
+                                description: |-
+                                  Optional. Refers to the "path length constraint" in Basic Constraints extension. For a CA certificate, this value describes the depth of
+                                  subordinate CA certificates that are allowed. If this value is less than 0, the request will fail.
                                 type: number
+                              nullCa:
+                                description: |-
+                                  Optional. When true, the "CA" in Basic Constraints extension will be set to null and omitted from the CA certificate.
+                                  If both is_ca and null_ca are unset, the "CA" in Basic Constraints extension will be set to false.
+                                  Note that the behavior when is_ca = false for this resource is different from the behavior in the Certificate Authority, Certificate and CaPool resources.
+                                type: boolean
+                              zeroMaxIssuerPathLength:
+                                description: |-
+                                  Optional. When true, the "path length constraint" in Basic Constraints extension will be set to 0.
+                                  if both max_issuer_path_length and zero_max_issuer_path_length are unset,
+                                  the max path length will be omitted from the CA certificate.
+                                type: boolean
                             type: object
                           type: array
                         keyUsage:
@@ -1115,6 +1310,90 @@ spec:
                                         type: number
                                       type: array
                                   type: object
+                                type: array
+                            type: object
+                          type: array
+                        nameConstraints:
+                          description: |-
+                            Describes the X.509 name constraints extension.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              critical:
+                                description: Indicates whether or not the name constraints
+                                  are marked critical.
+                                type: boolean
+                              excludedDnsNames:
+                                description: |-
+                                  Contains excluded DNS names. Any DNS name that can be
+                                  constructed by simply adding zero or more labels to
+                                  the left-hand side of the name satisfies the name constraint.
+                                  For example, example.com, www.example.com, www.sub.example.com
+                                  would satisfy example.com while example1.com does not.
+                                items:
+                                  type: string
+                                type: array
+                              excludedEmailAddresses:
+                                description: |-
+                                  Contains the excluded email addresses. The value can be a particular
+                                  email address, a hostname to indicate all email addresses on that host or
+                                  a domain with a leading period (e.g. .example.com) to indicate
+                                  all email addresses in that domain.
+                                items:
+                                  type: string
+                                type: array
+                              excludedIpRanges:
+                                description: |-
+                                  Contains the excluded IP ranges. For IPv4 addresses, the ranges
+                                  are expressed using CIDR notation as specified in RFC 4632.
+                                  For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+                                  addresses.
+                                items:
+                                  type: string
+                                type: array
+                              excludedUris:
+                                description: |-
+                                  Contains the excluded URIs that apply to the host part of the name.
+                                  The value can be a hostname or a domain with a
+                                  leading period (like .example.com)
+                                items:
+                                  type: string
+                                type: array
+                              permittedDnsNames:
+                                description: |-
+                                  Contains permitted DNS names. Any DNS name that can be
+                                  constructed by simply adding zero or more labels to
+                                  the left-hand side of the name satisfies the name constraint.
+                                  For example, example.com, www.example.com, www.sub.example.com
+                                  would satisfy example.com while example1.com does not.
+                                items:
+                                  type: string
+                                type: array
+                              permittedEmailAddresses:
+                                description: |-
+                                  Contains the permitted email addresses. The value can be a particular
+                                  email address, a hostname to indicate all email addresses on that host or
+                                  a domain with a leading period (e.g. .example.com) to indicate
+                                  all email addresses in that domain.
+                                items:
+                                  type: string
+                                type: array
+                              permittedIpRanges:
+                                description: |-
+                                  Contains the permitted IP ranges. For IPv4 addresses, the ranges
+                                  are expressed using CIDR notation as specified in RFC 4632.
+                                  For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+                                  addresses.
+                                items:
+                                  type: string
+                                type: array
+                              permittedUris:
+                                description: |-
+                                  Contains the permitted URIs that apply to the host part of the name.
+                                  The value can be a hostname or a domain with a
+                                  leading period (like .example.com)
+                                items:
+                                  type: string
                                 type: array
                             type: object
                           type: array
@@ -1368,10 +1647,8 @@ spec:
                         items:
                           properties:
                             critical:
-                              description: Optional. Indicates whether or not this
-                                extension is critical (i.e., if the client does not
-                                know how to handle this extension, the client should
-                                consider this to be an error).
+                              description: Indicates whether or not the name constraints
+                                are marked critical.
                               type: boolean
                             objectId:
                               description: |-
@@ -1404,17 +1681,26 @@ spec:
                         properties:
                           isCa:
                             description: Optional. Refers to the "CA" X.509 extension,
-                              which is a boolean value. When this value is missing,
-                              the extension will be omitted from the CA certificate.
+                              which is a boolean value. When this value is true, the
+                              "CA" in Basic Constraints extension will be set to true.
                             type: boolean
                           maxIssuerPathLength:
-                            description: Optional. Refers to the path length restriction
-                              X.509 extension. For a CA certificate, this value describes
-                              the depth of subordinate CA certificates that are allowed.
-                              If this value is less than 0, the request will fail.
-                              If this value is missing, the max path length will be
-                              omitted from the CA certificate.
+                            description: |-
+                              Optional. Refers to the "path length constraint" in Basic Constraints extension. For a CA certificate, this value describes the depth of
+                              subordinate CA certificates that are allowed. If this value is less than 0, the request will fail.
                             type: number
+                          nullCa:
+                            description: |-
+                              Optional. When true, the "CA" in Basic Constraints extension will be set to null and omitted from the CA certificate.
+                              If both is_ca and null_ca are unset, the "CA" in Basic Constraints extension will be set to false.
+                              Note that the behavior when is_ca = false for this resource is different from the behavior in the Certificate Authority, Certificate and CaPool resources.
+                            type: boolean
+                          zeroMaxIssuerPathLength:
+                            description: |-
+                              Optional. When true, the "path length constraint" in Basic Constraints extension will be set to 0.
+                              if both max_issuer_path_length and zero_max_issuer_path_length are unset,
+                              the max path length will be omitted from the CA certificate.
+                            type: boolean
                         type: object
                       keyUsage:
                         description: |-
@@ -1506,6 +1792,88 @@ spec:
                                     type: number
                                   type: array
                               type: object
+                            type: array
+                        type: object
+                      nameConstraints:
+                        description: |-
+                          Describes the X.509 name constraints extension.
+                          Structure is documented below.
+                        properties:
+                          critical:
+                            description: Indicates whether or not the name constraints
+                              are marked critical.
+                            type: boolean
+                          excludedDnsNames:
+                            description: |-
+                              Contains excluded DNS names. Any DNS name that can be
+                              constructed by simply adding zero or more labels to
+                              the left-hand side of the name satisfies the name constraint.
+                              For example, example.com, www.example.com, www.sub.example.com
+                              would satisfy example.com while example1.com does not.
+                            items:
+                              type: string
+                            type: array
+                          excludedEmailAddresses:
+                            description: |-
+                              Contains the excluded email addresses. The value can be a particular
+                              email address, a hostname to indicate all email addresses on that host or
+                              a domain with a leading period (e.g. .example.com) to indicate
+                              all email addresses in that domain.
+                            items:
+                              type: string
+                            type: array
+                          excludedIpRanges:
+                            description: |-
+                              Contains the excluded IP ranges. For IPv4 addresses, the ranges
+                              are expressed using CIDR notation as specified in RFC 4632.
+                              For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+                              addresses.
+                            items:
+                              type: string
+                            type: array
+                          excludedUris:
+                            description: |-
+                              Contains the excluded URIs that apply to the host part of the name.
+                              The value can be a hostname or a domain with a
+                              leading period (like .example.com)
+                            items:
+                              type: string
+                            type: array
+                          permittedDnsNames:
+                            description: |-
+                              Contains permitted DNS names. Any DNS name that can be
+                              constructed by simply adding zero or more labels to
+                              the left-hand side of the name satisfies the name constraint.
+                              For example, example.com, www.example.com, www.sub.example.com
+                              would satisfy example.com while example1.com does not.
+                            items:
+                              type: string
+                            type: array
+                          permittedEmailAddresses:
+                            description: |-
+                              Contains the permitted email addresses. The value can be a particular
+                              email address, a hostname to indicate all email addresses on that host or
+                              a domain with a leading period (e.g. .example.com) to indicate
+                              all email addresses in that domain.
+                            items:
+                              type: string
+                            type: array
+                          permittedIpRanges:
+                            description: |-
+                              Contains the permitted IP ranges. For IPv4 addresses, the ranges
+                              are expressed using CIDR notation as specified in RFC 4632.
+                              For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+                              addresses.
+                            items:
+                              type: string
+                            type: array
+                          permittedUris:
+                            description: |-
+                              Contains the permitted URIs that apply to the host part of the name.
+                              The value can be a hostname or a domain with a
+                              leading period (like .example.com)
+                            items:
+                              type: string
                             type: array
                         type: object
                       policyIds:
@@ -1641,10 +2009,8 @@ spec:
                         items:
                           properties:
                             critical:
-                              description: Optional. Indicates whether or not this
-                                extension is critical (i.e., if the client does not
-                                know how to handle this extension, the client should
-                                consider this to be an error).
+                              description: Indicates whether or not the name constraints
+                                are marked critical.
                               type: boolean
                             objectId:
                               description: |-
@@ -1677,17 +2043,26 @@ spec:
                         properties:
                           isCa:
                             description: Optional. Refers to the "CA" X.509 extension,
-                              which is a boolean value. When this value is missing,
-                              the extension will be omitted from the CA certificate.
+                              which is a boolean value. When this value is true, the
+                              "CA" in Basic Constraints extension will be set to true.
                             type: boolean
                           maxIssuerPathLength:
-                            description: Optional. Refers to the path length restriction
-                              X.509 extension. For a CA certificate, this value describes
-                              the depth of subordinate CA certificates that are allowed.
-                              If this value is less than 0, the request will fail.
-                              If this value is missing, the max path length will be
-                              omitted from the CA certificate.
+                            description: |-
+                              Optional. Refers to the "path length constraint" in Basic Constraints extension. For a CA certificate, this value describes the depth of
+                              subordinate CA certificates that are allowed. If this value is less than 0, the request will fail.
                             type: number
+                          nullCa:
+                            description: |-
+                              Optional. When true, the "CA" in Basic Constraints extension will be set to null and omitted from the CA certificate.
+                              If both is_ca and null_ca are unset, the "CA" in Basic Constraints extension will be set to false.
+                              Note that the behavior when is_ca = false for this resource is different from the behavior in the Certificate Authority, Certificate and CaPool resources.
+                            type: boolean
+                          zeroMaxIssuerPathLength:
+                            description: |-
+                              Optional. When true, the "path length constraint" in Basic Constraints extension will be set to 0.
+                              if both max_issuer_path_length and zero_max_issuer_path_length are unset,
+                              the max path length will be omitted from the CA certificate.
+                            type: boolean
                         type: object
                       keyUsage:
                         description: |-
@@ -1779,6 +2154,88 @@ spec:
                                     type: number
                                   type: array
                               type: object
+                            type: array
+                        type: object
+                      nameConstraints:
+                        description: |-
+                          Describes the X.509 name constraints extension.
+                          Structure is documented below.
+                        properties:
+                          critical:
+                            description: Indicates whether or not the name constraints
+                              are marked critical.
+                            type: boolean
+                          excludedDnsNames:
+                            description: |-
+                              Contains excluded DNS names. Any DNS name that can be
+                              constructed by simply adding zero or more labels to
+                              the left-hand side of the name satisfies the name constraint.
+                              For example, example.com, www.example.com, www.sub.example.com
+                              would satisfy example.com while example1.com does not.
+                            items:
+                              type: string
+                            type: array
+                          excludedEmailAddresses:
+                            description: |-
+                              Contains the excluded email addresses. The value can be a particular
+                              email address, a hostname to indicate all email addresses on that host or
+                              a domain with a leading period (e.g. .example.com) to indicate
+                              all email addresses in that domain.
+                            items:
+                              type: string
+                            type: array
+                          excludedIpRanges:
+                            description: |-
+                              Contains the excluded IP ranges. For IPv4 addresses, the ranges
+                              are expressed using CIDR notation as specified in RFC 4632.
+                              For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+                              addresses.
+                            items:
+                              type: string
+                            type: array
+                          excludedUris:
+                            description: |-
+                              Contains the excluded URIs that apply to the host part of the name.
+                              The value can be a hostname or a domain with a
+                              leading period (like .example.com)
+                            items:
+                              type: string
+                            type: array
+                          permittedDnsNames:
+                            description: |-
+                              Contains permitted DNS names. Any DNS name that can be
+                              constructed by simply adding zero or more labels to
+                              the left-hand side of the name satisfies the name constraint.
+                              For example, example.com, www.example.com, www.sub.example.com
+                              would satisfy example.com while example1.com does not.
+                            items:
+                              type: string
+                            type: array
+                          permittedEmailAddresses:
+                            description: |-
+                              Contains the permitted email addresses. The value can be a particular
+                              email address, a hostname to indicate all email addresses on that host or
+                              a domain with a leading period (e.g. .example.com) to indicate
+                              all email addresses in that domain.
+                            items:
+                              type: string
+                            type: array
+                          permittedIpRanges:
+                            description: |-
+                              Contains the permitted IP ranges. For IPv4 addresses, the ranges
+                              are expressed using CIDR notation as specified in RFC 4632.
+                              For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+                              addresses.
+                            items:
+                              type: string
+                            type: array
+                          permittedUris:
+                            description: |-
+                              Contains the permitted URIs that apply to the host part of the name.
+                              The value can be a hostname or a domain with a
+                              leading period (like .example.com)
+                            items:
+                              type: string
                             type: array
                         type: object
                       policyIds:
@@ -2089,10 +2546,8 @@ spec:
                         items:
                           properties:
                             critical:
-                              description: Optional. Indicates whether or not this
-                                extension is critical (i.e., if the client does not
-                                know how to handle this extension, the client should
-                                consider this to be an error).
+                              description: Indicates whether or not the name constraints
+                                are marked critical.
                               type: boolean
                             objectId:
                               description: |-
@@ -2125,17 +2580,26 @@ spec:
                         properties:
                           isCa:
                             description: Optional. Refers to the "CA" X.509 extension,
-                              which is a boolean value. When this value is missing,
-                              the extension will be omitted from the CA certificate.
+                              which is a boolean value. When this value is true, the
+                              "CA" in Basic Constraints extension will be set to true.
                             type: boolean
                           maxIssuerPathLength:
-                            description: Optional. Refers to the path length restriction
-                              X.509 extension. For a CA certificate, this value describes
-                              the depth of subordinate CA certificates that are allowed.
-                              If this value is less than 0, the request will fail.
-                              If this value is missing, the max path length will be
-                              omitted from the CA certificate.
+                            description: |-
+                              Optional. Refers to the "path length constraint" in Basic Constraints extension. For a CA certificate, this value describes the depth of
+                              subordinate CA certificates that are allowed. If this value is less than 0, the request will fail.
                             type: number
+                          nullCa:
+                            description: |-
+                              Optional. When true, the "CA" in Basic Constraints extension will be set to null and omitted from the CA certificate.
+                              If both is_ca and null_ca are unset, the "CA" in Basic Constraints extension will be set to false.
+                              Note that the behavior when is_ca = false for this resource is different from the behavior in the Certificate Authority, Certificate and CaPool resources.
+                            type: boolean
+                          zeroMaxIssuerPathLength:
+                            description: |-
+                              Optional. When true, the "path length constraint" in Basic Constraints extension will be set to 0.
+                              if both max_issuer_path_length and zero_max_issuer_path_length are unset,
+                              the max path length will be omitted from the CA certificate.
+                            type: boolean
                         type: object
                       keyUsage:
                         description: |-
@@ -2227,6 +2691,88 @@ spec:
                                     type: number
                                   type: array
                               type: object
+                            type: array
+                        type: object
+                      nameConstraints:
+                        description: |-
+                          Describes the X.509 name constraints extension.
+                          Structure is documented below.
+                        properties:
+                          critical:
+                            description: Indicates whether or not the name constraints
+                              are marked critical.
+                            type: boolean
+                          excludedDnsNames:
+                            description: |-
+                              Contains excluded DNS names. Any DNS name that can be
+                              constructed by simply adding zero or more labels to
+                              the left-hand side of the name satisfies the name constraint.
+                              For example, example.com, www.example.com, www.sub.example.com
+                              would satisfy example.com while example1.com does not.
+                            items:
+                              type: string
+                            type: array
+                          excludedEmailAddresses:
+                            description: |-
+                              Contains the excluded email addresses. The value can be a particular
+                              email address, a hostname to indicate all email addresses on that host or
+                              a domain with a leading period (e.g. .example.com) to indicate
+                              all email addresses in that domain.
+                            items:
+                              type: string
+                            type: array
+                          excludedIpRanges:
+                            description: |-
+                              Contains the excluded IP ranges. For IPv4 addresses, the ranges
+                              are expressed using CIDR notation as specified in RFC 4632.
+                              For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+                              addresses.
+                            items:
+                              type: string
+                            type: array
+                          excludedUris:
+                            description: |-
+                              Contains the excluded URIs that apply to the host part of the name.
+                              The value can be a hostname or a domain with a
+                              leading period (like .example.com)
+                            items:
+                              type: string
+                            type: array
+                          permittedDnsNames:
+                            description: |-
+                              Contains permitted DNS names. Any DNS name that can be
+                              constructed by simply adding zero or more labels to
+                              the left-hand side of the name satisfies the name constraint.
+                              For example, example.com, www.example.com, www.sub.example.com
+                              would satisfy example.com while example1.com does not.
+                            items:
+                              type: string
+                            type: array
+                          permittedEmailAddresses:
+                            description: |-
+                              Contains the permitted email addresses. The value can be a particular
+                              email address, a hostname to indicate all email addresses on that host or
+                              a domain with a leading period (e.g. .example.com) to indicate
+                              all email addresses in that domain.
+                            items:
+                              type: string
+                            type: array
+                          permittedIpRanges:
+                            description: |-
+                              Contains the permitted IP ranges. For IPv4 addresses, the ranges
+                              are expressed using CIDR notation as specified in RFC 4632.
+                              For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+                              addresses.
+                            items:
+                              type: string
+                            type: array
+                          permittedUris:
+                            description: |-
+                              Contains the permitted URIs that apply to the host part of the name.
+                              The value can be a hostname or a domain with a
+                              leading period (like .example.com)
+                            items:
+                              type: string
                             type: array
                         type: object
                       policyIds:

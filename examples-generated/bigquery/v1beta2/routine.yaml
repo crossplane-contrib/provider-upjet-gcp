@@ -15,6 +15,7 @@ spec:
       + y);
     language: SQL
     routineType: PROCEDURE
+    securityMode: INVOKER
 
 ---
 

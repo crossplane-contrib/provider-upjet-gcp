@@ -77,6 +77,9 @@ type NetworkEndpointGroupObservation struct {
 	// you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// The uniquely generated identifier for the resource. This identifier is defined by the server.
+	GeneratedID *float64 `json:"generatedId,omitempty" tf:"generated_id,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/zones/{{zone}}/networkEndpointGroups/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 

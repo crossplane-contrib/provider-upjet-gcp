@@ -58,6 +58,11 @@ type BackendBucketInitParameters struct {
 	// If true, enable Cloud CDN for this BackendBucket.
 	EnableCdn *bool `json:"enableCdn,omitempty" tf:"enable_cdn,omitempty"`
 
+	// The value can only be INTERNAL_MANAGED for cross-region internal layer 7 load balancer.
+	// If loadBalancingScheme is not specified, the backend bucket can be used by classic global external load balancers, or global application external load balancers, or both.
+	// Possible values are: INTERNAL_MANAGED.
+	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -94,6 +99,11 @@ type BackendBucketObservation struct {
 
 	// an identifier for the resource with format projects/{{project}}/global/backendBuckets/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The value can only be INTERNAL_MANAGED for cross-region internal layer 7 load balancer.
+	// If loadBalancingScheme is not specified, the backend bucket can be used by classic global external load balancers, or global application external load balancers, or both.
+	// Possible values are: INTERNAL_MANAGED.
+	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -154,6 +164,12 @@ type BackendBucketParameters struct {
 	// If true, enable Cloud CDN for this BackendBucket.
 	// +kubebuilder:validation:Optional
 	EnableCdn *bool `json:"enableCdn,omitempty" tf:"enable_cdn,omitempty"`
+
+	// The value can only be INTERNAL_MANAGED for cross-region internal layer 7 load balancer.
+	// If loadBalancingScheme is not specified, the backend bucket can be used by classic global external load balancers, or global application external load balancers, or both.
+	// Possible values are: INTERNAL_MANAGED.
+	// +kubebuilder:validation:Optional
+	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.

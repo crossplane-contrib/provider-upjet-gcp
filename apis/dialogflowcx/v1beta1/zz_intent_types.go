@@ -47,7 +47,7 @@ type IntentInitParameters struct {
 
 	// The collection of parameters associated with the intent.
 	// Structure is documented below.
-	Parameters []ParametersInitParameters `json:"parameters,omitempty" tf:"parameters,omitempty"`
+	Parameters []IntentParametersInitParameters `json:"parameters,omitempty" tf:"parameters,omitempty"`
 
 	// The agent to create an intent for.
 	// Format: projects//locations//agents/.
@@ -118,7 +118,7 @@ type IntentObservation struct {
 
 	// The collection of parameters associated with the intent.
 	// Structure is documented below.
-	Parameters []ParametersObservation `json:"parameters,omitempty" tf:"parameters,omitempty"`
+	Parameters []IntentParametersObservation `json:"parameters,omitempty" tf:"parameters,omitempty"`
 
 	// The agent to create an intent for.
 	// Format: projects//locations//agents/.
@@ -181,7 +181,7 @@ type IntentParameters struct {
 	// The collection of parameters associated with the intent.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Parameters []ParametersParameters `json:"parameters,omitempty" tf:"parameters,omitempty"`
+	Parameters []IntentParametersParameters `json:"parameters,omitempty" tf:"parameters,omitempty"`
 
 	// The agent to create an intent for.
 	// Format: projects//locations//agents/.
@@ -210,7 +210,7 @@ type IntentParameters struct {
 	TrainingPhrases []TrainingPhrasesParameters `json:"trainingPhrases,omitempty" tf:"training_phrases,omitempty"`
 }
 
-type ParametersInitParameters struct {
+type IntentParametersInitParameters struct {
 
 	// The entity type of the parameter.
 	// Format: projects/-/locations/-/agents/-/entityTypes/ for system entity types (for example, projects/-/locations/-/agents/-/entityTypes/sys.date), or projects//locations//agents//entityTypes/ for developer entity types.
@@ -227,7 +227,7 @@ type ParametersInitParameters struct {
 	Redact *bool `json:"redact,omitempty" tf:"redact,omitempty"`
 }
 
-type ParametersObservation struct {
+type IntentParametersObservation struct {
 
 	// The entity type of the parameter.
 	// Format: projects/-/locations/-/agents/-/entityTypes/ for system entity types (for example, projects/-/locations/-/agents/-/entityTypes/sys.date), or projects//locations//agents//entityTypes/ for developer entity types.
@@ -244,7 +244,7 @@ type ParametersObservation struct {
 	Redact *bool `json:"redact,omitempty" tf:"redact,omitempty"`
 }
 
-type ParametersParameters struct {
+type IntentParametersParameters struct {
 
 	// The entity type of the parameter.
 	// Format: projects/-/locations/-/agents/-/entityTypes/ for system entity types (for example, projects/-/locations/-/agents/-/entityTypes/sys.date), or projects//locations//agents//entityTypes/ for developer entity types.

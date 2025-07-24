@@ -105,7 +105,8 @@ type CryptoKeyVersionInitParameters struct {
 	// Structure is documented below.
 	ExternalProtectionLevelOptions *CryptoKeyVersionExternalProtectionLevelOptionsInitParameters `json:"externalProtectionLevelOptions,omitempty" tf:"external_protection_level_options,omitempty"`
 
-	// The current state of the CryptoKeyVersion.
+	// The current state of the CryptoKeyVersion. Note: you can only specify this field to manually ENABLE or DISABLE the CryptoKeyVersion,
+	// otherwise the value of this field is always retrieved automatically.
 	// Possible values are: PENDING_GENERATION, ENABLED, DISABLED, DESTROYED, DESTROY_SCHEDULED, PENDING_IMPORT, IMPORT_FAILED.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }
@@ -140,7 +141,8 @@ type CryptoKeyVersionObservation struct {
 	// The ProtectionLevel describing how crypto operations are performed with this CryptoKeyVersion.
 	ProtectionLevel *string `json:"protectionLevel,omitempty" tf:"protection_level,omitempty"`
 
-	// The current state of the CryptoKeyVersion.
+	// The current state of the CryptoKeyVersion. Note: you can only specify this field to manually ENABLE or DISABLE the CryptoKeyVersion,
+	// otherwise the value of this field is always retrieved automatically.
 	// Possible values are: PENDING_GENERATION, ENABLED, DISABLED, DESTROYED, DESTROY_SCHEDULED, PENDING_IMPORT, IMPORT_FAILED.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }
@@ -167,7 +169,8 @@ type CryptoKeyVersionParameters struct {
 	// +kubebuilder:validation:Optional
 	ExternalProtectionLevelOptions *CryptoKeyVersionExternalProtectionLevelOptionsParameters `json:"externalProtectionLevelOptions,omitempty" tf:"external_protection_level_options,omitempty"`
 
-	// The current state of the CryptoKeyVersion.
+	// The current state of the CryptoKeyVersion. Note: you can only specify this field to manually ENABLE or DISABLE the CryptoKeyVersion,
+	// otherwise the value of this field is always retrieved automatically.
 	// Possible values are: PENDING_GENERATION, ENABLED, DISABLED, DESTROYED, DESTROY_SCHEDULED, PENDING_IMPORT, IMPORT_FAILED.
 	// +kubebuilder:validation:Optional
 	State *string `json:"state,omitempty" tf:"state,omitempty"`

@@ -107,20 +107,6 @@ type NetworkConfigAdditionalPodNetworkConfigsParameters struct {
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 }
 
-type NetworkConfigNetworkPerformanceConfigInitParameters struct {
-	TotalEgressBandwidthTier *string `json:"totalEgressBandwidthTier,omitempty" tf:"total_egress_bandwidth_tier,omitempty"`
-}
-
-type NetworkConfigNetworkPerformanceConfigObservation struct {
-	TotalEgressBandwidthTier *string `json:"totalEgressBandwidthTier,omitempty" tf:"total_egress_bandwidth_tier,omitempty"`
-}
-
-type NetworkConfigNetworkPerformanceConfigParameters struct {
-
-	// +kubebuilder:validation:Optional
-	TotalEgressBandwidthTier *string `json:"totalEgressBandwidthTier" tf:"total_egress_bandwidth_tier,omitempty"`
-}
-
 type NodeConfigContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigInitParameters struct {
 	Fqdns []*string `json:"fqdns,omitempty" tf:"fqdns,omitempty"`
 
@@ -210,6 +196,27 @@ type NodeConfigGuestAcceleratorGpuSharingConfigParameters struct {
 
 	// +kubebuilder:validation:Optional
 	MaxSharedClientsPerGpu *float64 `json:"maxSharedClientsPerGpu,omitempty" tf:"max_shared_clients_per_gpu"`
+}
+
+type NodeConfigLinuxNodeConfigHugepagesConfigInitParameters struct {
+	HugepageSize1G *float64 `json:"hugepageSize1G,omitempty" tf:"hugepage_size_1g,omitempty"`
+
+	HugepageSize2M *float64 `json:"hugepageSize2M,omitempty" tf:"hugepage_size_2m,omitempty"`
+}
+
+type NodeConfigLinuxNodeConfigHugepagesConfigObservation struct {
+	HugepageSize1G *float64 `json:"hugepageSize1G,omitempty" tf:"hugepage_size_1g,omitempty"`
+
+	HugepageSize2M *float64 `json:"hugepageSize2M,omitempty" tf:"hugepage_size_2m,omitempty"`
+}
+
+type NodeConfigLinuxNodeConfigHugepagesConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	HugepageSize1G *float64 `json:"hugepageSize1G,omitempty" tf:"hugepage_size_1g,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	HugepageSize2M *float64 `json:"hugepageSize2M,omitempty" tf:"hugepage_size_2m,omitempty"`
 }
 
 type NodeConfigSoleTenantConfigNodeAffinityInitParameters struct {
@@ -433,7 +440,7 @@ type NodePoolNetworkConfigInitParameters struct {
 	// Whether nodes have internal IP addresses only.
 	EnablePrivateNodes *bool `json:"enablePrivateNodes,omitempty" tf:"enable_private_nodes,omitempty"`
 
-	NetworkPerformanceConfig []NetworkConfigNetworkPerformanceConfigInitParameters `json:"networkPerformanceConfig,omitempty" tf:"network_performance_config,omitempty"`
+	NetworkPerformanceConfig []NodePoolNetworkConfigNetworkPerformanceConfigInitParameters `json:"networkPerformanceConfig,omitempty" tf:"network_performance_config,omitempty"`
 
 	PodCidrOverprovisionConfig []NodePoolNetworkConfigPodCidrOverprovisionConfigInitParameters `json:"podCidrOverprovisionConfig,omitempty" tf:"pod_cidr_overprovision_config,omitempty"`
 
@@ -460,7 +467,7 @@ type NodePoolNetworkConfigObservation struct {
 	// Whether nodes have internal IP addresses only.
 	EnablePrivateNodes *bool `json:"enablePrivateNodes,omitempty" tf:"enable_private_nodes,omitempty"`
 
-	NetworkPerformanceConfig []NetworkConfigNetworkPerformanceConfigObservation `json:"networkPerformanceConfig,omitempty" tf:"network_performance_config,omitempty"`
+	NetworkPerformanceConfig []NodePoolNetworkConfigNetworkPerformanceConfigObservation `json:"networkPerformanceConfig,omitempty" tf:"network_performance_config,omitempty"`
 
 	PodCidrOverprovisionConfig []NodePoolNetworkConfigPodCidrOverprovisionConfigObservation `json:"podCidrOverprovisionConfig,omitempty" tf:"pod_cidr_overprovision_config,omitempty"`
 
@@ -492,7 +499,7 @@ type NodePoolNetworkConfigParameters struct {
 	EnablePrivateNodes *bool `json:"enablePrivateNodes,omitempty" tf:"enable_private_nodes,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	NetworkPerformanceConfig []NetworkConfigNetworkPerformanceConfigParameters `json:"networkPerformanceConfig,omitempty" tf:"network_performance_config,omitempty"`
+	NetworkPerformanceConfig []NodePoolNetworkConfigNetworkPerformanceConfigParameters `json:"networkPerformanceConfig,omitempty" tf:"network_performance_config,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	PodCidrOverprovisionConfig []NodePoolNetworkConfigPodCidrOverprovisionConfigParameters `json:"podCidrOverprovisionConfig,omitempty" tf:"pod_cidr_overprovision_config,omitempty"`
@@ -504,6 +511,25 @@ type NodePoolNetworkConfigParameters struct {
 	// The ID of the secondary range for pod IPs. If create_pod_range is true, this ID is used for the new range. If create_pod_range is false, uses an existing secondary range with this ID.
 	// +kubebuilder:validation:Optional
 	PodRange *string `json:"podRange,omitempty" tf:"pod_range,omitempty"`
+}
+
+type NodePoolNetworkConfigNetworkPerformanceConfigInitParameters struct {
+
+	// Specifies the total network bandwidth tier for the NodePool. Valid values include: "TIER_1" and "TIER_UNSPECIFIED".
+	TotalEgressBandwidthTier *string `json:"totalEgressBandwidthTier,omitempty" tf:"total_egress_bandwidth_tier,omitempty"`
+}
+
+type NodePoolNetworkConfigNetworkPerformanceConfigObservation struct {
+
+	// Specifies the total network bandwidth tier for the NodePool. Valid values include: "TIER_1" and "TIER_UNSPECIFIED".
+	TotalEgressBandwidthTier *string `json:"totalEgressBandwidthTier,omitempty" tf:"total_egress_bandwidth_tier,omitempty"`
+}
+
+type NodePoolNetworkConfigNetworkPerformanceConfigParameters struct {
+
+	// Specifies the total network bandwidth tier for the NodePool. Valid values include: "TIER_1" and "TIER_UNSPECIFIED".
+	// +kubebuilder:validation:Optional
+	TotalEgressBandwidthTier *string `json:"totalEgressBandwidthTier" tf:"total_egress_bandwidth_tier,omitempty"`
 }
 
 type NodePoolNetworkConfigPodCidrOverprovisionConfigInitParameters struct {
@@ -523,11 +549,15 @@ type NodePoolNetworkConfigPodCidrOverprovisionConfigParameters struct {
 type NodePoolNodeConfigAdvancedMachineFeaturesInitParameters struct {
 	EnableNestedVirtualization *bool `json:"enableNestedVirtualization,omitempty" tf:"enable_nested_virtualization,omitempty"`
 
+	PerformanceMonitoringUnit *string `json:"performanceMonitoringUnit,omitempty" tf:"performance_monitoring_unit,omitempty"`
+
 	ThreadsPerCore *float64 `json:"threadsPerCore,omitempty" tf:"threads_per_core,omitempty"`
 }
 
 type NodePoolNodeConfigAdvancedMachineFeaturesObservation struct {
 	EnableNestedVirtualization *bool `json:"enableNestedVirtualization,omitempty" tf:"enable_nested_virtualization,omitempty"`
+
+	PerformanceMonitoringUnit *string `json:"performanceMonitoringUnit,omitempty" tf:"performance_monitoring_unit,omitempty"`
 
 	ThreadsPerCore *float64 `json:"threadsPerCore,omitempty" tf:"threads_per_core,omitempty"`
 }
@@ -538,22 +568,30 @@ type NodePoolNodeConfigAdvancedMachineFeaturesParameters struct {
 	EnableNestedVirtualization *bool `json:"enableNestedVirtualization,omitempty" tf:"enable_nested_virtualization,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	PerformanceMonitoringUnit *string `json:"performanceMonitoringUnit,omitempty" tf:"performance_monitoring_unit,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	ThreadsPerCore *float64 `json:"threadsPerCore" tf:"threads_per_core,omitempty"`
 }
 
 type NodePoolNodeConfigConfidentialNodesInitParameters_2 struct {
+	ConfidentialInstanceType *string `json:"confidentialInstanceType,omitempty" tf:"confidential_instance_type,omitempty"`
 
 	// Makes nodes obtainable through the ProvisioningRequest API exclusively.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
 
 type NodePoolNodeConfigConfidentialNodesObservation_2 struct {
+	ConfidentialInstanceType *string `json:"confidentialInstanceType,omitempty" tf:"confidential_instance_type,omitempty"`
 
 	// Makes nodes obtainable through the ProvisioningRequest API exclusively.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
 
 type NodePoolNodeConfigConfidentialNodesParameters_2 struct {
+
+	// +kubebuilder:validation:Optional
+	ConfidentialInstanceType *string `json:"confidentialInstanceType,omitempty" tf:"confidential_instance_type,omitempty"`
 
 	// Makes nodes obtainable through the ProvisioningRequest API exclusively.
 	// +kubebuilder:validation:Optional
@@ -589,14 +627,21 @@ type NodePoolNodeConfigEffectiveTaintsParameters struct {
 }
 
 type NodePoolNodeConfigEphemeralStorageLocalSsdConfigInitParameters struct {
+	DataCacheCount *float64 `json:"dataCacheCount,omitempty" tf:"data_cache_count,omitempty"`
+
 	LocalSsdCount *float64 `json:"localSsdCount,omitempty" tf:"local_ssd_count,omitempty"`
 }
 
 type NodePoolNodeConfigEphemeralStorageLocalSsdConfigObservation struct {
+	DataCacheCount *float64 `json:"dataCacheCount,omitempty" tf:"data_cache_count,omitempty"`
+
 	LocalSsdCount *float64 `json:"localSsdCount,omitempty" tf:"local_ssd_count,omitempty"`
 }
 
 type NodePoolNodeConfigEphemeralStorageLocalSsdConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	DataCacheCount *float64 `json:"dataCacheCount,omitempty" tf:"data_cache_count,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	LocalSsdCount *float64 `json:"localSsdCount" tf:"local_ssd_count,omitempty"`
@@ -744,6 +789,8 @@ type NodePoolNodeConfigInitParameters_2 struct {
 
 	FastSocket []NodePoolNodeConfigFastSocketInitParameters `json:"fastSocket,omitempty" tf:"fast_socket,omitempty"`
 
+	FlexStart *bool `json:"flexStart,omitempty" tf:"flex_start,omitempty"`
+
 	GcfsConfig []NodePoolNodeConfigGcfsConfigInitParameters `json:"gcfsConfig,omitempty" tf:"gcfs_config,omitempty"`
 
 	GuestAccelerator []NodePoolNodeConfigGuestAcceleratorInitParameters `json:"guestAccelerator,omitempty" tf:"guest_accelerator,omitempty"`
@@ -771,9 +818,15 @@ type NodePoolNodeConfigInitParameters_2 struct {
 
 	LocalSsdCount *float64 `json:"localSsdCount,omitempty" tf:"local_ssd_count,omitempty"`
 
+	// Possible Local SSD encryption modes:
+	// Accepted values are:
+	LocalSsdEncryptionMode *string `json:"localSsdEncryptionMode,omitempty" tf:"local_ssd_encryption_mode,omitempty"`
+
 	LoggingVariant *string `json:"loggingVariant,omitempty" tf:"logging_variant,omitempty"`
 
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
+
+	MaxRunDuration *string `json:"maxRunDuration,omitempty" tf:"max_run_duration,omitempty"`
 
 	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
@@ -815,19 +868,39 @@ type NodePoolNodeConfigInitParameters_2 struct {
 
 	Spot *bool `json:"spot,omitempty" tf:"spot,omitempty"`
 
+	StoragePools []*string `json:"storagePools,omitempty" tf:"storage_pools,omitempty"`
+
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	Taint []NodePoolNodeConfigTaintInitParameters `json:"taint,omitempty" tf:"taint,omitempty"`
+
+	// Parameters used in creating the node pool. See
+	// google_container_cluster for schema.
+	WindowsNodeConfig []NodePoolNodeConfigWindowsNodeConfigInitParameters `json:"windowsNodeConfig,omitempty" tf:"windows_node_config,omitempty"`
 
 	WorkloadMetadataConfig []NodePoolNodeConfigWorkloadMetadataConfigInitParameters `json:"workloadMetadataConfig,omitempty" tf:"workload_metadata_config,omitempty"`
 }
 
 type NodePoolNodeConfigKubeletConfigInitParameters struct {
+	AllowedUnsafeSysctls []*string `json:"allowedUnsafeSysctls,omitempty" tf:"allowed_unsafe_sysctls,omitempty"`
+
 	CPUCfsQuota *bool `json:"cpuCfsQuota,omitempty" tf:"cpu_cfs_quota,omitempty"`
 
 	CPUCfsQuotaPeriod *string `json:"cpuCfsQuotaPeriod,omitempty" tf:"cpu_cfs_quota_period,omitempty"`
 
 	CPUManagerPolicy *string `json:"cpuManagerPolicy,omitempty" tf:"cpu_manager_policy,omitempty"`
+
+	ContainerLogMaxFiles *float64 `json:"containerLogMaxFiles,omitempty" tf:"container_log_max_files,omitempty"`
+
+	ContainerLogMaxSize *string `json:"containerLogMaxSize,omitempty" tf:"container_log_max_size,omitempty"`
+
+	ImageGcHighThresholdPercent *float64 `json:"imageGcHighThresholdPercent,omitempty" tf:"image_gc_high_threshold_percent,omitempty"`
+
+	ImageGcLowThresholdPercent *float64 `json:"imageGcLowThresholdPercent,omitempty" tf:"image_gc_low_threshold_percent,omitempty"`
+
+	ImageMaximumGcAge *string `json:"imageMaximumGcAge,omitempty" tf:"image_maximum_gc_age,omitempty"`
+
+	ImageMinimumGcAge *string `json:"imageMinimumGcAge,omitempty" tf:"image_minimum_gc_age,omitempty"`
 
 	InsecureKubeletReadonlyPortEnabled *string `json:"insecureKubeletReadonlyPortEnabled,omitempty" tf:"insecure_kubelet_readonly_port_enabled,omitempty"`
 
@@ -835,11 +908,25 @@ type NodePoolNodeConfigKubeletConfigInitParameters struct {
 }
 
 type NodePoolNodeConfigKubeletConfigObservation struct {
+	AllowedUnsafeSysctls []*string `json:"allowedUnsafeSysctls,omitempty" tf:"allowed_unsafe_sysctls,omitempty"`
+
 	CPUCfsQuota *bool `json:"cpuCfsQuota,omitempty" tf:"cpu_cfs_quota,omitempty"`
 
 	CPUCfsQuotaPeriod *string `json:"cpuCfsQuotaPeriod,omitempty" tf:"cpu_cfs_quota_period,omitempty"`
 
 	CPUManagerPolicy *string `json:"cpuManagerPolicy,omitempty" tf:"cpu_manager_policy,omitempty"`
+
+	ContainerLogMaxFiles *float64 `json:"containerLogMaxFiles,omitempty" tf:"container_log_max_files,omitempty"`
+
+	ContainerLogMaxSize *string `json:"containerLogMaxSize,omitempty" tf:"container_log_max_size,omitempty"`
+
+	ImageGcHighThresholdPercent *float64 `json:"imageGcHighThresholdPercent,omitempty" tf:"image_gc_high_threshold_percent,omitempty"`
+
+	ImageGcLowThresholdPercent *float64 `json:"imageGcLowThresholdPercent,omitempty" tf:"image_gc_low_threshold_percent,omitempty"`
+
+	ImageMaximumGcAge *string `json:"imageMaximumGcAge,omitempty" tf:"image_maximum_gc_age,omitempty"`
+
+	ImageMinimumGcAge *string `json:"imageMinimumGcAge,omitempty" tf:"image_minimum_gc_age,omitempty"`
 
 	InsecureKubeletReadonlyPortEnabled *string `json:"insecureKubeletReadonlyPortEnabled,omitempty" tf:"insecure_kubelet_readonly_port_enabled,omitempty"`
 
@@ -849,13 +936,34 @@ type NodePoolNodeConfigKubeletConfigObservation struct {
 type NodePoolNodeConfigKubeletConfigParameters struct {
 
 	// +kubebuilder:validation:Optional
+	AllowedUnsafeSysctls []*string `json:"allowedUnsafeSysctls,omitempty" tf:"allowed_unsafe_sysctls,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	CPUCfsQuota *bool `json:"cpuCfsQuota,omitempty" tf:"cpu_cfs_quota,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	CPUCfsQuotaPeriod *string `json:"cpuCfsQuotaPeriod,omitempty" tf:"cpu_cfs_quota_period,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	CPUManagerPolicy *string `json:"cpuManagerPolicy" tf:"cpu_manager_policy,omitempty"`
+	CPUManagerPolicy *string `json:"cpuManagerPolicy,omitempty" tf:"cpu_manager_policy,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ContainerLogMaxFiles *float64 `json:"containerLogMaxFiles,omitempty" tf:"container_log_max_files,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ContainerLogMaxSize *string `json:"containerLogMaxSize,omitempty" tf:"container_log_max_size,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ImageGcHighThresholdPercent *float64 `json:"imageGcHighThresholdPercent,omitempty" tf:"image_gc_high_threshold_percent,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ImageGcLowThresholdPercent *float64 `json:"imageGcLowThresholdPercent,omitempty" tf:"image_gc_low_threshold_percent,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ImageMaximumGcAge *string `json:"imageMaximumGcAge,omitempty" tf:"image_maximum_gc_age,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ImageMinimumGcAge *string `json:"imageMinimumGcAge,omitempty" tf:"image_minimum_gc_age,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	InsecureKubeletReadonlyPortEnabled *string `json:"insecureKubeletReadonlyPortEnabled,omitempty" tf:"insecure_kubelet_readonly_port_enabled,omitempty"`
@@ -867,12 +975,16 @@ type NodePoolNodeConfigKubeletConfigParameters struct {
 type NodePoolNodeConfigLinuxNodeConfigInitParameters struct {
 	CgroupMode *string `json:"cgroupMode,omitempty" tf:"cgroup_mode,omitempty"`
 
+	HugepagesConfig []NodeConfigLinuxNodeConfigHugepagesConfigInitParameters `json:"hugepagesConfig,omitempty" tf:"hugepages_config,omitempty"`
+
 	// +mapType=granular
 	Sysctls map[string]*string `json:"sysctls,omitempty" tf:"sysctls,omitempty"`
 }
 
 type NodePoolNodeConfigLinuxNodeConfigObservation struct {
 	CgroupMode *string `json:"cgroupMode,omitempty" tf:"cgroup_mode,omitempty"`
+
+	HugepagesConfig []NodeConfigLinuxNodeConfigHugepagesConfigObservation `json:"hugepagesConfig,omitempty" tf:"hugepages_config,omitempty"`
 
 	// +mapType=granular
 	Sysctls map[string]*string `json:"sysctls,omitempty" tf:"sysctls,omitempty"`
@@ -882,6 +994,9 @@ type NodePoolNodeConfigLinuxNodeConfigParameters struct {
 
 	// +kubebuilder:validation:Optional
 	CgroupMode *string `json:"cgroupMode,omitempty" tf:"cgroup_mode,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	HugepagesConfig []NodeConfigLinuxNodeConfigHugepagesConfigParameters `json:"hugepagesConfig,omitempty" tf:"hugepages_config,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
@@ -924,6 +1039,8 @@ type NodePoolNodeConfigObservation_2 struct {
 
 	FastSocket []NodePoolNodeConfigFastSocketObservation `json:"fastSocket,omitempty" tf:"fast_socket,omitempty"`
 
+	FlexStart *bool `json:"flexStart,omitempty" tf:"flex_start,omitempty"`
+
 	GcfsConfig []NodePoolNodeConfigGcfsConfigObservation `json:"gcfsConfig,omitempty" tf:"gcfs_config,omitempty"`
 
 	GuestAccelerator []NodePoolNodeConfigGuestAcceleratorObservation `json:"guestAccelerator,omitempty" tf:"guest_accelerator,omitempty"`
@@ -951,9 +1068,15 @@ type NodePoolNodeConfigObservation_2 struct {
 
 	LocalSsdCount *float64 `json:"localSsdCount,omitempty" tf:"local_ssd_count,omitempty"`
 
+	// Possible Local SSD encryption modes:
+	// Accepted values are:
+	LocalSsdEncryptionMode *string `json:"localSsdEncryptionMode,omitempty" tf:"local_ssd_encryption_mode,omitempty"`
+
 	LoggingVariant *string `json:"loggingVariant,omitempty" tf:"logging_variant,omitempty"`
 
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
+
+	MaxRunDuration *string `json:"maxRunDuration,omitempty" tf:"max_run_duration,omitempty"`
 
 	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
@@ -985,9 +1108,15 @@ type NodePoolNodeConfigObservation_2 struct {
 
 	Spot *bool `json:"spot,omitempty" tf:"spot,omitempty"`
 
+	StoragePools []*string `json:"storagePools,omitempty" tf:"storage_pools,omitempty"`
+
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	Taint []NodePoolNodeConfigTaintObservation `json:"taint,omitempty" tf:"taint,omitempty"`
+
+	// Parameters used in creating the node pool. See
+	// google_container_cluster for schema.
+	WindowsNodeConfig []NodePoolNodeConfigWindowsNodeConfigObservation `json:"windowsNodeConfig,omitempty" tf:"windows_node_config,omitempty"`
 
 	WorkloadMetadataConfig []NodePoolNodeConfigWorkloadMetadataConfigObservation `json:"workloadMetadataConfig,omitempty" tf:"workload_metadata_config,omitempty"`
 }
@@ -1021,6 +1150,9 @@ type NodePoolNodeConfigParameters_2 struct {
 
 	// +kubebuilder:validation:Optional
 	FastSocket []NodePoolNodeConfigFastSocketParameters `json:"fastSocket,omitempty" tf:"fast_socket,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	FlexStart *bool `json:"flexStart,omitempty" tf:"flex_start,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	GcfsConfig []NodePoolNodeConfigGcfsConfigParameters `json:"gcfsConfig,omitempty" tf:"gcfs_config,omitempty"`
@@ -1060,11 +1192,19 @@ type NodePoolNodeConfigParameters_2 struct {
 	// +kubebuilder:validation:Optional
 	LocalSsdCount *float64 `json:"localSsdCount,omitempty" tf:"local_ssd_count,omitempty"`
 
+	// Possible Local SSD encryption modes:
+	// Accepted values are:
+	// +kubebuilder:validation:Optional
+	LocalSsdEncryptionMode *string `json:"localSsdEncryptionMode,omitempty" tf:"local_ssd_encryption_mode,omitempty"`
+
 	// +kubebuilder:validation:Optional
 	LoggingVariant *string `json:"loggingVariant,omitempty" tf:"logging_variant,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	MaxRunDuration *string `json:"maxRunDuration,omitempty" tf:"max_run_duration,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
@@ -1120,10 +1260,18 @@ type NodePoolNodeConfigParameters_2 struct {
 	Spot *bool `json:"spot,omitempty" tf:"spot,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	StoragePools []*string `json:"storagePools,omitempty" tf:"storage_pools,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Taint []NodePoolNodeConfigTaintParameters `json:"taint,omitempty" tf:"taint,omitempty"`
+
+	// Parameters used in creating the node pool. See
+	// google_container_cluster for schema.
+	// +kubebuilder:validation:Optional
+	WindowsNodeConfig []NodePoolNodeConfigWindowsNodeConfigParameters `json:"windowsNodeConfig,omitempty" tf:"windows_node_config,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	WorkloadMetadataConfig []NodePoolNodeConfigWorkloadMetadataConfigParameters `json:"workloadMetadataConfig,omitempty" tf:"workload_metadata_config,omitempty"`
@@ -1242,6 +1390,31 @@ type NodePoolNodeConfigTaintParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Value *string `json:"value" tf:"value,omitempty"`
+}
+
+type NodePoolNodeConfigWindowsNodeConfigInitParameters struct {
+
+	// The Kubernetes version for the nodes in this pool. Note that if this field
+	// and auto_upgrade are both specified, they will fight each other for what the node version should
+	// be, so setting both is highly discouraged.
+	Osversion *string `json:"osversion,omitempty" tf:"osversion,omitempty"`
+}
+
+type NodePoolNodeConfigWindowsNodeConfigObservation struct {
+
+	// The Kubernetes version for the nodes in this pool. Note that if this field
+	// and auto_upgrade are both specified, they will fight each other for what the node version should
+	// be, so setting both is highly discouraged.
+	Osversion *string `json:"osversion,omitempty" tf:"osversion,omitempty"`
+}
+
+type NodePoolNodeConfigWindowsNodeConfigParameters struct {
+
+	// The Kubernetes version for the nodes in this pool. Note that if this field
+	// and auto_upgrade are both specified, they will fight each other for what the node version should
+	// be, so setting both is highly discouraged.
+	// +kubebuilder:validation:Optional
+	Osversion *string `json:"osversion,omitempty" tf:"osversion,omitempty"`
 }
 
 type NodePoolNodeConfigWorkloadMetadataConfigInitParameters struct {

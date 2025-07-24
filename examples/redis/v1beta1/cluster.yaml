@@ -10,6 +10,7 @@ metadata:
 spec:
   forProvider:
     authorizationMode: AUTH_MODE_DISABLED
+    deletionProtectionEnabled: false
     nodeType: REDIS_SHARED_CORE_NANO
     pscConfigs:
     - networkSelector:

@@ -209,6 +209,18 @@ spec:
                     - name
                     - namespace
                     type: object
+                  passwordWo:
+                    description: |-
+                      The password for the user. Can be updated. For Postgres
+                      instances this is a Required field, unless type is set to either CLOUD_IAM_USER
+                      or CLOUD_IAM_SERVICE_ACCOUNT. Don't set this field for CLOUD_IAM_USER
+                      and CLOUD_IAM_SERVICE_ACCOUNT user types for any Cloud SQL instance.
+                      Note: This property is write-only and will not be read from the API.
+                    type: string
+                  passwordWoVersion:
+                    description: The version of the password_wo. For more info see
+                      updating write-only attributes.
+                    type: number
                   project:
                     description: |-
                       The ID of the project in which the resource belongs. If it
@@ -218,7 +230,10 @@ spec:
                     description: |-
                       The user type. It determines the method to authenticate the
                       user during login. The default is the database's built-in user type. Flags
-                      include "BUILT_IN", "CLOUD_IAM_USER", "CLOUD_IAM_GROUP" or "CLOUD_IAM_SERVICE_ACCOUNT".
+                      include "BUILT_IN", "CLOUD_IAM_USER", "CLOUD_IAM_SERVICE_ACCOUNT", "CLOUD_IAM_GROUP",
+                      "CLOUD_IAM_GROUP_USER" and "CLOUD_IAM_GROUP_SERVICE_ACCOUNT" for
+                      Postgres
+                      and MySQL.
                     type: string
                 type: object
               initProvider:
@@ -370,6 +385,18 @@ spec:
                     - name
                     - namespace
                     type: object
+                  passwordWo:
+                    description: |-
+                      The password for the user. Can be updated. For Postgres
+                      instances this is a Required field, unless type is set to either CLOUD_IAM_USER
+                      or CLOUD_IAM_SERVICE_ACCOUNT. Don't set this field for CLOUD_IAM_USER
+                      and CLOUD_IAM_SERVICE_ACCOUNT user types for any Cloud SQL instance.
+                      Note: This property is write-only and will not be read from the API.
+                    type: string
+                  passwordWoVersion:
+                    description: The version of the password_wo. For more info see
+                      updating write-only attributes.
+                    type: number
                   project:
                     description: |-
                       The ID of the project in which the resource belongs. If it
@@ -379,7 +406,10 @@ spec:
                     description: |-
                       The user type. It determines the method to authenticate the
                       user during login. The default is the database's built-in user type. Flags
-                      include "BUILT_IN", "CLOUD_IAM_USER", "CLOUD_IAM_GROUP" or "CLOUD_IAM_SERVICE_ACCOUNT".
+                      include "BUILT_IN", "CLOUD_IAM_USER", "CLOUD_IAM_SERVICE_ACCOUNT", "CLOUD_IAM_GROUP",
+                      "CLOUD_IAM_GROUP_USER" and "CLOUD_IAM_GROUP_SERVICE_ACCOUNT" for
+                      Postgres
+                      and MySQL.
                     type: string
                 type: object
               managementPolicies:
@@ -608,6 +638,18 @@ spec:
                           type: array
                       type: object
                     type: array
+                  passwordWo:
+                    description: |-
+                      The password for the user. Can be updated. For Postgres
+                      instances this is a Required field, unless type is set to either CLOUD_IAM_USER
+                      or CLOUD_IAM_SERVICE_ACCOUNT. Don't set this field for CLOUD_IAM_USER
+                      and CLOUD_IAM_SERVICE_ACCOUNT user types for any Cloud SQL instance.
+                      Note: This property is write-only and will not be read from the API.
+                    type: string
+                  passwordWoVersion:
+                    description: The version of the password_wo. For more info see
+                      updating write-only attributes.
+                    type: number
                   project:
                     description: |-
                       The ID of the project in which the resource belongs. If it
@@ -628,7 +670,10 @@ spec:
                     description: |-
                       The user type. It determines the method to authenticate the
                       user during login. The default is the database's built-in user type. Flags
-                      include "BUILT_IN", "CLOUD_IAM_USER", "CLOUD_IAM_GROUP" or "CLOUD_IAM_SERVICE_ACCOUNT".
+                      include "BUILT_IN", "CLOUD_IAM_USER", "CLOUD_IAM_SERVICE_ACCOUNT", "CLOUD_IAM_GROUP",
+                      "CLOUD_IAM_GROUP_USER" and "CLOUD_IAM_GROUP_SERVICE_ACCOUNT" for
+                      Postgres
+                      and MySQL.
                     type: string
                 type: object
               conditions:
@@ -881,6 +926,18 @@ spec:
                     - name
                     - namespace
                     type: object
+                  passwordWo:
+                    description: |-
+                      The password for the user. Can be updated. For Postgres
+                      instances this is a Required field, unless type is set to either CLOUD_IAM_USER
+                      or CLOUD_IAM_SERVICE_ACCOUNT. Don't set this field for CLOUD_IAM_USER
+                      and CLOUD_IAM_SERVICE_ACCOUNT user types for any Cloud SQL instance.
+                      Note: This property is write-only and will not be read from the API.
+                    type: string
+                  passwordWoVersion:
+                    description: The version of the password_wo. For more info see
+                      updating write-only attributes.
+                    type: number
                   project:
                     description: |-
                       The ID of the project in which the resource belongs. If it
@@ -890,9 +947,10 @@ spec:
                     description: |-
                       The user type. It determines the method to authenticate the
                       user during login. The default is the database's built-in user type. Flags
-                      include "BUILT_IN", "CLOUD_IAM_USER", and "CLOUD_IAM_SERVICE_ACCOUNT" for both
-                      Postgres and MySQL.
-                      MySQL also includes "CLOUD_IAM_GROUP", "CLOUD_IAM_GROUP_USER" and "CLOUD_IAM_GROUP_SERVICE_ACCOUNT".
+                      include "BUILT_IN", "CLOUD_IAM_USER", "CLOUD_IAM_SERVICE_ACCOUNT", "CLOUD_IAM_GROUP",
+                      "CLOUD_IAM_GROUP_USER" and "CLOUD_IAM_GROUP_SERVICE_ACCOUNT" for
+                      Postgres
+                      and MySQL.
                     type: string
                 type: object
               initProvider:
@@ -1042,6 +1100,18 @@ spec:
                     - name
                     - namespace
                     type: object
+                  passwordWo:
+                    description: |-
+                      The password for the user. Can be updated. For Postgres
+                      instances this is a Required field, unless type is set to either CLOUD_IAM_USER
+                      or CLOUD_IAM_SERVICE_ACCOUNT. Don't set this field for CLOUD_IAM_USER
+                      and CLOUD_IAM_SERVICE_ACCOUNT user types for any Cloud SQL instance.
+                      Note: This property is write-only and will not be read from the API.
+                    type: string
+                  passwordWoVersion:
+                    description: The version of the password_wo. For more info see
+                      updating write-only attributes.
+                    type: number
                   project:
                     description: |-
                       The ID of the project in which the resource belongs. If it
@@ -1051,9 +1121,10 @@ spec:
                     description: |-
                       The user type. It determines the method to authenticate the
                       user during login. The default is the database's built-in user type. Flags
-                      include "BUILT_IN", "CLOUD_IAM_USER", and "CLOUD_IAM_SERVICE_ACCOUNT" for both
-                      Postgres and MySQL.
-                      MySQL also includes "CLOUD_IAM_GROUP", "CLOUD_IAM_GROUP_USER" and "CLOUD_IAM_GROUP_SERVICE_ACCOUNT".
+                      include "BUILT_IN", "CLOUD_IAM_USER", "CLOUD_IAM_SERVICE_ACCOUNT", "CLOUD_IAM_GROUP",
+                      "CLOUD_IAM_GROUP_USER" and "CLOUD_IAM_GROUP_SERVICE_ACCOUNT" for
+                      Postgres
+                      and MySQL.
                     type: string
                 type: object
               managementPolicies:
@@ -1280,6 +1351,18 @@ spec:
                           type: object
                         type: array
                     type: object
+                  passwordWo:
+                    description: |-
+                      The password for the user. Can be updated. For Postgres
+                      instances this is a Required field, unless type is set to either CLOUD_IAM_USER
+                      or CLOUD_IAM_SERVICE_ACCOUNT. Don't set this field for CLOUD_IAM_USER
+                      and CLOUD_IAM_SERVICE_ACCOUNT user types for any Cloud SQL instance.
+                      Note: This property is write-only and will not be read from the API.
+                    type: string
+                  passwordWoVersion:
+                    description: The version of the password_wo. For more info see
+                      updating write-only attributes.
+                    type: number
                   project:
                     description: |-
                       The ID of the project in which the resource belongs. If it
@@ -1300,9 +1383,10 @@ spec:
                     description: |-
                       The user type. It determines the method to authenticate the
                       user during login. The default is the database's built-in user type. Flags
-                      include "BUILT_IN", "CLOUD_IAM_USER", and "CLOUD_IAM_SERVICE_ACCOUNT" for both
-                      Postgres and MySQL.
-                      MySQL also includes "CLOUD_IAM_GROUP", "CLOUD_IAM_GROUP_USER" and "CLOUD_IAM_GROUP_SERVICE_ACCOUNT".
+                      include "BUILT_IN", "CLOUD_IAM_USER", "CLOUD_IAM_SERVICE_ACCOUNT", "CLOUD_IAM_GROUP",
+                      "CLOUD_IAM_GROUP_USER" and "CLOUD_IAM_GROUP_SERVICE_ACCOUNT" for
+                      Postgres
+                      and MySQL.
                     type: string
                 type: object
               conditions:

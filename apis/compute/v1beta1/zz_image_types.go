@@ -13,6 +13,70 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type DbsInitParameters struct {
+
+	// The raw content in the secure keys file.
+	// A base64-encoded string.
+	Content *string `json:"content,omitempty" tf:"content,omitempty"`
+
+	// The file type of source file.
+	FileType *string `json:"fileType,omitempty" tf:"file_type,omitempty"`
+}
+
+type DbsObservation struct {
+
+	// The raw content in the secure keys file.
+	// A base64-encoded string.
+	Content *string `json:"content,omitempty" tf:"content,omitempty"`
+
+	// The file type of source file.
+	FileType *string `json:"fileType,omitempty" tf:"file_type,omitempty"`
+}
+
+type DbsParameters struct {
+
+	// The raw content in the secure keys file.
+	// A base64-encoded string.
+	// +kubebuilder:validation:Optional
+	Content *string `json:"content" tf:"content,omitempty"`
+
+	// The file type of source file.
+	// +kubebuilder:validation:Optional
+	FileType *string `json:"fileType,omitempty" tf:"file_type,omitempty"`
+}
+
+type DbxsInitParameters struct {
+
+	// The raw content in the secure keys file.
+	// A base64-encoded string.
+	Content *string `json:"content,omitempty" tf:"content,omitempty"`
+
+	// The file type of source file.
+	FileType *string `json:"fileType,omitempty" tf:"file_type,omitempty"`
+}
+
+type DbxsObservation struct {
+
+	// The raw content in the secure keys file.
+	// A base64-encoded string.
+	Content *string `json:"content,omitempty" tf:"content,omitempty"`
+
+	// The file type of source file.
+	FileType *string `json:"fileType,omitempty" tf:"file_type,omitempty"`
+}
+
+type DbxsParameters struct {
+
+	// The raw content in the secure keys file.
+	// A base64-encoded string.
+	// +kubebuilder:validation:Optional
+	Content *string `json:"content" tf:"content,omitempty"`
+
+	// The file type of source file.
+	// +kubebuilder:validation:Optional
+	FileType *string `json:"fileType,omitempty" tf:"file_type,omitempty"`
+}
+
 type ImageEncryptionKeyInitParameters struct {
 
 	// The self link of the encryption key that is stored in Google Cloud
@@ -23,6 +87,16 @@ type ImageEncryptionKeyInitParameters struct {
 	// given KMS key. If absent, the Compute Engine default service
 	// account is used.
 	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+
+	// Specifies a 256-bit customer-supplied encryption key, encoded in
+	// RFC 4648 base64 to either encrypt or decrypt this resource.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+
+	// Specifies a 256-bit customer-supplied encryption key, encoded in
+	// RFC 4648 base64 to either encrypt or decrypt this resource.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type ImageEncryptionKeyObservation struct {
@@ -49,6 +123,18 @@ type ImageEncryptionKeyParameters struct {
 	// account is used.
 	// +kubebuilder:validation:Optional
 	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+
+	// Specifies a 256-bit customer-supplied encryption key, encoded in
+	// RFC 4648 base64 to either encrypt or decrypt this resource.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Optional
+	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+
+	// Specifies a 256-bit customer-supplied encryption key, encoded in
+	// RFC 4648 base64 to either encrypt or decrypt this resource.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Optional
+	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type ImageGuestOsFeaturesInitParameters struct {
@@ -118,18 +204,47 @@ type ImageInitParameters struct {
 	// Structure is documented below.
 	RawDisk []RawDiskInitParameters `json:"rawDisk,omitempty" tf:"raw_disk,omitempty"`
 
+	// Set the secure boot keys of shielded instance.
+	// Structure is documented below.
+	ShieldedInstanceInitialState []ShieldedInstanceInitialStateInitParameters `json:"shieldedInstanceInitialState,omitempty" tf:"shielded_instance_initial_state,omitempty"`
+
 	// The source disk to create this image based on.
 	// You must provide either this property or the
 	// rawDisk.source property but not both to create an image.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.Disk
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	SourceDisk *string `json:"sourceDisk,omitempty" tf:"source_disk,omitempty"`
+
+	// The customer-supplied encryption key of the source disk. Required if
+	// the source disk is protected by a customer-supplied encryption key.
+	// Structure is documented below.
+	SourceDiskEncryptionKey []SourceDiskEncryptionKeyInitParameters `json:"sourceDiskEncryptionKey,omitempty" tf:"source_disk_encryption_key,omitempty"`
+
+	// Reference to a Disk in compute to populate sourceDisk.
+	// +kubebuilder:validation:Optional
+	SourceDiskRef *v1.Reference `json:"sourceDiskRef,omitempty" tf:"-"`
+
+	// Selector for a Disk in compute to populate sourceDisk.
+	// +kubebuilder:validation:Optional
+	SourceDiskSelector *v1.Selector `json:"sourceDiskSelector,omitempty" tf:"-"`
 
 	// URL of the source image used to create this image. In order to create an image, you must provide the full or partial
 	// URL of one of the following:
 	SourceImage *string `json:"sourceImage,omitempty" tf:"source_image,omitempty"`
 
+	// The customer-supplied encryption key of the source image. Required if
+	// the source image is protected by a customer-supplied encryption key.
+	// Structure is documented below.
+	SourceImageEncryptionKey []ImageSourceImageEncryptionKeyInitParameters `json:"sourceImageEncryptionKey,omitempty" tf:"source_image_encryption_key,omitempty"`
+
 	// URL of the source snapshot used to create this image.
 	// In order to create an image, you must provide the full or partial URL of one of the following:
 	SourceSnapshot *string `json:"sourceSnapshot,omitempty" tf:"source_snapshot,omitempty"`
+
+	// The customer-supplied encryption key of the source snapshot. Required if
+	// the source snapshot is protected by a customer-supplied encryption key.
+	// Structure is documented below.
+	SourceSnapshotEncryptionKey []ImageSourceSnapshotEncryptionKeyInitParameters `json:"sourceSnapshotEncryptionKey,omitempty" tf:"source_snapshot_encryption_key,omitempty"`
 
 	// Cloud Storage bucket storage location of the image
 	// (regional or multi-regional).
@@ -202,18 +317,37 @@ type ImageObservation struct {
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
+	// Set the secure boot keys of shielded instance.
+	// Structure is documented below.
+	ShieldedInstanceInitialState []ShieldedInstanceInitialStateObservation `json:"shieldedInstanceInitialState,omitempty" tf:"shielded_instance_initial_state,omitempty"`
+
 	// The source disk to create this image based on.
 	// You must provide either this property or the
 	// rawDisk.source property but not both to create an image.
 	SourceDisk *string `json:"sourceDisk,omitempty" tf:"source_disk,omitempty"`
 
+	// The customer-supplied encryption key of the source disk. Required if
+	// the source disk is protected by a customer-supplied encryption key.
+	// Structure is documented below.
+	SourceDiskEncryptionKey []SourceDiskEncryptionKeyObservation `json:"sourceDiskEncryptionKey,omitempty" tf:"source_disk_encryption_key,omitempty"`
+
 	// URL of the source image used to create this image. In order to create an image, you must provide the full or partial
 	// URL of one of the following:
 	SourceImage *string `json:"sourceImage,omitempty" tf:"source_image,omitempty"`
 
+	// The customer-supplied encryption key of the source image. Required if
+	// the source image is protected by a customer-supplied encryption key.
+	// Structure is documented below.
+	SourceImageEncryptionKey []ImageSourceImageEncryptionKeyObservation `json:"sourceImageEncryptionKey,omitempty" tf:"source_image_encryption_key,omitempty"`
+
 	// URL of the source snapshot used to create this image.
 	// In order to create an image, you must provide the full or partial URL of one of the following:
 	SourceSnapshot *string `json:"sourceSnapshot,omitempty" tf:"source_snapshot,omitempty"`
+
+	// The customer-supplied encryption key of the source snapshot. Required if
+	// the source snapshot is protected by a customer-supplied encryption key.
+	// Structure is documented below.
+	SourceSnapshotEncryptionKey []ImageSourceSnapshotEncryptionKeyObservation `json:"sourceSnapshotEncryptionKey,omitempty" tf:"source_snapshot_encryption_key,omitempty"`
 
 	// Cloud Storage bucket storage location of the image
 	// (regional or multi-regional).
@@ -280,27 +414,266 @@ type ImageParameters struct {
 	// +kubebuilder:validation:Optional
 	RawDisk []RawDiskParameters `json:"rawDisk,omitempty" tf:"raw_disk,omitempty"`
 
+	// Set the secure boot keys of shielded instance.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ShieldedInstanceInitialState []ShieldedInstanceInitialStateParameters `json:"shieldedInstanceInitialState,omitempty" tf:"shielded_instance_initial_state,omitempty"`
+
 	// The source disk to create this image based on.
 	// You must provide either this property or the
 	// rawDisk.source property but not both to create an image.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.Disk
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	SourceDisk *string `json:"sourceDisk,omitempty" tf:"source_disk,omitempty"`
+
+	// The customer-supplied encryption key of the source disk. Required if
+	// the source disk is protected by a customer-supplied encryption key.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SourceDiskEncryptionKey []SourceDiskEncryptionKeyParameters `json:"sourceDiskEncryptionKey,omitempty" tf:"source_disk_encryption_key,omitempty"`
+
+	// Reference to a Disk in compute to populate sourceDisk.
+	// +kubebuilder:validation:Optional
+	SourceDiskRef *v1.Reference `json:"sourceDiskRef,omitempty" tf:"-"`
+
+	// Selector for a Disk in compute to populate sourceDisk.
+	// +kubebuilder:validation:Optional
+	SourceDiskSelector *v1.Selector `json:"sourceDiskSelector,omitempty" tf:"-"`
 
 	// URL of the source image used to create this image. In order to create an image, you must provide the full or partial
 	// URL of one of the following:
 	// +kubebuilder:validation:Optional
 	SourceImage *string `json:"sourceImage,omitempty" tf:"source_image,omitempty"`
 
+	// The customer-supplied encryption key of the source image. Required if
+	// the source image is protected by a customer-supplied encryption key.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SourceImageEncryptionKey []ImageSourceImageEncryptionKeyParameters `json:"sourceImageEncryptionKey,omitempty" tf:"source_image_encryption_key,omitempty"`
+
 	// URL of the source snapshot used to create this image.
 	// In order to create an image, you must provide the full or partial URL of one of the following:
 	// +kubebuilder:validation:Optional
 	SourceSnapshot *string `json:"sourceSnapshot,omitempty" tf:"source_snapshot,omitempty"`
+
+	// The customer-supplied encryption key of the source snapshot. Required if
+	// the source snapshot is protected by a customer-supplied encryption key.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SourceSnapshotEncryptionKey []ImageSourceSnapshotEncryptionKeyParameters `json:"sourceSnapshotEncryptionKey,omitempty" tf:"source_snapshot_encryption_key,omitempty"`
 
 	// Cloud Storage bucket storage location of the image
 	// (regional or multi-regional).
 	// Reference link: https://cloud.google.com/compute/docs/reference/rest/v1/images
 	// +kubebuilder:validation:Optional
 	StorageLocations []*string `json:"storageLocations,omitempty" tf:"storage_locations,omitempty"`
+}
+
+type ImageSourceImageEncryptionKeyInitParameters struct {
+
+	// The self link of the encryption key used to decrypt this resource. Also called KmsKeyName
+	// in the cloud console. Your project's Compute Engine System service account
+	// (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com) must have
+	// roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
+	// See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	// The service account being used for the encryption request for the
+	// given KMS key. If absent, the Compute Engine default service
+	// account is used.
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+
+	// Specifies a 256-bit customer-supplied encryption key, encoded in
+	// RFC 4648 base64 to either encrypt or decrypt this resource.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+
+	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
+	// customer-supplied encryption key to either encrypt or decrypt
+	// this resource. You can provide either the rawKey or the rsaEncryptedKey.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+}
+
+type ImageSourceImageEncryptionKeyObservation struct {
+
+	// The self link of the encryption key used to decrypt this resource. Also called KmsKeyName
+	// in the cloud console. Your project's Compute Engine System service account
+	// (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com) must have
+	// roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
+	// See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	// The service account being used for the encryption request for the
+	// given KMS key. If absent, the Compute Engine default service
+	// account is used.
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+}
+
+type ImageSourceImageEncryptionKeyParameters struct {
+
+	// The self link of the encryption key used to decrypt this resource. Also called KmsKeyName
+	// in the cloud console. Your project's Compute Engine System service account
+	// (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com) must have
+	// roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
+	// See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
+	// +kubebuilder:validation:Optional
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	// The service account being used for the encryption request for the
+	// given KMS key. If absent, the Compute Engine default service
+	// account is used.
+	// +kubebuilder:validation:Optional
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+
+	// Specifies a 256-bit customer-supplied encryption key, encoded in
+	// RFC 4648 base64 to either encrypt or decrypt this resource.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Optional
+	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+
+	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
+	// customer-supplied encryption key to either encrypt or decrypt
+	// this resource. You can provide either the rawKey or the rsaEncryptedKey.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Optional
+	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+}
+
+type ImageSourceSnapshotEncryptionKeyInitParameters struct {
+
+	// The self link of the encryption key used to decrypt this resource. Also called KmsKeyName
+	// in the cloud console. Your project's Compute Engine System service account
+	// (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com) must have
+	// roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
+	// See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	// The service account being used for the encryption request for the
+	// given KMS key. If absent, the Compute Engine default service
+	// account is used.
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+
+	// Specifies a 256-bit customer-supplied encryption key, encoded in
+	// RFC 4648 base64 to either encrypt or decrypt this resource.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+
+	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
+	// customer-supplied encryption key to either encrypt or decrypt
+	// this resource. You can provide either the rawKey or the rsaEncryptedKey.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+}
+
+type ImageSourceSnapshotEncryptionKeyObservation struct {
+
+	// The self link of the encryption key used to decrypt this resource. Also called KmsKeyName
+	// in the cloud console. Your project's Compute Engine System service account
+	// (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com) must have
+	// roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
+	// See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	// The service account being used for the encryption request for the
+	// given KMS key. If absent, the Compute Engine default service
+	// account is used.
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+}
+
+type ImageSourceSnapshotEncryptionKeyParameters struct {
+
+	// The self link of the encryption key used to decrypt this resource. Also called KmsKeyName
+	// in the cloud console. Your project's Compute Engine System service account
+	// (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com) must have
+	// roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
+	// See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
+	// +kubebuilder:validation:Optional
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	// The service account being used for the encryption request for the
+	// given KMS key. If absent, the Compute Engine default service
+	// account is used.
+	// +kubebuilder:validation:Optional
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+
+	// Specifies a 256-bit customer-supplied encryption key, encoded in
+	// RFC 4648 base64 to either encrypt or decrypt this resource.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Optional
+	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+
+	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
+	// customer-supplied encryption key to either encrypt or decrypt
+	// this resource. You can provide either the rawKey or the rsaEncryptedKey.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Optional
+	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+}
+
+type KeksInitParameters struct {
+
+	// The raw content in the secure keys file.
+	// A base64-encoded string.
+	Content *string `json:"content,omitempty" tf:"content,omitempty"`
+
+	// The file type of source file.
+	FileType *string `json:"fileType,omitempty" tf:"file_type,omitempty"`
+}
+
+type KeksObservation struct {
+
+	// The raw content in the secure keys file.
+	// A base64-encoded string.
+	Content *string `json:"content,omitempty" tf:"content,omitempty"`
+
+	// The file type of source file.
+	FileType *string `json:"fileType,omitempty" tf:"file_type,omitempty"`
+}
+
+type KeksParameters struct {
+
+	// The raw content in the secure keys file.
+	// A base64-encoded string.
+	// +kubebuilder:validation:Optional
+	Content *string `json:"content" tf:"content,omitempty"`
+
+	// The file type of source file.
+	// +kubebuilder:validation:Optional
+	FileType *string `json:"fileType,omitempty" tf:"file_type,omitempty"`
+}
+
+type PkInitParameters struct {
+
+	// The raw content in the secure keys file.
+	// A base64-encoded string.
+	Content *string `json:"content,omitempty" tf:"content,omitempty"`
+
+	// The file type of source file.
+	FileType *string `json:"fileType,omitempty" tf:"file_type,omitempty"`
+}
+
+type PkObservation struct {
+
+	// The raw content in the secure keys file.
+	// A base64-encoded string.
+	Content *string `json:"content,omitempty" tf:"content,omitempty"`
+
+	// The file type of source file.
+	FileType *string `json:"fileType,omitempty" tf:"file_type,omitempty"`
+}
+
+type PkParameters struct {
+
+	// The raw content in the secure keys file.
+	// A base64-encoded string.
+	// +kubebuilder:validation:Optional
+	Content *string `json:"content" tf:"content,omitempty"`
+
+	// The file type of source file.
+	// +kubebuilder:validation:Optional
+	FileType *string `json:"fileType,omitempty" tf:"file_type,omitempty"`
 }
 
 type RawDiskInitParameters struct {
@@ -364,6 +737,138 @@ type RawDiskParameters struct {
 	// but not both.
 	// +kubebuilder:validation:Optional
 	Source *string `json:"source" tf:"source,omitempty"`
+}
+
+type ShieldedInstanceInitialStateInitParameters struct {
+
+	// The Key Database (db).
+	// Structure is documented below.
+	Dbs []DbsInitParameters `json:"dbs,omitempty" tf:"dbs,omitempty"`
+
+	// The forbidden key database (dbx).
+	// Structure is documented below.
+	Dbxs []DbxsInitParameters `json:"dbxs,omitempty" tf:"dbxs,omitempty"`
+
+	// The Key Exchange Key (KEK).
+	// Structure is documented below.
+	Keks []KeksInitParameters `json:"keks,omitempty" tf:"keks,omitempty"`
+
+	// The Platform Key (PK).
+	// Structure is documented below.
+	Pk []PkInitParameters `json:"pk,omitempty" tf:"pk,omitempty"`
+}
+
+type ShieldedInstanceInitialStateObservation struct {
+
+	// The Key Database (db).
+	// Structure is documented below.
+	Dbs []DbsObservation `json:"dbs,omitempty" tf:"dbs,omitempty"`
+
+	// The forbidden key database (dbx).
+	// Structure is documented below.
+	Dbxs []DbxsObservation `json:"dbxs,omitempty" tf:"dbxs,omitempty"`
+
+	// The Key Exchange Key (KEK).
+	// Structure is documented below.
+	Keks []KeksObservation `json:"keks,omitempty" tf:"keks,omitempty"`
+
+	// The Platform Key (PK).
+	// Structure is documented below.
+	Pk []PkObservation `json:"pk,omitempty" tf:"pk,omitempty"`
+}
+
+type ShieldedInstanceInitialStateParameters struct {
+
+	// The Key Database (db).
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Dbs []DbsParameters `json:"dbs,omitempty" tf:"dbs,omitempty"`
+
+	// The forbidden key database (dbx).
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Dbxs []DbxsParameters `json:"dbxs,omitempty" tf:"dbxs,omitempty"`
+
+	// The Key Exchange Key (KEK).
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Keks []KeksParameters `json:"keks,omitempty" tf:"keks,omitempty"`
+
+	// The Platform Key (PK).
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Pk []PkParameters `json:"pk,omitempty" tf:"pk,omitempty"`
+}
+
+type SourceDiskEncryptionKeyInitParameters struct {
+
+	// The self link of the encryption key used to decrypt this resource. Also called KmsKeyName
+	// in the cloud console. Your project's Compute Engine System service account
+	// (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com) must have
+	// roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
+	// See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	// The service account being used for the encryption request for the
+	// given KMS key. If absent, the Compute Engine default service
+	// account is used.
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+
+	// Specifies a 256-bit customer-supplied encryption key, encoded in
+	// RFC 4648 base64 to either encrypt or decrypt this resource.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+
+	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
+	// customer-supplied encryption key to either encrypt or decrypt
+	// this resource. You can provide either the rawKey or the rsaEncryptedKey.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+}
+
+type SourceDiskEncryptionKeyObservation struct {
+
+	// The self link of the encryption key used to decrypt this resource. Also called KmsKeyName
+	// in the cloud console. Your project's Compute Engine System service account
+	// (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com) must have
+	// roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
+	// See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	// The service account being used for the encryption request for the
+	// given KMS key. If absent, the Compute Engine default service
+	// account is used.
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+}
+
+type SourceDiskEncryptionKeyParameters struct {
+
+	// The self link of the encryption key used to decrypt this resource. Also called KmsKeyName
+	// in the cloud console. Your project's Compute Engine System service account
+	// (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com) must have
+	// roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
+	// See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
+	// +kubebuilder:validation:Optional
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	// The service account being used for the encryption request for the
+	// given KMS key. If absent, the Compute Engine default service
+	// account is used.
+	// +kubebuilder:validation:Optional
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+
+	// Specifies a 256-bit customer-supplied encryption key, encoded in
+	// RFC 4648 base64 to either encrypt or decrypt this resource.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Optional
+	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+
+	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
+	// customer-supplied encryption key to either encrypt or decrypt
+	// this resource. You can provide either the rawKey or the rsaEncryptedKey.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Optional
+	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 // ImageSpec defines the desired state of Image

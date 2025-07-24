@@ -41,6 +41,10 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 				"enable_intranode_visibility",
 				"network_policy",
 				"enable_shielded_nodes",
+				"logging_config",
+				"monitoring_config",
+				"logging_service",
+				"monitoring_service",
 			},
 		}
 		config.MoveToStatus(r.TerraformResource, "node_pool")

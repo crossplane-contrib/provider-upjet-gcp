@@ -73,6 +73,10 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  deletionProtection:
+                    description: When the field is set to false, deleting the folder
+                      is allowed. Default value is true.
+                    type: boolean
                   displayName:
                     description: |-
                       The folder’s display name.
@@ -159,6 +163,19 @@ spec:
                             type: string
                         type: object
                     type: object
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: A map of resource manager tags. Resource manager
+                      tag keys and values have the same definition as resource manager
+                      tags. Keys must be in the format tagKeys/{tag_key_id}, and values
+                      are in the format tagValues/456. The field is ignored when empty.
+                      The field is immutable and causes resource replacement when  mutated.
+                      This field is only set at create time and modifying this field
+                      after creation will trigger recreation. To apply tags to an
+                      existing resource, see the google_tags_tag_value resource.
+                    type: object
+                    x-kubernetes-map-type: granular
                 type: object
               initProvider:
                 description: |-
@@ -173,6 +190,10 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  deletionProtection:
+                    description: When the field is set to false, deleting the folder
+                      is allowed. Default value is true.
+                    type: boolean
                   displayName:
                     description: |-
                       The folder’s display name.
@@ -259,6 +280,19 @@ spec:
                             type: string
                         type: object
                     type: object
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: A map of resource manager tags. Resource manager
+                      tag keys and values have the same definition as resource manager
+                      tags. Keys must be in the format tagKeys/{tag_key_id}, and values
+                      are in the format tagValues/456. The field is ignored when empty.
+                      The field is immutable and causes resource replacement when  mutated.
+                      This field is only set at create time and modifying this field
+                      after creation will trigger recreation. To apply tags to an
+                      existing resource, see the google_tags_tag_value resource.
+                    type: object
+                    x-kubernetes-map-type: granular
                 type: object
               managementPolicies:
                 default:
@@ -442,6 +476,10 @@ spec:
                       Timestamp when the Folder was created. Assigned by the server.
                       A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z".
                     type: string
+                  deletionProtection:
+                    description: When the field is set to false, deleting the folder
+                      is allowed. Default value is true.
+                    type: boolean
                   displayName:
                     description: |-
                       The folder’s display name.
@@ -464,6 +502,19 @@ spec:
                       The resource name of the parent Folder or Organization.
                       Must be of the form folders/{folder_id} or organizations/{org_id}.
                     type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: A map of resource manager tags. Resource manager
+                      tag keys and values have the same definition as resource manager
+                      tags. Keys must be in the format tagKeys/{tag_key_id}, and values
+                      are in the format tagValues/456. The field is ignored when empty.
+                      The field is immutable and causes resource replacement when  mutated.
+                      This field is only set at create time and modifying this field
+                      after creation will trigger recreation. To apply tags to an
+                      existing resource, see the google_tags_tag_value resource.
+                    type: object
+                    x-kubernetes-map-type: granular
                 type: object
               conditions:
                 description: Conditions of the resource.

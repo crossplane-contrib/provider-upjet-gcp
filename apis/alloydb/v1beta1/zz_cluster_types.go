@@ -240,23 +240,9 @@ type ClusterInitParameters struct {
 	// Structure is documented below.
 	MaintenanceUpdatePolicy []MaintenanceUpdatePolicyInitParameters `json:"maintenanceUpdatePolicy,omitempty" tf:"maintenance_update_policy,omitempty"`
 
-	// The relative resource name of the VPC network on which the instance can be accessed. It is specified in the following form:
-	// "projects/{projectNumber}/global/networks/{network_id}".
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
-	Network *string `json:"network,omitempty" tf:"network,omitempty"`
-
 	// Metadata related to network configuration.
 	// Structure is documented below.
 	NetworkConfig []NetworkConfigInitParameters `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
-
-	// Reference to a Network in compute to populate network.
-	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
-
-	// Selector for a Network in compute to populate network.
-	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -277,6 +263,15 @@ type ClusterInitParameters struct {
 	// Configuration of the secondary cluster for Cross Region Replication. This should be set if and only if the cluster is of type SECONDARY.
 	// Structure is documented below.
 	SecondaryConfig []SecondaryConfigInitParameters `json:"secondaryConfig,omitempty" tf:"secondary_config,omitempty"`
+
+	// Set to true to skip awaiting on the major version upgrade of the cluster.
+	// Possible values: true, false
+	// Default value: "true"
+	SkipAwaitMajorVersionUpgrade *bool `json:"skipAwaitMajorVersionUpgrade,omitempty" tf:"skip_await_major_version_upgrade,omitempty"`
+
+	// The subscrition type of cluster.
+	// Possible values are: TRIAL, STANDARD.
+	SubscriptionType *string `json:"subscriptionType,omitempty" tf:"subscription_type,omitempty"`
 }
 
 type ClusterObservation struct {
@@ -364,10 +359,6 @@ type ClusterObservation struct {
 	// The name of the cluster resource.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// The relative resource name of the VPC network on which the instance can be accessed. It is specified in the following form:
-	// "projects/{projectNumber}/global/networks/{network_id}".
-	Network *string `json:"network,omitempty" tf:"network,omitempty"`
-
 	// Metadata related to network configuration.
 	// Structure is documented below.
 	NetworkConfig []NetworkConfigObservation `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
@@ -397,13 +388,26 @@ type ClusterObservation struct {
 	// Structure is documented below.
 	SecondaryConfig []SecondaryConfigObservation `json:"secondaryConfig,omitempty" tf:"secondary_config,omitempty"`
 
+	// Set to true to skip awaiting on the major version upgrade of the cluster.
+	// Possible values: true, false
+	// Default value: "true"
+	SkipAwaitMajorVersionUpgrade *bool `json:"skipAwaitMajorVersionUpgrade,omitempty" tf:"skip_await_major_version_upgrade,omitempty"`
+
 	// Output only. The current serving state of the cluster.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
+
+	// The subscrition type of cluster.
+	// Possible values are: TRIAL, STANDARD.
+	SubscriptionType *string `json:"subscriptionType,omitempty" tf:"subscription_type,omitempty"`
 
 	// The combination of labels configured directly on the resource
 	// and default labels configured on the provider.
 	// +mapType=granular
 	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
+
+	// Contains information and all metadata related to TRIAL clusters.
+	// Structure is documented below.
+	TrialMetadata []TrialMetadataObservation `json:"trialMetadata,omitempty" tf:"trial_metadata,omitempty"`
 
 	// The system-generated UID of the resource.
 	UID *string `json:"uid,omitempty" tf:"uid,omitempty"`
@@ -478,25 +482,10 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	MaintenanceUpdatePolicy []MaintenanceUpdatePolicyParameters `json:"maintenanceUpdatePolicy,omitempty" tf:"maintenance_update_policy,omitempty"`
 
-	// The relative resource name of the VPC network on which the instance can be accessed. It is specified in the following form:
-	// "projects/{projectNumber}/global/networks/{network_id}".
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
-	// +kubebuilder:validation:Optional
-	Network *string `json:"network,omitempty" tf:"network,omitempty"`
-
 	// Metadata related to network configuration.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	NetworkConfig []NetworkConfigParameters `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
-
-	// Reference to a Network in compute to populate network.
-	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
-
-	// Selector for a Network in compute to populate network.
-	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -522,6 +511,17 @@ type ClusterParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SecondaryConfig []SecondaryConfigParameters `json:"secondaryConfig,omitempty" tf:"secondary_config,omitempty"`
+
+	// Set to true to skip awaiting on the major version upgrade of the cluster.
+	// Possible values: true, false
+	// Default value: "true"
+	// +kubebuilder:validation:Optional
+	SkipAwaitMajorVersionUpgrade *bool `json:"skipAwaitMajorVersionUpgrade,omitempty" tf:"skip_await_major_version_upgrade,omitempty"`
+
+	// The subscrition type of cluster.
+	// Possible values are: TRIAL, STANDARD.
+	// +kubebuilder:validation:Optional
+	SubscriptionType *string `json:"subscriptionType,omitempty" tf:"subscription_type,omitempty"`
 }
 
 type ContinuousBackupConfigEncryptionConfigInitParameters struct {
@@ -795,6 +795,11 @@ type PscConfigObservation struct {
 
 	// Create an instance that allows connections from Private Service Connect endpoints to the instance.
 	PscEnabled *bool `json:"pscEnabled,omitempty" tf:"psc_enabled,omitempty"`
+
+	// (Output)
+	// The project number that needs to be allowlisted on the network attachment to enable outbound connectivity, if the network attachment is configured to ACCEPT_MANUAL connections.
+	// In case the network attachment is configured to ACCEPT_AUTOMATIC, this project number does not need to be allowlisted explicitly.
+	ServiceOwnedProjectNumber *float64 `json:"serviceOwnedProjectNumber,omitempty" tf:"service_owned_project_number,omitempty"`
 }
 
 type PscConfigParameters struct {
@@ -1071,6 +1076,27 @@ type TimeBasedRetentionParameters struct {
 	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s".
 	// +kubebuilder:validation:Optional
 	RetentionPeriod *string `json:"retentionPeriod,omitempty" tf:"retention_period,omitempty"`
+}
+
+type TrialMetadataInitParameters struct {
+}
+
+type TrialMetadataObservation struct {
+
+	// End time of the trial cluster.
+	EndTime *string `json:"endTime,omitempty" tf:"end_time,omitempty"`
+
+	// Grace end time of the trial cluster.
+	GraceEndTime *string `json:"graceEndTime,omitempty" tf:"grace_end_time,omitempty"`
+
+	// Start time of the trial cluster.
+	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
+
+	// Upgrade time of the trial cluster to standard cluster.
+	UpgradeTime *string `json:"upgradeTime,omitempty" tf:"upgrade_time,omitempty"`
+}
+
+type TrialMetadataParameters struct {
 }
 
 type WeeklyScheduleInitParameters struct {

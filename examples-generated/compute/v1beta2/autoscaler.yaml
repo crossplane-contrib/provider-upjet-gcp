@@ -15,7 +15,7 @@ spec:
       - filter: resource.type = pubsub_subscription AND resource.label.subscription_id
           = our-subscription
         name: pubsub.googleapis.com/subscription/num_undelivered_messages
-        single_instance_assignment: 65535
+        singleInstanceAssignment: 65535
       minReplicas: 1
     provider: ${google-beta}
     targetSelector:

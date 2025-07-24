@@ -25,12 +25,56 @@ func (mg *Flow) ResolveReferences(ctx context.Context, c client.Reader) error {
 
 	var rsp reference.ResolutionResponse
 	var err error
+
+	if mg.Spec.ForProvider.KnowledgeConnectorSettings != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("dialogflowcx.gcp.upbound.io", "v1beta2", "Agent", "AgentList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.KnowledgeConnectorSettings.TargetFlow),
+				Extract:      resource.ExtractParamPath("start_flow", true),
+				Reference:    mg.Spec.ForProvider.KnowledgeConnectorSettings.TargetFlowRef,
+				Selector:     mg.Spec.ForProvider.KnowledgeConnectorSettings.TargetFlowSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.KnowledgeConnectorSettings.TargetFlow")
+		}
+		mg.Spec.ForProvider.KnowledgeConnectorSettings.TargetFlow = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.KnowledgeConnectorSettings.TargetFlowRef = rsp.ResolvedReference
+
+	}
+	if mg.Spec.ForProvider.KnowledgeConnectorSettings != nil {
+		if mg.Spec.ForProvider.KnowledgeConnectorSettings.TriggerFulfillment != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("dialogflowcx.gcp.upbound.io", "v1beta2", "Webhook", "WebhookList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.KnowledgeConnectorSettings.TriggerFulfillment.Webhook),
+					Extract:      resource.ExtractResourceID(),
+					Reference:    mg.Spec.ForProvider.KnowledgeConnectorSettings.TriggerFulfillment.WebhookRef,
+					Selector:     mg.Spec.ForProvider.KnowledgeConnectorSettings.TriggerFulfillment.WebhookSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.KnowledgeConnectorSettings.TriggerFulfillment.Webhook")
+			}
+			mg.Spec.ForProvider.KnowledgeConnectorSettings.TriggerFulfillment.Webhook = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.KnowledgeConnectorSettings.TriggerFulfillment.WebhookRef = rsp.ResolvedReference
+
+		}
+	}
 	{
 		m, l, err = apisresolver.GetManagedResource("dialogflowcx.gcp.upbound.io", "v1beta2", "Agent", "AgentList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
-
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Parent),
 			Extract:      resource.ExtractResourceID(),
@@ -65,6 +109,50 @@ func (mg *Flow) ResolveReferences(ctx context.Context, c client.Reader) error {
 		mg.Spec.ForProvider.TransitionRoutes[i3].TargetFlow = reference.ToPtrValue(rsp.ResolvedValue)
 		mg.Spec.ForProvider.TransitionRoutes[i3].TargetFlowRef = rsp.ResolvedReference
 
+	}
+	if mg.Spec.InitProvider.KnowledgeConnectorSettings != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("dialogflowcx.gcp.upbound.io", "v1beta2", "Agent", "AgentList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.KnowledgeConnectorSettings.TargetFlow),
+				Extract:      resource.ExtractParamPath("start_flow", true),
+				Reference:    mg.Spec.InitProvider.KnowledgeConnectorSettings.TargetFlowRef,
+				Selector:     mg.Spec.InitProvider.KnowledgeConnectorSettings.TargetFlowSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.KnowledgeConnectorSettings.TargetFlow")
+		}
+		mg.Spec.InitProvider.KnowledgeConnectorSettings.TargetFlow = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.KnowledgeConnectorSettings.TargetFlowRef = rsp.ResolvedReference
+
+	}
+	if mg.Spec.InitProvider.KnowledgeConnectorSettings != nil {
+		if mg.Spec.InitProvider.KnowledgeConnectorSettings.TriggerFulfillment != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("dialogflowcx.gcp.upbound.io", "v1beta2", "Webhook", "WebhookList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.KnowledgeConnectorSettings.TriggerFulfillment.Webhook),
+					Extract:      resource.ExtractResourceID(),
+					Reference:    mg.Spec.InitProvider.KnowledgeConnectorSettings.TriggerFulfillment.WebhookRef,
+					Selector:     mg.Spec.InitProvider.KnowledgeConnectorSettings.TriggerFulfillment.WebhookSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.KnowledgeConnectorSettings.TriggerFulfillment.Webhook")
+			}
+			mg.Spec.InitProvider.KnowledgeConnectorSettings.TriggerFulfillment.Webhook = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.KnowledgeConnectorSettings.TriggerFulfillment.WebhookRef = rsp.ResolvedReference
+
+		}
 	}
 	{
 		m, l, err = apisresolver.GetManagedResource("dialogflowcx.gcp.upbound.io", "v1beta2", "Agent", "AgentList")
@@ -202,6 +290,50 @@ func (mg *Page) ResolveReferences(ctx context.Context, c client.Reader) error {
 			}
 		}
 	}
+	if mg.Spec.ForProvider.KnowledgeConnectorSettings != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("dialogflowcx.gcp.upbound.io", "v1beta2", "Page", "PageList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.KnowledgeConnectorSettings.TargetPage),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.ForProvider.KnowledgeConnectorSettings.TargetPageRef,
+				Selector:     mg.Spec.ForProvider.KnowledgeConnectorSettings.TargetPageSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.KnowledgeConnectorSettings.TargetPage")
+		}
+		mg.Spec.ForProvider.KnowledgeConnectorSettings.TargetPage = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.KnowledgeConnectorSettings.TargetPageRef = rsp.ResolvedReference
+
+	}
+	if mg.Spec.ForProvider.KnowledgeConnectorSettings != nil {
+		if mg.Spec.ForProvider.KnowledgeConnectorSettings.TriggerFulfillment != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("dialogflowcx.gcp.upbound.io", "v1beta2", "Webhook", "WebhookList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.KnowledgeConnectorSettings.TriggerFulfillment.Webhook),
+					Extract:      resource.ExtractResourceID(),
+					Reference:    mg.Spec.ForProvider.KnowledgeConnectorSettings.TriggerFulfillment.WebhookRef,
+					Selector:     mg.Spec.ForProvider.KnowledgeConnectorSettings.TriggerFulfillment.WebhookSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.KnowledgeConnectorSettings.TriggerFulfillment.Webhook")
+			}
+			mg.Spec.ForProvider.KnowledgeConnectorSettings.TriggerFulfillment.Webhook = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.KnowledgeConnectorSettings.TriggerFulfillment.WebhookRef = rsp.ResolvedReference
+
+		}
+	}
 	{
 		m, l, err = apisresolver.GetManagedResource("dialogflowcx.gcp.upbound.io", "v1beta2", "Agent", "AgentList")
 		if err != nil {
@@ -323,6 +455,50 @@ func (mg *Page) ResolveReferences(ctx context.Context, c client.Reader) error {
 					}
 				}
 			}
+		}
+	}
+	if mg.Spec.InitProvider.KnowledgeConnectorSettings != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("dialogflowcx.gcp.upbound.io", "v1beta2", "Page", "PageList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.KnowledgeConnectorSettings.TargetPage),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.InitProvider.KnowledgeConnectorSettings.TargetPageRef,
+				Selector:     mg.Spec.InitProvider.KnowledgeConnectorSettings.TargetPageSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.KnowledgeConnectorSettings.TargetPage")
+		}
+		mg.Spec.InitProvider.KnowledgeConnectorSettings.TargetPage = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.KnowledgeConnectorSettings.TargetPageRef = rsp.ResolvedReference
+
+	}
+	if mg.Spec.InitProvider.KnowledgeConnectorSettings != nil {
+		if mg.Spec.InitProvider.KnowledgeConnectorSettings.TriggerFulfillment != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("dialogflowcx.gcp.upbound.io", "v1beta2", "Webhook", "WebhookList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.KnowledgeConnectorSettings.TriggerFulfillment.Webhook),
+					Extract:      resource.ExtractResourceID(),
+					Reference:    mg.Spec.InitProvider.KnowledgeConnectorSettings.TriggerFulfillment.WebhookRef,
+					Selector:     mg.Spec.InitProvider.KnowledgeConnectorSettings.TriggerFulfillment.WebhookSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.KnowledgeConnectorSettings.TriggerFulfillment.Webhook")
+			}
+			mg.Spec.InitProvider.KnowledgeConnectorSettings.TriggerFulfillment.Webhook = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.KnowledgeConnectorSettings.TriggerFulfillment.WebhookRef = rsp.ResolvedReference
+
 		}
 	}
 	{

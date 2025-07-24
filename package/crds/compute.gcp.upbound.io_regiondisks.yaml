@@ -74,9 +74,14 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  accessMode:
+                    description: |-
+                      The access mode of the disk.
+                      For example:
+                    type: string
                   asyncPrimaryDisk:
                     description: |-
-                      A nested object resource
+                      A nested object resource.
                       Structure is documented below.
                     items:
                       properties:
@@ -161,6 +166,16 @@ spec:
                           type: object
                       type: object
                     type: array
+                  createSnapshotBeforeDestroy:
+                    description: |-
+                      If set to true, a snapshot of the disk will be created before it is destroyed.
+                      If your disk is encrypted with customer managed encryption keys these will be reused for the snapshot creation.
+                      The name of the snapshot by default will be {{disk-name}}-YYYYMMDD-HHmm
+                    type: boolean
+                  createSnapshotBeforeDestroyPrefix:
+                    description: This will set a custom name prefix for the snapshot
+                      that's created when the disk is deleted.
+                    type: string
                   description:
                     description: |-
                       An optional description of this resource. Provide this property when
@@ -188,6 +203,27 @@ spec:
                           description: |-
                             Specifies a 256-bit customer-supplied encryption key, encoded in
                             RFC 4648 base64 to either encrypt or decrypt this resource.
+                            Note: This property is sensitive and will not be displayed in the plan.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                        rsaEncryptedKeySecretRef:
+                          description: |-
+                            Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
+                            customer-supplied encryption key to either encrypt or decrypt
+                            this resource. You can provide either the rawKey or the rsaEncryptedKey.
                             Note: This property is sensitive and will not be displayed in the plan.
                           properties:
                             key:
@@ -385,6 +421,11 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  accessMode:
+                    description: |-
+                      The access mode of the disk.
+                      For example:
+                    type: string
                   asyncPrimaryDisk:
                     description: |-
                       A nested object resource
@@ -472,6 +513,16 @@ spec:
                           type: object
                       type: object
                     type: array
+                  createSnapshotBeforeDestroy:
+                    description: |-
+                      If set to true, a snapshot of the disk will be created before it is destroyed.
+                      If your disk is encrypted with customer managed encryption keys these will be reused for the snapshot creation.
+                      The name of the snapshot by default will be {{disk-name}}-YYYYMMDD-HHmm
+                    type: boolean
+                  createSnapshotBeforeDestroyPrefix:
+                    description: This will set a custom name prefix for the snapshot
+                      that's created when the disk is deleted.
+                    type: string
                   description:
                     description: |-
                       An optional description of this resource. Provide this property when
@@ -499,6 +550,27 @@ spec:
                           description: |-
                             Specifies a 256-bit customer-supplied encryption key, encoded in
                             RFC 4648 base64 to either encrypt or decrypt this resource.
+                            Note: This property is sensitive and will not be displayed in the plan.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                        rsaEncryptedKeySecretRef:
+                          description: |-
+                            Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
+                            customer-supplied encryption key to either encrypt or decrypt
+                            this resource. You can provide either the rawKey or the rsaEncryptedKey.
                             Note: This property is sensitive and will not be displayed in the plan.
                           properties:
                             key:
@@ -855,9 +927,14 @@ spec:
             properties:
               atProvider:
                 properties:
+                  accessMode:
+                    description: |-
+                      The access mode of the disk.
+                      For example:
+                    type: string
                   asyncPrimaryDisk:
                     description: |-
-                      A nested object resource
+                      A nested object resource.
                       Structure is documented below.
                     items:
                       properties:
@@ -866,6 +943,16 @@ spec:
                           type: string
                       type: object
                     type: array
+                  createSnapshotBeforeDestroy:
+                    description: |-
+                      If set to true, a snapshot of the disk will be created before it is destroyed.
+                      If your disk is encrypted with customer managed encryption keys these will be reused for the snapshot creation.
+                      The name of the snapshot by default will be {{disk-name}}-YYYYMMDD-HHmm
+                    type: boolean
+                  createSnapshotBeforeDestroyPrefix:
+                    description: This will set a custom name prefix for the snapshot
+                      that's created when the disk is deleted.
+                    type: string
                   creationTimestamp:
                     description: Creation timestamp in RFC3339 text format.
                     type: string
@@ -900,6 +987,10 @@ spec:
                           type: string
                       type: object
                     type: array
+                  diskId:
+                    description: The unique identifier for the resource. This identifier
+                      is defined by the server.
+                    type: string
                   effectiveLabels:
                     additionalProperties:
                       type: string
@@ -1166,9 +1257,14 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  accessMode:
+                    description: |-
+                      The access mode of the disk.
+                      For example:
+                    type: string
                   asyncPrimaryDisk:
                     description: |-
-                      A nested object resource
+                      A nested object resource.
                       Structure is documented below.
                     properties:
                       disk:
@@ -1251,6 +1347,16 @@ spec:
                             type: object
                         type: object
                     type: object
+                  createSnapshotBeforeDestroy:
+                    description: |-
+                      If set to true, a snapshot of the disk will be created before it is destroyed.
+                      If your disk is encrypted with customer managed encryption keys these will be reused for the snapshot creation.
+                      The name of the snapshot by default will be {{disk-name}}-YYYYMMDD-HHmm
+                    type: boolean
+                  createSnapshotBeforeDestroyPrefix:
+                    description: This will set a custom name prefix for the snapshot
+                      that's created when the disk is deleted.
+                    type: string
                   description:
                     description: |-
                       An optional description of this resource. Provide this property when
@@ -1277,6 +1383,27 @@ spec:
                         description: |-
                           Specifies a 256-bit customer-supplied encryption key, encoded in
                           RFC 4648 base64 to either encrypt or decrypt this resource.
+                          Note: This property is sensitive and will not be displayed in the plan.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
+                      rsaEncryptedKeySecretRef:
+                        description: |-
+                          Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
+                          customer-supplied encryption key to either encrypt or decrypt
+                          this resource. You can provide either the rawKey or the rsaEncryptedKey.
                           Note: This property is sensitive and will not be displayed in the plan.
                         properties:
                           key:
@@ -1471,9 +1598,14 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  accessMode:
+                    description: |-
+                      The access mode of the disk.
+                      For example:
+                    type: string
                   asyncPrimaryDisk:
                     description: |-
-                      A nested object resource
+                      A nested object resource.
                       Structure is documented below.
                     properties:
                       disk:
@@ -1556,6 +1688,16 @@ spec:
                             type: object
                         type: object
                     type: object
+                  createSnapshotBeforeDestroy:
+                    description: |-
+                      If set to true, a snapshot of the disk will be created before it is destroyed.
+                      If your disk is encrypted with customer managed encryption keys these will be reused for the snapshot creation.
+                      The name of the snapshot by default will be {{disk-name}}-YYYYMMDD-HHmm
+                    type: boolean
+                  createSnapshotBeforeDestroyPrefix:
+                    description: This will set a custom name prefix for the snapshot
+                      that's created when the disk is deleted.
+                    type: string
                   description:
                     description: |-
                       An optional description of this resource. Provide this property when
@@ -1582,6 +1724,27 @@ spec:
                         description: |-
                           Specifies a 256-bit customer-supplied encryption key, encoded in
                           RFC 4648 base64 to either encrypt or decrypt this resource.
+                          Note: This property is sensitive and will not be displayed in the plan.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
+                      rsaEncryptedKeySecretRef:
+                        description: |-
+                          Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
+                          customer-supplied encryption key to either encrypt or decrypt
+                          this resource. You can provide either the rawKey or the rsaEncryptedKey.
                           Note: This property is sensitive and will not be displayed in the plan.
                         properties:
                           key:
@@ -1935,15 +2098,30 @@ spec:
             properties:
               atProvider:
                 properties:
+                  accessMode:
+                    description: |-
+                      The access mode of the disk.
+                      For example:
+                    type: string
                   asyncPrimaryDisk:
                     description: |-
-                      A nested object resource
+                      A nested object resource.
                       Structure is documented below.
                     properties:
                       disk:
                         description: Primary disk for asynchronous disk replication.
                         type: string
                     type: object
+                  createSnapshotBeforeDestroy:
+                    description: |-
+                      If set to true, a snapshot of the disk will be created before it is destroyed.
+                      If your disk is encrypted with customer managed encryption keys these will be reused for the snapshot creation.
+                      The name of the snapshot by default will be {{disk-name}}-YYYYMMDD-HHmm
+                    type: boolean
+                  createSnapshotBeforeDestroyPrefix:
+                    description: This will set a custom name prefix for the snapshot
+                      that's created when the disk is deleted.
+                    type: string
                   creationTimestamp:
                     description: Creation timestamp in RFC3339 text format.
                     type: string
@@ -1976,6 +2154,10 @@ spec:
                           encryption key that protects this resource.
                         type: string
                     type: object
+                  diskId:
+                    description: The unique identifier for the resource. This identifier
+                      is defined by the server.
+                    type: string
                   effectiveLabels:
                     additionalProperties:
                       type: string
