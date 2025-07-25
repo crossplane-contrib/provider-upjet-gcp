@@ -31,6 +31,8 @@ spec:
 {{ if ne .Service "monolith" }}
   crossplane:
     version: ">=v1.12.1-0"
+  capabilities:
+    - SafeStart
 {{ end }}
 {{ if and (ne .Service "config") (ne .Service "monolith") }}
   dependsOn:
