@@ -19,7 +19,6 @@ import (
 	"github.com/crossplane/upjet/pkg/types/name"
 	tfjson "github.com/hashicorp/terraform-json"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-provider-google/google/provider"
 	"github.com/pkg/errors"
 
 	"github.com/upbound/provider-gcp/hack"
@@ -136,9 +135,7 @@ func getProviderSchema(s string) (*schema.Provider, error) {
 }
 
 // GetProvider returns provider configuration
-func GetProvider(_ context.Context, generationProvider bool) (*ujconfig.Provider, error) {
-	sdkProvider := provider.Provider()
-
+func GetProvider(_ context.Context, sdkProvider *schema.Provider, generationProvider bool) (*ujconfig.Provider, error) {
 	if generationProvider {
 		p, err := getProviderSchema(providerSchema)
 		if err != nil {
