@@ -1,0 +1,76 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: TargetHTTPProxy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/targethttpproxy
+  labels:
+    testing.upbound.io/example-name: target-http-proxy
+  name: target-http-proxy
+  namespace: upbound-system
+spec:
+  forProvider:
+    urlMapSelector:
+      matchLabels:
+        testing.upbound.io/example-name: target-http-proxy
+---
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: URLMap
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/targethttpproxy
+  labels:
+    testing.upbound.io/example-name: target-http-proxy
+  name: target-http-proxy
+  namespace: upbound-system
+spec:
+  forProvider:
+    defaultServiceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: target-http-proxy
+    hostRule:
+      - hosts:
+          - mysite.com
+        pathMatcher: allpaths
+    pathMatcher:
+      - defaultServiceSelector:
+          matchLabels:
+            testing.upbound.io/example-name: target-http-proxy
+        name: allpaths
+        pathRule:
+          - paths:
+              - /*
+            serviceSelector:
+              matchLabels:
+                testing.upbound.io/example-name: target-http-proxy
+---
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: BackendBucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/targethttpproxy
+  labels:
+    testing.upbound.io/example-name: target-http-proxy
+  name: target-http-proxy
+  namespace: upbound-system
+spec:
+  forProvider:
+    bucketNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: target-http-proxy
+---
+apiVersion: storage.gcp.m.upbound.io/v1beta1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: storage/v1beta1/targethttpproxy
+  labels:
+    testing.upbound.io/example-name: target-http-proxy
+  name: target-http-proxy-${Rand.RFC1123Subdomain}
+  namespace: upbound-system
+spec:
+  forProvider:
+    location: US

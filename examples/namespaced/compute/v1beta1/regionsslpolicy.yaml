@@ -1,0 +1,17 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: RegionSSLPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regionsslpolicy
+  labels:
+    testing.upbound.io/example-name: prod-ssl-policy
+  name: region-ssl-policy
+  namespace: upbound-system
+spec:
+  forProvider:
+    profile: MODERN
+    region: us-central1

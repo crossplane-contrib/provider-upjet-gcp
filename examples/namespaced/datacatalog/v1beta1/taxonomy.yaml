@@ -1,0 +1,16 @@
+apiVersion: datacatalog.gcp.m.upbound.io/v1beta1
+kind: Taxonomy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: datacatalog/v1beta1/taxonomy
+  labels:
+    testing.upbound.io/example-name: basic_taxonomy
+  name: basic-taxonomy
+  namespace: upbound-system
+spec:
+  forProvider:
+    region: eu
+    activatedPolicyTypes:
+      - FINE_GRAINED_ACCESS_CONTROL
+    description: A collection of policy tags
+    displayName: my_taxonomy

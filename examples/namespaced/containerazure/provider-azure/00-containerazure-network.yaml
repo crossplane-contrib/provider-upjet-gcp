@@ -1,0 +1,80 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: azure.upbound.io/v1beta1
+kind: ResourceGroup
+metadata:
+  name: containerazure-gcp-upbound
+spec:
+  forProvider:
+    location: westus2
+---
+apiVersion: network.azure.upbound.io/v1beta1
+kind: VirtualNetwork
+metadata:
+  name: containerazure-gcp-upbound
+spec:
+  forProvider:
+    addressSpace: 10.0.0.0/16
+    location: westus2
+    resourceGroupNameRef:
+      name: containerazure-gcp-upbound
+---
+apiVersion: network.azure.upbound.io/v1beta1
+kind: PublicIP
+metadata:
+  name: containerazure-gcp-upbound-ip
+spec:
+  forProvider:
+    allocationMethod: Static
+    sku: Standard
+    location: westus2
+    resourceGroupNameRef:
+      name: containerazure-gcp-upbound
+---
+apiVersion: network.azure.upbound.io/v1beta1
+kind: NATGateway
+metadata:
+  name: containerazure-gcp-upbound-nat
+spec:
+  forProvider:
+    allocationMethod: Static
+    sku: Standard
+    location: westus2
+    resourceGroupNameRef:
+      name: containerazure-gcp-upbound
+---
+apiVersion: network.azure.upbound.io/v1beta1
+kind: NATGatewayPublicIPAssociation
+metadata:
+  name: containerazure-gcp-upbound-nat-ip
+spec:
+  forProvider:
+    natGatewayIdRef:
+      name: containerazure-gcp-upbound-nat
+    publicIpAddressIdRef:
+      name: containerazure-gcp-upbound-ip
+---
+apiVersion: network.azure.upbound.io/v1beta1
+kind: Subnet
+metadata:
+  name: containerazure-gcp-upbound-subnet
+spec:
+  forProvider:
+    addressPrefixes: "10.0.0.0/24"
+    virtualNetworkNameRef:
+      name: containerazure-gcp-upbound
+    resourceGroupNameRef:
+      name: containerazure-gcp-upbound
+---
+apiVersion: network.azure.upbound.io/v1beta1
+kind: SubnetNATGatewayAssociation
+metadata:
+  name: containerazure-gcp-upbound-subnet-nat
+spec:
+  forProvider:
+    natGatewayIdRef:
+      name: containerazure-gcp-upbound-nat
+    subnetIdRef:
+      name: containerazure-gcp-upbound-subnet

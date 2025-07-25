@@ -1,0 +1,96 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: InstanceTemplate
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/instancetemplate
+  labels:
+    testing.upbound.io/example-name: instance-template
+  name: instance-template
+  namespace: upbound-system
+spec:
+  forProvider:
+    canIpForward: false
+    description: This template is used to create app server instances.
+    disk:
+      - autoDelete: false
+        boot: true
+        resourcePoliciesRefs:
+          - name: daily-backup
+        sourceImage: debian-cloud/debian-11
+      - autoDelete: false
+        boot: false
+        sourceSelector:
+          matchLabels:
+            testing.upbound.io/example-name: foobar
+    instanceDescription: Description assigned to instances
+    labels:
+      foo: bar
+    machineType: e2-medium
+    metadata:
+      foo: bar
+    name: appserver-template
+    networkInterface:
+      - network: default
+    scheduling:
+      automaticRestart: true
+      onHostMaintenance: MIGRATE
+    serviceAccount:
+      emailSelector:
+        matchLabels:
+          testing.upbound.io/example-name: default
+      scopes:
+        - cloud-platform
+    tags:
+      - foo
+      - bar
+---
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: Disk
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/instancetemplate
+  labels:
+    testing.upbound.io/example-name: foobar
+  name: foobar
+  namespace: upbound-system
+spec:
+  forProvider:
+    image: debian-12-bookworm-v20240910
+    size: 10
+    type: pd-ssd
+    zone: us-central1-a
+---
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: ResourcePolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/instancetemplate
+  labels:
+    testing.upbound.io/example-name: daily_backup
+  name: daily-backup
+  namespace: upbound-system
+spec:
+  forProvider:
+    region: us-central1
+    snapshotSchedulePolicy:
+      - schedule:
+          - dailySchedule:
+              - daysInCycle: 1
+                startTime: "04:00"
+---
+apiVersion: cloudplatform.gcp.m.upbound.io/v1beta1
+kind: ServiceAccount
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/instancetemplate
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    displayName: Service Account
