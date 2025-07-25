@@ -26,3 +26,17 @@ func Setup_datastream(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupGated_datastream creates all controllers with the supplied logger and adds them to
+// the supplied manager gated.
+func SetupGated_datastream(mgr ctrl.Manager, o controller.Options) error {
+	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		connectionprofile.SetupGated,
+		privateconnection.SetupGated,
+	} {
+		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}

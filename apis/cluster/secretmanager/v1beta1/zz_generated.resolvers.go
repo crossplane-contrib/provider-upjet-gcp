@@ -34,6 +34,7 @@ func (mg *SecretIAMMember) ResolveReferences( // ResolveReferences of this Secre
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SecretID),
 			Extract:      common.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.SecretIDRef,
 			Selector:     mg.Spec.ForProvider.SecretIDSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -53,6 +54,7 @@ func (mg *SecretIAMMember) ResolveReferences( // ResolveReferences of this Secre
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SecretID),
 			Extract:      common.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.SecretIDRef,
 			Selector:     mg.Spec.InitProvider.SecretIDSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -84,6 +86,7 @@ func (mg *SecretVersion) ResolveReferences(ctx context.Context, c client.Reader)
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Secret),
 			Extract:      common.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.SecretRef,
 			Selector:     mg.Spec.ForProvider.SecretSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -103,6 +106,7 @@ func (mg *SecretVersion) ResolveReferences(ctx context.Context, c client.Reader)
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Secret),
 			Extract:      common.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.SecretRef,
 			Selector:     mg.Spec.InitProvider.SecretSelector,
 			To:           reference.To{List: l, Managed: m},

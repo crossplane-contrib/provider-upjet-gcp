@@ -34,6 +34,7 @@ func (mg *LiteSubscription) ResolveReferences( // ResolveReferences of this Lite
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Topic),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.TopicRef,
 			Selector:     mg.Spec.ForProvider.TopicSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -53,6 +54,7 @@ func (mg *LiteSubscription) ResolveReferences( // ResolveReferences of this Lite
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Topic),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.TopicRef,
 			Selector:     mg.Spec.InitProvider.TopicSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -85,6 +87,7 @@ func (mg *LiteTopic) ResolveReferences(ctx context.Context, c client.Reader) err
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ReservationConfig[i3].ThroughputReservation),
 				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.ReservationConfig[i3].ThroughputReservationRef,
 				Selector:     mg.Spec.ForProvider.ReservationConfig[i3].ThroughputReservationSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -106,6 +109,7 @@ func (mg *LiteTopic) ResolveReferences(ctx context.Context, c client.Reader) err
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ReservationConfig[i3].ThroughputReservation),
 				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.ReservationConfig[i3].ThroughputReservationRef,
 				Selector:     mg.Spec.InitProvider.ReservationConfig[i3].ThroughputReservationSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -140,6 +144,7 @@ func (mg *Subscription) ResolveReferences(ctx context.Context, c client.Reader) 
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CloudStorageConfig[i3].ServiceAccountEmail),
 				Extract:      resource.ExtractParamPath("email", true),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.CloudStorageConfig[i3].ServiceAccountEmailRef,
 				Selector:     mg.Spec.ForProvider.CloudStorageConfig[i3].ServiceAccountEmailSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -161,6 +166,7 @@ func (mg *Subscription) ResolveReferences(ctx context.Context, c client.Reader) 
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DeadLetterPolicy[i3].DeadLetterTopic),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.DeadLetterPolicy[i3].DeadLetterTopicRef,
 				Selector:     mg.Spec.ForProvider.DeadLetterPolicy[i3].DeadLetterTopicSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -181,6 +187,7 @@ func (mg *Subscription) ResolveReferences(ctx context.Context, c client.Reader) 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Topic),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.TopicRef,
 			Selector:     mg.Spec.ForProvider.TopicSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -201,6 +208,7 @@ func (mg *Subscription) ResolveReferences(ctx context.Context, c client.Reader) 
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CloudStorageConfig[i3].ServiceAccountEmail),
 				Extract:      resource.ExtractParamPath("email", true),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.CloudStorageConfig[i3].ServiceAccountEmailRef,
 				Selector:     mg.Spec.InitProvider.CloudStorageConfig[i3].ServiceAccountEmailSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -222,6 +230,7 @@ func (mg *Subscription) ResolveReferences(ctx context.Context, c client.Reader) 
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DeadLetterPolicy[i3].DeadLetterTopic),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.DeadLetterPolicy[i3].DeadLetterTopicRef,
 				Selector:     mg.Spec.InitProvider.DeadLetterPolicy[i3].DeadLetterTopicSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -242,6 +251,7 @@ func (mg *Subscription) ResolveReferences(ctx context.Context, c client.Reader) 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Topic),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.TopicRef,
 			Selector:     mg.Spec.InitProvider.TopicSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -273,6 +283,7 @@ func (mg *SubscriptionIAMMember) ResolveReferences(ctx context.Context, c client
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Subscription),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.SubscriptionRef,
 			Selector:     mg.Spec.ForProvider.SubscriptionSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -292,6 +303,7 @@ func (mg *SubscriptionIAMMember) ResolveReferences(ctx context.Context, c client
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Subscription),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.SubscriptionRef,
 			Selector:     mg.Spec.InitProvider.SubscriptionSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -323,6 +335,7 @@ func (mg *Topic) ResolveReferences(ctx context.Context, c client.Reader) error {
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.KMSKeyName),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.KMSKeyNameRef,
 			Selector:     mg.Spec.ForProvider.KMSKeyNameSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -342,6 +355,7 @@ func (mg *Topic) ResolveReferences(ctx context.Context, c client.Reader) error {
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.KMSKeyName),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.KMSKeyNameRef,
 			Selector:     mg.Spec.InitProvider.KMSKeyNameSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -373,6 +387,7 @@ func (mg *TopicIAMMember) ResolveReferences(ctx context.Context, c client.Reader
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Topic),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.TopicRef,
 			Selector:     mg.Spec.ForProvider.TopicSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -392,6 +407,7 @@ func (mg *TopicIAMMember) ResolveReferences(ctx context.Context, c client.Reader
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Topic),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.TopicRef,
 			Selector:     mg.Spec.InitProvider.TopicSelector,
 			To:           reference.To{List: l, Managed: m},

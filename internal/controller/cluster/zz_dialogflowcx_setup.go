@@ -38,3 +38,23 @@ func Setup_dialogflowcx(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupGated_dialogflowcx creates all controllers with the supplied logger and adds them to
+// the supplied manager gated.
+func SetupGated_dialogflowcx(mgr ctrl.Manager, o controller.Options) error {
+	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		agent.SetupGated,
+		entitytype.SetupGated,
+		environment.SetupGated,
+		flow.SetupGated,
+		intent.SetupGated,
+		page.SetupGated,
+		version.SetupGated,
+		webhook.SetupGated,
+	} {
+		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}

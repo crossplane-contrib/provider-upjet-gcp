@@ -26,3 +26,17 @@ func Setup_cloudbuild(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupGated_cloudbuild creates all controllers with the supplied logger and adds them to
+// the supplied manager gated.
+func SetupGated_cloudbuild(mgr ctrl.Manager, o controller.Options) error {
+	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		trigger.SetupGated,
+		workerpool.SetupGated,
+	} {
+		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}

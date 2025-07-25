@@ -24,3 +24,16 @@ func Setup_documentai(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupGated_documentai creates all controllers with the supplied logger and adds them to
+// the supplied manager gated.
+func SetupGated_documentai(mgr ctrl.Manager, o controller.Options) error {
+	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		processor.SetupGated,
+	} {
+		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}

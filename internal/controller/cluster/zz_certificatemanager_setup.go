@@ -32,3 +32,20 @@ func Setup_certificatemanager(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupGated_certificatemanager creates all controllers with the supplied logger and adds them to
+// the supplied manager gated.
+func SetupGated_certificatemanager(mgr ctrl.Manager, o controller.Options) error {
+	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		certificate.SetupGated,
+		certificatemap.SetupGated,
+		certificatemapentry.SetupGated,
+		dnsauthorization.SetupGated,
+		trustconfig.SetupGated,
+	} {
+		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}

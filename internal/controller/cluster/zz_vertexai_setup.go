@@ -30,3 +30,19 @@ func Setup_vertexai(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupGated_vertexai creates all controllers with the supplied logger and adds them to
+// the supplied manager gated.
+func SetupGated_vertexai(mgr ctrl.Manager, o controller.Options) error {
+	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		dataset.SetupGated,
+		featurestore.SetupGated,
+		featurestoreentitytype.SetupGated,
+		tensorboard.SetupGated,
+	} {
+		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}

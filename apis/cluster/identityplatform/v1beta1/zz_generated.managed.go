@@ -27,11 +27,6 @@ func (mg *Config) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-// GetPublishConnectionDetailsTo of this Config.
-func (mg *Config) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
-
 // GetWriteConnectionSecretToReference of this Config.
 func (mg *Config) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
@@ -55,11 +50,6 @@ func (mg *Config) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this Config.
 func (mg *Config) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-// SetPublishConnectionDetailsTo of this Config.
-func (mg *Config) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this Config.
@@ -87,11 +77,6 @@ func (mg *DefaultSupportedIdPConfig) GetProviderConfigReference() *xpv1.Referenc
 	return mg.Spec.ProviderConfigReference
 }
 
-// GetPublishConnectionDetailsTo of this DefaultSupportedIdPConfig.
-func (mg *DefaultSupportedIdPConfig) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
-
 // GetWriteConnectionSecretToReference of this DefaultSupportedIdPConfig.
 func (mg *DefaultSupportedIdPConfig) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
@@ -115,11 +100,6 @@ func (mg *DefaultSupportedIdPConfig) SetManagementPolicies(r xpv1.ManagementPoli
 // SetProviderConfigReference of this DefaultSupportedIdPConfig.
 func (mg *DefaultSupportedIdPConfig) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-// SetPublishConnectionDetailsTo of this DefaultSupportedIdPConfig.
-func (mg *DefaultSupportedIdPConfig) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this DefaultSupportedIdPConfig.
@@ -147,11 +127,6 @@ func (mg *InboundSAMLConfig) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-// GetPublishConnectionDetailsTo of this InboundSAMLConfig.
-func (mg *InboundSAMLConfig) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
-
 // GetWriteConnectionSecretToReference of this InboundSAMLConfig.
 func (mg *InboundSAMLConfig) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
@@ -175,11 +150,6 @@ func (mg *InboundSAMLConfig) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this InboundSAMLConfig.
 func (mg *InboundSAMLConfig) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-// SetPublishConnectionDetailsTo of this InboundSAMLConfig.
-func (mg *InboundSAMLConfig) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this InboundSAMLConfig.
@@ -207,11 +177,6 @@ func (mg *OAuthIdPConfig) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-// GetPublishConnectionDetailsTo of this OAuthIdPConfig.
-func (mg *OAuthIdPConfig) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
-
 // GetWriteConnectionSecretToReference of this OAuthIdPConfig.
 func (mg *OAuthIdPConfig) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
@@ -235,11 +200,6 @@ func (mg *OAuthIdPConfig) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this OAuthIdPConfig.
 func (mg *OAuthIdPConfig) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-// SetPublishConnectionDetailsTo of this OAuthIdPConfig.
-func (mg *OAuthIdPConfig) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this OAuthIdPConfig.
@@ -267,11 +227,6 @@ func (mg *Tenant) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-// GetPublishConnectionDetailsTo of this Tenant.
-func (mg *Tenant) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
-
 // GetWriteConnectionSecretToReference of this Tenant.
 func (mg *Tenant) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
@@ -295,11 +250,6 @@ func (mg *Tenant) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this Tenant.
 func (mg *Tenant) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-// SetPublishConnectionDetailsTo of this Tenant.
-func (mg *Tenant) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this Tenant.
@@ -327,11 +277,6 @@ func (mg *TenantDefaultSupportedIdPConfig) GetProviderConfigReference() *xpv1.Re
 	return mg.Spec.ProviderConfigReference
 }
 
-// GetPublishConnectionDetailsTo of this TenantDefaultSupportedIdPConfig.
-func (mg *TenantDefaultSupportedIdPConfig) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
-
 // GetWriteConnectionSecretToReference of this TenantDefaultSupportedIdPConfig.
 func (mg *TenantDefaultSupportedIdPConfig) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
@@ -355,11 +300,6 @@ func (mg *TenantDefaultSupportedIdPConfig) SetManagementPolicies(r xpv1.Manageme
 // SetProviderConfigReference of this TenantDefaultSupportedIdPConfig.
 func (mg *TenantDefaultSupportedIdPConfig) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-// SetPublishConnectionDetailsTo of this TenantDefaultSupportedIdPConfig.
-func (mg *TenantDefaultSupportedIdPConfig) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this TenantDefaultSupportedIdPConfig.
@@ -387,11 +327,6 @@ func (mg *TenantInboundSAMLConfig) GetProviderConfigReference() *xpv1.Reference 
 	return mg.Spec.ProviderConfigReference
 }
 
-// GetPublishConnectionDetailsTo of this TenantInboundSAMLConfig.
-func (mg *TenantInboundSAMLConfig) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
-
 // GetWriteConnectionSecretToReference of this TenantInboundSAMLConfig.
 func (mg *TenantInboundSAMLConfig) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
@@ -415,11 +350,6 @@ func (mg *TenantInboundSAMLConfig) SetManagementPolicies(r xpv1.ManagementPolici
 // SetProviderConfigReference of this TenantInboundSAMLConfig.
 func (mg *TenantInboundSAMLConfig) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-// SetPublishConnectionDetailsTo of this TenantInboundSAMLConfig.
-func (mg *TenantInboundSAMLConfig) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this TenantInboundSAMLConfig.
@@ -447,11 +377,6 @@ func (mg *TenantOAuthIdPConfig) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-// GetPublishConnectionDetailsTo of this TenantOAuthIdPConfig.
-func (mg *TenantOAuthIdPConfig) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
-
 // GetWriteConnectionSecretToReference of this TenantOAuthIdPConfig.
 func (mg *TenantOAuthIdPConfig) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
@@ -475,11 +400,6 @@ func (mg *TenantOAuthIdPConfig) SetManagementPolicies(r xpv1.ManagementPolicies)
 // SetProviderConfigReference of this TenantOAuthIdPConfig.
 func (mg *TenantOAuthIdPConfig) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-// SetPublishConnectionDetailsTo of this TenantOAuthIdPConfig.
-func (mg *TenantOAuthIdPConfig) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this TenantOAuthIdPConfig.

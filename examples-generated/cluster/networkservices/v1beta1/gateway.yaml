@@ -1,0 +1,14 @@
+apiVersion: networkservices.gcp.upbound.io/v1beta1
+kind: Gateway
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkservices/v1beta1/gateway
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    ports:
+    - 443
+    scope: default-scope-basic
+    type: OPEN_MESH

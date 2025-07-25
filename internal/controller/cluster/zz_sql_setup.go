@@ -32,3 +32,20 @@ func Setup_sql(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupGated_sql creates all controllers with the supplied logger and adds them to
+// the supplied manager gated.
+func SetupGated_sql(mgr ctrl.Manager, o controller.Options) error {
+	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		database.SetupGated,
+		databaseinstance.SetupGated,
+		sourcerepresentationinstance.SetupGated,
+		sslcert.SetupGated,
+		user.SetupGated,
+	} {
+		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}

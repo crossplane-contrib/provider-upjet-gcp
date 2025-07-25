@@ -28,3 +28,18 @@ func Setup_beyondcorp(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupGated_beyondcorp creates all controllers with the supplied logger and adds them to
+// the supplied manager gated.
+func SetupGated_beyondcorp(mgr ctrl.Manager, o controller.Options) error {
+	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		appconnection.SetupGated,
+		appconnector.SetupGated,
+		appgateway.SetupGated,
+	} {
+		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}

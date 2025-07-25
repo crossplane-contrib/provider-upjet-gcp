@@ -1,0 +1,11 @@
+apiVersion: cloudtasks.gcp.m.upbound.io/v1beta1
+kind: Queue
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudtasks/v1beta1/queue
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    location: us-central1

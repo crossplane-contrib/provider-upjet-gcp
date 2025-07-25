@@ -34,6 +34,7 @@ func (mg *CAPoolIAMMember) ResolveReferences( // ResolveReferences of this CAPoo
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CAPool),
 			Extract:      common.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.CAPoolRef,
 			Selector:     mg.Spec.ForProvider.CAPoolSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -53,6 +54,7 @@ func (mg *CAPoolIAMMember) ResolveReferences( // ResolveReferences of this CAPoo
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CAPool),
 			Extract:      common.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.CAPoolRef,
 			Selector:     mg.Spec.InitProvider.CAPoolSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -84,6 +86,7 @@ func (mg *Certificate) ResolveReferences(ctx context.Context, c client.Reader) e
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CertificateAuthority),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.CertificateAuthorityRef,
 			Selector:     mg.Spec.ForProvider.CertificateAuthoritySelector,
 			To:           reference.To{List: l, Managed: m},
@@ -103,6 +106,7 @@ func (mg *Certificate) ResolveReferences(ctx context.Context, c client.Reader) e
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CertificateTemplate),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.CertificateTemplateRef,
 			Selector:     mg.Spec.ForProvider.CertificateTemplateSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -122,6 +126,7 @@ func (mg *Certificate) ResolveReferences(ctx context.Context, c client.Reader) e
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Pool),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.PoolRef,
 			Selector:     mg.Spec.ForProvider.PoolSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -141,6 +146,7 @@ func (mg *Certificate) ResolveReferences(ctx context.Context, c client.Reader) e
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CertificateAuthority),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.CertificateAuthorityRef,
 			Selector:     mg.Spec.InitProvider.CertificateAuthoritySelector,
 			To:           reference.To{List: l, Managed: m},
@@ -160,6 +166,7 @@ func (mg *Certificate) ResolveReferences(ctx context.Context, c client.Reader) e
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CertificateTemplate),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.CertificateTemplateRef,
 			Selector:     mg.Spec.InitProvider.CertificateTemplateSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -191,6 +198,7 @@ func (mg *CertificateAuthority) ResolveReferences(ctx context.Context, c client.
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Pool),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.PoolRef,
 			Selector:     mg.Spec.ForProvider.PoolSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -211,6 +219,7 @@ func (mg *CertificateAuthority) ResolveReferences(ctx context.Context, c client.
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SubordinateConfig.CertificateAuthority),
 				Extract:      resource.ExtractParamPath("name", true),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.SubordinateConfig.CertificateAuthorityRef,
 				Selector:     mg.Spec.ForProvider.SubordinateConfig.CertificateAuthoritySelector,
 				To:           reference.To{List: l, Managed: m},
@@ -232,6 +241,7 @@ func (mg *CertificateAuthority) ResolveReferences(ctx context.Context, c client.
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SubordinateConfig.CertificateAuthority),
 				Extract:      resource.ExtractParamPath("name", true),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.SubordinateConfig.CertificateAuthorityRef,
 				Selector:     mg.Spec.InitProvider.SubordinateConfig.CertificateAuthoritySelector,
 				To:           reference.To{List: l, Managed: m},
@@ -265,6 +275,7 @@ func (mg *CertificateTemplateIAMMember) ResolveReferences(ctx context.Context, c
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CertificateTemplate),
 			Extract:      common.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.CertificateTemplateRef,
 			Selector:     mg.Spec.ForProvider.CertificateTemplateSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -284,6 +295,7 @@ func (mg *CertificateTemplateIAMMember) ResolveReferences(ctx context.Context, c
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CertificateTemplate),
 			Extract:      common.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.CertificateTemplateRef,
 			Selector:     mg.Spec.InitProvider.CertificateTemplateSelector,
 			To:           reference.To{List: l, Managed: m},

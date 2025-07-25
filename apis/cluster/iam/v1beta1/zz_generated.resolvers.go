@@ -32,6 +32,7 @@ func (mg *WorkloadIdentityPoolProvider) ResolveReferences( // ResolveReferences 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.WorkloadIdentityPoolID),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.WorkloadIdentityPoolIDRef,
 			Selector:     mg.Spec.ForProvider.WorkloadIdentityPoolIDSelector,
 			To:           reference.To{List: l, Managed: m},

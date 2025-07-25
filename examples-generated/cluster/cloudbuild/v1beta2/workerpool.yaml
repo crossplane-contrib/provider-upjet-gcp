@@ -1,0 +1,15 @@
+apiVersion: cloudbuild.gcp.upbound.io/v1beta2
+kind: WorkerPool
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudbuild/v1beta2/workerpool
+  labels:
+    testing.upbound.io/example-name: pool
+  name: pool
+spec:
+  forProvider:
+    location: europe-west1
+    workerConfig:
+    - diskSizeGb: 100
+      machineType: e2-standard-4
+      noExternalIp: false

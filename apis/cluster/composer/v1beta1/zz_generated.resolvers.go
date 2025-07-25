@@ -36,6 +36,7 @@ func (mg *Environment) ResolveReferences( // ResolveReferences of this Environme
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Config[i3].NodeConfig[i4].Network),
 					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.ForProvider.Config[i3].NodeConfig[i4].NetworkRef,
 					Selector:     mg.Spec.ForProvider.Config[i3].NodeConfig[i4].NetworkSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -59,6 +60,7 @@ func (mg *Environment) ResolveReferences( // ResolveReferences of this Environme
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Config[i3].NodeConfig[i4].ServiceAccount),
 					Extract:      resource.ExtractParamPath("name", true),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.ForProvider.Config[i3].NodeConfig[i4].ServiceAccountRef,
 					Selector:     mg.Spec.ForProvider.Config[i3].NodeConfig[i4].ServiceAccountSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -82,6 +84,7 @@ func (mg *Environment) ResolveReferences( // ResolveReferences of this Environme
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Config[i3].NodeConfig[i4].Subnetwork),
 					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.ForProvider.Config[i3].NodeConfig[i4].SubnetworkRef,
 					Selector:     mg.Spec.ForProvider.Config[i3].NodeConfig[i4].SubnetworkSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -103,6 +106,7 @@ func (mg *Environment) ResolveReferences( // ResolveReferences of this Environme
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.ProjectRef,
 			Selector:     mg.Spec.ForProvider.ProjectSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -124,6 +128,7 @@ func (mg *Environment) ResolveReferences( // ResolveReferences of this Environme
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Config[i3].NodeConfig[i4].Network),
 					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.InitProvider.Config[i3].NodeConfig[i4].NetworkRef,
 					Selector:     mg.Spec.InitProvider.Config[i3].NodeConfig[i4].NetworkSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -147,6 +152,7 @@ func (mg *Environment) ResolveReferences( // ResolveReferences of this Environme
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Config[i3].NodeConfig[i4].ServiceAccount),
 					Extract:      resource.ExtractParamPath("name", true),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.InitProvider.Config[i3].NodeConfig[i4].ServiceAccountRef,
 					Selector:     mg.Spec.InitProvider.Config[i3].NodeConfig[i4].ServiceAccountSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -170,6 +176,7 @@ func (mg *Environment) ResolveReferences( // ResolveReferences of this Environme
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Config[i3].NodeConfig[i4].Subnetwork),
 					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.InitProvider.Config[i3].NodeConfig[i4].SubnetworkRef,
 					Selector:     mg.Spec.InitProvider.Config[i3].NodeConfig[i4].SubnetworkSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -191,6 +198,7 @@ func (mg *Environment) ResolveReferences( // ResolveReferences of this Environme
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Project),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.ProjectRef,
 			Selector:     mg.Spec.InitProvider.ProjectSelector,
 			To:           reference.To{List: l, Managed: m},

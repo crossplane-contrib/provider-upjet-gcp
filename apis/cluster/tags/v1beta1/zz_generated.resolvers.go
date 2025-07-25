@@ -33,6 +33,7 @@ func (mg *LocationTagBinding) ResolveReferences( // ResolveReferences of this Lo
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.TagValue),
 			Extract:      common.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.TagValueRef,
 			Selector:     mg.Spec.ForProvider.TagValueSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -52,6 +53,7 @@ func (mg *LocationTagBinding) ResolveReferences( // ResolveReferences of this Lo
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.TagValue),
 			Extract:      common.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.TagValueRef,
 			Selector:     mg.Spec.InitProvider.TagValueSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -83,6 +85,7 @@ func (mg *TagBinding) ResolveReferences(ctx context.Context, c client.Reader) er
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.TagValue),
 			Extract:      common.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.TagValueRef,
 			Selector:     mg.Spec.ForProvider.TagValueSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -102,6 +105,7 @@ func (mg *TagBinding) ResolveReferences(ctx context.Context, c client.Reader) er
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.TagValue),
 			Extract:      common.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.TagValueRef,
 			Selector:     mg.Spec.InitProvider.TagValueSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -133,6 +137,7 @@ func (mg *TagValue) ResolveReferences(ctx context.Context, c client.Reader) erro
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Parent),
 			Extract:      common.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.ParentRef,
 			Selector:     mg.Spec.ForProvider.ParentSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -152,6 +157,7 @@ func (mg *TagValue) ResolveReferences(ctx context.Context, c client.Reader) erro
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Parent),
 			Extract:      common.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.ParentRef,
 			Selector:     mg.Spec.InitProvider.ParentSelector,
 			To:           reference.To{List: l, Managed: m},

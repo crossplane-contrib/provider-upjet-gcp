@@ -58,3 +58,33 @@ func Setup_bigquery(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupGated_bigquery creates all controllers with the supplied logger and adds them to
+// the supplied manager gated.
+func SetupGated_bigquery(mgr ctrl.Manager, o controller.Options) error {
+	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		analyticshubdataexchange.SetupGated,
+		analyticshubdataexchangeiammember.SetupGated,
+		analyticshublisting.SetupGated,
+		connection.SetupGated,
+		dataset.SetupGated,
+		datasetaccess.SetupGated,
+		datasetiambinding.SetupGated,
+		datasetiammember.SetupGated,
+		datasetiampolicy.SetupGated,
+		datatransferconfig.SetupGated,
+		job.SetupGated,
+		reservation.SetupGated,
+		reservationassignment.SetupGated,
+		routine.SetupGated,
+		table.SetupGated,
+		tableiambinding.SetupGated,
+		tableiammember.SetupGated,
+		tableiampolicy.SetupGated,
+	} {
+		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}

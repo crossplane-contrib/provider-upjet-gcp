@@ -36,6 +36,7 @@ func (mg *Gateway) ResolveReferences(ctx context.Context, c client.Reader) error
 		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 			CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.CertificateUrls),
 			Extract:       resource.ExtractResourceID(),
+			Namespace:     mg.GetNamespace(),
 			References:    mg.Spec.ForProvider.CertificateUrlsRefs,
 			Selector:      mg.Spec.ForProvider.CertificateUrlsSelector,
 			To:            reference.To{List: l, Managed: m},
@@ -55,6 +56,7 @@ func (mg *Gateway) ResolveReferences(ctx context.Context, c client.Reader) error
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.GatewaySecurityPolicy),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.GatewaySecurityPolicyRef,
 			Selector:     mg.Spec.ForProvider.GatewaySecurityPolicySelector,
 			To:           reference.To{List: l, Managed: m},
@@ -74,6 +76,7 @@ func (mg *Gateway) ResolveReferences(ctx context.Context, c client.Reader) error
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Network),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.NetworkRef,
 			Selector:     mg.Spec.ForProvider.NetworkSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -93,6 +96,7 @@ func (mg *Gateway) ResolveReferences(ctx context.Context, c client.Reader) error
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Subnetwork),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.SubnetworkRef,
 			Selector:     mg.Spec.ForProvider.SubnetworkSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -112,6 +116,7 @@ func (mg *Gateway) ResolveReferences(ctx context.Context, c client.Reader) error
 		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 			CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.CertificateUrls),
 			Extract:       resource.ExtractResourceID(),
+			Namespace:     mg.GetNamespace(),
 			References:    mg.Spec.InitProvider.CertificateUrlsRefs,
 			Selector:      mg.Spec.InitProvider.CertificateUrlsSelector,
 			To:            reference.To{List: l, Managed: m},
@@ -131,6 +136,7 @@ func (mg *Gateway) ResolveReferences(ctx context.Context, c client.Reader) error
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.GatewaySecurityPolicy),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.GatewaySecurityPolicyRef,
 			Selector:     mg.Spec.InitProvider.GatewaySecurityPolicySelector,
 			To:           reference.To{List: l, Managed: m},
@@ -150,6 +156,7 @@ func (mg *Gateway) ResolveReferences(ctx context.Context, c client.Reader) error
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Network),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.NetworkRef,
 			Selector:     mg.Spec.InitProvider.NetworkSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -169,6 +176,7 @@ func (mg *Gateway) ResolveReferences(ctx context.Context, c client.Reader) error
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Subnetwork),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.SubnetworkRef,
 			Selector:     mg.Spec.InitProvider.SubnetworkSelector,
 			To:           reference.To{List: l, Managed: m},

@@ -1,0 +1,13 @@
+apiVersion: networksecurity.gcp.m.upbound.io/v1beta1
+kind: URLLists
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networksecurity/v1beta1/urllists
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    location: us-central1
+    values:
+    - www.example.com

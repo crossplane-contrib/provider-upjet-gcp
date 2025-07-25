@@ -33,6 +33,7 @@ func (mg *WebBackendServiceIAMMember) ResolveReferences( // ResolveReferences of
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.WebBackendService),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.WebBackendServiceRef,
 			Selector:     mg.Spec.ForProvider.WebBackendServiceSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -52,6 +53,7 @@ func (mg *WebBackendServiceIAMMember) ResolveReferences( // ResolveReferences of
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.WebBackendService),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.WebBackendServiceRef,
 			Selector:     mg.Spec.InitProvider.WebBackendServiceSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -83,6 +85,7 @@ func (mg *WebTypeAppEngineIAMMember) ResolveReferences(ctx context.Context, c cl
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.AppID),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.AppIDRef,
 			Selector:     mg.Spec.ForProvider.AppIDSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -102,6 +105,7 @@ func (mg *WebTypeAppEngineIAMMember) ResolveReferences(ctx context.Context, c cl
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.AppID),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.AppIDRef,
 			Selector:     mg.Spec.InitProvider.AppIDSelector,
 			To:           reference.To{List: l, Managed: m},

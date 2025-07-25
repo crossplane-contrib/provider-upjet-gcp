@@ -1,0 +1,32 @@
+apiVersion: logging.gcp.upbound.io/v1beta1
+kind: FolderExclusion
+metadata:
+  annotations:
+    meta.upbound.io/example-id: logging/v1beta1/folderexclusion
+  labels:
+    testing.upbound.io/example-name: my-exclusion
+  name: my-exclusion
+spec:
+  forProvider:
+    description: Exclude GCE instance debug logs
+    filter: resource.type = gce_instance AND severity <= DEBUG
+    folderSelector:
+      matchLabels:
+        testing.upbound.io/example-name: my-folder
+
+---
+
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: Folder
+metadata:
+  annotations:
+    meta.upbound.io/example-id: logging/v1beta1/folderexclusion
+  labels:
+    testing.upbound.io/example-name: my-folder
+  name: my-folder
+spec:
+  forProvider:
+    displayName: My folder
+    parentSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

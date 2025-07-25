@@ -37,6 +37,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CrossClusterReplicationConfig.PrimaryCluster.Cluster),
 					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.ForProvider.CrossClusterReplicationConfig.PrimaryCluster.ClusterRef,
 					Selector:     mg.Spec.ForProvider.CrossClusterReplicationConfig.PrimaryCluster.ClusterSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -59,6 +60,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PscConfigs[i3].Network),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.PscConfigs[i3].NetworkRef,
 				Selector:     mg.Spec.ForProvider.PscConfigs[i3].NetworkSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -81,6 +83,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CrossClusterReplicationConfig.PrimaryCluster.Cluster),
 					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.InitProvider.CrossClusterReplicationConfig.PrimaryCluster.ClusterRef,
 					Selector:     mg.Spec.InitProvider.CrossClusterReplicationConfig.PrimaryCluster.ClusterSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -103,6 +106,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PscConfigs[i3].Network),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.PscConfigs[i3].NetworkRef,
 				Selector:     mg.Spec.InitProvider.PscConfigs[i3].NetworkSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -136,6 +140,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.AuthorizedNetwork),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.AuthorizedNetworkRef,
 			Selector:     mg.Spec.ForProvider.AuthorizedNetworkSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -155,6 +160,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CustomerManagedKey),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.CustomerManagedKeyRef,
 			Selector:     mg.Spec.ForProvider.CustomerManagedKeySelector,
 			To:           reference.To{List: l, Managed: m},
@@ -174,6 +180,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.AuthorizedNetwork),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.AuthorizedNetworkRef,
 			Selector:     mg.Spec.InitProvider.AuthorizedNetworkSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -193,6 +200,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CustomerManagedKey),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.CustomerManagedKeyRef,
 			Selector:     mg.Spec.InitProvider.CustomerManagedKeySelector,
 			To:           reference.To{List: l, Managed: m},

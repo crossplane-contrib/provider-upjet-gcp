@@ -36,3 +36,22 @@ func Setup_iap(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupGated_iap creates all controllers with the supplied logger and adds them to
+// the supplied manager gated.
+func SetupGated_iap(mgr ctrl.Manager, o controller.Options) error {
+	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		appengineserviceiammember.SetupGated,
+		appengineversioniammember.SetupGated,
+		tunneliammember.SetupGated,
+		webbackendserviceiammember.SetupGated,
+		webiammember.SetupGated,
+		webtypeappengineiammember.SetupGated,
+		webtypecomputeiammember.SetupGated,
+	} {
+		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}

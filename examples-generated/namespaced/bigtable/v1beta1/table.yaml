@@ -1,0 +1,47 @@
+apiVersion: bigtable.gcp.m.upbound.io/v1beta1
+kind: Table
+metadata:
+  annotations:
+    meta.upbound.io/example-id: bigtable/v1beta1/table
+  labels:
+    testing.upbound.io/example-name: table
+  name: table
+spec:
+  forProvider:
+    automatedBackupPolicy:
+    - frequency: 24h0m0s
+      retentionPeriod: 72h0m0s
+    changeStreamRetention: 24h0m0s
+    columnFamily:
+    - family: family-first
+    - family: family-second
+      type: intsum
+    - family: family-third
+      type: "        {\n\t\t\t\t\t\"aggregateType\": {\n\t\t\t\t\t\t\"max\": {},\n\t\t\t\t\t\t\"inputType\":
+        {\n\t\t\t\t\t\t\t\"int64Type\": {\n\t\t\t\t\t\t\t\t\"encoding\": {\n\t\t\t\t\t\t\t\t\t\"bigEndianBytes\":
+        {}\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n"
+    instanceNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: instance
+    splitKeys:
+    - a
+    - b
+    - c
+
+---
+
+apiVersion: bigtable.gcp.m.upbound.io/v1beta1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: bigtable/v1beta1/table
+  labels:
+    testing.upbound.io/example-name: instance
+  name: instance
+spec:
+  forProvider:
+    cluster:
+    - clusterId: tf-instance-cluster
+      numNodes: 3
+      storageType: HDD
+      zone: us-central1-b

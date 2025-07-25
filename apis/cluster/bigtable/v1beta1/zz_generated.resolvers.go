@@ -33,6 +33,7 @@ func (mg *AppProfile) ResolveReferences( // ResolveReferences of this AppProfile
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Instance),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.InstanceRef,
 			Selector:     mg.Spec.ForProvider.InstanceSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -64,6 +65,7 @@ func (mg *GarbageCollectionPolicy) ResolveReferences(ctx context.Context, c clie
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.InstanceName),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.InstanceNameRef,
 			Selector:     mg.Spec.ForProvider.InstanceNameSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -83,6 +85,7 @@ func (mg *GarbageCollectionPolicy) ResolveReferences(ctx context.Context, c clie
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Table),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.TableRef,
 			Selector:     mg.Spec.ForProvider.TableSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -102,6 +105,7 @@ func (mg *GarbageCollectionPolicy) ResolveReferences(ctx context.Context, c clie
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.InstanceName),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.InstanceNameRef,
 			Selector:     mg.Spec.InitProvider.InstanceNameSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -121,6 +125,7 @@ func (mg *GarbageCollectionPolicy) ResolveReferences(ctx context.Context, c clie
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Table),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.TableRef,
 			Selector:     mg.Spec.InitProvider.TableSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -152,6 +157,7 @@ func (mg *Table) ResolveReferences(ctx context.Context, c client.Reader) error {
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.InstanceName),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.InstanceNameRef,
 			Selector:     mg.Spec.ForProvider.InstanceNameSelector,
 			To:           reference.To{List: l, Managed: m},

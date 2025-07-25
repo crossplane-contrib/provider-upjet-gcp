@@ -33,6 +33,7 @@ func (mg *FeaturestoreEntitytype) ResolveReferences( // ResolveReferences of thi
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Featurestore),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.FeaturestoreRef,
 			Selector:     mg.Spec.ForProvider.FeaturestoreSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -52,6 +53,7 @@ func (mg *FeaturestoreEntitytype) ResolveReferences( // ResolveReferences of thi
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Featurestore),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.FeaturestoreRef,
 			Selector:     mg.Spec.InitProvider.FeaturestoreSelector,
 			To:           reference.To{List: l, Managed: m},

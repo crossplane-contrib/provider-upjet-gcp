@@ -1,0 +1,13 @@
+apiVersion: certificatemanager.gcp.upbound.io/v1beta1
+kind: DNSAuthorization
+metadata:
+  annotations:
+    meta.upbound.io/example-id: certificatemanager/v1beta1/dnsauthorization
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    description: The default dns
+    domain: subdomain.hashicorptest.com
+    location: global

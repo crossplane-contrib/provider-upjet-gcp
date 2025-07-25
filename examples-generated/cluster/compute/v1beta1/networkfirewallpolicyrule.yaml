@@ -1,0 +1,124 @@
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: NetworkFirewallPolicyRule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/networkfirewallpolicyrule
+  labels:
+    testing.upbound.io/example-name: primary
+  name: primary
+spec:
+  forProvider:
+    action: allow
+    description: This is a simple rule description
+    direction: INGRESS
+    disabled: false
+    enableLogging: true
+    firewallPolicySelector:
+      matchLabels:
+        testing.upbound.io/example-name: basic_network_firewall_policy
+    match:
+    - layer4Configs:
+      - ipProtocol: all
+      srcAddressGroupsRefs:
+      - name: basic_global_networksecurity_address_group
+      srcFqdns:
+      - google.com
+      srcIpRanges:
+      - 10.100.0.1/32
+      srcRegionCodes:
+      - US
+      srcSecureTags:
+      - nameSelector:
+          matchLabels:
+            testing.upbound.io/example-name: basic_value
+      srcThreatIntelligences:
+      - iplist-known-malicious-ips
+    priority: 1000
+    ruleName: test-rule
+    targetServiceAccounts:
+    - my@service-account.com
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/networkfirewallpolicyrule
+  labels:
+    testing.upbound.io/example-name: basic_network
+  name: basic-network
+spec:
+  forProvider: {}
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: NetworkFirewallPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/networkfirewallpolicyrule
+  labels:
+    testing.upbound.io/example-name: basic_network_firewall_policy
+  name: basic-network-firewall-policy
+spec:
+  forProvider:
+    description: Sample global network firewall policy
+    project: my-project-name
+
+---
+
+apiVersion: networksecurity.gcp.upbound.io/v1beta1
+kind: AddressGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/networkfirewallpolicyrule
+  labels:
+    testing.upbound.io/example-name: basic_global_networksecurity_address_group
+  name: basic-global-networksecurity-address-group
+spec:
+  forProvider:
+    capacity: 100
+    description: Sample global networksecurity_address_group
+    items:
+    - 208.80.154.224/32
+    location: global
+    parent: projects/my-project-name
+    type: IPV4
+
+---
+
+apiVersion: tags.gcp.upbound.io/v1beta1
+kind: TagKey
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/networkfirewallpolicyrule
+  labels:
+    testing.upbound.io/example-name: basic_key
+  name: basic-key
+spec:
+  forProvider:
+    description: For keyname resources.
+    parent: organizations/123456789
+    purpose: GCE_FIREWALL
+    purposeData:
+      network: network
+    shortName: tag-key
+
+---
+
+apiVersion: tags.gcp.upbound.io/v1beta1
+kind: TagValue
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/networkfirewallpolicyrule
+  labels:
+    testing.upbound.io/example-name: basic_value
+  name: basic-value
+spec:
+  forProvider:
+    description: For valuename resources.
+    parentSelector:
+      matchLabels:
+        testing.upbound.io/example-name: basic_key
+    shortName: tag-value

@@ -35,6 +35,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Destination.IPAddress),
 				Extract:      resource.ExtractParamPath("address", false),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.Destination.IPAddressRef,
 				Selector:     mg.Spec.ForProvider.Destination.IPAddressSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -56,6 +57,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Destination.Instance),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.Destination.InstanceRef,
 				Selector:     mg.Spec.ForProvider.Destination.InstanceSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -77,6 +79,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Destination.Network),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.Destination.NetworkRef,
 				Selector:     mg.Spec.ForProvider.Destination.NetworkSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -98,6 +101,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Destination.ProjectID),
 				Extract:      resource.ExtractParamPath("project", false),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.Destination.ProjectIDRef,
 				Selector:     mg.Spec.ForProvider.Destination.ProjectIDSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -119,6 +123,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Source.IPAddress),
 				Extract:      resource.ExtractParamPath("address", false),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.Source.IPAddressRef,
 				Selector:     mg.Spec.ForProvider.Source.IPAddressSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -140,6 +145,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Source.Instance),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.Source.InstanceRef,
 				Selector:     mg.Spec.ForProvider.Source.InstanceSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -161,6 +167,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Source.Network),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.Source.NetworkRef,
 				Selector:     mg.Spec.ForProvider.Source.NetworkSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -182,6 +189,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Source.ProjectID),
 				Extract:      resource.ExtractParamPath("project", false),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.Source.ProjectIDRef,
 				Selector:     mg.Spec.ForProvider.Source.ProjectIDSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -203,6 +211,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Destination.IPAddress),
 				Extract:      resource.ExtractParamPath("address", false),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.Destination.IPAddressRef,
 				Selector:     mg.Spec.InitProvider.Destination.IPAddressSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -224,6 +233,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Destination.Instance),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.Destination.InstanceRef,
 				Selector:     mg.Spec.InitProvider.Destination.InstanceSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -245,6 +255,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Destination.Network),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.Destination.NetworkRef,
 				Selector:     mg.Spec.InitProvider.Destination.NetworkSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -266,6 +277,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Destination.ProjectID),
 				Extract:      resource.ExtractParamPath("project", false),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.Destination.ProjectIDRef,
 				Selector:     mg.Spec.InitProvider.Destination.ProjectIDSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -287,6 +299,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Source.IPAddress),
 				Extract:      resource.ExtractParamPath("address", false),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.Source.IPAddressRef,
 				Selector:     mg.Spec.InitProvider.Source.IPAddressSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -308,6 +321,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Source.Instance),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.Source.InstanceRef,
 				Selector:     mg.Spec.InitProvider.Source.InstanceSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -329,6 +343,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Source.Network),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.Source.NetworkRef,
 				Selector:     mg.Spec.InitProvider.Source.NetworkSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -350,6 +365,7 @@ func (mg *ConnectivityTest) ResolveReferences( // ResolveReferences of this Conn
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Source.ProjectID),
 				Extract:      resource.ExtractParamPath("project", false),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.Source.ProjectIDRef,
 				Selector:     mg.Spec.InitProvider.Source.ProjectIDSelector,
 				To:           reference.To{List: l, Managed: m},

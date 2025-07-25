@@ -35,6 +35,7 @@ func (mg *Certificate) ResolveReferences( // ResolveReferences of this Certifica
 			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 				CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.Managed[i3].DNSAuthorizations),
 				Extract:       resource.ExtractResourceID(),
+				Namespace:     mg.GetNamespace(),
 				References:    mg.Spec.ForProvider.Managed[i3].DNSAuthorizationsRefs,
 				Selector:      mg.Spec.ForProvider.Managed[i3].DNSAuthorizationsSelector,
 				To:            reference.To{List: l, Managed: m},
@@ -56,6 +57,7 @@ func (mg *Certificate) ResolveReferences( // ResolveReferences of this Certifica
 			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 				CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.Managed[i3].Domains),
 				Extract:       resource.ExtractParamPath("domain", false),
+				Namespace:     mg.GetNamespace(),
 				References:    mg.Spec.ForProvider.Managed[i3].DomainsRefs,
 				Selector:      mg.Spec.ForProvider.Managed[i3].DomainsSelector,
 				To:            reference.To{List: l, Managed: m},
@@ -77,6 +79,7 @@ func (mg *Certificate) ResolveReferences( // ResolveReferences of this Certifica
 			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 				CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.Managed[i3].DNSAuthorizations),
 				Extract:       resource.ExtractResourceID(),
+				Namespace:     mg.GetNamespace(),
 				References:    mg.Spec.InitProvider.Managed[i3].DNSAuthorizationsRefs,
 				Selector:      mg.Spec.InitProvider.Managed[i3].DNSAuthorizationsSelector,
 				To:            reference.To{List: l, Managed: m},
@@ -98,6 +101,7 @@ func (mg *Certificate) ResolveReferences( // ResolveReferences of this Certifica
 			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 				CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.Managed[i3].Domains),
 				Extract:       resource.ExtractParamPath("domain", false),
+				Namespace:     mg.GetNamespace(),
 				References:    mg.Spec.InitProvider.Managed[i3].DomainsRefs,
 				Selector:      mg.Spec.InitProvider.Managed[i3].DomainsSelector,
 				To:            reference.To{List: l, Managed: m},
@@ -132,6 +136,7 @@ func (mg *CertificateMapEntry) ResolveReferences(ctx context.Context, c client.R
 		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 			CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.Certificates),
 			Extract:       resource.ExtractResourceID(),
+			Namespace:     mg.GetNamespace(),
 			References:    mg.Spec.ForProvider.CertificatesRefs,
 			Selector:      mg.Spec.ForProvider.CertificatesSelector,
 			To:            reference.To{List: l, Managed: m},
@@ -151,6 +156,7 @@ func (mg *CertificateMapEntry) ResolveReferences(ctx context.Context, c client.R
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Map),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.MapRef,
 			Selector:     mg.Spec.ForProvider.MapSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -170,6 +176,7 @@ func (mg *CertificateMapEntry) ResolveReferences(ctx context.Context, c client.R
 		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 			CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.Certificates),
 			Extract:       resource.ExtractResourceID(),
+			Namespace:     mg.GetNamespace(),
 			References:    mg.Spec.InitProvider.CertificatesRefs,
 			Selector:      mg.Spec.InitProvider.CertificatesSelector,
 			To:            reference.To{List: l, Managed: m},

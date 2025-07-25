@@ -38,3 +38,23 @@ func Setup_pubsub(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupGated_pubsub creates all controllers with the supplied logger and adds them to
+// the supplied manager gated.
+func SetupGated_pubsub(mgr ctrl.Manager, o controller.Options) error {
+	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		litereservation.SetupGated,
+		litesubscription.SetupGated,
+		litetopic.SetupGated,
+		schema.SetupGated,
+		subscription.SetupGated,
+		subscriptioniammember.SetupGated,
+		topic.SetupGated,
+		topiciammember.SetupGated,
+	} {
+		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}

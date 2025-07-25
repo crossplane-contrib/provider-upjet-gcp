@@ -34,6 +34,7 @@ func (mg *Environment) ResolveReferences( // ResolveReferences of this Environme
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.OrgID),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.OrgIDRef,
 			Selector:     mg.Spec.ForProvider.OrgIDSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -65,6 +66,7 @@ func (mg *Organization) ResolveReferences(ctx context.Context, c client.Reader) 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.AuthorizedNetwork),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.AuthorizedNetworkRef,
 			Selector:     mg.Spec.ForProvider.AuthorizedNetworkSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -84,6 +86,7 @@ func (mg *Organization) ResolveReferences(ctx context.Context, c client.Reader) 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RuntimeDatabaseEncryptionKeyName),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.RuntimeDatabaseEncryptionKeyNameRef,
 			Selector:     mg.Spec.ForProvider.RuntimeDatabaseEncryptionKeyNameSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -103,6 +106,7 @@ func (mg *Organization) ResolveReferences(ctx context.Context, c client.Reader) 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.AuthorizedNetwork),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.AuthorizedNetworkRef,
 			Selector:     mg.Spec.InitProvider.AuthorizedNetworkSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -122,6 +126,7 @@ func (mg *Organization) ResolveReferences(ctx context.Context, c client.Reader) 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RuntimeDatabaseEncryptionKeyName),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.RuntimeDatabaseEncryptionKeyNameRef,
 			Selector:     mg.Spec.InitProvider.RuntimeDatabaseEncryptionKeyNameSelector,
 			To:           reference.To{List: l, Managed: m},

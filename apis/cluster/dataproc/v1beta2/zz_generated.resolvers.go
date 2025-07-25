@@ -37,6 +37,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ClusterConfig.GceClusterConfig.ServiceAccount),
 					Extract:      resource.ExtractParamPath("email", true),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.ForProvider.ClusterConfig.GceClusterConfig.ServiceAccountRef,
 					Selector:     mg.Spec.ForProvider.ClusterConfig.GceClusterConfig.ServiceAccountSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -60,6 +61,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ClusterConfig.GceClusterConfig.ServiceAccount),
 					Extract:      resource.ExtractParamPath("email", true),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.InitProvider.ClusterConfig.GceClusterConfig.ServiceAccountRef,
 					Selector:     mg.Spec.InitProvider.ClusterConfig.GceClusterConfig.ServiceAccountSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -95,6 +97,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Placement.ClusterName),
 				Extract:      resource.ExtractParamPath("name", false),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.Placement.ClusterNameRef,
 				Selector:     mg.Spec.ForProvider.Placement.ClusterNameSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -115,6 +118,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Region),
 			Extract:      resource.ExtractParamPath("region", false),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.RegionRef,
 			Selector:     mg.Spec.ForProvider.RegionSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -135,6 +139,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Placement.ClusterName),
 				Extract:      resource.ExtractParamPath("name", false),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.Placement.ClusterNameRef,
 				Selector:     mg.Spec.InitProvider.Placement.ClusterNameSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -155,6 +160,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Region),
 			Extract:      resource.ExtractParamPath("region", false),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.RegionRef,
 			Selector:     mg.Spec.InitProvider.RegionSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -187,6 +193,7 @@ func (mg *MetastoreService) ResolveReferences(ctx context.Context, c client.Read
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.EncryptionConfig.KMSKey),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.EncryptionConfig.KMSKeyRef,
 				Selector:     mg.Spec.ForProvider.EncryptionConfig.KMSKeySelector,
 				To:           reference.To{List: l, Managed: m},
@@ -209,6 +216,7 @@ func (mg *MetastoreService) ResolveReferences(ctx context.Context, c client.Read
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.NetworkConfig.Consumers[i4].Subnetwork),
 					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.ForProvider.NetworkConfig.Consumers[i4].SubnetworkRef,
 					Selector:     mg.Spec.ForProvider.NetworkConfig.Consumers[i4].SubnetworkSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -231,6 +239,7 @@ func (mg *MetastoreService) ResolveReferences(ctx context.Context, c client.Read
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.EncryptionConfig.KMSKey),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.EncryptionConfig.KMSKeyRef,
 				Selector:     mg.Spec.InitProvider.EncryptionConfig.KMSKeySelector,
 				To:           reference.To{List: l, Managed: m},
@@ -253,6 +262,7 @@ func (mg *MetastoreService) ResolveReferences(ctx context.Context, c client.Read
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.NetworkConfig.Consumers[i4].Subnetwork),
 					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.InitProvider.NetworkConfig.Consumers[i4].SubnetworkRef,
 					Selector:     mg.Spec.InitProvider.NetworkConfig.Consumers[i4].SubnetworkSelector,
 					To:           reference.To{List: l, Managed: m},

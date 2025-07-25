@@ -54,3 +54,31 @@ func Setup_cloudplatform(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupGated_cloudplatform creates all controllers with the supplied logger and adds them to
+// the supplied manager gated.
+func SetupGated_cloudplatform(mgr ctrl.Manager, o controller.Options) error {
+	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		folder.SetupGated,
+		folderiammember.SetupGated,
+		organizationiamauditconfig.SetupGated,
+		organizationiamcustomrole.SetupGated,
+		organizationiammember.SetupGated,
+		project.SetupGated,
+		projectdefaultserviceaccounts.SetupGated,
+		projectiamauditconfig.SetupGated,
+		projectiamcustomrole.SetupGated,
+		projectiammember.SetupGated,
+		projectservice.SetupGated,
+		projectusageexportbucket.SetupGated,
+		serviceaccount.SetupGated,
+		serviceaccountiammember.SetupGated,
+		serviceaccountkey.SetupGated,
+		servicenetworkingpeereddnsdomain.SetupGated,
+	} {
+		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}

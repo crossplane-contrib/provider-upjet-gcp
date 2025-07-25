@@ -35,6 +35,7 @@ func (mg *FolderBucketConfig) ResolveReferences( // ResolveReferences of this Fo
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Folder),
 			Extract:      common.ExtractFolderID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.FolderRef,
 			Selector:     mg.Spec.ForProvider.FolderSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -66,6 +67,7 @@ func (mg *FolderExclusion) ResolveReferences(ctx context.Context, c client.Reade
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Folder),
 			Extract:      resource.ExtractParamPath("name", true),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.FolderRef,
 			Selector:     mg.Spec.ForProvider.FolderSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -97,6 +99,7 @@ func (mg *FolderSink) ResolveReferences(ctx context.Context, c client.Reader) er
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Folder),
 			Extract:      resource.ExtractParamPath("name", true),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.FolderRef,
 			Selector:     mg.Spec.ForProvider.FolderSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -128,6 +131,7 @@ func (mg *LogView) ResolveReferences(ctx context.Context, c client.Reader) error
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Bucket),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.BucketRef,
 			Selector:     mg.Spec.ForProvider.BucketSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -159,6 +163,7 @@ func (mg *Metric) ResolveReferences(ctx context.Context, c client.Reader) error 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.BucketName),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.BucketNameRef,
 			Selector:     mg.Spec.ForProvider.BucketNameSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -178,6 +183,7 @@ func (mg *Metric) ResolveReferences(ctx context.Context, c client.Reader) error 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.BucketName),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.BucketNameRef,
 			Selector:     mg.Spec.InitProvider.BucketNameSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -210,6 +216,7 @@ func (mg *ProjectBucketConfig) ResolveReferences(ctx context.Context, c client.R
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CmekSettings[i3].KMSKeyName),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.CmekSettings[i3].KMSKeyNameRef,
 				Selector:     mg.Spec.ForProvider.CmekSettings[i3].KMSKeyNameSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -230,6 +237,7 @@ func (mg *ProjectBucketConfig) ResolveReferences(ctx context.Context, c client.R
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
 			Extract:      resource.ExtractParamPath("project_id", false),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.ProjectRef,
 			Selector:     mg.Spec.ForProvider.ProjectSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -250,6 +258,7 @@ func (mg *ProjectBucketConfig) ResolveReferences(ctx context.Context, c client.R
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CmekSettings[i3].KMSKeyName),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.CmekSettings[i3].KMSKeyNameRef,
 				Selector:     mg.Spec.InitProvider.CmekSettings[i3].KMSKeyNameSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -283,6 +292,7 @@ func (mg *ProjectSink) ResolveReferences(ctx context.Context, c client.Reader) e
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CustomWriterIdentity),
 			Extract:      resource.ExtractParamPath("email", true),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.CustomWriterIdentityRef,
 			Selector:     mg.Spec.ForProvider.CustomWriterIdentitySelector,
 			To:           reference.To{List: l, Managed: m},
@@ -302,6 +312,7 @@ func (mg *ProjectSink) ResolveReferences(ctx context.Context, c client.Reader) e
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CustomWriterIdentity),
 			Extract:      resource.ExtractParamPath("email", true),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.CustomWriterIdentityRef,
 			Selector:     mg.Spec.InitProvider.CustomWriterIdentitySelector,
 			To:           reference.To{List: l, Managed: m},

@@ -44,3 +44,26 @@ func Setup_apigee(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupGated_apigee creates all controllers with the supplied logger and adds them to
+// the supplied manager gated.
+func SetupGated_apigee(mgr ctrl.Manager, o controller.Options) error {
+	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		addonsconfig.SetupGated,
+		endpointattachment.SetupGated,
+		envgroup.SetupGated,
+		envgroupattachment.SetupGated,
+		environment.SetupGated,
+		environmentiammember.SetupGated,
+		instance.SetupGated,
+		instanceattachment.SetupGated,
+		nataddress.SetupGated,
+		organization.SetupGated,
+		syncauthorization.SetupGated,
+	} {
+		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}

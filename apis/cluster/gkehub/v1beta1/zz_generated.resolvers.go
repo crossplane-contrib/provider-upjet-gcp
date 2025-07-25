@@ -36,6 +36,7 @@ func (mg *Membership) ResolveReferences( // ResolveReferences of this Membership
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Endpoint[i3].GkeCluster[i4].ResourceLink),
 					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.ForProvider.Endpoint[i3].GkeCluster[i4].ResourceLinkRef,
 					Selector:     mg.Spec.ForProvider.Endpoint[i3].GkeCluster[i4].ResourceLinkSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -59,6 +60,7 @@ func (mg *Membership) ResolveReferences( // ResolveReferences of this Membership
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Endpoint[i3].GkeCluster[i4].ResourceLink),
 					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.InitProvider.Endpoint[i3].GkeCluster[i4].ResourceLinkRef,
 					Selector:     mg.Spec.InitProvider.Endpoint[i3].GkeCluster[i4].ResourceLinkSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -93,6 +95,7 @@ func (mg *MembershipIAMMember) ResolveReferences(ctx context.Context, c client.R
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.MembershipID),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.MembershipIDRef,
 			Selector:     mg.Spec.ForProvider.MembershipIDSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -112,6 +115,7 @@ func (mg *MembershipIAMMember) ResolveReferences(ctx context.Context, c client.R
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.MembershipID),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.MembershipIDRef,
 			Selector:     mg.Spec.InitProvider.MembershipIDSelector,
 			To:           reference.To{List: l, Managed: m},

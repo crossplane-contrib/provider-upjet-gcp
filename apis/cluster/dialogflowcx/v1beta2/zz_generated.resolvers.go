@@ -35,6 +35,7 @@ func (mg *Flow) ResolveReferences(ctx context.Context, c client.Reader) error {
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.KnowledgeConnectorSettings.TargetFlow),
 				Extract:      resource.ExtractParamPath("start_flow", true),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.KnowledgeConnectorSettings.TargetFlowRef,
 				Selector:     mg.Spec.ForProvider.KnowledgeConnectorSettings.TargetFlowSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -57,6 +58,7 @@ func (mg *Flow) ResolveReferences(ctx context.Context, c client.Reader) error {
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.KnowledgeConnectorSettings.TriggerFulfillment.Webhook),
 					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.ForProvider.KnowledgeConnectorSettings.TriggerFulfillment.WebhookRef,
 					Selector:     mg.Spec.ForProvider.KnowledgeConnectorSettings.TriggerFulfillment.WebhookSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -78,6 +80,7 @@ func (mg *Flow) ResolveReferences(ctx context.Context, c client.Reader) error {
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Parent),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.ParentRef,
 			Selector:     mg.Spec.ForProvider.ParentSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -98,6 +101,7 @@ func (mg *Flow) ResolveReferences(ctx context.Context, c client.Reader) error {
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.TransitionRoutes[i3].TargetFlow),
 				Extract:      resource.ExtractParamPath("start_flow", true),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.TransitionRoutes[i3].TargetFlowRef,
 				Selector:     mg.Spec.ForProvider.TransitionRoutes[i3].TargetFlowSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -119,6 +123,7 @@ func (mg *Flow) ResolveReferences(ctx context.Context, c client.Reader) error {
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.KnowledgeConnectorSettings.TargetFlow),
 				Extract:      resource.ExtractParamPath("start_flow", true),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.KnowledgeConnectorSettings.TargetFlowRef,
 				Selector:     mg.Spec.InitProvider.KnowledgeConnectorSettings.TargetFlowSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -141,6 +146,7 @@ func (mg *Flow) ResolveReferences(ctx context.Context, c client.Reader) error {
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.KnowledgeConnectorSettings.TriggerFulfillment.Webhook),
 					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.InitProvider.KnowledgeConnectorSettings.TriggerFulfillment.WebhookRef,
 					Selector:     mg.Spec.InitProvider.KnowledgeConnectorSettings.TriggerFulfillment.WebhookSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -162,6 +168,7 @@ func (mg *Flow) ResolveReferences(ctx context.Context, c client.Reader) error {
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Parent),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.ParentRef,
 			Selector:     mg.Spec.InitProvider.ParentSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -182,6 +189,7 @@ func (mg *Flow) ResolveReferences(ctx context.Context, c client.Reader) error {
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.TransitionRoutes[i3].TargetFlow),
 				Extract:      resource.ExtractParamPath("start_flow", true),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.TransitionRoutes[i3].TargetFlowRef,
 				Selector:     mg.Spec.InitProvider.TransitionRoutes[i3].TargetFlowSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -219,6 +227,7 @@ func (mg *Page) ResolveReferences(ctx context.Context, c client.Reader) error {
 						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 							CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetFlow),
 							Extract:      resource.ExtractParamPath("start_flow", true),
+							Namespace:    mg.GetNamespace(),
 							Reference:    mg.Spec.ForProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetFlowRef,
 							Selector:     mg.Spec.ForProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetFlowSelector,
 							To:           reference.To{List: l, Managed: m},
@@ -246,6 +255,7 @@ func (mg *Page) ResolveReferences(ctx context.Context, c client.Reader) error {
 						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 							CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetPage),
 							Extract:      resource.ExtractResourceID(),
+							Namespace:    mg.GetNamespace(),
 							Reference:    mg.Spec.ForProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetPageRef,
 							Selector:     mg.Spec.ForProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetPageSelector,
 							To:           reference.To{List: l, Managed: m},
@@ -274,6 +284,7 @@ func (mg *Page) ResolveReferences(ctx context.Context, c client.Reader) error {
 							rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 								CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TriggerFulfillment.Webhook),
 								Extract:      resource.ExtractResourceID(),
+								Namespace:    mg.GetNamespace(),
 								Reference:    mg.Spec.ForProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TriggerFulfillment.WebhookRef,
 								Selector:     mg.Spec.ForProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TriggerFulfillment.WebhookSelector,
 								To:           reference.To{List: l, Managed: m},
@@ -299,6 +310,7 @@ func (mg *Page) ResolveReferences(ctx context.Context, c client.Reader) error {
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.KnowledgeConnectorSettings.TargetPage),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.KnowledgeConnectorSettings.TargetPageRef,
 				Selector:     mg.Spec.ForProvider.KnowledgeConnectorSettings.TargetPageSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -321,6 +333,7 @@ func (mg *Page) ResolveReferences(ctx context.Context, c client.Reader) error {
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.KnowledgeConnectorSettings.TriggerFulfillment.Webhook),
 					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.ForProvider.KnowledgeConnectorSettings.TriggerFulfillment.WebhookRef,
 					Selector:     mg.Spec.ForProvider.KnowledgeConnectorSettings.TriggerFulfillment.WebhookSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -342,6 +355,7 @@ func (mg *Page) ResolveReferences(ctx context.Context, c client.Reader) error {
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Parent),
 			Extract:      resource.ExtractParamPath("start_flow", true),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.ParentRef,
 			Selector:     mg.Spec.ForProvider.ParentSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -362,6 +376,7 @@ func (mg *Page) ResolveReferences(ctx context.Context, c client.Reader) error {
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.TransitionRoutes[i3].TargetPage),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.TransitionRoutes[i3].TargetPageRef,
 				Selector:     mg.Spec.ForProvider.TransitionRoutes[i3].TargetPageSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -386,6 +401,7 @@ func (mg *Page) ResolveReferences(ctx context.Context, c client.Reader) error {
 						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 							CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetFlow),
 							Extract:      resource.ExtractParamPath("start_flow", true),
+							Namespace:    mg.GetNamespace(),
 							Reference:    mg.Spec.InitProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetFlowRef,
 							Selector:     mg.Spec.InitProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetFlowSelector,
 							To:           reference.To{List: l, Managed: m},
@@ -413,6 +429,7 @@ func (mg *Page) ResolveReferences(ctx context.Context, c client.Reader) error {
 						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 							CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetPage),
 							Extract:      resource.ExtractResourceID(),
+							Namespace:    mg.GetNamespace(),
 							Reference:    mg.Spec.InitProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetPageRef,
 							Selector:     mg.Spec.InitProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TargetPageSelector,
 							To:           reference.To{List: l, Managed: m},
@@ -441,6 +458,7 @@ func (mg *Page) ResolveReferences(ctx context.Context, c client.Reader) error {
 							rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 								CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TriggerFulfillment.Webhook),
 								Extract:      resource.ExtractResourceID(),
+								Namespace:    mg.GetNamespace(),
 								Reference:    mg.Spec.InitProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TriggerFulfillment.WebhookRef,
 								Selector:     mg.Spec.InitProvider.Form.Parameters[i4].FillBehavior.RepromptEventHandlers[i6].TriggerFulfillment.WebhookSelector,
 								To:           reference.To{List: l, Managed: m},
@@ -466,6 +484,7 @@ func (mg *Page) ResolveReferences(ctx context.Context, c client.Reader) error {
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.KnowledgeConnectorSettings.TargetPage),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.KnowledgeConnectorSettings.TargetPageRef,
 				Selector:     mg.Spec.InitProvider.KnowledgeConnectorSettings.TargetPageSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -488,6 +507,7 @@ func (mg *Page) ResolveReferences(ctx context.Context, c client.Reader) error {
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.KnowledgeConnectorSettings.TriggerFulfillment.Webhook),
 					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.InitProvider.KnowledgeConnectorSettings.TriggerFulfillment.WebhookRef,
 					Selector:     mg.Spec.InitProvider.KnowledgeConnectorSettings.TriggerFulfillment.WebhookSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -509,6 +529,7 @@ func (mg *Page) ResolveReferences(ctx context.Context, c client.Reader) error {
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Parent),
 			Extract:      resource.ExtractParamPath("start_flow", true),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.ParentRef,
 			Selector:     mg.Spec.InitProvider.ParentSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -529,6 +550,7 @@ func (mg *Page) ResolveReferences(ctx context.Context, c client.Reader) error {
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.TransitionRoutes[i3].TargetPage),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.TransitionRoutes[i3].TargetPageRef,
 				Selector:     mg.Spec.InitProvider.TransitionRoutes[i3].TargetPageSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -562,6 +584,7 @@ func (mg *Webhook) ResolveReferences(ctx context.Context, c client.Reader) error
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Parent),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.ParentRef,
 			Selector:     mg.Spec.ForProvider.ParentSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -581,6 +604,7 @@ func (mg *Webhook) ResolveReferences(ctx context.Context, c client.Reader) error
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Parent),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.ParentRef,
 			Selector:     mg.Spec.InitProvider.ParentSelector,
 			To:           reference.To{List: l, Managed: m},

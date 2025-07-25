@@ -35,6 +35,7 @@ func (mg *PatchDeployment) ResolveReferences( // ResolveReferences of this Patch
 			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 				CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.InstanceFilter[i3].Instances),
 				Extract:       resource.ExtractResourceID(),
+				Namespace:     mg.GetNamespace(),
 				References:    mg.Spec.ForProvider.InstanceFilter[i3].InstancesRefs,
 				Selector:      mg.Spec.ForProvider.InstanceFilter[i3].InstancesSelector,
 				To:            reference.To{List: l, Managed: m},
@@ -56,6 +57,7 @@ func (mg *PatchDeployment) ResolveReferences( // ResolveReferences of this Patch
 			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 				CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.InstanceFilter[i3].Instances),
 				Extract:       resource.ExtractResourceID(),
+				Namespace:     mg.GetNamespace(),
 				References:    mg.Spec.InitProvider.InstanceFilter[i3].InstancesRefs,
 				Selector:      mg.Spec.InitProvider.InstanceFilter[i3].InstancesSelector,
 				To:            reference.To{List: l, Managed: m},

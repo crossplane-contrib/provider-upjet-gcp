@@ -1,0 +1,13 @@
+apiVersion: pubsub.gcp.upbound.io/v1beta2
+kind: Topic
+metadata:
+  annotations:
+    meta.upbound.io/example-id: pubsub/v1beta2/topic
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    labels:
+      foo: bar
+    messageRetentionDuration: 86600s

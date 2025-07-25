@@ -1,0 +1,87 @@
+apiVersion: redis.gcp.m.upbound.io/v1beta1
+kind: Cluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: redis/v1beta1/cluster
+  labels:
+    testing.upbound.io/example-name: cluster-ha
+  name: cluster-ha
+spec:
+  forProvider:
+    authorizationMode: AUTH_MODE_DISABLED
+    deletionProtectionEnabled: true
+    maintenancePolicy:
+    - weeklyMaintenanceWindow:
+      - day: MONDAY
+        startTime:
+        - hours: 1
+          minutes: 0
+          nanos: 0
+          seconds: 0
+    nodeType: REDIS_SHARED_CORE_NANO
+    pscConfigs:
+    - networkSelector:
+        matchLabels:
+          testing.upbound.io/example-name: consumer_net
+    redisConfigs:
+      maxmemory-policy: volatile-ttl
+    region: us-central1
+    replicaCount: 1
+    shardCount: 3
+    transitEncryptionMode: TRANSIT_ENCRYPTION_MODE_DISABLED
+    zoneDistributionConfig:
+    - mode: MULTI_ZONE
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: redis/v1beta1/cluster
+  labels:
+    testing.upbound.io/example-name: consumer_net
+  name: consumer-net
+spec:
+  forProvider:
+    autoCreateSubnetworks: false
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: Subnetwork
+metadata:
+  annotations:
+    meta.upbound.io/example-id: redis/v1beta1/cluster
+  labels:
+    testing.upbound.io/example-name: consumer_subnet
+  name: consumer-subnet
+spec:
+  forProvider:
+    ipCidrRange: 10.0.0.248/29
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: consumer_net
+    region: us-central1
+
+---
+
+apiVersion: networkconnectivity.gcp.m.upbound.io/v1beta1
+kind: ServiceConnectionPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: redis/v1beta1/cluster
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    description: my basic service connection policy
+    location: us-central1
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: consumer_net
+    pscConfig:
+    - subnetworksRefs:
+      - name: consumer_subnet
+    serviceClass: gcp-memorystore-redis

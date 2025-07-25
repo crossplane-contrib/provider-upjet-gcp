@@ -38,3 +38,23 @@ func Setup_logging(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupGated_logging creates all controllers with the supplied logger and adds them to
+// the supplied manager gated.
+func SetupGated_logging(mgr ctrl.Manager, o controller.Options) error {
+	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		folderbucketconfig.SetupGated,
+		folderexclusion.SetupGated,
+		foldersink.SetupGated,
+		logview.SetupGated,
+		metric.SetupGated,
+		projectbucketconfig.SetupGated,
+		projectexclusion.SetupGated,
+		projectsink.SetupGated,
+	} {
+		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}

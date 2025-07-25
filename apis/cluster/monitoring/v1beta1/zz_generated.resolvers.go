@@ -35,6 +35,7 @@ func (mg *Group) ResolveReferences(ctx context.Context, c client.Reader) error {
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ParentName),
 			Extract:      resource.ExtractParamPath("name", true),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.ParentNameRef,
 			Selector:     mg.Spec.ForProvider.ParentNameSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -54,6 +55,7 @@ func (mg *Group) ResolveReferences(ctx context.Context, c client.Reader) error {
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ParentName),
 			Extract:      resource.ExtractParamPath("name", true),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.ParentNameRef,
 			Selector:     mg.Spec.InitProvider.ParentNameSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -85,6 +87,7 @@ func (mg *SLO) ResolveReferences(ctx context.Context, c client.Reader) error {
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Service),
 			Extract:      resource.ExtractParamPath("service_id", false),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.ServiceRef,
 			Selector:     mg.Spec.ForProvider.ServiceSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -104,6 +107,7 @@ func (mg *SLO) ResolveReferences(ctx context.Context, c client.Reader) error {
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Service),
 			Extract:      resource.ExtractParamPath("service_id", false),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.ServiceRef,
 			Selector:     mg.Spec.InitProvider.ServiceSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -136,6 +140,7 @@ func (mg *UptimeCheckConfig) ResolveReferences(ctx context.Context, c client.Rea
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ResourceGroup[i3].GroupID),
 				Extract:      resource.ExtractParamPath("name", true),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.ResourceGroup[i3].GroupIDRef,
 				Selector:     mg.Spec.ForProvider.ResourceGroup[i3].GroupIDSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -158,6 +163,7 @@ func (mg *UptimeCheckConfig) ResolveReferences(ctx context.Context, c client.Rea
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SyntheticMonitor[i3].CloudFunctionV2[i4].Name),
 					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.ForProvider.SyntheticMonitor[i3].CloudFunctionV2[i4].NameRef,
 					Selector:     mg.Spec.ForProvider.SyntheticMonitor[i3].CloudFunctionV2[i4].NameSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -180,6 +186,7 @@ func (mg *UptimeCheckConfig) ResolveReferences(ctx context.Context, c client.Rea
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ResourceGroup[i3].GroupID),
 				Extract:      resource.ExtractParamPath("name", true),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.ResourceGroup[i3].GroupIDRef,
 				Selector:     mg.Spec.InitProvider.ResourceGroup[i3].GroupIDSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -202,6 +209,7 @@ func (mg *UptimeCheckConfig) ResolveReferences(ctx context.Context, c client.Rea
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SyntheticMonitor[i3].CloudFunctionV2[i4].Name),
 					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.InitProvider.SyntheticMonitor[i3].CloudFunctionV2[i4].NameRef,
 					Selector:     mg.Spec.InitProvider.SyntheticMonitor[i3].CloudFunctionV2[i4].NameSelector,
 					To:           reference.To{List: l, Managed: m},

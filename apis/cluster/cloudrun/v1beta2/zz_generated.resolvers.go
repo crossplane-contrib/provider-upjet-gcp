@@ -35,6 +35,7 @@ func (mg *DomainMapping) ResolveReferences( // ResolveReferences of this DomainM
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Metadata.Namespace),
 				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.Metadata.NamespaceRef,
 				Selector:     mg.Spec.ForProvider.Metadata.NamespaceSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -56,6 +57,7 @@ func (mg *DomainMapping) ResolveReferences( // ResolveReferences of this DomainM
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Spec.RouteName),
 				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.Spec.RouteNameRef,
 				Selector:     mg.Spec.ForProvider.Spec.RouteNameSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -77,6 +79,7 @@ func (mg *DomainMapping) ResolveReferences( // ResolveReferences of this DomainM
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Metadata.Namespace),
 				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.Metadata.NamespaceRef,
 				Selector:     mg.Spec.InitProvider.Metadata.NamespaceSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -98,6 +101,7 @@ func (mg *DomainMapping) ResolveReferences( // ResolveReferences of this DomainM
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Spec.RouteName),
 				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.Spec.RouteNameRef,
 				Selector:     mg.Spec.InitProvider.Spec.RouteNameSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -132,6 +136,7 @@ func (mg *Service) ResolveReferences(ctx context.Context, c client.Reader) error
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Metadata.Namespace),
 				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.Metadata.NamespaceRef,
 				Selector:     mg.Spec.ForProvider.Metadata.NamespaceSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -158,6 +163,7 @@ func (mg *Service) ResolveReferences(ctx context.Context, c client.Reader) error
 								rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 									CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Template.Spec.Containers[i5].Env[i6].ValueFrom.SecretKeyRef.Name),
 									Extract:      reference.ExternalName(),
+									Namespace:    mg.GetNamespace(),
 									Reference:    mg.Spec.ForProvider.Template.Spec.Containers[i5].Env[i6].ValueFrom.SecretKeyRef.NameRef,
 									Selector:     mg.Spec.ForProvider.Template.Spec.Containers[i5].Env[i6].ValueFrom.SecretKeyRef.NameSelector,
 									To:           reference.To{List: l, Managed: m},
@@ -187,6 +193,7 @@ func (mg *Service) ResolveReferences(ctx context.Context, c client.Reader) error
 						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 							CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Template.Spec.Volumes[i5].Secret.SecretName),
 							Extract:      reference.ExternalName(),
+							Namespace:    mg.GetNamespace(),
 							Reference:    mg.Spec.ForProvider.Template.Spec.Volumes[i5].Secret.SecretNameRef,
 							Selector:     mg.Spec.ForProvider.Template.Spec.Volumes[i5].Secret.SecretNameSelector,
 							To:           reference.To{List: l, Managed: m},
@@ -211,6 +218,7 @@ func (mg *Service) ResolveReferences(ctx context.Context, c client.Reader) error
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Metadata.Namespace),
 				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.Metadata.NamespaceRef,
 				Selector:     mg.Spec.InitProvider.Metadata.NamespaceSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -237,6 +245,7 @@ func (mg *Service) ResolveReferences(ctx context.Context, c client.Reader) error
 								rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 									CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Template.Spec.Containers[i5].Env[i6].ValueFrom.SecretKeyRef.Name),
 									Extract:      reference.ExternalName(),
+									Namespace:    mg.GetNamespace(),
 									Reference:    mg.Spec.InitProvider.Template.Spec.Containers[i5].Env[i6].ValueFrom.SecretKeyRef.NameRef,
 									Selector:     mg.Spec.InitProvider.Template.Spec.Containers[i5].Env[i6].ValueFrom.SecretKeyRef.NameSelector,
 									To:           reference.To{List: l, Managed: m},
@@ -266,6 +275,7 @@ func (mg *Service) ResolveReferences(ctx context.Context, c client.Reader) error
 						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 							CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Template.Spec.Volumes[i5].Secret.SecretName),
 							Extract:      reference.ExternalName(),
+							Namespace:    mg.GetNamespace(),
 							Reference:    mg.Spec.InitProvider.Template.Spec.Volumes[i5].Secret.SecretNameRef,
 							Selector:     mg.Spec.InitProvider.Template.Spec.Volumes[i5].Secret.SecretNameSelector,
 							To:           reference.To{List: l, Managed: m},
@@ -302,6 +312,7 @@ func (mg *ServiceIAMMember) ResolveReferences(ctx context.Context, c client.Read
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.ProjectRef,
 			Selector:     mg.Spec.ForProvider.ProjectSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -321,6 +332,7 @@ func (mg *ServiceIAMMember) ResolveReferences(ctx context.Context, c client.Read
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Service),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.ServiceRef,
 			Selector:     mg.Spec.ForProvider.ServiceSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -340,6 +352,7 @@ func (mg *ServiceIAMMember) ResolveReferences(ctx context.Context, c client.Read
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Project),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.ProjectRef,
 			Selector:     mg.Spec.InitProvider.ProjectSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -359,6 +372,7 @@ func (mg *ServiceIAMMember) ResolveReferences(ctx context.Context, c client.Read
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Service),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.ServiceRef,
 			Selector:     mg.Spec.InitProvider.ServiceSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -397,6 +411,7 @@ func (mg *V2Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 								rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 									CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Template.Template.Containers[i5].Env[i6].ValueSource.SecretKeyRef.Secret),
 									Extract:      reference.ExternalName(),
+									Namespace:    mg.GetNamespace(),
 									Reference:    mg.Spec.ForProvider.Template.Template.Containers[i5].Env[i6].ValueSource.SecretKeyRef.SecretRef,
 									Selector:     mg.Spec.ForProvider.Template.Template.Containers[i5].Env[i6].ValueSource.SecretKeyRef.SecretSelector,
 									To:           reference.To{List: l, Managed: m},
@@ -426,6 +441,7 @@ func (mg *V2Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 						mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 							CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.Template.Template.Volumes[i5].CloudSQLInstance.Instances),
 							Extract:       resource.ExtractParamPath("connection_name", true),
+							Namespace:     mg.GetNamespace(),
 							References:    mg.Spec.ForProvider.Template.Template.Volumes[i5].CloudSQLInstance.InstancesRefs,
 							Selector:      mg.Spec.ForProvider.Template.Template.Volumes[i5].CloudSQLInstance.InstancesSelector,
 							To:            reference.To{List: l, Managed: m},
@@ -453,6 +469,7 @@ func (mg *V2Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 							CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Template.Template.Volumes[i5].Secret.Secret),
 							Extract:      reference.ExternalName(),
+							Namespace:    mg.GetNamespace(),
 							Reference:    mg.Spec.ForProvider.Template.Template.Volumes[i5].Secret.SecretRef,
 							Selector:     mg.Spec.ForProvider.Template.Template.Volumes[i5].Secret.SecretSelector,
 							To:           reference.To{List: l, Managed: m},
@@ -482,6 +499,7 @@ func (mg *V2Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 								rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 									CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Template.Template.Containers[i5].Env[i6].ValueSource.SecretKeyRef.Secret),
 									Extract:      reference.ExternalName(),
+									Namespace:    mg.GetNamespace(),
 									Reference:    mg.Spec.InitProvider.Template.Template.Containers[i5].Env[i6].ValueSource.SecretKeyRef.SecretRef,
 									Selector:     mg.Spec.InitProvider.Template.Template.Containers[i5].Env[i6].ValueSource.SecretKeyRef.SecretSelector,
 									To:           reference.To{List: l, Managed: m},
@@ -511,6 +529,7 @@ func (mg *V2Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 						mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 							CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.Template.Template.Volumes[i5].CloudSQLInstance.Instances),
 							Extract:       resource.ExtractParamPath("connection_name", true),
+							Namespace:     mg.GetNamespace(),
 							References:    mg.Spec.InitProvider.Template.Template.Volumes[i5].CloudSQLInstance.InstancesRefs,
 							Selector:      mg.Spec.InitProvider.Template.Template.Volumes[i5].CloudSQLInstance.InstancesSelector,
 							To:            reference.To{List: l, Managed: m},
@@ -538,6 +557,7 @@ func (mg *V2Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 							CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Template.Template.Volumes[i5].Secret.Secret),
 							Extract:      reference.ExternalName(),
+							Namespace:    mg.GetNamespace(),
 							Reference:    mg.Spec.InitProvider.Template.Template.Volumes[i5].Secret.SecretRef,
 							Selector:     mg.Spec.InitProvider.Template.Template.Volumes[i5].Secret.SecretSelector,
 							To:           reference.To{List: l, Managed: m},
@@ -576,6 +596,7 @@ func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) err
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.BuildConfig.ServiceAccount),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.BuildConfig.ServiceAccountRef,
 				Selector:     mg.Spec.ForProvider.BuildConfig.ServiceAccountSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -601,6 +622,7 @@ func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) err
 							rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 								CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Template.Containers[i4].Env[i5].ValueSource.SecretKeyRef.Secret),
 								Extract:      reference.ExternalName(),
+								Namespace:    mg.GetNamespace(),
 								Reference:    mg.Spec.ForProvider.Template.Containers[i4].Env[i5].ValueSource.SecretKeyRef.SecretRef,
 								Selector:     mg.Spec.ForProvider.Template.Containers[i4].Env[i5].ValueSource.SecretKeyRef.SecretSelector,
 								To:           reference.To{List: l, Managed: m},
@@ -628,6 +650,7 @@ func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) err
 					mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 						CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.Template.Volumes[i4].CloudSQLInstance.Instances),
 						Extract:       resource.ExtractParamPath("connection_name", true),
+						Namespace:     mg.GetNamespace(),
 						References:    mg.Spec.ForProvider.Template.Volumes[i4].CloudSQLInstance.InstancesRefs,
 						Selector:      mg.Spec.ForProvider.Template.Volumes[i4].CloudSQLInstance.InstancesSelector,
 						To:            reference.To{List: l, Managed: m},
@@ -653,6 +676,7 @@ func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) err
 					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 						CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Template.Volumes[i4].Gcs.Bucket),
 						Extract:      reference.ExternalName(),
+						Namespace:    mg.GetNamespace(),
 						Reference:    mg.Spec.ForProvider.Template.Volumes[i4].Gcs.BucketRef,
 						Selector:     mg.Spec.ForProvider.Template.Volumes[i4].Gcs.BucketSelector,
 						To:           reference.To{List: l, Managed: m},
@@ -678,6 +702,7 @@ func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) err
 					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 						CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Template.Volumes[i4].Secret.Secret),
 						Extract:      reference.ExternalName(),
+						Namespace:    mg.GetNamespace(),
 						Reference:    mg.Spec.ForProvider.Template.Volumes[i4].Secret.SecretRef,
 						Selector:     mg.Spec.ForProvider.Template.Volumes[i4].Secret.SecretSelector,
 						To:           reference.To{List: l, Managed: m},
@@ -701,6 +726,7 @@ func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) err
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.BuildConfig.ServiceAccount),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.BuildConfig.ServiceAccountRef,
 				Selector:     mg.Spec.InitProvider.BuildConfig.ServiceAccountSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -726,6 +752,7 @@ func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) err
 							rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 								CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Template.Containers[i4].Env[i5].ValueSource.SecretKeyRef.Secret),
 								Extract:      reference.ExternalName(),
+								Namespace:    mg.GetNamespace(),
 								Reference:    mg.Spec.InitProvider.Template.Containers[i4].Env[i5].ValueSource.SecretKeyRef.SecretRef,
 								Selector:     mg.Spec.InitProvider.Template.Containers[i4].Env[i5].ValueSource.SecretKeyRef.SecretSelector,
 								To:           reference.To{List: l, Managed: m},
@@ -753,6 +780,7 @@ func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) err
 					mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 						CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.Template.Volumes[i4].CloudSQLInstance.Instances),
 						Extract:       resource.ExtractParamPath("connection_name", true),
+						Namespace:     mg.GetNamespace(),
 						References:    mg.Spec.InitProvider.Template.Volumes[i4].CloudSQLInstance.InstancesRefs,
 						Selector:      mg.Spec.InitProvider.Template.Volumes[i4].CloudSQLInstance.InstancesSelector,
 						To:            reference.To{List: l, Managed: m},
@@ -778,6 +806,7 @@ func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) err
 					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 						CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Template.Volumes[i4].Gcs.Bucket),
 						Extract:      reference.ExternalName(),
+						Namespace:    mg.GetNamespace(),
 						Reference:    mg.Spec.InitProvider.Template.Volumes[i4].Gcs.BucketRef,
 						Selector:     mg.Spec.InitProvider.Template.Volumes[i4].Gcs.BucketSelector,
 						To:           reference.To{List: l, Managed: m},
@@ -803,6 +832,7 @@ func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) err
 					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 						CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Template.Volumes[i4].Secret.Secret),
 						Extract:      reference.ExternalName(),
+						Namespace:    mg.GetNamespace(),
 						Reference:    mg.Spec.InitProvider.Template.Volumes[i4].Secret.SecretRef,
 						Selector:     mg.Spec.InitProvider.Template.Volumes[i4].Secret.SecretSelector,
 						To:           reference.To{List: l, Managed: m},

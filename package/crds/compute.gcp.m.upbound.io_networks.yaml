@@ -1,0 +1,506 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.18.0
+  name: networks.compute.gcp.m.upbound.io
+spec:
+  group: compute.gcp.m.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - gcp
+    kind: Network
+    listKind: NetworkList
+    plural: networks
+    singular: network
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: Network is the Schema for the Networks API. Manages a VPC network
+          or legacy network resource on GCP.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: NetworkSpec defines the desired state of Network
+            properties:
+              forProvider:
+                properties:
+                  autoCreateSubnetworks:
+                    description: |-
+                      When set to true, the network is created in "auto subnet mode" and
+                      it will create a subnet for each region automatically across the
+                      10.128.0.0/9 address range.
+                      When set to false, the network is created in "custom subnet mode" so
+                      the user can explicitly connect subnetwork resources.
+                    type: boolean
+                  bgpAlwaysCompareMed:
+                    description: |-
+                      Enables/disables the comparison of MED across routes with different Neighbor ASNs.
+                      This value can only be set if the --bgp-best-path-selection-mode is STANDARD
+                    type: boolean
+                  bgpBestPathSelectionMode:
+                    description: |-
+                      The BGP best selection algorithm to be employed. MODE can be LEGACY or STANDARD.
+                      Possible values are: LEGACY, STANDARD.
+                    type: string
+                  bgpInterRegionCost:
+                    description: |-
+                      Choice of the behavior of inter-regional cost and MED in the BPS algorithm.
+                      Possible values are: DEFAULT, ADD_COST_TO_MED.
+                    type: string
+                  deleteDefaultRoutesOnCreate:
+                    description: |-
+                      If set to true, default routes (0.0.0.0/0) will be deleted
+                      immediately after network creation. Defaults to false.
+                    type: boolean
+                  description:
+                    description: |-
+                      An optional description of this resource. The resource must be
+                      recreated to modify this field.
+                    type: string
+                  enableUlaInternalIpv6:
+                    description: |-
+                      Enable ULA internal ipv6 on this network. Enabling this feature will assign
+                      a /48 from google defined ULA prefix fd20::/20.
+                    type: boolean
+                  internalIpv6Range:
+                    description: |-
+                      When enabling ula internal ipv6, caller optionally can specify the /48 range
+                      they want from the google defined ULA prefix fd20::/20. The input must be a
+                      valid /48 ULA IPv6 address and must be within the fd20::/20. Operation will
+                      fail if the speficied /48 is already in used by another resource.
+                      If the field is not speficied, then a /48 range will be randomly allocated from fd20::/20 and returned via this field.
+                    type: string
+                  mtu:
+                    description: |-
+                      Maximum Transmission Unit in bytes. The default value is 1460 bytes.
+                      The minimum value for this field is 1300 and the maximum value is 8896 bytes (jumbo frames).
+                      Note that packets larger than 1500 bytes (standard Ethernet) can be subject to TCP-MSS clamping or dropped
+                      with an ICMP Fragmentation-Needed message if the packets are routed to the Internet or other VPCs
+                      with varying MTUs.
+                    type: number
+                  networkFirewallPolicyEnforcementOrder:
+                    description: |-
+                      Set the order that Firewall Rules and Firewall Policies are evaluated.
+                      Default value is AFTER_CLASSIC_FIREWALL.
+                      Possible values are: BEFORE_CLASSIC_FIREWALL, AFTER_CLASSIC_FIREWALL.
+                    type: string
+                  networkProfile:
+                    description: |-
+                      A full or partial URL of the network profile to apply to this network.
+                      This field can be set only at resource creation time. For example, the
+                      following are valid URLs:
+                    type: string
+                  params:
+                    description: |-
+                      Additional params passed with the request, but not persisted as part of resource payload
+                      Structure is documented below.
+                    properties:
+                      resourceManagerTags:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Resource manager tags to be bound to the network. Tag keys and values have the
+                          same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+                          and values are in the format tagValues/456.
+                        type: object
+                        x-kubernetes-map-type: granular
+                    type: object
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  routingMode:
+                    description: |-
+                      The network-wide routing mode to use. If set to REGIONAL, this
+                      network's cloud routers will only advertise routes with subnetworks
+                      of this network in the same region as the router. If set to GLOBAL,
+                      this network's cloud routers will advertise routes with all
+                      subnetworks of this network, across regions.
+                      Possible values are: REGIONAL, GLOBAL.
+                    type: string
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  autoCreateSubnetworks:
+                    description: |-
+                      When set to true, the network is created in "auto subnet mode" and
+                      it will create a subnet for each region automatically across the
+                      10.128.0.0/9 address range.
+                      When set to false, the network is created in "custom subnet mode" so
+                      the user can explicitly connect subnetwork resources.
+                    type: boolean
+                  bgpAlwaysCompareMed:
+                    description: |-
+                      Enables/disables the comparison of MED across routes with different Neighbor ASNs.
+                      This value can only be set if the --bgp-best-path-selection-mode is STANDARD
+                    type: boolean
+                  bgpBestPathSelectionMode:
+                    description: |-
+                      The BGP best selection algorithm to be employed. MODE can be LEGACY or STANDARD.
+                      Possible values are: LEGACY, STANDARD.
+                    type: string
+                  bgpInterRegionCost:
+                    description: |-
+                      Choice of the behavior of inter-regional cost and MED in the BPS algorithm.
+                      Possible values are: DEFAULT, ADD_COST_TO_MED.
+                    type: string
+                  deleteDefaultRoutesOnCreate:
+                    description: |-
+                      If set to true, default routes (0.0.0.0/0) will be deleted
+                      immediately after network creation. Defaults to false.
+                    type: boolean
+                  description:
+                    description: |-
+                      An optional description of this resource. The resource must be
+                      recreated to modify this field.
+                    type: string
+                  enableUlaInternalIpv6:
+                    description: |-
+                      Enable ULA internal ipv6 on this network. Enabling this feature will assign
+                      a /48 from google defined ULA prefix fd20::/20.
+                    type: boolean
+                  internalIpv6Range:
+                    description: |-
+                      When enabling ula internal ipv6, caller optionally can specify the /48 range
+                      they want from the google defined ULA prefix fd20::/20. The input must be a
+                      valid /48 ULA IPv6 address and must be within the fd20::/20. Operation will
+                      fail if the speficied /48 is already in used by another resource.
+                      If the field is not speficied, then a /48 range will be randomly allocated from fd20::/20 and returned via this field.
+                    type: string
+                  mtu:
+                    description: |-
+                      Maximum Transmission Unit in bytes. The default value is 1460 bytes.
+                      The minimum value for this field is 1300 and the maximum value is 8896 bytes (jumbo frames).
+                      Note that packets larger than 1500 bytes (standard Ethernet) can be subject to TCP-MSS clamping or dropped
+                      with an ICMP Fragmentation-Needed message if the packets are routed to the Internet or other VPCs
+                      with varying MTUs.
+                    type: number
+                  networkFirewallPolicyEnforcementOrder:
+                    description: |-
+                      Set the order that Firewall Rules and Firewall Policies are evaluated.
+                      Default value is AFTER_CLASSIC_FIREWALL.
+                      Possible values are: BEFORE_CLASSIC_FIREWALL, AFTER_CLASSIC_FIREWALL.
+                    type: string
+                  networkProfile:
+                    description: |-
+                      A full or partial URL of the network profile to apply to this network.
+                      This field can be set only at resource creation time. For example, the
+                      following are valid URLs:
+                    type: string
+                  params:
+                    description: |-
+                      Additional params passed with the request, but not persisted as part of resource payload
+                      Structure is documented below.
+                    properties:
+                      resourceManagerTags:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Resource manager tags to be bound to the network. Tag keys and values have the
+                          same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+                          and values are in the format tagValues/456.
+                        type: object
+                        x-kubernetes-map-type: granular
+                    type: object
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  routingMode:
+                    description: |-
+                      The network-wide routing mode to use. If set to REGIONAL, this
+                      network's cloud routers will only advertise routes with subnetworks
+                      of this network in the same region as the router. If set to GLOBAL,
+                      this network's cloud routers will advertise routes with all
+                      subnetworks of this network, across regions.
+                      Possible values are: REGIONAL, GLOBAL.
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  kind: ClusterProviderConfig
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  kind:
+                    description: Kind of the referenced object.
+                    type: string
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - kind
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                required:
+                - name
+                type: object
+            required:
+            - forProvider
+            type: object
+          status:
+            description: NetworkStatus defines the observed state of Network.
+            properties:
+              atProvider:
+                properties:
+                  autoCreateSubnetworks:
+                    description: |-
+                      When set to true, the network is created in "auto subnet mode" and
+                      it will create a subnet for each region automatically across the
+                      10.128.0.0/9 address range.
+                      When set to false, the network is created in "custom subnet mode" so
+                      the user can explicitly connect subnetwork resources.
+                    type: boolean
+                  bgpAlwaysCompareMed:
+                    description: |-
+                      Enables/disables the comparison of MED across routes with different Neighbor ASNs.
+                      This value can only be set if the --bgp-best-path-selection-mode is STANDARD
+                    type: boolean
+                  bgpBestPathSelectionMode:
+                    description: |-
+                      The BGP best selection algorithm to be employed. MODE can be LEGACY or STANDARD.
+                      Possible values are: LEGACY, STANDARD.
+                    type: string
+                  bgpInterRegionCost:
+                    description: |-
+                      Choice of the behavior of inter-regional cost and MED in the BPS algorithm.
+                      Possible values are: DEFAULT, ADD_COST_TO_MED.
+                    type: string
+                  deleteDefaultRoutesOnCreate:
+                    description: |-
+                      If set to true, default routes (0.0.0.0/0) will be deleted
+                      immediately after network creation. Defaults to false.
+                    type: boolean
+                  description:
+                    description: |-
+                      An optional description of this resource. The resource must be
+                      recreated to modify this field.
+                    type: string
+                  enableUlaInternalIpv6:
+                    description: |-
+                      Enable ULA internal ipv6 on this network. Enabling this feature will assign
+                      a /48 from google defined ULA prefix fd20::/20.
+                    type: boolean
+                  gatewayIpv4:
+                    description: |-
+                      The gateway address for default routing out of the network. This value
+                      is selected by GCP.
+                    type: string
+                  id:
+                    description: an identifier for the resource with format projects/{{project}}/global/networks/{{name}}
+                    type: string
+                  internalIpv6Range:
+                    description: |-
+                      When enabling ula internal ipv6, caller optionally can specify the /48 range
+                      they want from the google defined ULA prefix fd20::/20. The input must be a
+                      valid /48 ULA IPv6 address and must be within the fd20::/20. Operation will
+                      fail if the speficied /48 is already in used by another resource.
+                      If the field is not speficied, then a /48 range will be randomly allocated from fd20::/20 and returned via this field.
+                    type: string
+                  mtu:
+                    description: |-
+                      Maximum Transmission Unit in bytes. The default value is 1460 bytes.
+                      The minimum value for this field is 1300 and the maximum value is 8896 bytes (jumbo frames).
+                      Note that packets larger than 1500 bytes (standard Ethernet) can be subject to TCP-MSS clamping or dropped
+                      with an ICMP Fragmentation-Needed message if the packets are routed to the Internet or other VPCs
+                      with varying MTUs.
+                    type: number
+                  networkFirewallPolicyEnforcementOrder:
+                    description: |-
+                      Set the order that Firewall Rules and Firewall Policies are evaluated.
+                      Default value is AFTER_CLASSIC_FIREWALL.
+                      Possible values are: BEFORE_CLASSIC_FIREWALL, AFTER_CLASSIC_FIREWALL.
+                    type: string
+                  networkId:
+                    description: The unique identifier for the resource. This identifier
+                      is defined by the server.
+                    type: string
+                  networkProfile:
+                    description: |-
+                      A full or partial URL of the network profile to apply to this network.
+                      This field can be set only at resource creation time. For example, the
+                      following are valid URLs:
+                    type: string
+                  numericId:
+                    description: |-
+                      (Deprecated)
+                      The unique identifier for the resource. This identifier is defined by the server.
+                    type: string
+                  params:
+                    description: |-
+                      Additional params passed with the request, but not persisted as part of resource payload
+                      Structure is documented below.
+                    properties:
+                      resourceManagerTags:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Resource manager tags to be bound to the network. Tag keys and values have the
+                          same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+                          and values are in the format tagValues/456.
+                        type: object
+                        x-kubernetes-map-type: granular
+                    type: object
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  routingMode:
+                    description: |-
+                      The network-wide routing mode to use. If set to REGIONAL, this
+                      network's cloud routers will only advertise routes with subnetworks
+                      of this network in the same region as the router. If set to GLOBAL,
+                      this network's cloud routers will advertise routes with all
+                      subnetworks of this network, across regions.
+                      Possible values are: REGIONAL, GLOBAL.
+                    type: string
+                  selfLink:
+                    description: The URI of the created resource.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

@@ -28,3 +28,18 @@ func Setup_healthcare(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupGated_healthcare creates all controllers with the supplied logger and adds them to
+// the supplied manager gated.
+func SetupGated_healthcare(mgr ctrl.Manager, o controller.Options) error {
+	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		consentstore.SetupGated,
+		dataset.SetupGated,
+		datasetiammember.SetupGated,
+	} {
+		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}

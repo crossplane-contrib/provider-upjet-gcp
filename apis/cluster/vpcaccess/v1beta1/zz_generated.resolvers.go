@@ -33,6 +33,7 @@ func (mg *Connector) ResolveReferences( // ResolveReferences of this Connector.
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Network),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.NetworkRef,
 			Selector:     mg.Spec.ForProvider.NetworkSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -53,6 +54,7 @@ func (mg *Connector) ResolveReferences( // ResolveReferences of this Connector.
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Subnet[i3].Name),
 				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.Subnet[i3].NameRef,
 				Selector:     mg.Spec.ForProvider.Subnet[i3].NameSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -73,6 +75,7 @@ func (mg *Connector) ResolveReferences( // ResolveReferences of this Connector.
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Network),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.NetworkRef,
 			Selector:     mg.Spec.InitProvider.NetworkSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -93,6 +96,7 @@ func (mg *Connector) ResolveReferences( // ResolveReferences of this Connector.
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Subnet[i3].Name),
 				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.Subnet[i3].NameRef,
 				Selector:     mg.Spec.InitProvider.Subnet[i3].NameSelector,
 				To:           reference.To{List: l, Managed: m},

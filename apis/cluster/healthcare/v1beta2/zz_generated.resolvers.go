@@ -33,6 +33,7 @@ func (mg *DatasetIAMMember) ResolveReferences( // ResolveReferences of this Data
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DatasetID),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.DatasetIDRef,
 			Selector:     mg.Spec.ForProvider.DatasetIDSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -52,6 +53,7 @@ func (mg *DatasetIAMMember) ResolveReferences( // ResolveReferences of this Data
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DatasetID),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.DatasetIDRef,
 			Selector:     mg.Spec.InitProvider.DatasetIDSelector,
 			To:           reference.To{List: l, Managed: m},

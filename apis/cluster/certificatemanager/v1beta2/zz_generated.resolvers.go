@@ -35,6 +35,7 @@ func (mg *Certificate) ResolveReferences( // ResolveReferences of this Certifica
 			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 				CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.Managed.DNSAuthorizations),
 				Extract:       resource.ExtractResourceID(),
+				Namespace:     mg.GetNamespace(),
 				References:    mg.Spec.ForProvider.Managed.DNSAuthorizationsRefs,
 				Selector:      mg.Spec.ForProvider.Managed.DNSAuthorizationsSelector,
 				To:            reference.To{List: l, Managed: m},
@@ -56,6 +57,7 @@ func (mg *Certificate) ResolveReferences( // ResolveReferences of this Certifica
 			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 				CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.Managed.Domains),
 				Extract:       resource.ExtractParamPath("domain", false),
+				Namespace:     mg.GetNamespace(),
 				References:    mg.Spec.ForProvider.Managed.DomainsRefs,
 				Selector:      mg.Spec.ForProvider.Managed.DomainsSelector,
 				To:            reference.To{List: l, Managed: m},
@@ -77,6 +79,7 @@ func (mg *Certificate) ResolveReferences( // ResolveReferences of this Certifica
 			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 				CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.Managed.DNSAuthorizations),
 				Extract:       resource.ExtractResourceID(),
+				Namespace:     mg.GetNamespace(),
 				References:    mg.Spec.InitProvider.Managed.DNSAuthorizationsRefs,
 				Selector:      mg.Spec.InitProvider.Managed.DNSAuthorizationsSelector,
 				To:            reference.To{List: l, Managed: m},
@@ -98,6 +101,7 @@ func (mg *Certificate) ResolveReferences( // ResolveReferences of this Certifica
 			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 				CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.Managed.Domains),
 				Extract:       resource.ExtractParamPath("domain", false),
+				Namespace:     mg.GetNamespace(),
 				References:    mg.Spec.InitProvider.Managed.DomainsRefs,
 				Selector:      mg.Spec.InitProvider.Managed.DomainsSelector,
 				To:            reference.To{List: l, Managed: m},

@@ -27,11 +27,6 @@ func (mg *RegistryRepository) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-// GetPublishConnectionDetailsTo of this RegistryRepository.
-func (mg *RegistryRepository) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
-
 // GetWriteConnectionSecretToReference of this RegistryRepository.
 func (mg *RegistryRepository) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
@@ -55,11 +50,6 @@ func (mg *RegistryRepository) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this RegistryRepository.
 func (mg *RegistryRepository) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-// SetPublishConnectionDetailsTo of this RegistryRepository.
-func (mg *RegistryRepository) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this RegistryRepository.
@@ -87,11 +77,6 @@ func (mg *RegistryRepositoryIAMMember) GetProviderConfigReference() *xpv1.Refere
 	return mg.Spec.ProviderConfigReference
 }
 
-// GetPublishConnectionDetailsTo of this RegistryRepositoryIAMMember.
-func (mg *RegistryRepositoryIAMMember) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
-
 // GetWriteConnectionSecretToReference of this RegistryRepositoryIAMMember.
 func (mg *RegistryRepositoryIAMMember) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
@@ -115,11 +100,6 @@ func (mg *RegistryRepositoryIAMMember) SetManagementPolicies(r xpv1.ManagementPo
 // SetProviderConfigReference of this RegistryRepositoryIAMMember.
 func (mg *RegistryRepositoryIAMMember) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-// SetPublishConnectionDetailsTo of this RegistryRepositoryIAMMember.
-func (mg *RegistryRepositoryIAMMember) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this RegistryRepositoryIAMMember.

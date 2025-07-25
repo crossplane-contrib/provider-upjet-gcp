@@ -35,6 +35,7 @@ func (mg *Attestor) ResolveReferences(ctx context.Context, c client.Reader) erro
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.AttestationAuthorityNote.NoteReference),
 				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.AttestationAuthorityNote.NoteReferenceRef,
 				Selector:     mg.Spec.ForProvider.AttestationAuthorityNote.NoteReferenceSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -56,6 +57,7 @@ func (mg *Attestor) ResolveReferences(ctx context.Context, c client.Reader) erro
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.AttestationAuthorityNote.NoteReference),
 				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.AttestationAuthorityNote.NoteReferenceRef,
 				Selector:     mg.Spec.InitProvider.AttestationAuthorityNote.NoteReferenceSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -90,6 +92,7 @@ func (mg *Policy) ResolveReferences(ctx context.Context, c client.Reader) error 
 			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 				CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.ClusterAdmissionRules[i3].RequireAttestationsBy),
 				Extract:       reference.ExternalName(),
+				Namespace:     mg.GetNamespace(),
 				References:    mg.Spec.ForProvider.ClusterAdmissionRules[i3].RequireAttestationsByRefs,
 				Selector:      mg.Spec.ForProvider.ClusterAdmissionRules[i3].RequireAttestationsBySelector,
 				To:            reference.To{List: l, Managed: m},
@@ -111,6 +114,7 @@ func (mg *Policy) ResolveReferences(ctx context.Context, c client.Reader) error 
 			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 				CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.DefaultAdmissionRule.RequireAttestationsBy),
 				Extract:       reference.ExternalName(),
+				Namespace:     mg.GetNamespace(),
 				References:    mg.Spec.ForProvider.DefaultAdmissionRule.RequireAttestationsByRefs,
 				Selector:      mg.Spec.ForProvider.DefaultAdmissionRule.RequireAttestationsBySelector,
 				To:            reference.To{List: l, Managed: m},
@@ -132,6 +136,7 @@ func (mg *Policy) ResolveReferences(ctx context.Context, c client.Reader) error 
 			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 				CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.ClusterAdmissionRules[i3].RequireAttestationsBy),
 				Extract:       reference.ExternalName(),
+				Namespace:     mg.GetNamespace(),
 				References:    mg.Spec.InitProvider.ClusterAdmissionRules[i3].RequireAttestationsByRefs,
 				Selector:      mg.Spec.InitProvider.ClusterAdmissionRules[i3].RequireAttestationsBySelector,
 				To:            reference.To{List: l, Managed: m},
@@ -153,6 +158,7 @@ func (mg *Policy) ResolveReferences(ctx context.Context, c client.Reader) error 
 			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 				CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.DefaultAdmissionRule.RequireAttestationsBy),
 				Extract:       reference.ExternalName(),
+				Namespace:     mg.GetNamespace(),
 				References:    mg.Spec.InitProvider.DefaultAdmissionRule.RequireAttestationsByRefs,
 				Selector:      mg.Spec.InitProvider.DefaultAdmissionRule.RequireAttestationsBySelector,
 				To:            reference.To{List: l, Managed: m},

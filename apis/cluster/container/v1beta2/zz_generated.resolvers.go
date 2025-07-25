@@ -36,6 +36,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Network),
 			Extract:      common.SelfLinkExtractor(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.NetworkRef,
 			Selector:     mg.Spec.ForProvider.NetworkSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -56,6 +57,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.NodeConfig.ServiceAccount),
 				Extract:      resource.ExtractParamPath("email", true),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.NodeConfig.ServiceAccountRef,
 				Selector:     mg.Spec.ForProvider.NodeConfig.ServiceAccountSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -77,6 +79,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PrivateClusterConfig.PrivateEndpointSubnetwork),
 				Extract:      common.SelfLinkExtractor(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.PrivateClusterConfig.PrivateEndpointSubnetworkRef,
 				Selector:     mg.Spec.ForProvider.PrivateClusterConfig.PrivateEndpointSubnetworkSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -97,6 +100,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Subnetwork),
 			Extract:      common.SelfLinkExtractor(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.SubnetworkRef,
 			Selector:     mg.Spec.ForProvider.SubnetworkSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -116,6 +120,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Network),
 			Extract:      common.SelfLinkExtractor(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.NetworkRef,
 			Selector:     mg.Spec.InitProvider.NetworkSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -136,6 +141,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.NodeConfig.ServiceAccount),
 				Extract:      resource.ExtractParamPath("email", true),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.NodeConfig.ServiceAccountRef,
 				Selector:     mg.Spec.InitProvider.NodeConfig.ServiceAccountSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -157,6 +163,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PrivateClusterConfig.PrivateEndpointSubnetwork),
 				Extract:      common.SelfLinkExtractor(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.PrivateClusterConfig.PrivateEndpointSubnetworkRef,
 				Selector:     mg.Spec.InitProvider.PrivateClusterConfig.PrivateEndpointSubnetworkSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -177,6 +184,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Subnetwork),
 			Extract:      common.SelfLinkExtractor(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.SubnetworkRef,
 			Selector:     mg.Spec.InitProvider.SubnetworkSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -208,6 +216,7 @@ func (mg *NodePool) ResolveReferences(ctx context.Context, c client.Reader) erro
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Cluster),
 			Extract:      common.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.ClusterRef,
 			Selector:     mg.Spec.ForProvider.ClusterSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -228,6 +237,7 @@ func (mg *NodePool) ResolveReferences(ctx context.Context, c client.Reader) erro
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.NodeConfig.ServiceAccount),
 				Extract:      resource.ExtractParamPath("email", true),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.NodeConfig.ServiceAccountRef,
 				Selector:     mg.Spec.ForProvider.NodeConfig.ServiceAccountSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -249,6 +259,7 @@ func (mg *NodePool) ResolveReferences(ctx context.Context, c client.Reader) erro
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.NodeConfig.ServiceAccount),
 				Extract:      resource.ExtractParamPath("email", true),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.NodeConfig.ServiceAccountRef,
 				Selector:     mg.Spec.InitProvider.NodeConfig.ServiceAccountSelector,
 				To:           reference.To{List: l, Managed: m},

@@ -42,3 +42,25 @@ func Setup_bigtable(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupGated_bigtable creates all controllers with the supplied logger and adds them to
+// the supplied manager gated.
+func SetupGated_bigtable(mgr ctrl.Manager, o controller.Options) error {
+	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		appprofile.SetupGated,
+		garbagecollectionpolicy.SetupGated,
+		instance.SetupGated,
+		instanceiambinding.SetupGated,
+		instanceiammember.SetupGated,
+		instanceiampolicy.SetupGated,
+		table.SetupGated,
+		tableiambinding.SetupGated,
+		tableiammember.SetupGated,
+		tableiampolicy.SetupGated,
+	} {
+		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}

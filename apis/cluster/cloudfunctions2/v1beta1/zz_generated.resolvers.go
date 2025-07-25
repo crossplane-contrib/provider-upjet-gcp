@@ -36,6 +36,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.BuildConfig[i3].DockerRepository),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.BuildConfig[i3].DockerRepositoryRef,
 				Selector:     mg.Spec.ForProvider.BuildConfig[i3].DockerRepositorySelector,
 				To:           reference.To{List: l, Managed: m},
@@ -57,6 +58,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.BuildConfig[i3].ServiceAccount),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.BuildConfig[i3].ServiceAccountRef,
 				Selector:     mg.Spec.ForProvider.BuildConfig[i3].ServiceAccountSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -80,6 +82,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 						CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.BuildConfig[i3].Source[i4].StorageSource[i5].Bucket),
 						Extract:      reference.ExternalName(),
+						Namespace:    mg.GetNamespace(),
 						Reference:    mg.Spec.ForProvider.BuildConfig[i3].Source[i4].StorageSource[i5].BucketRef,
 						Selector:     mg.Spec.ForProvider.BuildConfig[i3].Source[i4].StorageSource[i5].BucketSelector,
 						To:           reference.To{List: l, Managed: m},
@@ -105,6 +108,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 						CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.BuildConfig[i3].Source[i4].StorageSource[i5].Object),
 						Extract:      resource.ExtractParamPath("name", false),
+						Namespace:    mg.GetNamespace(),
 						Reference:    mg.Spec.ForProvider.BuildConfig[i3].Source[i4].StorageSource[i5].ObjectRef,
 						Selector:     mg.Spec.ForProvider.BuildConfig[i3].Source[i4].StorageSource[i5].ObjectSelector,
 						To:           reference.To{List: l, Managed: m},
@@ -128,6 +132,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.BuildConfig[i3].WorkerPool),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.BuildConfig[i3].WorkerPoolRef,
 				Selector:     mg.Spec.ForProvider.BuildConfig[i3].WorkerPoolSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -150,6 +155,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.EventTrigger[i3].EventFilters[i4].Value),
 					Extract:      reference.ExternalName(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.ForProvider.EventTrigger[i3].EventFilters[i4].ValueRef,
 					Selector:     mg.Spec.ForProvider.EventTrigger[i3].EventFilters[i4].ValueSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -172,6 +178,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.EventTrigger[i3].PubsubTopic),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.EventTrigger[i3].PubsubTopicRef,
 				Selector:     mg.Spec.ForProvider.EventTrigger[i3].PubsubTopicSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -193,6 +200,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.EventTrigger[i3].ServiceAccountEmail),
 				Extract:      resource.ExtractParamPath("email", true),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.EventTrigger[i3].ServiceAccountEmailRef,
 				Selector:     mg.Spec.ForProvider.EventTrigger[i3].ServiceAccountEmailSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -215,6 +223,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ServiceConfig[i3].SecretEnvironmentVariables[i4].Secret),
 					Extract:      reference.ExternalName(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.ForProvider.ServiceConfig[i3].SecretEnvironmentVariables[i4].SecretRef,
 					Selector:     mg.Spec.ForProvider.ServiceConfig[i3].SecretEnvironmentVariables[i4].SecretSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -238,6 +247,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ServiceConfig[i3].SecretVolumes[i4].Secret),
 					Extract:      reference.ExternalName(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.ForProvider.ServiceConfig[i3].SecretVolumes[i4].SecretRef,
 					Selector:     mg.Spec.ForProvider.ServiceConfig[i3].SecretVolumes[i4].SecretSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -260,6 +270,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ServiceConfig[i3].ServiceAccountEmail),
 				Extract:      resource.ExtractParamPath("email", true),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.ServiceConfig[i3].ServiceAccountEmailRef,
 				Selector:     mg.Spec.ForProvider.ServiceConfig[i3].ServiceAccountEmailSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -281,6 +292,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.BuildConfig[i3].DockerRepository),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.BuildConfig[i3].DockerRepositoryRef,
 				Selector:     mg.Spec.InitProvider.BuildConfig[i3].DockerRepositorySelector,
 				To:           reference.To{List: l, Managed: m},
@@ -302,6 +314,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.BuildConfig[i3].ServiceAccount),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.BuildConfig[i3].ServiceAccountRef,
 				Selector:     mg.Spec.InitProvider.BuildConfig[i3].ServiceAccountSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -325,6 +338,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 						CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.BuildConfig[i3].Source[i4].StorageSource[i5].Bucket),
 						Extract:      reference.ExternalName(),
+						Namespace:    mg.GetNamespace(),
 						Reference:    mg.Spec.InitProvider.BuildConfig[i3].Source[i4].StorageSource[i5].BucketRef,
 						Selector:     mg.Spec.InitProvider.BuildConfig[i3].Source[i4].StorageSource[i5].BucketSelector,
 						To:           reference.To{List: l, Managed: m},
@@ -350,6 +364,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 						CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.BuildConfig[i3].Source[i4].StorageSource[i5].Object),
 						Extract:      resource.ExtractParamPath("name", false),
+						Namespace:    mg.GetNamespace(),
 						Reference:    mg.Spec.InitProvider.BuildConfig[i3].Source[i4].StorageSource[i5].ObjectRef,
 						Selector:     mg.Spec.InitProvider.BuildConfig[i3].Source[i4].StorageSource[i5].ObjectSelector,
 						To:           reference.To{List: l, Managed: m},
@@ -373,6 +388,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.BuildConfig[i3].WorkerPool),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.BuildConfig[i3].WorkerPoolRef,
 				Selector:     mg.Spec.InitProvider.BuildConfig[i3].WorkerPoolSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -395,6 +411,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.EventTrigger[i3].EventFilters[i4].Value),
 					Extract:      reference.ExternalName(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.InitProvider.EventTrigger[i3].EventFilters[i4].ValueRef,
 					Selector:     mg.Spec.InitProvider.EventTrigger[i3].EventFilters[i4].ValueSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -417,6 +434,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.EventTrigger[i3].PubsubTopic),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.EventTrigger[i3].PubsubTopicRef,
 				Selector:     mg.Spec.InitProvider.EventTrigger[i3].PubsubTopicSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -438,6 +456,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.EventTrigger[i3].ServiceAccountEmail),
 				Extract:      resource.ExtractParamPath("email", true),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.EventTrigger[i3].ServiceAccountEmailRef,
 				Selector:     mg.Spec.InitProvider.EventTrigger[i3].ServiceAccountEmailSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -460,6 +479,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ServiceConfig[i3].SecretEnvironmentVariables[i4].Secret),
 					Extract:      reference.ExternalName(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.InitProvider.ServiceConfig[i3].SecretEnvironmentVariables[i4].SecretRef,
 					Selector:     mg.Spec.InitProvider.ServiceConfig[i3].SecretEnvironmentVariables[i4].SecretSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -483,6 +503,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ServiceConfig[i3].SecretVolumes[i4].Secret),
 					Extract:      reference.ExternalName(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.InitProvider.ServiceConfig[i3].SecretVolumes[i4].SecretRef,
 					Selector:     mg.Spec.InitProvider.ServiceConfig[i3].SecretVolumes[i4].SecretSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -505,6 +526,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ServiceConfig[i3].ServiceAccountEmail),
 				Extract:      resource.ExtractParamPath("email", true),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.ServiceConfig[i3].ServiceAccountEmailRef,
 				Selector:     mg.Spec.InitProvider.ServiceConfig[i3].ServiceAccountEmailSelector,
 				To:           reference.To{List: l, Managed: m},

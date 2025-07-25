@@ -1,0 +1,15 @@
+apiVersion: notebooks.gcp.m.upbound.io/v1beta1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: notebooks/v1beta1/instance
+  labels:
+    testing.upbound.io/example-name: instance
+  name: instance
+spec:
+  forProvider:
+    location: us-west1-a
+    machineType: e2-medium
+    vmImage:
+    - imageFamily: pytorch-latest-cu124
+      project: deeplearning-platform-release

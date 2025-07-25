@@ -32,6 +32,7 @@ func (mg *InstanceIAMMember) ResolveReferences( // ResolveReferences of this Ins
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.InstanceName),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.InstanceNameRef,
 			Selector:     mg.Spec.ForProvider.InstanceNameSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -51,6 +52,7 @@ func (mg *InstanceIAMMember) ResolveReferences( // ResolveReferences of this Ins
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.InstanceName),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.InstanceNameRef,
 			Selector:     mg.Spec.InitProvider.InstanceNameSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -82,6 +84,7 @@ func (mg *RuntimeIAMMember) ResolveReferences(ctx context.Context, c client.Read
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RuntimeName),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.RuntimeNameRef,
 			Selector:     mg.Spec.ForProvider.RuntimeNameSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -101,6 +104,7 @@ func (mg *RuntimeIAMMember) ResolveReferences(ctx context.Context, c client.Read
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RuntimeName),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.RuntimeNameRef,
 			Selector:     mg.Spec.InitProvider.RuntimeNameSelector,
 			To:           reference.To{List: l, Managed: m},

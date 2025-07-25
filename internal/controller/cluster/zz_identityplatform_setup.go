@@ -38,3 +38,23 @@ func Setup_identityplatform(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupGated_identityplatform creates all controllers with the supplied logger and adds them to
+// the supplied manager gated.
+func SetupGated_identityplatform(mgr ctrl.Manager, o controller.Options) error {
+	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		config.SetupGated,
+		defaultsupportedidpconfig.SetupGated,
+		inboundsamlconfig.SetupGated,
+		oauthidpconfig.SetupGated,
+		tenant.SetupGated,
+		tenantdefaultsupportedidpconfig.SetupGated,
+		tenantinboundsamlconfig.SetupGated,
+		tenantoauthidpconfig.SetupGated,
+	} {
+		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}

@@ -27,11 +27,6 @@ func (mg *AppEngineServiceIAMMember) GetProviderConfigReference() *xpv1.Referenc
 	return mg.Spec.ProviderConfigReference
 }
 
-// GetPublishConnectionDetailsTo of this AppEngineServiceIAMMember.
-func (mg *AppEngineServiceIAMMember) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
-
 // GetWriteConnectionSecretToReference of this AppEngineServiceIAMMember.
 func (mg *AppEngineServiceIAMMember) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
@@ -55,11 +50,6 @@ func (mg *AppEngineServiceIAMMember) SetManagementPolicies(r xpv1.ManagementPoli
 // SetProviderConfigReference of this AppEngineServiceIAMMember.
 func (mg *AppEngineServiceIAMMember) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-// SetPublishConnectionDetailsTo of this AppEngineServiceIAMMember.
-func (mg *AppEngineServiceIAMMember) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this AppEngineServiceIAMMember.
@@ -87,11 +77,6 @@ func (mg *AppEngineVersionIAMMember) GetProviderConfigReference() *xpv1.Referenc
 	return mg.Spec.ProviderConfigReference
 }
 
-// GetPublishConnectionDetailsTo of this AppEngineVersionIAMMember.
-func (mg *AppEngineVersionIAMMember) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
-
 // GetWriteConnectionSecretToReference of this AppEngineVersionIAMMember.
 func (mg *AppEngineVersionIAMMember) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
@@ -115,11 +100,6 @@ func (mg *AppEngineVersionIAMMember) SetManagementPolicies(r xpv1.ManagementPoli
 // SetProviderConfigReference of this AppEngineVersionIAMMember.
 func (mg *AppEngineVersionIAMMember) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-// SetPublishConnectionDetailsTo of this AppEngineVersionIAMMember.
-func (mg *AppEngineVersionIAMMember) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this AppEngineVersionIAMMember.
@@ -147,11 +127,6 @@ func (mg *TunnelIAMMember) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-// GetPublishConnectionDetailsTo of this TunnelIAMMember.
-func (mg *TunnelIAMMember) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
-
 // GetWriteConnectionSecretToReference of this TunnelIAMMember.
 func (mg *TunnelIAMMember) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
@@ -175,11 +150,6 @@ func (mg *TunnelIAMMember) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this TunnelIAMMember.
 func (mg *TunnelIAMMember) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-// SetPublishConnectionDetailsTo of this TunnelIAMMember.
-func (mg *TunnelIAMMember) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this TunnelIAMMember.
@@ -207,11 +177,6 @@ func (mg *WebBackendServiceIAMMember) GetProviderConfigReference() *xpv1.Referen
 	return mg.Spec.ProviderConfigReference
 }
 
-// GetPublishConnectionDetailsTo of this WebBackendServiceIAMMember.
-func (mg *WebBackendServiceIAMMember) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
-
 // GetWriteConnectionSecretToReference of this WebBackendServiceIAMMember.
 func (mg *WebBackendServiceIAMMember) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
@@ -235,11 +200,6 @@ func (mg *WebBackendServiceIAMMember) SetManagementPolicies(r xpv1.ManagementPol
 // SetProviderConfigReference of this WebBackendServiceIAMMember.
 func (mg *WebBackendServiceIAMMember) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-// SetPublishConnectionDetailsTo of this WebBackendServiceIAMMember.
-func (mg *WebBackendServiceIAMMember) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this WebBackendServiceIAMMember.
@@ -267,11 +227,6 @@ func (mg *WebIAMMember) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-// GetPublishConnectionDetailsTo of this WebIAMMember.
-func (mg *WebIAMMember) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
-
 // GetWriteConnectionSecretToReference of this WebIAMMember.
 func (mg *WebIAMMember) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
@@ -295,11 +250,6 @@ func (mg *WebIAMMember) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this WebIAMMember.
 func (mg *WebIAMMember) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-// SetPublishConnectionDetailsTo of this WebIAMMember.
-func (mg *WebIAMMember) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this WebIAMMember.
@@ -327,11 +277,6 @@ func (mg *WebTypeAppEngineIAMMember) GetProviderConfigReference() *xpv1.Referenc
 	return mg.Spec.ProviderConfigReference
 }
 
-// GetPublishConnectionDetailsTo of this WebTypeAppEngineIAMMember.
-func (mg *WebTypeAppEngineIAMMember) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
-
 // GetWriteConnectionSecretToReference of this WebTypeAppEngineIAMMember.
 func (mg *WebTypeAppEngineIAMMember) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
@@ -355,11 +300,6 @@ func (mg *WebTypeAppEngineIAMMember) SetManagementPolicies(r xpv1.ManagementPoli
 // SetProviderConfigReference of this WebTypeAppEngineIAMMember.
 func (mg *WebTypeAppEngineIAMMember) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-// SetPublishConnectionDetailsTo of this WebTypeAppEngineIAMMember.
-func (mg *WebTypeAppEngineIAMMember) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this WebTypeAppEngineIAMMember.
@@ -387,11 +327,6 @@ func (mg *WebTypeComputeIAMMember) GetProviderConfigReference() *xpv1.Reference 
 	return mg.Spec.ProviderConfigReference
 }
 
-// GetPublishConnectionDetailsTo of this WebTypeComputeIAMMember.
-func (mg *WebTypeComputeIAMMember) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
-
 // GetWriteConnectionSecretToReference of this WebTypeComputeIAMMember.
 func (mg *WebTypeComputeIAMMember) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
@@ -415,11 +350,6 @@ func (mg *WebTypeComputeIAMMember) SetManagementPolicies(r xpv1.ManagementPolici
 // SetProviderConfigReference of this WebTypeComputeIAMMember.
 func (mg *WebTypeComputeIAMMember) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-// SetPublishConnectionDetailsTo of this WebTypeComputeIAMMember.
-func (mg *WebTypeComputeIAMMember) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this WebTypeComputeIAMMember.

@@ -1,0 +1,16 @@
+apiVersion: vpcaccess.gcp.upbound.io/v1beta2
+kind: Connector
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpcaccess/v1beta2/connector
+  labels:
+    testing.upbound.io/example-name: connector
+  name: connector
+spec:
+  forProvider:
+    ipCidrRange: 10.8.0.0/28
+    maxInstances: 3
+    minInstances: 2
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

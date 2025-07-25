@@ -1,0 +1,48 @@
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: RegionNetworkEndpoint
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regionnetworkendpoint
+  labels:
+    testing.upbound.io/example-name: region-internet-ip-port-endpoint
+  name: region-internet-ip-port-endpoint
+spec:
+  forProvider:
+    ipAddress: 8.8.8.8
+    port: 443
+    region: us-central1
+    regionNetworkEndpointGroupSelector:
+      matchLabels:
+        testing.upbound.io/example-name: group
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regionnetworkendpoint
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    autoCreateSubnetworks: false
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: RegionNetworkEndpointGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regionnetworkendpoint
+  labels:
+    testing.upbound.io/example-name: group
+  name: group
+spec:
+  forProvider:
+    networkEndpointType: INTERNET_IP_PORT
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    region: us-central1

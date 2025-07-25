@@ -1,0 +1,11 @@
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: NetworkFirewallPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/networkfirewallpolicy
+  labels:
+    testing.upbound.io/example-name: policy
+  name: policy
+spec:
+  forProvider:
+    description: Terraform test

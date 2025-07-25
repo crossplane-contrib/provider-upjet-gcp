@@ -35,6 +35,7 @@ func (mg *AppConnection) ResolveReferences( // ResolveReferences of this AppConn
 		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 			CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.Connectors),
 			Extract:       resource.ExtractResourceID(),
+			Namespace:     mg.GetNamespace(),
 			References:    mg.Spec.ForProvider.ConnectorsRefs,
 			Selector:      mg.Spec.ForProvider.ConnectorsSelector,
 			To:            reference.To{List: l, Managed: m},
@@ -55,6 +56,7 @@ func (mg *AppConnection) ResolveReferences( // ResolveReferences of this AppConn
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Gateway.AppGateway),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.Gateway.AppGatewayRef,
 				Selector:     mg.Spec.ForProvider.Gateway.AppGatewaySelector,
 				To:           reference.To{List: l, Managed: m},
@@ -75,6 +77,7 @@ func (mg *AppConnection) ResolveReferences( // ResolveReferences of this AppConn
 		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 			CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.Connectors),
 			Extract:       resource.ExtractResourceID(),
+			Namespace:     mg.GetNamespace(),
 			References:    mg.Spec.InitProvider.ConnectorsRefs,
 			Selector:      mg.Spec.InitProvider.ConnectorsSelector,
 			To:            reference.To{List: l, Managed: m},
@@ -95,6 +98,7 @@ func (mg *AppConnection) ResolveReferences( // ResolveReferences of this AppConn
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Gateway.AppGateway),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.Gateway.AppGatewayRef,
 				Selector:     mg.Spec.InitProvider.Gateway.AppGatewaySelector,
 				To:           reference.To{List: l, Managed: m},
@@ -130,6 +134,7 @@ func (mg *AppConnector) ResolveReferences(ctx context.Context, c client.Reader) 
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PrincipalInfo.ServiceAccount.Email),
 					Extract:      resource.ExtractParamPath("email", true),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.ForProvider.PrincipalInfo.ServiceAccount.EmailRef,
 					Selector:     mg.Spec.ForProvider.PrincipalInfo.ServiceAccount.EmailSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -153,6 +158,7 @@ func (mg *AppConnector) ResolveReferences(ctx context.Context, c client.Reader) 
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PrincipalInfo.ServiceAccount.Email),
 					Extract:      resource.ExtractParamPath("email", true),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.InitProvider.PrincipalInfo.ServiceAccount.EmailRef,
 					Selector:     mg.Spec.InitProvider.PrincipalInfo.ServiceAccount.EmailSelector,
 					To:           reference.To{List: l, Managed: m},

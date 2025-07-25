@@ -36,3 +36,22 @@ func Setup_kms(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupGated_kms creates all controllers with the supplied logger and adds them to
+// the supplied manager gated.
+func SetupGated_kms(mgr ctrl.Manager, o controller.Options) error {
+	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		cryptokey.SetupGated,
+		cryptokeyiammember.SetupGated,
+		cryptokeyversion.SetupGated,
+		keyring.SetupGated,
+		keyringiammember.SetupGated,
+		keyringimportjob.SetupGated,
+		secretciphertext.SetupGated,
+	} {
+		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}

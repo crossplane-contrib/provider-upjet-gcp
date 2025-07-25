@@ -32,3 +32,20 @@ func Setup_cloudrun(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupGated_cloudrun creates all controllers with the supplied logger and adds them to
+// the supplied manager gated.
+func SetupGated_cloudrun(mgr ctrl.Manager, o controller.Options) error {
+	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		domainmapping.SetupGated,
+		service.SetupGated,
+		serviceiammember.SetupGated,
+		v2job.SetupGated,
+		v2service.SetupGated,
+	} {
+		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}

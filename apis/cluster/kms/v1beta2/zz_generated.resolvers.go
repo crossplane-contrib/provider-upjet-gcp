@@ -35,6 +35,7 @@ func (mg *CryptoKey) ResolveReferences( // ResolveReferences of this CryptoKey.
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.KeyRing),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.KeyRingRef,
 			Selector:     mg.Spec.ForProvider.KeyRingSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -66,6 +67,7 @@ func (mg *CryptoKeyIAMMember) ResolveReferences(ctx context.Context, c client.Re
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CryptoKeyID),
 			Extract:      common.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.CryptoKeyIDRef,
 			Selector:     mg.Spec.ForProvider.CryptoKeyIDSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -85,6 +87,7 @@ func (mg *CryptoKeyIAMMember) ResolveReferences(ctx context.Context, c client.Re
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CryptoKeyID),
 			Extract:      common.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.CryptoKeyIDRef,
 			Selector:     mg.Spec.InitProvider.CryptoKeyIDSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -116,6 +119,7 @@ func (mg *CryptoKeyVersion) ResolveReferences(ctx context.Context, c client.Read
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CryptoKey),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.CryptoKeyRef,
 			Selector:     mg.Spec.ForProvider.CryptoKeySelector,
 			To:           reference.To{List: l, Managed: m},
@@ -135,6 +139,7 @@ func (mg *CryptoKeyVersion) ResolveReferences(ctx context.Context, c client.Read
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CryptoKey),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.CryptoKeyRef,
 			Selector:     mg.Spec.InitProvider.CryptoKeySelector,
 			To:           reference.To{List: l, Managed: m},
@@ -166,6 +171,7 @@ func (mg *KeyRingIAMMember) ResolveReferences(ctx context.Context, c client.Read
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.KeyRingID),
 			Extract:      common.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.KeyRingIDRef,
 			Selector:     mg.Spec.ForProvider.KeyRingIDSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -185,6 +191,7 @@ func (mg *KeyRingIAMMember) ResolveReferences(ctx context.Context, c client.Read
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.KeyRingID),
 			Extract:      common.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.KeyRingIDRef,
 			Selector:     mg.Spec.InitProvider.KeyRingIDSelector,
 			To:           reference.To{List: l, Managed: m},

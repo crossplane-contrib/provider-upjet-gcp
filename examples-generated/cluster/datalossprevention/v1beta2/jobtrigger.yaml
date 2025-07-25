@@ -1,0 +1,28 @@
+apiVersion: datalossprevention.gcp.upbound.io/v1beta2
+kind: JobTrigger
+metadata:
+  annotations:
+    meta.upbound.io/example-id: datalossprevention/v1beta2/jobtrigger
+  labels:
+    testing.upbound.io/example-name: basic
+  name: basic
+spec:
+  forProvider:
+    description: Description
+    displayName: Displayname
+    inspectJob:
+    - actions:
+      - saveFindings:
+        - outputConfig:
+          - table:
+            - datasetId: dataset
+              projectId: project
+      inspectTemplateName: fake
+      storageConfig:
+      - cloudStorageOptions:
+        - fileSet:
+          - url: gs://mybucket/directory/
+    parent: projects/my-project-name
+    triggers:
+    - schedule:
+      - recurrencePeriodDuration: 86400s

@@ -36,6 +36,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Hub),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.HubRef,
 			Selector:     mg.Spec.ForProvider.HubSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -56,6 +57,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 				CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.LinkedInterconnectAttachments.Uris),
 				Extract:       resource.ExtractParamPath("self_link", true),
+				Namespace:     mg.GetNamespace(),
 				References:    mg.Spec.ForProvider.LinkedInterconnectAttachments.UrisRefs,
 				Selector:      mg.Spec.ForProvider.LinkedInterconnectAttachments.UrisSelector,
 				To:            reference.To{List: l, Managed: m},
@@ -77,6 +79,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.LinkedProducerVPCNetwork.Network),
 				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.LinkedProducerVPCNetwork.NetworkRef,
 				Selector:     mg.Spec.ForProvider.LinkedProducerVPCNetwork.NetworkSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -98,6 +101,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.LinkedProducerVPCNetwork.Peering),
 				Extract:      resource.ExtractParamPath("peering", true),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.LinkedProducerVPCNetwork.PeeringRef,
 				Selector:     mg.Spec.ForProvider.LinkedProducerVPCNetwork.PeeringSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -120,6 +124,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.LinkedRouterApplianceInstances.Instances[i4].VirtualMachine),
 					Extract:      resource.ExtractParamPath("self_link", true),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.ForProvider.LinkedRouterApplianceInstances.Instances[i4].VirtualMachineRef,
 					Selector:     mg.Spec.ForProvider.LinkedRouterApplianceInstances.Instances[i4].VirtualMachineSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -142,6 +147,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.LinkedVPCNetwork.URI),
 				Extract:      resource.ExtractParamPath("self_link", true),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.LinkedVPCNetwork.URIRef,
 				Selector:     mg.Spec.ForProvider.LinkedVPCNetwork.URISelector,
 				To:           reference.To{List: l, Managed: m},
@@ -163,6 +169,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 				CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.LinkedVPNTunnels.Uris),
 				Extract:       resource.ExtractParamPath("self_link", true),
+				Namespace:     mg.GetNamespace(),
 				References:    mg.Spec.ForProvider.LinkedVPNTunnels.UrisRefs,
 				Selector:      mg.Spec.ForProvider.LinkedVPNTunnels.UrisSelector,
 				To:            reference.To{List: l, Managed: m},
@@ -183,6 +190,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Hub),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.HubRef,
 			Selector:     mg.Spec.InitProvider.HubSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -203,6 +211,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 				CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.LinkedInterconnectAttachments.Uris),
 				Extract:       resource.ExtractParamPath("self_link", true),
+				Namespace:     mg.GetNamespace(),
 				References:    mg.Spec.InitProvider.LinkedInterconnectAttachments.UrisRefs,
 				Selector:      mg.Spec.InitProvider.LinkedInterconnectAttachments.UrisSelector,
 				To:            reference.To{List: l, Managed: m},
@@ -224,6 +233,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.LinkedProducerVPCNetwork.Network),
 				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.LinkedProducerVPCNetwork.NetworkRef,
 				Selector:     mg.Spec.InitProvider.LinkedProducerVPCNetwork.NetworkSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -245,6 +255,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.LinkedProducerVPCNetwork.Peering),
 				Extract:      resource.ExtractParamPath("peering", true),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.LinkedProducerVPCNetwork.PeeringRef,
 				Selector:     mg.Spec.InitProvider.LinkedProducerVPCNetwork.PeeringSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -267,6 +278,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.LinkedRouterApplianceInstances.Instances[i4].VirtualMachine),
 					Extract:      resource.ExtractParamPath("self_link", true),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.InitProvider.LinkedRouterApplianceInstances.Instances[i4].VirtualMachineRef,
 					Selector:     mg.Spec.InitProvider.LinkedRouterApplianceInstances.Instances[i4].VirtualMachineSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -289,6 +301,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.LinkedVPCNetwork.URI),
 				Extract:      resource.ExtractParamPath("self_link", true),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.LinkedVPCNetwork.URIRef,
 				Selector:     mg.Spec.InitProvider.LinkedVPCNetwork.URISelector,
 				To:           reference.To{List: l, Managed: m},
@@ -310,6 +323,7 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 				CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.LinkedVPNTunnels.Uris),
 				Extract:       resource.ExtractParamPath("self_link", true),
+				Namespace:     mg.GetNamespace(),
 				References:    mg.Spec.InitProvider.LinkedVPNTunnels.UrisRefs,
 				Selector:      mg.Spec.InitProvider.LinkedVPNTunnels.UrisSelector,
 				To:            reference.To{List: l, Managed: m},

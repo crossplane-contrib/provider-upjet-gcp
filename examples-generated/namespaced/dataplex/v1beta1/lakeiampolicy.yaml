@@ -1,0 +1,20 @@
+apiVersion: dataplex.gcp.m.upbound.io/v1beta1
+kind: LakeIAMPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dataplex/v1beta1/lakeiampolicy
+  labels:
+    testing.upbound.io/example-name: policy
+  name: policy
+spec:
+  forProvider:
+    lakeSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    locationSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    policyData: ${data.google_iam_policy.admin.policy_data}
+    projectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

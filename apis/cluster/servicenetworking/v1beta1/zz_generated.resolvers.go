@@ -35,6 +35,7 @@ func (mg *Connection) ResolveReferences( // ResolveReferences of this Connection
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Network),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.NetworkRef,
 			Selector:     mg.Spec.ForProvider.NetworkSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -54,6 +55,7 @@ func (mg *Connection) ResolveReferences( // ResolveReferences of this Connection
 		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 			CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.ReservedPeeringRanges),
 			Extract:       reference.ExternalName(),
+			Namespace:     mg.GetNamespace(),
 			References:    mg.Spec.ForProvider.ReservedPeeringRangesRefs,
 			Selector:      mg.Spec.ForProvider.ReservedPeeringRangesSelector,
 			To:            reference.To{List: l, Managed: m},
@@ -73,6 +75,7 @@ func (mg *Connection) ResolveReferences( // ResolveReferences of this Connection
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Network),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.NetworkRef,
 			Selector:     mg.Spec.InitProvider.NetworkSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -92,6 +95,7 @@ func (mg *Connection) ResolveReferences( // ResolveReferences of this Connection
 		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 			CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.ReservedPeeringRanges),
 			Extract:       reference.ExternalName(),
+			Namespace:     mg.GetNamespace(),
 			References:    mg.Spec.InitProvider.ReservedPeeringRangesRefs,
 			Selector:      mg.Spec.InitProvider.ReservedPeeringRangesSelector,
 			To:            reference.To{List: l, Managed: m},

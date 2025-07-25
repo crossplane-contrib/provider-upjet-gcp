@@ -1,0 +1,25 @@
+apiVersion: certificatemanager.gcp.m.upbound.io/v1beta1
+kind: TrustConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: certificatemanager/v1beta1/trustconfig
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    description: sample description for the trust config
+    labels:
+      foo: bar
+    location: us-central1
+    trustStores:
+    - intermediateCas:
+      - pemCertificateSecretRef:
+          key: attribute.cert.pem
+          name: example-secret
+          namespace: upbound-system
+      trustAnchors:
+      - pemCertificateSecretRef:
+          key: attribute.cert.pem
+          name: example-secret
+          namespace: upbound-system

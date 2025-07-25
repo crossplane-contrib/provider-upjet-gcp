@@ -36,6 +36,7 @@ func (mg *Trigger) ResolveReferences(ctx context.Context, c client.Reader) error
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PubsubConfig[i3].Topic),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.PubsubConfig[i3].TopicRef,
 				Selector:     mg.Spec.ForProvider.PubsubConfig[i3].TopicSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -56,6 +57,7 @@ func (mg *Trigger) ResolveReferences(ctx context.Context, c client.Reader) error
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ServiceAccount),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.ServiceAccountRef,
 			Selector:     mg.Spec.ForProvider.ServiceAccountSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -76,6 +78,7 @@ func (mg *Trigger) ResolveReferences(ctx context.Context, c client.Reader) error
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.WebhookConfig[i3].Secret),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.WebhookConfig[i3].SecretRef,
 				Selector:     mg.Spec.ForProvider.WebhookConfig[i3].SecretSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -97,6 +100,7 @@ func (mg *Trigger) ResolveReferences(ctx context.Context, c client.Reader) error
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PubsubConfig[i3].Topic),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.PubsubConfig[i3].TopicRef,
 				Selector:     mg.Spec.InitProvider.PubsubConfig[i3].TopicSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -117,6 +121,7 @@ func (mg *Trigger) ResolveReferences(ctx context.Context, c client.Reader) error
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ServiceAccount),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.ServiceAccountRef,
 			Selector:     mg.Spec.InitProvider.ServiceAccountSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -137,6 +142,7 @@ func (mg *Trigger) ResolveReferences(ctx context.Context, c client.Reader) error
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.WebhookConfig[i3].Secret),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.WebhookConfig[i3].SecretRef,
 				Selector:     mg.Spec.InitProvider.WebhookConfig[i3].SecretSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -171,6 +177,7 @@ func (mg *WorkerPool) ResolveReferences(ctx context.Context, c client.Reader) er
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.NetworkConfig[i3].PeeredNetwork),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.NetworkConfig[i3].PeeredNetworkRef,
 				Selector:     mg.Spec.ForProvider.NetworkConfig[i3].PeeredNetworkSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -192,6 +199,7 @@ func (mg *WorkerPool) ResolveReferences(ctx context.Context, c client.Reader) er
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.NetworkConfig[i3].PeeredNetwork),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.NetworkConfig[i3].PeeredNetworkRef,
 				Selector:     mg.Spec.InitProvider.NetworkConfig[i3].PeeredNetworkSelector,
 				To:           reference.To{List: l, Managed: m},

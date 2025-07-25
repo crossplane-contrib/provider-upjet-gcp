@@ -34,3 +34,21 @@ func Setup_accesscontextmanager(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupGated_accesscontextmanager creates all controllers with the supplied logger and adds them to
+// the supplied manager gated.
+func SetupGated_accesscontextmanager(mgr ctrl.Manager, o controller.Options) error {
+	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		accesslevel.SetupGated,
+		accesslevelcondition.SetupGated,
+		accesspolicy.SetupGated,
+		accesspolicyiammember.SetupGated,
+		serviceperimeter.SetupGated,
+		serviceperimeterresource.SetupGated,
+	} {
+		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}

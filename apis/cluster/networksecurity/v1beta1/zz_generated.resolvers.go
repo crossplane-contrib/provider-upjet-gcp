@@ -34,6 +34,7 @@ func (mg *GatewaySecurityPolicy) ResolveReferences( // ResolveReferences of this
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.TLSInspectionPolicy),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.TLSInspectionPolicyRef,
 			Selector:     mg.Spec.ForProvider.TLSInspectionPolicySelector,
 			To:           reference.To{List: l, Managed: m},
@@ -53,6 +54,7 @@ func (mg *GatewaySecurityPolicy) ResolveReferences( // ResolveReferences of this
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.TLSInspectionPolicy),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.TLSInspectionPolicyRef,
 			Selector:     mg.Spec.InitProvider.TLSInspectionPolicySelector,
 			To:           reference.To{List: l, Managed: m},
@@ -84,6 +86,7 @@ func (mg *GatewaySecurityPolicyRule) ResolveReferences(ctx context.Context, c cl
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.GatewaySecurityPolicy),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.GatewaySecurityPolicyRef,
 			Selector:     mg.Spec.ForProvider.GatewaySecurityPolicySelector,
 			To:           reference.To{List: l, Managed: m},
@@ -115,6 +118,7 @@ func (mg *TLSInspectionPolicy) ResolveReferences(ctx context.Context, c client.R
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CAPool),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.CAPoolRef,
 			Selector:     mg.Spec.ForProvider.CAPoolSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -134,6 +138,7 @@ func (mg *TLSInspectionPolicy) ResolveReferences(ctx context.Context, c client.R
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.TrustConfig),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.TrustConfigRef,
 			Selector:     mg.Spec.ForProvider.TrustConfigSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -153,6 +158,7 @@ func (mg *TLSInspectionPolicy) ResolveReferences(ctx context.Context, c client.R
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CAPool),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.CAPoolRef,
 			Selector:     mg.Spec.InitProvider.CAPoolSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -172,6 +178,7 @@ func (mg *TLSInspectionPolicy) ResolveReferences(ctx context.Context, c client.R
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.TrustConfig),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.TrustConfigRef,
 			Selector:     mg.Spec.InitProvider.TrustConfigSelector,
 			To:           reference.To{List: l, Managed: m},

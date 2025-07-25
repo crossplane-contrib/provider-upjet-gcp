@@ -35,6 +35,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PostgresqlProfile.Database),
 				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.PostgresqlProfile.DatabaseRef,
 				Selector:     mg.Spec.ForProvider.PostgresqlProfile.DatabaseSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -56,6 +57,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PostgresqlProfile.Hostname),
 				Extract:      resource.ExtractParamPath("public_ip_address", true),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.PostgresqlProfile.HostnameRef,
 				Selector:     mg.Spec.ForProvider.PostgresqlProfile.HostnameSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -77,6 +79,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PostgresqlProfile.Username),
 				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.PostgresqlProfile.UsernameRef,
 				Selector:     mg.Spec.ForProvider.PostgresqlProfile.UsernameSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -98,6 +101,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PrivateConnectivity.PrivateConnection),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.PrivateConnectivity.PrivateConnectionRef,
 				Selector:     mg.Spec.ForProvider.PrivateConnectivity.PrivateConnectionSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -119,6 +123,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SQLServerProfile.Database),
 				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.SQLServerProfile.DatabaseRef,
 				Selector:     mg.Spec.ForProvider.SQLServerProfile.DatabaseSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -140,6 +145,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SQLServerProfile.Hostname),
 				Extract:      resource.ExtractParamPath("public_ip_address", true),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.SQLServerProfile.HostnameRef,
 				Selector:     mg.Spec.ForProvider.SQLServerProfile.HostnameSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -161,6 +167,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SQLServerProfile.Username),
 				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.SQLServerProfile.UsernameRef,
 				Selector:     mg.Spec.ForProvider.SQLServerProfile.UsernameSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -182,6 +189,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PostgresqlProfile.Database),
 				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.PostgresqlProfile.DatabaseRef,
 				Selector:     mg.Spec.InitProvider.PostgresqlProfile.DatabaseSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -203,6 +211,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PostgresqlProfile.Hostname),
 				Extract:      resource.ExtractParamPath("public_ip_address", true),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.PostgresqlProfile.HostnameRef,
 				Selector:     mg.Spec.InitProvider.PostgresqlProfile.HostnameSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -224,6 +233,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PostgresqlProfile.Username),
 				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.PostgresqlProfile.UsernameRef,
 				Selector:     mg.Spec.InitProvider.PostgresqlProfile.UsernameSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -245,6 +255,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PrivateConnectivity.PrivateConnection),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.PrivateConnectivity.PrivateConnectionRef,
 				Selector:     mg.Spec.InitProvider.PrivateConnectivity.PrivateConnectionSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -266,6 +277,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SQLServerProfile.Database),
 				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.SQLServerProfile.DatabaseRef,
 				Selector:     mg.Spec.InitProvider.SQLServerProfile.DatabaseSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -287,6 +299,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SQLServerProfile.Hostname),
 				Extract:      resource.ExtractParamPath("public_ip_address", true),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.SQLServerProfile.HostnameRef,
 				Selector:     mg.Spec.InitProvider.SQLServerProfile.HostnameSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -308,6 +321,7 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SQLServerProfile.Username),
 				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.SQLServerProfile.UsernameRef,
 				Selector:     mg.Spec.InitProvider.SQLServerProfile.UsernameSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -342,6 +356,7 @@ func (mg *PrivateConnection) ResolveReferences(ctx context.Context, c client.Rea
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.VPCPeeringConfig.VPC),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.VPCPeeringConfig.VPCRef,
 				Selector:     mg.Spec.ForProvider.VPCPeeringConfig.VPCSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -363,6 +378,7 @@ func (mg *PrivateConnection) ResolveReferences(ctx context.Context, c client.Rea
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.VPCPeeringConfig.VPC),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.VPCPeeringConfig.VPCRef,
 				Selector:     mg.Spec.InitProvider.VPCPeeringConfig.VPCSelector,
 				To:           reference.To{List: l, Managed: m},

@@ -36,6 +36,7 @@ func (mg *BackupBackupPlan) ResolveReferences( // ResolveReferences of this Back
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.BackupConfig[i3].EncryptionKey[i4].GCPKMSEncryptionKey),
 					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.ForProvider.BackupConfig[i3].EncryptionKey[i4].GCPKMSEncryptionKeyRef,
 					Selector:     mg.Spec.ForProvider.BackupConfig[i3].EncryptionKey[i4].GCPKMSEncryptionKeySelector,
 					To:           reference.To{List: l, Managed: m},
@@ -57,6 +58,7 @@ func (mg *BackupBackupPlan) ResolveReferences( // ResolveReferences of this Back
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Cluster),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.ClusterRef,
 			Selector:     mg.Spec.ForProvider.ClusterSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -78,6 +80,7 @@ func (mg *BackupBackupPlan) ResolveReferences( // ResolveReferences of this Back
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.BackupConfig[i3].EncryptionKey[i4].GCPKMSEncryptionKey),
 					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.InitProvider.BackupConfig[i3].EncryptionKey[i4].GCPKMSEncryptionKeyRef,
 					Selector:     mg.Spec.InitProvider.BackupConfig[i3].EncryptionKey[i4].GCPKMSEncryptionKeySelector,
 					To:           reference.To{List: l, Managed: m},
@@ -99,6 +102,7 @@ func (mg *BackupBackupPlan) ResolveReferences( // ResolveReferences of this Back
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Cluster),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.ClusterRef,
 			Selector:     mg.Spec.InitProvider.ClusterSelector,
 			To:           reference.To{List: l, Managed: m},

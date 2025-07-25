@@ -35,6 +35,7 @@ func (mg *Database) ResolveReferences(ctx context.Context, c client.Reader) erro
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Instance),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.InstanceRef,
 			Selector:     mg.Spec.ForProvider.InstanceSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -68,6 +69,7 @@ func (mg *DatabaseInstance) ResolveReferences(ctx context.Context, c client.Read
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Settings[i3].IPConfiguration[i4].PrivateNetwork),
 					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.ForProvider.Settings[i3].IPConfiguration[i4].PrivateNetworkRef,
 					Selector:     mg.Spec.ForProvider.Settings[i3].IPConfiguration[i4].PrivateNetworkSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -91,6 +93,7 @@ func (mg *DatabaseInstance) ResolveReferences(ctx context.Context, c client.Read
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Settings[i3].IPConfiguration[i4].PrivateNetwork),
 					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.InitProvider.Settings[i3].IPConfiguration[i4].PrivateNetworkRef,
 					Selector:     mg.Spec.InitProvider.Settings[i3].IPConfiguration[i4].PrivateNetworkSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -125,6 +128,7 @@ func (mg *SSLCert) ResolveReferences(ctx context.Context, c client.Reader) error
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Instance),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.InstanceRef,
 			Selector:     mg.Spec.ForProvider.InstanceSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -144,6 +148,7 @@ func (mg *SSLCert) ResolveReferences(ctx context.Context, c client.Reader) error
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Instance),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.InstanceRef,
 			Selector:     mg.Spec.InitProvider.InstanceSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -175,6 +180,7 @@ func (mg *User) ResolveReferences(ctx context.Context, c client.Reader) error {
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Instance),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.InstanceRef,
 			Selector:     mg.Spec.ForProvider.InstanceSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -194,6 +200,7 @@ func (mg *User) ResolveReferences(ctx context.Context, c client.Reader) error {
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Instance),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.InstanceRef,
 			Selector:     mg.Spec.InitProvider.InstanceSelector,
 			To:           reference.To{List: l, Managed: m},

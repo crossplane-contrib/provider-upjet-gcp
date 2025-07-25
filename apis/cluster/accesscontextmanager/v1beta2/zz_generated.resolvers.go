@@ -33,6 +33,7 @@ func (mg *AccessLevelCondition) ResolveReferences( // ResolveReferences of this 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.AccessLevel),
 			Extract:      resource.ExtractParamPath("name", false),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.AccessLevelRef,
 			Selector:     mg.Spec.ForProvider.AccessLevelSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -52,6 +53,7 @@ func (mg *AccessLevelCondition) ResolveReferences( // ResolveReferences of this 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.AccessLevel),
 			Extract:      resource.ExtractParamPath("name", false),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.AccessLevelRef,
 			Selector:     mg.Spec.InitProvider.AccessLevelSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -85,6 +87,7 @@ func (mg *ServicePerimeter) ResolveReferences(ctx context.Context, c client.Read
 			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 				CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.Spec.AccessLevels),
 				Extract:       reference.ExternalName(),
+				Namespace:     mg.GetNamespace(),
 				References:    mg.Spec.ForProvider.Spec.AccessLevelsRefs,
 				Selector:      mg.Spec.ForProvider.Spec.AccessLevelsSelector,
 				To:            reference.To{List: l, Managed: m},
@@ -106,6 +109,7 @@ func (mg *ServicePerimeter) ResolveReferences(ctx context.Context, c client.Read
 			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 				CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.Status.AccessLevels),
 				Extract:       reference.ExternalName(),
+				Namespace:     mg.GetNamespace(),
 				References:    mg.Spec.ForProvider.Status.AccessLevelsRefs,
 				Selector:      mg.Spec.ForProvider.Status.AccessLevelsSelector,
 				To:            reference.To{List: l, Managed: m},
@@ -130,6 +134,7 @@ func (mg *ServicePerimeter) ResolveReferences(ctx context.Context, c client.Read
 						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 							CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Status.IngressPolicies[i4].IngressFrom.Sources[i6].AccessLevel),
 							Extract:      resource.ExtractParamPath("name", false),
+							Namespace:    mg.GetNamespace(),
 							Reference:    mg.Spec.ForProvider.Status.IngressPolicies[i4].IngressFrom.Sources[i6].AccessLevelRef,
 							Selector:     mg.Spec.ForProvider.Status.IngressPolicies[i4].IngressFrom.Sources[i6].AccessLevelSelector,
 							To:           reference.To{List: l, Managed: m},
@@ -154,6 +159,7 @@ func (mg *ServicePerimeter) ResolveReferences(ctx context.Context, c client.Read
 			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 				CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.Spec.AccessLevels),
 				Extract:       reference.ExternalName(),
+				Namespace:     mg.GetNamespace(),
 				References:    mg.Spec.InitProvider.Spec.AccessLevelsRefs,
 				Selector:      mg.Spec.InitProvider.Spec.AccessLevelsSelector,
 				To:            reference.To{List: l, Managed: m},
@@ -175,6 +181,7 @@ func (mg *ServicePerimeter) ResolveReferences(ctx context.Context, c client.Read
 			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 				CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.Status.AccessLevels),
 				Extract:       reference.ExternalName(),
+				Namespace:     mg.GetNamespace(),
 				References:    mg.Spec.InitProvider.Status.AccessLevelsRefs,
 				Selector:      mg.Spec.InitProvider.Status.AccessLevelsSelector,
 				To:            reference.To{List: l, Managed: m},
@@ -199,6 +206,7 @@ func (mg *ServicePerimeter) ResolveReferences(ctx context.Context, c client.Read
 						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 							CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Status.IngressPolicies[i4].IngressFrom.Sources[i6].AccessLevel),
 							Extract:      resource.ExtractParamPath("name", false),
+							Namespace:    mg.GetNamespace(),
 							Reference:    mg.Spec.InitProvider.Status.IngressPolicies[i4].IngressFrom.Sources[i6].AccessLevelRef,
 							Selector:     mg.Spec.InitProvider.Status.IngressPolicies[i4].IngressFrom.Sources[i6].AccessLevelSelector,
 							To:           reference.To{List: l, Managed: m},

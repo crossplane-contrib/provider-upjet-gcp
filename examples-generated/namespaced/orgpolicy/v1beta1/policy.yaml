@@ -1,0 +1,33 @@
+apiVersion: orgpolicy.gcp.m.upbound.io/v1beta1
+kind: Policy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: orgpolicy/v1beta1/policy
+  labels:
+    testing.upbound.io/example-name: primary
+  name: primary
+spec:
+  forProvider:
+    parentSelector:
+      matchLabels:
+        testing.upbound.io/example-name: basic
+    spec:
+    - rules:
+      - enforce: "FALSE"
+
+---
+
+apiVersion: cloudplatform.gcp.m.upbound.io/v1beta1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: orgpolicy/v1beta1/policy
+  labels:
+    testing.upbound.io/example-name: basic
+  name: basic
+spec:
+  forProvider:
+    deletionPolicy: DELETE
+    name: id
+    orgId: "123456789"
+    projectId: id

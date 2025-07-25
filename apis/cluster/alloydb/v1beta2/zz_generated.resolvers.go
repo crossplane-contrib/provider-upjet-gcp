@@ -35,6 +35,7 @@ func (mg *Backup) ResolveReferences(ctx context.Context, c client.Reader) error 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ClusterName),
 			Extract:      resource.ExtractParamPath("name", true),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.ClusterNameRef,
 			Selector:     mg.Spec.ForProvider.ClusterNameSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -54,6 +55,7 @@ func (mg *Backup) ResolveReferences(ctx context.Context, c client.Reader) error 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ClusterName),
 			Extract:      resource.ExtractParamPath("name", true),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.ClusterNameRef,
 			Selector:     mg.Spec.InitProvider.ClusterNameSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -86,6 +88,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.NetworkConfig.Network),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.NetworkConfig.NetworkRef,
 				Selector:     mg.Spec.ForProvider.NetworkConfig.NetworkSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -107,6 +110,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RestoreBackupSource.BackupName),
 				Extract:      resource.ExtractParamPath("name", true),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.RestoreBackupSource.BackupNameRef,
 				Selector:     mg.Spec.ForProvider.RestoreBackupSource.BackupNameSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -128,6 +132,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RestoreContinuousBackupSource.Cluster),
 				Extract:      resource.ExtractParamPath("name", true),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.RestoreContinuousBackupSource.ClusterRef,
 				Selector:     mg.Spec.ForProvider.RestoreContinuousBackupSource.ClusterSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -149,6 +154,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SecondaryConfig.PrimaryClusterName),
 				Extract:      resource.ExtractParamPath("name", true),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.SecondaryConfig.PrimaryClusterNameRef,
 				Selector:     mg.Spec.ForProvider.SecondaryConfig.PrimaryClusterNameSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -170,6 +176,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.NetworkConfig.Network),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.NetworkConfig.NetworkRef,
 				Selector:     mg.Spec.InitProvider.NetworkConfig.NetworkSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -191,6 +198,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RestoreBackupSource.BackupName),
 				Extract:      resource.ExtractParamPath("name", true),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.RestoreBackupSource.BackupNameRef,
 				Selector:     mg.Spec.InitProvider.RestoreBackupSource.BackupNameSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -212,6 +220,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RestoreContinuousBackupSource.Cluster),
 				Extract:      resource.ExtractParamPath("name", true),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.RestoreContinuousBackupSource.ClusterRef,
 				Selector:     mg.Spec.InitProvider.RestoreContinuousBackupSource.ClusterSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -233,6 +242,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SecondaryConfig.PrimaryClusterName),
 				Extract:      resource.ExtractParamPath("name", true),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.SecondaryConfig.PrimaryClusterNameRef,
 				Selector:     mg.Spec.InitProvider.SecondaryConfig.PrimaryClusterNameSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -266,6 +276,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Cluster),
 			Extract:      resource.ExtractParamPath("name", true),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.ClusterRef,
 			Selector:     mg.Spec.ForProvider.ClusterSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -285,6 +296,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.InstanceType),
 			Extract:      resource.ExtractParamPath("cluster_type", false),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.InstanceTypeRef,
 			Selector:     mg.Spec.ForProvider.InstanceTypeSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -304,6 +316,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.InstanceType),
 			Extract:      resource.ExtractParamPath("cluster_type", false),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.InstanceTypeRef,
 			Selector:     mg.Spec.InitProvider.InstanceTypeSelector,
 			To:           reference.To{List: l, Managed: m},

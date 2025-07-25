@@ -38,6 +38,7 @@ func (mg *JobTrigger) ResolveReferences( // ResolveReferences of this JobTrigger
 							rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 								CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.InspectJob[i3].Actions[i4].Deidentify[i5].TransformationDetailsStorageConfig[i6].Table[i7].DatasetID),
 								Extract:      reference.ExternalName(),
+								Namespace:    mg.GetNamespace(),
 								Reference:    mg.Spec.ForProvider.InspectJob[i3].Actions[i4].Deidentify[i5].TransformationDetailsStorageConfig[i6].Table[i7].DatasetIDRef,
 								Selector:     mg.Spec.ForProvider.InspectJob[i3].Actions[i4].Deidentify[i5].TransformationDetailsStorageConfig[i6].Table[i7].DatasetIDSelector,
 								To:           reference.To{List: l, Managed: m},
@@ -67,6 +68,7 @@ func (mg *JobTrigger) ResolveReferences( // ResolveReferences of this JobTrigger
 							rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 								CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.InspectJob[i3].Actions[i4].Deidentify[i5].TransformationDetailsStorageConfig[i6].Table[i7].TableID),
 								Extract:      reference.ExternalName(),
+								Namespace:    mg.GetNamespace(),
 								Reference:    mg.Spec.ForProvider.InspectJob[i3].Actions[i4].Deidentify[i5].TransformationDetailsStorageConfig[i6].Table[i7].TableIDRef,
 								Selector:     mg.Spec.ForProvider.InspectJob[i3].Actions[i4].Deidentify[i5].TransformationDetailsStorageConfig[i6].Table[i7].TableIDSelector,
 								To:           reference.To{List: l, Managed: m},
@@ -96,6 +98,7 @@ func (mg *JobTrigger) ResolveReferences( // ResolveReferences of this JobTrigger
 							rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 								CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.InspectJob[i3].Actions[i4].Deidentify[i5].TransformationDetailsStorageConfig[i6].Table[i7].DatasetID),
 								Extract:      reference.ExternalName(),
+								Namespace:    mg.GetNamespace(),
 								Reference:    mg.Spec.InitProvider.InspectJob[i3].Actions[i4].Deidentify[i5].TransformationDetailsStorageConfig[i6].Table[i7].DatasetIDRef,
 								Selector:     mg.Spec.InitProvider.InspectJob[i3].Actions[i4].Deidentify[i5].TransformationDetailsStorageConfig[i6].Table[i7].DatasetIDSelector,
 								To:           reference.To{List: l, Managed: m},
@@ -125,6 +128,7 @@ func (mg *JobTrigger) ResolveReferences( // ResolveReferences of this JobTrigger
 							rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 								CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.InspectJob[i3].Actions[i4].Deidentify[i5].TransformationDetailsStorageConfig[i6].Table[i7].TableID),
 								Extract:      reference.ExternalName(),
+								Namespace:    mg.GetNamespace(),
 								Reference:    mg.Spec.InitProvider.InspectJob[i3].Actions[i4].Deidentify[i5].TransformationDetailsStorageConfig[i6].Table[i7].TableIDRef,
 								Selector:     mg.Spec.InitProvider.InspectJob[i3].Actions[i4].Deidentify[i5].TransformationDetailsStorageConfig[i6].Table[i7].TableIDSelector,
 								To:           reference.To{List: l, Managed: m},

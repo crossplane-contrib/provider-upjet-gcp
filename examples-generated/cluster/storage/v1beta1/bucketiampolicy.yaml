@@ -1,0 +1,14 @@
+apiVersion: storage.gcp.upbound.io/v1beta1
+kind: BucketIAMPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: storage/v1beta1/bucketiampolicy
+  labels:
+    testing.upbound.io/example-name: policy
+  name: policy
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    policyData: ${data.google_iam_policy.admin.policy_data}

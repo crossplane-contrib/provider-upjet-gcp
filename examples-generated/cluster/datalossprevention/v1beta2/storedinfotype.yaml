@@ -1,0 +1,17 @@
+apiVersion: datalossprevention.gcp.upbound.io/v1beta2
+kind: StoredInfoType
+metadata:
+  annotations:
+    meta.upbound.io/example-id: datalossprevention/v1beta2/storedinfotype
+  labels:
+    testing.upbound.io/example-name: basic
+  name: basic
+spec:
+  forProvider:
+    description: Description
+    displayName: Displayname
+    parent: projects/my-project-name
+    regex:
+    - groupIndexes:
+      - 2
+      pattern: patient

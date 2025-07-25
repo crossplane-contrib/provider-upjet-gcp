@@ -35,6 +35,7 @@ func (mg *Repository) ResolveReferences( // ResolveReferences of this Repository
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PubsubConfigs[i3].ServiceAccountEmail),
 				Extract:      resource.ExtractParamPath("email", true),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.PubsubConfigs[i3].ServiceAccountEmailRef,
 				Selector:     mg.Spec.ForProvider.PubsubConfigs[i3].ServiceAccountEmailSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -56,6 +57,7 @@ func (mg *Repository) ResolveReferences( // ResolveReferences of this Repository
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PubsubConfigs[i3].Topic),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.PubsubConfigs[i3].TopicRef,
 				Selector:     mg.Spec.ForProvider.PubsubConfigs[i3].TopicSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -77,6 +79,7 @@ func (mg *Repository) ResolveReferences( // ResolveReferences of this Repository
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PubsubConfigs[i3].ServiceAccountEmail),
 				Extract:      resource.ExtractParamPath("email", true),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.PubsubConfigs[i3].ServiceAccountEmailRef,
 				Selector:     mg.Spec.InitProvider.PubsubConfigs[i3].ServiceAccountEmailSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -98,6 +101,7 @@ func (mg *Repository) ResolveReferences( // ResolveReferences of this Repository
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PubsubConfigs[i3].Topic),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.PubsubConfigs[i3].TopicRef,
 				Selector:     mg.Spec.InitProvider.PubsubConfigs[i3].TopicSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -131,6 +135,7 @@ func (mg *RepositoryIAMMember) ResolveReferences(ctx context.Context, c client.R
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Repository),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.RepositoryRef,
 			Selector:     mg.Spec.ForProvider.RepositorySelector,
 			To:           reference.To{List: l, Managed: m},
@@ -150,6 +155,7 @@ func (mg *RepositoryIAMMember) ResolveReferences(ctx context.Context, c client.R
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Repository),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.RepositoryRef,
 			Selector:     mg.Spec.InitProvider.RepositorySelector,
 			To:           reference.To{List: l, Managed: m},

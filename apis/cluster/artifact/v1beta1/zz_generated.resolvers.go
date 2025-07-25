@@ -36,6 +36,7 @@ func (mg *RegistryRepository) ResolveReferences( // ResolveReferences of this Re
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RemoteRepositoryConfig[i3].CommonRepository[i4].URI),
 					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.ForProvider.RemoteRepositoryConfig[i3].CommonRepository[i4].URIRef,
 					Selector:     mg.Spec.ForProvider.RemoteRepositoryConfig[i3].CommonRepository[i4].URISelector,
 					To:           reference.To{List: l, Managed: m},
@@ -60,6 +61,7 @@ func (mg *RegistryRepository) ResolveReferences( // ResolveReferences of this Re
 					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 						CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RemoteRepositoryConfig[i3].UpstreamCredentials[i4].UsernamePasswordCredentials[i5].PasswordSecretVersion),
 						Extract:      resource.ExtractParamPath("name", true),
+						Namespace:    mg.GetNamespace(),
 						Reference:    mg.Spec.ForProvider.RemoteRepositoryConfig[i3].UpstreamCredentials[i4].UsernamePasswordCredentials[i5].PasswordSecretVersionRef,
 						Selector:     mg.Spec.ForProvider.RemoteRepositoryConfig[i3].UpstreamCredentials[i4].UsernamePasswordCredentials[i5].PasswordSecretVersionSelector,
 						To:           reference.To{List: l, Managed: m},
@@ -84,6 +86,7 @@ func (mg *RegistryRepository) ResolveReferences( // ResolveReferences of this Re
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.VirtualRepositoryConfig[i3].UpstreamPolicies[i4].Repository),
 					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.ForProvider.VirtualRepositoryConfig[i3].UpstreamPolicies[i4].RepositoryRef,
 					Selector:     mg.Spec.ForProvider.VirtualRepositoryConfig[i3].UpstreamPolicies[i4].RepositorySelector,
 					To:           reference.To{List: l, Managed: m},
@@ -107,6 +110,7 @@ func (mg *RegistryRepository) ResolveReferences( // ResolveReferences of this Re
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RemoteRepositoryConfig[i3].CommonRepository[i4].URI),
 					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.InitProvider.RemoteRepositoryConfig[i3].CommonRepository[i4].URIRef,
 					Selector:     mg.Spec.InitProvider.RemoteRepositoryConfig[i3].CommonRepository[i4].URISelector,
 					To:           reference.To{List: l, Managed: m},
@@ -131,6 +135,7 @@ func (mg *RegistryRepository) ResolveReferences( // ResolveReferences of this Re
 					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 						CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RemoteRepositoryConfig[i3].UpstreamCredentials[i4].UsernamePasswordCredentials[i5].PasswordSecretVersion),
 						Extract:      resource.ExtractParamPath("name", true),
+						Namespace:    mg.GetNamespace(),
 						Reference:    mg.Spec.InitProvider.RemoteRepositoryConfig[i3].UpstreamCredentials[i4].UsernamePasswordCredentials[i5].PasswordSecretVersionRef,
 						Selector:     mg.Spec.InitProvider.RemoteRepositoryConfig[i3].UpstreamCredentials[i4].UsernamePasswordCredentials[i5].PasswordSecretVersionSelector,
 						To:           reference.To{List: l, Managed: m},
@@ -155,6 +160,7 @@ func (mg *RegistryRepository) ResolveReferences( // ResolveReferences of this Re
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.VirtualRepositoryConfig[i3].UpstreamPolicies[i4].Repository),
 					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.InitProvider.VirtualRepositoryConfig[i3].UpstreamPolicies[i4].RepositoryRef,
 					Selector:     mg.Spec.InitProvider.VirtualRepositoryConfig[i3].UpstreamPolicies[i4].RepositorySelector,
 					To:           reference.To{List: l, Managed: m},

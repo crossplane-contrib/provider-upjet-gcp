@@ -28,3 +28,18 @@ func Setup_alloydb(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupGated_alloydb creates all controllers with the supplied logger and adds them to
+// the supplied manager gated.
+func SetupGated_alloydb(mgr ctrl.Manager, o controller.Options) error {
+	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		backup.SetupGated,
+		cluster.SetupGated,
+		instance.SetupGated,
+	} {
+		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}

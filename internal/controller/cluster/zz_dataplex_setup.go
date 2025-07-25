@@ -32,3 +32,20 @@ func Setup_dataplex(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupGated_dataplex creates all controllers with the supplied logger and adds them to
+// the supplied manager gated.
+func SetupGated_dataplex(mgr ctrl.Manager, o controller.Options) error {
+	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		aspecttype.SetupGated,
+		asset.SetupGated,
+		lake.SetupGated,
+		lakeiampolicy.SetupGated,
+		zone.SetupGated,
+	} {
+		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}

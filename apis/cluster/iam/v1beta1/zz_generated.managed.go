@@ -27,11 +27,6 @@ func (mg *WorkloadIdentityPool) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-// GetPublishConnectionDetailsTo of this WorkloadIdentityPool.
-func (mg *WorkloadIdentityPool) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
-
 // GetWriteConnectionSecretToReference of this WorkloadIdentityPool.
 func (mg *WorkloadIdentityPool) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
@@ -55,11 +50,6 @@ func (mg *WorkloadIdentityPool) SetManagementPolicies(r xpv1.ManagementPolicies)
 // SetProviderConfigReference of this WorkloadIdentityPool.
 func (mg *WorkloadIdentityPool) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-// SetPublishConnectionDetailsTo of this WorkloadIdentityPool.
-func (mg *WorkloadIdentityPool) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this WorkloadIdentityPool.
@@ -87,11 +77,6 @@ func (mg *WorkloadIdentityPoolProvider) GetProviderConfigReference() *xpv1.Refer
 	return mg.Spec.ProviderConfigReference
 }
 
-// GetPublishConnectionDetailsTo of this WorkloadIdentityPoolProvider.
-func (mg *WorkloadIdentityPoolProvider) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
-
 // GetWriteConnectionSecretToReference of this WorkloadIdentityPoolProvider.
 func (mg *WorkloadIdentityPoolProvider) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
@@ -115,11 +100,6 @@ func (mg *WorkloadIdentityPoolProvider) SetManagementPolicies(r xpv1.ManagementP
 // SetProviderConfigReference of this WorkloadIdentityPoolProvider.
 func (mg *WorkloadIdentityPoolProvider) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-// SetPublishConnectionDetailsTo of this WorkloadIdentityPoolProvider.
-func (mg *WorkloadIdentityPoolProvider) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this WorkloadIdentityPoolProvider.

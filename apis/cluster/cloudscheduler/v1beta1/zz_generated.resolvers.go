@@ -35,6 +35,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PubsubTarget[i3].TopicName),
 				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.PubsubTarget[i3].TopicNameRef,
 				Selector:     mg.Spec.ForProvider.PubsubTarget[i3].TopicNameSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -56,6 +57,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PubsubTarget[i3].TopicName),
 				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.PubsubTarget[i3].TopicNameRef,
 				Selector:     mg.Spec.InitProvider.PubsubTarget[i3].TopicNameSelector,
 				To:           reference.To{List: l, Managed: m},

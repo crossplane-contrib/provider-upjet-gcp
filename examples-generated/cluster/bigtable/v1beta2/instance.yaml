@@ -1,0 +1,16 @@
+apiVersion: bigtable.gcp.upbound.io/v1beta2
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: bigtable/v1beta2/instance
+  labels:
+    testing.upbound.io/example-name: production-instance
+  name: production-instance
+spec:
+  forProvider:
+    cluster:
+    - clusterId: tf-instance-cluster
+      numNodes: 1
+      storageType: HDD
+    labels:
+      my-label: prod-label

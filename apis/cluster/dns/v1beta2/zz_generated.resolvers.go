@@ -37,6 +37,7 @@ func (mg *ManagedZone) ResolveReferences( // ResolveReferences of this ManagedZo
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PeeringConfig.TargetNetwork.NetworkURL),
 					Extract:      common.SelfLinkExtractor(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.ForProvider.PeeringConfig.TargetNetwork.NetworkURLRef,
 					Selector:     mg.Spec.ForProvider.PeeringConfig.TargetNetwork.NetworkURLSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -60,6 +61,7 @@ func (mg *ManagedZone) ResolveReferences( // ResolveReferences of this ManagedZo
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PrivateVisibilityConfig.GkeClusters[i4].GkeClusterName),
 					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.ForProvider.PrivateVisibilityConfig.GkeClusters[i4].GkeClusterNameRef,
 					Selector:     mg.Spec.ForProvider.PrivateVisibilityConfig.GkeClusters[i4].GkeClusterNameSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -83,6 +85,7 @@ func (mg *ManagedZone) ResolveReferences( // ResolveReferences of this ManagedZo
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PrivateVisibilityConfig.Networks[i4].NetworkURL),
 					Extract:      common.SelfLinkExtractor(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.ForProvider.PrivateVisibilityConfig.Networks[i4].NetworkURLRef,
 					Selector:     mg.Spec.ForProvider.PrivateVisibilityConfig.Networks[i4].NetworkURLSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -106,6 +109,7 @@ func (mg *ManagedZone) ResolveReferences( // ResolveReferences of this ManagedZo
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PeeringConfig.TargetNetwork.NetworkURL),
 					Extract:      common.SelfLinkExtractor(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.InitProvider.PeeringConfig.TargetNetwork.NetworkURLRef,
 					Selector:     mg.Spec.InitProvider.PeeringConfig.TargetNetwork.NetworkURLSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -129,6 +133,7 @@ func (mg *ManagedZone) ResolveReferences( // ResolveReferences of this ManagedZo
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PrivateVisibilityConfig.GkeClusters[i4].GkeClusterName),
 					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.InitProvider.PrivateVisibilityConfig.GkeClusters[i4].GkeClusterNameRef,
 					Selector:     mg.Spec.InitProvider.PrivateVisibilityConfig.GkeClusters[i4].GkeClusterNameSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -152,6 +157,7 @@ func (mg *ManagedZone) ResolveReferences( // ResolveReferences of this ManagedZo
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PrivateVisibilityConfig.Networks[i4].NetworkURL),
 					Extract:      common.SelfLinkExtractor(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.InitProvider.PrivateVisibilityConfig.Networks[i4].NetworkURLRef,
 					Selector:     mg.Spec.InitProvider.PrivateVisibilityConfig.Networks[i4].NetworkURLSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -187,6 +193,7 @@ func (mg *Policy) ResolveReferences(ctx context.Context, c client.Reader) error 
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Networks[i3].NetworkURL),
 				Extract:      common.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.Networks[i3].NetworkRef,
 				Selector:     mg.Spec.ForProvider.Networks[i3].NetworkSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -208,6 +215,7 @@ func (mg *Policy) ResolveReferences(ctx context.Context, c client.Reader) error 
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Networks[i3].NetworkURL),
 				Extract:      common.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.Networks[i3].NetworkRef,
 				Selector:     mg.Spec.InitProvider.Networks[i3].NetworkSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -241,6 +249,7 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ManagedZone),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.ManagedZoneRef,
 			Selector:     mg.Spec.ForProvider.ManagedZoneSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -261,6 +270,7 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RoutingPolicy.HealthCheck),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.RoutingPolicy.HealthCheckRef,
 				Selector:     mg.Spec.ForProvider.RoutingPolicy.HealthCheckSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -285,6 +295,7 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 							CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].IPAddress),
 							Extract:      resource.ExtractParamPath("ip_address", false),
+							Namespace:    mg.GetNamespace(),
 							Reference:    mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].IPAddressRef,
 							Selector:     mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].IPAddressSelector,
 							To:           reference.To{List: l, Managed: m},
@@ -312,6 +323,7 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 							CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].NetworkURL),
 							Extract:      resource.ExtractResourceID(),
+							Namespace:    mg.GetNamespace(),
 							Reference:    mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].NetworkURLRef,
 							Selector:     mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].NetworkURLSelector,
 							To:           reference.To{List: l, Managed: m},
@@ -339,6 +351,7 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 							CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].Project),
 							Extract:      resource.ExtractParamPath("project", false),
+							Namespace:    mg.GetNamespace(),
 							Reference:    mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].ProjectRef,
 							Selector:     mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].ProjectSelector,
 							To:           reference.To{List: l, Managed: m},
@@ -366,6 +379,7 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 							CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].Region),
 							Extract:      resource.ExtractParamPath("region", false),
+							Namespace:    mg.GetNamespace(),
 							Reference:    mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].RegionRef,
 							Selector:     mg.Spec.ForProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].RegionSelector,
 							To:           reference.To{List: l, Managed: m},
@@ -389,6 +403,7 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ManagedZone),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.ManagedZoneRef,
 			Selector:     mg.Spec.InitProvider.ManagedZoneSelector,
 			To:           reference.To{List: l, Managed: m},
@@ -409,6 +424,7 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RoutingPolicy.HealthCheck),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.RoutingPolicy.HealthCheckRef,
 				Selector:     mg.Spec.InitProvider.RoutingPolicy.HealthCheckSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -433,6 +449,7 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 							CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].IPAddress),
 							Extract:      resource.ExtractParamPath("ip_address", false),
+							Namespace:    mg.GetNamespace(),
 							Reference:    mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].IPAddressRef,
 							Selector:     mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].IPAddressSelector,
 							To:           reference.To{List: l, Managed: m},
@@ -460,6 +477,7 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 							CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].NetworkURL),
 							Extract:      resource.ExtractResourceID(),
+							Namespace:    mg.GetNamespace(),
 							Reference:    mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].NetworkURLRef,
 							Selector:     mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].NetworkURLSelector,
 							To:           reference.To{List: l, Managed: m},
@@ -487,6 +505,7 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 							CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].Project),
 							Extract:      resource.ExtractParamPath("project", false),
+							Namespace:    mg.GetNamespace(),
 							Reference:    mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].ProjectRef,
 							Selector:     mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].ProjectSelector,
 							To:           reference.To{List: l, Managed: m},
@@ -514,6 +533,7 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 							CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].Region),
 							Extract:      resource.ExtractParamPath("region", false),
+							Namespace:    mg.GetNamespace(),
 							Reference:    mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].RegionRef,
 							Selector:     mg.Spec.InitProvider.RoutingPolicy.PrimaryBackup.Primary.InternalLoadBalancers[i6].RegionSelector,
 							To:           reference.To{List: l, Managed: m},

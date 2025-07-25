@@ -1656,7 +1656,7 @@ type SourceTableParameters struct {
 type SourceTablesInitParameters struct {
 
 	// The ID of the dataset containing this table.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta2.Table
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/bigquery/v1beta2.Table
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("dataset_id",false)
 	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
 
@@ -1669,7 +1669,7 @@ type SourceTablesInitParameters struct {
 	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	// The ID of the project containing this table.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta2.Table
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/bigquery/v1beta2.Table
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("project",false)
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -1683,7 +1683,7 @@ type SourceTablesInitParameters struct {
 
 	// The table. Can be specified {{table_id}} if project_id and dataset_id are also set,
 	// or of the form projects/{{project}}/datasets/{{dataset_id}}/tables/{{table_id}} if not.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta2.Table
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/bigquery/v1beta2.Table
 	TableID *string `json:"tableId,omitempty" tf:"table_id,omitempty"`
 
 	// Reference to a Table in bigquery to populate tableId.
@@ -1711,7 +1711,7 @@ type SourceTablesObservation struct {
 type SourceTablesParameters struct {
 
 	// The ID of the dataset containing this table.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta2.Table
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/bigquery/v1beta2.Table
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("dataset_id",false)
 	// +kubebuilder:validation:Optional
 	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
@@ -1725,7 +1725,7 @@ type SourceTablesParameters struct {
 	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	// The ID of the project containing this table.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta2.Table
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/bigquery/v1beta2.Table
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("project",false)
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -1740,7 +1740,7 @@ type SourceTablesParameters struct {
 
 	// The table. Can be specified {{table_id}} if project_id and dataset_id are also set,
 	// or of the form projects/{{project}}/datasets/{{dataset_id}}/tables/{{table_id}} if not.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta2.Table
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/bigquery/v1beta2.Table
 	// +kubebuilder:validation:Optional
 	TableID *string `json:"tableId,omitempty" tf:"table_id,omitempty"`
 

@@ -40,3 +40,24 @@ func Setup_monitoring(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupGated_monitoring creates all controllers with the supplied logger and adds them to
+// the supplied manager gated.
+func SetupGated_monitoring(mgr ctrl.Manager, o controller.Options) error {
+	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		alertpolicy.SetupGated,
+		customservice.SetupGated,
+		dashboard.SetupGated,
+		group.SetupGated,
+		metricdescriptor.SetupGated,
+		notificationchannel.SetupGated,
+		service.SetupGated,
+		slo.SetupGated,
+		uptimecheckconfig.SetupGated,
+	} {
+		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}

@@ -36,6 +36,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CryptoKeyConfig.KeyReference),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.CryptoKeyConfig.KeyReferenceRef,
 				Selector:     mg.Spec.ForProvider.CryptoKeyConfig.KeyReferenceSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -57,6 +58,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.EventPublishConfig.Topic),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.EventPublishConfig.TopicRef,
 				Selector:     mg.Spec.ForProvider.EventPublishConfig.TopicSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -78,6 +80,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CryptoKeyConfig.KeyReference),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.CryptoKeyConfig.KeyReferenceRef,
 				Selector:     mg.Spec.InitProvider.CryptoKeyConfig.KeyReferenceSelector,
 				To:           reference.To{List: l, Managed: m},
@@ -99,6 +102,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.EventPublishConfig.Topic),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.EventPublishConfig.TopicRef,
 				Selector:     mg.Spec.InitProvider.EventPublishConfig.TopicSelector,
 				To:           reference.To{List: l, Managed: m},

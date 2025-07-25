@@ -46,3 +46,27 @@ func Setup_storage(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupGated_storage creates all controllers with the supplied logger and adds them to
+// the supplied manager gated.
+func SetupGated_storage(mgr ctrl.Manager, o controller.Options) error {
+	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		bucket.SetupGated,
+		bucketaccesscontrol.SetupGated,
+		bucketacl.SetupGated,
+		bucketiammember.SetupGated,
+		bucketiampolicy.SetupGated,
+		bucketobject.SetupGated,
+		defaultobjectaccesscontrol.SetupGated,
+		defaultobjectacl.SetupGated,
+		hmackey.SetupGated,
+		notification.SetupGated,
+		objectaccesscontrol.SetupGated,
+		objectacl.SetupGated,
+	} {
+		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}

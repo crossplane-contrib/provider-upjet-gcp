@@ -1,0 +1,1713 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.18.0
+  name: inspecttemplates.datalossprevention.gcp.m.upbound.io
+spec:
+  group: datalossprevention.gcp.m.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - gcp
+    kind: InspectTemplate
+    listKind: InspectTemplateList
+    plural: inspecttemplates
+    singular: inspecttemplate
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: InspectTemplate is the Schema for the InspectTemplates API. An
+          inspect job template.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: InspectTemplateSpec defines the desired state of InspectTemplate
+            properties:
+              forProvider:
+                properties:
+                  description:
+                    description: A description of the inspect template.
+                    type: string
+                  displayName:
+                    description: User set display name of the inspect template.
+                    type: string
+                  inspectConfig:
+                    description: |-
+                      The core content of the template.
+                      Structure is documented below.
+                    properties:
+                      contentOptions:
+                        description: |-
+                          List of options defining data content to scan. If empty, text, images, and other content will be included.
+                          Each value may be one of: CONTENT_TEXT, CONTENT_IMAGE.
+                        items:
+                          type: string
+                        type: array
+                      customInfoTypes:
+                        description: |-
+                          Custom info types to be used. See https://cloud.google.com/dlp/docs/creating-custom-infotypes to learn more.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            dictionary:
+                              description: |-
+                                Dictionary which defines the rule.
+                                Structure is documented below.
+                              properties:
+                                cloudStoragePath:
+                                  description: |-
+                                    Newline-delimited file of words in Cloud Storage. Only a single file is accepted.
+                                    Structure is documented below.
+                                  properties:
+                                    path:
+                                      description: 'A url representing a file or path
+                                        (no wildcards) in Cloud Storage. Example:
+                                        gs://[BUCKET_NAME]/dictionary.txt'
+                                      type: string
+                                  type: object
+                                wordList:
+                                  description: |-
+                                    List of words or phrases to search for.
+                                    Structure is documented below.
+                                  properties:
+                                    words:
+                                      description: |-
+                                        Words or phrases defining the dictionary. The dictionary must contain at least one
+                                        phrase and every phrase must contain at least 2 characters that are letters or digits.
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                              type: object
+                            exclusionType:
+                              description: |-
+                                If set to EXCLUSION_TYPE_EXCLUDE this infoType will not cause a finding to be returned. It still can be used for rules matching.
+                                Possible values are: EXCLUSION_TYPE_EXCLUDE.
+                              type: string
+                            infoType:
+                              description: |-
+                                Type of information the findings limit applies to. Only one limit per infoType should be provided. If InfoTypeLimit does
+                                not have an infoType, the DLP API applies the limit against all infoTypes that are found but not
+                                specified in another InfoTypeLimit.
+                                Structure is documented below.
+                              properties:
+                                name:
+                                  description: |-
+                                    Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+                                    or projects/project-id/storedInfoTypes/432452342.
+                                  type: string
+                                sensitivityScore:
+                                  description: |-
+                                    Optional custom sensitivity for this InfoType. This only applies to data profiling.
+                                    Structure is documented below.
+                                  properties:
+                                    score:
+                                      description: |-
+                                        The sensitivity score applied to the resource.
+                                        Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+                                      type: string
+                                  type: object
+                                version:
+                                  description: Version of the information type to
+                                    use. By default, the version is set to stable
+                                  type: string
+                              type: object
+                            likelihood:
+                              description: |-
+                                Likelihood to return for this CustomInfoType. This base value can be altered by a detection rule if the finding meets the criteria
+                                specified by the rule.
+                                Default value is VERY_LIKELY.
+                                Possible values are: VERY_UNLIKELY, UNLIKELY, POSSIBLE, LIKELY, VERY_LIKELY.
+                              type: string
+                            regex:
+                              description: |-
+                                Regular expression which defines the rule.
+                                Structure is documented below.
+                              properties:
+                                groupIndexes:
+                                  description: The index of the submatch to extract
+                                    as findings. When not specified, the entire match
+                                    is returned. No more than 3 may be included.
+                                  items:
+                                    type: number
+                                  type: array
+                                pattern:
+                                  description: |-
+                                    Pattern defining the regular expression.
+                                    Its syntax (https://github.com/google/re2/wiki/Syntax) can be found under the google/re2 repository on GitHub.
+                                  type: string
+                              type: object
+                            sensitivityScore:
+                              description: |-
+                                Optional custom sensitivity for this InfoType. This only applies to data profiling.
+                                Structure is documented below.
+                              properties:
+                                score:
+                                  description: |-
+                                    The sensitivity score applied to the resource.
+                                    Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+                                  type: string
+                              type: object
+                            storedType:
+                              description: |-
+                                A reference to a StoredInfoType to use with scanning.
+                                Structure is documented below.
+                              properties:
+                                name:
+                                  description: |-
+                                    Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+                                    or projects/project-id/storedInfoTypes/432452342.
+                                  type: string
+                              type: object
+                            surrogateType:
+                              description: Message for detecting output from deidentification
+                                transformations that support reversing.
+                              type: object
+                          type: object
+                        type: array
+                      excludeInfoTypes:
+                        description: When true, excludes type information of the findings.
+                        type: boolean
+                      includeQuote:
+                        description: When true, a contextual quote from the data that
+                          triggered a finding is included in the response.
+                        type: boolean
+                      infoTypes:
+                        description: |-
+                          Restricts what infoTypes to look for. The values must correspond to InfoType values returned by infoTypes.list
+                          or listed at https://cloud.google.com/dlp/docs/infotypes-reference.
+                          When no InfoTypes or CustomInfoTypes are specified in a request, the system may automatically choose what detectors to run.
+                          By default this may be all types, but may change over time as detectors are updated.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            name:
+                              description: |-
+                                Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+                                or projects/project-id/storedInfoTypes/432452342.
+                              type: string
+                            sensitivityScore:
+                              description: |-
+                                Optional custom sensitivity for this InfoType. This only applies to data profiling.
+                                Structure is documented below.
+                              properties:
+                                score:
+                                  description: |-
+                                    The sensitivity score applied to the resource.
+                                    Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+                                  type: string
+                              type: object
+                            version:
+                              description: Version of the information type to use.
+                                By default, the version is set to stable
+                              type: string
+                          type: object
+                        type: array
+                      limits:
+                        description: |-
+                          Configuration to control the number of findings returned.
+                          Structure is documented below.
+                        properties:
+                          maxFindingsPerInfoType:
+                            description: |-
+                              Configuration of findings limit given for specified infoTypes.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                infoType:
+                                  description: |-
+                                    Type of information the findings limit applies to. Only one limit per infoType should be provided. If InfoTypeLimit does
+                                    not have an infoType, the DLP API applies the limit against all infoTypes that are found but not
+                                    specified in another InfoTypeLimit.
+                                    Structure is documented below.
+                                  properties:
+                                    name:
+                                      description: |-
+                                        Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+                                        or projects/project-id/storedInfoTypes/432452342.
+                                      type: string
+                                    sensitivityScore:
+                                      description: |-
+                                        Optional custom sensitivity for this InfoType. This only applies to data profiling.
+                                        Structure is documented below.
+                                      properties:
+                                        score:
+                                          description: |-
+                                            The sensitivity score applied to the resource.
+                                            Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+                                          type: string
+                                      type: object
+                                    version:
+                                      description: Version of the information type
+                                        to use. By default, the version is set to
+                                        stable
+                                      type: string
+                                  type: object
+                                maxFindings:
+                                  description: Max findings limit for the given infoType.
+                                  type: number
+                              type: object
+                            type: array
+                          maxFindingsPerItem:
+                            description: Max number of findings that will be returned
+                              for each item scanned. The maximum returned is 2000.
+                            type: number
+                          maxFindingsPerRequest:
+                            description: Max number of findings that will be returned
+                              per request/job. The maximum returned is 2000.
+                            type: number
+                        type: object
+                      minLikelihood:
+                        description: |-
+                          Only returns findings equal or above this threshold. See https://cloud.google.com/dlp/docs/likelihood for more info
+                          Default value is POSSIBLE.
+                          Possible values are: VERY_UNLIKELY, UNLIKELY, POSSIBLE, LIKELY, VERY_LIKELY.
+                        type: string
+                      ruleSet:
+                        description: |-
+                          Set of rules to apply to the findings for this InspectConfig. Exclusion rules, contained in the set are executed in the end,
+                          other rules are executed in the order they are specified for each info type.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            infoTypes:
+                              description: |-
+                                List of infoTypes this rule set is applied to.
+                                Structure is documented below.
+                              items:
+                                properties:
+                                  name:
+                                    description: |-
+                                      Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+                                      or projects/project-id/storedInfoTypes/432452342.
+                                    type: string
+                                  sensitivityScore:
+                                    description: |-
+                                      Optional custom sensitivity for this InfoType. This only applies to data profiling.
+                                      Structure is documented below.
+                                    properties:
+                                      score:
+                                        description: |-
+                                          The sensitivity score applied to the resource.
+                                          Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+                                        type: string
+                                    type: object
+                                  version:
+                                    description: Version of the information type to
+                                      use. By default, the version is set to stable
+                                    type: string
+                                type: object
+                              type: array
+                            rules:
+                              description: |-
+                                Set of rules to be applied to infoTypes. The rules are applied in order.
+                                Structure is documented below.
+                              items:
+                                properties:
+                                  exclusionRule:
+                                    description: |-
+                                      The rule that specifies conditions when findings of infoTypes specified in InspectionRuleSet are removed from results.
+                                      Structure is documented below.
+                                    properties:
+                                      dictionary:
+                                        description: |-
+                                          Dictionary which defines the rule.
+                                          Structure is documented below.
+                                        properties:
+                                          cloudStoragePath:
+                                            description: |-
+                                              Newline-delimited file of words in Cloud Storage. Only a single file is accepted.
+                                              Structure is documented below.
+                                            properties:
+                                              path:
+                                                description: 'A url representing a
+                                                  file or path (no wildcards) in Cloud
+                                                  Storage. Example: gs://[BUCKET_NAME]/dictionary.txt'
+                                                type: string
+                                            type: object
+                                          wordList:
+                                            description: |-
+                                              List of words or phrases to search for.
+                                              Structure is documented below.
+                                            properties:
+                                              words:
+                                                description: |-
+                                                  Words or phrases defining the dictionary. The dictionary must contain at least one
+                                                  phrase and every phrase must contain at least 2 characters that are letters or digits.
+                                                items:
+                                                  type: string
+                                                type: array
+                                            type: object
+                                        type: object
+                                      excludeByHotword:
+                                        description: |-
+                                          Drop if the hotword rule is contained in the proximate context.
+                                          For tabular data, the context includes the column name.
+                                          Structure is documented below.
+                                        properties:
+                                          hotwordRegex:
+                                            description: |-
+                                              Regular expression pattern defining what qualifies as a hotword.
+                                              Structure is documented below.
+                                            properties:
+                                              groupIndexes:
+                                                description: The index of the submatch
+                                                  to extract as findings. When not
+                                                  specified, the entire match is returned.
+                                                  No more than 3 may be included.
+                                                items:
+                                                  type: number
+                                                type: array
+                                              pattern:
+                                                description: |-
+                                                  Pattern defining the regular expression.
+                                                  Its syntax (https://github.com/google/re2/wiki/Syntax) can be found under the google/re2 repository on GitHub.
+                                                type: string
+                                            type: object
+                                          proximity:
+                                            description: |-
+                                              Proximity of the finding within which the entire hotword must reside. The total length of the window cannot
+                                              exceed 1000 characters. Note that the finding itself will be included in the window, so that hotwords may be
+                                              used to match substrings of the finding itself. For example, the certainty of a phone number regex
+                                              (\d{3}) \d{3}-\d{4} could be adjusted upwards if the area code is known to be the local area code of a company
+                                              office using the hotword regex (xxx), where xxx is the area code in question.
+                                              Structure is documented below.
+                                            properties:
+                                              windowAfter:
+                                                description: Number of characters
+                                                  after the finding to consider. Either
+                                                  this or window_before must be specified
+                                                type: number
+                                              windowBefore:
+                                                description: Number of characters
+                                                  before the finding to consider.
+                                                  Either this or window_after must
+                                                  be specified
+                                                type: number
+                                            type: object
+                                        type: object
+                                      excludeInfoTypes:
+                                        description: When true, excludes type information
+                                          of the findings.
+                                        properties:
+                                          infoTypes:
+                                            description: |-
+                                              List of infoTypes this rule set is applied to.
+                                              Structure is documented below.
+                                            items:
+                                              properties:
+                                                name:
+                                                  description: |-
+                                                    Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+                                                    or projects/project-id/storedInfoTypes/432452342.
+                                                  type: string
+                                                sensitivityScore:
+                                                  description: |-
+                                                    Optional custom sensitivity for this InfoType. This only applies to data profiling.
+                                                    Structure is documented below.
+                                                  properties:
+                                                    score:
+                                                      description: |-
+                                                        The sensitivity score applied to the resource.
+                                                        Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+                                                      type: string
+                                                  type: object
+                                                version:
+                                                  description: Version of the information
+                                                    type to use. By default, the version
+                                                    is set to stable
+                                                  type: string
+                                              type: object
+                                            type: array
+                                        type: object
+                                      matchingType:
+                                        description: |-
+                                          How the rule is applied. See the documentation for more information: https://cloud.google.com/dlp/docs/reference/rest/v2/InspectConfig#MatchingType
+                                          Possible values are: MATCHING_TYPE_FULL_MATCH, MATCHING_TYPE_PARTIAL_MATCH, MATCHING_TYPE_INVERSE_MATCH.
+                                        type: string
+                                      regex:
+                                        description: |-
+                                          Regular expression which defines the rule.
+                                          Structure is documented below.
+                                        properties:
+                                          groupIndexes:
+                                            description: The index of the submatch
+                                              to extract as findings. When not specified,
+                                              the entire match is returned. No more
+                                              than 3 may be included.
+                                            items:
+                                              type: number
+                                            type: array
+                                          pattern:
+                                            description: |-
+                                              Pattern defining the regular expression.
+                                              Its syntax (https://github.com/google/re2/wiki/Syntax) can be found under the google/re2 repository on GitHub.
+                                            type: string
+                                        type: object
+                                    type: object
+                                  hotwordRule:
+                                    description: |-
+                                      Hotword-based detection rule.
+                                      Structure is documented below.
+                                    properties:
+                                      hotwordRegex:
+                                        description: |-
+                                          Regular expression pattern defining what qualifies as a hotword.
+                                          Structure is documented below.
+                                        properties:
+                                          groupIndexes:
+                                            description: The index of the submatch
+                                              to extract as findings. When not specified,
+                                              the entire match is returned. No more
+                                              than 3 may be included.
+                                            items:
+                                              type: number
+                                            type: array
+                                          pattern:
+                                            description: |-
+                                              Pattern defining the regular expression.
+                                              Its syntax (https://github.com/google/re2/wiki/Syntax) can be found under the google/re2 repository on GitHub.
+                                            type: string
+                                        type: object
+                                      likelihoodAdjustment:
+                                        description: |-
+                                          Likelihood adjustment to apply to all matching findings.
+                                          Structure is documented below.
+                                        properties:
+                                          fixedLikelihood:
+                                            description: |-
+                                              Set the likelihood of a finding to a fixed value. Either this or relative_likelihood can be set.
+                                              Possible values are: VERY_UNLIKELY, UNLIKELY, POSSIBLE, LIKELY, VERY_LIKELY.
+                                            type: string
+                                          relativeLikelihood:
+                                            description: |-
+                                              Increase or decrease the likelihood by the specified number of levels. For example,
+                                              if a finding would be POSSIBLE without the detection rule and relativeLikelihood is 1,
+                                              then it is upgraded to LIKELY, while a value of -1 would downgrade it to UNLIKELY.
+                                              Likelihood may never drop below VERY_UNLIKELY or exceed VERY_LIKELY, so applying an
+                                              adjustment of 1 followed by an adjustment of -1 when base likelihood is VERY_LIKELY
+                                              will result in a final likelihood of LIKELY. Either this or fixed_likelihood can be set.
+                                            type: number
+                                        type: object
+                                      proximity:
+                                        description: |-
+                                          Proximity of the finding within which the entire hotword must reside. The total length of the window cannot
+                                          exceed 1000 characters. Note that the finding itself will be included in the window, so that hotwords may be
+                                          used to match substrings of the finding itself. For example, the certainty of a phone number regex
+                                          (\d{3}) \d{3}-\d{4} could be adjusted upwards if the area code is known to be the local area code of a company
+                                          office using the hotword regex (xxx), where xxx is the area code in question.
+                                          Structure is documented below.
+                                        properties:
+                                          windowAfter:
+                                            description: Number of characters after
+                                              the finding to consider. Either this
+                                              or window_before must be specified
+                                            type: number
+                                          windowBefore:
+                                            description: Number of characters before
+                                              the finding to consider. Either this
+                                              or window_after must be specified
+                                            type: number
+                                        type: object
+                                    type: object
+                                type: object
+                              type: array
+                          type: object
+                        type: array
+                    type: object
+                  parent:
+                    description: 'The parent of the inspect template in any of the
+                      following formats:'
+                    type: string
+                  templateId:
+                    description: |-
+                      The template id can contain uppercase and lowercase letters, numbers, and hyphens;
+                      that is, it must match the regular expression: [a-zA-Z\d-_]+. The maximum length is
+                      100 characters. Can be empty to allow the system to generate one.
+                    type: string
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  description:
+                    description: A description of the inspect template.
+                    type: string
+                  displayName:
+                    description: User set display name of the inspect template.
+                    type: string
+                  inspectConfig:
+                    description: |-
+                      The core content of the template.
+                      Structure is documented below.
+                    properties:
+                      contentOptions:
+                        description: |-
+                          List of options defining data content to scan. If empty, text, images, and other content will be included.
+                          Each value may be one of: CONTENT_TEXT, CONTENT_IMAGE.
+                        items:
+                          type: string
+                        type: array
+                      customInfoTypes:
+                        description: |-
+                          Custom info types to be used. See https://cloud.google.com/dlp/docs/creating-custom-infotypes to learn more.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            dictionary:
+                              description: |-
+                                Dictionary which defines the rule.
+                                Structure is documented below.
+                              properties:
+                                cloudStoragePath:
+                                  description: |-
+                                    Newline-delimited file of words in Cloud Storage. Only a single file is accepted.
+                                    Structure is documented below.
+                                  properties:
+                                    path:
+                                      description: 'A url representing a file or path
+                                        (no wildcards) in Cloud Storage. Example:
+                                        gs://[BUCKET_NAME]/dictionary.txt'
+                                      type: string
+                                  type: object
+                                wordList:
+                                  description: |-
+                                    List of words or phrases to search for.
+                                    Structure is documented below.
+                                  properties:
+                                    words:
+                                      description: |-
+                                        Words or phrases defining the dictionary. The dictionary must contain at least one
+                                        phrase and every phrase must contain at least 2 characters that are letters or digits.
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                              type: object
+                            exclusionType:
+                              description: |-
+                                If set to EXCLUSION_TYPE_EXCLUDE this infoType will not cause a finding to be returned. It still can be used for rules matching.
+                                Possible values are: EXCLUSION_TYPE_EXCLUDE.
+                              type: string
+                            infoType:
+                              description: |-
+                                Type of information the findings limit applies to. Only one limit per infoType should be provided. If InfoTypeLimit does
+                                not have an infoType, the DLP API applies the limit against all infoTypes that are found but not
+                                specified in another InfoTypeLimit.
+                                Structure is documented below.
+                              properties:
+                                name:
+                                  description: |-
+                                    Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+                                    or projects/project-id/storedInfoTypes/432452342.
+                                  type: string
+                                sensitivityScore:
+                                  description: |-
+                                    Optional custom sensitivity for this InfoType. This only applies to data profiling.
+                                    Structure is documented below.
+                                  properties:
+                                    score:
+                                      description: |-
+                                        The sensitivity score applied to the resource.
+                                        Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+                                      type: string
+                                  type: object
+                                version:
+                                  description: Version of the information type to
+                                    use. By default, the version is set to stable
+                                  type: string
+                              type: object
+                            likelihood:
+                              description: |-
+                                Likelihood to return for this CustomInfoType. This base value can be altered by a detection rule if the finding meets the criteria
+                                specified by the rule.
+                                Default value is VERY_LIKELY.
+                                Possible values are: VERY_UNLIKELY, UNLIKELY, POSSIBLE, LIKELY, VERY_LIKELY.
+                              type: string
+                            regex:
+                              description: |-
+                                Regular expression which defines the rule.
+                                Structure is documented below.
+                              properties:
+                                groupIndexes:
+                                  description: The index of the submatch to extract
+                                    as findings. When not specified, the entire match
+                                    is returned. No more than 3 may be included.
+                                  items:
+                                    type: number
+                                  type: array
+                                pattern:
+                                  description: |-
+                                    Pattern defining the regular expression.
+                                    Its syntax (https://github.com/google/re2/wiki/Syntax) can be found under the google/re2 repository on GitHub.
+                                  type: string
+                              type: object
+                            sensitivityScore:
+                              description: |-
+                                Optional custom sensitivity for this InfoType. This only applies to data profiling.
+                                Structure is documented below.
+                              properties:
+                                score:
+                                  description: |-
+                                    The sensitivity score applied to the resource.
+                                    Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+                                  type: string
+                              type: object
+                            storedType:
+                              description: |-
+                                A reference to a StoredInfoType to use with scanning.
+                                Structure is documented below.
+                              properties:
+                                name:
+                                  description: |-
+                                    Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+                                    or projects/project-id/storedInfoTypes/432452342.
+                                  type: string
+                              type: object
+                            surrogateType:
+                              description: Message for detecting output from deidentification
+                                transformations that support reversing.
+                              type: object
+                          type: object
+                        type: array
+                      excludeInfoTypes:
+                        description: When true, excludes type information of the findings.
+                        type: boolean
+                      includeQuote:
+                        description: When true, a contextual quote from the data that
+                          triggered a finding is included in the response.
+                        type: boolean
+                      infoTypes:
+                        description: |-
+                          Restricts what infoTypes to look for. The values must correspond to InfoType values returned by infoTypes.list
+                          or listed at https://cloud.google.com/dlp/docs/infotypes-reference.
+                          When no InfoTypes or CustomInfoTypes are specified in a request, the system may automatically choose what detectors to run.
+                          By default this may be all types, but may change over time as detectors are updated.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            name:
+                              description: |-
+                                Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+                                or projects/project-id/storedInfoTypes/432452342.
+                              type: string
+                            sensitivityScore:
+                              description: |-
+                                Optional custom sensitivity for this InfoType. This only applies to data profiling.
+                                Structure is documented below.
+                              properties:
+                                score:
+                                  description: |-
+                                    The sensitivity score applied to the resource.
+                                    Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+                                  type: string
+                              type: object
+                            version:
+                              description: Version of the information type to use.
+                                By default, the version is set to stable
+                              type: string
+                          type: object
+                        type: array
+                      limits:
+                        description: |-
+                          Configuration to control the number of findings returned.
+                          Structure is documented below.
+                        properties:
+                          maxFindingsPerInfoType:
+                            description: |-
+                              Configuration of findings limit given for specified infoTypes.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                infoType:
+                                  description: |-
+                                    Type of information the findings limit applies to. Only one limit per infoType should be provided. If InfoTypeLimit does
+                                    not have an infoType, the DLP API applies the limit against all infoTypes that are found but not
+                                    specified in another InfoTypeLimit.
+                                    Structure is documented below.
+                                  properties:
+                                    name:
+                                      description: |-
+                                        Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+                                        or projects/project-id/storedInfoTypes/432452342.
+                                      type: string
+                                    sensitivityScore:
+                                      description: |-
+                                        Optional custom sensitivity for this InfoType. This only applies to data profiling.
+                                        Structure is documented below.
+                                      properties:
+                                        score:
+                                          description: |-
+                                            The sensitivity score applied to the resource.
+                                            Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+                                          type: string
+                                      type: object
+                                    version:
+                                      description: Version of the information type
+                                        to use. By default, the version is set to
+                                        stable
+                                      type: string
+                                  type: object
+                                maxFindings:
+                                  description: Max findings limit for the given infoType.
+                                  type: number
+                              type: object
+                            type: array
+                          maxFindingsPerItem:
+                            description: Max number of findings that will be returned
+                              for each item scanned. The maximum returned is 2000.
+                            type: number
+                          maxFindingsPerRequest:
+                            description: Max number of findings that will be returned
+                              per request/job. The maximum returned is 2000.
+                            type: number
+                        type: object
+                      minLikelihood:
+                        description: |-
+                          Only returns findings equal or above this threshold. See https://cloud.google.com/dlp/docs/likelihood for more info
+                          Default value is POSSIBLE.
+                          Possible values are: VERY_UNLIKELY, UNLIKELY, POSSIBLE, LIKELY, VERY_LIKELY.
+                        type: string
+                      ruleSet:
+                        description: |-
+                          Set of rules to apply to the findings for this InspectConfig. Exclusion rules, contained in the set are executed in the end,
+                          other rules are executed in the order they are specified for each info type.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            infoTypes:
+                              description: |-
+                                List of infoTypes this rule set is applied to.
+                                Structure is documented below.
+                              items:
+                                properties:
+                                  name:
+                                    description: |-
+                                      Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+                                      or projects/project-id/storedInfoTypes/432452342.
+                                    type: string
+                                  sensitivityScore:
+                                    description: |-
+                                      Optional custom sensitivity for this InfoType. This only applies to data profiling.
+                                      Structure is documented below.
+                                    properties:
+                                      score:
+                                        description: |-
+                                          The sensitivity score applied to the resource.
+                                          Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+                                        type: string
+                                    type: object
+                                  version:
+                                    description: Version of the information type to
+                                      use. By default, the version is set to stable
+                                    type: string
+                                type: object
+                              type: array
+                            rules:
+                              description: |-
+                                Set of rules to be applied to infoTypes. The rules are applied in order.
+                                Structure is documented below.
+                              items:
+                                properties:
+                                  exclusionRule:
+                                    description: |-
+                                      The rule that specifies conditions when findings of infoTypes specified in InspectionRuleSet are removed from results.
+                                      Structure is documented below.
+                                    properties:
+                                      dictionary:
+                                        description: |-
+                                          Dictionary which defines the rule.
+                                          Structure is documented below.
+                                        properties:
+                                          cloudStoragePath:
+                                            description: |-
+                                              Newline-delimited file of words in Cloud Storage. Only a single file is accepted.
+                                              Structure is documented below.
+                                            properties:
+                                              path:
+                                                description: 'A url representing a
+                                                  file or path (no wildcards) in Cloud
+                                                  Storage. Example: gs://[BUCKET_NAME]/dictionary.txt'
+                                                type: string
+                                            type: object
+                                          wordList:
+                                            description: |-
+                                              List of words or phrases to search for.
+                                              Structure is documented below.
+                                            properties:
+                                              words:
+                                                description: |-
+                                                  Words or phrases defining the dictionary. The dictionary must contain at least one
+                                                  phrase and every phrase must contain at least 2 characters that are letters or digits.
+                                                items:
+                                                  type: string
+                                                type: array
+                                            type: object
+                                        type: object
+                                      excludeByHotword:
+                                        description: |-
+                                          Drop if the hotword rule is contained in the proximate context.
+                                          For tabular data, the context includes the column name.
+                                          Structure is documented below.
+                                        properties:
+                                          hotwordRegex:
+                                            description: |-
+                                              Regular expression pattern defining what qualifies as a hotword.
+                                              Structure is documented below.
+                                            properties:
+                                              groupIndexes:
+                                                description: The index of the submatch
+                                                  to extract as findings. When not
+                                                  specified, the entire match is returned.
+                                                  No more than 3 may be included.
+                                                items:
+                                                  type: number
+                                                type: array
+                                              pattern:
+                                                description: |-
+                                                  Pattern defining the regular expression.
+                                                  Its syntax (https://github.com/google/re2/wiki/Syntax) can be found under the google/re2 repository on GitHub.
+                                                type: string
+                                            type: object
+                                          proximity:
+                                            description: |-
+                                              Proximity of the finding within which the entire hotword must reside. The total length of the window cannot
+                                              exceed 1000 characters. Note that the finding itself will be included in the window, so that hotwords may be
+                                              used to match substrings of the finding itself. For example, the certainty of a phone number regex
+                                              (\d{3}) \d{3}-\d{4} could be adjusted upwards if the area code is known to be the local area code of a company
+                                              office using the hotword regex (xxx), where xxx is the area code in question.
+                                              Structure is documented below.
+                                            properties:
+                                              windowAfter:
+                                                description: Number of characters
+                                                  after the finding to consider. Either
+                                                  this or window_before must be specified
+                                                type: number
+                                              windowBefore:
+                                                description: Number of characters
+                                                  before the finding to consider.
+                                                  Either this or window_after must
+                                                  be specified
+                                                type: number
+                                            type: object
+                                        type: object
+                                      excludeInfoTypes:
+                                        description: When true, excludes type information
+                                          of the findings.
+                                        properties:
+                                          infoTypes:
+                                            description: |-
+                                              List of infoTypes this rule set is applied to.
+                                              Structure is documented below.
+                                            items:
+                                              properties:
+                                                name:
+                                                  description: |-
+                                                    Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+                                                    or projects/project-id/storedInfoTypes/432452342.
+                                                  type: string
+                                                sensitivityScore:
+                                                  description: |-
+                                                    Optional custom sensitivity for this InfoType. This only applies to data profiling.
+                                                    Structure is documented below.
+                                                  properties:
+                                                    score:
+                                                      description: |-
+                                                        The sensitivity score applied to the resource.
+                                                        Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+                                                      type: string
+                                                  type: object
+                                                version:
+                                                  description: Version of the information
+                                                    type to use. By default, the version
+                                                    is set to stable
+                                                  type: string
+                                              type: object
+                                            type: array
+                                        type: object
+                                      matchingType:
+                                        description: |-
+                                          How the rule is applied. See the documentation for more information: https://cloud.google.com/dlp/docs/reference/rest/v2/InspectConfig#MatchingType
+                                          Possible values are: MATCHING_TYPE_FULL_MATCH, MATCHING_TYPE_PARTIAL_MATCH, MATCHING_TYPE_INVERSE_MATCH.
+                                        type: string
+                                      regex:
+                                        description: |-
+                                          Regular expression which defines the rule.
+                                          Structure is documented below.
+                                        properties:
+                                          groupIndexes:
+                                            description: The index of the submatch
+                                              to extract as findings. When not specified,
+                                              the entire match is returned. No more
+                                              than 3 may be included.
+                                            items:
+                                              type: number
+                                            type: array
+                                          pattern:
+                                            description: |-
+                                              Pattern defining the regular expression.
+                                              Its syntax (https://github.com/google/re2/wiki/Syntax) can be found under the google/re2 repository on GitHub.
+                                            type: string
+                                        type: object
+                                    type: object
+                                  hotwordRule:
+                                    description: |-
+                                      Hotword-based detection rule.
+                                      Structure is documented below.
+                                    properties:
+                                      hotwordRegex:
+                                        description: |-
+                                          Regular expression pattern defining what qualifies as a hotword.
+                                          Structure is documented below.
+                                        properties:
+                                          groupIndexes:
+                                            description: The index of the submatch
+                                              to extract as findings. When not specified,
+                                              the entire match is returned. No more
+                                              than 3 may be included.
+                                            items:
+                                              type: number
+                                            type: array
+                                          pattern:
+                                            description: |-
+                                              Pattern defining the regular expression.
+                                              Its syntax (https://github.com/google/re2/wiki/Syntax) can be found under the google/re2 repository on GitHub.
+                                            type: string
+                                        type: object
+                                      likelihoodAdjustment:
+                                        description: |-
+                                          Likelihood adjustment to apply to all matching findings.
+                                          Structure is documented below.
+                                        properties:
+                                          fixedLikelihood:
+                                            description: |-
+                                              Set the likelihood of a finding to a fixed value. Either this or relative_likelihood can be set.
+                                              Possible values are: VERY_UNLIKELY, UNLIKELY, POSSIBLE, LIKELY, VERY_LIKELY.
+                                            type: string
+                                          relativeLikelihood:
+                                            description: |-
+                                              Increase or decrease the likelihood by the specified number of levels. For example,
+                                              if a finding would be POSSIBLE without the detection rule and relativeLikelihood is 1,
+                                              then it is upgraded to LIKELY, while a value of -1 would downgrade it to UNLIKELY.
+                                              Likelihood may never drop below VERY_UNLIKELY or exceed VERY_LIKELY, so applying an
+                                              adjustment of 1 followed by an adjustment of -1 when base likelihood is VERY_LIKELY
+                                              will result in a final likelihood of LIKELY. Either this or fixed_likelihood can be set.
+                                            type: number
+                                        type: object
+                                      proximity:
+                                        description: |-
+                                          Proximity of the finding within which the entire hotword must reside. The total length of the window cannot
+                                          exceed 1000 characters. Note that the finding itself will be included in the window, so that hotwords may be
+                                          used to match substrings of the finding itself. For example, the certainty of a phone number regex
+                                          (\d{3}) \d{3}-\d{4} could be adjusted upwards if the area code is known to be the local area code of a company
+                                          office using the hotword regex (xxx), where xxx is the area code in question.
+                                          Structure is documented below.
+                                        properties:
+                                          windowAfter:
+                                            description: Number of characters after
+                                              the finding to consider. Either this
+                                              or window_before must be specified
+                                            type: number
+                                          windowBefore:
+                                            description: Number of characters before
+                                              the finding to consider. Either this
+                                              or window_after must be specified
+                                            type: number
+                                        type: object
+                                    type: object
+                                type: object
+                              type: array
+                          type: object
+                        type: array
+                    type: object
+                  parent:
+                    description: 'The parent of the inspect template in any of the
+                      following formats:'
+                    type: string
+                  templateId:
+                    description: |-
+                      The template id can contain uppercase and lowercase letters, numbers, and hyphens;
+                      that is, it must match the regular expression: [a-zA-Z\d-_]+. The maximum length is
+                      100 characters. Can be empty to allow the system to generate one.
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  kind: ClusterProviderConfig
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  kind:
+                    description: Kind of the referenced object.
+                    type: string
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - kind
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                required:
+                - name
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.parent is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.parent)
+                || (has(self.initProvider) && has(self.initProvider.parent))'
+          status:
+            description: InspectTemplateStatus defines the observed state of InspectTemplate.
+            properties:
+              atProvider:
+                properties:
+                  description:
+                    description: A description of the inspect template.
+                    type: string
+                  displayName:
+                    description: User set display name of the inspect template.
+                    type: string
+                  id:
+                    description: an identifier for the resource with format {{parent}}/inspectTemplates/{{name}}
+                    type: string
+                  inspectConfig:
+                    description: |-
+                      The core content of the template.
+                      Structure is documented below.
+                    properties:
+                      contentOptions:
+                        description: |-
+                          List of options defining data content to scan. If empty, text, images, and other content will be included.
+                          Each value may be one of: CONTENT_TEXT, CONTENT_IMAGE.
+                        items:
+                          type: string
+                        type: array
+                      customInfoTypes:
+                        description: |-
+                          Custom info types to be used. See https://cloud.google.com/dlp/docs/creating-custom-infotypes to learn more.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            dictionary:
+                              description: |-
+                                Dictionary which defines the rule.
+                                Structure is documented below.
+                              properties:
+                                cloudStoragePath:
+                                  description: |-
+                                    Newline-delimited file of words in Cloud Storage. Only a single file is accepted.
+                                    Structure is documented below.
+                                  properties:
+                                    path:
+                                      description: 'A url representing a file or path
+                                        (no wildcards) in Cloud Storage. Example:
+                                        gs://[BUCKET_NAME]/dictionary.txt'
+                                      type: string
+                                  type: object
+                                wordList:
+                                  description: |-
+                                    List of words or phrases to search for.
+                                    Structure is documented below.
+                                  properties:
+                                    words:
+                                      description: |-
+                                        Words or phrases defining the dictionary. The dictionary must contain at least one
+                                        phrase and every phrase must contain at least 2 characters that are letters or digits.
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                              type: object
+                            exclusionType:
+                              description: |-
+                                If set to EXCLUSION_TYPE_EXCLUDE this infoType will not cause a finding to be returned. It still can be used for rules matching.
+                                Possible values are: EXCLUSION_TYPE_EXCLUDE.
+                              type: string
+                            infoType:
+                              description: |-
+                                Type of information the findings limit applies to. Only one limit per infoType should be provided. If InfoTypeLimit does
+                                not have an infoType, the DLP API applies the limit against all infoTypes that are found but not
+                                specified in another InfoTypeLimit.
+                                Structure is documented below.
+                              properties:
+                                name:
+                                  description: |-
+                                    Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+                                    or projects/project-id/storedInfoTypes/432452342.
+                                  type: string
+                                sensitivityScore:
+                                  description: |-
+                                    Optional custom sensitivity for this InfoType. This only applies to data profiling.
+                                    Structure is documented below.
+                                  properties:
+                                    score:
+                                      description: |-
+                                        The sensitivity score applied to the resource.
+                                        Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+                                      type: string
+                                  type: object
+                                version:
+                                  description: Version of the information type to
+                                    use. By default, the version is set to stable
+                                  type: string
+                              type: object
+                            likelihood:
+                              description: |-
+                                Likelihood to return for this CustomInfoType. This base value can be altered by a detection rule if the finding meets the criteria
+                                specified by the rule.
+                                Default value is VERY_LIKELY.
+                                Possible values are: VERY_UNLIKELY, UNLIKELY, POSSIBLE, LIKELY, VERY_LIKELY.
+                              type: string
+                            regex:
+                              description: |-
+                                Regular expression which defines the rule.
+                                Structure is documented below.
+                              properties:
+                                groupIndexes:
+                                  description: The index of the submatch to extract
+                                    as findings. When not specified, the entire match
+                                    is returned. No more than 3 may be included.
+                                  items:
+                                    type: number
+                                  type: array
+                                pattern:
+                                  description: |-
+                                    Pattern defining the regular expression.
+                                    Its syntax (https://github.com/google/re2/wiki/Syntax) can be found under the google/re2 repository on GitHub.
+                                  type: string
+                              type: object
+                            sensitivityScore:
+                              description: |-
+                                Optional custom sensitivity for this InfoType. This only applies to data profiling.
+                                Structure is documented below.
+                              properties:
+                                score:
+                                  description: |-
+                                    The sensitivity score applied to the resource.
+                                    Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+                                  type: string
+                              type: object
+                            storedType:
+                              description: |-
+                                A reference to a StoredInfoType to use with scanning.
+                                Structure is documented below.
+                              properties:
+                                name:
+                                  description: |-
+                                    Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+                                    or projects/project-id/storedInfoTypes/432452342.
+                                  type: string
+                              type: object
+                            surrogateType:
+                              description: Message for detecting output from deidentification
+                                transformations that support reversing.
+                              type: object
+                          type: object
+                        type: array
+                      excludeInfoTypes:
+                        description: When true, excludes type information of the findings.
+                        type: boolean
+                      includeQuote:
+                        description: When true, a contextual quote from the data that
+                          triggered a finding is included in the response.
+                        type: boolean
+                      infoTypes:
+                        description: |-
+                          Restricts what infoTypes to look for. The values must correspond to InfoType values returned by infoTypes.list
+                          or listed at https://cloud.google.com/dlp/docs/infotypes-reference.
+                          When no InfoTypes or CustomInfoTypes are specified in a request, the system may automatically choose what detectors to run.
+                          By default this may be all types, but may change over time as detectors are updated.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            name:
+                              description: |-
+                                Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+                                or projects/project-id/storedInfoTypes/432452342.
+                              type: string
+                            sensitivityScore:
+                              description: |-
+                                Optional custom sensitivity for this InfoType. This only applies to data profiling.
+                                Structure is documented below.
+                              properties:
+                                score:
+                                  description: |-
+                                    The sensitivity score applied to the resource.
+                                    Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+                                  type: string
+                              type: object
+                            version:
+                              description: Version of the information type to use.
+                                By default, the version is set to stable
+                              type: string
+                          type: object
+                        type: array
+                      limits:
+                        description: |-
+                          Configuration to control the number of findings returned.
+                          Structure is documented below.
+                        properties:
+                          maxFindingsPerInfoType:
+                            description: |-
+                              Configuration of findings limit given for specified infoTypes.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                infoType:
+                                  description: |-
+                                    Type of information the findings limit applies to. Only one limit per infoType should be provided. If InfoTypeLimit does
+                                    not have an infoType, the DLP API applies the limit against all infoTypes that are found but not
+                                    specified in another InfoTypeLimit.
+                                    Structure is documented below.
+                                  properties:
+                                    name:
+                                      description: |-
+                                        Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+                                        or projects/project-id/storedInfoTypes/432452342.
+                                      type: string
+                                    sensitivityScore:
+                                      description: |-
+                                        Optional custom sensitivity for this InfoType. This only applies to data profiling.
+                                        Structure is documented below.
+                                      properties:
+                                        score:
+                                          description: |-
+                                            The sensitivity score applied to the resource.
+                                            Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+                                          type: string
+                                      type: object
+                                    version:
+                                      description: Version of the information type
+                                        to use. By default, the version is set to
+                                        stable
+                                      type: string
+                                  type: object
+                                maxFindings:
+                                  description: Max findings limit for the given infoType.
+                                  type: number
+                              type: object
+                            type: array
+                          maxFindingsPerItem:
+                            description: Max number of findings that will be returned
+                              for each item scanned. The maximum returned is 2000.
+                            type: number
+                          maxFindingsPerRequest:
+                            description: Max number of findings that will be returned
+                              per request/job. The maximum returned is 2000.
+                            type: number
+                        type: object
+                      minLikelihood:
+                        description: |-
+                          Only returns findings equal or above this threshold. See https://cloud.google.com/dlp/docs/likelihood for more info
+                          Default value is POSSIBLE.
+                          Possible values are: VERY_UNLIKELY, UNLIKELY, POSSIBLE, LIKELY, VERY_LIKELY.
+                        type: string
+                      ruleSet:
+                        description: |-
+                          Set of rules to apply to the findings for this InspectConfig. Exclusion rules, contained in the set are executed in the end,
+                          other rules are executed in the order they are specified for each info type.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            infoTypes:
+                              description: |-
+                                List of infoTypes this rule set is applied to.
+                                Structure is documented below.
+                              items:
+                                properties:
+                                  name:
+                                    description: |-
+                                      Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+                                      or projects/project-id/storedInfoTypes/432452342.
+                                    type: string
+                                  sensitivityScore:
+                                    description: |-
+                                      Optional custom sensitivity for this InfoType. This only applies to data profiling.
+                                      Structure is documented below.
+                                    properties:
+                                      score:
+                                        description: |-
+                                          The sensitivity score applied to the resource.
+                                          Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+                                        type: string
+                                    type: object
+                                  version:
+                                    description: Version of the information type to
+                                      use. By default, the version is set to stable
+                                    type: string
+                                type: object
+                              type: array
+                            rules:
+                              description: |-
+                                Set of rules to be applied to infoTypes. The rules are applied in order.
+                                Structure is documented below.
+                              items:
+                                properties:
+                                  exclusionRule:
+                                    description: |-
+                                      The rule that specifies conditions when findings of infoTypes specified in InspectionRuleSet are removed from results.
+                                      Structure is documented below.
+                                    properties:
+                                      dictionary:
+                                        description: |-
+                                          Dictionary which defines the rule.
+                                          Structure is documented below.
+                                        properties:
+                                          cloudStoragePath:
+                                            description: |-
+                                              Newline-delimited file of words in Cloud Storage. Only a single file is accepted.
+                                              Structure is documented below.
+                                            properties:
+                                              path:
+                                                description: 'A url representing a
+                                                  file or path (no wildcards) in Cloud
+                                                  Storage. Example: gs://[BUCKET_NAME]/dictionary.txt'
+                                                type: string
+                                            type: object
+                                          wordList:
+                                            description: |-
+                                              List of words or phrases to search for.
+                                              Structure is documented below.
+                                            properties:
+                                              words:
+                                                description: |-
+                                                  Words or phrases defining the dictionary. The dictionary must contain at least one
+                                                  phrase and every phrase must contain at least 2 characters that are letters or digits.
+                                                items:
+                                                  type: string
+                                                type: array
+                                            type: object
+                                        type: object
+                                      excludeByHotword:
+                                        description: |-
+                                          Drop if the hotword rule is contained in the proximate context.
+                                          For tabular data, the context includes the column name.
+                                          Structure is documented below.
+                                        properties:
+                                          hotwordRegex:
+                                            description: |-
+                                              Regular expression pattern defining what qualifies as a hotword.
+                                              Structure is documented below.
+                                            properties:
+                                              groupIndexes:
+                                                description: The index of the submatch
+                                                  to extract as findings. When not
+                                                  specified, the entire match is returned.
+                                                  No more than 3 may be included.
+                                                items:
+                                                  type: number
+                                                type: array
+                                              pattern:
+                                                description: |-
+                                                  Pattern defining the regular expression.
+                                                  Its syntax (https://github.com/google/re2/wiki/Syntax) can be found under the google/re2 repository on GitHub.
+                                                type: string
+                                            type: object
+                                          proximity:
+                                            description: |-
+                                              Proximity of the finding within which the entire hotword must reside. The total length of the window cannot
+                                              exceed 1000 characters. Note that the finding itself will be included in the window, so that hotwords may be
+                                              used to match substrings of the finding itself. For example, the certainty of a phone number regex
+                                              (\d{3}) \d{3}-\d{4} could be adjusted upwards if the area code is known to be the local area code of a company
+                                              office using the hotword regex (xxx), where xxx is the area code in question.
+                                              Structure is documented below.
+                                            properties:
+                                              windowAfter:
+                                                description: Number of characters
+                                                  after the finding to consider. Either
+                                                  this or window_before must be specified
+                                                type: number
+                                              windowBefore:
+                                                description: Number of characters
+                                                  before the finding to consider.
+                                                  Either this or window_after must
+                                                  be specified
+                                                type: number
+                                            type: object
+                                        type: object
+                                      excludeInfoTypes:
+                                        description: When true, excludes type information
+                                          of the findings.
+                                        properties:
+                                          infoTypes:
+                                            description: |-
+                                              List of infoTypes this rule set is applied to.
+                                              Structure is documented below.
+                                            items:
+                                              properties:
+                                                name:
+                                                  description: |-
+                                                    Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+                                                    or projects/project-id/storedInfoTypes/432452342.
+                                                  type: string
+                                                sensitivityScore:
+                                                  description: |-
+                                                    Optional custom sensitivity for this InfoType. This only applies to data profiling.
+                                                    Structure is documented below.
+                                                  properties:
+                                                    score:
+                                                      description: |-
+                                                        The sensitivity score applied to the resource.
+                                                        Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+                                                      type: string
+                                                  type: object
+                                                version:
+                                                  description: Version of the information
+                                                    type to use. By default, the version
+                                                    is set to stable
+                                                  type: string
+                                              type: object
+                                            type: array
+                                        type: object
+                                      matchingType:
+                                        description: |-
+                                          How the rule is applied. See the documentation for more information: https://cloud.google.com/dlp/docs/reference/rest/v2/InspectConfig#MatchingType
+                                          Possible values are: MATCHING_TYPE_FULL_MATCH, MATCHING_TYPE_PARTIAL_MATCH, MATCHING_TYPE_INVERSE_MATCH.
+                                        type: string
+                                      regex:
+                                        description: |-
+                                          Regular expression which defines the rule.
+                                          Structure is documented below.
+                                        properties:
+                                          groupIndexes:
+                                            description: The index of the submatch
+                                              to extract as findings. When not specified,
+                                              the entire match is returned. No more
+                                              than 3 may be included.
+                                            items:
+                                              type: number
+                                            type: array
+                                          pattern:
+                                            description: |-
+                                              Pattern defining the regular expression.
+                                              Its syntax (https://github.com/google/re2/wiki/Syntax) can be found under the google/re2 repository on GitHub.
+                                            type: string
+                                        type: object
+                                    type: object
+                                  hotwordRule:
+                                    description: |-
+                                      Hotword-based detection rule.
+                                      Structure is documented below.
+                                    properties:
+                                      hotwordRegex:
+                                        description: |-
+                                          Regular expression pattern defining what qualifies as a hotword.
+                                          Structure is documented below.
+                                        properties:
+                                          groupIndexes:
+                                            description: The index of the submatch
+                                              to extract as findings. When not specified,
+                                              the entire match is returned. No more
+                                              than 3 may be included.
+                                            items:
+                                              type: number
+                                            type: array
+                                          pattern:
+                                            description: |-
+                                              Pattern defining the regular expression.
+                                              Its syntax (https://github.com/google/re2/wiki/Syntax) can be found under the google/re2 repository on GitHub.
+                                            type: string
+                                        type: object
+                                      likelihoodAdjustment:
+                                        description: |-
+                                          Likelihood adjustment to apply to all matching findings.
+                                          Structure is documented below.
+                                        properties:
+                                          fixedLikelihood:
+                                            description: |-
+                                              Set the likelihood of a finding to a fixed value. Either this or relative_likelihood can be set.
+                                              Possible values are: VERY_UNLIKELY, UNLIKELY, POSSIBLE, LIKELY, VERY_LIKELY.
+                                            type: string
+                                          relativeLikelihood:
+                                            description: |-
+                                              Increase or decrease the likelihood by the specified number of levels. For example,
+                                              if a finding would be POSSIBLE without the detection rule and relativeLikelihood is 1,
+                                              then it is upgraded to LIKELY, while a value of -1 would downgrade it to UNLIKELY.
+                                              Likelihood may never drop below VERY_UNLIKELY or exceed VERY_LIKELY, so applying an
+                                              adjustment of 1 followed by an adjustment of -1 when base likelihood is VERY_LIKELY
+                                              will result in a final likelihood of LIKELY. Either this or fixed_likelihood can be set.
+                                            type: number
+                                        type: object
+                                      proximity:
+                                        description: |-
+                                          Proximity of the finding within which the entire hotword must reside. The total length of the window cannot
+                                          exceed 1000 characters. Note that the finding itself will be included in the window, so that hotwords may be
+                                          used to match substrings of the finding itself. For example, the certainty of a phone number regex
+                                          (\d{3}) \d{3}-\d{4} could be adjusted upwards if the area code is known to be the local area code of a company
+                                          office using the hotword regex (xxx), where xxx is the area code in question.
+                                          Structure is documented below.
+                                        properties:
+                                          windowAfter:
+                                            description: Number of characters after
+                                              the finding to consider. Either this
+                                              or window_before must be specified
+                                            type: number
+                                          windowBefore:
+                                            description: Number of characters before
+                                              the finding to consider. Either this
+                                              or window_after must be specified
+                                            type: number
+                                        type: object
+                                    type: object
+                                type: object
+                              type: array
+                          type: object
+                        type: array
+                    type: object
+                  name:
+                    description: The resource name of the inspect template. Set by
+                      the server.
+                    type: string
+                  parent:
+                    description: 'The parent of the inspect template in any of the
+                      following formats:'
+                    type: string
+                  templateId:
+                    description: |-
+                      The template id can contain uppercase and lowercase letters, numbers, and hyphens;
+                      that is, it must match the regular expression: [a-zA-Z\d-_]+. The maximum length is
+                      100 characters. Can be empty to allow the system to generate one.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

@@ -1,0 +1,14 @@
+apiVersion: composer.gcp.m.upbound.io/v1beta1
+kind: Environment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: composer/v1beta1/environment
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+spec:
+  forProvider:
+    config:
+    - softwareConfig:
+      - imageVersion: composer-3-airflow-2
+    region: us-central1
