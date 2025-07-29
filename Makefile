@@ -76,16 +76,16 @@ export SUBPACKAGES := $(SUBPACKAGES)
 # ====================================================================================
 # Setup Kubernetes tools
 
-KIND_VERSION = v0.15.0
+KIND_VERSION = v0.29.0
 # dependency for up
-UP_VERSION = v0.39.0
-UP_CHANNEL = stable
+UP_VERSION = v0.40.0-0.rc.2
+UP_CHANNEL = alpha
 UPTEST_VERSION = v0.11.1
 UPTEST_LOCAL_VERSION = v0.13.0
 UPTEST_LOCAL_CHANNEL = stable
 KUSTOMIZE_VERSION = v5.3.0
 YQ_VERSION = v4.40.5
-CROSSPLANE_VERSION = 1.14.6
+CROSSPLANE_VERSION = 1.20.0
 CRDDIFF_VERSION = v0.12.1
 
 export UP_VERSION := $(UP_VERSION)
