@@ -15,6 +15,7 @@ import (
 
     "github.com/alecthomas/kingpin/v2"
 	xpcontroller "github.com/crossplane/crossplane-runtime/pkg/controller"
+	"github.com/crossplane/crossplane-runtime/pkg/errors"
 	"github.com/crossplane/crossplane-runtime/pkg/feature"
 	"github.com/crossplane/crossplane-runtime/pkg/gate"
 	"github.com/crossplane/crossplane-runtime/pkg/logging"
@@ -25,6 +26,7 @@ import (
 	tjcontroller "github.com/crossplane/upjet/pkg/controller"
 	"github.com/crossplane/upjet/pkg/controller/conversion"
 	"github.com/hashicorp/terraform-provider-google/google/provider"
+	authv1 "k8s.io/api/authorization/v1"
 	apiextensionsv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
@@ -32,6 +34,7 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/cache"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
+	"sigs.k8s.io/controller-runtime/pkg/manager"
 	"sigs.k8s.io/controller-runtime/pkg/metrics"
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
 
@@ -177,7 +180,6 @@ func main() {
 	kingpin.FatalIfError(err, "Cannot initialize the cluster provider configuration")
 	namespacedProvider, err := namespacedconfig.GetProvider(ctx, sdkProvider, false)
 	kingpin.FatalIfError(err, "Cannot initialize the namespaced provider configuration")
-	crdGate := new(gate.Gate[schema.GroupVersionKind])
 	clusterOpts := tjcontroller.Options{
 		Options: xpcontroller.Options{
 			Logger:                  logr,
@@ -190,7 +192,6 @@ func main() {
 				MRMetrics:               metricRecorder,
 				MRStateMetrics:          stateMetrics,
 			},
-			Gate: crdGate,
 		},
 		Provider:              clusterProvider,
 		SetupFn:               clients.TerraformSetupBuilder(clusterProvider.TerraformProvider),
@@ -211,7 +212,6 @@ func main() {
 				MRMetrics:               metricRecorder,
 				MRStateMetrics:          stateMetrics,
 			},
-			Gate: crdGate,
 		},
 		Provider:              namespacedProvider,
 		SetupFn:               clients.TerraformSetupBuilder(namespacedProvider.TerraformProvider),
@@ -226,9 +226,45 @@ func main() {
 		logr.Info("Beta feature enabled", "flag", features.EnableBetaManagementPolicies)
 	}
 
-	kingpin.FatalIfError(customresourcesgate.Setup(mgr, namespacedOpts.Options), "Cannot setup CRD gate")
+	canSafeStart, err := canWatchCRD(ctx, mgr)
+	kingpin.FatalIfError(err, "SafeStart precheck failed")
+	if canSafeStart {
+		crdGate := new(gate.Gate[schema.GroupVersionKind])
+		clusterOpts.Gate = crdGate
+		namespacedOpts.Gate = crdGate
+		kingpin.FatalIfError(customresourcesgate.Setup(mgr, namespacedOpts.Options), "Cannot setup CRD gate")
+		kingpin.FatalIfError(clustercontroller.SetupGated_cloudscheduler(mgr, clusterOpts), "Cannot setup cluster-scoped AzureAD controllers")
+		kingpin.FatalIfError(namespacedcontroller.SetupGated_cloudscheduler(mgr, namespacedOpts), "Cannot setup namespaced AzureAD controllers")
+	} else {
+		logr.Info("Provider has missing RBAC permissions for watching CRDs, controller SafeStart capability will be disabled")
+		kingpin.FatalIfError(clustercontroller.Setup_cloudscheduler(mgr, clusterOpts), "Cannot setup cluster-scoped AzureAD controllers")
+		kingpin.FatalIfError(namespacedcontroller.Setup_cloudscheduler(mgr, namespacedOpts), "Cannot setup namespaced AzureAD controllers")
+	}
 	kingpin.FatalIfError(conversion.RegisterConversions(clusterOpts.Provider, namespacedOpts.Provider, mgr.GetScheme()), "Cannot initialize the webhook conversion registry")
-	kingpin.FatalIfError(clustercontroller.SetupGated_cloudscheduler(mgr, clusterOpts), "Cannot setup cluster-scoped GCP controllers")
-	kingpin.FatalIfError(namespacedcontroller.SetupGated_cloudscheduler(mgr, namespacedOpts), "Cannot setup namespaced GCP controllers")
 	kingpin.FatalIfError(mgr.Start(ctrl.SetupSignalHandler()), "Cannot start controller manager")
+}
+
+func canWatchCRD(ctx context.Context, mgr manager.Manager) (bool, error) {
+	if err := authv1.AddToScheme(mgr.GetScheme()); err != nil {
+		return false, err
+	}
+	verbs := []string{"get", "list", "watch"}
+	for _, verb := range verbs {
+		sar := &authv1.SelfSubjectAccessReview{
+			Spec: authv1.SelfSubjectAccessReviewSpec{
+				ResourceAttributes: &authv1.ResourceAttributes{
+					Group:    "apiextensions.k8s.io",
+					Resource: "customresourcedefinitions",
+					Verb:     verb,
+				},
+			},
+		}
+		if err := mgr.GetClient().Create(ctx, sar); err != nil {
+			return false, errors.Wrapf(err, "unable to perform RBAC check for verb %s on CustomResourceDefinitions", verbs)
+		}
+		if !sar.Status.Allowed {
+			return false, nil
+		}
+	}
+	return true, nil
 }
