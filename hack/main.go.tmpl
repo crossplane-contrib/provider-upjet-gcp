@@ -40,8 +40,7 @@ import (
 
 	clusterapis "github.com/upbound/provider-gcp/apis/cluster"
 	namespacedapis"github.com/upbound/provider-gcp/apis/namespaced"
-	clusterconfig "github.com/upbound/provider-gcp/config/cluster"
-	namespacedconfig "github.com/upbound/provider-gcp/config/namespaced"
+	"github.com/upbound/provider-gcp/config"
 	resolverapis "github.com/upbound/provider-gcp/internal/apis"
 	"github.com/upbound/provider-gcp/internal/bootcheck"
 	"github.com/upbound/provider-gcp/internal/clients"
@@ -181,9 +180,9 @@ func main() {
 
 	ctx := context.Background()
 	sdkProvider := provider.Provider()
-	clusterProvider, err := clusterconfig.GetProvider(ctx, sdkProvider, false)
+	clusterProvider, err := config.GetProvider(ctx, sdkProvider, false)
 	kingpin.FatalIfError(err, "Cannot initialize the cluster provider configuration")
-	namespacedProvider, err := namespacedconfig.GetProvider(ctx, sdkProvider, false)
+	namespacedProvider, err := config.GetNamespacedProvider(ctx, sdkProvider, false)
 	kingpin.FatalIfError(err, "Cannot initialize the namespaced provider configuration")
 	clusterOpts := tjcontroller.Options{
 		Options: xpcontroller.Options{

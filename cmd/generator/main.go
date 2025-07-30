@@ -18,8 +18,7 @@ import (
 	"github.com/crossplane/upjet/pkg/pipeline"
 	"github.com/hashicorp/terraform-provider-google/google/provider"
 
-	configCluster "github.com/upbound/provider-gcp/config/cluster"
-	configNamespaced "github.com/upbound/provider-gcp/config/namespaced"
+	"github.com/upbound/provider-gcp/config"
 )
 
 func main() {
@@ -36,9 +35,9 @@ func main() {
 		panic(fmt.Sprintf("cannot calculate the absolute path with %s", *repoRoot))
 	}
 	sdkProvider := provider.Provider()
-	pc, err := configCluster.GetProvider(context.Background(), sdkProvider, true)
+	pc, err := config.GetProvider(context.Background(), sdkProvider, true)
 	kingpin.FatalIfError(err, "Cannot initialize the cluster-scoped provider configuration")
-	pns, err := configNamespaced.GetProvider(context.Background(), sdkProvider, true)
+	pns, err := config.GetNamespacedProvider(context.Background(), sdkProvider, true)
 	kingpin.FatalIfError(err, "Cannot initialize the namespaced provider configuration")
 	dumpGeneratedResourceList(pc, generatedResourceList)
 	dumpSkippedResourcesCSV(pc, skippedResourcesCSV)

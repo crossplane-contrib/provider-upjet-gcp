@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-package cluster
+package namespaced
 
 import (
 	"github.com/upbound/provider-gcp/config/namespaced/accessapproval"
