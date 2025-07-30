@@ -10,4 +10,13 @@ package v1beta1
 func (tr *ApplicationURLDispatchRules) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *DomainMapping) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *FirewallRule) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *FlexibleAppVersion) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *ServiceSplitTraffic) Hub() {}
