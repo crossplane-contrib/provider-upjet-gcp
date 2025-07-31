@@ -21,7 +21,7 @@ func (mg *DatabaseInstance) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this DatabaseInstance
 func (tr *DatabaseInstance) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"replica_configuration[*].password": "replicaConfiguration[*].passwordSecretRef", "root_password": "rootPasswordSecretRef", "server_ca_cert[*]": "status.atProvider.serverCaCert[*]"}
+	return map[string]string{"replica_configuration[*].password": "replicaConfiguration.passwordSecretRef", "root_password": "rootPasswordSecretRef", "server_ca_cert[*]": "status.atProvider.serverCaCert[*]"}
 }
 
 // GetObservation of this DatabaseInstance

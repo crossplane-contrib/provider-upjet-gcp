@@ -21,7 +21,7 @@ func (mg *Agent) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this Agent
 func (tr *Agent) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"git_integration_settings[*].github_settings[*].access_token": "gitIntegrationSettings[*].githubSettings[*].accessTokenSecretRef"}
+	return map[string]string{"git_integration_settings[*].github_settings[*].access_token": "gitIntegrationSettings.githubSettings.accessTokenSecretRef"}
 }
 
 // GetObservation of this Agent
