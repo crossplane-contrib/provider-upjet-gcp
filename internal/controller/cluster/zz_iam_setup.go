@@ -7,7 +7,7 @@ package controller
 import (
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	"github.com/crossplane/upjet/pkg/controller"
+	"github.com/crossplane/upjet/v2/pkg/controller"
 
 	workloadidentitypool "github.com/upbound/provider-gcp/internal/controller/cluster/iam/workloadidentitypool"
 	workloadidentitypoolprovider "github.com/upbound/provider-gcp/internal/controller/cluster/iam/workloadidentitypoolprovider"

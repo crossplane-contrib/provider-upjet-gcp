@@ -20,7 +20,7 @@
 //go:generate bash -c "find ../cmd/provider -type d -maxdepth 1 -mindepth 1 -empty -delete"
 
 // Scrape metadata from Terraform registry
-//go:generate go run github.com/crossplane/upjet/cmd/scraper -n hashicorp/terraform-provider-google -r ../.work/terraform-provider-google/website/docs/r -o ../config/provider-metadata.yaml --prelude-xpath "//text()[contains(., \"subcategory\")]" --resource-prefix google
+//go:generate go run github.com/crossplane/upjet/v2/cmd/scraper -n hashicorp/terraform-provider-google -r ../.work/terraform-provider-google/website/docs/r -o ../config/provider-metadata.yaml --prelude-xpath "//text()[contains(., \"subcategory\")]" --resource-prefix google
 
 // Run upjet generator
 //go:generate go run ../cmd/generator/main.go ..
@@ -33,8 +33,8 @@
 
 // Run upjet's transformer for the generated resolvers to get rid of the cross
 // API-group imports and to prevent import cycles
-//go:generate go run github.com/crossplane/upjet/cmd/resolver -g gcp.upbound.io -a github.com/upbound/provider-gcp/internal/apis -s -p ../apis/cluster/...
-//go:generate go run github.com/crossplane/upjet/cmd/resolver -g gcp.m.upbound.io -a github.com/upbound/provider-gcp/internal/apis -s -p ../apis/namespaced/...
+//go:generate go run github.com/crossplane/upjet/v2/cmd/resolver -g gcp.upbound.io -a github.com/upbound/provider-gcp/internal/apis -s -p ../apis/cluster/...
+//go:generate go run github.com/crossplane/upjet/v2/cmd/resolver -g gcp.m.upbound.io -a github.com/upbound/provider-gcp/internal/apis -s -p ../apis/namespaced/...
 
 package generate
 
@@ -43,5 +43,5 @@ import (
 
 	_ "github.com/crossplane/crossplane-tools/cmd/angryjet" //nolint:typecheck
 
-	_ "github.com/crossplane/upjet/cmd/scraper"
+	_ "github.com/crossplane/upjet/v2/cmd/scraper"
 )

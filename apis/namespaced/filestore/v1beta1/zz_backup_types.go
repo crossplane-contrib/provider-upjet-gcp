@@ -32,7 +32,7 @@ type BackupInitParameters struct {
 
 	// The resource name of the source Cloud Filestore instance, in the format projects/{projectId}/locations/{locationId}/instances/{instanceId}, used to create this backup.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/filestore/v1beta1.Instance
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	SourceInstance *string `json:"sourceInstance,omitempty" tf:"source_instance,omitempty"`
 
 	// Reference to a Instance in filestore to populate sourceInstance.
@@ -140,7 +140,7 @@ type BackupParameters struct {
 
 	// The resource name of the source Cloud Filestore instance, in the format projects/{projectId}/locations/{locationId}/instances/{instanceId}, used to create this backup.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/filestore/v1beta1.Instance
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	SourceInstance *string `json:"sourceInstance,omitempty" tf:"source_instance,omitempty"`
 

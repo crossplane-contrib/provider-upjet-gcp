@@ -19,7 +19,7 @@ type ResponsePolicyGkeClustersInitParameters struct {
 	// This should be specified in the format like
 	// projects/*/locations/*/clusters/*
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/container/v1beta2.Cluster
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	GkeClusterName *string `json:"gkeClusterName,omitempty" tf:"gke_cluster_name,omitempty"`
 
 	// Reference to a Cluster in container to populate gkeClusterName.
@@ -45,7 +45,7 @@ type ResponsePolicyGkeClustersParameters struct {
 	// This should be specified in the format like
 	// projects/*/locations/*/clusters/*
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/container/v1beta2.Cluster
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	GkeClusterName *string `json:"gkeClusterName,omitempty" tf:"gke_cluster_name,omitempty"`
 
@@ -82,7 +82,7 @@ type ResponsePolicyNetworksInitParameters struct {
 	// This should be formatted like
 	// https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`
 
 	// Reference to a Network in compute to populate networkUrl.
@@ -108,7 +108,7 @@ type ResponsePolicyNetworksParameters struct {
 	// This should be formatted like
 	// https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`
 

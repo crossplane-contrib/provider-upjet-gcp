@@ -206,7 +206,7 @@ type GkeClustersInitParameters struct {
 	// This should be specified in the format like
 	// projects/*/locations/*/clusters/*
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/container/v1beta1.Cluster
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	GkeClusterName *string `json:"gkeClusterName,omitempty" tf:"gke_cluster_name,omitempty"`
 
 	// Reference to a Cluster in container to populate gkeClusterName.
@@ -232,7 +232,7 @@ type GkeClustersParameters struct {
 	// This should be specified in the format like
 	// projects/*/locations/*/clusters/*
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/container/v1beta1.Cluster
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	GkeClusterName *string `json:"gkeClusterName,omitempty" tf:"gke_cluster_name,omitempty"`
 

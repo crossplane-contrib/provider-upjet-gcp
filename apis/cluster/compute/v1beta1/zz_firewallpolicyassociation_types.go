@@ -17,7 +17,7 @@ type FirewallPolicyAssociationInitParameters struct {
 
 	// The target that the firewall policy is attached to.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudplatform/v1beta1.Folder
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	AttachmentTarget *string `json:"attachmentTarget,omitempty" tf:"attachment_target,omitempty"`
 
 	// Reference to a Folder in cloudplatform to populate attachmentTarget.
@@ -34,7 +34,7 @@ type FirewallPolicyAssociationInitParameters struct {
 	// Note Due to potential risks with this operation it is highly recommended to use the create_before_destroy life cycle option
 	// on your exisiting firewall policy so as to prevent a situation where your attachment target has no associated policy.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.FirewallPolicy
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	FirewallPolicy *string `json:"firewallPolicy,omitempty" tf:"firewall_policy,omitempty"`
 
 	// Reference to a FirewallPolicy in compute to populate firewallPolicy.
@@ -75,7 +75,7 @@ type FirewallPolicyAssociationParameters struct {
 
 	// The target that the firewall policy is attached to.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudplatform/v1beta1.Folder
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	AttachmentTarget *string `json:"attachmentTarget,omitempty" tf:"attachment_target,omitempty"`
 
@@ -93,7 +93,7 @@ type FirewallPolicyAssociationParameters struct {
 	// Note Due to potential risks with this operation it is highly recommended to use the create_before_destroy life cycle option
 	// on your exisiting firewall policy so as to prevent a situation where your attachment target has no associated policy.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.FirewallPolicy
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	FirewallPolicy *string `json:"firewallPolicy,omitempty" tf:"firewall_policy,omitempty"`
 

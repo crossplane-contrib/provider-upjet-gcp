@@ -114,7 +114,7 @@ type InstanceInitParameters struct {
 	// Use deletion_policy = "FORCE" in the associated secondary cluster and delete the cluster forcefully to delete the secondary cluster as well its associated secondary instance.
 	// Possible values are: PRIMARY, READ_POOL, SECONDARY.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/alloydb/v1beta1.Cluster
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("cluster_type",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("cluster_type",false)
 	InstanceType *string `json:"instanceType,omitempty" tf:"instance_type,omitempty"`
 
 	// Reference to a Cluster in alloydb to populate instanceType.
@@ -387,7 +387,7 @@ type InstanceParameters struct {
 	// Identifies the alloydb cluster. Must be in the format
 	// 'projects/{project}/locations/{location}/clusters/{cluster_id}'
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/alloydb/v1beta1.Cluster
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	Cluster *string `json:"cluster,omitempty" tf:"cluster,omitempty"`
 
@@ -419,7 +419,7 @@ type InstanceParameters struct {
 	// Use deletion_policy = "FORCE" in the associated secondary cluster and delete the cluster forcefully to delete the secondary cluster as well its associated secondary instance.
 	// Possible values are: PRIMARY, READ_POOL, SECONDARY.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/alloydb/v1beta1.Cluster
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("cluster_type",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("cluster_type",false)
 	// +kubebuilder:validation:Optional
 	InstanceType *string `json:"instanceType,omitempty" tf:"instance_type,omitempty"`
 

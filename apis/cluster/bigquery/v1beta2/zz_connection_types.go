@@ -140,7 +140,7 @@ type CloudSQLInitParameters struct {
 
 	// Cloud SQL instance ID in the form project:location:instance.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/sql/v1beta2.DatabaseInstance
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("connection_name",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("connection_name",true)
 	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
 
 	// Reference to a DatabaseInstance in sql to populate instanceId.
@@ -199,7 +199,7 @@ type CloudSQLParameters struct {
 
 	// Cloud SQL instance ID in the form project:location:instance.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/sql/v1beta2.DatabaseInstance
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("connection_name",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("connection_name",true)
 	// +kubebuilder:validation:Optional
 	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
 
@@ -536,7 +536,7 @@ type SparkHistoryServerConfigInitParameters struct {
 
 	// Resource name of an existing Dataproc Cluster to act as a Spark History Server for the connection if the form of projects/[projectId]/regions/[region]/clusters/[cluster_name].
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/dataproc/v1beta2.Cluster
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	DataprocCluster *string `json:"dataprocCluster,omitempty" tf:"dataproc_cluster,omitempty"`
 
 	// Reference to a Cluster in dataproc to populate dataprocCluster.
@@ -558,7 +558,7 @@ type SparkHistoryServerConfigParameters struct {
 
 	// Resource name of an existing Dataproc Cluster to act as a Spark History Server for the connection if the form of projects/[projectId]/regions/[region]/clusters/[cluster_name].
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/dataproc/v1beta2.Cluster
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	DataprocCluster *string `json:"dataprocCluster,omitempty" tf:"dataproc_cluster,omitempty"`
 

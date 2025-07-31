@@ -7,7 +7,7 @@ package controller
 import (
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	"github.com/crossplane/upjet/pkg/controller"
+	"github.com/crossplane/upjet/v2/pkg/controller"
 
 	attestor "github.com/upbound/provider-gcp/internal/controller/namespaced/binaryauthorization/attestor"
 	policy "github.com/upbound/provider-gcp/internal/controller/namespaced/binaryauthorization/policy"

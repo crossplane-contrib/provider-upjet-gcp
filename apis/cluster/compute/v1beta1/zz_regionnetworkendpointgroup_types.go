@@ -293,7 +293,7 @@ type RegionNetworkEndpointGroupInitParameters struct {
 	// The URL of the network to which all network endpoints in the NEG belong. Uses
 	// "default" project network if unspecified.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Type of network endpoints in this network endpoint group. Defaults to SERVERLESS.
@@ -321,7 +321,7 @@ type RegionNetworkEndpointGroupInitParameters struct {
 	// The target service url used to set up private service connection to
 	// a Google API or a PSC Producer Service Attachment.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.ServiceAttachment
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	PscTargetService *string `json:"pscTargetService,omitempty" tf:"psc_target_service,omitempty"`
 
 	// Reference to a ServiceAttachment in compute to populate pscTargetService.
@@ -335,7 +335,7 @@ type RegionNetworkEndpointGroupInitParameters struct {
 	// This field is only used for PSC NEGs.
 	// Optional URL of the subnetwork to which all network endpoints in the NEG belong.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Subnetwork
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
 	// Reference to a Subnetwork in compute to populate subnetwork.
@@ -434,7 +434,7 @@ type RegionNetworkEndpointGroupParameters struct {
 	// The URL of the network to which all network endpoints in the NEG belong. Uses
 	// "default" project network if unspecified.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
@@ -466,7 +466,7 @@ type RegionNetworkEndpointGroupParameters struct {
 	// The target service url used to set up private service connection to
 	// a Google API or a PSC Producer Service Attachment.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.ServiceAttachment
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	PscTargetService *string `json:"pscTargetService,omitempty" tf:"psc_target_service,omitempty"`
 
@@ -485,7 +485,7 @@ type RegionNetworkEndpointGroupParameters struct {
 	// This field is only used for PSC NEGs.
 	// Optional URL of the subnetwork to which all network endpoints in the NEG belong.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Subnetwork
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 

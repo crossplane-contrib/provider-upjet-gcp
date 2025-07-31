@@ -7,7 +7,7 @@ package tags
 import (
 	"github.com/upbound/provider-gcp/config/namespaced/common"
 
-	"github.com/crossplane/upjet/pkg/config"
+	"github.com/crossplane/upjet/v2/pkg/config"
 )
 
 // Configure configures individual resources by adding custom

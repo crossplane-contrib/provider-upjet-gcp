@@ -65,7 +65,7 @@ type ConsumersInitParameters struct {
 	// There must be at least one IP address available in the subnet's primary range. The subnet is specified in the following form:
 	// `projects/{projectNumber}/regions/{region_id}/subnetworks/{subnetwork_id}
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.Subnetwork
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
 	// Reference to a Subnetwork in compute to populate subnetwork.
@@ -96,7 +96,7 @@ type ConsumersParameters struct {
 	// There must be at least one IP address available in the subnet's primary range. The subnet is specified in the following form:
 	// `projects/{projectNumber}/regions/{region_id}/subnetworks/{subnetwork_id}
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.Subnetwork
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
@@ -369,7 +369,7 @@ type MetastoreServiceEncryptionConfigInitParameters struct {
 	// The fully qualified customer provided Cloud KMS key name to use for customer data encryption.
 	// Use the following format: projects/([^/]+)/locations/([^/]+)/keyRings/([^/]+)/cryptoKeys/([^/]+)
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/kms/v1beta2.CryptoKey
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	KMSKey *string `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
 
 	// Reference to a CryptoKey in kms to populate kmsKey.
@@ -393,7 +393,7 @@ type MetastoreServiceEncryptionConfigParameters struct {
 	// The fully qualified customer provided Cloud KMS key name to use for customer data encryption.
 	// Use the following format: projects/([^/]+)/locations/([^/]+)/keyRings/([^/]+)/cryptoKeys/([^/]+)
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/kms/v1beta2.CryptoKey
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	KMSKey *string `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
 

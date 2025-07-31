@@ -33,7 +33,7 @@ type GroupInitParameters struct {
 	// "projects/{project_id_or_number}/groups/{group_id}". For
 	// groups with no parent, parentName is the empty string, "".
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/monitoring/v1beta1.Group
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	ParentName *string `json:"parentName,omitempty" tf:"parent_name,omitempty"`
 
 	// Reference to a Group in monitoring to populate parentName.
@@ -103,7 +103,7 @@ type GroupParameters struct {
 	// "projects/{project_id_or_number}/groups/{group_id}". For
 	// groups with no parent, parentName is the empty string, "".
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/monitoring/v1beta1.Group
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	ParentName *string `json:"parentName,omitempty" tf:"parent_name,omitempty"`
 

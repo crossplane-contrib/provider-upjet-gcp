@@ -22,7 +22,7 @@ type InstanceGroupInitParameters struct {
 	// The list of instances in the group, in self_link format.
 	// When adding instances they must all be in the same network and zone as the instance group.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.Instance
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +listType=set
 	Instances []*string `json:"instances,omitempty" tf:"instances,omitempty"`
 
@@ -107,7 +107,7 @@ type InstanceGroupParameters struct {
 	// The list of instances in the group, in self_link format.
 	// When adding instances they must all be in the same network and zone as the instance group.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.Instance
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	Instances []*string `json:"instances,omitempty" tf:"instances,omitempty"`

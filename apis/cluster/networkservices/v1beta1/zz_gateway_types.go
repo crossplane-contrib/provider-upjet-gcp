@@ -24,7 +24,7 @@ type GatewayInitParameters struct {
 	// A fully-qualified Certificates URL reference. The proxy presents a Certificate (selected based on SNI) when establishing a TLS connection.
 	// This feature only applies to gateways of type 'SECURE_WEB_GATEWAY'.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/certificatemanager/v1beta2.Certificate
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	CertificateUrls []*string `json:"certificateUrls,omitempty" tf:"certificate_urls,omitempty"`
 
 	// References to Certificate in certificatemanager to populate certificateUrls.
@@ -52,7 +52,7 @@ type GatewayInitParameters struct {
 	// For example: 'projects//locations//gatewaySecurityPolicies/swg-policy'.
 	// This policy is specific to gateways of type 'SECURE_WEB_GATEWAY'.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/networksecurity/v1beta1.GatewaySecurityPolicy
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	GatewaySecurityPolicy *string `json:"gatewaySecurityPolicy,omitempty" tf:"gateway_security_policy,omitempty"`
 
 	// Reference to a GatewaySecurityPolicy in networksecurity to populate gatewaySecurityPolicy.
@@ -75,7 +75,7 @@ type GatewayInitParameters struct {
 	// For example: 'projects/*/global/networks/network-1'.
 	// Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY'.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Reference to a Network in compute to populate network.
@@ -111,7 +111,7 @@ type GatewayInitParameters struct {
 	// For example: projects/*/regions/us-central1/subnetworks/network-1.
 	// Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY'.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.Subnetwork
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
 	// Reference to a Subnetwork in compute to populate subnetwork.
@@ -238,7 +238,7 @@ type GatewayParameters struct {
 	// A fully-qualified Certificates URL reference. The proxy presents a Certificate (selected based on SNI) when establishing a TLS connection.
 	// This feature only applies to gateways of type 'SECURE_WEB_GATEWAY'.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/certificatemanager/v1beta2.Certificate
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	CertificateUrls []*string `json:"certificateUrls,omitempty" tf:"certificate_urls,omitempty"`
 
@@ -270,7 +270,7 @@ type GatewayParameters struct {
 	// For example: 'projects//locations//gatewaySecurityPolicies/swg-policy'.
 	// This policy is specific to gateways of type 'SECURE_WEB_GATEWAY'.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/networksecurity/v1beta1.GatewaySecurityPolicy
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	GatewaySecurityPolicy *string `json:"gatewaySecurityPolicy,omitempty" tf:"gateway_security_policy,omitempty"`
 
@@ -301,7 +301,7 @@ type GatewayParameters struct {
 	// For example: 'projects/*/global/networks/network-1'.
 	// Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY'.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
@@ -343,7 +343,7 @@ type GatewayParameters struct {
 	// For example: projects/*/regions/us-central1/subnetworks/network-1.
 	// Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY'.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.Subnetwork
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 

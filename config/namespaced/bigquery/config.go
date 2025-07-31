@@ -5,7 +5,7 @@
 package bigquery
 
 import (
-	"github.com/crossplane/upjet/pkg/config"
+	"github.com/crossplane/upjet/v2/pkg/config"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
 
@@ -57,7 +57,7 @@ func Configure(p *config.Provider) {
 		}
 		r.References["extract.source_table.table_id"] = config.Reference{
 			TerraformName: "google_bigquery_table",
-			Extractor:     "github.com/crossplane/upjet/pkg/resource.ExtractResourceID()",
+			Extractor:     "github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()",
 		}
 		r.References["load.destination_table.dataset_id"] = config.Reference{
 			TerraformName: "google_bigquery_dataset",
@@ -67,18 +67,18 @@ func Configure(p *config.Provider) {
 		}
 		r.References["query.destination_table.table_id"] = config.Reference{
 			TerraformName: "google_bigquery_table",
-			Extractor:     "github.com/crossplane/upjet/pkg/resource.ExtractResourceID()",
+			Extractor:     "github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()",
 		}
 		r.References["load.destination_table.table_id"] = config.Reference{
 			TerraformName: "google_bigquery_table",
-			Extractor:     "github.com/crossplane/upjet/pkg/resource.ExtractResourceID()",
+			Extractor:     "github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()",
 		}
 		r.References["copy.destination_table.dataset_id"] = config.Reference{
 			TerraformName: "google_bigquery_dataset",
 		}
 		r.References["copy.destination_table.table_id"] = config.Reference{
 			TerraformName: "google_bigquery_table",
-			Extractor:     "github.com/crossplane/upjet/pkg/resource.ExtractResourceID()",
+			Extractor:     "github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()",
 		}
 
 		delete(r.References, "copy.destination_table.project_id")

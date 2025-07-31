@@ -86,7 +86,7 @@ type CloudFunctionV2InitParameters struct {
 
 	// The fully qualified name of the cloud function resource.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/cloudfunctions2/v1beta1.Function
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Reference to a Function in cloudfunctions2 to populate name.
@@ -108,7 +108,7 @@ type CloudFunctionV2Parameters struct {
 
 	// The fully qualified name of the cloud function resource.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/cloudfunctions2/v1beta1.Function
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
@@ -432,7 +432,7 @@ type ResourceGroupInitParameters struct {
 
 	// The group of resources being monitored. Should be the name of a group
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/monitoring/v1beta1.Group
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	GroupID *string `json:"groupId,omitempty" tf:"group_id,omitempty"`
 
 	// Reference to a Group in monitoring to populate groupId.
@@ -462,7 +462,7 @@ type ResourceGroupParameters struct {
 
 	// The group of resources being monitored. Should be the name of a group
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/monitoring/v1beta1.Group
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	GroupID *string `json:"groupId,omitempty" tf:"group_id,omitempty"`
 

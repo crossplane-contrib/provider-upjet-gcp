@@ -8,9 +8,9 @@ import (
 	// Note(ezgidemirel): we are importing this to embed provider schema document
 	_ "embed"
 
-	ujconfig "github.com/crossplane/upjet/pkg/config"
-	conversiontfjson "github.com/crossplane/upjet/pkg/types/conversion/tfjson"
-	"github.com/crossplane/upjet/pkg/types/name"
+	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
+	conversiontfjson "github.com/crossplane/upjet/v2/pkg/types/conversion/tfjson"
+	"github.com/crossplane/upjet/v2/pkg/types/name"
 	tfjson "github.com/hashicorp/terraform-json"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/pkg/errors"

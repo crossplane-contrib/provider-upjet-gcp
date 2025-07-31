@@ -32,7 +32,7 @@ type FirewallPolicyRuleInitParameters struct {
 
 	// The firewall policy of the resource.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.FirewallPolicy
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	FirewallPolicy *string `json:"firewallPolicy,omitempty" tf:"firewall_policy,omitempty"`
 
 	// Reference to a FirewallPolicy in compute to populate firewallPolicy.
@@ -146,7 +146,7 @@ type FirewallPolicyRuleParameters struct {
 
 	// The firewall policy of the resource.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.FirewallPolicy
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	FirewallPolicy *string `json:"firewallPolicy,omitempty" tf:"firewall_policy,omitempty"`
 
@@ -355,7 +355,7 @@ type SrcSecureTagsInitParameters struct {
 
 	// Name of the secure tag, created with TagManager's TagValue API.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/tags/v1beta1.TagValue
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Reference to a TagValue in tags to populate name.
@@ -381,7 +381,7 @@ type SrcSecureTagsParameters struct {
 
 	// Name of the secure tag, created with TagManager's TagValue API.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/tags/v1beta1.TagValue
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
@@ -398,7 +398,7 @@ type TargetSecureTagsInitParameters struct {
 
 	// Name of the secure tag, created with TagManager's TagValue API.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/tags/v1beta1.TagValue
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Reference to a TagValue in tags to populate name.
@@ -424,7 +424,7 @@ type TargetSecureTagsParameters struct {
 
 	// Name of the secure tag, created with TagManager's TagValue API.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/tags/v1beta1.TagValue
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 

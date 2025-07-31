@@ -18,7 +18,7 @@ type RegionDiskAsyncPrimaryDiskInitParameters struct {
 
 	// Primary disk for asynchronous disk replication.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.RegionDisk
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Disk *string `json:"disk,omitempty" tf:"disk,omitempty"`
 
 	// Reference to a RegionDisk in compute to populate disk.
@@ -40,7 +40,7 @@ type RegionDiskAsyncPrimaryDiskParameters struct {
 
 	// Primary disk for asynchronous disk replication.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.RegionDisk
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Disk *string `json:"disk,omitempty" tf:"disk,omitempty"`
 
@@ -196,7 +196,7 @@ type RegionDiskInitParameters struct {
 	// a partial or full URL to the resource. For example, the following are
 	// valid values:
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.Snapshot
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Snapshot *string `json:"snapshot,omitempty" tf:"snapshot,omitempty"`
 
 	// Reference to a Snapshot in compute to populate snapshot.
@@ -452,7 +452,7 @@ type RegionDiskParameters struct {
 	// a partial or full URL to the resource. For example, the following are
 	// valid values:
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.Snapshot
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Snapshot *string `json:"snapshot,omitempty" tf:"snapshot,omitempty"`
 

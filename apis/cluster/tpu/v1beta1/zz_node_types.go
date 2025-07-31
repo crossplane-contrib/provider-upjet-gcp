@@ -59,7 +59,7 @@ type NodeInitParameters struct {
 	// this API has been activated. If none is provided, "default" will be
 	// used.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/servicenetworking/v1beta1.Connection
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("network",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("network",false)
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Reference to a Connection in servicenetworking to populate network.
@@ -195,7 +195,7 @@ type NodeParameters struct {
 	// this API has been activated. If none is provided, "default" will be
 	// used.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/servicenetworking/v1beta1.Connection
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("network",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("network",false)
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 

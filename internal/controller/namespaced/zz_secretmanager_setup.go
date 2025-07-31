@@ -7,7 +7,7 @@ package controller
 import (
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	"github.com/crossplane/upjet/pkg/controller"
+	"github.com/crossplane/upjet/v2/pkg/controller"
 
 	secret "github.com/upbound/provider-gcp/internal/controller/namespaced/secretmanager/secret"
 	secretiammember "github.com/upbound/provider-gcp/internal/controller/namespaced/secretmanager/secretiammember"

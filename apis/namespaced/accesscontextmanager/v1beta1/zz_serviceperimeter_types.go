@@ -754,7 +754,7 @@ type IngressPoliciesIngressFromSourcesInitParameters struct {
 	// Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
 	// If * is specified, then all IngressSources will be allowed.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/accesscontextmanager/v1beta1.AccessLevel
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	AccessLevel *string `json:"accessLevel,omitempty" tf:"access_level,omitempty"`
 
 	// Reference to a AccessLevel in accesscontextmanager to populate accessLevel.
@@ -812,7 +812,7 @@ type IngressPoliciesIngressFromSourcesParameters struct {
 	// Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
 	// If * is specified, then all IngressSources will be allowed.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/accesscontextmanager/v1beta1.AccessLevel
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	AccessLevel *string `json:"accessLevel,omitempty" tf:"access_level,omitempty"`
 

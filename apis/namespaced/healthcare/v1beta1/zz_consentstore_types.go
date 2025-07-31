@@ -19,7 +19,7 @@ type ConsentStoreInitParameters struct {
 	// Identifies the dataset addressed by this request. Must be in the format
 	// 'projects/{project}/locations/{location}/datasets/{dataset}'
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/healthcare/v1beta1.Dataset
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Dataset *string `json:"dataset,omitempty" tf:"dataset,omitempty"`
 
 	// Reference to a Dataset in healthcare to populate dataset.
@@ -99,7 +99,7 @@ type ConsentStoreParameters struct {
 	// Identifies the dataset addressed by this request. Must be in the format
 	// 'projects/{project}/locations/{location}/datasets/{dataset}'
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/healthcare/v1beta1.Dataset
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Dataset *string `json:"dataset,omitempty" tf:"dataset,omitempty"`
 

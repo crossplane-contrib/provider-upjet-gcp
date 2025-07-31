@@ -1128,7 +1128,7 @@ type SLOInitParameters struct {
 
 	// ID of the service to which this SLO belongs.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/monitoring/v1beta2.CustomService
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("service_id",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("service_id",false)
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 
 	// Reference to a CustomService in monitoring to populate service.
@@ -1287,7 +1287,7 @@ type SLOParameters struct {
 
 	// ID of the service to which this SLO belongs.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/monitoring/v1beta2.CustomService
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("service_id",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("service_id",false)
 	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 

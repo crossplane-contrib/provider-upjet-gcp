@@ -95,7 +95,7 @@ type RemoteFunctionOptionsInitParameters struct {
 	// the authentication information to send requests to the remote service.
 	// Format: "projects/{projectId}/locations/{locationId}/connections/{connectionId}"
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/bigquery/v1beta2.Connection
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	Connection *string `json:"connection,omitempty" tf:"connection,omitempty"`
 
 	// Reference to a Connection in bigquery to populate connection.
@@ -153,7 +153,7 @@ type RemoteFunctionOptionsParameters struct {
 	// the authentication information to send requests to the remote service.
 	// Format: "projects/{projectId}/locations/{locationId}/connections/{connectionId}"
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/bigquery/v1beta2.Connection
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	Connection *string `json:"connection,omitempty" tf:"connection,omitempty"`
 
@@ -435,7 +435,7 @@ type SparkOptionsInitParameters struct {
 	// Fully qualified name of the user-provided Spark connection object.
 	// Format: "projects/{projectId}/locations/{locationId}/connections/{connectionId}"
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/bigquery/v1beta2.Connection
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	Connection *string `json:"connection,omitempty" tf:"connection,omitempty"`
 
 	// Reference to a Connection in bigquery to populate connection.
@@ -526,7 +526,7 @@ type SparkOptionsParameters struct {
 	// Fully qualified name of the user-provided Spark connection object.
 	// Format: "projects/{projectId}/locations/{locationId}/connections/{connectionId}"
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/bigquery/v1beta2.Connection
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	Connection *string `json:"connection,omitempty" tf:"connection,omitempty"`
 

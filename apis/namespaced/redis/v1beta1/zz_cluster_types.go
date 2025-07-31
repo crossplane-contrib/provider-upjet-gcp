@@ -438,7 +438,7 @@ type CrossClusterReplicationConfigPrimaryClusterInitParameters struct {
 
 	// The full resource path of the secondary cluster in the format: projects/{project}/locations/{region}/clusters/{cluster-id}
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/redis/v1beta1.Cluster
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Cluster *string `json:"cluster,omitempty" tf:"cluster,omitempty"`
 
 	// Reference to a Cluster in redis to populate cluster.
@@ -463,7 +463,7 @@ type CrossClusterReplicationConfigPrimaryClusterParameters struct {
 
 	// The full resource path of the secondary cluster in the format: projects/{project}/locations/{region}/clusters/{cluster-id}
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/redis/v1beta1.Cluster
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Cluster *string `json:"cluster,omitempty" tf:"cluster,omitempty"`
 
@@ -760,7 +760,7 @@ type PscConfigsInitParameters struct {
 	// the discovery endpoint will be reserved, in the form of
 	// projects/{network_project_id_or_number}/global/networks/{network_id}.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Reference to a Network in compute to populate network.
@@ -786,7 +786,7 @@ type PscConfigsParameters struct {
 	// the discovery endpoint will be reserved, in the form of
 	// projects/{network_project_id_or_number}/global/networks/{network_id}.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 

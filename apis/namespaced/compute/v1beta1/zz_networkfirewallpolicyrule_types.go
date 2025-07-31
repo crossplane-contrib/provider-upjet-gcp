@@ -166,7 +166,7 @@ type NetworkFirewallPolicyRuleMatchInitParameters struct {
 
 	// Address groups which should be matched against the traffic source. Maximum number of source address groups is 10.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/networksecurity/v1beta1.AddressGroup
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	SrcAddressGroups []*string `json:"srcAddressGroups,omitempty" tf:"src_address_groups,omitempty"`
 
 	// References to AddressGroup in networksecurity to populate srcAddressGroups.
@@ -264,7 +264,7 @@ type NetworkFirewallPolicyRuleMatchParameters struct {
 
 	// Address groups which should be matched against the traffic source. Maximum number of source address groups is 10.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/networksecurity/v1beta1.AddressGroup
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	SrcAddressGroups []*string `json:"srcAddressGroups,omitempty" tf:"src_address_groups,omitempty"`
 

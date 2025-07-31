@@ -30,7 +30,7 @@ type InstanceAttachmentInitParameters struct {
 	// The Apigee instance associated with the Apigee environment,
 	// in the format organizations/{{org_name}}/instances/{{instance_name}}.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/apigee/v1beta1.Instance
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
 
 	// Reference to a Instance in apigee to populate instanceId.
@@ -76,7 +76,7 @@ type InstanceAttachmentParameters struct {
 	// The Apigee instance associated with the Apigee environment,
 	// in the format organizations/{{org_name}}/instances/{{instance_name}}.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/apigee/v1beta1.Instance
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
 

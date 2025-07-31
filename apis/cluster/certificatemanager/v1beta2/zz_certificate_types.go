@@ -188,7 +188,7 @@ type ManagedInitParameters struct {
 
 	// Authorizations that will be used for performing domain authorization. Either issuanceConfig or dnsAuthorizations should be specificed, but not both.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/certificatemanager/v1beta1.DNSAuthorization
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	DNSAuthorizations []*string `json:"dnsAuthorizations,omitempty" tf:"dns_authorizations,omitempty"`
 
 	// References to DNSAuthorization in certificatemanager to populate dnsAuthorizations.
@@ -202,7 +202,7 @@ type ManagedInitParameters struct {
 	// The domains for which a managed SSL certificate will be generated.
 	// Wildcard domains are only supported with DNS challenge resolution
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/certificatemanager/v1beta1.DNSAuthorization
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("domain",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("domain",false)
 	Domains []*string `json:"domains,omitempty" tf:"domains,omitempty"`
 
 	// References to DNSAuthorization in certificatemanager to populate domains.
@@ -253,7 +253,7 @@ type ManagedParameters struct {
 
 	// Authorizations that will be used for performing domain authorization. Either issuanceConfig or dnsAuthorizations should be specificed, but not both.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/certificatemanager/v1beta1.DNSAuthorization
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	DNSAuthorizations []*string `json:"dnsAuthorizations,omitempty" tf:"dns_authorizations,omitempty"`
 
@@ -268,7 +268,7 @@ type ManagedParameters struct {
 	// The domains for which a managed SSL certificate will be generated.
 	// Wildcard domains are only supported with DNS challenge resolution
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/certificatemanager/v1beta1.DNSAuthorization
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("domain",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("domain",false)
 	// +kubebuilder:validation:Optional
 	Domains []*string `json:"domains,omitempty" tf:"domains,omitempty"`
 

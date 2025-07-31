@@ -218,7 +218,7 @@ type JobInitParameters struct {
 	// The Cloud Dataproc region. This essentially determines which clusters are available
 	// for this job to be submitted to. If not specified, defaults to global.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/dataproc/v1beta1.Cluster
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("region",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("region",false)
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// Reference to a Cluster in dataproc to populate region.
@@ -339,7 +339,7 @@ type JobParameters struct {
 	// The Cloud Dataproc region. This essentially determines which clusters are available
 	// for this job to be submitted to. If not specified, defaults to global.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/dataproc/v1beta1.Cluster
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("region",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("region",false)
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
@@ -498,7 +498,7 @@ type PlacementInitParameters struct {
 	// The name of the cluster where the job
 	// will be submitted.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/dataproc/v1beta1.Cluster
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
 	// Reference to a Cluster in dataproc to populate clusterName.
@@ -525,7 +525,7 @@ type PlacementParameters struct {
 	// The name of the cluster where the job
 	// will be submitted.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/dataproc/v1beta1.Cluster
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 

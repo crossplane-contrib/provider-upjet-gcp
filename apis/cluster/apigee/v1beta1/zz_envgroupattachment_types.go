@@ -18,7 +18,7 @@ type EnvgroupAttachmentInitParameters struct {
 	// The Apigee environment group associated with the Apigee environment,
 	// in the format organizations/{{org_name}}/envgroups/{{envgroup_name}}.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/apigee/v1beta1.Envgroup
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	EnvgroupID *string `json:"envgroupId,omitempty" tf:"envgroup_id,omitempty"`
 
 	// Reference to a Envgroup in apigee to populate envgroupId.
@@ -63,7 +63,7 @@ type EnvgroupAttachmentParameters struct {
 	// The Apigee environment group associated with the Apigee environment,
 	// in the format organizations/{{org_name}}/envgroups/{{envgroup_name}}.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/apigee/v1beta1.Envgroup
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	EnvgroupID *string `json:"envgroupId,omitempty" tf:"envgroup_id,omitempty"`
 

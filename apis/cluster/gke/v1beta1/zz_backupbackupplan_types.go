@@ -25,7 +25,7 @@ type BackupBackupPlanInitParameters struct {
 
 	// The source cluster from which Backups will be created via this BackupPlan.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/container/v1beta1.Cluster
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Cluster *string `json:"cluster,omitempty" tf:"cluster,omitempty"`
 
 	// Reference to a Cluster in container to populate cluster.
@@ -146,7 +146,7 @@ type BackupBackupPlanParameters struct {
 
 	// The source cluster from which Backups will be created via this BackupPlan.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/container/v1beta1.Cluster
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Cluster *string `json:"cluster,omitempty" tf:"cluster,omitempty"`
 
@@ -377,7 +377,7 @@ type EncryptionKeyInitParameters struct {
 
 	// Google Cloud KMS encryption key. Format: projects//locations//keyRings//cryptoKeys/
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/kms/v1beta1.CryptoKey
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	GCPKMSEncryptionKey *string `json:"gcpKmsEncryptionKey,omitempty" tf:"gcp_kms_encryption_key,omitempty"`
 
 	// Reference to a CryptoKey in kms to populate gcpKmsEncryptionKey.
@@ -399,7 +399,7 @@ type EncryptionKeyParameters struct {
 
 	// Google Cloud KMS encryption key. Format: projects//locations//keyRings//cryptoKeys/
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/kms/v1beta1.CryptoKey
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	GCPKMSEncryptionKey *string `json:"gcpKmsEncryptionKey,omitempty" tf:"gcp_kms_encryption_key,omitempty"`
 

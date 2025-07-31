@@ -171,12 +171,12 @@ type RegionPerInstanceConfigInitParameters struct {
 
 	// Region where the containing instance group manager is located
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.RegionInstanceGroupManager
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("region",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("region",false)
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// The region instance group manager this instance config is part of.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.RegionInstanceGroupManager
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	RegionInstanceGroupManager *string `json:"regionInstanceGroupManager,omitempty" tf:"region_instance_group_manager,omitempty"`
 
 	// Reference to a RegionInstanceGroupManager in compute to populate regionInstanceGroupManager.
@@ -273,13 +273,13 @@ type RegionPerInstanceConfigParameters struct {
 
 	// Region where the containing instance group manager is located
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.RegionInstanceGroupManager
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("region",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("region",false)
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// The region instance group manager this instance config is part of.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.RegionInstanceGroupManager
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	RegionInstanceGroupManager *string `json:"regionInstanceGroupManager,omitempty" tf:"region_instance_group_manager,omitempty"`
 
@@ -333,7 +333,7 @@ type RegionPerInstanceConfigPreservedStateDiskInitParameters struct {
 	// The URI of an existing persistent disk to attach under the specified device-name in the format
 	// projects/project-id/zones/zone/disks/disk-name.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.Disk
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Source *string `json:"source,omitempty" tf:"source,omitempty"`
 
 	// Reference to a Disk in compute to populate source.
@@ -394,7 +394,7 @@ type RegionPerInstanceConfigPreservedStateDiskParameters struct {
 	// The URI of an existing persistent disk to attach under the specified device-name in the format
 	// projects/project-id/zones/zone/disks/disk-name.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.Disk
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Source *string `json:"source,omitempty" tf:"source,omitempty"`
 

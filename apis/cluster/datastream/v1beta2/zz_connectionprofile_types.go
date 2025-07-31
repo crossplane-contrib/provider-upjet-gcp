@@ -459,7 +459,7 @@ type PostgresqlProfileInitParameters struct {
 
 	// Hostname for the PostgreSQL connection.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/sql/v1beta2.DatabaseInstance
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("public_ip_address",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("public_ip_address",true)
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 
 	// Reference to a DatabaseInstance in sql to populate hostname.
@@ -528,7 +528,7 @@ type PostgresqlProfileParameters struct {
 
 	// Hostname for the PostgreSQL connection.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/sql/v1beta2.DatabaseInstance
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("public_ip_address",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("public_ip_address",true)
 	// +kubebuilder:validation:Optional
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 
@@ -571,7 +571,7 @@ type PrivateConnectivityInitParameters struct {
 
 	// A reference to a private connection resource. Format: projects/{project}/locations/{location}/privateConnections/{name}
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/datastream/v1beta2.PrivateConnection
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	PrivateConnection *string `json:"privateConnection,omitempty" tf:"private_connection,omitempty"`
 
 	// Reference to a PrivateConnection in datastream to populate privateConnection.
@@ -593,7 +593,7 @@ type PrivateConnectivityParameters struct {
 
 	// A reference to a private connection resource. Format: projects/{project}/locations/{location}/privateConnections/{name}
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/datastream/v1beta2.PrivateConnection
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	PrivateConnection *string `json:"privateConnection,omitempty" tf:"private_connection,omitempty"`
 
@@ -622,7 +622,7 @@ type SQLServerProfileInitParameters struct {
 
 	// Hostname for the SQL Server connection.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/sql/v1beta2.DatabaseInstance
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("public_ip_address",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("public_ip_address",true)
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 
 	// Reference to a DatabaseInstance in sql to populate hostname.
@@ -691,7 +691,7 @@ type SQLServerProfileParameters struct {
 
 	// Hostname for the SQL Server connection.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/sql/v1beta2.DatabaseInstance
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("public_ip_address",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("public_ip_address",true)
 	// +kubebuilder:validation:Optional
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 

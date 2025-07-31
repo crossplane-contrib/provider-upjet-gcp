@@ -21,7 +21,7 @@ type AppConnectionInitParameters struct {
 
 	// List of AppConnectors that are authorised to be associated with this AppConnection
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/beyondcorp/v1beta2.AppConnector
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Connectors []*string `json:"connectors,omitempty" tf:"connectors,omitempty"`
 
 	// References to AppConnector in beyondcorp to populate connectors.
@@ -115,7 +115,7 @@ type AppConnectionParameters struct {
 
 	// List of AppConnectors that are authorised to be associated with this AppConnection
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/beyondcorp/v1beta2.AppConnector
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Connectors []*string `json:"connectors,omitempty" tf:"connectors,omitempty"`
 
@@ -194,7 +194,7 @@ type GatewayInitParameters struct {
 
 	// AppGateway name in following format: projects/{project_id}/locations/{locationId}/appgateways/{gateway_id}.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/beyondcorp/v1beta1.AppGateway
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	AppGateway *string `json:"appGateway,omitempty" tf:"app_gateway,omitempty"`
 
 	// Reference to a AppGateway in beyondcorp to populate appGateway.
@@ -234,7 +234,7 @@ type GatewayParameters struct {
 
 	// AppGateway name in following format: projects/{project_id}/locations/{locationId}/appgateways/{gateway_id}.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/beyondcorp/v1beta1.AppGateway
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	AppGateway *string `json:"appGateway,omitempty" tf:"app_gateway,omitempty"`
 

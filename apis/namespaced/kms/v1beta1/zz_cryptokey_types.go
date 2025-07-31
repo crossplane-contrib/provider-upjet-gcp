@@ -132,7 +132,7 @@ type CryptoKeyParameters struct {
 	// The KeyRing that this key belongs to.
 	// Format: 'projects/{{project}}/locations/{{location}}/keyRings/{{keyRing}}'.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/kms/v1beta1.KeyRing
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	KeyRing *string `json:"keyRing,omitempty" tf:"key_ring,omitempty"`
 

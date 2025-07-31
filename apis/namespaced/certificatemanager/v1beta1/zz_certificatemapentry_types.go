@@ -20,7 +20,7 @@ type CertificateMapEntryInitParameters struct {
 	// There can be defined up to fifteen certificates in each Certificate Map Entry.
 	// Each certificate must match pattern projects//locations//certificates/*.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/certificatemanager/v1beta1.Certificate
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Certificates []*string `json:"certificates,omitempty" tf:"certificates,omitempty"`
 
 	// References to Certificate in certificatemanager to populate certificates.
@@ -116,7 +116,7 @@ type CertificateMapEntryParameters struct {
 	// There can be defined up to fifteen certificates in each Certificate Map Entry.
 	// Each certificate must match pattern projects//locations//certificates/*.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/certificatemanager/v1beta1.Certificate
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Certificates []*string `json:"certificates,omitempty" tf:"certificates,omitempty"`
 

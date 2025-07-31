@@ -98,7 +98,7 @@ type EncryptionSpecInitParameters struct {
 	// key will be used to secure this dataset. The format is
 	// projects/{projectId}/locations/{locationId}/keyRings/{keyRingId}/cryptoKeys/{keyId}.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/kms/v1beta1.CryptoKey
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
 	// Reference to a CryptoKey in kms to populate kmsKeyName.
@@ -126,7 +126,7 @@ type EncryptionSpecParameters struct {
 	// key will be used to secure this dataset. The format is
 	// projects/{projectId}/locations/{locationId}/keyRings/{keyRingId}/cryptoKeys/{keyId}.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/kms/v1beta1.CryptoKey
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 

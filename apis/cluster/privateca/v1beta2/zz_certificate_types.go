@@ -120,7 +120,7 @@ type CertificateInitParameters struct {
 	// omitted, no template will be used. This template must be in the same location
 	// as the Certificate.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/privateca/v1beta2.CertificateTemplate
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	CertificateTemplate *string `json:"certificateTemplate,omitempty" tf:"certificate_template,omitempty"`
 
 	// Reference to a CertificateTemplate in privateca to populate certificateTemplate.
@@ -257,7 +257,7 @@ type CertificateParameters struct {
 	// omitted, no template will be used. This template must be in the same location
 	// as the Certificate.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/privateca/v1beta2.CertificateTemplate
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	CertificateTemplate *string `json:"certificateTemplate,omitempty" tf:"certificate_template,omitempty"`
 

@@ -52,7 +52,7 @@ type ConsumerAcceptListsInitParameters struct {
 	// The network that is allowed to connect to this service attachment.
 	// Only one of project_id_or_num and network_url may be set.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`
 
 	// Reference to a Network in compute to populate networkUrl.
@@ -93,7 +93,7 @@ type ConsumerAcceptListsParameters struct {
 	// The network that is allowed to connect to this service attachment.
 	// Only one of project_id_or_num and network_url may be set.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`
 
@@ -176,7 +176,7 @@ type ServiceAttachmentInitParameters struct {
 
 	// The URL of a service serving the endpoint identified by this service attachment.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.ForwardingRule
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	TargetService *string `json:"targetService,omitempty" tf:"target_service,omitempty"`
 
 	// Reference to a ForwardingRule in compute to populate targetService.
@@ -344,7 +344,7 @@ type ServiceAttachmentParameters struct {
 
 	// The URL of a service serving the endpoint identified by this service attachment.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.ForwardingRule
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	TargetService *string `json:"targetService,omitempty" tf:"target_service,omitempty"`
 

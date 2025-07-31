@@ -17,7 +17,7 @@ type TLSInspectionPolicyInitParameters struct {
 
 	// A CA pool resource used to issue interception certificates.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/privateca/v1beta2.CAPool
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	CAPool *string `json:"caPool,omitempty" tf:"ca_pool,omitempty"`
 
 	// Reference to a CAPool in privateca to populate caPool.
@@ -53,7 +53,7 @@ type TLSInspectionPolicyInitParameters struct {
 
 	// A TrustConfig resource used when making a connection to the TLS server. This is a relative resource path following the form "projects/{project}/locations/{location}/trustConfigs/{trust_config}". This is necessary to intercept TLS connections to servers with certificates signed by a private CA or self-signed certificates. Trust config and the TLS inspection policy must be in the same region. Note that Secure Web Proxy does not yet honor this field.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/certificatemanager/v1beta1.TrustConfig
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	TrustConfig *string `json:"trustConfig,omitempty" tf:"trust_config,omitempty"`
 
 	// Reference to a TrustConfig in certificatemanager to populate trustConfig.
@@ -113,7 +113,7 @@ type TLSInspectionPolicyParameters struct {
 
 	// A CA pool resource used to issue interception certificates.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/privateca/v1beta2.CAPool
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	CAPool *string `json:"caPool,omitempty" tf:"ca_pool,omitempty"`
 
@@ -160,7 +160,7 @@ type TLSInspectionPolicyParameters struct {
 
 	// A TrustConfig resource used when making a connection to the TLS server. This is a relative resource path following the form "projects/{project}/locations/{location}/trustConfigs/{trust_config}". This is necessary to intercept TLS connections to servers with certificates signed by a private CA or self-signed certificates. Trust config and the TLS inspection policy must be in the same region. Note that Secure Web Proxy does not yet honor this field.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/certificatemanager/v1beta1.TrustConfig
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	TrustConfig *string `json:"trustConfig,omitempty" tf:"trust_config,omitempty"`
 

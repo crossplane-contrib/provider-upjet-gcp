@@ -124,7 +124,7 @@ type TenantInboundSAMLConfigInitParameters struct {
 
 	// The name of the tenant where this inbound SAML config resource exists
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/identityplatform/v1beta1.Tenant
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	Tenant *string `json:"tenant,omitempty" tf:"tenant,omitempty"`
 
 	// Reference to a Tenant in identityplatform to populate tenant.
@@ -203,7 +203,7 @@ type TenantInboundSAMLConfigParameters struct {
 
 	// The name of the tenant where this inbound SAML config resource exists
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/identityplatform/v1beta1.Tenant
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	Tenant *string `json:"tenant,omitempty" tf:"tenant,omitempty"`
 

@@ -4,7 +4,7 @@
 
 package tpu
 
-import "github.com/crossplane/upjet/pkg/config"
+import "github.com/crossplane/upjet/v2/pkg/config"
 
 // Configure configures individual resources by adding custom
 // ResourceConfigurators.

@@ -30,7 +30,7 @@ type ObjectACLInitParameters struct {
 
 	// The name of the object to apply the acl to.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/storage/v1beta1.BucketObject
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("output_name",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("output_name",true)
 	Object *string `json:"object,omitempty" tf:"object,omitempty"`
 
 	// Reference to a BucketObject in storage to populate object.
@@ -86,7 +86,7 @@ type ObjectACLParameters struct {
 
 	// The name of the object to apply the acl to.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/storage/v1beta1.BucketObject
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("output_name",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("output_name",true)
 	// +kubebuilder:validation:Optional
 	Object *string `json:"object,omitempty" tf:"object,omitempty"`
 

@@ -1267,7 +1267,7 @@ type SubordinateConfigInitParameters struct {
 	// and usability purposes only. The resource name is in the format
 	// projects/*/locations/*/caPools/*/certificateAuthorities/*.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/privateca/v1beta2.CertificateAuthority
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	CertificateAuthority *string `json:"certificateAuthority,omitempty" tf:"certificate_authority,omitempty"`
 
 	// Reference to a CertificateAuthority in privateca to populate certificateAuthority.
@@ -1305,7 +1305,7 @@ type SubordinateConfigParameters struct {
 	// and usability purposes only. The resource name is in the format
 	// projects/*/locations/*/caPools/*/certificateAuthorities/*.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/privateca/v1beta2.CertificateAuthority
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	CertificateAuthority *string `json:"certificateAuthority,omitempty" tf:"certificate_authority,omitempty"`
 

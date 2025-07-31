@@ -317,7 +317,7 @@ type EncryptionConfigurationInitParameters struct {
 
 	// The name of the KMS key used for encrypting BigQuery data.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/kms/v1beta1.CryptoKey
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
 	// Reference to a CryptoKey in kms to populate kmsKeyName.
@@ -339,7 +339,7 @@ type EncryptionConfigurationParameters struct {
 
 	// The name of the KMS key used for encrypting BigQuery data.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/kms/v1beta1.CryptoKey
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 

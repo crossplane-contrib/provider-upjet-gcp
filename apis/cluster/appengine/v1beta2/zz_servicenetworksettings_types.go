@@ -50,7 +50,7 @@ type ServiceNetworkSettingsInitParameters struct {
 
 	// The name of the service these settings apply to.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/appengine/v1beta2.StandardAppVersion
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("service",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("service",false)
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 
 	// Reference to a StandardAppVersion in appengine to populate service.
@@ -93,7 +93,7 @@ type ServiceNetworkSettingsParameters struct {
 
 	// The name of the service these settings apply to.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/appengine/v1beta2.StandardAppVersion
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("service",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("service",false)
 	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 

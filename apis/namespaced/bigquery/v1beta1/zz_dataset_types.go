@@ -165,7 +165,7 @@ type AccessInitParameters struct {
 	// An email address of a user to grant access to. For example:
 	// fred@example.com
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("email",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	UserByEmail *string `json:"userByEmail,omitempty" tf:"user_by_email,omitempty"`
 
 	// Reference to a ServiceAccount in cloudplatform to populate userByEmail.
@@ -289,7 +289,7 @@ type AccessParameters struct {
 	// An email address of a user to grant access to. For example:
 	// fred@example.com
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("email",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	// +kubebuilder:validation:Optional
 	UserByEmail *string `json:"userByEmail,omitempty" tf:"user_by_email,omitempty"`
 
@@ -736,7 +736,7 @@ type DefaultEncryptionConfigurationInitParameters struct {
 	// BigQuery table. The BigQuery Service Account associated with your project requires
 	// access to this encryption key.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/kms/v1beta1.CryptoKey
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
 	// Reference to a CryptoKey in kms to populate kmsKeyName.
@@ -762,7 +762,7 @@ type DefaultEncryptionConfigurationParameters struct {
 	// BigQuery table. The BigQuery Service Account associated with your project requires
 	// access to this encryption key.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/kms/v1beta1.CryptoKey
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
@@ -849,7 +849,7 @@ type RoutineInitParameters struct {
 
 	// The ID of the dataset containing this table.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/bigquery/v1beta1.Routine
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("dataset_id",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("dataset_id",false)
 	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
 
 	// Reference to a Routine in bigquery to populate datasetId.
@@ -862,7 +862,7 @@ type RoutineInitParameters struct {
 
 	// The ID of the project containing this table.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/bigquery/v1beta1.Routine
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("project",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project",false)
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Reference to a Routine in bigquery to populate projectId.
@@ -906,7 +906,7 @@ type RoutineParameters struct {
 
 	// The ID of the dataset containing this table.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/bigquery/v1beta1.Routine
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("dataset_id",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("dataset_id",false)
 	// +kubebuilder:validation:Optional
 	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
 
@@ -920,7 +920,7 @@ type RoutineParameters struct {
 
 	// The ID of the project containing this table.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/bigquery/v1beta1.Routine
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("project",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project",false)
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 

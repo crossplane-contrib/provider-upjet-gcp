@@ -7,7 +7,7 @@ package controller
 import (
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	"github.com/crossplane/upjet/pkg/controller"
+	"github.com/crossplane/upjet/v2/pkg/controller"
 
 	address "github.com/upbound/provider-gcp/internal/controller/cluster/compute/address"
 	attacheddisk "github.com/upbound/provider-gcp/internal/controller/cluster/compute/attacheddisk"

@@ -71,7 +71,7 @@ type EntryInitParameters struct {
 
 	// The name of the entry group this entry is in.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/datacatalog/v1beta1.EntryGroup
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	EntryGroup *string `json:"entryGroup,omitempty" tf:"entry_group,omitempty"`
 
 	// Reference to a EntryGroup in datacatalog to populate entryGroup.
@@ -205,7 +205,7 @@ type EntryParameters struct {
 
 	// The name of the entry group this entry is in.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/datacatalog/v1beta1.EntryGroup
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	EntryGroup *string `json:"entryGroup,omitempty" tf:"entry_group,omitempty"`
 

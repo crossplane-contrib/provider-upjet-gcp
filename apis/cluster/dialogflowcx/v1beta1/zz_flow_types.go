@@ -414,7 +414,7 @@ type FlowInitParameters struct {
 	// The agent to create a flow for.
 	// Format: projects//locations//agents/.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/dialogflowcx/v1beta2.Agent
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
 	// Reference to a Agent in dialogflowcx to populate parent.
@@ -561,7 +561,7 @@ type FlowParameters struct {
 	// The agent to create a flow for.
 	// Format: projects//locations//agents/.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/dialogflowcx/v1beta2.Agent
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
@@ -604,7 +604,7 @@ type KnowledgeConnectorSettingsInitParameters struct {
 	// The target flow to transition to. Format: projects//locations//agents//flows/.
 	// This field is part of a union field target: Only one of targetPage or targetFlow may be set.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/dialogflowcx/v1beta2.Agent
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("start_flow",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("start_flow",true)
 	TargetFlow *string `json:"targetFlow,omitempty" tf:"target_flow,omitempty"`
 
 	// Reference to a Agent in dialogflowcx to populate targetFlow.
@@ -664,7 +664,7 @@ type KnowledgeConnectorSettingsParameters struct {
 	// The target flow to transition to. Format: projects//locations//agents//flows/.
 	// This field is part of a union field target: Only one of targetPage or targetFlow may be set.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/dialogflowcx/v1beta2.Agent
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("start_flow",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("start_flow",true)
 	// +kubebuilder:validation:Optional
 	TargetFlow *string `json:"targetFlow,omitempty" tf:"target_flow,omitempty"`
 
@@ -722,7 +722,7 @@ type KnowledgeConnectorSettingsTriggerFulfillmentInitParameters struct {
 
 	// The webhook to call. Format: projects//locations//agents//webhooks/.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/dialogflowcx/v1beta2.Webhook
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Webhook *string `json:"webhook,omitempty" tf:"webhook,omitempty"`
 
 	// Reference to a Webhook in dialogflowcx to populate webhook.
@@ -809,7 +809,7 @@ type KnowledgeConnectorSettingsTriggerFulfillmentParameters struct {
 
 	// The webhook to call. Format: projects//locations//agents//webhooks/.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/dialogflowcx/v1beta2.Webhook
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Webhook *string `json:"webhook,omitempty" tf:"webhook,omitempty"`
 
@@ -1313,7 +1313,7 @@ type TransitionRoutesInitParameters struct {
 	// The target flow to transition to.
 	// Format: projects//locations//agents//flows/.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/dialogflowcx/v1beta2.Agent
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("start_flow",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("start_flow",true)
 	TargetFlow *string `json:"targetFlow,omitempty" tf:"target_flow,omitempty"`
 
 	// Reference to a Agent in dialogflowcx to populate targetFlow.
@@ -1375,7 +1375,7 @@ type TransitionRoutesParameters struct {
 	// The target flow to transition to.
 	// Format: projects//locations//agents//flows/.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/dialogflowcx/v1beta2.Agent
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("start_flow",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("start_flow",true)
 	// +kubebuilder:validation:Optional
 	TargetFlow *string `json:"targetFlow,omitempty" tf:"target_flow,omitempty"`
 
