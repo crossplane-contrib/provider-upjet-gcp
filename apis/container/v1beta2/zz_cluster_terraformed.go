@@ -21,7 +21,7 @@ func (mg *Cluster) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this Cluster
 func (tr *Cluster) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"master_auth[*].client_key": "status.atProvider.masterAuth[*].clientKey"}
+	return map[string]string{"master_auth[*].client_key": "status.atProvider.masterAuth.clientKey"}
 }
 
 // GetObservation of this Cluster

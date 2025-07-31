@@ -21,7 +21,7 @@ func (mg *BackendService) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this BackendService
 func (tr *BackendService) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"iap[*].oauth2_client_secret": "iap[*].oauth2ClientSecretSecretRef", "iap[*].oauth2_client_secret_sha256": "status.atProvider.iap[*].oauth2ClientSecretSha256", "security_settings[*].aws_v4_authentication[*].access_key": "securitySettings[*].awsV4Authentication[*].accessKeySecretRef"}
+	return map[string]string{"iap[*].oauth2_client_secret": "iap.oauth2ClientSecretSecretRef", "iap[*].oauth2_client_secret_sha256": "status.atProvider.iap.oauth2ClientSecretSha256", "security_settings[*].aws_v4_authentication[*].access_key": "securitySettings.awsV4Authentication.accessKeySecretRef"}
 }
 
 // GetObservation of this BackendService

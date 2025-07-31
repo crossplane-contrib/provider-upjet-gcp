@@ -1258,6 +1258,75 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 
 		}
 	}
+	if mg.Spec.ForProvider.Copy != nil {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.Copy.SourceTables); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta2", "Table", "TableList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Copy.SourceTables[i4].DatasetID),
+					Extract:      resource.ExtractParamPath("dataset_id", false),
+					Reference:    mg.Spec.ForProvider.Copy.SourceTables[i4].DatasetIDRef,
+					Selector:     mg.Spec.ForProvider.Copy.SourceTables[i4].DatasetIDSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.Copy.SourceTables[i4].DatasetID")
+			}
+			mg.Spec.ForProvider.Copy.SourceTables[i4].DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Copy.SourceTables[i4].DatasetIDRef = rsp.ResolvedReference
+
+		}
+	}
+	if mg.Spec.ForProvider.Copy != nil {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.Copy.SourceTables); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta2", "Table", "TableList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Copy.SourceTables[i4].ProjectID),
+					Extract:      resource.ExtractParamPath("project", false),
+					Reference:    mg.Spec.ForProvider.Copy.SourceTables[i4].ProjectIDRef,
+					Selector:     mg.Spec.ForProvider.Copy.SourceTables[i4].ProjectIDSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.Copy.SourceTables[i4].ProjectID")
+			}
+			mg.Spec.ForProvider.Copy.SourceTables[i4].ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Copy.SourceTables[i4].ProjectIDRef = rsp.ResolvedReference
+
+		}
+	}
+	if mg.Spec.ForProvider.Copy != nil {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.Copy.SourceTables); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta2", "Table", "TableList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Copy.SourceTables[i4].TableID),
+					Extract:      reference.ExternalName(),
+					Reference:    mg.Spec.ForProvider.Copy.SourceTables[i4].TableIDRef,
+					Selector:     mg.Spec.ForProvider.Copy.SourceTables[i4].TableIDSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.Copy.SourceTables[i4].TableID")
+			}
+			mg.Spec.ForProvider.Copy.SourceTables[i4].TableID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Copy.SourceTables[i4].TableIDRef = rsp.ResolvedReference
+
+		}
+	}
 	if mg.Spec.ForProvider.Extract != nil {
 		if mg.Spec.ForProvider.Extract.SourceTable != nil {
 			{
@@ -1462,6 +1531,75 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 			}
 			mg.Spec.InitProvider.Copy.DestinationTable.TableID = reference.ToPtrValue(rsp.ResolvedValue)
 			mg.Spec.InitProvider.Copy.DestinationTable.TableIDRef = rsp.ResolvedReference
+
+		}
+	}
+	if mg.Spec.InitProvider.Copy != nil {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Copy.SourceTables); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta2", "Table", "TableList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Copy.SourceTables[i4].DatasetID),
+					Extract:      resource.ExtractParamPath("dataset_id", false),
+					Reference:    mg.Spec.InitProvider.Copy.SourceTables[i4].DatasetIDRef,
+					Selector:     mg.Spec.InitProvider.Copy.SourceTables[i4].DatasetIDSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.Copy.SourceTables[i4].DatasetID")
+			}
+			mg.Spec.InitProvider.Copy.SourceTables[i4].DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Copy.SourceTables[i4].DatasetIDRef = rsp.ResolvedReference
+
+		}
+	}
+	if mg.Spec.InitProvider.Copy != nil {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Copy.SourceTables); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta2", "Table", "TableList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Copy.SourceTables[i4].ProjectID),
+					Extract:      resource.ExtractParamPath("project", false),
+					Reference:    mg.Spec.InitProvider.Copy.SourceTables[i4].ProjectIDRef,
+					Selector:     mg.Spec.InitProvider.Copy.SourceTables[i4].ProjectIDSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.Copy.SourceTables[i4].ProjectID")
+			}
+			mg.Spec.InitProvider.Copy.SourceTables[i4].ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Copy.SourceTables[i4].ProjectIDRef = rsp.ResolvedReference
+
+		}
+	}
+	if mg.Spec.InitProvider.Copy != nil {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Copy.SourceTables); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta2", "Table", "TableList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Copy.SourceTables[i4].TableID),
+					Extract:      reference.ExternalName(),
+					Reference:    mg.Spec.InitProvider.Copy.SourceTables[i4].TableIDRef,
+					Selector:     mg.Spec.InitProvider.Copy.SourceTables[i4].TableIDSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.Copy.SourceTables[i4].TableID")
+			}
+			mg.Spec.InitProvider.Copy.SourceTables[i4].TableID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Copy.SourceTables[i4].TableIDRef = rsp.ResolvedReference
 
 		}
 	}

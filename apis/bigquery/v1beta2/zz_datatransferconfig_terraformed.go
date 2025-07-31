@@ -21,7 +21,7 @@ func (mg *DataTransferConfig) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this DataTransferConfig
 func (tr *DataTransferConfig) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"sensitive_params[*].secret_access_key": "sensitiveParams[*].secretAccessKeySecretRef"}
+	return map[string]string{"sensitive_params[*].secret_access_key": "sensitiveParams.secretAccessKeySecretRef"}
 }
 
 // GetObservation of this DataTransferConfig

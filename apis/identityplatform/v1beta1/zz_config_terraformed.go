@@ -21,7 +21,7 @@ func (mg *Config) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this Config
 func (tr *Config) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"client[*].api_key": "status.atProvider.client[*].apiKey"}
+	return map[string]string{"client[*].api_key": "status.atProvider.client.apiKey"}
 }
 
 // GetObservation of this Config

@@ -21,7 +21,7 @@ func (mg *InstanceTemplate) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this InstanceTemplate
 func (tr *InstanceTemplate) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"disk[*].source_image_encryption_key[*].raw_key": "disk[*].sourceImageEncryptionKey[*].rawKeySecretRef", "disk[*].source_image_encryption_key[*].rsa_encrypted_key": "disk[*].sourceImageEncryptionKey[*].rsaEncryptedKeySecretRef", "disk[*].source_snapshot_encryption_key[*].raw_key": "disk[*].sourceSnapshotEncryptionKey[*].rawKeySecretRef", "disk[*].source_snapshot_encryption_key[*].rsa_encrypted_key": "disk[*].sourceSnapshotEncryptionKey[*].rsaEncryptedKeySecretRef"}
+	return map[string]string{"disk[*].source_image_encryption_key[*].raw_key": "disk[*].sourceImageEncryptionKey.rawKeySecretRef", "disk[*].source_image_encryption_key[*].rsa_encrypted_key": "disk[*].sourceImageEncryptionKey.rsaEncryptedKeySecretRef", "disk[*].source_snapshot_encryption_key[*].raw_key": "disk[*].sourceSnapshotEncryptionKey.rawKeySecretRef", "disk[*].source_snapshot_encryption_key[*].rsa_encrypted_key": "disk[*].sourceSnapshotEncryptionKey.rsaEncryptedKeySecretRef"}
 }
 
 // GetObservation of this InstanceTemplate
