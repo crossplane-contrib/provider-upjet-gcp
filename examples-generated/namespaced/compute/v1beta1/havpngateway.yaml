@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: ha_gateway1
   name: ha-gateway1
+  namespace: upbound-system
 spec:
   forProvider:
     networkSelector:
@@ -23,6 +24,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: network1
   name: network1
+  namespace: upbound-system
 spec:
   forProvider:
     autoCreateSubnetworks: false

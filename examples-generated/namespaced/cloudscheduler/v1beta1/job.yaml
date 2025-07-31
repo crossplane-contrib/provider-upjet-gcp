@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: job
   name: job
+  namespace: upbound-system
 spec:
   forProvider:
     description: test job
@@ -26,5 +27,6 @@ metadata:
   labels:
     testing.upbound.io/example-name: topic
   name: topic
+  namespace: upbound-system
 spec:
   forProvider: {}

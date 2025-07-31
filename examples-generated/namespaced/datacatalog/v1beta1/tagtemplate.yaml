@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: basic_tag_template
   name: basic-tag-template
+  namespace: upbound-system
 spec:
   forProvider:
     displayName: Demo Tag Template

@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: full_agent
   name: full-agent
+  namespace: upbound-system
 spec:
   forProvider:
     advancedSettings:
@@ -40,7 +41,6 @@ spec:
       - accessTokenSecretRef:
           key: example-key
           name: example-secret
-          namespace: upbound-system
         branches:
         - main
         displayName: Github Repo
@@ -79,6 +79,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: bucket
   name: bucket
+  namespace: upbound-system
 spec:
   forProvider:
     location: US

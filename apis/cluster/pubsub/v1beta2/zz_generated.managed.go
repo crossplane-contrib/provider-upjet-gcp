@@ -5,7 +5,7 @@
 
 package v1beta2
 
-import xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+import xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 
 // GetCondition of this LiteSubscription.
 func (mg *LiteSubscription) GetCondition(ct xpv1.ConditionType) xpv1.Condition {

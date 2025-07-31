@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: primary
   name: primary
+  namespace: upbound-system
 spec:
   forProvider:
     initialNodeCount: 1
@@ -22,6 +23,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: primary_preemptible_nodes
   name: primary-preemptible-nodes
+  namespace: upbound-system
 spec:
   forProvider:
     clusterSelector:
@@ -48,6 +50,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     displayName: Service Account

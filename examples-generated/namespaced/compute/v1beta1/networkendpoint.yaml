@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default-endpoint
   name: default-endpoint
+  namespace: upbound-system
 spec:
   forProvider:
     instanceSelector:
@@ -27,6 +28,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: endpoint-instance
   name: endpoint-instance
+  namespace: upbound-system
 spec:
   forProvider:
     bootDisk:
@@ -52,6 +54,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     autoCreateSubnetworks: false
@@ -66,6 +69,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: group
   name: group
+  namespace: upbound-system
 spec:
   forProvider:
     defaultPort: "90"
@@ -87,6 +91,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     ipCidrRange: 10.0.0.1/16

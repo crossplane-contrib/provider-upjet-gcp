@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: instance-test
   name: instance-test
+  namespace: upbound-system
 spec:
   forProvider:
     destination:
@@ -31,6 +32,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: destination
   name: destination
+  namespace: upbound-system
 spec:
   forProvider:
     bootDisk:
@@ -56,6 +58,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: source
   name: source
+  namespace: upbound-system
 spec:
   forProvider:
     bootDisk:
@@ -81,5 +84,6 @@ metadata:
   labels:
     testing.upbound.io/example-name: vpc
   name: vpc
+  namespace: upbound-system
 spec:
   forProvider: {}

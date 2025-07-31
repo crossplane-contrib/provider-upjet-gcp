@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     region: us-central1
@@ -25,6 +26,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     healthChecksRefs:
@@ -44,6 +46,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     httpHealthCheck:
@@ -60,16 +63,15 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     certificateSecretRef:
       key: attribute.certificate.crt
       name: example-secret
-      namespace: upbound-system
     privateKeySecretRef:
       key: attribute.private.key
       name: example-secret
-      namespace: upbound-system
     region: us-central1
 
 ---
@@ -82,6 +84,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     defaultServiceSelector:

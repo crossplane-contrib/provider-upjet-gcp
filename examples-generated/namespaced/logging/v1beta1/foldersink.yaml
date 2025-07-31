@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: my-sink
   name: my-sink
+  namespace: upbound-system
 spec:
   forProvider:
     description: some explanation on what this is
@@ -25,6 +26,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: my-folder
   name: my-folder
+  namespace: upbound-system
 spec:
   forProvider:
     displayName: My folder
@@ -42,6 +44,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: log-bucket
   name: log-bucket
+  namespace: upbound-system
 spec:
   forProvider:
     location: US

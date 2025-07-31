@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: myapp_v1
   name: myapp-v1
+  namespace: upbound-system
 spec:
   forProvider:
     automaticScaling:
@@ -43,6 +44,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: custom_service_account
   name: custom-service-account
+  namespace: upbound-system
 spec:
   forProvider:
     displayName: Custom Service Account
@@ -57,6 +59,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: bucket
   name: bucket
+  namespace: upbound-system
 spec:
   forProvider:
     location: US
@@ -71,6 +74,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: object
   name: object
+  namespace: upbound-system
 spec:
   forProvider:
     bucketSelector:

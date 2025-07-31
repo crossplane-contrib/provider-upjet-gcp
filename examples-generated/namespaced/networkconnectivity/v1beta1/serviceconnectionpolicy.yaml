@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     description: my basic service connection policy
@@ -29,6 +30,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: producer_net
   name: producer-net
+  namespace: upbound-system
 spec:
   forProvider:
     autoCreateSubnetworks: false
@@ -43,6 +45,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: producer_subnet
   name: producer-subnet
+  namespace: upbound-system
 spec:
   forProvider:
     ipCidrRange: 10.0.0.0/16

@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: basic_entry_group
   name: basic-entry-group
+  namespace: upbound-system
 spec:
   forProvider:
     entryGroupId: my_group

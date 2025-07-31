@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: web_service
   name: web-service
+  namespace: upbound-system
 spec:
   forProvider:
     dispatchRules:
@@ -30,6 +31,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: admin_v3
   name: admin-v3
+  namespace: upbound-system
 spec:
   forProvider:
     deleteServiceOnDestroy: true
@@ -53,6 +55,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: bucket
   name: bucket
+  namespace: upbound-system
 spec:
   forProvider:
     location: US
@@ -67,6 +70,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: object
   name: object
+  namespace: upbound-system
 spec:
   forProvider:
     bucketSelector:

@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: big_data_job
   name: big-data-job
+  namespace: upbound-system
 spec:
   forProvider:
     name: dataflow-job

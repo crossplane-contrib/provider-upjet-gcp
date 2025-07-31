@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     autoscalingPolicy:
@@ -33,6 +34,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     baseInstanceName: autoscaler-sample
@@ -56,6 +58,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     canIpForward: false
@@ -89,6 +92,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     provider: ${google-beta}

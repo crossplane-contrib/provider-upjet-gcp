@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: region-internet-ip-port-endpoint
   name: region-internet-ip-port-endpoint
+  namespace: upbound-system
 spec:
   forProvider:
     ipAddress: 8.8.8.8
@@ -25,6 +26,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     autoCreateSubnetworks: false
@@ -39,6 +41,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: group
   name: group
+  namespace: upbound-system
 spec:
   forProvider:
     networkEndpointType: INTERNET_IP_PORT

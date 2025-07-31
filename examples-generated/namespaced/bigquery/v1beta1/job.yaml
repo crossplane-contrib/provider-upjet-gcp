@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: job
   name: job
+  namespace: upbound-system
 spec:
   forProvider:
     jobId: job_query
@@ -36,6 +37,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: bar
   name: bar
+  namespace: upbound-system
 spec:
   forProvider:
     description: This is a test description
@@ -52,6 +54,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: foo
   name: foo
+  namespace: upbound-system
 spec:
   forProvider:
     datasetIdSelector:

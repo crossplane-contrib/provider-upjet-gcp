@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: binding
   name: binding
+  namespace: upbound-system
 spec:
   forProvider:
     location: us-central1
@@ -24,6 +25,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: project
   name: project
+  namespace: upbound-system
 spec:
   forProvider:
     name: project_id
@@ -40,6 +42,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: key
   name: key
+  namespace: upbound-system
 spec:
   forProvider:
     description: For keyname resources.
@@ -56,6 +59,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: value
   name: value
+  namespace: upbound-system
 spec:
   forProvider:
     description: For valuename resources.

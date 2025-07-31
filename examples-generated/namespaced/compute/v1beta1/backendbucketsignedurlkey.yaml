@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: backend_key
   name: backend-key
+  namespace: upbound-system
 spec:
   forProvider:
     backendBucketSelector:
@@ -14,7 +15,6 @@ spec:
     keyValueSecretRef:
       key: attribute.b64_url
       name: example-id
-      namespace: upbound-system
     name: test-key
 
 ---
@@ -27,6 +27,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: test_backend
   name: test-backend
+  namespace: upbound-system
 spec:
   forProvider:
     bucketNameSelector:
@@ -45,6 +46,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: bucket
   name: bucket
+  namespace: upbound-system
 spec:
   forProvider:
     location: EU

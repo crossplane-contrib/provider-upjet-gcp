@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: alert_policy
   name: alert-policy
+  namespace: upbound-system
 spec:
   forProvider:
     combiner: OR

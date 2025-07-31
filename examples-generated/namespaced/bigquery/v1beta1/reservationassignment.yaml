@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: assignment
   name: assignment
+  namespace: upbound-system
 spec:
   forProvider:
     assignee: projects/my-project-name
@@ -24,6 +25,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: basic
   name: basic
+  namespace: upbound-system
 spec:
   forProvider:
     ignoreIdleSlots: false

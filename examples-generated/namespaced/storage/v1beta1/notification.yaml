@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: notification
   name: notification
+  namespace: upbound-system
 spec:
   forProvider:
     bucketSelector:
@@ -31,6 +32,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: topic
   name: topic
+  namespace: upbound-system
 spec:
   forProvider: {}
 
@@ -44,6 +46,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: bucket
   name: bucket
+  namespace: upbound-system
 spec:
   forProvider:
     location: US

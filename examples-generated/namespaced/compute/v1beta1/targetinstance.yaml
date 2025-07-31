@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     instanceSelector:
@@ -22,6 +23,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: target-vm
   name: target-vm
+  namespace: upbound-system
 spec:
   forProvider:
     bootDisk:

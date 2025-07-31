@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: apigee-nat
   name: apigee-nat
+  namespace: upbound-system
 spec:
   forProvider:
     instanceIdSelector:
@@ -22,6 +23,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: apigee_instance
   name: apigee-instance
+  namespace: upbound-system
 spec:
   forProvider:
     description: Terraform-managed Apigee Runtime Instance
@@ -44,6 +46,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: apigee_org
   name: apigee-org
+  namespace: upbound-system
 spec:
   forProvider:
     analyticsRegion: us-central1
@@ -67,6 +70,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: apigee_range
   name: apigee-range
+  namespace: upbound-system
 spec:
   forProvider:
     addressType: INTERNAL
@@ -86,6 +90,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: apigee_network
   name: apigee-network
+  namespace: upbound-system
 spec:
   forProvider: {}
 
@@ -99,6 +104,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: apigee_key
   name: apigee-key
+  namespace: upbound-system
 spec:
   forProvider:
     keyRingSelector:
@@ -115,6 +121,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: apigee_keyring
   name: apigee-keyring
+  namespace: upbound-system
 spec:
   forProvider:
     location: us-central1
@@ -129,6 +136,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: apigee_vpc_connection
   name: apigee-vpc-connection
+  namespace: upbound-system
 spec:
   forProvider:
     networkSelector:

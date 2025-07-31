@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: example-response-policy-rule
   name: example-response-policy-rule
+  namespace: upbound-system
 spec:
   forProvider:
     dnsName: dns.example.com.
@@ -30,6 +31,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: network-1
   name: network-1
+  namespace: upbound-system
 spec:
   forProvider:
     autoCreateSubnetworks: false
@@ -44,6 +46,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: network-2
   name: network-2
+  namespace: upbound-system
 spec:
   forProvider:
     autoCreateSubnetworks: false
@@ -58,6 +61,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: response-policy
   name: response-policy
+  namespace: upbound-system
 spec:
   forProvider:
     networks:

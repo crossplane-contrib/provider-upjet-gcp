@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     networkSelector:
@@ -25,6 +26,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: private_ip_alloc
   name: private-ip-alloc
+  namespace: upbound-system
 spec:
   forProvider:
     addressType: INTERNAL
@@ -44,6 +46,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: peering_network
   name: peering-network
+  namespace: upbound-system
 spec:
   forProvider: {}
 
@@ -57,6 +60,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: peering_routes
   name: peering-routes
+  namespace: upbound-system
 spec:
   forProvider:
     exportCustomRoutes: true

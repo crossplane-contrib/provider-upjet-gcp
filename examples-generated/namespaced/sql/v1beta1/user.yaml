@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: users
   name: users
+  namespace: upbound-system
 spec:
   forProvider:
     host: me.com
@@ -15,7 +16,6 @@ spec:
     passwordSecretRef:
       key: example-key
       name: example-secret
-      namespace: upbound-system
 
 ---
 
@@ -27,6 +27,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: main
   name: main
+  namespace: upbound-system
 spec:
   forProvider:
     databaseVersion: MYSQL_5_7

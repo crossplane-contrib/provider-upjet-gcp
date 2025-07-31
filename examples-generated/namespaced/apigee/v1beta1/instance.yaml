@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: apigee_instance
   name: apigee-instance
+  namespace: upbound-system
 spec:
   forProvider:
     location: us-central1
@@ -23,6 +24,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: apigee_org
   name: apigee-org
+  namespace: upbound-system
 spec:
   forProvider:
     analyticsRegion: us-central1
@@ -41,6 +43,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: apigee_range
   name: apigee-range
+  namespace: upbound-system
 spec:
   forProvider:
     addressType: INTERNAL
@@ -60,6 +63,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: apigee_network
   name: apigee-network
+  namespace: upbound-system
 spec:
   forProvider: {}
 
@@ -73,6 +77,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: apigee_vpc_connection
   name: apigee-vpc-connection
+  namespace: upbound-system
 spec:
   forProvider:
     networkSelector:

@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: cluster-ha
   name: cluster-ha
+  namespace: upbound-system
 spec:
   forProvider:
     authorizationMode: AUTH_MODE_DISABLED
@@ -42,6 +43,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: consumer_net
   name: consumer-net
+  namespace: upbound-system
 spec:
   forProvider:
     autoCreateSubnetworks: false
@@ -56,6 +58,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: consumer_subnet
   name: consumer-subnet
+  namespace: upbound-system
 spec:
   forProvider:
     ipCidrRange: 10.0.0.248/29
@@ -74,6 +77,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     description: my basic service connection policy

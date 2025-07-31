@@ -8,16 +8,15 @@ package v1beta1
 
 import (
 	"context"
-	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	reference "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
+	xpresource "github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 	errors "github.com/pkg/errors"
-	client "sigs.k8s.io/controller-runtime/pkg/client"
-
-	// ResolveReferences of this NodePool.
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
+	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-func (mg *NodePool) ResolveReferences(ctx context.Context, c client.Reader) error {
+func (mg *NodePool) ResolveReferences( // ResolveReferences of this NodePool.
+	ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed
 	var l xpresource.ManagedList
 	r := reference.NewAPINamespacedResolver(c, mg)

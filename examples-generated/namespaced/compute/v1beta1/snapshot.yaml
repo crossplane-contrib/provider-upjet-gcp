@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: snapshot
   name: snapshot
+  namespace: upbound-system
 spec:
   forProvider:
     labels:
@@ -27,6 +28,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: persistent
   name: persistent
+  namespace: upbound-system
 spec:
   forProvider:
     image: ${data.google_compute_image.debian.self_link}

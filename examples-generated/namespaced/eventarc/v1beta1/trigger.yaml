@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: primary
   name: primary
+  namespace: upbound-system
 spec:
   forProvider:
     destination:
@@ -36,6 +37,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     location: us-central1
@@ -61,5 +63,6 @@ metadata:
   labels:
     testing.upbound.io/example-name: foo
   name: foo
+  namespace: upbound-system
 spec:
   forProvider: {}

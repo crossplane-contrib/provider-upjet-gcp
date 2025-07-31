@@ -11,9 +11,9 @@ import (
 
 	jresource "github.com/crossplane/upjet/pkg/resource"
 
-	"github.com/crossplane/crossplane-runtime/pkg/fieldpath"
-	"github.com/crossplane/crossplane-runtime/pkg/reference"
-	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/fieldpath"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/reference"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 )
 
 const (

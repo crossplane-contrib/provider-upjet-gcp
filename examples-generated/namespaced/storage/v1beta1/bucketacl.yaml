@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: image-store-acl
   name: image-store-acl
+  namespace: upbound-system
 spec:
   forProvider:
     bucketSelector:
@@ -25,6 +26,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: image-store
   name: image-store
+  namespace: upbound-system
 spec:
   forProvider:
     location: EU

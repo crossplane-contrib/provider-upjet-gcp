@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: instance
   name: instance
+  namespace: upbound-system
 spec:
   forProvider:
     authorizedNetworkSelector:
@@ -39,6 +40,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: service_range
   name: service-range
+  namespace: upbound-system
 spec:
   forProvider:
     addressType: INTERNAL
@@ -58,6 +60,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: memcache_network
   name: memcache-network
+  namespace: upbound-system
 spec:
   forProvider: {}
 
@@ -71,6 +74,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: private_service_connection
   name: private-service-connection
+  namespace: upbound-system
 spec:
   forProvider:
     networkSelector:

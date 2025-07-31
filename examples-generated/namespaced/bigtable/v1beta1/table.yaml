@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: table
   name: table
+  namespace: upbound-system
 spec:
   forProvider:
     automatedBackupPolicy:
@@ -38,6 +39,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: instance
   name: instance
+  namespace: upbound-system
 spec:
   forProvider:
     cluster:

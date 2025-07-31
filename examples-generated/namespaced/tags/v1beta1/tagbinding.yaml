@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: binding
   name: binding
+  namespace: upbound-system
 spec:
   forProvider:
     parent: //cloudresourcemanager.googleapis.com/projects/${google_project.project.number}
@@ -23,6 +24,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: project
   name: project
+  namespace: upbound-system
 spec:
   forProvider:
     deletionPolicy: DELETE
@@ -40,6 +42,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: key
   name: key
+  namespace: upbound-system
 spec:
   forProvider:
     description: For keyname resources.
@@ -56,6 +59,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: value
   name: value
+  namespace: upbound-system
 spec:
   forProvider:
     description: For valuename resources.

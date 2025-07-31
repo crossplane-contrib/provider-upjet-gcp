@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     urlMapSelector:
@@ -23,6 +24,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: home
   name: home
+  namespace: upbound-system
 spec:
   forProvider:
     healthChecksRefs:
@@ -42,6 +44,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     checkIntervalSec: 1
@@ -61,6 +64,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: urlmap
   name: urlmap
+  namespace: upbound-system
 spec:
   forProvider:
     defaultServiceSelector:

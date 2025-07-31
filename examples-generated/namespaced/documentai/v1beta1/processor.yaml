@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: processor
   name: processor
+  namespace: upbound-system
 spec:
   forProvider:
     displayName: test-processor

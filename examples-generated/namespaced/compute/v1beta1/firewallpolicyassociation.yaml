@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     attachmentTargetSelector:
@@ -26,6 +27,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: policy
   name: policy
+  namespace: upbound-system
 spec:
   forProvider:
     description: Example Resource
@@ -42,6 +44,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: folder
   name: folder
+  namespace: upbound-system
 spec:
   forProvider:
     deletionProtection: false

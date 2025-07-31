@@ -6,16 +6,15 @@ metadata:
   labels:
     testing.upbound.io/example-name: tenant_oauth_idp_config
   name: tenant-oauth-idp-config
+  namespace: upbound-system
 spec:
   forProvider:
     clientIdSecretRef:
       key: example-key
       name: example-secret
-      namespace: upbound-system
     clientSecretSecretRef:
       key: example-key
       name: example-secret
-      namespace: upbound-system
     displayName: Display Name
     enabled: true
     issuer: issuer
@@ -34,6 +33,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: tenant
   name: tenant
+  namespace: upbound-system
 spec:
   forProvider:
     displayName: tenant

@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     ipAddressSelector:
@@ -29,6 +30,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     backend:
@@ -55,6 +57,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     allow:
@@ -80,6 +83,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider: {}
 
@@ -93,6 +97,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     checkIntervalSec: 1
@@ -110,6 +115,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     baseInstanceName: vm
@@ -135,6 +141,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     disk:
@@ -187,6 +194,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     autoCreateSubnetworks: false
@@ -202,16 +210,15 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     certificateSecretRef:
       key: attribute.cert_pem
       name: example-self-signed-cert
-      namespace: upbound-system
     privateKeySecretRef:
       key: attribute.private_key_pem
       name: example-private-key
-      namespace: upbound-system
 
 ---
 
@@ -223,6 +230,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     ipCidrRange: 10.0.1.0/24
@@ -242,6 +250,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     backendServiceSelector:

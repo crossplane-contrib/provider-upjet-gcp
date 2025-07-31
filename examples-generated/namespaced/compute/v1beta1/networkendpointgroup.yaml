@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: neg
   name: neg
+  namespace: upbound-system
 spec:
   forProvider:
     defaultPort: "90"
@@ -27,6 +28,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     autoCreateSubnetworks: false
@@ -41,6 +43,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     ipCidrRange: 10.0.0.0/16

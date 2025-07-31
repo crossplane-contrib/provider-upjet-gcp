@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: ""
   name: ""
+  namespace: upbound-system
 spec:
   forProvider:
     envgroupIdSelector:
@@ -25,6 +26,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: apigee_envgroup
   name: apigee-envgroup
+  namespace: upbound-system
 spec:
   forProvider:
     hostnames:
@@ -43,6 +45,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: apigee_env
   name: apigee-env
+  namespace: upbound-system
 spec:
   forProvider:
     description: Apigee Environment
@@ -61,6 +64,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: apigee_org
   name: apigee-org
+  namespace: upbound-system
 spec:
   forProvider:
     analyticsRegion: us-central1
@@ -79,6 +83,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: apigee_range
   name: apigee-range
+  namespace: upbound-system
 spec:
   forProvider:
     addressType: INTERNAL
@@ -99,6 +104,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: apigee_network
   name: apigee-network
+  namespace: upbound-system
 spec:
   forProvider:
     project: my-project
@@ -113,6 +119,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: project
   name: project
+  namespace: upbound-system
 spec:
   forProvider:
     billingAccount: 000000-0000000-0000000-000000
@@ -131,6 +138,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: apigee
   name: apigee
+  namespace: upbound-system
 spec:
   forProvider:
     projectSelector:
@@ -148,6 +156,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: compute
   name: compute
+  namespace: upbound-system
 spec:
   forProvider:
     projectSelector:
@@ -165,6 +174,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: servicenetworking
   name: servicenetworking
+  namespace: upbound-system
 spec:
   forProvider:
     projectSelector:
@@ -182,6 +192,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: apigee_vpc_connection
   name: apigee-vpc-connection
+  namespace: upbound-system
 spec:
   forProvider:
     networkSelector:

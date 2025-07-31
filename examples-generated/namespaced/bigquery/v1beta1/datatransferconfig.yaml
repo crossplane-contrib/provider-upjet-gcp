@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: query_config
   name: query-config
+  namespace: upbound-system
 spec:
   forProvider:
     dataSourceId: scheduled_query
@@ -30,6 +31,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: my_dataset
   name: my-dataset
+  namespace: upbound-system
 spec:
   forProvider:
     description: bar

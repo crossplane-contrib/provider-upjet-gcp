@@ -12,7 +12,7 @@ import (
 
 	"github.com/crossplane/upjet/pkg/config"
 
-	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 
 	"github.com/upbound/provider-gcp/config/namespaced/common"
 )

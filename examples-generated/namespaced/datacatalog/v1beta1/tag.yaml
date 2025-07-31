@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: basic_tag
   name: basic-tag
+  namespace: upbound-system
 spec:
   forProvider:
     fields:
@@ -28,6 +29,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: entry
   name: entry
+  namespace: upbound-system
 spec:
   forProvider:
     entryGroupSelector:
@@ -47,6 +49,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: entry_group
   name: entry-group
+  namespace: upbound-system
 spec:
   forProvider:
     entryGroupId: my_entry_group
@@ -61,6 +64,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: tag_template
   name: tag-template
+  namespace: upbound-system
 spec:
   forProvider:
     displayName: Demo Tag Template

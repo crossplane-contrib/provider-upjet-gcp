@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: backend_key
   name: backend-key
+  namespace: upbound-system
 spec:
   forProvider:
     backendServiceSelector:
@@ -14,7 +15,6 @@ spec:
     keyValueSecretRef:
       key: attribute.b64_url
       name: example-id
-      namespace: upbound-system
     name: test-key
 
 ---
@@ -27,6 +27,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: example_backend
   name: example-backend
+  namespace: upbound-system
 spec:
   forProvider:
     backend:
@@ -51,6 +52,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     checkIntervalSec: 1
@@ -67,6 +69,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: webservers
   name: webservers
+  namespace: upbound-system
 spec:
   forProvider:
     baseInstanceName: webserver
@@ -88,6 +91,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: webserver
   name: webserver
+  namespace: upbound-system
 spec:
   forProvider:
     disk:

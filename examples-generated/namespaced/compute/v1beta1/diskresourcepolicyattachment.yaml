@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: attachment
   name: attachment
+  namespace: upbound-system
 spec:
   forProvider:
     diskSelector:
@@ -26,6 +27,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: ssd
   name: ssd
+  namespace: upbound-system
 spec:
   forProvider:
     image: ${data.google_compute_image.my_image.self_link}
@@ -43,6 +45,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: policy
   name: policy
+  namespace: upbound-system
 spec:
   forProvider:
     region: us-central1

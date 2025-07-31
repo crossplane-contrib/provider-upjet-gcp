@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: google_compute_forwarding_rule
   name: google-compute-forwarding-rule
+  namespace: upbound-system
 spec:
   forProvider:
     ipProtocol: TCP
@@ -34,6 +35,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: fw-iap
   name: fw-iap
+  namespace: upbound-system
 spec:
   forProvider:
     allow:
@@ -58,6 +60,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: fw-ilb-to-backends
   name: fw-ilb-to-backends
+  namespace: upbound-system
 spec:
   forProvider:
     allow:
@@ -86,6 +89,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: vm-test
   name: vm-test
+  namespace: upbound-system
 spec:
   forProvider:
     bootDisk:
@@ -114,6 +118,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: instance_template
   name: instance-template
+  namespace: upbound-system
 spec:
   forProvider:
     disk:
@@ -165,6 +170,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: ilb_network
   name: ilb-network
+  namespace: upbound-system
 spec:
   forProvider:
     autoCreateSubnetworks: false
@@ -180,6 +186,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     backend:
@@ -206,6 +213,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     httpHealthCheck:
@@ -223,6 +231,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: mig
   name: mig
+  namespace: upbound-system
 spec:
   forProvider:
     baseInstanceName: vm
@@ -246,6 +255,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     provider: ${google-beta}
@@ -264,6 +274,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     defaultServiceSelector:
@@ -282,6 +293,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: ilb_subnet
   name: ilb-subnet
+  namespace: upbound-system
 spec:
   forProvider:
     ipCidrRange: 10.0.1.0/24
@@ -301,6 +313,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: proxy_subnet
   name: proxy-subnet
+  namespace: upbound-system
 spec:
   forProvider:
     ipCidrRange: 10.0.0.0/24

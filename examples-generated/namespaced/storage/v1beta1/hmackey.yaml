@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: key
   name: key
+  namespace: upbound-system
 spec:
   forProvider:
     serviceAccountEmailSelector:
@@ -22,5 +23,6 @@ metadata:
   labels:
     testing.upbound.io/example-name: service_account
   name: service-account
+  namespace: upbound-system
 spec:
   forProvider: {}

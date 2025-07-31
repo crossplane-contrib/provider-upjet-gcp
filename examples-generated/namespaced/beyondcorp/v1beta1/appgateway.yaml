@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: app_gateway
   name: app-gateway
+  namespace: upbound-system
 spec:
   forProvider:
     hostType: GCP_REGIONAL_MIG

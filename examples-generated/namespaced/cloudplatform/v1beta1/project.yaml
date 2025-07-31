@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: my_project
   name: my-project
+  namespace: upbound-system
 spec:
   forProvider:
     name: My Project

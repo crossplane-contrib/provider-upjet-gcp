@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: service-perimeter
   name: service-perimeter
+  namespace: upbound-system
 spec:
   forProvider:
     name: accessPolicies/${google_access_context_manager_access_policy.access-policy.name}/servicePerimeters/restrict_storage
@@ -25,6 +26,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: access-level
   name: access-level
+  namespace: upbound-system
 spec:
   forProvider:
     basic:
@@ -51,6 +53,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: access-policy
   name: access-policy
+  namespace: upbound-system
 spec:
   forProvider:
     parent: organizations/123456789

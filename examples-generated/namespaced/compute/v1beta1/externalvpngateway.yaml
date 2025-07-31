@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: external_gateway
   name: external-gateway
+  namespace: upbound-system
 spec:
   forProvider:
     description: An externally managed VPN gateway
@@ -24,6 +25,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: ha_gateway
   name: ha-gateway
+  namespace: upbound-system
 spec:
   forProvider:
     networkSelector:
@@ -41,6 +43,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: network
   name: network
+  namespace: upbound-system
 spec:
   forProvider:
     autoCreateSubnetworks: false
@@ -56,6 +59,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: router1
   name: router1
+  namespace: upbound-system
 spec:
   forProvider:
     bgp:
@@ -74,6 +78,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: router1_interface1
   name: router1-interface1
+  namespace: upbound-system
 spec:
   forProvider:
     ipRange: 169.254.0.1/30
@@ -96,6 +101,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: router1_interface2
   name: router1-interface2
+  namespace: upbound-system
 spec:
   forProvider:
     ipRange: 169.254.1.1/30
@@ -118,6 +124,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: router1_peer1
   name: router1-peer1
+  namespace: upbound-system
 spec:
   forProvider:
     advertisedRoutePriority: 100
@@ -145,6 +152,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: router1_peer2
   name: router1-peer2
+  namespace: upbound-system
 spec:
   forProvider:
     advertisedRoutePriority: 100
@@ -172,6 +180,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: network_subnet1
   name: network-subnet1
+  namespace: upbound-system
 spec:
   forProvider:
     ipCidrRange: 10.0.1.0/24
@@ -190,6 +199,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: network_subnet2
   name: network-subnet2
+  namespace: upbound-system
 spec:
   forProvider:
     ipCidrRange: 10.0.2.0/24
@@ -208,6 +218,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: tunnel1
   name: tunnel1
+  namespace: upbound-system
 spec:
   forProvider:
     peerExternalGatewayInterface: 0
@@ -221,7 +232,6 @@ spec:
     sharedSecretSecretRef:
       key: example-key
       name: example-secret
-      namespace: upbound-system
     vpnGatewayInterface: 0
     vpnGatewaySelector:
       matchLabels:
@@ -237,6 +247,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: tunnel2
   name: tunnel2
+  namespace: upbound-system
 spec:
   forProvider:
     peerExternalGatewayInterface: 0
@@ -250,7 +261,6 @@ spec:
     sharedSecretSecretRef:
       key: example-key
       name: example-secret
-      namespace: upbound-system
     vpnGatewayInterface: 1
     vpnGatewaySelector:
       matchLabels:

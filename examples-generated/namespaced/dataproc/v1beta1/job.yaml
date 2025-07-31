@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: spark
   name: spark
+  namespace: upbound-system
 spec:
   forProvider:
     forceDelete: true
@@ -38,6 +39,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: mycluster
   name: mycluster
+  namespace: upbound-system
 spec:
   forProvider:
     name: dproc-cluster-unique-name

@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: ap
   name: ap
+  namespace: upbound-system
 spec:
   forProvider:
     ignoreWarnings: true
@@ -24,6 +25,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: instance
   name: instance
+  namespace: upbound-system
 spec:
   forProvider:
     cluster:

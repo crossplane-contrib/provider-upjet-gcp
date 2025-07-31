@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: basic_entity_type
   name: basic-entity-type
+  namespace: upbound-system
 spec:
   forProvider:
     displayName: MyEntity
@@ -34,6 +35,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: agent
   name: agent
+  namespace: upbound-system
 spec:
   forProvider:
     avatarUri: https://cloud.google.com/_static/images/cloud/icons/favicons/onecloud/super_cloud.png

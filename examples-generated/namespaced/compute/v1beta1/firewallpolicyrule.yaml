@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: primary
   name: primary
+  namespace: upbound-system
 spec:
   forProvider:
     action: allow
@@ -48,6 +49,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     description: Resource created for Terraform acceptance testing
@@ -64,6 +66,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: folder
   name: folder
+  namespace: upbound-system
 spec:
   forProvider:
     deletionProtection: false
@@ -82,6 +85,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: basic_global_networksecurity_address_group
   name: basic-global-networksecurity-address-group
+  namespace: upbound-system
 spec:
   forProvider:
     capacity: 100
@@ -102,6 +106,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: basic_key
   name: basic-key
+  namespace: upbound-system
 spec:
   forProvider:
     description: For keyname resources.
@@ -121,6 +126,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: basic_value
   name: basic-value
+  namespace: upbound-system
 spec:
   forProvider:
     description: For valuename resources.

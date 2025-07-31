@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: appserver
   name: appserver
+  namespace: upbound-system
 spec:
   forProvider:
     allInstancesConfig:
@@ -45,6 +46,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: autohealing
   name: autohealing
+  namespace: upbound-system
 spec:
   forProvider:
     checkIntervalSec: 5

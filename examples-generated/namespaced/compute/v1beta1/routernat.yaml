@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: nat
   name: nat
+  namespace: upbound-system
 spec:
   forProvider:
     logConfig:
@@ -28,6 +29,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: net
   name: net
+  namespace: upbound-system
 spec:
   forProvider: {}
 
@@ -41,6 +43,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: router
   name: router
+  namespace: upbound-system
 spec:
   forProvider:
     bgp:
@@ -60,6 +63,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: subnet
   name: subnet
+  namespace: upbound-system
 spec:
   forProvider:
     ipCidrRange: 10.0.0.0/16

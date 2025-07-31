@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: sproc
   name: sproc
+  namespace: upbound-system
 spec:
   forProvider:
     datasetIdSelector:
@@ -27,5 +28,6 @@ metadata:
   labels:
     testing.upbound.io/example-name: test
   name: test
+  namespace: upbound-system
 spec:
   forProvider: {}

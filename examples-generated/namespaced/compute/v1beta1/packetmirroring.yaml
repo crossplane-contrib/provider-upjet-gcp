@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: foobar
   name: foobar
+  namespace: upbound-system
 spec:
   forProvider:
     collectorIlb:
@@ -41,6 +42,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     allPorts: true
@@ -68,6 +70,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     checkIntervalSec: 1
@@ -85,6 +88,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: mirror
   name: mirror
+  namespace: upbound-system
 spec:
   forProvider:
     bootDisk:
@@ -110,6 +114,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider: {}
 
@@ -123,6 +128,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     healthChecksRefs:
@@ -138,6 +144,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     ipCidrRange: 10.2.0.0/16

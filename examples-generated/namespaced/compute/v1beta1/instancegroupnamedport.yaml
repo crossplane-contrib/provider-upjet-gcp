@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: my_port
   name: my-port
+  namespace: upbound-system
 spec:
   forProvider:
     group: ${google_container_cluster.my_cluster.node_pool[0].instance_group_urls[0]}
@@ -23,6 +24,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: container_network
   name: container-network
+  namespace: upbound-system
 spec:
   forProvider:
     autoCreateSubnetworks: false
@@ -37,6 +39,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: container_subnetwork
   name: container-subnetwork
+  namespace: upbound-system
 spec:
   forProvider:
     ipCidrRange: 10.0.36.0/24
@@ -55,6 +58,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: my_cluster
   name: my-cluster
+  namespace: upbound-system
 spec:
   forProvider:
     deletionProtection: true

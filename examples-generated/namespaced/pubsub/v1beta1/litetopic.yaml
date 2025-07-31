@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: example
   name: example
+  namespace: upbound-system
 spec:
   forProvider:
     partitionConfig:
@@ -31,6 +32,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: example
   name: example
+  namespace: upbound-system
 spec:
   forProvider:
     project: ${data.google_project.project.number}

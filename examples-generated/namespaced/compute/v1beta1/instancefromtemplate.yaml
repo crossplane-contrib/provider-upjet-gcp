@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: tpl
   name: tpl
+  namespace: upbound-system
 spec:
   forProvider:
     canIpForward: false
@@ -27,6 +28,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: tpl
   name: tpl
+  namespace: upbound-system
 spec:
   forProvider:
     canIpForward: true

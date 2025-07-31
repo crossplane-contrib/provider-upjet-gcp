@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: example-endpoint
   name: example-endpoint
+  namespace: upbound-system
 spec:
   forProvider:
     location: us-central1-f
@@ -25,6 +26,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: service_range
   name: service-range
+  namespace: upbound-system
 spec:
   forProvider:
     addressType: INTERNAL
@@ -44,6 +46,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider: {}
 
@@ -57,6 +60,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: private_service_connection
   name: private-service-connection
+  namespace: upbound-system
 spec:
   forProvider:
     networkSelector:

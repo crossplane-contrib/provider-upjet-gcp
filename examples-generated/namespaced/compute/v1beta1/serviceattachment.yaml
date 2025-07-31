@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: psc_ilb_service_attachment
   name: psc-ilb-service-attachment
+  namespace: upbound-system
 spec:
   forProvider:
     connectionPreference: ACCEPT_AUTOMATIC
@@ -30,6 +31,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: psc_ilb_consumer_address
   name: psc-ilb-consumer-address
+  namespace: upbound-system
 spec:
   forProvider:
     addressType: INTERNAL
@@ -48,6 +50,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: psc_ilb_consumer
   name: psc-ilb-consumer
+  namespace: upbound-system
 spec:
   forProvider:
     ipAddressSelector:
@@ -72,6 +75,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: psc_ilb_target_service
   name: psc-ilb-target-service
+  namespace: upbound-system
 spec:
   forProvider:
     allPorts: true
@@ -97,6 +101,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: producer_service_health_check
   name: producer-service-health-check
+  namespace: upbound-system
 spec:
   forProvider:
     checkIntervalSec: 1
@@ -114,6 +119,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: psc_ilb_network
   name: psc-ilb-network
+  namespace: upbound-system
 spec:
   forProvider:
     autoCreateSubnetworks: false
@@ -128,6 +134,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: producer_service_backend
   name: producer-service-backend
+  namespace: upbound-system
 spec:
   forProvider:
     healthChecksRefs:
@@ -144,6 +151,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: psc_ilb_nat
   name: psc-ilb-nat
+  namespace: upbound-system
 spec:
   forProvider:
     ipCidrRange: 10.1.0.0/16
@@ -163,6 +171,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: psc_ilb_producer_subnetwork
   name: psc-ilb-producer-subnetwork
+  namespace: upbound-system
 spec:
   forProvider:
     ipCidrRange: 10.0.0.0/16

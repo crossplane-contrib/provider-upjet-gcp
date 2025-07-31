@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: name
   name: name
+  namespace: upbound-system
 spec:
   forProvider:
     dnsSuffix: example.com.

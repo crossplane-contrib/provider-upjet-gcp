@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: basic
   name: basic
+  namespace: upbound-system
 spec:
   forProvider:
     bucketId: _Default
@@ -25,6 +26,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     name: your-project-id

@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: example
   name: example
+  namespace: upbound-system
 spec:
   forProvider:
     aws:
@@ -24,5 +25,6 @@ metadata:
   labels:
     testing.upbound.io/example-name: pool
   name: pool
+  namespace: upbound-system
 spec:
   forProvider: {}

@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: nodes
   name: nodes
+  namespace: upbound-system
 spec:
   forProvider:
     description: example google_compute_node_group for Terraform Google Provider
@@ -25,6 +26,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: soletenant-tmpl
   name: soletenant-tmpl
+  namespace: upbound-system
 spec:
   forProvider:
     nodeType: n1-node-96-624

@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: basic_policy_tag
   name: basic-policy-tag
+  namespace: upbound-system
 spec:
   forProvider:
     description: A policy tag normally associated with low security items
@@ -24,6 +25,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: my_taxonomy
   name: my-taxonomy
+  namespace: upbound-system
 spec:
   forProvider:
     activatedPolicyTypes:

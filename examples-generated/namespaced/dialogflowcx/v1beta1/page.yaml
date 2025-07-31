@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: basic_page
   name: basic-page
+  namespace: upbound-system
 spec:
   forProvider:
     advancedSettings:
@@ -461,6 +462,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: agent
   name: agent
+  namespace: upbound-system
 spec:
   forProvider:
     avatarUri: https://cloud.google.com/_static/images/cloud/icons/favicons/onecloud/super_cloud.png
@@ -488,6 +490,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: my_webhook
   name: my-webhook
+  namespace: upbound-system
 spec:
   forProvider:
     displayName: MyWebhook

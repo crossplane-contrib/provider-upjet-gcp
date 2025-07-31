@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: tenant_saml_config
   name: tenant-saml-config
+  namespace: upbound-system
 spec:
   forProvider:
     displayName: Display Name
@@ -14,7 +15,6 @@ spec:
       - x509CertificateSecretRef:
           key: attribute.rsa_cert.pem
           name: example-secret
-          namespace: upbound-system
       idpEntityId: tf-idp
       signRequest: true
       ssoUrl: https://example.com
@@ -36,6 +36,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: tenant
   name: tenant
+  namespace: upbound-system
 spec:
   forProvider:
     displayName: tenant

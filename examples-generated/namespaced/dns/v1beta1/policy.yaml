@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: example-policy
   name: example-policy
+  namespace: upbound-system
 spec:
   forProvider:
     alternativeNameServerConfig:
@@ -33,6 +34,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: network-1
   name: network-1
+  namespace: upbound-system
 spec:
   forProvider:
     autoCreateSubnetworks: false
@@ -47,6 +49,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: network-2
   name: network-2
+  namespace: upbound-system
 spec:
   forProvider:
     autoCreateSubnetworks: false

@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: backup
   name: backup
+  namespace: upbound-system
 spec:
   forProvider:
     description: This is a filestore backup for the test instance
@@ -28,6 +29,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: instance
   name: instance
+  namespace: upbound-system
 spec:
   forProvider:
     fileShares:

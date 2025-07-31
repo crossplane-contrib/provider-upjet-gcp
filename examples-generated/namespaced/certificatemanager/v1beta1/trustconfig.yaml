@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     description: sample description for the trust config
@@ -17,9 +18,7 @@ spec:
       - pemCertificateSecretRef:
           key: attribute.cert.pem
           name: example-secret
-          namespace: upbound-system
       trustAnchors:
       - pemCertificateSecretRef:
           key: attribute.cert.pem
           name: example-secret
-          namespace: upbound-system

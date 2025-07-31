@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     certificatesRefs:
@@ -29,6 +30,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: certificate
   name: certificate
+  namespace: upbound-system
 spec:
   forProvider:
     description: The default cert
@@ -51,6 +53,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: certificate_map
   name: certificate-map
+  namespace: upbound-system
 spec:
   forProvider:
     description: My acceptance test certificate map
@@ -68,6 +71,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: instance
   name: instance
+  namespace: upbound-system
 spec:
   forProvider:
     description: The default dnss
@@ -83,6 +87,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: instance2
   name: instance2
+  namespace: upbound-system
 spec:
   forProvider:
     description: The default dnss

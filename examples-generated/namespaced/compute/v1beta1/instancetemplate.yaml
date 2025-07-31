@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     canIpForward: false
@@ -55,6 +56,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: foobar
   name: foobar
+  namespace: upbound-system
 spec:
   forProvider:
     image: ${data.google_compute_image.my_image.self_link}
@@ -72,6 +74,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: daily_backup
   name: daily-backup
+  namespace: upbound-system
 spec:
   forProvider:
     region: us-central1
@@ -91,6 +94,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     displayName: Service Account

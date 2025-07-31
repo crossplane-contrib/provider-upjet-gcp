@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: access-level-conditions
   name: access-level-conditions
+  namespace: upbound-system
 spec:
   forProvider:
     accessLevelSelector:
@@ -38,6 +39,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: access-level-service-account
   name: access-level-service-account
+  namespace: upbound-system
 spec:
   forProvider:
     basic:
@@ -64,6 +66,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: access-policy
   name: access-policy
+  namespace: upbound-system
 spec:
   forProvider:
     parent: organizations/123456789
@@ -79,5 +82,6 @@ metadata:
   labels:
     testing.upbound.io/example-name: created-later
   name: created-later
+  namespace: upbound-system
 spec:
   forProvider: {}

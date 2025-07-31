@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: primary
   name: primary
+  namespace: upbound-system
 spec:
   forProvider:
     description: Zone for DCL
@@ -32,6 +33,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: basic
   name: basic
+  namespace: upbound-system
 spec:
   forProvider:
     description: Lake for DCL

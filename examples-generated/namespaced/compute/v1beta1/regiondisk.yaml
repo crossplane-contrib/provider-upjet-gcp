@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: regiondisk
   name: regiondisk
+  namespace: upbound-system
 spec:
   forProvider:
     physicalBlockSizeBytes: 4096
@@ -28,6 +29,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: disk
   name: disk
+  namespace: upbound-system
 spec:
   forProvider:
     image: debian-cloud/debian-11
@@ -45,6 +47,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: snapdisk
   name: snapdisk
+  namespace: upbound-system
 spec:
   forProvider:
     sourceDiskSelector:

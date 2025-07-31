@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: primary
   name: primary
+  namespace: upbound-system
 spec:
   forProvider:
     action: allow
@@ -48,6 +49,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: basic_network
   name: basic-network
+  namespace: upbound-system
 spec:
   forProvider: {}
 
@@ -61,6 +63,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: basic_network_firewall_policy
   name: basic-network-firewall-policy
+  namespace: upbound-system
 spec:
   forProvider:
     description: Sample global network firewall policy
@@ -76,6 +79,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: basic_global_networksecurity_address_group
   name: basic-global-networksecurity-address-group
+  namespace: upbound-system
 spec:
   forProvider:
     capacity: 100
@@ -96,6 +100,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: basic_key
   name: basic-key
+  namespace: upbound-system
 spec:
   forProvider:
     description: For keyname resources.
@@ -115,6 +120,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: basic_value
   name: basic-value
+  namespace: upbound-system
 spec:
   forProvider:
     description: For valuename resources.

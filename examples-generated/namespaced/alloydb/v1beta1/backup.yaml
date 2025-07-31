@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     clusterNameSelector:
@@ -23,6 +24,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     location: us-central1
@@ -41,6 +43,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     clusterSelector:
@@ -60,6 +63,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: private_ip_alloc
   name: private-ip-alloc
+  namespace: upbound-system
 spec:
   forProvider:
     addressType: INTERNAL
@@ -79,6 +83,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider: {}
 
@@ -92,6 +97,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: vpc_connection
   name: vpc-connection
+  namespace: upbound-system
 spec:
   forProvider:
     networkSelector:

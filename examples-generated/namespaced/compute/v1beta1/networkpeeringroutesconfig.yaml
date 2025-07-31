@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: peering_primary_routes
   name: peering-primary-routes
+  namespace: upbound-system
 spec:
   forProvider:
     exportCustomRoutes: true
@@ -29,6 +30,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: network_primary
   name: network-primary
+  namespace: upbound-system
 spec:
   forProvider:
     autoCreateSubnetworks: "false"
@@ -43,6 +45,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: network_secondary
   name: network-secondary
+  namespace: upbound-system
 spec:
   forProvider:
     autoCreateSubnetworks: "false"
@@ -57,6 +60,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: peering_primary
   name: peering-primary
+  namespace: upbound-system
 spec:
   forProvider:
     exportCustomRoutes: true
@@ -80,6 +84,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: peering_secondary
   name: peering-secondary
+  namespace: upbound-system
 spec:
   forProvider:
     networkSelector:

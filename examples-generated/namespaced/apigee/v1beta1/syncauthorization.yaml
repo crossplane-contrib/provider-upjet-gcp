@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: apigee_sync_authorization
   name: apigee-sync-authorization
+  namespace: upbound-system
 spec:
   forProvider:
     identities:
@@ -24,6 +25,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: apigee_org
   name: apigee-org
+  namespace: upbound-system
 spec:
   forProvider:
     analyticsRegion: us-central1
@@ -40,6 +42,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: project
   name: project
+  namespace: upbound-system
 spec:
   forProvider:
     billingAccount: 000000-0000000-0000000-000000
@@ -58,6 +61,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: apigee
   name: apigee
+  namespace: upbound-system
 spec:
   forProvider:
     projectSelector:
@@ -75,6 +79,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: service_account
   name: service-account
+  namespace: upbound-system
 spec:
   forProvider:
     displayName: Service Account

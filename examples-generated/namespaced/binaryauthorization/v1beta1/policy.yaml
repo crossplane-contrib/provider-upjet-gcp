@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: policy
   name: policy
+  namespace: upbound-system
 spec:
   forProvider:
     admissionWhitelistPatterns:
@@ -30,6 +31,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: attestor
   name: attestor
+  namespace: upbound-system
 spec:
   forProvider:
     attestationAuthorityNote:
@@ -47,6 +49,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: note
   name: note
+  namespace: upbound-system
 spec:
   forProvider:
     attestationAuthority:

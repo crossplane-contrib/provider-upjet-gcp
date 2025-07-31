@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: service-perimeter-resource
   name: service-perimeter-resource
+  namespace: upbound-system
 spec:
   forProvider:
     perimeterNameSelector:
@@ -23,6 +24,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: access-policy
   name: access-policy
+  namespace: upbound-system
 spec:
   forProvider:
     parent: organizations/123456789
@@ -38,6 +40,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: service-perimeter-resource
   name: service-perimeter-resource
+  namespace: upbound-system
 spec:
   forProvider:
     name: accessPolicies/${google_access_context_manager_access_policy.access-policy.name}/servicePerimeters/restrict_all

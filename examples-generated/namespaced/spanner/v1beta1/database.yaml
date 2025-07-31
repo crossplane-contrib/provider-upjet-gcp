@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: database
   name: database
+  namespace: upbound-system
 spec:
   forProvider:
     ddl:
@@ -28,6 +29,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: main
   name: main
+  namespace: upbound-system
 spec:
   forProvider:
     config: regional-europe-west1

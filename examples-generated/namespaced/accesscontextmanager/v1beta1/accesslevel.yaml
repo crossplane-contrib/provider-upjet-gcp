@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: access-level
   name: access-level
+  namespace: upbound-system
 spec:
   forProvider:
     basic:
@@ -32,6 +33,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: access-policy
   name: access-policy
+  namespace: upbound-system
 spec:
   forProvider:
     parent: organizations/123456789

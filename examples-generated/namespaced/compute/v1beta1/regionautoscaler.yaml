@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: foobar
   name: foobar
+  namespace: upbound-system
 spec:
   forProvider:
     autoscalingPolicy:
@@ -29,6 +30,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: foobar
   name: foobar
+  namespace: upbound-system
 spec:
   forProvider:
     disk:
@@ -62,6 +64,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: foobar
   name: foobar
+  namespace: upbound-system
 spec:
   forProvider:
     baseInstanceName: foobar
@@ -85,5 +88,6 @@ metadata:
   labels:
     testing.upbound.io/example-name: foobar
   name: foobar
+  namespace: upbound-system
 spec:
   forProvider: {}

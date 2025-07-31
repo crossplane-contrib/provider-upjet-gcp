@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: foobar
   name: foobar
+  namespace: upbound-system
 spec:
   forProvider:
     bgp:
@@ -30,6 +31,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: foobar
   name: foobar
+  namespace: upbound-system
 spec:
   forProvider:
     autoCreateSubnetworks: false

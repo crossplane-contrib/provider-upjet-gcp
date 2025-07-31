@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: instance
   name: instance
+  namespace: upbound-system
 spec:
   forProvider:
     databaseVersion: MYSQL_8_0
@@ -14,7 +15,6 @@ spec:
     passwordSecretRef:
       key: example-key
       name: example-secret
-      namespace: upbound-system
     port: 3306
     region: us-central1
     username: some-user

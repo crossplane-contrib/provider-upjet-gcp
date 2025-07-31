@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: logging_log_view
   name: logging-log-view
+  namespace: upbound-system
 spec:
   forProvider:
     bucketSelector:
@@ -24,6 +25,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: logging_log_view
   name: logging-log-view
+  namespace: upbound-system
 spec:
   forProvider:
     bucketId: _Default

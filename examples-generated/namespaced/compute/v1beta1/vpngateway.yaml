@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: target_gateway
   name: target-gateway
+  namespace: upbound-system
 spec:
   forProvider:
     networkSelector:
@@ -22,6 +23,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: vpn_static_ip
   name: vpn-static-ip
+  namespace: upbound-system
 spec:
   forProvider: {}
 
@@ -35,6 +37,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: fr_esp
   name: fr-esp
+  namespace: upbound-system
 spec:
   forProvider:
     ipAddressSelector:
@@ -55,6 +58,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: fr_udp4500
   name: fr-udp4500
+  namespace: upbound-system
 spec:
   forProvider:
     ipAddressSelector:
@@ -76,6 +80,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: fr_udp500
   name: fr-udp500
+  namespace: upbound-system
 spec:
   forProvider:
     ipAddressSelector:
@@ -97,6 +102,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: network1
   name: network1
+  namespace: upbound-system
 spec:
   forProvider: {}
 
@@ -110,6 +116,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: route1
   name: route1
+  namespace: upbound-system
 spec:
   forProvider:
     destRange: 15.0.0.0/24
@@ -131,13 +138,13 @@ metadata:
   labels:
     testing.upbound.io/example-name: tunnel1
   name: tunnel1
+  namespace: upbound-system
 spec:
   forProvider:
     peerIp: 15.0.0.120
     sharedSecretSecretRef:
       key: example-key
       name: example-secret
-      namespace: upbound-system
     targetVpnGatewaySelector:
       matchLabels:
         testing.upbound.io/example-name: target_gateway

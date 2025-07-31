@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: with_disk
   name: with-disk
+  namespace: upbound-system
 spec:
   forProvider:
     instanceGroupManagerSelector:
@@ -36,6 +37,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     image: debian-11-bullseye-v20220719
@@ -53,6 +55,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: igm-no-tp
   name: igm-no-tp
+  namespace: upbound-system
 spec:
   forProvider:
     baseInstanceName: igm-no-tp
@@ -75,6 +78,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: igm-basic
   name: igm-basic
+  namespace: upbound-system
 spec:
   forProvider:
     canIpForward: false

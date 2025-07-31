@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: default-endpoint
   name: default-endpoint
+  namespace: upbound-system
 spec:
   forProvider:
     fqdn: www.example.com
@@ -24,6 +25,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: neg
   name: neg
+  namespace: upbound-system
 spec:
   forProvider:
     defaultPort: "90"

@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: dashboard
   name: dashboard
+  namespace: upbound-system
 spec:
   forProvider:
     dashboardJson: |+

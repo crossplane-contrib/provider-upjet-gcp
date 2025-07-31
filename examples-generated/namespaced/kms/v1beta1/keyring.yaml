@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: example-keyring
   name: example-keyring
+  namespace: upbound-system
 spec:
   forProvider:
     location: global

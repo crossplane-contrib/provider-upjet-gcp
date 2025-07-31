@@ -6,16 +6,15 @@ metadata:
   labels:
     testing.upbound.io/example-name: idp_config
   name: idp-config
+  namespace: upbound-system
 spec:
   forProvider:
     clientIdSecretRef:
       key: example-key
       name: example-secret
-      namespace: upbound-system
     clientSecretSecretRef:
       key: example-key
       name: example-secret
-      namespace: upbound-system
     enabled: true
     idpId: playgames.google.com
     tenantSelector:
@@ -32,6 +31,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: tenant
   name: tenant
+  namespace: upbound-system
 spec:
   forProvider:
     displayName: tenant

@@ -6,10 +6,10 @@ metadata:
   labels:
     testing.upbound.io/example-name: cache
   name: cache
+  namespace: upbound-system
 spec:
   forProvider:
     keySecretRef:
       key: attribute.id_rsa.pub
       name: example-secret
-      namespace: upbound-system
     user: ${data.google_client_openid_userinfo.me.email}

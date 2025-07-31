@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: listing
   name: listing
+  namespace: upbound-system
 spec:
   forProvider:
     bigqueryDataset:
@@ -29,6 +30,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: listing
   name: listing
+  namespace: upbound-system
 spec:
   forProvider:
     dataExchangeId: my_data_exchange
@@ -46,6 +48,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: listing
   name: listing
+  namespace: upbound-system
 spec:
   forProvider:
     description: example data exchange

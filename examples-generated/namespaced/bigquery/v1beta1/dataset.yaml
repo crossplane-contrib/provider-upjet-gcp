@@ -6,6 +6,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: dataset
   name: dataset
+  namespace: upbound-system
 spec:
   forProvider:
     access:
@@ -32,5 +33,6 @@ metadata:
   labels:
     testing.upbound.io/example-name: bqowner
   name: bqowner
+  namespace: upbound-system
 spec:
   forProvider: {}
