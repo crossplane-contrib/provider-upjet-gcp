@@ -1352,6 +1352,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Copy[i3].SourceTables[i4].DatasetID),
 					Extract:      resource.ExtractParamPath("dataset_id", false),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.ForProvider.Copy[i3].SourceTables[i4].DatasetIDRef,
 					Selector:     mg.Spec.ForProvider.Copy[i3].SourceTables[i4].DatasetIDSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -1375,6 +1376,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Copy[i3].SourceTables[i4].ProjectID),
 					Extract:      resource.ExtractParamPath("project", false),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.ForProvider.Copy[i3].SourceTables[i4].ProjectIDRef,
 					Selector:     mg.Spec.ForProvider.Copy[i3].SourceTables[i4].ProjectIDSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -1398,6 +1400,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Copy[i3].SourceTables[i4].TableID),
 					Extract:      reference.ExternalName(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.ForProvider.Copy[i3].SourceTables[i4].TableIDRef,
 					Selector:     mg.Spec.ForProvider.Copy[i3].SourceTables[i4].TableIDSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -1637,6 +1640,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Copy[i3].SourceTables[i4].DatasetID),
 					Extract:      resource.ExtractParamPath("dataset_id", false),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.InitProvider.Copy[i3].SourceTables[i4].DatasetIDRef,
 					Selector:     mg.Spec.InitProvider.Copy[i3].SourceTables[i4].DatasetIDSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -1660,6 +1664,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Copy[i3].SourceTables[i4].ProjectID),
 					Extract:      resource.ExtractParamPath("project", false),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.InitProvider.Copy[i3].SourceTables[i4].ProjectIDRef,
 					Selector:     mg.Spec.InitProvider.Copy[i3].SourceTables[i4].ProjectIDSelector,
 					To:           reference.To{List: l, Managed: m},
@@ -1683,6 +1688,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Copy[i3].SourceTables[i4].TableID),
 					Extract:      reference.ExternalName(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.InitProvider.Copy[i3].SourceTables[i4].TableIDRef,
 					Selector:     mg.Spec.InitProvider.Copy[i3].SourceTables[i4].TableIDSelector,
 					To:           reference.To{List: l, Managed: m},
