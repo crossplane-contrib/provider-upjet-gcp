@@ -31,7 +31,7 @@ EOF
 
   echo "Creating a default cluster provider config..."
   cat <<EOF | ${KUBECTL} apply -f -
-apiVersion: gcp.upbound.io/v1beta1
+apiVersion: gcp.m.upbound.io/v1beta1
 kind: ClusterProviderConfig
 metadata:
   name: default
