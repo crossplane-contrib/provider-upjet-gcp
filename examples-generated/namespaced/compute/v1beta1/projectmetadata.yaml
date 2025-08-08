@@ -1,0 +1,15 @@
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: ProjectMetadata
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/projectmetadata
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    metadata:
+      "13": "42"
+      fizz: buzz
+      foo: bar

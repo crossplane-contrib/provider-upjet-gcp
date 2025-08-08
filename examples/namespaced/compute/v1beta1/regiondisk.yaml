@@ -1,0 +1,21 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: RegionDisk
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regiondisk
+  labels:
+    testing.upbound.io/example-name: region-disk
+  name: region-disk
+  namespace: upbound-system
+spec:
+  forProvider:
+    physicalBlockSizeBytes: 4096
+    region: us-central1
+    replicaZones:
+      - us-central1-a
+      - us-central1-f
+    type: pd-ssd

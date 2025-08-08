@@ -1,0 +1,16 @@
+apiVersion: essentialcontacts.gcp.m.upbound.io/v1beta1
+kind: Contact
+metadata:
+  annotations:
+    meta.upbound.io/example-id: essentialcontacts/v1beta1/contact
+  labels:
+    testing.upbound.io/example-name: contact
+  name: contact
+  namespace: upbound-system
+spec:
+  forProvider:
+    email: foo@bar.com
+    languageTag: en-GB
+    notificationCategorySubscriptions:
+    - ALL
+    parent: ${data.google_project.project.id}

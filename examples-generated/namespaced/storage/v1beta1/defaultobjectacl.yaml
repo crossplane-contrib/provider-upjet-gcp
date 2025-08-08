@@ -1,0 +1,32 @@
+apiVersion: storage.gcp.m.upbound.io/v1beta1
+kind: DefaultObjectACL
+metadata:
+  annotations:
+    meta.upbound.io/example-id: storage/v1beta1/defaultobjectacl
+  labels:
+    testing.upbound.io/example-name: image-store-default-acl
+  name: image-store-default-acl
+  namespace: upbound-system
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: image-store
+    roleEntity:
+    - OWNER:user-my.email@gmail.com
+    - READER:group-mygroup
+
+---
+
+apiVersion: storage.gcp.m.upbound.io/v1beta1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: storage/v1beta1/defaultobjectacl
+  labels:
+    testing.upbound.io/example-name: image-store
+  name: image-store
+  namespace: upbound-system
+spec:
+  forProvider:
+    location: EU

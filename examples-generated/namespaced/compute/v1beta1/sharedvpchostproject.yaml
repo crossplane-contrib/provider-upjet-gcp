@@ -1,0 +1,54 @@
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: SharedVPCHostProject
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/sharedvpchostproject
+  labels:
+    testing.upbound.io/example-name: host
+  name: host
+  namespace: upbound-system
+spec:
+  forProvider:
+    projectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: SharedVPCServiceProject
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/sharedvpchostproject
+  labels:
+    testing.upbound.io/example-name: service1
+  name: service1
+  namespace: upbound-system
+spec:
+  forProvider:
+    hostProjectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: host
+    serviceProjectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: SharedVPCServiceProject
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/sharedvpchostproject
+  labels:
+    testing.upbound.io/example-name: service2
+  name: service2
+  namespace: upbound-system
+spec:
+  forProvider:
+    hostProjectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: host
+    serviceProjectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

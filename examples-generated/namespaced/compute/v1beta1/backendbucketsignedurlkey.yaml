@@ -1,0 +1,52 @@
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: BackendBucketSignedURLKey
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/backendbucketsignedurlkey
+  labels:
+    testing.upbound.io/example-name: backend_key
+  name: backend-key
+  namespace: upbound-system
+spec:
+  forProvider:
+    backendBucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_backend
+    keyValueSecretRef:
+      key: attribute.b64_url
+      name: example-id
+    name: test-key
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: BackendBucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/backendbucketsignedurlkey
+  labels:
+    testing.upbound.io/example-name: test_backend
+  name: test-backend
+  namespace: upbound-system
+spec:
+  forProvider:
+    bucketNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    description: Contains beautiful images
+    enableCdn: true
+
+---
+
+apiVersion: storage.gcp.m.upbound.io/v1beta1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/backendbucketsignedurlkey
+  labels:
+    testing.upbound.io/example-name: bucket
+  name: bucket
+  namespace: upbound-system
+spec:
+  forProvider:
+    location: EU

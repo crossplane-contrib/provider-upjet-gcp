@@ -1,0 +1,30 @@
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: HaVPNGateway
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/havpngateway
+  labels:
+    testing.upbound.io/example-name: ha_gateway1
+  name: ha-gateway1
+  namespace: upbound-system
+spec:
+  forProvider:
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: network1
+    region: us-central1
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/havpngateway
+  labels:
+    testing.upbound.io/example-name: network1
+  name: network1
+  namespace: upbound-system
+spec:
+  forProvider:
+    autoCreateSubnetworks: false

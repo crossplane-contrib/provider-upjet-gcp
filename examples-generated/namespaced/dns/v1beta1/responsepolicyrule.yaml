@@ -1,0 +1,73 @@
+apiVersion: dns.gcp.m.upbound.io/v1beta1
+kind: ResponsePolicyRule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dns/v1beta1/responsepolicyrule
+  labels:
+    testing.upbound.io/example-name: example-response-policy-rule
+  name: example-response-policy-rule
+  namespace: upbound-system
+spec:
+  forProvider:
+    dnsName: dns.example.com.
+    localData:
+    - localDatas:
+      - name: dns.example.com.
+        rrdatas:
+        - 192.0.2.91
+        ttl: 300
+        type: A
+    responsePolicySelector:
+      matchLabels:
+        testing.upbound.io/example-name: response-policy
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dns/v1beta1/responsepolicyrule
+  labels:
+    testing.upbound.io/example-name: network-1
+  name: network-1
+  namespace: upbound-system
+spec:
+  forProvider:
+    autoCreateSubnetworks: false
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dns/v1beta1/responsepolicyrule
+  labels:
+    testing.upbound.io/example-name: network-2
+  name: network-2
+  namespace: upbound-system
+spec:
+  forProvider:
+    autoCreateSubnetworks: false
+
+---
+
+apiVersion: dns.gcp.m.upbound.io/v1beta1
+kind: ResponsePolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dns/v1beta1/responsepolicyrule
+  labels:
+    testing.upbound.io/example-name: response-policy
+  name: response-policy
+  namespace: upbound-system
+spec:
+  forProvider:
+    networks:
+    - networkUrlSelector:
+        matchLabels:
+          testing.upbound.io/example-name: network-1
+    - networkUrlSelector:
+        matchLabels:
+          testing.upbound.io/example-name: network-2

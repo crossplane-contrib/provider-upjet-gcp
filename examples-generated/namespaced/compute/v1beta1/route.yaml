@@ -1,0 +1,31 @@
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: Route
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/route
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    destRange: 15.0.0.0/24
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    nextHopIp: 10.132.1.5
+    priority: 100
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/route
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider: {}

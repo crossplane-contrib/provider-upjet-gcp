@@ -1,0 +1,15 @@
+apiVersion: networkconnectivity.gcp.m.upbound.io/v1beta1
+kind: Hub
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkconnectivity/v1beta1/hub
+  labels:
+    testing.upbound.io/example-name: primary
+  name: primary
+  namespace: upbound-system
+spec:
+  forProvider:
+    description: A sample hub
+    labels:
+      label-one: value-one
+    name: basic

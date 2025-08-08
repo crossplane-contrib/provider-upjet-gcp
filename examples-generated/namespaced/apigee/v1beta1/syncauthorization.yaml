@@ -1,0 +1,85 @@
+apiVersion: apigee.gcp.m.upbound.io/v1beta1
+kind: SyncAuthorization
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/syncauthorization
+  labels:
+    testing.upbound.io/example-name: apigee_sync_authorization
+  name: apigee-sync-authorization
+  namespace: upbound-system
+spec:
+  forProvider:
+    identities:
+    - serviceAccount:${google_service_account.service_account.email}
+    nameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee_org
+
+---
+
+apiVersion: apigee.gcp.m.upbound.io/v1beta1
+kind: Organization
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/syncauthorization
+  labels:
+    testing.upbound.io/example-name: apigee_org
+  name: apigee-org
+  namespace: upbound-system
+spec:
+  forProvider:
+    analyticsRegion: us-central1
+    projectId: my-project
+    runtimeType: HYBRID
+
+---
+
+apiVersion: cloudplatform.gcp.m.upbound.io/v1beta1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/syncauthorization
+  labels:
+    testing.upbound.io/example-name: project
+  name: project
+  namespace: upbound-system
+spec:
+  forProvider:
+    billingAccount: 000000-0000000-0000000-000000
+    deletionPolicy: DELETE
+    name: my-project
+    orgId: "123456789"
+    projectId: my-project
+
+---
+
+apiVersion: cloudplatform.gcp.m.upbound.io/v1beta1
+kind: ProjectService
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/syncauthorization
+  labels:
+    testing.upbound.io/example-name: apigee
+  name: apigee
+  namespace: upbound-system
+spec:
+  forProvider:
+    projectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: project
+    service: apigee.googleapis.com
+
+---
+
+apiVersion: cloudplatform.gcp.m.upbound.io/v1beta1
+kind: ServiceAccount
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/syncauthorization
+  labels:
+    testing.upbound.io/example-name: service_account
+  name: service-account
+  namespace: upbound-system
+spec:
+  forProvider:
+    displayName: Service Account

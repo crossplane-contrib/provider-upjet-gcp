@@ -51,7 +51,7 @@ export GOPRIVATE = github.com/upbound/*
 GO_REQUIRED_VERSION ?= 1.21
 # GOLANGCILINT_VERSION is inherited from build submodule by default.
 # Uncomment below if you need to override the version.
-# GOLANGCILINT_VERSION ?= 1.54.0
+GOLANGCILINT_VERSION ?= 1.64.8
 
 RUN_BUILDTAGGER ?= false
 # if RUN_BUILDTAGGER is set to "true", we will use build constraints
@@ -66,7 +66,7 @@ endif
 SUBPACKAGES ?= monolith
 GO_STATIC_PACKAGES ?= $(GO_PROJECT)/cmd/generator ${SUBPACKAGES:%=$(GO_PROJECT)/cmd/provider/%}
 GO_LDFLAGS += -X $(GO_PROJECT)/internal/version.Version=$(VERSION)
-GO_SUBDIRS += cmd internal apis
+GO_SUBDIRS += cmd internal apis generate
 GO111MODULE = on
 
 export SUBPACKAGES := $(SUBPACKAGES)
@@ -76,16 +76,16 @@ export SUBPACKAGES := $(SUBPACKAGES)
 # ====================================================================================
 # Setup Kubernetes tools
 
-KIND_VERSION = v0.15.0
+KIND_VERSION = v0.29.0
 # dependency for up
-UP_VERSION = v0.39.0
-UP_CHANNEL = stable
+UP_VERSION = v0.40.0-0.rc.3
+UP_CHANNEL = alpha
 UPTEST_VERSION = v0.11.1
 UPTEST_LOCAL_VERSION = v0.13.0
 UPTEST_LOCAL_CHANNEL = stable
 KUSTOMIZE_VERSION = v5.3.0
 YQ_VERSION = v4.40.5
-CROSSPLANE_VERSION = 1.14.6
+CROSSPLANE_VERSION = 1.20.0
 CRDDIFF_VERSION = v0.12.1
 
 export UP_VERSION := $(UP_VERSION)
@@ -234,6 +234,15 @@ build-provider.%:
 XPKG_SKIP_DEP_RESOLUTION := true
 
 local-deploy.%: controlplane.up
+	# uptest workaround for the behavior change at Crossplane 1.15 default registry
+	# XP RBAC manager has a check for packages from the same provider family
+	# that they come from the same org and assign RBACs for all providers.
+	# This got broken for locally deployed dev packages through crossplane/build submodule,
+	# therefore cannot get necessary RBACs.
+    # TODO: Remove this when https://github.com/crossplane/build/issues/38 is resolved
+    # this workaround is only valid for uptest on Crossplane 1.x
+    # Crossplane v2 needs the above issue to be resolved
+	@$(KUBECTL) -n $(CROSSPLANE_NAMESPACE) patch deployment crossplane-rbac-manager -p '{"spec":{"template":{"spec":{"containers":[{"name":"crossplane","env":[{"name":"REGISTRY","value":"index.docker.io"}]}]}}}}'
 	@for api in $$(tr ',' ' ' <<< $*); do \
 		$(MAKE) local.xpkg.deploy.provider.$(PROJECT_NAME)-$${api}; \
 		$(INFO) running locally built $(PROJECT_NAME)-$${api}; \

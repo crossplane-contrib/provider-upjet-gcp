@@ -1,0 +1,20 @@
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: RouterInterface
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/routerinterface
+  labels:
+    testing.upbound.io/example-name: foobar
+  name: foobar
+  namespace: upbound-system
+spec:
+  forProvider:
+    ipRange: 169.254.1.1/30
+    name: interface-1
+    region: us-central1
+    routerSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    vpnTunnelSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

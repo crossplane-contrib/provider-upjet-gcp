@@ -1,0 +1,17 @@
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: SharedVPCServiceProject
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/sharedvpcserviceproject
+  labels:
+    testing.upbound.io/example-name: service1
+  name: service1
+  namespace: upbound-system
+spec:
+  forProvider:
+    hostProjectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    serviceProjectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

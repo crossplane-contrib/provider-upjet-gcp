@@ -1,0 +1,54 @@
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: FirewallPolicyAssociation
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/firewallpolicyassociation
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    attachmentTargetSelector:
+      matchLabels:
+        testing.upbound.io/example-name: folder
+    firewallPolicySelector:
+      matchLabels:
+        testing.upbound.io/example-name: policy
+    name: my-association
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: FirewallPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/firewallpolicyassociation
+  labels:
+    testing.upbound.io/example-name: policy
+  name: policy
+  namespace: upbound-system
+spec:
+  forProvider:
+    description: Example Resource
+    parent: organizations/123456789
+    shortName: my-policy
+
+---
+
+apiVersion: cloudplatform.gcp.m.upbound.io/v1beta1
+kind: Folder
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/firewallpolicyassociation
+  labels:
+    testing.upbound.io/example-name: folder
+  name: folder
+  namespace: upbound-system
+spec:
+  forProvider:
+    deletionProtection: false
+    displayName: my-folder
+    parentSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

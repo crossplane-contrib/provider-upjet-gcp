@@ -1,0 +1,14 @@
+apiVersion: storagetransfer.gcp.m.upbound.io/v1beta1
+kind: AgentPool
+metadata:
+  annotations:
+    meta.upbound.io/example-id: storagetransfer/v1beta1/agentpool
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: upbound-system
+spec:
+  forProvider:
+    bandwidthLimit:
+    - limitMbps: "120"
+    displayName: Source A to destination Z

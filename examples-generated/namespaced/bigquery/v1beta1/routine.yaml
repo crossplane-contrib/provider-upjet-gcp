@@ -1,0 +1,33 @@
+apiVersion: bigquery.gcp.m.upbound.io/v1beta1
+kind: Routine
+metadata:
+  annotations:
+    meta.upbound.io/example-id: bigquery/v1beta1/routine
+  labels:
+    testing.upbound.io/example-name: sproc
+  name: sproc
+  namespace: upbound-system
+spec:
+  forProvider:
+    datasetIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test
+    definitionBody: CREATE FUNCTION Add(x FLOAT64, y FLOAT64) RETURNS FLOAT64 AS (x
+      + y);
+    language: SQL
+    routineType: PROCEDURE
+    securityMode: INVOKER
+
+---
+
+apiVersion: bigquery.gcp.m.upbound.io/v1beta1
+kind: Dataset
+metadata:
+  annotations:
+    meta.upbound.io/example-id: bigquery/v1beta1/routine
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+  namespace: upbound-system
+spec:
+  forProvider: {}

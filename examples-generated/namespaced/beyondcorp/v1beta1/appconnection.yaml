@@ -1,0 +1,52 @@
+apiVersion: beyondcorp.gcp.m.upbound.io/v1beta1
+kind: AppConnection
+metadata:
+  annotations:
+    meta.upbound.io/example-id: beyondcorp/v1beta1/appconnection
+  labels:
+    testing.upbound.io/example-name: app_connection
+  name: app-connection
+  namespace: upbound-system
+spec:
+  forProvider:
+    applicationEndpoint:
+    - host: foo-host
+      port: 8080
+    connectorsRefs:
+    - name: app_connector
+    name: my-app-connection
+    type: TCP_PROXY
+
+---
+
+apiVersion: beyondcorp.gcp.m.upbound.io/v1beta1
+kind: AppConnector
+metadata:
+  annotations:
+    meta.upbound.io/example-id: beyondcorp/v1beta1/appconnection
+  labels:
+    testing.upbound.io/example-name: app_connector
+  name: app-connector
+  namespace: upbound-system
+spec:
+  forProvider:
+    principalInfo:
+    - serviceAccount:
+      - emailSelector:
+          matchLabels:
+            testing.upbound.io/example-name: service_account
+
+---
+
+apiVersion: cloudplatform.gcp.m.upbound.io/v1beta1
+kind: ServiceAccount
+metadata:
+  annotations:
+    meta.upbound.io/example-id: beyondcorp/v1beta1/appconnection
+  labels:
+    testing.upbound.io/example-name: service_account
+  name: service-account
+  namespace: upbound-system
+spec:
+  forProvider:
+    displayName: Test Service Account

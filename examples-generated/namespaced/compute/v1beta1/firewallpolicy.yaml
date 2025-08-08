@@ -1,0 +1,14 @@
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: FirewallPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/firewallpolicy
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    description: Example Resource
+    parent: organizations/123456789
+    shortName: my-policy

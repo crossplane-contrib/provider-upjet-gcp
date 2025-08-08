@@ -1,0 +1,18 @@
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: SSLCertificate
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/sslcertificate
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    certificateSecretRef:
+      key: attribute.certificate.crt
+      name: example-secret
+    description: a description
+    privateKeySecretRef:
+      key: attribute.private.key
+      name: example-secret

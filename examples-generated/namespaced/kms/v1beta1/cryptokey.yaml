@@ -1,0 +1,30 @@
+apiVersion: kms.gcp.m.upbound.io/v1beta1
+kind: CryptoKey
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1beta1/cryptokey
+  labels:
+    testing.upbound.io/example-name: example-key
+  name: example-key
+  namespace: upbound-system
+spec:
+  forProvider:
+    keyRingSelector:
+      matchLabels:
+        testing.upbound.io/example-name: keyring
+    rotationPeriod: 7776000s
+
+---
+
+apiVersion: kms.gcp.m.upbound.io/v1beta1
+kind: KeyRing
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1beta1/cryptokey
+  labels:
+    testing.upbound.io/example-name: keyring
+  name: keyring
+  namespace: upbound-system
+spec:
+  forProvider:
+    location: global

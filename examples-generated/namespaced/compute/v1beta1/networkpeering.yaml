@@ -1,0 +1,47 @@
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: NetworkPeering
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/networkpeering
+  labels:
+    testing.upbound.io/example-name: peering1
+  name: peering1
+  namespace: upbound-system
+spec:
+  forProvider:
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    peerNetworkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: other
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/networkpeering
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    autoCreateSubnetworks: "false"
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/networkpeering
+  labels:
+    testing.upbound.io/example-name: other
+  name: other
+  namespace: upbound-system
+spec:
+  forProvider:
+    autoCreateSubnetworks: "false"

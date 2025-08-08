@@ -1,0 +1,13 @@
+apiVersion: dataproc.gcp.m.upbound.io/v1beta1
+kind: Cluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dataproc/v1beta1/cluster
+  labels:
+    testing.upbound.io/example-name: simplecluster
+  name: simplecluster
+  namespace: upbound-system
+spec:
+  forProvider:
+    name: simplecluster
+    region: us-central1

@@ -1,0 +1,14 @@
+apiVersion: notebooks.gcp.m.upbound.io/v1beta1
+kind: Environment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: notebooks/v1beta1/environment
+  labels:
+    testing.upbound.io/example-name: environment
+  name: environment
+  namespace: upbound-system
+spec:
+  forProvider:
+    containerImage:
+    - repository: gcr.io/deeplearning-platform-release/base-cpu
+    location: us-west1-a

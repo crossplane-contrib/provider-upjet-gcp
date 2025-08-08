@@ -1,0 +1,28 @@
+apiVersion: storage.gcp.m.upbound.io/v1beta1
+kind: HMACKey
+metadata:
+  annotations:
+    meta.upbound.io/example-id: storage/v1beta1/hmackey
+  labels:
+    testing.upbound.io/example-name: key
+  name: key
+  namespace: upbound-system
+spec:
+  forProvider:
+    serviceAccountEmailSelector:
+      matchLabels:
+        testing.upbound.io/example-name: service_account
+
+---
+
+apiVersion: cloudplatform.gcp.m.upbound.io/v1beta1
+kind: ServiceAccount
+metadata:
+  annotations:
+    meta.upbound.io/example-id: storage/v1beta1/hmackey
+  labels:
+    testing.upbound.io/example-name: service_account
+  name: service-account
+  namespace: upbound-system
+spec:
+  forProvider: {}

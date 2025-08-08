@@ -1,0 +1,11 @@
+apiVersion: iam.gcp.m.upbound.io/v1beta1
+kind: WorkloadIdentityPool
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iam/v1beta1/workloadidentitypool
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: upbound-system
+spec:
+  forProvider: {}

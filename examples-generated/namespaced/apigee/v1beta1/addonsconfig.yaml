@@ -1,0 +1,19 @@
+apiVersion: apigee.gcp.m.upbound.io/v1beta1
+kind: AddonsConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/addonsconfig
+  labels:
+    testing.upbound.io/example-name: test_organization
+  name: test-organization
+  namespace: upbound-system
+spec:
+  forProvider:
+    addonsConfig:
+    - apiSecurityConfig:
+      - enabled: true
+      monetizationConfig:
+      - enabled: true
+    orgSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

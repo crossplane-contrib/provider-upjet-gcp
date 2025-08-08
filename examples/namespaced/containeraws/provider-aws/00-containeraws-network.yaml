@@ -1,0 +1,165 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: ec2.aws.upbound.io/v1beta1
+kind: VPC
+metadata:
+  name: containeraws-gcp-upbound
+spec:
+  forProvider:
+    cidrBlock: 10.0.0.0/16
+    enableDnsHostnames: true
+    enableDnsSupport: true
+    region: my-aws-region
+    tags:
+      ResourceType: vpc
+      Name: containerawsGcpUpboundVPC
+---
+apiVersion: ec2.aws.upbound.io/v1beta1
+kind: InternetGateway
+metadata:
+  name: containeraws-gcp-upbound-internet-gateway
+spec:
+  forProvider:
+    vpcIdRef:
+      name: containeraws-gcp-upbound
+    region: my-aws-region
+    tags:
+      ResourceType: internet-gateway
+      Name: containerawsGcpUpboundInternetGateway
+---
+apiVersion: ec2.aws.upbound.io/v1beta1
+kind: Subnet
+metadata:
+  name: containeraws-gcp-upbound-subnet-private-a
+spec:
+  forProvider:
+    availabilityZone: my-aws-az
+    cidrBlock: 10.0.1.0/24
+    region: my-aws-region
+    tags:
+      ResourceType: subnet
+      kubernetes.io/role/internal-elb: "1"
+      Name: containerawsGcpUpboundPrivateSubnet1
+    vpcIdRef:
+      name: containeraws-gcp-upbound
+---
+apiVersion: ec2.aws.upbound.io/v1beta1
+kind: Subnet
+metadata:
+  name: containeraws-gcp-upbound-subnet-public-a
+spec:
+  forProvider:
+    availabilityZone: my-aws-az
+    cidrBlock: 10.0.101.0/24
+    region: my-aws-region
+    mapPublicIpOnLaunch: true
+    tags:
+      ResourceType: subnet
+      kubernetes.io/role/elb: "1"
+      Name: containerawsGcpUpboundPublicSubnet1
+    vpcIdRef:
+      name: containeraws-gcp-upbound
+---
+apiVersion: ec2.aws.upbound.io/v1beta1
+kind: RouteTable
+metadata:
+  name: containeraws-gcp-upbound-route-table-private-a
+spec:
+  forProvider:
+    region: my-aws-region
+    tags:
+      ResourceType: route-table
+      Name: containerawsGcpUpboundPrivateRouteTbl1
+    vpcIdRef:
+      name: containeraws-gcp-upbound
+---
+apiVersion: ec2.aws.upbound.io/v1beta1
+kind: RouteTable
+metadata:
+  name: containeraws-gcp-upbound-route-table-public-a
+spec:
+  forProvider:
+    region: my-aws-region
+    tags:
+      ResourceType: route-table
+      Name: containerawsGcpUpboundPublicRouteTbl1
+    vpcIdRef:
+      name: containeraws-gcp-upbound
+---
+apiVersion: ec2.aws.upbound.io/v1beta1
+kind: RouteTableAssociation
+metadata:
+  name: containeraws-gcp-upbound-private-table-assoc-a
+spec:
+  forProvider:
+    region: my-aws-region
+    routeTableIdRef:
+      name: containeraws-gcp-upbound-route-table-private-a
+    subnetIdRef:
+      name: containeraws-gcp-upbound-subnet-private-a
+---
+apiVersion: ec2.aws.upbound.io/v1beta1
+kind: RouteTableAssociation
+metadata:
+  name: containeraws-gcp-upbound-route-table-assoc-a
+spec:
+  forProvider:
+    region: my-aws-region
+    routeTableIdRef:
+      name: containeraws-gcp-upbound-route-table-public-a
+    subnetIdRef:
+      name: containeraws-gcp-upbound-subnet-public-a
+---
+apiVersion: ec2.aws.upbound.io/v1beta1
+kind: Route
+metadata:
+  name: containeraws-gcp-upbound-route-inet-gateway-a
+spec:
+  forProvider:
+    destinationCidrBlock: 0.0.0.0/0
+    gatewayIdRef:
+      name: containeraws-gcp-upbound-internet-gateway
+    region: my-aws-region
+    routeTableIdRef:
+      name: containeraws-gcp-upbound-route-table-public-a
+---
+apiVersion: ec2.aws.upbound.io/v1beta1
+kind: Route
+metadata:
+  name: containeraws-gcp-upbound-route-nat-gateway-a
+spec:
+  forProvider:
+    destinationCidrBlock: 0.0.0.0/0
+    natGatewayIdRef:
+      name: containeraws-gcp-upbound-nat-a
+    region: my-aws-region
+    routeTableIdRef:
+      name: containeraws-gcp-upbound-route-table-private-a
+---
+apiVersion: ec2.aws.upbound.io/v1beta1
+kind: EIP
+metadata:
+  name: containeraws-gcp-upbound-nat-eip-a
+spec:
+  forProvider:
+    region: my-aws-region
+    tags:
+      ResourceType: elastic-ip
+      Name: containerawsGcpUpboundNatEip1
+---
+apiVersion: ec2.aws.upbound.io/v1beta1
+kind: NATGateway
+metadata:
+  name: containeraws-gcp-upbound-nat-a
+spec:
+  forProvider:
+    allocationIdRef:
+      name: containeraws-gcp-upbound-nat-eip-a
+    region: my-aws-region
+    subnetIdRef:
+      name: containeraws-gcp-upbound-subnet-public-a
+    tags:
+      ResourceType: natgateway
+      Name: containerawsGcpUpboundNatGateway1

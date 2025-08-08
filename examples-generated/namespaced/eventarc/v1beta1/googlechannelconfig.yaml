@@ -1,0 +1,13 @@
+apiVersion: eventarc.gcp.m.upbound.io/v1beta1
+kind: GoogleChannelConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: eventarc/v1beta1/googlechannelconfig
+  labels:
+    testing.upbound.io/example-name: primary
+  name: primary
+  namespace: upbound-system
+spec:
+  forProvider:
+    cryptoKeyName: ${data.google_kms_crypto_key.key.id}
+    location: us-central1

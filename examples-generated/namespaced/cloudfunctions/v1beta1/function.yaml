@@ -1,0 +1,56 @@
+apiVersion: cloudfunctions.gcp.m.upbound.io/v1beta1
+kind: Function
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudfunctions/v1beta1/function
+  labels:
+    testing.upbound.io/example-name: function
+  name: function
+  namespace: upbound-system
+spec:
+  forProvider:
+    availableMemoryMb: 128
+    description: My function
+    entryPoint: helloGET
+    runtime: nodejs20
+    sourceArchiveBucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: bucket
+    sourceArchiveObjectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: archive
+    triggerHttp: true
+
+---
+
+apiVersion: storage.gcp.m.upbound.io/v1beta1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudfunctions/v1beta1/function
+  labels:
+    testing.upbound.io/example-name: bucket
+  name: bucket
+  namespace: upbound-system
+spec:
+  forProvider:
+    location: US
+
+---
+
+apiVersion: storage.gcp.m.upbound.io/v1beta1
+kind: BucketObject
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudfunctions/v1beta1/function
+  labels:
+    testing.upbound.io/example-name: archive
+  name: archive
+  namespace: upbound-system
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    name: index.zip
+    source: ./path/to/zip/file/which/contains/code

@@ -1,0 +1,85 @@
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: RegionTargetHTTPProxy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regiontargethttpproxy
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    region: us-central1
+    urlMapSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: RegionBackendService
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regiontargethttpproxy
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    healthChecksRefs:
+    - name: default
+    loadBalancingScheme: INTERNAL_MANAGED
+    protocol: HTTP
+    region: us-central1
+    timeoutSec: 10
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: RegionHealthCheck
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regiontargethttpproxy
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    httpHealthCheck:
+    - port: 80
+    region: us-central1
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: RegionURLMap
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regiontargethttpproxy
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    defaultServiceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    hostRule:
+    - hosts:
+      - mysite.com
+      pathMatcher: allpaths
+    pathMatcher:
+    - defaultServiceSelector:
+        matchLabels:
+          testing.upbound.io/example-name: default
+      name: allpaths
+      pathRule:
+      - paths:
+        - /*
+        serviceSelector:
+          matchLabels:
+            testing.upbound.io/example-name: default
+    region: us-central1

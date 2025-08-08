@@ -1,0 +1,33 @@
+apiVersion: tags.gcp.m.upbound.io/v1beta1
+kind: TagValue
+metadata:
+  annotations:
+    meta.upbound.io/example-id: tags/v1beta1/tagvalue
+  labels:
+    testing.upbound.io/example-name: value
+  name: value
+  namespace: upbound-system
+spec:
+  forProvider:
+    description: For valuename resources.
+    parentSelector:
+      matchLabels:
+        testing.upbound.io/example-name: key
+    shortName: valuename
+
+---
+
+apiVersion: tags.gcp.m.upbound.io/v1beta1
+kind: TagKey
+metadata:
+  annotations:
+    meta.upbound.io/example-id: tags/v1beta1/tagvalue
+  labels:
+    testing.upbound.io/example-name: key
+  name: key
+  namespace: upbound-system
+spec:
+  forProvider:
+    description: For keyname resources.
+    parent: organizations/123456789
+    shortName: keyname

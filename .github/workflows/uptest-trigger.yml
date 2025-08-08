@@ -9,7 +9,7 @@ on:
     types: [created]
 
 env:
-  GO_VERSION: "1.23"
+  GO_VERSION: "1.24"
 
 jobs:
   check-permissions:
@@ -96,7 +96,7 @@ jobs:
       - check-permissions
       - get-example-list
     if: ${{ (needs.check-permissions.outputs.permission == 'admin' || needs.check-permissions.outputs.permission == 'write') && github.event.issue.pull_request != null && contains(github.event.comment.body, '/test-examples')}}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-8-cores
 
     steps:
       - name: Cleanup Disk

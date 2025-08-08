@@ -1,0 +1,16 @@
+apiVersion: monitoring.gcp.m.upbound.io/v1beta1
+kind: NotificationChannel
+metadata:
+  annotations:
+    meta.upbound.io/example-id: monitoring/v1beta1/notificationchannel
+  labels:
+    testing.upbound.io/example-name: basic
+  name: basic
+  namespace: upbound-system
+spec:
+  forProvider:
+    displayName: Test Notification Channel
+    forceDelete: false
+    labels:
+      email_address: fake_email@blahblah.com
+    type: email

@@ -1,0 +1,51 @@
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: RegionNetworkFirewallPolicyAssociation
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regionnetworkfirewallpolicyassociation
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    attachmentTargetSelector:
+      matchLabels:
+        testing.upbound.io/example-name: network
+    firewallPolicySelector:
+      matchLabels:
+        testing.upbound.io/example-name: policy
+    project: my-project-name
+    region: us-west1
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regionnetworkfirewallpolicyassociation
+  labels:
+    testing.upbound.io/example-name: network
+  name: network
+  namespace: upbound-system
+spec:
+  forProvider:
+    autoCreateSubnetworks: false
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: RegionNetworkFirewallPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regionnetworkfirewallpolicyassociation
+  labels:
+    testing.upbound.io/example-name: policy
+  name: policy
+  namespace: upbound-system
+spec:
+  forProvider:
+    description: Sample global network firewall policy
+    project: my-project-name
+    region: us-west1

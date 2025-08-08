@@ -1,0 +1,46 @@
+apiVersion: dataproc.gcp.m.upbound.io/v1beta1
+kind: Job
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dataproc/v1beta1/job
+  labels:
+    testing.upbound.io/example-name: spark
+  name: spark
+  namespace: upbound-system
+spec:
+  forProvider:
+    forceDelete: true
+    placement:
+    - clusterNameSelector:
+        matchLabels:
+          testing.upbound.io/example-name: mycluster
+    regionSelector:
+      matchLabels:
+        testing.upbound.io/example-name: mycluster
+    sparkConfig:
+    - args:
+      - "1000"
+      jarFileUris:
+      - file:///usr/lib/spark/examples/jars/spark-examples.jar
+      loggingConfig:
+      - driverLogLevels:
+          root: INFO
+      mainClass: org.apache.spark.examples.SparkPi
+      properties:
+        spark.logConf: "true"
+
+---
+
+apiVersion: dataproc.gcp.m.upbound.io/v1beta1
+kind: Cluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dataproc/v1beta1/job
+  labels:
+    testing.upbound.io/example-name: mycluster
+  name: mycluster
+  namespace: upbound-system
+spec:
+  forProvider:
+    name: dproc-cluster-unique-name
+    region: us-central1

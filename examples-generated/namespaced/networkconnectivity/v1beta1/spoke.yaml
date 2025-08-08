@@ -1,0 +1,62 @@
+apiVersion: networkconnectivity.gcp.m.upbound.io/v1beta1
+kind: Spoke
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkconnectivity/v1beta1/spoke
+  labels:
+    testing.upbound.io/example-name: primary
+  name: primary
+  namespace: upbound-system
+spec:
+  forProvider:
+    description: A sample spoke with a linked router appliance instance
+    hubSelector:
+      matchLabels:
+        testing.upbound.io/example-name: basic_hub
+    labels:
+      label-one: value-one
+    linkedVpcNetwork:
+    - excludeExportRanges:
+      - 198.51.100.0/24
+      - 10.10.0.0/16
+      includeExportRanges:
+      - 198.51.100.0/23
+      - 10.0.0.0/8
+      uriSelector:
+        matchLabels:
+          testing.upbound.io/example-name: network
+    location: global
+    name: spoke1
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkconnectivity/v1beta1/spoke
+  labels:
+    testing.upbound.io/example-name: network
+  name: network
+  namespace: upbound-system
+spec:
+  forProvider:
+    autoCreateSubnetworks: false
+
+---
+
+apiVersion: networkconnectivity.gcp.m.upbound.io/v1beta1
+kind: Hub
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkconnectivity/v1beta1/spoke
+  labels:
+    testing.upbound.io/example-name: basic_hub
+  name: basic-hub
+  namespace: upbound-system
+spec:
+  forProvider:
+    description: A sample hub
+    labels:
+      label-two: value-one
+    name: hub1

@@ -1,0 +1,31 @@
+apiVersion: healthcare.gcp.m.upbound.io/v1beta1
+kind: ConsentStore
+metadata:
+  annotations:
+    meta.upbound.io/example-id: healthcare/v1beta1/consentstore
+  labels:
+    testing.upbound.io/example-name: my-consent
+  name: my-consent
+  namespace: upbound-system
+spec:
+  forProvider:
+    datasetSelector:
+      matchLabels:
+        testing.upbound.io/example-name: dataset
+    name: my-consent-store
+
+---
+
+apiVersion: healthcare.gcp.m.upbound.io/v1beta1
+kind: Dataset
+metadata:
+  annotations:
+    meta.upbound.io/example-id: healthcare/v1beta1/consentstore
+  labels:
+    testing.upbound.io/example-name: dataset
+  name: dataset
+  namespace: upbound-system
+spec:
+  forProvider:
+    location: us-central1
+    name: my-dataset

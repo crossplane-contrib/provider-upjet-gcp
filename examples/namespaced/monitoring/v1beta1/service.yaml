@@ -1,0 +1,23 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: monitoring.gcp.m.upbound.io/v1beta1
+kind: Service
+metadata:
+  annotations:
+    meta.upbound.io/example-id: monitoring/v1beta1/service
+  labels:
+    testing.upbound.io/example-name: my_service
+  name: my-service
+  namespace: upbound-system
+spec:
+  forProvider:
+    basicService:
+      serviceLabels:
+        module_id: another-module-id
+      serviceType: APP_ENGINE
+    displayName: My Service my-service
+    userLabels:
+      my_key: my_value
+      my_other_key: my_other_value

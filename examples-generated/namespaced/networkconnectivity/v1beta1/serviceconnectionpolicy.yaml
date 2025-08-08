@@ -1,0 +1,55 @@
+apiVersion: networkconnectivity.gcp.m.upbound.io/v1beta1
+kind: ServiceConnectionPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkconnectivity/v1beta1/serviceconnectionpolicy
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    description: my basic service connection policy
+    location: us-central1
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: producer_net
+    pscConfig:
+    - limit: 2
+      subnetworksRefs:
+      - name: producer_subnet
+    serviceClass: my-basic-service-class
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkconnectivity/v1beta1/serviceconnectionpolicy
+  labels:
+    testing.upbound.io/example-name: producer_net
+  name: producer-net
+  namespace: upbound-system
+spec:
+  forProvider:
+    autoCreateSubnetworks: false
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: Subnetwork
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkconnectivity/v1beta1/serviceconnectionpolicy
+  labels:
+    testing.upbound.io/example-name: producer_subnet
+  name: producer-subnet
+  namespace: upbound-system
+spec:
+  forProvider:
+    ipCidrRange: 10.0.0.0/16
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: producer_net
+    region: us-central1

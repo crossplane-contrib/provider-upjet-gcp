@@ -1,0 +1,32 @@
+apiVersion: sql.gcp.m.upbound.io/v1beta1
+kind: SSLCert
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sql/v1beta1/sslcert
+  labels:
+    testing.upbound.io/example-name: client_cert
+  name: client-cert
+  namespace: upbound-system
+spec:
+  forProvider:
+    commonName: client-name
+    instanceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: main
+
+---
+
+apiVersion: sql.gcp.m.upbound.io/v1beta1
+kind: DatabaseInstance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sql/v1beta1/sslcert
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+  namespace: upbound-system
+spec:
+  forProvider:
+    databaseVersion: MYSQL_5_7
+    settings:
+    - tier: db-f1-micro

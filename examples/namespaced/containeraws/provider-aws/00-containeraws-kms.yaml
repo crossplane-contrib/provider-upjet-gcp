@@ -1,0 +1,70 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+---
+apiVersion: kms.aws.upbound.io/v1beta1
+kind: Key
+metadata:
+  name: containeraws-gcp-upbound
+spec:
+  forProvider:
+    policy: |
+      {
+          "Version": "2012-10-17",
+          "Id": "key-default-1",
+          "Statement": [
+              {
+                  "Sid": "Enable IAM User Permissions",
+                  "Effect": "Allow",
+                  "Principal": {
+                      "AWS": "arn:aws:iam::012345678910:root"
+                  },
+                  "Action": "kms:*",
+                  "Resource": "*"
+              },
+              {
+                  "Sid": "Allow service-linked role use of the customer managed key",
+                  "Effect": "Allow",
+                  "Principal": {
+                      "AWS": "arn:aws:iam::012345678910:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling"
+                  },
+                  "Action": [
+                      "kms:Encrypt",
+                      "kms:Decrypt",
+                      "kms:ReEncrypt*",
+                      "kms:GenerateDataKey*",
+                      "kms:DescribeKey"
+                  ],
+                  "Resource": "*"
+              },
+              {
+                  "Sid": "Allow attachment of persistent resources",
+                  "Effect": "Allow",
+                  "Principal": {
+                      "AWS": "arn:aws:iam::012345678910:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling"
+                  },
+                  "Action": "kms:CreateGrant",
+                  "Resource": "*",
+                  "Condition": {
+                      "Bool": {
+                          "kms:GrantIsForAWSResource": "true"
+                      }
+                  }
+              }
+          ]
+      }
+    region: my-aws-region
+    description: Key For Testing containeraws.gcp.upbound.io resources
+---
+apiVersion: kms.aws.upbound.io/v1beta1
+kind: Alias
+metadata:
+  name: containeraws-gcp-upbound
+  annotations:
+    crossplane.io/external-name: alias/containeraws-gcp-upbound
+spec:
+  forProvider:
+    region: my-aws-region
+    targetKeyIdRef:
+      name: containeraws-gcp-upbound

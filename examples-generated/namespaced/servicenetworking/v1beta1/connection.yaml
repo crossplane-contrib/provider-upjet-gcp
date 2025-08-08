@@ -1,0 +1,73 @@
+apiVersion: servicenetworking.gcp.m.upbound.io/v1beta1
+kind: Connection
+metadata:
+  annotations:
+    meta.upbound.io/example-id: servicenetworking/v1beta1/connection
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: peering_network
+    reservedPeeringRangesRefs:
+    - name: private_ip_alloc
+    service: servicenetworking.googleapis.com
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: GlobalAddress
+metadata:
+  annotations:
+    meta.upbound.io/example-id: servicenetworking/v1beta1/connection
+  labels:
+    testing.upbound.io/example-name: private_ip_alloc
+  name: private-ip-alloc
+  namespace: upbound-system
+spec:
+  forProvider:
+    addressType: INTERNAL
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: peering_network
+    prefixLength: 16
+    purpose: VPC_PEERING
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: servicenetworking/v1beta1/connection
+  labels:
+    testing.upbound.io/example-name: peering_network
+  name: peering-network
+  namespace: upbound-system
+spec:
+  forProvider: {}
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: NetworkPeeringRoutesConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: servicenetworking/v1beta1/connection
+  labels:
+    testing.upbound.io/example-name: peering_routes
+  name: peering-routes
+  namespace: upbound-system
+spec:
+  forProvider:
+    exportCustomRoutes: true
+    importCustomRoutes: true
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: peering_network
+    peeringSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default

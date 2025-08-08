@@ -1,0 +1,21 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: Disk
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/disk
+  labels:
+    testing.upbound.io/example-name: disk
+  name: disk
+  namespace: upbound-system
+spec:
+  forProvider:
+    image: debian-11-bullseye-v20220719
+    labels:
+      environment: dev
+    physicalBlockSizeBytes: 4096
+    type: pd-ssd
+    zone: us-central1-a

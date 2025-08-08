@@ -1,0 +1,692 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.18.0
+  name: instances.spanner.gcp.m.upbound.io
+spec:
+  group: spanner.gcp.m.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - gcp
+    kind: Instance
+    listKind: InstanceList
+    plural: instances
+    singular: instance
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: Instance is the Schema for the Instances API. An isolated set
+          of Cloud Spanner resources on which databases can be hosted.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: InstanceSpec defines the desired state of Instance
+            properties:
+              forProvider:
+                properties:
+                  autoscalingConfig:
+                    description: |-
+                      The autoscaling configuration. Autoscaling is enabled if this field is set.
+                      When autoscaling is enabled, num_nodes and processing_units are treated as,
+                      OUTPUT_ONLY fields and reflect the current compute capacity allocated to
+                      the instance.
+                      Structure is documented below.
+                    properties:
+                      asymmetricAutoscalingOptions:
+                        description: |-
+                          Asymmetric autoscaling options for specific replicas.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            overrides:
+                              description: |-
+                                A nested object resource.
+                                Structure is documented below.
+                              properties:
+                                autoscalingLimits:
+                                  description: |-
+                                    A nested object resource.
+                                    Structure is documented below.
+                                  properties:
+                                    maxNodes:
+                                      description: The maximum number of nodes for
+                                        this specific replica.
+                                      type: number
+                                    minNodes:
+                                      description: The minimum number of nodes for
+                                        this specific replica.
+                                      type: number
+                                  type: object
+                              type: object
+                            replicaSelection:
+                              description: |-
+                                A nested object resource.
+                                Structure is documented below.
+                              properties:
+                                location:
+                                  description: The location of the replica to apply
+                                    asymmetric autoscaling options.
+                                  type: string
+                              type: object
+                          type: object
+                        type: array
+                      autoscalingLimits:
+                        description: |-
+                          Defines scale in controls to reduce the risk of response latency
+                          and outages due to abrupt scale-in events. Users can define the minimum and
+                          maximum compute capacity allocated to the instance, and the autoscaler will
+                          only scale within that range. Users can either use nodes or processing
+                          units to specify the limits, but should use the same unit to set both the
+                          min_limit and max_limit.
+                          Structure is documented below.
+                        properties:
+                          maxNodes:
+                            description: The maximum number of nodes for this specific
+                              replica.
+                            type: number
+                          maxProcessingUnits:
+                            description: |-
+                              Specifies maximum number of processing units allocated to the instance.
+                              If set, this number should be multiples of 1000 and be greater than or equal to
+                              min_processing_units.
+                            type: number
+                          minNodes:
+                            description: The minimum number of nodes for this specific
+                              replica.
+                            type: number
+                          minProcessingUnits:
+                            description: |-
+                              Specifies minimum number of processing units allocated to the instance.
+                              If set, this number should be multiples of 1000.
+                            type: number
+                        type: object
+                      autoscalingTargets:
+                        description: |-
+                          Defines scale in controls to reduce the risk of response latency
+                          and outages due to abrupt scale-in events
+                          Structure is documented below.
+                        properties:
+                          highPriorityCpuUtilizationPercent:
+                            description: |-
+                              Specifies the target high priority cpu utilization percentage that the autoscaler
+                              should be trying to achieve for the instance.
+                              This number is on a scale from 0 (no utilization) to 100 (full utilization)..
+                            type: number
+                          storageUtilizationPercent:
+                            description: |-
+                              Specifies the target storage utilization percentage that the autoscaler
+                              should be trying to achieve for the instance.
+                              This number is on a scale from 0 (no utilization) to 100 (full utilization).
+                            type: number
+                        type: object
+                    type: object
+                  config:
+                    description: |-
+                      The name of the instance's configuration (similar but not
+                      quite the same as a region) which defines the geographic placement and
+                      replication of your databases in this instance. It determines where your data
+                      is stored. Values are typically of the form regional-europe-west1 , us-central etc.
+                      In order to obtain a valid list please consult the
+                      Configuration section of the docs.
+                    type: string
+                  defaultBackupScheduleType:
+                    description: |-
+                      Controls the default backup behavior for new databases within the instance.
+                      Note that AUTOMATIC is not permitted for free instances, as backups and backup schedules are not allowed for free instances.
+                      if unset or NONE, no default backup schedule will be created for new databases within the instance.
+                      Possible values are: NONE, AUTOMATIC.
+                    type: string
+                  displayName:
+                    description: |-
+                      The descriptive name for this instance as it appears in UIs. Must be
+                      unique per project and between 4 and 30 characters in length.
+                    type: string
+                  edition:
+                    description: |-
+                      The edition selected for this instance. Different editions provide different capabilities at different price points.
+                      Possible values are: EDITION_UNSPECIFIED, STANDARD, ENTERPRISE, ENTERPRISE_PLUS.
+                    type: string
+                  forceDestroy:
+                    description: |-
+                      When deleting a spanner instance, this boolean option will delete all backups of this instance.
+                      This must be set to true if you created a backup manually in the console.
+                    type: boolean
+                  instanceType:
+                    description: |-
+                      The type of this instance. The type can be used to distinguish product variants, that can affect aspects like:
+                      usage restrictions, quotas and billing. Currently this is used to distinguish FREE_INSTANCE vs PROVISIONED instances.
+                      When configured as FREE_INSTANCE, the field edition should not be configured.
+                      Possible values are: PROVISIONED, FREE_INSTANCE.
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      An object containing a list of "key": value pairs.
+                      Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  numNodes:
+                    description: The number of nodes allocated to this instance.
+                    type: number
+                  processingUnits:
+                    description: The number of processing units allocated to this
+                      instance.
+                    type: number
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  autoscalingConfig:
+                    description: |-
+                      The autoscaling configuration. Autoscaling is enabled if this field is set.
+                      When autoscaling is enabled, num_nodes and processing_units are treated as,
+                      OUTPUT_ONLY fields and reflect the current compute capacity allocated to
+                      the instance.
+                      Structure is documented below.
+                    properties:
+                      asymmetricAutoscalingOptions:
+                        description: |-
+                          Asymmetric autoscaling options for specific replicas.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            overrides:
+                              description: |-
+                                A nested object resource.
+                                Structure is documented below.
+                              properties:
+                                autoscalingLimits:
+                                  description: |-
+                                    A nested object resource.
+                                    Structure is documented below.
+                                  properties:
+                                    maxNodes:
+                                      description: The maximum number of nodes for
+                                        this specific replica.
+                                      type: number
+                                    minNodes:
+                                      description: The minimum number of nodes for
+                                        this specific replica.
+                                      type: number
+                                  type: object
+                              type: object
+                            replicaSelection:
+                              description: |-
+                                A nested object resource.
+                                Structure is documented below.
+                              properties:
+                                location:
+                                  description: The location of the replica to apply
+                                    asymmetric autoscaling options.
+                                  type: string
+                              type: object
+                          type: object
+                        type: array
+                      autoscalingLimits:
+                        description: |-
+                          Defines scale in controls to reduce the risk of response latency
+                          and outages due to abrupt scale-in events. Users can define the minimum and
+                          maximum compute capacity allocated to the instance, and the autoscaler will
+                          only scale within that range. Users can either use nodes or processing
+                          units to specify the limits, but should use the same unit to set both the
+                          min_limit and max_limit.
+                          Structure is documented below.
+                        properties:
+                          maxNodes:
+                            description: The maximum number of nodes for this specific
+                              replica.
+                            type: number
+                          maxProcessingUnits:
+                            description: |-
+                              Specifies maximum number of processing units allocated to the instance.
+                              If set, this number should be multiples of 1000 and be greater than or equal to
+                              min_processing_units.
+                            type: number
+                          minNodes:
+                            description: The minimum number of nodes for this specific
+                              replica.
+                            type: number
+                          minProcessingUnits:
+                            description: |-
+                              Specifies minimum number of processing units allocated to the instance.
+                              If set, this number should be multiples of 1000.
+                            type: number
+                        type: object
+                      autoscalingTargets:
+                        description: |-
+                          Defines scale in controls to reduce the risk of response latency
+                          and outages due to abrupt scale-in events
+                          Structure is documented below.
+                        properties:
+                          highPriorityCpuUtilizationPercent:
+                            description: |-
+                              Specifies the target high priority cpu utilization percentage that the autoscaler
+                              should be trying to achieve for the instance.
+                              This number is on a scale from 0 (no utilization) to 100 (full utilization)..
+                            type: number
+                          storageUtilizationPercent:
+                            description: |-
+                              Specifies the target storage utilization percentage that the autoscaler
+                              should be trying to achieve for the instance.
+                              This number is on a scale from 0 (no utilization) to 100 (full utilization).
+                            type: number
+                        type: object
+                    type: object
+                  config:
+                    description: |-
+                      The name of the instance's configuration (similar but not
+                      quite the same as a region) which defines the geographic placement and
+                      replication of your databases in this instance. It determines where your data
+                      is stored. Values are typically of the form regional-europe-west1 , us-central etc.
+                      In order to obtain a valid list please consult the
+                      Configuration section of the docs.
+                    type: string
+                  defaultBackupScheduleType:
+                    description: |-
+                      Controls the default backup behavior for new databases within the instance.
+                      Note that AUTOMATIC is not permitted for free instances, as backups and backup schedules are not allowed for free instances.
+                      if unset or NONE, no default backup schedule will be created for new databases within the instance.
+                      Possible values are: NONE, AUTOMATIC.
+                    type: string
+                  displayName:
+                    description: |-
+                      The descriptive name for this instance as it appears in UIs. Must be
+                      unique per project and between 4 and 30 characters in length.
+                    type: string
+                  edition:
+                    description: |-
+                      The edition selected for this instance. Different editions provide different capabilities at different price points.
+                      Possible values are: EDITION_UNSPECIFIED, STANDARD, ENTERPRISE, ENTERPRISE_PLUS.
+                    type: string
+                  forceDestroy:
+                    description: |-
+                      When deleting a spanner instance, this boolean option will delete all backups of this instance.
+                      This must be set to true if you created a backup manually in the console.
+                    type: boolean
+                  instanceType:
+                    description: |-
+                      The type of this instance. The type can be used to distinguish product variants, that can affect aspects like:
+                      usage restrictions, quotas and billing. Currently this is used to distinguish FREE_INSTANCE vs PROVISIONED instances.
+                      When configured as FREE_INSTANCE, the field edition should not be configured.
+                      Possible values are: PROVISIONED, FREE_INSTANCE.
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      An object containing a list of "key": value pairs.
+                      Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  numNodes:
+                    description: The number of nodes allocated to this instance.
+                    type: number
+                  processingUnits:
+                    description: The number of processing units allocated to this
+                      instance.
+                    type: number
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  kind: ClusterProviderConfig
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  kind:
+                    description: Kind of the referenced object.
+                    type: string
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - kind
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                required:
+                - name
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.config is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.config)
+                || (has(self.initProvider) && has(self.initProvider.config))'
+            - message: spec.forProvider.displayName is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.displayName)
+                || (has(self.initProvider) && has(self.initProvider.displayName))'
+          status:
+            description: InstanceStatus defines the observed state of Instance.
+            properties:
+              atProvider:
+                properties:
+                  autoscalingConfig:
+                    description: |-
+                      The autoscaling configuration. Autoscaling is enabled if this field is set.
+                      When autoscaling is enabled, num_nodes and processing_units are treated as,
+                      OUTPUT_ONLY fields and reflect the current compute capacity allocated to
+                      the instance.
+                      Structure is documented below.
+                    properties:
+                      asymmetricAutoscalingOptions:
+                        description: |-
+                          Asymmetric autoscaling options for specific replicas.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            overrides:
+                              description: |-
+                                A nested object resource.
+                                Structure is documented below.
+                              properties:
+                                autoscalingLimits:
+                                  description: |-
+                                    A nested object resource.
+                                    Structure is documented below.
+                                  properties:
+                                    maxNodes:
+                                      description: The maximum number of nodes for
+                                        this specific replica.
+                                      type: number
+                                    minNodes:
+                                      description: The minimum number of nodes for
+                                        this specific replica.
+                                      type: number
+                                  type: object
+                              type: object
+                            replicaSelection:
+                              description: |-
+                                A nested object resource.
+                                Structure is documented below.
+                              properties:
+                                location:
+                                  description: The location of the replica to apply
+                                    asymmetric autoscaling options.
+                                  type: string
+                              type: object
+                          type: object
+                        type: array
+                      autoscalingLimits:
+                        description: |-
+                          Defines scale in controls to reduce the risk of response latency
+                          and outages due to abrupt scale-in events. Users can define the minimum and
+                          maximum compute capacity allocated to the instance, and the autoscaler will
+                          only scale within that range. Users can either use nodes or processing
+                          units to specify the limits, but should use the same unit to set both the
+                          min_limit and max_limit.
+                          Structure is documented below.
+                        properties:
+                          maxNodes:
+                            description: The maximum number of nodes for this specific
+                              replica.
+                            type: number
+                          maxProcessingUnits:
+                            description: |-
+                              Specifies maximum number of processing units allocated to the instance.
+                              If set, this number should be multiples of 1000 and be greater than or equal to
+                              min_processing_units.
+                            type: number
+                          minNodes:
+                            description: The minimum number of nodes for this specific
+                              replica.
+                            type: number
+                          minProcessingUnits:
+                            description: |-
+                              Specifies minimum number of processing units allocated to the instance.
+                              If set, this number should be multiples of 1000.
+                            type: number
+                        type: object
+                      autoscalingTargets:
+                        description: |-
+                          Defines scale in controls to reduce the risk of response latency
+                          and outages due to abrupt scale-in events
+                          Structure is documented below.
+                        properties:
+                          highPriorityCpuUtilizationPercent:
+                            description: |-
+                              Specifies the target high priority cpu utilization percentage that the autoscaler
+                              should be trying to achieve for the instance.
+                              This number is on a scale from 0 (no utilization) to 100 (full utilization)..
+                            type: number
+                          storageUtilizationPercent:
+                            description: |-
+                              Specifies the target storage utilization percentage that the autoscaler
+                              should be trying to achieve for the instance.
+                              This number is on a scale from 0 (no utilization) to 100 (full utilization).
+                            type: number
+                        type: object
+                    type: object
+                  config:
+                    description: |-
+                      The name of the instance's configuration (similar but not
+                      quite the same as a region) which defines the geographic placement and
+                      replication of your databases in this instance. It determines where your data
+                      is stored. Values are typically of the form regional-europe-west1 , us-central etc.
+                      In order to obtain a valid list please consult the
+                      Configuration section of the docs.
+                    type: string
+                  defaultBackupScheduleType:
+                    description: |-
+                      Controls the default backup behavior for new databases within the instance.
+                      Note that AUTOMATIC is not permitted for free instances, as backups and backup schedules are not allowed for free instances.
+                      if unset or NONE, no default backup schedule will be created for new databases within the instance.
+                      Possible values are: NONE, AUTOMATIC.
+                    type: string
+                  displayName:
+                    description: |-
+                      The descriptive name for this instance as it appears in UIs. Must be
+                      unique per project and between 4 and 30 characters in length.
+                    type: string
+                  edition:
+                    description: |-
+                      The edition selected for this instance. Different editions provide different capabilities at different price points.
+                      Possible values are: EDITION_UNSPECIFIED, STANDARD, ENTERPRISE, ENTERPRISE_PLUS.
+                    type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  forceDestroy:
+                    description: |-
+                      When deleting a spanner instance, this boolean option will delete all backups of this instance.
+                      This must be set to true if you created a backup manually in the console.
+                    type: boolean
+                  id:
+                    description: an identifier for the resource with format {{project}}/{{name}}
+                    type: string
+                  instanceType:
+                    description: |-
+                      The type of this instance. The type can be used to distinguish product variants, that can affect aspects like:
+                      usage restrictions, quotas and billing. Currently this is used to distinguish FREE_INSTANCE vs PROVISIONED instances.
+                      When configured as FREE_INSTANCE, the field edition should not be configured.
+                      Possible values are: PROVISIONED, FREE_INSTANCE.
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      An object containing a list of "key": value pairs.
+                      Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  numNodes:
+                    description: The number of nodes allocated to this instance.
+                    type: number
+                  processingUnits:
+                    description: The number of processing units allocated to this
+                      instance.
+                    type: number
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  state:
+                    description: 'Instance status: CREATING or READY.'
+                    type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

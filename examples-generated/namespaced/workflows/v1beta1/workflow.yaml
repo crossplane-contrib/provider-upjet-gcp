@@ -1,0 +1,65 @@
+apiVersion: workflows.gcp.m.upbound.io/v1beta1
+kind: Workflow
+metadata:
+  annotations:
+    meta.upbound.io/example-id: workflows/v1beta1/workflow
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: upbound-system
+spec:
+  forProvider:
+    callLogLevel: LOG_ERRORS_ONLY
+    deletionProtection: false
+    description: Magic
+    labels:
+      env: test
+    name: workflow
+    region: us-central1
+    serviceAccountSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_account
+    sourceContents: |
+      # This is a sample workflow. You can replace it with your source code.
+      #
+      # This workflow does the following:
+      # - reads current time and date information from an external API and stores
+      #   the response in currentTime variable
+      # - retrieves a list of Wikipedia articles related to the day of the week
+      #   from currentTime
+      # - returns the list of articles as an output of the workflow
+      #
+      # Note: In Terraform you need to escape the $$ or it will cause errors.
+
+      - getCurrentTime:
+          call: http.get
+          args:
+              url: ${sys.get_env("url")}
+          result: currentTime
+      - readWikipedia:
+          call: http.get
+          args:
+              url: https://en.wikipedia.org/w/api.php
+              query:
+                  action: opensearch
+                  search: ${currentTime.body.dayOfWeek}
+          result: wikiResult
+      - returnOutput:
+          return: ${wikiResult.body[1]}
+    userEnvVars:
+      url: https://timeapi.io/api/Time/current/zone?timeZone=Europe/Amsterdam
+
+---
+
+apiVersion: cloudplatform.gcp.m.upbound.io/v1beta1
+kind: ServiceAccount
+metadata:
+  annotations:
+    meta.upbound.io/example-id: workflows/v1beta1/workflow
+  labels:
+    testing.upbound.io/example-name: test_account
+  name: test-account
+  namespace: upbound-system
+spec:
+  forProvider:
+    displayName: Test Service Account

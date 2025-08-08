@@ -1,0 +1,36 @@
+apiVersion: networksecurity.gcp.m.upbound.io/v1beta1
+kind: GatewaySecurityPolicyRule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networksecurity/v1beta1/gatewaysecuritypolicyrule
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    basicProfile: ALLOW
+    description: my description
+    enabled: true
+    gatewaySecurityPolicySelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    location: us-central1
+    priority: 0
+    sessionMatcher: host() == 'example.com'
+
+---
+
+apiVersion: networksecurity.gcp.m.upbound.io/v1beta1
+kind: GatewaySecurityPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networksecurity/v1beta1/gatewaysecuritypolicyrule
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    description: gateway security policy created to be used as reference by the rule.
+    location: us-central1

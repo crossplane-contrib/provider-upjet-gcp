@@ -1,0 +1,11 @@
+apiVersion: sourcerepo.gcp.m.upbound.io/v1beta1
+kind: Repository
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sourcerepo/v1beta1/repository
+  labels:
+    testing.upbound.io/example-name: my-repo
+  name: my-repo
+  namespace: upbound-system
+spec:
+  forProvider: {}

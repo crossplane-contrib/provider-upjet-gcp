@@ -1,0 +1,114 @@
+apiVersion: dns.gcp.m.upbound.io/v1beta1
+kind: ResponsePolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dns/v1beta1/responsepolicy
+  labels:
+    testing.upbound.io/example-name: example-response-policy
+  name: example-response-policy
+  namespace: upbound-system
+spec:
+  forProvider:
+    gkeClusters:
+    - gkeClusterNameSelector:
+        matchLabels:
+          testing.upbound.io/example-name: cluster-1
+    networks:
+    - networkUrlSelector:
+        matchLabels:
+          testing.upbound.io/example-name: network-1
+    - networkUrlSelector:
+        matchLabels:
+          testing.upbound.io/example-name: network-2
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dns/v1beta1/responsepolicy
+  labels:
+    testing.upbound.io/example-name: network-1
+  name: network-1
+  namespace: upbound-system
+spec:
+  forProvider:
+    autoCreateSubnetworks: false
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dns/v1beta1/responsepolicy
+  labels:
+    testing.upbound.io/example-name: network-2
+  name: network-2
+  namespace: upbound-system
+spec:
+  forProvider:
+    autoCreateSubnetworks: false
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: Subnetwork
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dns/v1beta1/responsepolicy
+  labels:
+    testing.upbound.io/example-name: subnetwork-1
+  name: subnetwork-1
+  namespace: upbound-system
+spec:
+  forProvider:
+    ipCidrRange: 10.0.36.0/24
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    privateIpGoogleAccess: true
+    region: us-central1
+    secondaryIpRange:
+    - ipCidrRange: 10.0.0.0/19
+      rangeName: pod
+    - ipCidrRange: 10.0.32.0/22
+      rangeName: svc
+
+---
+
+apiVersion: container.gcp.m.upbound.io/v1beta1
+kind: Cluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dns/v1beta1/responsepolicy
+  labels:
+    testing.upbound.io/example-name: cluster-1
+  name: cluster-1
+  namespace: upbound-system
+spec:
+  forProvider:
+    defaultSnatStatus:
+    - disabled: true
+    deletionProtection: true
+    initialNodeCount: 1
+    ipAllocationPolicy:
+    - clusterSecondaryRangeName: pod
+      servicesSecondaryRangeName: svc
+    location: us-central1-c
+    masterAuthorizedNetworksConfig:
+    - {}
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    networkingMode: VPC_NATIVE
+    privateClusterConfig:
+    - enablePrivateEndpoint: true
+      enablePrivateNodes: true
+      masterGlobalAccessConfig:
+      - enabled: true
+      masterIpv4CidrBlock: 10.42.0.0/28
+    subnetworkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

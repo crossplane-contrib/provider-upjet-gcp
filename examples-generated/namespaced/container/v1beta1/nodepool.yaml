@@ -1,0 +1,55 @@
+apiVersion: container.gcp.m.upbound.io/v1beta1
+kind: NodePool
+metadata:
+  annotations:
+    meta.upbound.io/example-id: container/v1beta1/nodepool
+  labels:
+    testing.upbound.io/example-name: primary_preemptible_nodes
+  name: primary-preemptible-nodes
+  namespace: upbound-system
+spec:
+  forProvider:
+    clusterSelector:
+      matchLabels:
+        testing.upbound.io/example-name: primary
+    nodeConfig:
+    - machineType: e2-medium
+      oauthScopes:
+      - https://www.googleapis.com/auth/cloud-platform
+      preemptible: true
+      serviceAccountSelector:
+        matchLabels:
+          testing.upbound.io/example-name: default
+    nodeCount: 1
+
+---
+
+apiVersion: container.gcp.m.upbound.io/v1beta1
+kind: Cluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: container/v1beta1/nodepool
+  labels:
+    testing.upbound.io/example-name: primary
+  name: primary
+  namespace: upbound-system
+spec:
+  forProvider:
+    initialNodeCount: 1
+    location: us-central1
+    removeDefaultNodePool: true
+
+---
+
+apiVersion: cloudplatform.gcp.m.upbound.io/v1beta1
+kind: ServiceAccount
+metadata:
+  annotations:
+    meta.upbound.io/example-id: container/v1beta1/nodepool
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    displayName: Service Account
