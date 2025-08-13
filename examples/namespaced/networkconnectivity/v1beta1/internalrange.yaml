@@ -1,0 +1,35 @@
+apiVersion: networkconnectivity.gcp.m.upbound.io/v1beta1
+kind: InternalRange
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkconnectivity/v1beta1/internalrange
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    description: Test internal range
+    ipCidrRange: 10.0.0.0/24
+    labels:
+      label-a: b
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    peering: FOR_SELF
+    usage: FOR_VPC
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkconnectivity/v1beta1/internalrange
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    autoCreateSubnetworks: false

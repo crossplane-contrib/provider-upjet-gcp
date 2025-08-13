@@ -10,6 +10,7 @@ import (
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
 	hub "github.com/upbound/provider-gcp/internal/controller/namespaced/networkconnectivity/hub"
+	internalrange "github.com/upbound/provider-gcp/internal/controller/namespaced/networkconnectivity/internalrange"
 	serviceconnectionpolicy "github.com/upbound/provider-gcp/internal/controller/namespaced/networkconnectivity/serviceconnectionpolicy"
 	spoke "github.com/upbound/provider-gcp/internal/controller/namespaced/networkconnectivity/spoke"
 )
@@ -19,6 +20,7 @@ import (
 func Setup_networkconnectivity(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		hub.Setup,
+		internalrange.Setup,
 		serviceconnectionpolicy.Setup,
 		spoke.Setup,
 	} {
@@ -34,6 +36,7 @@ func Setup_networkconnectivity(mgr ctrl.Manager, o controller.Options) error {
 func SetupGated_networkconnectivity(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		hub.SetupGated,
+		internalrange.SetupGated,
 		serviceconnectionpolicy.SetupGated,
 		spoke.SetupGated,
 	} {
