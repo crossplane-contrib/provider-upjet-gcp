@@ -14,7 +14,7 @@ spec:
       label-a: b
     networkSelector:
       matchLabels:
-        testing.upbound.io/example-name: default
+        testing.upbound.io/example-name: vpc
     peering: FOR_SELF
     usage: FOR_VPC
 
@@ -26,8 +26,8 @@ metadata:
   annotations:
     meta.upbound.io/example-id: networkconnectivity/v1beta1/internalrange
   labels:
-    testing.upbound.io/example-name: default
-  name: default
+    testing.upbound.io/example-name: vpc
+  name: vpc
 spec:
   forProvider:
     autoCreateSubnetworks: false
