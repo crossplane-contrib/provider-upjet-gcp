@@ -635,6 +635,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_network_connectivity_spoke": config.IdentifierFromProvider,
 	// ServiceConnectionPolicy can be imported using projects/{{project}}/locations/{{location}}/serviceConnectionPolicies/{{name}}
 	"google_network_connectivity_service_connection_policy": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/serviceConnectionPolicies/{{ .external_name }}"),
+	// InternalRange can be imported using projects/{{project}}/locations/global/internalRanges/{{name}}
+	"google_network_connectivity_internal_range": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/global/internalRanges/{{ .external_name }}"),
 
 	// network security
 	//

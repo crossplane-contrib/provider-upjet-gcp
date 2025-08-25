@@ -10,6 +10,9 @@ package v1beta1
 func (tr *Hub) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *InternalRange) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *ServiceConnectionPolicy) Hub() {}
 
 // Hub marks this type as a conversion hub.
