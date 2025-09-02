@@ -237,6 +237,8 @@
   "google_firebaserules_ruleset",
   "google_folder",
   "google_folder_iam_member",
+  "google_gemini_code_repository_index",
+  "google_gemini_repository_group",
   "google_gke_backup_backup_plan",
   "google_gke_hub_membership",
   "google_gke_hub_membership_iam_member",

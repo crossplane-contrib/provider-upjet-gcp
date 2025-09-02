@@ -86,6 +86,7 @@ import (
 	v1beta2filestore "github.com/upbound/provider-gcp/apis/cluster/filestore/v1beta2"
 	v1beta1firebaserules "github.com/upbound/provider-gcp/apis/cluster/firebaserules/v1beta1"
 	v1beta2firebaserules "github.com/upbound/provider-gcp/apis/cluster/firebaserules/v1beta2"
+	v1beta1gemini "github.com/upbound/provider-gcp/apis/cluster/gemini/v1beta1"
 	v1beta1gke "github.com/upbound/provider-gcp/apis/cluster/gke/v1beta1"
 	v1beta2gke "github.com/upbound/provider-gcp/apis/cluster/gke/v1beta2"
 	v1beta1gkehub "github.com/upbound/provider-gcp/apis/cluster/gkehub/v1beta1"
@@ -230,6 +231,7 @@ func init() {
 		v1beta2filestore.SchemeBuilder.AddToScheme,
 		v1beta1firebaserules.SchemeBuilder.AddToScheme,
 		v1beta2firebaserules.SchemeBuilder.AddToScheme,
+		v1beta1gemini.SchemeBuilder.AddToScheme,
 		v1beta1gke.SchemeBuilder.AddToScheme,
 		v1beta2gke.SchemeBuilder.AddToScheme,
 		v1beta1gkehub.SchemeBuilder.AddToScheme,

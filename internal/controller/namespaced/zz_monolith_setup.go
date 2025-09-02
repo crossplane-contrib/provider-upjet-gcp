@@ -261,6 +261,8 @@ import (
 	snapshotfilestore "github.com/upbound/provider-gcp/internal/controller/namespaced/filestore/snapshot"
 	release "github.com/upbound/provider-gcp/internal/controller/namespaced/firebaserules/release"
 	ruleset "github.com/upbound/provider-gcp/internal/controller/namespaced/firebaserules/ruleset"
+	coderepositoryindex "github.com/upbound/provider-gcp/internal/controller/namespaced/gemini/coderepositoryindex"
+	repositorygroup "github.com/upbound/provider-gcp/internal/controller/namespaced/gemini/repositorygroup"
 	backupbackupplan "github.com/upbound/provider-gcp/internal/controller/namespaced/gke/backupbackupplan"
 	membership "github.com/upbound/provider-gcp/internal/controller/namespaced/gkehub/membership"
 	membershipiammember "github.com/upbound/provider-gcp/internal/controller/namespaced/gkehub/membershipiammember"
@@ -643,6 +645,8 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		snapshotfilestore.Setup,
 		release.Setup,
 		ruleset.Setup,
+		coderepositoryindex.Setup,
+		repositorygroup.Setup,
 		backupbackupplan.Setup,
 		membership.Setup,
 		membershipiammember.Setup,
@@ -1031,6 +1035,8 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		snapshotfilestore.SetupGated,
 		release.SetupGated,
 		ruleset.SetupGated,
+		coderepositoryindex.SetupGated,
+		repositorygroup.SetupGated,
 		backupbackupplan.SetupGated,
 		membership.SetupGated,
 		membershipiammember.SetupGated,

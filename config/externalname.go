@@ -523,6 +523,13 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: projects/{{project}}/locations/{{location}}/realms/{{realm_id}}
 	// "google_game_services_realm": config.TemplatedStringAsIdentifier("realm_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/realms/{{ .external_name }}"),
 
+	// gemini
+	//
+	// Imported by using projects/{{project}}/locations/{{location}}/codeRepositoryIndexes/{{code_repository_index_id}}
+	"google_gemini_code_repository_index": config.TemplatedStringAsIdentifier("code_repository_index_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/codeRepositoryIndexes/{{ .external_name }}"),
+	// projects/{{project}}/locations/{{location}}/codeRepositoryIndexes/{{code_repository_index}}/repositoryGroups/{{repository_group_id}}
+	"google_gemini_repository_group": config.TemplatedStringAsIdentifier("repository_group_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/codeRepositoryIndexes/{{ .parameters.code_repository_index }}/repositoryGroups/{{ .external_name }}"),
+
 	// gkehub
 	//
 	// Imported by using the following format: projects/{{project}}/locations/{{location}}/memberships/{{membership_id}}
