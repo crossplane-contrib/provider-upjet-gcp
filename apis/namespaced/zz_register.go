@@ -43,6 +43,7 @@ import (
 	v1beta1dataplex "github.com/upbound/provider-gcp/apis/namespaced/dataplex/v1beta1"
 	v1beta1dataproc "github.com/upbound/provider-gcp/apis/namespaced/dataproc/v1beta1"
 	v1beta1datastream "github.com/upbound/provider-gcp/apis/namespaced/datastream/v1beta1"
+	v1beta1developerconnect "github.com/upbound/provider-gcp/apis/namespaced/developerconnect/v1beta1"
 	v1beta1dialogflowcx "github.com/upbound/provider-gcp/apis/namespaced/dialogflowcx/v1beta1"
 	v1beta1dns "github.com/upbound/provider-gcp/apis/namespaced/dns/v1beta1"
 	v1beta1documentai "github.com/upbound/provider-gcp/apis/namespaced/documentai/v1beta1"
@@ -124,6 +125,7 @@ func init() {
 		v1beta1dataplex.SchemeBuilder.AddToScheme,
 		v1beta1dataproc.SchemeBuilder.AddToScheme,
 		v1beta1datastream.SchemeBuilder.AddToScheme,
+		v1beta1developerconnect.SchemeBuilder.AddToScheme,
 		v1beta1dialogflowcx.SchemeBuilder.AddToScheme,
 		v1beta1dns.SchemeBuilder.AddToScheme,
 		v1beta1documentai.SchemeBuilder.AddToScheme,

@@ -234,6 +234,9 @@ import (
 	workflowtemplate "github.com/upbound/provider-gcp/internal/controller/cluster/dataproc/workflowtemplate"
 	connectionprofile "github.com/upbound/provider-gcp/internal/controller/cluster/datastream/connectionprofile"
 	privateconnection "github.com/upbound/provider-gcp/internal/controller/cluster/datastream/privateconnection"
+	connectaccountconnector "github.com/upbound/provider-gcp/internal/controller/cluster/developerconnect/connectaccountconnector"
+	connectconnection "github.com/upbound/provider-gcp/internal/controller/cluster/developerconnect/connectconnection"
+	connectgitrepositorylink "github.com/upbound/provider-gcp/internal/controller/cluster/developerconnect/connectgitrepositorylink"
 	agent "github.com/upbound/provider-gcp/internal/controller/cluster/dialogflowcx/agent"
 	entitytype "github.com/upbound/provider-gcp/internal/controller/cluster/dialogflowcx/entitytype"
 	environmentdialogflowcx "github.com/upbound/provider-gcp/internal/controller/cluster/dialogflowcx/environment"
@@ -613,6 +616,9 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		workflowtemplate.Setup,
 		connectionprofile.Setup,
 		privateconnection.Setup,
+		connectaccountconnector.Setup,
+		connectconnection.Setup,
+		connectgitrepositorylink.Setup,
 		agent.Setup,
 		entitytype.Setup,
 		environmentdialogflowcx.Setup,
@@ -998,6 +1004,9 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		workflowtemplate.SetupGated,
 		connectionprofile.SetupGated,
 		privateconnection.SetupGated,
+		connectaccountconnector.SetupGated,
+		connectconnection.SetupGated,
+		connectgitrepositorylink.SetupGated,
 		agent.SetupGated,
 		entitytype.SetupGated,
 		environmentdialogflowcx.SetupGated,

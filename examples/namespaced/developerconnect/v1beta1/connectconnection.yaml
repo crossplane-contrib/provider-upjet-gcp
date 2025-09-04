@@ -1,0 +1,15 @@
+apiVersion: developerconnect.gcp.m.upbound.io/v1beta1
+kind: ConnectConnection
+metadata:
+  annotations:
+    meta.upbound.io/example-id: developerconnect/v1beta1/connectconnection
+    upjet.upbound.io/manual-intervention: "Service account needs roles/secretmanager.admin permission"
+  labels:
+    testing.upbound.io/example-name: my-connection
+  name: my-connection
+  namespace: upbound-system
+spec:
+  forProvider:
+    githubConfig:
+      githubApp: FIREBASE
+    location: us-central1
