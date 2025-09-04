@@ -1,0 +1,85 @@
+apiVersion: developerconnect.gcp.upbound.io/v1beta1
+kind: ConnectGitRepositoryLink
+metadata:
+  annotations:
+    meta.upbound.io/example-id: developerconnect/v1beta1/connectgitrepositorylink
+    upjet.upbound.io/manual-intervention: "Requires existing GitHub repository and pre-created Developer Connect connection"
+  labels:
+    testing.upbound.io/example-name: my-repository
+  name: my-repository
+spec:
+  forProvider:
+    location: us-central1
+    parentConnectionSelector:
+      matchLabels:
+        testing.upbound.io/example-name: my-connection
+    cloneUri: https://github.com/myuser/myrepo.git
+
+---
+apiVersion: developerconnect.gcp.upbound.io/v1beta1
+kind: ConnectConnection
+metadata:
+  annotations:
+    meta.upbound.io/example-id: developerconnect/v1beta1/connectgitrepositorylink
+    upjet.upbound.io/manual-intervention: "Requires valid GitHub OAuth token and app installation ID."
+  labels:
+    testing.upbound.io/example-name: my-connection
+  name: my-connection
+spec:
+  forProvider:
+    githubConfig:
+      appInstallationId: "12312343445"
+      authorizerCredential:
+        oauthTokenSecretVersionSelector:
+          matchLabels:
+            testing.upbound.io/example-name: github-token-secret-version
+      githubApp: DEVELOPER_CONNECT
+    location: us-central1
+---
+apiVersion: secretmanager.gcp.upbound.io/v1beta1
+kind: Secret
+metadata:
+  annotations:
+    meta.upbound.io/example-id: developerconnect/v1beta1/connectgitrepositorylink
+    upjet.upbound.io/manual-intervention: "Depends on valid GitHub token in referenced Kubernetes secret"
+  labels:
+    testing.upbound.io/example-name: github-token-secret
+  name: github-token-secret
+spec:
+  forProvider:
+    replication:
+    - auto:
+      - {}
+---
+apiVersion: secretmanager.gcp.upbound.io/v1beta1
+kind: SecretVersion
+metadata:
+  annotations:
+    meta.upbound.io/example-id: developerconnect/v1beta1/connectgitrepositorylink
+    upjet.upbound.io/manual-intervention: "Depends on valid GitHub token in referenced Kubernetes secret"
+  labels:
+    testing.upbound.io/example-name: github-token-secret-version
+  name: github-token-secret-version
+spec:
+  forProvider:
+    secretDataSecretRef:
+      key: secret
+      name: secret-version
+      namespace: upbound-system
+    secretSelector:
+      matchLabels:
+        testing.upbound.io/example-name: github-token-secret
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  annotations:
+    meta.upbound.io/example-id: developerconnect/v1beta1/connectgitrepositorylink
+    upjet.upbound.io/manual-intervention: "Replace 'Upbound!' with valid GitHub OAuth token"
+  labels:
+    testing.upbound.io/example-name: secret-version
+  name: secret-version
+  namespace: upbound-system
+type: Opaque
+stringData:
+  secret: "Upbound!"
