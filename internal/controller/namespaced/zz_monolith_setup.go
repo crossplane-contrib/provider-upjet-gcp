@@ -262,6 +262,11 @@ import (
 	release "github.com/upbound/provider-gcp/internal/controller/namespaced/firebaserules/release"
 	ruleset "github.com/upbound/provider-gcp/internal/controller/namespaced/firebaserules/ruleset"
 	coderepositoryindex "github.com/upbound/provider-gcp/internal/controller/namespaced/gemini/coderepositoryindex"
+	codetoolssetting "github.com/upbound/provider-gcp/internal/controller/namespaced/gemini/codetoolssetting"
+	datasharingwithgooglesetting "github.com/upbound/provider-gcp/internal/controller/namespaced/gemini/datasharingwithgooglesetting"
+	geminigcpenablementsetting "github.com/upbound/provider-gcp/internal/controller/namespaced/gemini/geminigcpenablementsetting"
+	loggingsetting "github.com/upbound/provider-gcp/internal/controller/namespaced/gemini/loggingsetting"
+	releasechannelsetting "github.com/upbound/provider-gcp/internal/controller/namespaced/gemini/releasechannelsetting"
 	repositorygroup "github.com/upbound/provider-gcp/internal/controller/namespaced/gemini/repositorygroup"
 	backupbackupplan "github.com/upbound/provider-gcp/internal/controller/namespaced/gke/backupbackupplan"
 	membership "github.com/upbound/provider-gcp/internal/controller/namespaced/gkehub/membership"
@@ -646,6 +651,11 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		release.Setup,
 		ruleset.Setup,
 		coderepositoryindex.Setup,
+		codetoolssetting.Setup,
+		datasharingwithgooglesetting.Setup,
+		geminigcpenablementsetting.Setup,
+		loggingsetting.Setup,
+		releasechannelsetting.Setup,
 		repositorygroup.Setup,
 		backupbackupplan.Setup,
 		membership.Setup,
@@ -1036,6 +1046,11 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		release.SetupGated,
 		ruleset.SetupGated,
 		coderepositoryindex.SetupGated,
+		codetoolssetting.SetupGated,
+		datasharingwithgooglesetting.SetupGated,
+		geminigcpenablementsetting.SetupGated,
+		loggingsetting.SetupGated,
+		releasechannelsetting.SetupGated,
 		repositorygroup.SetupGated,
 		backupbackupplan.SetupGated,
 		membership.SetupGated,

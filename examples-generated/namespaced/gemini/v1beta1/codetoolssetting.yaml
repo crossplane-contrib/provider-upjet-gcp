@@ -1,0 +1,22 @@
+apiVersion: gemini.gcp.m.upbound.io/v1beta1
+kind: CodeToolsSetting
+metadata:
+  annotations:
+    meta.upbound.io/example-id: gemini/v1beta1/codetoolssetting
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: upbound-system
+spec:
+  forProvider:
+    enabledTool:
+    - accountConnector: my_con
+      config:
+      - key: my_key
+        value: my_value
+      handle: my_handle
+      tool: my_tool
+      uriOverride: my_uri_override
+    labels:
+      my_key: my_value
+    location: global

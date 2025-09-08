@@ -1,0 +1,15 @@
+apiVersion: gemini.gcp.upbound.io/v1beta1
+kind: LoggingSetting
+metadata:
+  annotations:
+    meta.upbound.io/example-id: gemini/v1beta1/loggingsetting
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    labels:
+      my_key: my_value
+    location: global
+    logMetadata: true
+    logPromptsAndResponses: true

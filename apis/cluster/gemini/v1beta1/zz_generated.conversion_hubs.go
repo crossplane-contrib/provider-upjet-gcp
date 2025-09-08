@@ -10,4 +10,19 @@ package v1beta1
 func (tr *CodeRepositoryIndex) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *CodeToolsSetting) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *DataSharingWithGoogleSetting) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *GeminiGCPEnablementSetting) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *LoggingSetting) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *ReleaseChannelSetting) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *RepositoryGroup) Hub() {}

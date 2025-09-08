@@ -262,6 +262,11 @@ import (
 	release "github.com/upbound/provider-gcp/internal/controller/cluster/firebaserules/release"
 	ruleset "github.com/upbound/provider-gcp/internal/controller/cluster/firebaserules/ruleset"
 	coderepositoryindex "github.com/upbound/provider-gcp/internal/controller/cluster/gemini/coderepositoryindex"
+	codetoolssetting "github.com/upbound/provider-gcp/internal/controller/cluster/gemini/codetoolssetting"
+	datasharingwithgooglesetting "github.com/upbound/provider-gcp/internal/controller/cluster/gemini/datasharingwithgooglesetting"
+	geminigcpenablementsetting "github.com/upbound/provider-gcp/internal/controller/cluster/gemini/geminigcpenablementsetting"
+	loggingsetting "github.com/upbound/provider-gcp/internal/controller/cluster/gemini/loggingsetting"
+	releasechannelsetting "github.com/upbound/provider-gcp/internal/controller/cluster/gemini/releasechannelsetting"
 	repositorygroup "github.com/upbound/provider-gcp/internal/controller/cluster/gemini/repositorygroup"
 	backupbackupplan "github.com/upbound/provider-gcp/internal/controller/cluster/gke/backupbackupplan"
 	membership "github.com/upbound/provider-gcp/internal/controller/cluster/gkehub/membership"
@@ -646,6 +651,11 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		release.Setup,
 		ruleset.Setup,
 		coderepositoryindex.Setup,
+		codetoolssetting.Setup,
+		datasharingwithgooglesetting.Setup,
+		geminigcpenablementsetting.Setup,
+		loggingsetting.Setup,
+		releasechannelsetting.Setup,
 		repositorygroup.Setup,
 		backupbackupplan.Setup,
 		membership.Setup,
@@ -1036,6 +1046,11 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		release.SetupGated,
 		ruleset.SetupGated,
 		coderepositoryindex.SetupGated,
+		codetoolssetting.SetupGated,
+		datasharingwithgooglesetting.SetupGated,
+		geminigcpenablementsetting.SetupGated,
+		loggingsetting.SetupGated,
+		releasechannelsetting.SetupGated,
 		repositorygroup.SetupGated,
 		backupbackupplan.SetupGated,
 		membership.SetupGated,

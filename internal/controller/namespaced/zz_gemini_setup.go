@@ -10,6 +10,11 @@ import (
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
 	coderepositoryindex "github.com/upbound/provider-gcp/internal/controller/namespaced/gemini/coderepositoryindex"
+	codetoolssetting "github.com/upbound/provider-gcp/internal/controller/namespaced/gemini/codetoolssetting"
+	datasharingwithgooglesetting "github.com/upbound/provider-gcp/internal/controller/namespaced/gemini/datasharingwithgooglesetting"
+	geminigcpenablementsetting "github.com/upbound/provider-gcp/internal/controller/namespaced/gemini/geminigcpenablementsetting"
+	loggingsetting "github.com/upbound/provider-gcp/internal/controller/namespaced/gemini/loggingsetting"
+	releasechannelsetting "github.com/upbound/provider-gcp/internal/controller/namespaced/gemini/releasechannelsetting"
 	repositorygroup "github.com/upbound/provider-gcp/internal/controller/namespaced/gemini/repositorygroup"
 )
 
@@ -18,6 +23,11 @@ import (
 func Setup_gemini(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		coderepositoryindex.Setup,
+		codetoolssetting.Setup,
+		datasharingwithgooglesetting.Setup,
+		geminigcpenablementsetting.Setup,
+		loggingsetting.Setup,
+		releasechannelsetting.Setup,
 		repositorygroup.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
@@ -32,6 +42,11 @@ func Setup_gemini(mgr ctrl.Manager, o controller.Options) error {
 func SetupGated_gemini(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		coderepositoryindex.SetupGated,
+		codetoolssetting.SetupGated,
+		datasharingwithgooglesetting.SetupGated,
+		geminigcpenablementsetting.SetupGated,
+		loggingsetting.SetupGated,
+		releasechannelsetting.SetupGated,
 		repositorygroup.SetupGated,
 	} {
 		if err := setup(mgr, o); err != nil {
