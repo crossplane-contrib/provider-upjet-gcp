@@ -35,9 +35,6 @@ type ConnectGitRepositoryLinkInitParameters struct {
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
-	// Resource ID segment making up resource name. It identifies the resource within its parent collection as described in https://google.aip.dev/122. See documentation for resource type developerconnect.googleapis.com/GitRepositoryLink.
-	Location *string `json:"location,omitempty" tf:"location,omitempty"`
-
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -137,8 +134,8 @@ type ConnectGitRepositoryLinkParameters struct {
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Resource ID segment making up resource name. It identifies the resource within its parent collection as described in https://google.aip.dev/122. See documentation for resource type developerconnect.googleapis.com/GitRepositoryLink.
-	// +kubebuilder:validation:Optional
-	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+	// +kubebuilder:validation:Required
+	Location *string `json:"location" tf:"location,omitempty"`
 
 	// Resource ID segment making up resource name. It identifies the resource within its parent collection as described in https://google.aip.dev/122. See documentation for resource type developerconnect.googleapis.com/GitRepositoryLink.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/developerconnect/v1beta1.ConnectConnection
@@ -196,7 +193,6 @@ type ConnectGitRepositoryLink struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.cloneUri) || (has(self.initProvider) && has(self.initProvider.cloneUri))",message="spec.forProvider.cloneUri is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.location) || (has(self.initProvider) && has(self.initProvider.location))",message="spec.forProvider.location is a required parameter"
 	Spec   ConnectGitRepositoryLinkSpec   `json:"spec"`
 	Status ConnectGitRepositoryLinkStatus `json:"status,omitempty"`
 }

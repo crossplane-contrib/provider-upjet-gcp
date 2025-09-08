@@ -1358,11 +1358,6 @@ func (in *ConnectGitRepositoryLinkInitParameters) DeepCopyInto(out *ConnectGitRe
 			(*out)[key] = outVal
 		}
 	}
-	if in.Location != nil {
-		in, out := &in.Location, &out.Location
-		*out = new(string)
-		**out = **in
-	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
 		*out = new(string)
