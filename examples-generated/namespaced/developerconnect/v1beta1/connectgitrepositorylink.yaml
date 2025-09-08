@@ -1,0 +1,75 @@
+apiVersion: developerconnect.gcp.m.upbound.io/v1beta1
+kind: ConnectGitRepositoryLink
+metadata:
+  annotations:
+    meta.upbound.io/example-id: developerconnect/v1beta1/connectgitrepositorylink
+  labels:
+    testing.upbound.io/example-name: my-repository
+  name: my-repository
+  namespace: upbound-system
+spec:
+  forProvider:
+    location: us-central1
+    parentConnectionSelector:
+      matchLabels:
+        testing.upbound.io/example-name: my-connection
+    remote_uri: https://github.com/myuser/myrepo.git
+
+---
+
+apiVersion: developerconnect.gcp.m.upbound.io/v1beta1
+kind: ConnectConnection
+metadata:
+  annotations:
+    meta.upbound.io/example-id: developerconnect/v1beta1/connectgitrepositorylink
+  labels:
+    testing.upbound.io/example-name: my-connection
+  name: my-connection
+  namespace: upbound-system
+spec:
+  forProvider:
+    githubConfig:
+    - appInstallationId: 123123
+      authorizerCredential:
+      - oauthTokenSecretVersionSelector:
+          matchLabels:
+            testing.upbound.io/example-name: github-token-secret-version
+      githubApp: DEVELOPER_CONNECT
+    location: us-central1
+
+---
+
+apiVersion: secretmanager.gcp.m.upbound.io/v1beta1
+kind: Secret
+metadata:
+  annotations:
+    meta.upbound.io/example-id: developerconnect/v1beta1/connectgitrepositorylink
+  labels:
+    testing.upbound.io/example-name: github-token-secret
+  name: github-token-secret
+  namespace: upbound-system
+spec:
+  forProvider:
+    replication:
+    - auto:
+      - {}
+
+---
+
+apiVersion: secretmanager.gcp.m.upbound.io/v1beta1
+kind: SecretVersion
+metadata:
+  annotations:
+    meta.upbound.io/example-id: developerconnect/v1beta1/connectgitrepositorylink
+  labels:
+    testing.upbound.io/example-name: github-token-secret-version
+  name: github-token-secret-version
+  namespace: upbound-system
+spec:
+  forProvider:
+    secretDataSecretRef:
+      key: attribute.my-github-token.txt
+      name: example-secret
+    secretSelector:
+      matchLabels:
+        testing.upbound.io/example-name: github-token-secret

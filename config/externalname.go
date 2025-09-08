@@ -434,6 +434,15 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following projects/{{project}}/locations/{{location}}/aspectTypes/{{aspect_type_id}}
 	"google_dataplex_aspect_type": config.TemplatedStringAsIdentifier("aspect_type_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/aspectTypes/{{ .external_name }}"),
 
+	// developerconnect
+	//
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/accountConnectors/{{account_connector_id}}
+	"google_developer_connect_account_connector": config.TemplatedStringAsIdentifier("account_connector_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/accountConnectors/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/connections/{{connection_id}}
+	"google_developer_connect_connection": config.TemplatedStringAsIdentifier("connection_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/connections/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/connections/{{parent_connection}}/gitRepositoryLinks/{{git_repository_link_id}}
+	"google_developer_connect_git_repository_link": config.TemplatedStringAsIdentifier("git_repository_link_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/connections/{{ .parameters.parent_connection }}/gitRepositoryLinks/{{ .external_name }}"),
+
 	// dns
 	//
 	// Imported by using the following format: projects/{{project}}/managedZones/{{name}}
