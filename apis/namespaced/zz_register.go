@@ -51,6 +51,7 @@ import (
 	v1beta1eventarc "github.com/upbound/provider-gcp/apis/namespaced/eventarc/v1beta1"
 	v1beta1filestore "github.com/upbound/provider-gcp/apis/namespaced/filestore/v1beta1"
 	v1beta1firebaserules "github.com/upbound/provider-gcp/apis/namespaced/firebaserules/v1beta1"
+	v1beta1gemini "github.com/upbound/provider-gcp/apis/namespaced/gemini/v1beta1"
 	v1beta1gke "github.com/upbound/provider-gcp/apis/namespaced/gke/v1beta1"
 	v1beta1gkehub "github.com/upbound/provider-gcp/apis/namespaced/gkehub/v1beta1"
 	v1beta1healthcare "github.com/upbound/provider-gcp/apis/namespaced/healthcare/v1beta1"
@@ -133,6 +134,7 @@ func init() {
 		v1beta1eventarc.SchemeBuilder.AddToScheme,
 		v1beta1filestore.SchemeBuilder.AddToScheme,
 		v1beta1firebaserules.SchemeBuilder.AddToScheme,
+		v1beta1gemini.SchemeBuilder.AddToScheme,
 		v1beta1gke.SchemeBuilder.AddToScheme,
 		v1beta1gkehub.SchemeBuilder.AddToScheme,
 		v1beta1healthcare.SchemeBuilder.AddToScheme,

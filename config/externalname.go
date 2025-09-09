@@ -523,6 +523,23 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: projects/{{project}}/locations/{{location}}/realms/{{realm_id}}
 	// "google_game_services_realm": config.TemplatedStringAsIdentifier("realm_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/realms/{{ .external_name }}"),
 
+	// gemini
+	//
+	// Imported by using projects/{{project}}/locations/{{location}}/codeRepositoryIndexes/{{code_repository_index_id}}
+	"google_gemini_code_repository_index": config.TemplatedStringAsIdentifier("code_repository_index_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/codeRepositoryIndexes/{{ .external_name }}"),
+	// projects/{{project}}/locations/{{location}}/codeRepositoryIndexes/{{code_repository_index}}/repositoryGroups/{{repository_group_id}}
+	"google_gemini_repository_group": config.TemplatedStringAsIdentifier("repository_group_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/codeRepositoryIndexes/{{ .parameters.code_repository_index }}/repositoryGroups/{{ .external_name }}"),
+	// Imported by using projects/{{project}}/locations/{{location}}/codeToolsSettings/{{code_tools_setting_id}}
+	"google_gemini_code_tools_setting": config.TemplatedStringAsIdentifier("code_tools_setting_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/codeToolsSettings/{{ .external_name }}"),
+	// Imported by using projects/{{project}}/locations/{{location}}/dataSharingWithGoogleSettings/{{data_sharing_with_google_setting_id}}
+	"google_gemini_data_sharing_with_google_setting": config.TemplatedStringAsIdentifier("data_sharing_with_google_setting_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/dataSharingWithGoogleSettings/{{ .external_name }}"),
+	// Imported by using projects/{{project}}/locations/{{location}}/geminiGcpEnablementSettings/{{gemini_gcp_enablement_setting_id}}
+	"google_gemini_gemini_gcp_enablement_setting": config.TemplatedStringAsIdentifier("gemini_gcp_enablement_setting_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/geminiGcpEnablementSettings/{{ .external_name }}"),
+	// Imported by using projects/{{project}}/locations/{{location}}/loggingSettings/{{logging_setting_id}}
+	"google_gemini_logging_setting": config.TemplatedStringAsIdentifier("logging_setting_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/loggingSettings/{{ .external_name }}"),
+	// Imported by using projects/{{project}}/locations/{{location}}/releaseChannelSettings/{{release_channel_setting_id}}
+	"google_gemini_release_channel_setting": config.TemplatedStringAsIdentifier("release_channel_setting_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/releaseChannelSettings/{{ .external_name }}"),
+
 	// gkehub
 	//
 	// Imported by using the following format: projects/{{project}}/locations/{{location}}/memberships/{{membership_id}}

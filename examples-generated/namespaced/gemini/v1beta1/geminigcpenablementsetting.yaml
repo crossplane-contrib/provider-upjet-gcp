@@ -1,0 +1,16 @@
+apiVersion: gemini.gcp.m.upbound.io/v1beta1
+kind: GeminiGCPEnablementSetting
+metadata:
+  annotations:
+    meta.upbound.io/example-id: gemini/v1beta1/geminigcpenablementsetting
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: upbound-system
+spec:
+  forProvider:
+    disableWebGrounding: true
+    enableCustomerDataSharing: true
+    labels:
+      my_key: my_value
+    location: global

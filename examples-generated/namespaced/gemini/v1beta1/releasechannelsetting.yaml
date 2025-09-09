@@ -1,0 +1,15 @@
+apiVersion: gemini.gcp.m.upbound.io/v1beta1
+kind: ReleaseChannelSetting
+metadata:
+  annotations:
+    meta.upbound.io/example-id: gemini/v1beta1/releasechannelsetting
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: upbound-system
+spec:
+  forProvider:
+    labels:
+      my_key: my_value
+    location: global
+    releaseChannel: EXPERIMENTAL

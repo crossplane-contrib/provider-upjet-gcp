@@ -1,0 +1,15 @@
+apiVersion: gemini.gcp.upbound.io/v1beta1
+kind: DataSharingWithGoogleSetting
+metadata:
+  annotations:
+    meta.upbound.io/example-id: gemini/v1beta1/datasharingwithgooglesetting
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    enableDataSharing: true
+    enablePreviewDataSharing: true
+    labels:
+      my_key: my_value
+    location: global
