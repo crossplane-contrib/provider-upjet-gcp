@@ -2630,8 +2630,12 @@ spec:
                                 belongs.
                               type: string
                             subnetwork:
-                              description: Name of the subnetwork where the additional
-                                pod network belongs.
+                              description: 'The subnetwork path for the node pool.
+                                Format: projects/{project}/regions/{region}/subnetworks/{subnetwork}.
+                                If the cluster is associated with multiple subnetworks,
+                                the subnetwork for the node pool is picked based on
+                                the IP utilization during node pool creation and is
+                                immutable'
                               type: string
                           type: object
                         type: array
@@ -2654,8 +2658,12 @@ spec:
                                 subnet which provides IP address for this pod range.
                               type: string
                             subnetwork:
-                              description: Name of the subnetwork where the additional
-                                pod network belongs.
+                              description: 'The subnetwork path for the node pool.
+                                Format: projects/{project}/regions/{region}/subnetworks/{subnetwork}.
+                                If the cluster is associated with multiple subnetworks,
+                                the subnetwork for the node pool is picked based on
+                                the IP utilization during node pool creation and is
+                                immutable'
                               type: string
                           type: object
                         type: array
@@ -3294,8 +3302,12 @@ spec:
                                 belongs.
                               type: string
                             subnetwork:
-                              description: Name of the subnetwork where the additional
-                                pod network belongs.
+                              description: 'The subnetwork path for the node pool.
+                                Format: projects/{project}/regions/{region}/subnetworks/{subnetwork}.
+                                If the cluster is associated with multiple subnetworks,
+                                the subnetwork for the node pool is picked based on
+                                the IP utilization during node pool creation and is
+                                immutable'
                               type: string
                           type: object
                         type: array
@@ -3318,8 +3330,12 @@ spec:
                                 subnet which provides IP address for this pod range.
                               type: string
                             subnetwork:
-                              description: Name of the subnetwork where the additional
-                                pod network belongs.
+                              description: 'The subnetwork path for the node pool.
+                                Format: projects/{project}/regions/{region}/subnetworks/{subnetwork}.
+                                If the cluster is associated with multiple subnetworks,
+                                the subnetwork for the node pool is picked based on
+                                the IP utilization during node pool creation and is
+                                immutable'
                               type: string
                           type: object
                         type: array
@@ -4060,8 +4076,12 @@ spec:
                                 belongs.
                               type: string
                             subnetwork:
-                              description: Name of the subnetwork where the additional
-                                pod network belongs.
+                              description: 'The subnetwork path for the node pool.
+                                Format: projects/{project}/regions/{region}/subnetworks/{subnetwork}.
+                                If the cluster is associated with multiple subnetworks,
+                                the subnetwork for the node pool is picked based on
+                                the IP utilization during node pool creation and is
+                                immutable'
                               type: string
                           type: object
                         type: array
@@ -4084,8 +4104,12 @@ spec:
                                 subnet which provides IP address for this pod range.
                               type: string
                             subnetwork:
-                              description: Name of the subnetwork where the additional
-                                pod network belongs.
+                              description: 'The subnetwork path for the node pool.
+                                Format: projects/{project}/regions/{region}/subnetworks/{subnetwork}.
+                                If the cluster is associated with multiple subnetworks,
+                                the subnetwork for the node pool is picked based on
+                                the IP utilization during node pool creation and is
+                                immutable'
                               type: string
                           type: object
                         type: array
@@ -4129,6 +4153,13 @@ spec:
                           create_pod_range is true, this ID is used for the new range.
                           If create_pod_range is false, uses an existing secondary
                           range with this ID.
+                        type: string
+                      subnetwork:
+                        description: 'The subnetwork path for the node pool. Format:
+                          projects/{project}/regions/{region}/subnetworks/{subnetwork}.
+                          If the cluster is associated with multiple subnetworks,
+                          the subnetwork for the node pool is picked based on the
+                          IP utilization during node pool creation and is immutable'
                         type: string
                     type: object
                   nodeConfig:

@@ -59,6 +59,13 @@ spec:
             properties:
               forProvider:
                 properties:
+                  allowFewerZonesDeployment:
+                    description: |-
+                      Allows customers to specify if they are okay with deploying a multi-zone
+                      cluster in less than 3 zones. Once set, if there is a zonal outage during
+                      the cluster creation, the cluster will only be deployed in 2 zones, and
+                      stay within the 2 zones for its lifecycle.
+                    type: boolean
                   authorizationMode:
                     description: |-
                       Optional. The authorization mode of the Redis cluster. If not provided, auth feature is disabled for the cluster.
@@ -482,6 +489,13 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  allowFewerZonesDeployment:
+                    description: |-
+                      Allows customers to specify if they are okay with deploying a multi-zone
+                      cluster in less than 3 zones. Once set, if there is a zonal outage during
+                      the cluster creation, the cluster will only be deployed in 2 zones, and
+                      stay within the 2 zones for its lifecycle.
+                    type: boolean
                   authorizationMode:
                     description: |-
                       Optional. The authorization mode of the Redis cluster. If not provided, auth feature is disabled for the cluster.
@@ -955,6 +969,13 @@ spec:
             properties:
               atProvider:
                 properties:
+                  allowFewerZonesDeployment:
+                    description: |-
+                      Allows customers to specify if they are okay with deploying a multi-zone
+                      cluster in less than 3 zones. Once set, if there is a zonal outage during
+                      the cluster creation, the cluster will only be deployed in 2 zones, and
+                      stay within the 2 zones for its lifecycle.
+                    type: boolean
                   authorizationMode:
                     description: |-
                       Optional. The authorization mode of the Redis cluster. If not provided, auth feature is disabled for the cluster.

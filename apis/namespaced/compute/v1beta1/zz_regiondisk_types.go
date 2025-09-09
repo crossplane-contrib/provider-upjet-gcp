@@ -180,6 +180,15 @@ type RegionDiskInitParameters struct {
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second
+	// that the disk can handle. Values must be between 10,000 and 120,000.
+	// For more details, see the Extreme persistent disk documentation.
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput
+	// mb per second that the disk can handle. Values must be greater than or equal to 1.
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+
 	// URLs of the zones where the disk should be replicated to.
 	ReplicaZones []*string `json:"replicaZones,omitempty" tf:"replica_zones,omitempty"`
 
@@ -301,6 +310,15 @@ type RegionDiskObservation struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second
+	// that the disk can handle. Values must be between 10,000 and 120,000.
+	// For more details, see the Extreme persistent disk documentation.
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput
+	// mb per second that the disk can handle. Values must be greater than or equal to 1.
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
 
 	// A reference to the region where the disk resides.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
@@ -429,6 +447,17 @@ type RegionDiskParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second
+	// that the disk can handle. Values must be between 10,000 and 120,000.
+	// For more details, see the Extreme persistent disk documentation.
+	// +kubebuilder:validation:Optional
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput
+	// mb per second that the disk can handle. Values must be greater than or equal to 1.
+	// +kubebuilder:validation:Optional
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
 
 	// A reference to the region where the disk resides.
 	// +kubebuilder:validation:Required

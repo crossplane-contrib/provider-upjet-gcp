@@ -826,6 +826,11 @@ func (in *AnalyticsHubDataExchangeInitParameters) DeepCopyInto(out *AnalyticsHub
 		*out = new(string)
 		**out = **in
 	}
+	if in.DiscoveryType != nil {
+		in, out := &in.DiscoveryType, &out.DiscoveryType
+		*out = new(string)
+		**out = **in
+	}
 	if in.DisplayName != nil {
 		in, out := &in.DisplayName, &out.DisplayName
 		*out = new(string)
@@ -923,6 +928,11 @@ func (in *AnalyticsHubDataExchangeObservation) DeepCopyInto(out *AnalyticsHubDat
 		*out = new(string)
 		**out = **in
 	}
+	if in.DiscoveryType != nil {
+		in, out := &in.DiscoveryType, &out.DiscoveryType
+		*out = new(string)
+		**out = **in
+	}
 	if in.DisplayName != nil {
 		in, out := &in.DisplayName, &out.DisplayName
 		*out = new(string)
@@ -1000,6 +1010,11 @@ func (in *AnalyticsHubDataExchangeParameters) DeepCopyInto(out *AnalyticsHubData
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
+		*out = new(string)
+		**out = **in
+	}
+	if in.DiscoveryType != nil {
+		in, out := &in.DiscoveryType, &out.DiscoveryType
 		*out = new(string)
 		**out = **in
 	}

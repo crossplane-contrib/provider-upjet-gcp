@@ -58,6 +58,24 @@ spec:
             properties:
               forProvider:
                 properties:
+                  accessLoggingConfig:
+                    description: |-
+                      Access logging configuration enables the access logging feature at the instance.
+                      Apigee customers can enable access logging to ship the access logs to their own project's cloud logging.
+                      Structure is documented below.
+                    properties:
+                      enabled:
+                        description: Boolean flag that specifies whether the customer
+                          access log feature is enabled.
+                        type: boolean
+                      filter:
+                        description: |-
+                          Ship the access log entries that match the statusCode defined in the filter.
+                          The statusCode is the only expected/supported filter field. (Ex: statusCode)
+                          The filter will parse it to the Common Expression Language semantics for expression
+                          evaluation to build the filter condition. (Ex: "filter": statusCode >= 200 && statusCode < 300 )
+                        type: string
+                    type: object
                   consumerAcceptList:
                     description: |-
                       Optional. Customer accept list represents the list of projects (id/number) on customer
@@ -278,6 +296,24 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  accessLoggingConfig:
+                    description: |-
+                      Access logging configuration enables the access logging feature at the instance.
+                      Apigee customers can enable access logging to ship the access logs to their own project's cloud logging.
+                      Structure is documented below.
+                    properties:
+                      enabled:
+                        description: Boolean flag that specifies whether the customer
+                          access log feature is enabled.
+                        type: boolean
+                      filter:
+                        description: |-
+                          Ship the access log entries that match the statusCode defined in the filter.
+                          The statusCode is the only expected/supported filter field. (Ex: statusCode)
+                          The filter will parse it to the Common Expression Language semantics for expression
+                          evaluation to build the filter condition. (Ex: "filter": statusCode >= 200 && statusCode < 300 )
+                        type: string
+                    type: object
                   consumerAcceptList:
                     description: |-
                       Optional. Customer accept list represents the list of projects (id/number) on customer
@@ -466,6 +502,24 @@ spec:
             properties:
               atProvider:
                 properties:
+                  accessLoggingConfig:
+                    description: |-
+                      Access logging configuration enables the access logging feature at the instance.
+                      Apigee customers can enable access logging to ship the access logs to their own project's cloud logging.
+                      Structure is documented below.
+                    properties:
+                      enabled:
+                        description: Boolean flag that specifies whether the customer
+                          access log feature is enabled.
+                        type: boolean
+                      filter:
+                        description: |-
+                          Ship the access log entries that match the statusCode defined in the filter.
+                          The statusCode is the only expected/supported filter field. (Ex: statusCode)
+                          The filter will parse it to the Common Expression Language semantics for expression
+                          evaluation to build the filter condition. (Ex: "filter": statusCode >= 200 && statusCode < 300 )
+                        type: string
+                    type: object
                   consumerAcceptList:
                     description: |-
                       Optional. Customer accept list represents the list of projects (id/number) on customer
