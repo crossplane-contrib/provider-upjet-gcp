@@ -163,6 +163,23 @@ spec:
                               cluster. It is disabled by default. Set disabled = false to enable.
                             type: boolean
                         type: object
+                      lustreCsiDriverConfig:
+                        description: |-
+                          The status of the Lustre CSI driver addon,
+                          which allows the usage of a Lustre instances as volumes.
+                          It is disabled by default for Standard clusters; set enabled = true to enable.
+                          It is disabled by default for Autopilot clusters; set enabled = true to enable.
+                          Lustre CSI Driver Config has optional subfield
+                          enable_legacy_lustre_port which allows the Lustre CSI driver to initialize LNet (the virtual networklayer for Lustre kernel module) using port 6988.
+                          This flag is required to workaround a port conflict with the gke-metadata-server on GKE nodes.
+                          See Enable Lustre CSI driver for more information.
+                        properties:
+                          enableLegacyLustrePort:
+                            type: boolean
+                          enabled:
+                            description: Enables vertical pod autoscaling
+                            type: boolean
+                        type: object
                       networkPolicyConfig:
                         description: |-
                           Whether we should enable the network policy addon
@@ -726,6 +743,25 @@ spec:
                       VPC-native clusters. If this block is unset during creation, it will be set by the GKE backend.
                       Structure is documented below.
                     properties:
+                      additionalIpRangesConfig:
+                        description: |-
+                          The configuration for individual additional subnetworks attached to the cluster.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            podIpv4RangeNames:
+                              description: List of secondary ranges names within this
+                                subnetwork that can be used for pod IPs.
+                              items:
+                                type: string
+                              type: array
+                            subnetwork:
+                              description: |-
+                                The name or self_link of the Google Compute Engine
+                                subnetwork in which the cluster's instances are launched.
+                              type: string
+                          type: object
+                        type: array
                       additionalPodRangesConfig:
                         description: |-
                           The configuration for additional pod secondary ranges at
@@ -2059,6 +2095,20 @@ spec:
                       The ID of the project in which the resource belongs. If it
                       is not provided, the provider project is used.
                     type: string
+                  rbacBindingConfig:
+                    description: RBACBindingConfig allows user to restrict ClusterRoleBindings
+                      an RoleBindings that can be created. Structure is documented
+                      below.
+                    properties:
+                      enableInsecureBindingSystemAuthenticated:
+                        description: Setting this to true will allow any ClusterRoleBinding
+                          and RoleBinding with subjects system:authenticated.
+                        type: boolean
+                      enableInsecureBindingSystemUnauthenticated:
+                        description: Setting this to true will allow any ClusterRoleBinding
+                          and RoleBinding with subjects system:anonymous or system:unauthenticated.
+                        type: boolean
+                    type: object
                   releaseChannel:
                     description: |-
                       Configuration options for the Release channel
@@ -2419,6 +2469,23 @@ spec:
                             description: |-
                               The status of the Istio addon, which makes it easy to set up Istio for services in a
                               cluster. It is disabled by default. Set disabled = false to enable.
+                            type: boolean
+                        type: object
+                      lustreCsiDriverConfig:
+                        description: |-
+                          The status of the Lustre CSI driver addon,
+                          which allows the usage of a Lustre instances as volumes.
+                          It is disabled by default for Standard clusters; set enabled = true to enable.
+                          It is disabled by default for Autopilot clusters; set enabled = true to enable.
+                          Lustre CSI Driver Config has optional subfield
+                          enable_legacy_lustre_port which allows the Lustre CSI driver to initialize LNet (the virtual networklayer for Lustre kernel module) using port 6988.
+                          This flag is required to workaround a port conflict with the gke-metadata-server on GKE nodes.
+                          See Enable Lustre CSI driver for more information.
+                        properties:
+                          enableLegacyLustrePort:
+                            type: boolean
+                          enabled:
+                            description: Enables vertical pod autoscaling
                             type: boolean
                         type: object
                       networkPolicyConfig:
@@ -2984,6 +3051,25 @@ spec:
                       VPC-native clusters. If this block is unset during creation, it will be set by the GKE backend.
                       Structure is documented below.
                     properties:
+                      additionalIpRangesConfig:
+                        description: |-
+                          The configuration for individual additional subnetworks attached to the cluster.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            podIpv4RangeNames:
+                              description: List of secondary ranges names within this
+                                subnetwork that can be used for pod IPs.
+                              items:
+                                type: string
+                              type: array
+                            subnetwork:
+                              description: |-
+                                The name or self_link of the Google Compute Engine
+                                subnetwork in which the cluster's instances are launched.
+                              type: string
+                          type: object
+                        type: array
                       additionalPodRangesConfig:
                         description: |-
                           The configuration for additional pod secondary ranges at
@@ -4308,6 +4394,20 @@ spec:
                       The ID of the project in which the resource belongs. If it
                       is not provided, the provider project is used.
                     type: string
+                  rbacBindingConfig:
+                    description: RBACBindingConfig allows user to restrict ClusterRoleBindings
+                      an RoleBindings that can be created. Structure is documented
+                      below.
+                    properties:
+                      enableInsecureBindingSystemAuthenticated:
+                        description: Setting this to true will allow any ClusterRoleBinding
+                          and RoleBinding with subjects system:authenticated.
+                        type: boolean
+                      enableInsecureBindingSystemUnauthenticated:
+                        description: Setting this to true will allow any ClusterRoleBinding
+                          and RoleBinding with subjects system:anonymous or system:unauthenticated.
+                        type: boolean
+                    type: object
                   releaseChannel:
                     description: |-
                       Configuration options for the Release channel
@@ -4716,6 +4816,23 @@ spec:
                             description: |-
                               The status of the Istio addon, which makes it easy to set up Istio for services in a
                               cluster. It is disabled by default. Set disabled = false to enable.
+                            type: boolean
+                        type: object
+                      lustreCsiDriverConfig:
+                        description: |-
+                          The status of the Lustre CSI driver addon,
+                          which allows the usage of a Lustre instances as volumes.
+                          It is disabled by default for Standard clusters; set enabled = true to enable.
+                          It is disabled by default for Autopilot clusters; set enabled = true to enable.
+                          Lustre CSI Driver Config has optional subfield
+                          enable_legacy_lustre_port which allows the Lustre CSI driver to initialize LNet (the virtual networklayer for Lustre kernel module) using port 6988.
+                          This flag is required to workaround a port conflict with the gke-metadata-server on GKE nodes.
+                          See Enable Lustre CSI driver for more information.
+                        properties:
+                          enableLegacyLustrePort:
+                            type: boolean
+                          enabled:
+                            description: Enables vertical pod autoscaling
                             type: boolean
                         type: object
                       networkPolicyConfig:
@@ -5324,6 +5441,25 @@ spec:
                       VPC-native clusters. If this block is unset during creation, it will be set by the GKE backend.
                       Structure is documented below.
                     properties:
+                      additionalIpRangesConfig:
+                        description: |-
+                          The configuration for individual additional subnetworks attached to the cluster.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            podIpv4RangeNames:
+                              description: List of secondary ranges names within this
+                                subnetwork that can be used for pod IPs.
+                              items:
+                                type: string
+                              type: array
+                            subnetwork:
+                              description: |-
+                                The name or self_link of the Google Compute Engine
+                                subnetwork in which the cluster's instances are launched.
+                              type: string
+                          type: object
+                        type: array
                       additionalPodRangesConfig:
                         description: |-
                           The configuration for additional pod secondary ranges at
@@ -6360,6 +6496,11 @@ spec:
                               type: string
                             podRange:
                               type: string
+                            subnetwork:
+                              description: |-
+                                The name or self_link of the Google Compute Engine
+                                subnetwork in which the cluster's instances are launched.
+                              type: string
                           type: object
                         nodeConfig:
                           description: Parameters used in creating the default node
@@ -7282,6 +7423,20 @@ spec:
                       The ID of the project in which the resource belongs. If it
                       is not provided, the provider project is used.
                     type: string
+                  rbacBindingConfig:
+                    description: RBACBindingConfig allows user to restrict ClusterRoleBindings
+                      an RoleBindings that can be created. Structure is documented
+                      below.
+                    properties:
+                      enableInsecureBindingSystemAuthenticated:
+                        description: Setting this to true will allow any ClusterRoleBinding
+                          and RoleBinding with subjects system:authenticated.
+                        type: boolean
+                      enableInsecureBindingSystemUnauthenticated:
+                        description: Setting this to true will allow any ClusterRoleBinding
+                          and RoleBinding with subjects system:anonymous or system:unauthenticated.
+                        type: boolean
+                    type: object
                   releaseChannel:
                     description: |-
                       Configuration options for the Release channel

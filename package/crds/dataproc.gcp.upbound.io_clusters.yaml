@@ -3632,6 +3632,9 @@ spec:
                               type: string
                           type: object
                         type: array
+                      clusterTier:
+                        description: The tier of the cluster.
+                        type: string
                       dataprocMetricConfig:
                         description: |-
                           The Compute Engine accelerator (GPU) configuration for these instances. Can be specified multiple times.
@@ -4099,8 +4102,24 @@ spec:
                         description: Security related configuration. Structure defined
                           below.
                         properties:
+                          identityConfig:
+                            description: |-
+                              Identity Configuration. At least one of identity_config
+                              or kerberos_config is required.
+                            properties:
+                              userServiceAccountMapping:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  The end user to service account mappings
+                                  in a service account based multi-tenant cluster
+                                type: object
+                                x-kubernetes-map-type: granular
+                            type: object
                           kerberosConfig:
-                            description: Kerberos Configuration
+                            description: |-
+                              Kerberos Configuration. At least one of identity_config
+                              or kerberos_config is required.
                             properties:
                               crossRealmTrustAdminServer:
                                 description: |-
@@ -4635,6 +4654,9 @@ spec:
                               type: string
                           type: object
                         type: array
+                      clusterTier:
+                        description: The tier of the cluster.
+                        type: string
                       dataprocMetricConfig:
                         description: |-
                           The Compute Engine accelerator (GPU) configuration for these instances. Can be specified multiple times.
@@ -5102,8 +5124,24 @@ spec:
                         description: Security related configuration. Structure defined
                           below.
                         properties:
+                          identityConfig:
+                            description: |-
+                              Identity Configuration. At least one of identity_config
+                              or kerberos_config is required.
+                            properties:
+                              userServiceAccountMapping:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  The end user to service account mappings
+                                  in a service account based multi-tenant cluster
+                                type: object
+                                x-kubernetes-map-type: granular
+                            type: object
                           kerberosConfig:
-                            description: Kerberos Configuration
+                            description: |-
+                              Kerberos Configuration. At least one of identity_config
+                              or kerberos_config is required.
                             properties:
                               crossRealmTrustAdminServer:
                                 description: |-
@@ -5739,6 +5777,9 @@ spec:
                           for the cluster. If staging_bucket is specified, it will contain this value, otherwise
                           it will be the auto generated name.
                         type: string
+                      clusterTier:
+                        description: The tier of the cluster.
+                        type: string
                       dataprocMetricConfig:
                         description: |-
                           The Compute Engine accelerator (GPU) configuration for these instances. Can be specified multiple times.
@@ -6168,8 +6209,24 @@ spec:
                         description: Security related configuration. Structure defined
                           below.
                         properties:
+                          identityConfig:
+                            description: |-
+                              Identity Configuration. At least one of identity_config
+                              or kerberos_config is required.
+                            properties:
+                              userServiceAccountMapping:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  The end user to service account mappings
+                                  in a service account based multi-tenant cluster
+                                type: object
+                                x-kubernetes-map-type: granular
+                            type: object
                           kerberosConfig:
-                            description: Kerberos Configuration
+                            description: |-
+                              Kerberos Configuration. At least one of identity_config
+                              or kerberos_config is required.
                             properties:
                               crossRealmTrustAdminServer:
                                 description: |-

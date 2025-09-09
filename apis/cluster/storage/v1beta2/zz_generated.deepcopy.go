@@ -766,6 +766,11 @@ func (in *BucketObjectInitParameters) DeepCopyInto(out *BucketObjectInitParamete
 		*out = new(CustomerEncryptionInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.DetectMd5Hash != nil {
 		in, out := &in.DetectMd5Hash, &out.DetectMd5Hash
 		*out = new(string)
@@ -773,6 +778,11 @@ func (in *BucketObjectInitParameters) DeepCopyInto(out *BucketObjectInitParamete
 	}
 	if in.EventBasedHold != nil {
 		in, out := &in.EventBasedHold, &out.EventBasedHold
+		*out = new(bool)
+		**out = **in
+	}
+	if in.ForceEmptyContentType != nil {
+		in, out := &in.ForceEmptyContentType, &out.ForceEmptyContentType
 		*out = new(bool)
 		**out = **in
 	}
@@ -919,6 +929,11 @@ func (in *BucketObjectObservation) DeepCopyInto(out *BucketObjectObservation) {
 		*out = new(CustomerEncryptionObservation)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.DetectMd5Hash != nil {
 		in, out := &in.DetectMd5Hash, &out.DetectMd5Hash
 		*out = new(string)
@@ -926,6 +941,11 @@ func (in *BucketObjectObservation) DeepCopyInto(out *BucketObjectObservation) {
 	}
 	if in.EventBasedHold != nil {
 		in, out := &in.EventBasedHold, &out.EventBasedHold
+		*out = new(bool)
+		**out = **in
+	}
+	if in.ForceEmptyContentType != nil {
+		in, out := &in.ForceEmptyContentType, &out.ForceEmptyContentType
 		*out = new(bool)
 		**out = **in
 	}
@@ -1080,6 +1100,11 @@ func (in *BucketObjectParameters) DeepCopyInto(out *BucketObjectParameters) {
 		*out = new(CustomerEncryptionParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.DetectMd5Hash != nil {
 		in, out := &in.DetectMd5Hash, &out.DetectMd5Hash
 		*out = new(string)
@@ -1087,6 +1112,11 @@ func (in *BucketObjectParameters) DeepCopyInto(out *BucketObjectParameters) {
 	}
 	if in.EventBasedHold != nil {
 		in, out := &in.EventBasedHold, &out.EventBasedHold
+		*out = new(bool)
+		**out = **in
+	}
+	if in.ForceEmptyContentType != nil {
+		in, out := &in.ForceEmptyContentType, &out.ForceEmptyContentType
 		*out = new(bool)
 		**out = **in
 	}

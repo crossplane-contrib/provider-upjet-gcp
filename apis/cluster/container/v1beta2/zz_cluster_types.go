@@ -13,6 +13,38 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
+type AdditionalIPRangesConfigInitParameters struct {
+
+	// List of secondary ranges names within this subnetwork that can be used for pod IPs.
+	PodIPv4RangeNames []*string `json:"podIpv4RangeNames,omitempty" tf:"pod_ipv4_range_names,omitempty"`
+
+	// The name or self_link of the Google Compute Engine
+	// subnetwork in which the cluster's instances are launched.
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
+}
+
+type AdditionalIPRangesConfigObservation struct {
+
+	// List of secondary ranges names within this subnetwork that can be used for pod IPs.
+	PodIPv4RangeNames []*string `json:"podIpv4RangeNames,omitempty" tf:"pod_ipv4_range_names,omitempty"`
+
+	// The name or self_link of the Google Compute Engine
+	// subnetwork in which the cluster's instances are launched.
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
+}
+
+type AdditionalIPRangesConfigParameters struct {
+
+	// List of secondary ranges names within this subnetwork that can be used for pod IPs.
+	// +kubebuilder:validation:Optional
+	PodIPv4RangeNames []*string `json:"podIpv4RangeNames,omitempty" tf:"pod_ipv4_range_names,omitempty"`
+
+	// The name or self_link of the Google Compute Engine
+	// subnetwork in which the cluster's instances are launched.
+	// +kubebuilder:validation:Optional
+	Subnetwork *string `json:"subnetwork" tf:"subnetwork,omitempty"`
+}
+
 type AdditionalNodeNetworkConfigsInitParameters struct {
 }
 
@@ -115,6 +147,16 @@ type AddonsConfigInitParameters struct {
 	// set disabled = true to disable.
 	HorizontalPodAutoscaling *HorizontalPodAutoscalingInitParameters `json:"horizontalPodAutoscaling,omitempty" tf:"horizontal_pod_autoscaling,omitempty"`
 
+	// The status of the Lustre CSI driver addon,
+	// which allows the usage of a Lustre instances as volumes.
+	// It is disabled by default for Standard clusters; set enabled = true to enable.
+	// It is disabled by default for Autopilot clusters; set enabled = true to enable.
+	// Lustre CSI Driver Config has optional subfield
+	// enable_legacy_lustre_port which allows the Lustre CSI driver to initialize LNet (the virtual networklayer for Lustre kernel module) using port 6988.
+	// This flag is required to workaround a port conflict with the gke-metadata-server on GKE nodes.
+	// See Enable Lustre CSI driver for more information.
+	LustreCsiDriverConfig *LustreCsiDriverConfigInitParameters `json:"lustreCsiDriverConfig,omitempty" tf:"lustre_csi_driver_config,omitempty"`
+
 	// Whether we should enable the network policy addon
 	// for the master.  This must be enabled in order to enable network policy for the nodes.
 	// To enable this, you must also define a network_policy block,
@@ -187,6 +229,16 @@ type AddonsConfigObservation struct {
 	// It is enabled by default;
 	// set disabled = true to disable.
 	HorizontalPodAutoscaling *HorizontalPodAutoscalingObservation `json:"horizontalPodAutoscaling,omitempty" tf:"horizontal_pod_autoscaling,omitempty"`
+
+	// The status of the Lustre CSI driver addon,
+	// which allows the usage of a Lustre instances as volumes.
+	// It is disabled by default for Standard clusters; set enabled = true to enable.
+	// It is disabled by default for Autopilot clusters; set enabled = true to enable.
+	// Lustre CSI Driver Config has optional subfield
+	// enable_legacy_lustre_port which allows the Lustre CSI driver to initialize LNet (the virtual networklayer for Lustre kernel module) using port 6988.
+	// This flag is required to workaround a port conflict with the gke-metadata-server on GKE nodes.
+	// See Enable Lustre CSI driver for more information.
+	LustreCsiDriverConfig *LustreCsiDriverConfigObservation `json:"lustreCsiDriverConfig,omitempty" tf:"lustre_csi_driver_config,omitempty"`
 
 	// Whether we should enable the network policy addon
 	// for the master.  This must be enabled in order to enable network policy for the nodes.
@@ -269,6 +321,17 @@ type AddonsConfigParameters struct {
 	// set disabled = true to disable.
 	// +kubebuilder:validation:Optional
 	HorizontalPodAutoscaling *HorizontalPodAutoscalingParameters `json:"horizontalPodAutoscaling,omitempty" tf:"horizontal_pod_autoscaling,omitempty"`
+
+	// The status of the Lustre CSI driver addon,
+	// which allows the usage of a Lustre instances as volumes.
+	// It is disabled by default for Standard clusters; set enabled = true to enable.
+	// It is disabled by default for Autopilot clusters; set enabled = true to enable.
+	// Lustre CSI Driver Config has optional subfield
+	// enable_legacy_lustre_port which allows the Lustre CSI driver to initialize LNet (the virtual networklayer for Lustre kernel module) using port 6988.
+	// This flag is required to workaround a port conflict with the gke-metadata-server on GKE nodes.
+	// See Enable Lustre CSI driver for more information.
+	// +kubebuilder:validation:Optional
+	LustreCsiDriverConfig *LustreCsiDriverConfigParameters `json:"lustreCsiDriverConfig,omitempty" tf:"lustre_csi_driver_config,omitempty"`
 
 	// Whether we should enable the network policy addon
 	// for the master.  This must be enabled in order to enable network policy for the nodes.
@@ -1154,6 +1217,9 @@ type ClusterInitParameters struct {
 	// is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// RBACBindingConfig allows user to restrict ClusterRoleBindings an RoleBindings that can be created. Structure is documented below.
+	RbacBindingConfig *RbacBindingConfigInitParameters `json:"rbacBindingConfig,omitempty" tf:"rbac_binding_config,omitempty"`
+
 	// Configuration options for the Release channel
 	// feature, which provide more control over automatic upgrades of your GKE clusters.
 	// When updating this field, GKE imposes specific version requirements. See
@@ -1512,6 +1578,9 @@ type ClusterObservation struct {
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// RBACBindingConfig allows user to restrict ClusterRoleBindings an RoleBindings that can be created. Structure is documented below.
+	RbacBindingConfig *RbacBindingConfigObservation `json:"rbacBindingConfig,omitempty" tf:"rbac_binding_config,omitempty"`
 
 	// Configuration options for the Release channel
 	// feature, which provide more control over automatic upgrades of your GKE clusters.
@@ -1923,6 +1992,10 @@ type ClusterParameters struct {
 	// is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// RBACBindingConfig allows user to restrict ClusterRoleBindings an RoleBindings that can be created. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RbacBindingConfig *RbacBindingConfigParameters `json:"rbacBindingConfig,omitempty" tf:"rbac_binding_config,omitempty"`
 
 	// Configuration options for the Release channel
 	// feature, which provide more control over automatic upgrades of your GKE clusters.
@@ -2900,6 +2973,10 @@ type HugepagesConfigParameters struct {
 
 type IPAllocationPolicyInitParameters struct {
 
+	// The configuration for individual additional subnetworks attached to the cluster.
+	// Structure is documented below.
+	AdditionalIPRangesConfig []AdditionalIPRangesConfigInitParameters `json:"additionalIpRangesConfig,omitempty" tf:"additional_ip_ranges_config,omitempty"`
+
 	// The configuration for additional pod secondary ranges at
 	// the cluster level. Used for Autopilot clusters and Standard clusters with which control of the
 	// secondary Pod IP address assignment to node pools isn't needed. Structure is documented below.
@@ -2940,6 +3017,10 @@ type IPAllocationPolicyInitParameters struct {
 
 type IPAllocationPolicyObservation struct {
 
+	// The configuration for individual additional subnetworks attached to the cluster.
+	// Structure is documented below.
+	AdditionalIPRangesConfig []AdditionalIPRangesConfigObservation `json:"additionalIpRangesConfig,omitempty" tf:"additional_ip_ranges_config,omitempty"`
+
 	// The configuration for additional pod secondary ranges at
 	// the cluster level. Used for Autopilot clusters and Standard clusters with which control of the
 	// secondary Pod IP address assignment to node pools isn't needed. Structure is documented below.
@@ -2979,6 +3060,11 @@ type IPAllocationPolicyObservation struct {
 }
 
 type IPAllocationPolicyParameters struct {
+
+	// The configuration for individual additional subnetworks attached to the cluster.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AdditionalIPRangesConfig []AdditionalIPRangesConfigParameters `json:"additionalIpRangesConfig,omitempty" tf:"additional_ip_ranges_config,omitempty"`
 
 	// The configuration for additional pod secondary ranges at
 	// the cluster level. Used for Autopilot clusters and Standard clusters with which control of the
@@ -3341,6 +3427,30 @@ type LoggingConfigParameters struct {
 	EnableComponents []*string `json:"enableComponents" tf:"enable_components,omitempty"`
 }
 
+type LustreCsiDriverConfigInitParameters struct {
+	EnableLegacyLustrePort *bool `json:"enableLegacyLustrePort,omitempty" tf:"enable_legacy_lustre_port,omitempty"`
+
+	// Enables vertical pod autoscaling
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type LustreCsiDriverConfigObservation struct {
+	EnableLegacyLustrePort *bool `json:"enableLegacyLustrePort,omitempty" tf:"enable_legacy_lustre_port,omitempty"`
+
+	// Enables vertical pod autoscaling
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type LustreCsiDriverConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	EnableLegacyLustrePort *bool `json:"enableLegacyLustrePort,omitempty" tf:"enable_legacy_lustre_port,omitempty"`
+
+	// Enables vertical pod autoscaling
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+}
+
 type MaintenanceExclusionInitParameters struct {
 	EndTime *string `json:"endTime,omitempty" tf:"end_time,omitempty"`
 
@@ -3673,6 +3783,10 @@ type NetworkConfigObservation struct {
 	PodIPv4CidrBlock *string `json:"podIpv4CidrBlock,omitempty" tf:"pod_ipv4_cidr_block,omitempty"`
 
 	PodRange *string `json:"podRange,omitempty" tf:"pod_range,omitempty"`
+
+	// The name or self_link of the Google Compute Engine
+	// subnetwork in which the cluster's instances are launched.
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 }
 
 type NetworkConfigParameters struct {
@@ -5753,6 +5867,35 @@ type RayOperatorConfigParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	RayClusterMonitoringConfig *RayClusterMonitoringConfigParameters `json:"rayClusterMonitoringConfig,omitempty" tf:"ray_cluster_monitoring_config,omitempty"`
+}
+
+type RbacBindingConfigInitParameters struct {
+
+	// Setting this to true will allow any ClusterRoleBinding and RoleBinding with subjects system:authenticated.
+	EnableInsecureBindingSystemAuthenticated *bool `json:"enableInsecureBindingSystemAuthenticated,omitempty" tf:"enable_insecure_binding_system_authenticated,omitempty"`
+
+	// Setting this to true will allow any ClusterRoleBinding and RoleBinding with subjects system:anonymous or system:unauthenticated.
+	EnableInsecureBindingSystemUnauthenticated *bool `json:"enableInsecureBindingSystemUnauthenticated,omitempty" tf:"enable_insecure_binding_system_unauthenticated,omitempty"`
+}
+
+type RbacBindingConfigObservation struct {
+
+	// Setting this to true will allow any ClusterRoleBinding and RoleBinding with subjects system:authenticated.
+	EnableInsecureBindingSystemAuthenticated *bool `json:"enableInsecureBindingSystemAuthenticated,omitempty" tf:"enable_insecure_binding_system_authenticated,omitempty"`
+
+	// Setting this to true will allow any ClusterRoleBinding and RoleBinding with subjects system:anonymous or system:unauthenticated.
+	EnableInsecureBindingSystemUnauthenticated *bool `json:"enableInsecureBindingSystemUnauthenticated,omitempty" tf:"enable_insecure_binding_system_unauthenticated,omitempty"`
+}
+
+type RbacBindingConfigParameters struct {
+
+	// Setting this to true will allow any ClusterRoleBinding and RoleBinding with subjects system:authenticated.
+	// +kubebuilder:validation:Optional
+	EnableInsecureBindingSystemAuthenticated *bool `json:"enableInsecureBindingSystemAuthenticated,omitempty" tf:"enable_insecure_binding_system_authenticated,omitempty"`
+
+	// Setting this to true will allow any ClusterRoleBinding and RoleBinding with subjects system:anonymous or system:unauthenticated.
+	// +kubebuilder:validation:Optional
+	EnableInsecureBindingSystemUnauthenticated *bool `json:"enableInsecureBindingSystemUnauthenticated,omitempty" tf:"enable_insecure_binding_system_unauthenticated,omitempty"`
 }
 
 type RecurringWindowInitParameters struct {

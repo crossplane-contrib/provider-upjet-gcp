@@ -14,6 +14,15 @@ import (
 	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
 )
 
+type AutomaticUpdatePolicyInitParameters struct {
+}
+
+type AutomaticUpdatePolicyObservation struct {
+}
+
+type AutomaticUpdatePolicyParameters struct {
+}
+
 type EventTriggerInitParameters struct {
 
 	// The type of event to observe. For example: "google.storage.object.finalize".
@@ -83,6 +92,9 @@ type FailurePolicyParameters struct {
 
 type FunctionInitParameters struct {
 
+	// Security patches are applied automatically to the runtime without requiring the function to be redeployed. This should be specified as an empty block and cannot be set alongside on_deploy_update_policy.
+	AutomaticUpdatePolicy *AutomaticUpdatePolicyInitParameters `json:"automaticUpdatePolicy,omitempty" tf:"automatic_update_policy,omitempty"`
+
 	// Memory (in MB), available to the function. Default value is 256. Possible values include 128, 256, 512, 1024, etc.
 	AvailableMemoryMb *float64 `json:"availableMemoryMb,omitempty" tf:"available_memory_mb,omitempty"`
 
@@ -134,6 +146,9 @@ type FunctionInitParameters struct {
 
 	// The limit on the minimum number of function instances that may coexist at a given time.
 	MinInstances *float64 `json:"minInstances,omitempty" tf:"min_instances,omitempty"`
+
+	// Security patches are only applied when a function is redeployed. This should be specified as an empty block and cannot be set alongside automatic_update_policy. Structure is documented below.
+	OnDeployUpdatePolicy *OnDeployUpdatePolicyInitParameters `json:"onDeployUpdatePolicy,omitempty" tf:"on_deploy_update_policy,omitempty"`
 
 	// Project of the function. If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -195,6 +210,9 @@ type FunctionInitParameters struct {
 
 type FunctionObservation struct {
 
+	// Security patches are applied automatically to the runtime without requiring the function to be redeployed. This should be specified as an empty block and cannot be set alongside on_deploy_update_policy.
+	AutomaticUpdatePolicy *AutomaticUpdatePolicyParameters `json:"automaticUpdatePolicy,omitempty" tf:"automatic_update_policy,omitempty"`
+
 	// Memory (in MB), available to the function. Default value is 256. Possible values include 128, 256, 512, 1024, etc.
 	AvailableMemoryMb *float64 `json:"availableMemoryMb,omitempty" tf:"available_memory_mb,omitempty"`
 
@@ -253,6 +271,9 @@ type FunctionObservation struct {
 	// The limit on the minimum number of function instances that may coexist at a given time.
 	MinInstances *float64 `json:"minInstances,omitempty" tf:"min_instances,omitempty"`
 
+	// Security patches are only applied when a function is redeployed. This should be specified as an empty block and cannot be set alongside automatic_update_policy. Structure is documented below.
+	OnDeployUpdatePolicy *OnDeployUpdatePolicyObservation `json:"onDeployUpdatePolicy,omitempty" tf:"on_deploy_update_policy,omitempty"`
+
 	// Project of the function. If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
@@ -305,6 +326,10 @@ type FunctionObservation struct {
 }
 
 type FunctionParameters struct {
+
+	// Security patches are applied automatically to the runtime without requiring the function to be redeployed. This should be specified as an empty block and cannot be set alongside on_deploy_update_policy.
+	// +kubebuilder:validation:Optional
+	AutomaticUpdatePolicy *AutomaticUpdatePolicyParameters `json:"automaticUpdatePolicy,omitempty" tf:"automatic_update_policy,omitempty"`
 
 	// Memory (in MB), available to the function. Default value is 256. Possible values include 128, 256, 512, 1024, etc.
 	// +kubebuilder:validation:Optional
@@ -374,6 +399,10 @@ type FunctionParameters struct {
 	// The limit on the minimum number of function instances that may coexist at a given time.
 	// +kubebuilder:validation:Optional
 	MinInstances *float64 `json:"minInstances,omitempty" tf:"min_instances,omitempty"`
+
+	// Security patches are only applied when a function is redeployed. This should be specified as an empty block and cannot be set alongside automatic_update_policy. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	OnDeployUpdatePolicy *OnDeployUpdatePolicyParameters `json:"onDeployUpdatePolicy,omitempty" tf:"on_deploy_update_policy,omitempty"`
 
 	// Project of the function. If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
@@ -447,6 +476,18 @@ type FunctionParameters struct {
 	// The egress settings for the connector, controlling what traffic is diverted through it. Allowed values are ALL_TRAFFIC and PRIVATE_RANGES_ONLY. Defaults to PRIVATE_RANGES_ONLY. If unset, this field preserves the previously set value.
 	// +kubebuilder:validation:Optional
 	VPCConnectorEgressSettings *string `json:"vpcConnectorEgressSettings,omitempty" tf:"vpc_connector_egress_settings,omitempty"`
+}
+
+type OnDeployUpdatePolicyInitParameters struct {
+}
+
+type OnDeployUpdatePolicyObservation struct {
+
+	// (Output) The runtime version which was used during latest function deployment.
+	RuntimeVersion *string `json:"runtimeVersion,omitempty" tf:"runtime_version,omitempty"`
+}
+
+type OnDeployUpdatePolicyParameters struct {
 }
 
 type SecretEnvironmentVariablesInitParameters struct {
