@@ -596,3 +596,35 @@ func (mg *SyncAuthorization) ResolveReferences(ctx context.Context, c client.Rea
 
 	return nil
 }
+
+// ResolveReferences of this TargetServer.
+func (mg *TargetServer) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPINamespacedResolver(c, mg)
+
+	var rsp reference.NamespacedResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("apigee.gcp.m.upbound.io", "v1beta1", "Environment", "EnvironmentList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.EnvID),
+			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.EnvIDRef,
+			Selector:     mg.Spec.ForProvider.EnvIDSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.EnvID")
+	}
+	mg.Spec.ForProvider.EnvID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.EnvIDRef = rsp.ResolvedReference
+
+	return nil
+}

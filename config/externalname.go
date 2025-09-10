@@ -936,6 +936,14 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_apigee_nat_address": config.TemplatedStringAsIdentifier("name", "{{ .parameters.instance_id }}/natAddresses/{{ .external_name }}"),
 	// Imported by using the following format: {{org_id}}/environments/{{environment}} roles/viewer user:jane@example.com
 	"google_apigee_environment_iam_member": config.IdentifierFromProvider,
+	// Imported by using the following format: {{env_id}}/keystores/{{name}}
+	"google_apigee_env_keystore": config.TemplatedStringAsIdentifier("name", "{{ .parameters.env_id }}/keystores/{{ .external_name }}"),
+	// Imported by using the following format: {{env_id}}/references/{{name}}
+	"google_apigee_env_references": config.TemplatedStringAsIdentifier("name", "{{ .parameters.env_id }}/references/{{ .external_name }}"),
+	// Imported by using the following format: {{env_id}}/targetservers/{{name}}
+	"google_apigee_target_server": config.TemplatedStringAsIdentifier("name", "{{ .parameters.env_id }}/targetservers/{{ .external_name }}"),
+	// Imported by using the following format: organizations/{{org_id}}/environments/{{environment}}/keystores/{{keystore}}/aliases/{{alias}}
+	"google_apigee_keystores_aliases_key_cert_file": config.TemplatedStringAsIdentifier("alias", "organizations/{{ .parameters.org_id }}/environments/{{ .parameters.environment }}/keystores/{{ .parameters.keystore }}/aliases/{{ .external_name }}"),
 
 	// binaryauthorization
 	//

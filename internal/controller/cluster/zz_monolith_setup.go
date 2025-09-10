@@ -25,11 +25,15 @@ import (
 	envgroupattachment "github.com/upbound/provider-gcp/internal/controller/cluster/apigee/envgroupattachment"
 	environment "github.com/upbound/provider-gcp/internal/controller/cluster/apigee/environment"
 	environmentiammember "github.com/upbound/provider-gcp/internal/controller/cluster/apigee/environmentiammember"
+	envkeystore "github.com/upbound/provider-gcp/internal/controller/cluster/apigee/envkeystore"
+	envreferences "github.com/upbound/provider-gcp/internal/controller/cluster/apigee/envreferences"
 	instanceapigee "github.com/upbound/provider-gcp/internal/controller/cluster/apigee/instance"
 	instanceattachment "github.com/upbound/provider-gcp/internal/controller/cluster/apigee/instanceattachment"
+	keystoresaliaseskeycertfile "github.com/upbound/provider-gcp/internal/controller/cluster/apigee/keystoresaliaseskeycertfile"
 	nataddress "github.com/upbound/provider-gcp/internal/controller/cluster/apigee/nataddress"
 	organization "github.com/upbound/provider-gcp/internal/controller/cluster/apigee/organization"
 	syncauthorization "github.com/upbound/provider-gcp/internal/controller/cluster/apigee/syncauthorization"
+	targetserver "github.com/upbound/provider-gcp/internal/controller/cluster/apigee/targetserver"
 	application "github.com/upbound/provider-gcp/internal/controller/cluster/appengine/application"
 	applicationurldispatchrules "github.com/upbound/provider-gcp/internal/controller/cluster/appengine/applicationurldispatchrules"
 	firewallrule "github.com/upbound/provider-gcp/internal/controller/cluster/appengine/firewallrule"
@@ -415,11 +419,15 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		envgroupattachment.Setup,
 		environment.Setup,
 		environmentiammember.Setup,
+		envkeystore.Setup,
+		envreferences.Setup,
 		instanceapigee.Setup,
 		instanceattachment.Setup,
+		keystoresaliaseskeycertfile.Setup,
 		nataddress.Setup,
 		organization.Setup,
 		syncauthorization.Setup,
+		targetserver.Setup,
 		application.Setup,
 		applicationurldispatchrules.Setup,
 		firewallrule.Setup,
@@ -811,11 +819,15 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		envgroupattachment.SetupGated,
 		environment.SetupGated,
 		environmentiammember.SetupGated,
+		envkeystore.SetupGated,
+		envreferences.SetupGated,
 		instanceapigee.SetupGated,
 		instanceattachment.SetupGated,
+		keystoresaliaseskeycertfile.SetupGated,
 		nataddress.SetupGated,
 		organization.SetupGated,
 		syncauthorization.SetupGated,
+		targetserver.SetupGated,
 		application.SetupGated,
 		applicationurldispatchrules.SetupGated,
 		firewallrule.SetupGated,

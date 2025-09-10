@@ -1,0 +1,185 @@
+apiVersion: apigee.gcp.m.upbound.io/v1beta1
+kind: TargetServer
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/targetserver
+  labels:
+    testing.upbound.io/example-name: apigee_target_server
+  name: apigee-target-server
+  namespace: upbound-system
+spec:
+  forProvider:
+    description: Apigee Target Server
+    envIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee_environment
+    host: abc.foo.com
+    port: 8080
+    protocol: HTTP
+
+---
+
+apiVersion: apigee.gcp.m.upbound.io/v1beta1
+kind: Environment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/targetserver
+  labels:
+    testing.upbound.io/example-name: apigee_environment
+  name: apigee-environment
+  namespace: upbound-system
+spec:
+  forProvider:
+    description: Apigee Environment
+    displayName: environment-1
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee_org
+
+---
+
+apiVersion: apigee.gcp.m.upbound.io/v1beta1
+kind: Organization
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/targetserver
+  labels:
+    testing.upbound.io/example-name: apigee_org
+  name: apigee-org
+  namespace: upbound-system
+spec:
+  forProvider:
+    analyticsRegion: us-central1
+    authorizedNetworkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee_network
+    projectId: my-project
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: GlobalAddress
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/targetserver
+  labels:
+    testing.upbound.io/example-name: apigee_range
+  name: apigee-range
+  namespace: upbound-system
+spec:
+  forProvider:
+    addressType: INTERNAL
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee_network
+    prefixLength: 16
+    project: my-project
+    purpose: VPC_PEERING
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/targetserver
+  labels:
+    testing.upbound.io/example-name: apigee_network
+  name: apigee-network
+  namespace: upbound-system
+spec:
+  forProvider:
+    project: my-project
+
+---
+
+apiVersion: cloudplatform.gcp.m.upbound.io/v1beta1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/targetserver
+  labels:
+    testing.upbound.io/example-name: project
+  name: project
+  namespace: upbound-system
+spec:
+  forProvider:
+    billingAccount: 000000-0000000-0000000-000000
+    deletionPolicy: DELETE
+    name: my-project
+    orgId: "123456789"
+    projectId: my-project
+
+---
+
+apiVersion: cloudplatform.gcp.m.upbound.io/v1beta1
+kind: ProjectService
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/targetserver
+  labels:
+    testing.upbound.io/example-name: apigee
+  name: apigee
+  namespace: upbound-system
+spec:
+  forProvider:
+    projectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: project
+    service: apigee.googleapis.com
+
+---
+
+apiVersion: cloudplatform.gcp.m.upbound.io/v1beta1
+kind: ProjectService
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/targetserver
+  labels:
+    testing.upbound.io/example-name: compute
+  name: compute
+  namespace: upbound-system
+spec:
+  forProvider:
+    projectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: project
+    service: compute.googleapis.com
+
+---
+
+apiVersion: cloudplatform.gcp.m.upbound.io/v1beta1
+kind: ProjectService
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/targetserver
+  labels:
+    testing.upbound.io/example-name: servicenetworking
+  name: servicenetworking
+  namespace: upbound-system
+spec:
+  forProvider:
+    projectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: project
+    service: servicenetworking.googleapis.com
+
+---
+
+apiVersion: servicenetworking.gcp.m.upbound.io/v1beta1
+kind: Connection
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/targetserver
+  labels:
+    testing.upbound.io/example-name: apigee_vpc_connection
+  name: apigee-vpc-connection
+  namespace: upbound-system
+spec:
+  forProvider:
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee_network
+    reservedPeeringRangesRefs:
+    - name: apigee_range
+    service: servicenetworking.googleapis.com
