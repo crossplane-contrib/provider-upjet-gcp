@@ -179,6 +179,9 @@ type ClusterConfigInitParameters struct {
 	// Structure defined below.
 	AuxiliaryNodeGroups []AuxiliaryNodeGroupsInitParameters `json:"auxiliaryNodeGroups,omitempty" tf:"auxiliary_node_groups,omitempty"`
 
+	// The tier of the cluster.
+	ClusterTier *string `json:"clusterTier,omitempty" tf:"cluster_tier,omitempty"`
+
 	// The Compute Engine accelerator (GPU) configuration for these instances. Can be specified multiple times.
 	// Structure defined below.
 	DataprocMetricConfig []DataprocMetricConfigInitParameters `json:"dataprocMetricConfig,omitempty" tf:"dataproc_metric_config,omitempty"`
@@ -258,6 +261,9 @@ type ClusterConfigObservation struct {
 	// it will be the auto generated name.
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
+	// The tier of the cluster.
+	ClusterTier *string `json:"clusterTier,omitempty" tf:"cluster_tier,omitempty"`
+
 	// The Compute Engine accelerator (GPU) configuration for these instances. Can be specified multiple times.
 	// Structure defined below.
 	DataprocMetricConfig []DataprocMetricConfigObservation `json:"dataprocMetricConfig,omitempty" tf:"dataproc_metric_config,omitempty"`
@@ -333,6 +339,10 @@ type ClusterConfigParameters struct {
 	// Structure defined below.
 	// +kubebuilder:validation:Optional
 	AuxiliaryNodeGroups []AuxiliaryNodeGroupsParameters `json:"auxiliaryNodeGroups,omitempty" tf:"auxiliary_node_groups,omitempty"`
+
+	// The tier of the cluster.
+	// +kubebuilder:validation:Optional
+	ClusterTier *string `json:"clusterTier,omitempty" tf:"cluster_tier,omitempty"`
 
 	// The Compute Engine accelerator (GPU) configuration for these instances. Can be specified multiple times.
 	// Structure defined below.
@@ -1147,6 +1157,31 @@ type GkeClusterConfigParameters struct {
 	// Each role can be given to only one GkeNodePoolTarget. All node pools must have the same location settings.
 	// +kubebuilder:validation:Optional
 	NodePoolTarget []NodePoolTargetParameters `json:"nodePoolTarget,omitempty" tf:"node_pool_target,omitempty"`
+}
+
+type IdentityConfigInitParameters struct {
+
+	// The end user to service account mappings
+	// in a service account based multi-tenant cluster
+	// +mapType=granular
+	UserServiceAccountMapping map[string]*string `json:"userServiceAccountMapping,omitempty" tf:"user_service_account_mapping,omitempty"`
+}
+
+type IdentityConfigObservation struct {
+
+	// The end user to service account mappings
+	// in a service account based multi-tenant cluster
+	// +mapType=granular
+	UserServiceAccountMapping map[string]*string `json:"userServiceAccountMapping,omitempty" tf:"user_service_account_mapping,omitempty"`
+}
+
+type IdentityConfigParameters struct {
+
+	// The end user to service account mappings
+	// in a service account based multi-tenant cluster
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	UserServiceAccountMapping map[string]*string `json:"userServiceAccountMapping" tf:"user_service_account_mapping,omitempty"`
 }
 
 type InitializationActionInitParameters struct {
@@ -2286,21 +2321,37 @@ type ReservationAffinityParameters struct {
 
 type SecurityConfigInitParameters struct {
 
-	// Kerberos Configuration
+	// Identity Configuration. At least one of identity_config
+	// or kerberos_config is required.
+	IdentityConfig *IdentityConfigInitParameters `json:"identityConfig,omitempty" tf:"identity_config,omitempty"`
+
+	// Kerberos Configuration. At least one of identity_config
+	// or kerberos_config is required.
 	KerberosConfig []KerberosConfigInitParameters `json:"kerberosConfig,omitempty" tf:"kerberos_config,omitempty"`
 }
 
 type SecurityConfigObservation struct {
 
-	// Kerberos Configuration
+	// Identity Configuration. At least one of identity_config
+	// or kerberos_config is required.
+	IdentityConfig *IdentityConfigObservation `json:"identityConfig,omitempty" tf:"identity_config,omitempty"`
+
+	// Kerberos Configuration. At least one of identity_config
+	// or kerberos_config is required.
 	KerberosConfig []KerberosConfigObservation `json:"kerberosConfig,omitempty" tf:"kerberos_config,omitempty"`
 }
 
 type SecurityConfigParameters struct {
 
-	// Kerberos Configuration
+	// Identity Configuration. At least one of identity_config
+	// or kerberos_config is required.
 	// +kubebuilder:validation:Optional
-	KerberosConfig []KerberosConfigParameters `json:"kerberosConfig" tf:"kerberos_config,omitempty"`
+	IdentityConfig *IdentityConfigParameters `json:"identityConfig,omitempty" tf:"identity_config,omitempty"`
+
+	// Kerberos Configuration. At least one of identity_config
+	// or kerberos_config is required.
+	// +kubebuilder:validation:Optional
+	KerberosConfig *KerberosConfigParameters `json:"kerberosConfig,omitempty" tf:"kerberos_config,omitempty"`
 }
 
 type ShieldedInstanceConfigInitParameters struct {
