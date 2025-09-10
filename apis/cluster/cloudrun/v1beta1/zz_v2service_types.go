@@ -503,25 +503,6 @@ type LivenessProbeTCPSocketParameters struct {
 	Port *float64 `json:"port" tf:"port,omitempty"`
 }
 
-type NodeSelectorInitParameters struct {
-
-	// The GPU to attach to an instance. See https://cloud.google.com/run/docs/configuring/services/gpu for configuring GPU.
-	Accelerator *string `json:"accelerator,omitempty" tf:"accelerator,omitempty"`
-}
-
-type NodeSelectorObservation struct {
-
-	// The GPU to attach to an instance. See https://cloud.google.com/run/docs/configuring/services/gpu for configuring GPU.
-	Accelerator *string `json:"accelerator,omitempty" tf:"accelerator,omitempty"`
-}
-
-type NodeSelectorParameters struct {
-
-	// The GPU to attach to an instance. See https://cloud.google.com/run/docs/configuring/services/gpu for configuring GPU.
-	// +kubebuilder:validation:Optional
-	Accelerator *string `json:"accelerator" tf:"accelerator,omitempty"`
-}
-
 type ScalingInitParameters struct {
 
 	// Maximum number of serving instances that this resource should have.
@@ -884,6 +865,25 @@ type TemplateContainersVolumeMountsParameters struct {
 	// Volume's name.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name" tf:"name,omitempty"`
+}
+
+type TemplateNodeSelectorInitParameters struct {
+
+	// The GPU to attach to an instance. See https://cloud.google.com/run/docs/configuring/services/gpu for configuring GPU.
+	Accelerator *string `json:"accelerator,omitempty" tf:"accelerator,omitempty"`
+}
+
+type TemplateNodeSelectorObservation struct {
+
+	// The GPU to attach to an instance. See https://cloud.google.com/run/docs/configuring/services/gpu for configuring GPU.
+	Accelerator *string `json:"accelerator,omitempty" tf:"accelerator,omitempty"`
+}
+
+type TemplateNodeSelectorParameters struct {
+
+	// The GPU to attach to an instance. See https://cloud.google.com/run/docs/configuring/services/gpu for configuring GPU.
+	// +kubebuilder:validation:Optional
+	Accelerator *string `json:"accelerator" tf:"accelerator,omitempty"`
 }
 
 type TemplateScalingInitParameters struct {
@@ -1717,7 +1717,7 @@ type V2ServiceTemplateInitParameters struct {
 
 	// Node Selector describes the hardware requirements of the resources.
 	// Structure is documented below.
-	NodeSelector []NodeSelectorInitParameters `json:"nodeSelector,omitempty" tf:"node_selector,omitempty"`
+	NodeSelector []TemplateNodeSelectorInitParameters `json:"nodeSelector,omitempty" tf:"node_selector,omitempty"`
 
 	// The unique name for the revision. If this field is omitted, it will be automatically generated based on the Service name.
 	Revision *string `json:"revision,omitempty" tf:"revision,omitempty"`
@@ -1780,7 +1780,7 @@ type V2ServiceTemplateObservation struct {
 
 	// Node Selector describes the hardware requirements of the resources.
 	// Structure is documented below.
-	NodeSelector []NodeSelectorObservation `json:"nodeSelector,omitempty" tf:"node_selector,omitempty"`
+	NodeSelector []TemplateNodeSelectorObservation `json:"nodeSelector,omitempty" tf:"node_selector,omitempty"`
 
 	// The unique name for the revision. If this field is omitted, it will be automatically generated based on the Service name.
 	Revision *string `json:"revision,omitempty" tf:"revision,omitempty"`
@@ -1851,7 +1851,7 @@ type V2ServiceTemplateParameters struct {
 	// Node Selector describes the hardware requirements of the resources.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	NodeSelector []NodeSelectorParameters `json:"nodeSelector,omitempty" tf:"node_selector,omitempty"`
+	NodeSelector []TemplateNodeSelectorParameters `json:"nodeSelector,omitempty" tf:"node_selector,omitempty"`
 
 	// The unique name for the revision. If this field is omitted, it will be automatically generated based on the Service name.
 	// +kubebuilder:validation:Optional
