@@ -331,6 +331,12 @@ spec:
                         cpuCount:
                           description: The number of CPU's in the VM instance.
                           type: number
+                        machineType:
+                          description: |-
+                            Machine type of the VM instance.
+                            E.g. "n2-highmem-4", "n2-highmem-8", "c4a-highmem-4-lssd".
+                            cpu_count must match the number of vCPUs in the machine type.
+                          type: string
                       type: object
                     type: array
                   networkConfig:
@@ -654,6 +660,12 @@ spec:
                         cpuCount:
                           description: The number of CPU's in the VM instance.
                           type: number
+                        machineType:
+                          description: |-
+                            Machine type of the VM instance.
+                            E.g. "n2-highmem-4", "n2-highmem-8", "c4a-highmem-4-lssd".
+                            cpu_count must match the number of vCPUs in the machine type.
+                          type: string
                       type: object
                     type: array
                   networkConfig:
@@ -1006,6 +1018,12 @@ spec:
                         cpuCount:
                           description: The number of CPU's in the VM instance.
                           type: number
+                        machineType:
+                          description: |-
+                            Machine type of the VM instance.
+                            E.g. "n2-highmem-4", "n2-highmem-8", "c4a-highmem-4-lssd".
+                            cpu_count must match the number of vCPUs in the machine type.
+                          type: string
                       type: object
                     type: array
                   name:
