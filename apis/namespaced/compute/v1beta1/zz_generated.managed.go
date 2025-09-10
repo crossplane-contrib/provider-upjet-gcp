@@ -2567,6 +2567,46 @@ func (mg *RegionSSLPolicy) SetWriteConnectionSecretToReference(r *xpv1.LocalSecr
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+// GetCondition of this RegionSecurityPolicy.
+func (mg *RegionSecurityPolicy) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetManagementPolicies of this RegionSecurityPolicy.
+func (mg *RegionSecurityPolicy) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this RegionSecurityPolicy.
+func (mg *RegionSecurityPolicy) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this RegionSecurityPolicy.
+func (mg *RegionSecurityPolicy) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this RegionSecurityPolicy.
+func (mg *RegionSecurityPolicy) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetManagementPolicies of this RegionSecurityPolicy.
+func (mg *RegionSecurityPolicy) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this RegionSecurityPolicy.
+func (mg *RegionSecurityPolicy) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this RegionSecurityPolicy.
+func (mg *RegionSecurityPolicy) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
 // GetCondition of this RegionTargetHTTPProxy.
 func (mg *RegionTargetHTTPProxy) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)

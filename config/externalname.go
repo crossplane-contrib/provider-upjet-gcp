@@ -317,6 +317,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// "google_compute_router_peer": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{end}}/regions/{{ .parameters.region }}/routers/{{ .parameters.router }}/{{ .external_name }}"),
 	// Imported by using the following {{router}}/{{name}}
 	"google_compute_router_peer": config.TemplatedStringAsIdentifier("name", "{{ .parameters.router }}/{{ .external_name }}"),
+	// Imported by using projects/{{project}}/regions/{{region}}/securityPolicies/{{name}}
+	"google_compute_region_security_policy": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/regions/{{ .parameters.region }}/securityPolicies/{{ .external_name }}"),
 
 	// container
 	//

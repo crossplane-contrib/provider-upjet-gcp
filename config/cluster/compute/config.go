@@ -516,7 +516,9 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 			TerraformName: "google_tags_tag_value",
 		}
 	})
-
+	p.AddResourceConfigurator("google_compute_region_security_policy", func(r *config.Resource) {
+		r.MarkAsRequired("region")
+	})
 }
 
 // InstanceGroupExtractor extracts Instance Group from
