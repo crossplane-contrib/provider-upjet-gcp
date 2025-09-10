@@ -227,6 +227,12 @@ type SecretInitParameters struct {
 	// Only one of ttl or expire_time can be provided.
 	TTL *string `json:"ttl,omitempty" tf:"ttl,omitempty"`
 
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
 	// A list of up to 10 Pub/Sub topics to which messages are published when control plane operations are called on the secret or its versions.
 	// Structure is documented below.
 	Topics []TopicsInitParameters `json:"topics,omitempty" tf:"topics,omitempty"`
@@ -317,6 +323,12 @@ type SecretObservation struct {
 	// Only one of ttl or expire_time can be provided.
 	TTL *string `json:"ttl,omitempty" tf:"ttl,omitempty"`
 
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
 	// The combination of labels configured directly on the resource
 	// and default labels configured on the provider.
 	// +mapType=granular
@@ -403,6 +415,13 @@ type SecretParameters struct {
 	// Only one of ttl or expire_time can be provided.
 	// +kubebuilder:validation:Optional
 	TTL *string `json:"ttl,omitempty" tf:"ttl,omitempty"`
+
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// A list of up to 10 Pub/Sub topics to which messages are published when control plane operations are called on the secret or its versions.
 	// Structure is documented below.
