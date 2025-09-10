@@ -13,6 +13,35 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
+type DeleteAfterDurationInitParameters struct {
+
+	// Number of nanoseconds for the auto-delete duration.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Number of seconds for the auto-delete duration.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type DeleteAfterDurationObservation struct {
+
+	// Number of nanoseconds for the auto-delete duration.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Number of seconds for the auto-delete duration.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type DeleteAfterDurationParameters struct {
+
+	// Number of nanoseconds for the auto-delete duration.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Number of seconds for the auto-delete duration.
+	// +kubebuilder:validation:Optional
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
 type GuestAcceleratorsInitParameters struct {
 
 	// The number of the guest accelerator cards exposed to
@@ -158,12 +187,24 @@ type LocalSsdsParameters struct {
 
 type ReservationInitParameters struct {
 
+	// Duration after which the reservation will be auto-deleted by Compute Engine. Cannot be used with delete_at_time.
+	// Structure is documented below.
+	DeleteAfterDuration *DeleteAfterDurationInitParameters `json:"deleteAfterDuration,omitempty" tf:"delete_after_duration,omitempty"`
+
+	// Absolute time in future when the reservation will be auto-deleted by Compute Engine. Timestamp is represented in RFC3339 text format.
+	// Cannot be used with delete_after_duration.
+	DeleteAtTime *string `json:"deleteAtTime,omitempty" tf:"delete_at_time,omitempty"`
+
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Sharing policy for reservations with Google Cloud managed services.
+	// Structure is documented below.
+	ReservationSharingPolicy *ReservationSharingPolicyInitParameters `json:"reservationSharingPolicy,omitempty" tf:"reservation_sharing_policy,omitempty"`
 
 	// The share setting for reservations.
 	// Structure is documented below.
@@ -188,6 +229,14 @@ type ReservationObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// Duration after which the reservation will be auto-deleted by Compute Engine. Cannot be used with delete_at_time.
+	// Structure is documented below.
+	DeleteAfterDuration *DeleteAfterDurationObservation `json:"deleteAfterDuration,omitempty" tf:"delete_after_duration,omitempty"`
+
+	// Absolute time in future when the reservation will be auto-deleted by Compute Engine. Timestamp is represented in RFC3339 text format.
+	// Cannot be used with delete_after_duration.
+	DeleteAtTime *string `json:"deleteAtTime,omitempty" tf:"delete_at_time,omitempty"`
+
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -197,6 +246,10 @@ type ReservationObservation struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Sharing policy for reservations with Google Cloud managed services.
+	// Structure is documented below.
+	ReservationSharingPolicy *ReservationSharingPolicyObservation `json:"reservationSharingPolicy,omitempty" tf:"reservation_sharing_policy,omitempty"`
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
@@ -223,6 +276,16 @@ type ReservationObservation struct {
 
 type ReservationParameters struct {
 
+	// Duration after which the reservation will be auto-deleted by Compute Engine. Cannot be used with delete_at_time.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	DeleteAfterDuration *DeleteAfterDurationParameters `json:"deleteAfterDuration,omitempty" tf:"delete_after_duration,omitempty"`
+
+	// Absolute time in future when the reservation will be auto-deleted by Compute Engine. Timestamp is represented in RFC3339 text format.
+	// Cannot be used with delete_after_duration.
+	// +kubebuilder:validation:Optional
+	DeleteAtTime *string `json:"deleteAtTime,omitempty" tf:"delete_at_time,omitempty"`
+
 	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -231,6 +294,11 @@ type ReservationParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Sharing policy for reservations with Google Cloud managed services.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ReservationSharingPolicy *ReservationSharingPolicyParameters `json:"reservationSharingPolicy,omitempty" tf:"reservation_sharing_policy,omitempty"`
 
 	// The share setting for reservations.
 	// Structure is documented below.
@@ -288,6 +356,28 @@ type ReservationShareSettingsParameters struct {
 	ShareType *string `json:"shareType,omitempty" tf:"share_type,omitempty"`
 }
 
+type ReservationSharingPolicyInitParameters struct {
+
+	// Sharing config for all Google Cloud services.
+	// Possible values are: ALLOW_ALL, DISALLOW_ALL.
+	ServiceShareType *string `json:"serviceShareType,omitempty" tf:"service_share_type,omitempty"`
+}
+
+type ReservationSharingPolicyObservation struct {
+
+	// Sharing config for all Google Cloud services.
+	// Possible values are: ALLOW_ALL, DISALLOW_ALL.
+	ServiceShareType *string `json:"serviceShareType,omitempty" tf:"service_share_type,omitempty"`
+}
+
+type ReservationSharingPolicyParameters struct {
+
+	// Sharing config for all Google Cloud services.
+	// Possible values are: ALLOW_ALL, DISALLOW_ALL.
+	// +kubebuilder:validation:Optional
+	ServiceShareType *string `json:"serviceShareType,omitempty" tf:"service_share_type,omitempty"`
+}
+
 type ReservationSpecificReservationInitParameters struct {
 
 	// The number of resources that are allocated.
@@ -296,6 +386,20 @@ type ReservationSpecificReservationInitParameters struct {
 	// The instance properties for the reservation.
 	// Structure is documented below.
 	InstanceProperties []InstancePropertiesInitParameters `json:"instanceProperties,omitempty" tf:"instance_properties,omitempty"`
+
+	// Specifies the instance template to create the reservation. If you use this field, you must exclude the
+	// instanceProperties field.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.InstanceTemplate
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
+	SourceInstanceTemplate *string `json:"sourceInstanceTemplate,omitempty" tf:"source_instance_template,omitempty"`
+
+	// Reference to a InstanceTemplate in compute to populate sourceInstanceTemplate.
+	// +kubebuilder:validation:Optional
+	SourceInstanceTemplateRef *v1.Reference `json:"sourceInstanceTemplateRef,omitempty" tf:"-"`
+
+	// Selector for a InstanceTemplate in compute to populate sourceInstanceTemplate.
+	// +kubebuilder:validation:Optional
+	SourceInstanceTemplateSelector *v1.Selector `json:"sourceInstanceTemplateSelector,omitempty" tf:"-"`
 }
 
 type ReservationSpecificReservationObservation struct {
@@ -310,6 +414,10 @@ type ReservationSpecificReservationObservation struct {
 	// The instance properties for the reservation.
 	// Structure is documented below.
 	InstanceProperties []InstancePropertiesObservation `json:"instanceProperties,omitempty" tf:"instance_properties,omitempty"`
+
+	// Specifies the instance template to create the reservation. If you use this field, you must exclude the
+	// instanceProperties field.
+	SourceInstanceTemplate *string `json:"sourceInstanceTemplate,omitempty" tf:"source_instance_template,omitempty"`
 }
 
 type ReservationSpecificReservationParameters struct {
@@ -321,7 +429,22 @@ type ReservationSpecificReservationParameters struct {
 	// The instance properties for the reservation.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	InstanceProperties []InstancePropertiesParameters `json:"instanceProperties" tf:"instance_properties,omitempty"`
+	InstanceProperties []InstancePropertiesParameters `json:"instanceProperties,omitempty" tf:"instance_properties,omitempty"`
+
+	// Specifies the instance template to create the reservation. If you use this field, you must exclude the
+	// instanceProperties field.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.InstanceTemplate
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
+	// +kubebuilder:validation:Optional
+	SourceInstanceTemplate *string `json:"sourceInstanceTemplate,omitempty" tf:"source_instance_template,omitempty"`
+
+	// Reference to a InstanceTemplate in compute to populate sourceInstanceTemplate.
+	// +kubebuilder:validation:Optional
+	SourceInstanceTemplateRef *v1.Reference `json:"sourceInstanceTemplateRef,omitempty" tf:"-"`
+
+	// Selector for a InstanceTemplate in compute to populate sourceInstanceTemplate.
+	// +kubebuilder:validation:Optional
+	SourceInstanceTemplateSelector *v1.Selector `json:"sourceInstanceTemplateSelector,omitempty" tf:"-"`
 }
 
 type ShareSettingsProjectMapInitParameters struct {

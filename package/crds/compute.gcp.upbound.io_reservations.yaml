@@ -73,6 +73,23 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  deleteAfterDuration:
+                    description: |-
+                      Duration after which the reservation will be auto-deleted by Compute Engine. Cannot be used with delete_at_time.
+                      Structure is documented below.
+                    properties:
+                      nanos:
+                        description: Number of nanoseconds for the auto-delete duration.
+                        type: number
+                      seconds:
+                        description: Number of seconds for the auto-delete duration.
+                        type: string
+                    type: object
+                  deleteAtTime:
+                    description: |-
+                      Absolute time in future when the reservation will be auto-deleted by Compute Engine. Timestamp is represented in RFC3339 text format.
+                      Cannot be used with delete_after_duration.
+                    type: string
                   description:
                     description: An optional description of this resource.
                     type: string
@@ -81,6 +98,17 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  reservationSharingPolicy:
+                    description: |-
+                      Sharing policy for reservations with Google Cloud managed services.
+                      Structure is documented below.
+                    properties:
+                      serviceShareType:
+                        description: |-
+                          Sharing config for all Google Cloud services.
+                          Possible values are: ALLOW_ALL, DISALLOW_ALL.
+                        type: string
+                    type: object
                   shareSettings:
                     description: |-
                       The share setting for reservations.
@@ -177,6 +205,87 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        sourceInstanceTemplate:
+                          description: |-
+                            Specifies the instance template to create the reservation. If you use this field, you must exclude the
+                            instanceProperties field.
+                          type: string
+                        sourceInstanceTemplateRef:
+                          description: Reference to a InstanceTemplate in compute
+                            to populate sourceInstanceTemplate.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        sourceInstanceTemplateSelector:
+                          description: Selector for a InstanceTemplate in compute
+                            to populate sourceInstanceTemplate.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
                       type: object
                     type: array
                   specificReservationRequired:
@@ -204,6 +313,23 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  deleteAfterDuration:
+                    description: |-
+                      Duration after which the reservation will be auto-deleted by Compute Engine. Cannot be used with delete_at_time.
+                      Structure is documented below.
+                    properties:
+                      nanos:
+                        description: Number of nanoseconds for the auto-delete duration.
+                        type: number
+                      seconds:
+                        description: Number of seconds for the auto-delete duration.
+                        type: string
+                    type: object
+                  deleteAtTime:
+                    description: |-
+                      Absolute time in future when the reservation will be auto-deleted by Compute Engine. Timestamp is represented in RFC3339 text format.
+                      Cannot be used with delete_after_duration.
+                    type: string
                   description:
                     description: An optional description of this resource.
                     type: string
@@ -212,6 +338,17 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  reservationSharingPolicy:
+                    description: |-
+                      Sharing policy for reservations with Google Cloud managed services.
+                      Structure is documented below.
+                    properties:
+                      serviceShareType:
+                        description: |-
+                          Sharing config for all Google Cloud services.
+                          Possible values are: ALLOW_ALL, DISALLOW_ALL.
+                        type: string
+                    type: object
                   shareSettings:
                     description: |-
                       The share setting for reservations.
@@ -308,6 +445,87 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        sourceInstanceTemplate:
+                          description: |-
+                            Specifies the instance template to create the reservation. If you use this field, you must exclude the
+                            instanceProperties field.
+                          type: string
+                        sourceInstanceTemplateRef:
+                          description: Reference to a InstanceTemplate in compute
+                            to populate sourceInstanceTemplate.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        sourceInstanceTemplateSelector:
+                          description: Selector for a InstanceTemplate in compute
+                            to populate sourceInstanceTemplate.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
                       type: object
                     type: array
                   specificReservationRequired:
@@ -421,6 +639,23 @@ spec:
                   creationTimestamp:
                     description: Creation timestamp in RFC3339 text format.
                     type: string
+                  deleteAfterDuration:
+                    description: |-
+                      Duration after which the reservation will be auto-deleted by Compute Engine. Cannot be used with delete_at_time.
+                      Structure is documented below.
+                    properties:
+                      nanos:
+                        description: Number of nanoseconds for the auto-delete duration.
+                        type: number
+                      seconds:
+                        description: Number of seconds for the auto-delete duration.
+                        type: string
+                    type: object
+                  deleteAtTime:
+                    description: |-
+                      Absolute time in future when the reservation will be auto-deleted by Compute Engine. Timestamp is represented in RFC3339 text format.
+                      Cannot be used with delete_after_duration.
+                    type: string
                   description:
                     description: An optional description of this resource.
                     type: string
@@ -432,6 +667,17 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  reservationSharingPolicy:
+                    description: |-
+                      Sharing policy for reservations with Google Cloud managed services.
+                      Structure is documented below.
+                    properties:
+                      serviceShareType:
+                        description: |-
+                          Sharing config for all Google Cloud services.
+                          Possible values are: ALLOW_ALL, DISALLOW_ALL.
+                        type: string
+                    type: object
                   selfLink:
                     description: The URI of the created resource.
                     type: string
@@ -536,6 +782,11 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        sourceInstanceTemplate:
+                          description: |-
+                            Specifies the instance template to create the reservation. If you use this field, you must exclude the
+                            instanceProperties field.
+                          type: string
                       type: object
                     type: array
                   specificReservationRequired:
