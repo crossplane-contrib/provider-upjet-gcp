@@ -12,6 +12,7 @@ import (
 	cryptokey "github.com/upbound/provider-gcp/internal/controller/cluster/kms/cryptokey"
 	cryptokeyiammember "github.com/upbound/provider-gcp/internal/controller/cluster/kms/cryptokeyiammember"
 	cryptokeyversion "github.com/upbound/provider-gcp/internal/controller/cluster/kms/cryptokeyversion"
+	keyhandle "github.com/upbound/provider-gcp/internal/controller/cluster/kms/keyhandle"
 	keyring "github.com/upbound/provider-gcp/internal/controller/cluster/kms/keyring"
 	keyringiammember "github.com/upbound/provider-gcp/internal/controller/cluster/kms/keyringiammember"
 	keyringimportjob "github.com/upbound/provider-gcp/internal/controller/cluster/kms/keyringimportjob"
@@ -25,6 +26,7 @@ func Setup_kms(mgr ctrl.Manager, o controller.Options) error {
 		cryptokey.Setup,
 		cryptokeyiammember.Setup,
 		cryptokeyversion.Setup,
+		keyhandle.Setup,
 		keyring.Setup,
 		keyringiammember.Setup,
 		keyringimportjob.Setup,
@@ -44,6 +46,7 @@ func SetupGated_kms(mgr ctrl.Manager, o controller.Options) error {
 		cryptokey.SetupGated,
 		cryptokeyiammember.SetupGated,
 		cryptokeyversion.SetupGated,
+		keyhandle.SetupGated,
 		keyring.SetupGated,
 		keyringiammember.SetupGated,
 		keyringimportjob.SetupGated,

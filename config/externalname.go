@@ -601,6 +601,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	//
 	// projects/{{project}}/locations/{{location}}/keyRings/{{name}}
 	"google_kms_key_ring": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/keyRings/{{ .external_name }}"),
+	// projects/{{project}}/locations/{{location}}/keyHandles/{{name}}
+	"google_kms_key_handle": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/keyHandles/{{ .external_name }}"),
 	// {{key_ring}}/cryptoKeys/{{name}}
 	"google_kms_crypto_key": config.TemplatedStringAsIdentifier("name", "{{ .parameters.key_ring }}/cryptoKeys/{{ .external_name }}"),
 	// {{name}}
