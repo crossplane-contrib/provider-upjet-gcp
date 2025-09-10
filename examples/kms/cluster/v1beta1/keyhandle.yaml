@@ -1,0 +1,90 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: kms.gcp.upbound.io/v1beta1
+kind: KeyHandle
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1beta1/keyhandle
+  labels:
+    testing.upbound.io/example-name: example-keyhandle
+  name: example-keyhandle
+spec:
+  forProvider:
+    location: global
+    projectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: resource-project
+    resourceType: storage.googleapis.com/Bucket
+
+---
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: Folder
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1beta1/keyhandle
+  labels:
+    testing.upbound.io/example-name: autokms-folder
+  name: autokms-folder
+spec:
+  forProvider:
+    deletionProtection: false
+    displayName: my-folder
+    parent: organizations/${Rand.RFC1123Subdomain}
+
+---
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1beta1/keyhandle
+  labels:
+    testing.upbound.io/example-name: key-project
+  name: key-project
+spec:
+  forProvider:
+    billingAccount: ${Rand.RFC1123Subdomain}
+    deletionPolicy: DELETE
+    folderIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: autokms-folder
+    name: key-proj-${Rand.RFC1123Subdomain}
+    projectId: key-proj-${Rand.RFC1123Subdomain}
+
+---
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1beta1/keyhandle
+  labels:
+    testing.upbound.io/example-name: resource-project
+  name: resource-project
+spec:
+  forProvider:
+    billingAccount: ${Rand.RFC1123Subdomain}
+    deletionPolicy: DELETE
+    folderIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: autokms-folder
+    name: res-proj-${Rand.RFC1123Subdomain}
+    projectId: res-proj-${Rand.RFC1123Subdomain}
+
+---
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: ProjectService
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1beta1/keyhandle
+  labels:
+    testing.upbound.io/example-name: kms-api-service
+  name: kms-api-service
+spec:
+  forProvider:
+    disableDependentServices: true
+    disableOnDestroy: false
+    projectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: key-project
+    service: cloudkms.googleapis.com
