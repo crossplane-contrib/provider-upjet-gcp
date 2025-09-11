@@ -204,6 +204,10 @@ spec:
                       - encryptionKeySecretRef
                       type: object
                     type: array
+                  deletionPolicy:
+                    description: When set to ABANDON, the object won't be deleted
+                      from storage bucket.
+                    type: string
                   detectMd5Hash:
                     description: 'MD5 hash of the data, encoded using base64. This
                       field is not present for composite objects. For more information
@@ -215,6 +219,10 @@ spec:
                       is signified by the hold's release (i.e. this value is set to
                       false). After being released (set to false), such objects will
                       be subject to bucket-level retention (if any).
+                    type: boolean
+                  forceEmptyContentType:
+                    description: When set to true, it ensure the object's Content-Type
+                      is empty.
                     type: boolean
                   kmsKeyName:
                     description: The resource name of the Cloud KMS key that will
@@ -393,6 +401,10 @@ spec:
                           type: string
                       type: object
                     type: array
+                  deletionPolicy:
+                    description: When set to ABANDON, the object won't be deleted
+                      from storage bucket.
+                    type: string
                   detectMd5Hash:
                     description: 'MD5 hash of the data, encoded using base64. This
                       field is not present for composite objects. For more information
@@ -404,6 +416,10 @@ spec:
                       is signified by the hold's release (i.e. this value is set to
                       false). After being released (set to false), such objects will
                       be subject to bucket-level retention (if any).
+                    type: boolean
+                  forceEmptyContentType:
+                    description: When set to true, it ensure the object's Content-Type
+                      is empty.
                     type: boolean
                   kmsKeyName:
                     description: The resource name of the Cloud KMS key that will
@@ -594,6 +610,10 @@ spec:
                           type: string
                       type: object
                     type: array
+                  deletionPolicy:
+                    description: When set to ABANDON, the object won't be deleted
+                      from storage bucket.
+                    type: string
                   detectMd5Hash:
                     description: 'MD5 hash of the data, encoded using base64. This
                       field is not present for composite objects. For more information
@@ -605,6 +625,10 @@ spec:
                       is signified by the hold's release (i.e. this value is set to
                       false). After being released (set to false), such objects will
                       be subject to bucket-level retention (if any).
+                    type: boolean
+                  forceEmptyContentType:
+                    description: When set to true, it ensure the object's Content-Type
+                      is empty.
                     type: boolean
                   generation:
                     description: (Computed) The content generation of this object.
