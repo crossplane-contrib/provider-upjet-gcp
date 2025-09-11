@@ -8,8 +8,8 @@ metadata:
   name: example
 spec:
   forProvider:
-    disableWebGrounding: true
     enableCustomerDataSharing: true
     labels:
       my_key: my_value
     location: global
+    webGroundingType: WEB_GROUNDING_FOR_ENTERPRISE
