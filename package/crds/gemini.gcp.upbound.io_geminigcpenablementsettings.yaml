@@ -98,6 +98,13 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  webGroundingType:
+                    description: |-
+                      Web grounding type.
+                      Possible values:
+                      GROUNDING_WITH_GOOGLE_SEARCH
+                      WEB_GROUNDING_FOR_ENTERPRISE
+                    type: string
                 required:
                 - location
                 type: object
@@ -133,6 +140,13 @@ spec:
                     description: |-
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
+                    type: string
+                  webGroundingType:
+                    description: |-
+                      Web grounding type.
+                      Possible values:
+                      GROUNDING_WITH_GOOGLE_SEARCH
+                      WEB_GROUNDING_FOR_ENTERPRISE
                     type: string
                 type: object
               managementPolicies:
@@ -277,6 +291,13 @@ spec:
                     x-kubernetes-map-type: granular
                   updateTime:
                     description: Update time stamp.
+                    type: string
+                  webGroundingType:
+                    description: |-
+                      Web grounding type.
+                      Possible values:
+                      GROUNDING_WITH_GOOGLE_SEARCH
+                      WEB_GROUNDING_FOR_ENTERPRISE
                     type: string
                 type: object
               conditions:
