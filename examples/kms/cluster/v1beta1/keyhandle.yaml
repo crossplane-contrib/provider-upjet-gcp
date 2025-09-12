@@ -16,7 +16,7 @@ spec:
     projectSelector:
       matchLabels:
         testing.upbound.io/example-name: resource-project
-    resourceType: storage.googleapis.com/Bucket
+    resourceTypeSelector: storage.googleapis.com/Bucket
 
 ---
 apiVersion: cloudplatform.gcp.upbound.io/v1beta1
