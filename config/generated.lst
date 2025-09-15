@@ -141,6 +141,7 @@
   "google_compute_region_network_firewall_policy",
   "google_compute_region_network_firewall_policy_association",
   "google_compute_region_per_instance_config",
+  "google_compute_region_security_policy",
   "google_compute_region_ssl_certificate",
   "google_compute_region_ssl_policy",
   "google_compute_region_target_http_proxy",

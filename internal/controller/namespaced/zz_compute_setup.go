@@ -71,6 +71,7 @@ import (
 	regionnetworkfirewallpolicy "github.com/upbound/provider-gcp/internal/controller/namespaced/compute/regionnetworkfirewallpolicy"
 	regionnetworkfirewallpolicyassociation "github.com/upbound/provider-gcp/internal/controller/namespaced/compute/regionnetworkfirewallpolicyassociation"
 	regionperinstanceconfig "github.com/upbound/provider-gcp/internal/controller/namespaced/compute/regionperinstanceconfig"
+	regionsecuritypolicy "github.com/upbound/provider-gcp/internal/controller/namespaced/compute/regionsecuritypolicy"
 	regionsslcertificate "github.com/upbound/provider-gcp/internal/controller/namespaced/compute/regionsslcertificate"
 	regionsslpolicy "github.com/upbound/provider-gcp/internal/controller/namespaced/compute/regionsslpolicy"
 	regiontargethttpproxy "github.com/upbound/provider-gcp/internal/controller/namespaced/compute/regiontargethttpproxy"
@@ -172,6 +173,7 @@ func Setup_compute(mgr ctrl.Manager, o controller.Options) error {
 		regionnetworkfirewallpolicy.Setup,
 		regionnetworkfirewallpolicyassociation.Setup,
 		regionperinstanceconfig.Setup,
+		regionsecuritypolicy.Setup,
 		regionsslcertificate.Setup,
 		regionsslpolicy.Setup,
 		regiontargethttpproxy.Setup,
@@ -279,6 +281,7 @@ func SetupGated_compute(mgr ctrl.Manager, o controller.Options) error {
 		regionnetworkfirewallpolicy.SetupGated,
 		regionnetworkfirewallpolicyassociation.SetupGated,
 		regionperinstanceconfig.SetupGated,
+		regionsecuritypolicy.SetupGated,
 		regionsslcertificate.SetupGated,
 		regionsslpolicy.SetupGated,
 		regiontargethttpproxy.SetupGated,

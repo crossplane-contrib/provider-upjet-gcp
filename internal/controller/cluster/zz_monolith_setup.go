@@ -167,6 +167,7 @@ import (
 	regionnetworkfirewallpolicy "github.com/upbound/provider-gcp/internal/controller/cluster/compute/regionnetworkfirewallpolicy"
 	regionnetworkfirewallpolicyassociation "github.com/upbound/provider-gcp/internal/controller/cluster/compute/regionnetworkfirewallpolicyassociation"
 	regionperinstanceconfig "github.com/upbound/provider-gcp/internal/controller/cluster/compute/regionperinstanceconfig"
+	regionsecuritypolicy "github.com/upbound/provider-gcp/internal/controller/cluster/compute/regionsecuritypolicy"
 	regionsslcertificate "github.com/upbound/provider-gcp/internal/controller/cluster/compute/regionsslcertificate"
 	regionsslpolicy "github.com/upbound/provider-gcp/internal/controller/cluster/compute/regionsslpolicy"
 	regiontargethttpproxy "github.com/upbound/provider-gcp/internal/controller/cluster/compute/regiontargethttpproxy"
@@ -556,6 +557,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		regionnetworkfirewallpolicy.Setup,
 		regionnetworkfirewallpolicyassociation.Setup,
 		regionperinstanceconfig.Setup,
+		regionsecuritypolicy.Setup,
 		regionsslcertificate.Setup,
 		regionsslpolicy.Setup,
 		regiontargethttpproxy.Setup,
@@ -951,6 +953,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		regionnetworkfirewallpolicy.SetupGated,
 		regionnetworkfirewallpolicyassociation.SetupGated,
 		regionperinstanceconfig.SetupGated,
+		regionsecuritypolicy.SetupGated,
 		regionsslcertificate.SetupGated,
 		regionsslpolicy.SetupGated,
 		regiontargethttpproxy.SetupGated,

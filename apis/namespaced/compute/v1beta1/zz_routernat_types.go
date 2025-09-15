@@ -246,7 +246,7 @@ type RouterNATInitParameters struct {
 
 	// A list of rules associated with this NAT.
 	// Structure is documented below.
-	Rules []RulesInitParameters `json:"rules,omitempty" tf:"rules,omitempty"`
+	Rules []RouterNATRulesInitParameters `json:"rules,omitempty" tf:"rules,omitempty"`
 
 	// How NAT should be configured per Subnetwork.
 	// If ALL_SUBNETWORKS_ALL_IP_RANGES, all of the
@@ -414,7 +414,7 @@ type RouterNATObservation struct {
 
 	// A list of rules associated with this NAT.
 	// Structure is documented below.
-	Rules []RulesObservation `json:"rules,omitempty" tf:"rules,omitempty"`
+	Rules []RouterNATRulesObservation `json:"rules,omitempty" tf:"rules,omitempty"`
 
 	// How NAT should be configured per Subnetwork.
 	// If ALL_SUBNETWORKS_ALL_IP_RANGES, all of the
@@ -583,7 +583,7 @@ type RouterNATParameters struct {
 	// A list of rules associated with this NAT.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Rules []RulesParameters `json:"rules,omitempty" tf:"rules,omitempty"`
+	Rules []RouterNATRulesParameters `json:"rules,omitempty" tf:"rules,omitempty"`
 
 	// How NAT should be configured per Subnetwork.
 	// If ALL_SUBNETWORKS_ALL_IP_RANGES, all of the
@@ -643,7 +643,7 @@ type RouterNATParameters struct {
 	UDPIdleTimeoutSec *float64 `json:"udpIdleTimeoutSec,omitempty" tf:"udp_idle_timeout_sec,omitempty"`
 }
 
-type RulesInitParameters struct {
+type RouterNATRulesInitParameters struct {
 
 	// The action to be enforced for traffic that matches this rule.
 	// Structure is documented below.
@@ -666,7 +666,7 @@ type RulesInitParameters struct {
 	RuleNumber *float64 `json:"ruleNumber,omitempty" tf:"rule_number,omitempty"`
 }
 
-type RulesObservation struct {
+type RouterNATRulesObservation struct {
 
 	// The action to be enforced for traffic that matches this rule.
 	// Structure is documented below.
@@ -689,7 +689,7 @@ type RulesObservation struct {
 	RuleNumber *float64 `json:"ruleNumber,omitempty" tf:"rule_number,omitempty"`
 }
 
-type RulesParameters struct {
+type RouterNATRulesParameters struct {
 
 	// The action to be enforced for traffic that matches this rule.
 	// Structure is documented below.

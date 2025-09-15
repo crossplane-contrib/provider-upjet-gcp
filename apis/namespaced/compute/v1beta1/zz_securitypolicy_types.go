@@ -88,92 +88,6 @@ type AdvancedOptionsConfigParameters struct {
 	UserIPRequestHeaders []*string `json:"userIpRequestHeaders,omitempty" tf:"user_ip_request_headers,omitempty"`
 }
 
-type BanThresholdInitParameters struct {
-
-	// Number of HTTP(S) requests for calculating the threshold.
-	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
-
-	// Interval over which the threshold is computed.
-	IntervalSec *float64 `json:"intervalSec,omitempty" tf:"interval_sec,omitempty"`
-}
-
-type BanThresholdObservation struct {
-
-	// Number of HTTP(S) requests for calculating the threshold.
-	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
-
-	// Interval over which the threshold is computed.
-	IntervalSec *float64 `json:"intervalSec,omitempty" tf:"interval_sec,omitempty"`
-}
-
-type BanThresholdParameters struct {
-
-	// Number of HTTP(S) requests for calculating the threshold.
-	// +kubebuilder:validation:Optional
-	Count *float64 `json:"count" tf:"count,omitempty"`
-
-	// Interval over which the threshold is computed.
-	// +kubebuilder:validation:Optional
-	IntervalSec *float64 `json:"intervalSec" tf:"interval_sec,omitempty"`
-}
-
-type ConfigInitParameters struct {
-
-	// Set of IP addresses or ranges (IPV4 or IPV6) in CIDR notation
-	// to match against inbound traffic. There is a limit of 10 IP ranges per rule. A value of * matches all IPs
-	// (can be used to override the default behavior).
-	// +listType=set
-	SrcIPRanges []*string `json:"srcIpRanges,omitempty" tf:"src_ip_ranges,omitempty"`
-}
-
-type ConfigObservation struct {
-
-	// Set of IP addresses or ranges (IPV4 or IPV6) in CIDR notation
-	// to match against inbound traffic. There is a limit of 10 IP ranges per rule. A value of * matches all IPs
-	// (can be used to override the default behavior).
-	// +listType=set
-	SrcIPRanges []*string `json:"srcIpRanges,omitempty" tf:"src_ip_ranges,omitempty"`
-}
-
-type ConfigParameters struct {
-
-	// Set of IP addresses or ranges (IPV4 or IPV6) in CIDR notation
-	// to match against inbound traffic. There is a limit of 10 IP ranges per rule. A value of * matches all IPs
-	// (can be used to override the default behavior).
-	// +kubebuilder:validation:Optional
-	// +listType=set
-	SrcIPRanges []*string `json:"srcIpRanges" tf:"src_ip_ranges,omitempty"`
-}
-
-type EnforceOnKeyConfigsInitParameters struct {
-
-	// Rate limit key name applicable only for the following key types:
-	EnforceOnKeyName *string `json:"enforceOnKeyName,omitempty" tf:"enforce_on_key_name,omitempty"`
-
-	// Determines the key to enforce the rate_limit_threshold on. If not specified, defaults to ALL.
-	EnforceOnKeyType *string `json:"enforceOnKeyType,omitempty" tf:"enforce_on_key_type,omitempty"`
-}
-
-type EnforceOnKeyConfigsObservation struct {
-
-	// Rate limit key name applicable only for the following key types:
-	EnforceOnKeyName *string `json:"enforceOnKeyName,omitempty" tf:"enforce_on_key_name,omitempty"`
-
-	// Determines the key to enforce the rate_limit_threshold on. If not specified, defaults to ALL.
-	EnforceOnKeyType *string `json:"enforceOnKeyType,omitempty" tf:"enforce_on_key_type,omitempty"`
-}
-
-type EnforceOnKeyConfigsParameters struct {
-
-	// Rate limit key name applicable only for the following key types:
-	// +kubebuilder:validation:Optional
-	EnforceOnKeyName *string `json:"enforceOnKeyName,omitempty" tf:"enforce_on_key_name,omitempty"`
-
-	// Determines the key to enforce the rate_limit_threshold on. If not specified, defaults to ALL.
-	// +kubebuilder:validation:Optional
-	EnforceOnKeyType *string `json:"enforceOnKeyType,omitempty" tf:"enforce_on_key_type,omitempty"`
-}
-
 type ExceedRedirectOptionsInitParameters struct {
 
 	// External redirection target when EXTERNAL_302 is set in type.
@@ -203,90 +117,120 @@ type ExceedRedirectOptionsParameters struct {
 	Type *string `json:"type" tf:"type,omitempty"`
 }
 
-type ExclusionInitParameters struct {
+type ExclusionRequestCookieInitParameters struct {
 
-	// Request cookie whose value will be excluded from inspection during preconfigured WAF evaluation. Structure is documented below.
-	RequestCookie []RequestCookieInitParameters `json:"requestCookie,omitempty" tf:"request_cookie,omitempty"`
+	// You can specify an exact match or a partial match by using a field operator and a field value.
+	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
 
-	// Request header whose value will be excluded from inspection during preconfigured WAF evaluation. Structure is documented below.
-	RequestHeader []RequestHeaderInitParameters `json:"requestHeader,omitempty" tf:"request_header,omitempty"`
-
-	// Request query parameter whose value will be excluded from inspection during preconfigured WAF evaluation. Note that the parameter can be in the query string or in the POST body. Structure is documented below.
-	RequestQueryParam []RequestQueryParamInitParameters `json:"requestQueryParam,omitempty" tf:"request_query_param,omitempty"`
-
-	// Request URI from the request line to be excluded from inspection during preconfigured WAF evaluation. When specifying this field, the query or fragment part should be excluded. Structure is documented below.
-	RequestURI []RequestURIInitParameters `json:"requestUri,omitempty" tf:"request_uri,omitempty"`
-
-	// A list of target rule IDs under the WAF rule set to apply the preconfigured WAF exclusion. If omitted, it refers to all the rule IDs under the WAF rule set.
-	// +listType=set
-	TargetRuleIds []*string `json:"targetRuleIds,omitempty" tf:"target_rule_ids,omitempty"`
-
-	// Target WAF rule set to apply the preconfigured WAF exclusion.
-	TargetRuleSet *string `json:"targetRuleSet,omitempty" tf:"target_rule_set,omitempty"`
+	// Requests that match this value constitute a granular traffic unit.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
-type ExclusionObservation struct {
+type ExclusionRequestCookieObservation struct {
 
-	// Request cookie whose value will be excluded from inspection during preconfigured WAF evaluation. Structure is documented below.
-	RequestCookie []RequestCookieObservation `json:"requestCookie,omitempty" tf:"request_cookie,omitempty"`
+	// You can specify an exact match or a partial match by using a field operator and a field value.
+	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
 
-	// Request header whose value will be excluded from inspection during preconfigured WAF evaluation. Structure is documented below.
-	RequestHeader []RequestHeaderObservation `json:"requestHeader,omitempty" tf:"request_header,omitempty"`
-
-	// Request query parameter whose value will be excluded from inspection during preconfigured WAF evaluation. Note that the parameter can be in the query string or in the POST body. Structure is documented below.
-	RequestQueryParam []RequestQueryParamObservation `json:"requestQueryParam,omitempty" tf:"request_query_param,omitempty"`
-
-	// Request URI from the request line to be excluded from inspection during preconfigured WAF evaluation. When specifying this field, the query or fragment part should be excluded. Structure is documented below.
-	RequestURI []RequestURIObservation `json:"requestUri,omitempty" tf:"request_uri,omitempty"`
-
-	// A list of target rule IDs under the WAF rule set to apply the preconfigured WAF exclusion. If omitted, it refers to all the rule IDs under the WAF rule set.
-	// +listType=set
-	TargetRuleIds []*string `json:"targetRuleIds,omitempty" tf:"target_rule_ids,omitempty"`
-
-	// Target WAF rule set to apply the preconfigured WAF exclusion.
-	TargetRuleSet *string `json:"targetRuleSet,omitempty" tf:"target_rule_set,omitempty"`
+	// Requests that match this value constitute a granular traffic unit.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
-type ExclusionParameters struct {
+type ExclusionRequestCookieParameters struct {
 
-	// Request cookie whose value will be excluded from inspection during preconfigured WAF evaluation. Structure is documented below.
+	// You can specify an exact match or a partial match by using a field operator and a field value.
 	// +kubebuilder:validation:Optional
-	RequestCookie []RequestCookieParameters `json:"requestCookie,omitempty" tf:"request_cookie,omitempty"`
+	Operator *string `json:"operator" tf:"operator,omitempty"`
 
-	// Request header whose value will be excluded from inspection during preconfigured WAF evaluation. Structure is documented below.
+	// Requests that match this value constitute a granular traffic unit.
 	// +kubebuilder:validation:Optional
-	RequestHeader []RequestHeaderParameters `json:"requestHeader,omitempty" tf:"request_header,omitempty"`
-
-	// Request query parameter whose value will be excluded from inspection during preconfigured WAF evaluation. Note that the parameter can be in the query string or in the POST body. Structure is documented below.
-	// +kubebuilder:validation:Optional
-	RequestQueryParam []RequestQueryParamParameters `json:"requestQueryParam,omitempty" tf:"request_query_param,omitempty"`
-
-	// Request URI from the request line to be excluded from inspection during preconfigured WAF evaluation. When specifying this field, the query or fragment part should be excluded. Structure is documented below.
-	// +kubebuilder:validation:Optional
-	RequestURI []RequestURIParameters `json:"requestUri,omitempty" tf:"request_uri,omitempty"`
-
-	// A list of target rule IDs under the WAF rule set to apply the preconfigured WAF exclusion. If omitted, it refers to all the rule IDs under the WAF rule set.
-	// +kubebuilder:validation:Optional
-	// +listType=set
-	TargetRuleIds []*string `json:"targetRuleIds,omitempty" tf:"target_rule_ids,omitempty"`
-
-	// Target WAF rule set to apply the preconfigured WAF exclusion.
-	// +kubebuilder:validation:Optional
-	TargetRuleSet *string `json:"targetRuleSet" tf:"target_rule_set,omitempty"`
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
-type ExprInitParameters struct {
+type ExclusionRequestHeaderInitParameters struct {
 
-	// Textual representation of an expression in Common Expression Language syntax.
-	// The application context of the containing message determines which well-known feature set of CEL is supported.
-	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+	// You can specify an exact match or a partial match by using a field operator and a field value.
+	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+
+	// Requests that match this value constitute a granular traffic unit.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
-type ExprObservation struct {
+type ExclusionRequestHeaderObservation struct {
 
-	// Textual representation of an expression in Common Expression Language syntax.
-	// The application context of the containing message determines which well-known feature set of CEL is supported.
-	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+	// You can specify an exact match or a partial match by using a field operator and a field value.
+	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+
+	// Requests that match this value constitute a granular traffic unit.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type ExclusionRequestHeaderParameters struct {
+
+	// You can specify an exact match or a partial match by using a field operator and a field value.
+	// +kubebuilder:validation:Optional
+	Operator *string `json:"operator" tf:"operator,omitempty"`
+
+	// Requests that match this value constitute a granular traffic unit.
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type ExclusionRequestQueryParamInitParameters struct {
+
+	// You can specify an exact match or a partial match by using a field operator and a field value.
+	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+
+	// Requests that match this value constitute a granular traffic unit.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type ExclusionRequestQueryParamObservation struct {
+
+	// You can specify an exact match or a partial match by using a field operator and a field value.
+	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+
+	// Requests that match this value constitute a granular traffic unit.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type ExclusionRequestQueryParamParameters struct {
+
+	// You can specify an exact match or a partial match by using a field operator and a field value.
+	// +kubebuilder:validation:Optional
+	Operator *string `json:"operator" tf:"operator,omitempty"`
+
+	// Requests that match this value constitute a granular traffic unit.
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type ExclusionRequestURIInitParameters struct {
+
+	// You can specify an exact match or a partial match by using a field operator and a field value.
+	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+
+	// Requests that match this value constitute a granular traffic unit.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type ExclusionRequestURIObservation struct {
+
+	// You can specify an exact match or a partial match by using a field operator and a field value.
+	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+
+	// Requests that match this value constitute a granular traffic unit.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type ExclusionRequestURIParameters struct {
+
+	// You can specify an exact match or a partial match by using a field operator and a field value.
+	// +kubebuilder:validation:Optional
+	Operator *string `json:"operator" tf:"operator,omitempty"`
+
+	// Requests that match this value constitute a granular traffic unit.
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type ExprOptionsInitParameters struct {
@@ -309,14 +253,6 @@ type ExprOptionsParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	RecaptchaOptions *RecaptchaOptionsParameters `json:"recaptchaOptions" tf:"recaptcha_options,omitempty"`
-}
-
-type ExprParameters struct {
-
-	// Textual representation of an expression in Common Expression Language syntax.
-	// The application context of the containing message determines which well-known feature set of CEL is supported.
-	// +kubebuilder:validation:Optional
-	Expression *string `json:"expression" tf:"expression,omitempty"`
 }
 
 type JSONCustomConfigInitParameters struct {
@@ -389,137 +325,129 @@ type Layer7DdosDefenseConfigParameters struct {
 	ThresholdConfigs []ThresholdConfigsParameters `json:"thresholdConfigs,omitempty" tf:"threshold_configs,omitempty"`
 }
 
-type PreconfiguredWafConfigInitParameters struct {
+type MatchConfigInitParameters struct {
 
-	// An exclusion to apply during preconfigured WAF evaluation. Structure is documented below.
-	Exclusion []ExclusionInitParameters `json:"exclusion,omitempty" tf:"exclusion,omitempty"`
+	// Set of IP addresses or ranges (IPV4 or IPV6) in CIDR notation
+	// to match against inbound traffic. There is a limit of 10 IP ranges per rule. A value of * matches all IPs
+	// (can be used to override the default behavior).
+	// +listType=set
+	SrcIPRanges []*string `json:"srcIpRanges,omitempty" tf:"src_ip_ranges,omitempty"`
 }
 
-type PreconfiguredWafConfigObservation struct {
+type MatchConfigObservation struct {
 
-	// An exclusion to apply during preconfigured WAF evaluation. Structure is documented below.
-	Exclusion []ExclusionObservation `json:"exclusion,omitempty" tf:"exclusion,omitempty"`
+	// Set of IP addresses or ranges (IPV4 or IPV6) in CIDR notation
+	// to match against inbound traffic. There is a limit of 10 IP ranges per rule. A value of * matches all IPs
+	// (can be used to override the default behavior).
+	// +listType=set
+	SrcIPRanges []*string `json:"srcIpRanges,omitempty" tf:"src_ip_ranges,omitempty"`
 }
 
-type PreconfiguredWafConfigParameters struct {
+type MatchConfigParameters struct {
 
-	// An exclusion to apply during preconfigured WAF evaluation. Structure is documented below.
+	// Set of IP addresses or ranges (IPV4 or IPV6) in CIDR notation
+	// to match against inbound traffic. There is a limit of 10 IP ranges per rule. A value of * matches all IPs
+	// (can be used to override the default behavior).
 	// +kubebuilder:validation:Optional
-	Exclusion []ExclusionParameters `json:"exclusion,omitempty" tf:"exclusion,omitempty"`
+	// +listType=set
+	SrcIPRanges []*string `json:"srcIpRanges" tf:"src_ip_ranges,omitempty"`
 }
 
-type RateLimitOptionsInitParameters struct {
+type MatchExprInitParameters struct {
 
-	// Can only be specified if the action for the rule is rate_based_ban.
-	// If specified, determines the time (in seconds) the traffic will continue to be banned by the rate limit after the rate falls below the threshold.
-	BanDurationSec *float64 `json:"banDurationSec,omitempty" tf:"ban_duration_sec,omitempty"`
-
-	// Can only be specified if the action for the rule is rate_based_ban.
-	// If specified, the key will be banned for the configured ban_duration_sec when the number of requests that exceed the rate_limit_threshold also
-	// exceed this ban_threshold. Structure is documented below.
-	BanThreshold *BanThresholdInitParameters `json:"banThreshold,omitempty" tf:"ban_threshold,omitempty"`
-
-	// Action to take for requests that are under the configured rate limit threshold. Valid option is allow only.
-	ConformAction *string `json:"conformAction,omitempty" tf:"conform_action,omitempty"`
-
-	// Determines the key to enforce the rate_limit_threshold on. If not specified, defaults to ALL.
-	EnforceOnKey *string `json:"enforceOnKey,omitempty" tf:"enforce_on_key,omitempty"`
-
-	// If specified, any combination of values of enforce_on_key_type/enforce_on_key_name is treated as the key on which rate limit threshold/action is enforced. You can specify up to 3 enforce_on_key_configs. If enforce_on_key_configs is specified, enforce_on_key must be set to an empty string. Structure is documented below.
-	EnforceOnKeyConfigs []EnforceOnKeyConfigsInitParameters `json:"enforceOnKeyConfigs,omitempty" tf:"enforce_on_key_configs,omitempty"`
-
-	// Rate limit key name applicable only for the following key types:
-	EnforceOnKeyName *string `json:"enforceOnKeyName,omitempty" tf:"enforce_on_key_name,omitempty"`
-
-	// When a request is denied, returns the HTTP response code specified.
-	// Valid options are deny() where valid values for status are 403, 404, 429, and 502.
-	ExceedAction *string `json:"exceedAction,omitempty" tf:"exceed_action,omitempty"`
-
-	// Parameters defining the redirect action that is used as the exceed action. Cannot be specified if the exceed action is not redirect. Structure is documented below.
-	ExceedRedirectOptions *ExceedRedirectOptionsInitParameters `json:"exceedRedirectOptions,omitempty" tf:"exceed_redirect_options,omitempty"`
-
-	// Threshold at which to begin ratelimiting. Structure is documented below.
-	RateLimitThreshold *RateLimitThresholdInitParameters `json:"rateLimitThreshold,omitempty" tf:"rate_limit_threshold,omitempty"`
+	// Textual representation of an expression in Common Expression Language syntax.
+	// The application context of the containing message determines which well-known feature set of CEL is supported.
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
 }
 
-type RateLimitOptionsObservation struct {
+type MatchExprObservation struct {
 
-	// Can only be specified if the action for the rule is rate_based_ban.
-	// If specified, determines the time (in seconds) the traffic will continue to be banned by the rate limit after the rate falls below the threshold.
-	BanDurationSec *float64 `json:"banDurationSec,omitempty" tf:"ban_duration_sec,omitempty"`
-
-	// Can only be specified if the action for the rule is rate_based_ban.
-	// If specified, the key will be banned for the configured ban_duration_sec when the number of requests that exceed the rate_limit_threshold also
-	// exceed this ban_threshold. Structure is documented below.
-	BanThreshold *BanThresholdObservation `json:"banThreshold,omitempty" tf:"ban_threshold,omitempty"`
-
-	// Action to take for requests that are under the configured rate limit threshold. Valid option is allow only.
-	ConformAction *string `json:"conformAction,omitempty" tf:"conform_action,omitempty"`
-
-	// Determines the key to enforce the rate_limit_threshold on. If not specified, defaults to ALL.
-	EnforceOnKey *string `json:"enforceOnKey,omitempty" tf:"enforce_on_key,omitempty"`
-
-	// If specified, any combination of values of enforce_on_key_type/enforce_on_key_name is treated as the key on which rate limit threshold/action is enforced. You can specify up to 3 enforce_on_key_configs. If enforce_on_key_configs is specified, enforce_on_key must be set to an empty string. Structure is documented below.
-	EnforceOnKeyConfigs []EnforceOnKeyConfigsObservation `json:"enforceOnKeyConfigs,omitempty" tf:"enforce_on_key_configs,omitempty"`
-
-	// Rate limit key name applicable only for the following key types:
-	EnforceOnKeyName *string `json:"enforceOnKeyName,omitempty" tf:"enforce_on_key_name,omitempty"`
-
-	// When a request is denied, returns the HTTP response code specified.
-	// Valid options are deny() where valid values for status are 403, 404, 429, and 502.
-	ExceedAction *string `json:"exceedAction,omitempty" tf:"exceed_action,omitempty"`
-
-	// Parameters defining the redirect action that is used as the exceed action. Cannot be specified if the exceed action is not redirect. Structure is documented below.
-	ExceedRedirectOptions *ExceedRedirectOptionsObservation `json:"exceedRedirectOptions,omitempty" tf:"exceed_redirect_options,omitempty"`
-
-	// Threshold at which to begin ratelimiting. Structure is documented below.
-	RateLimitThreshold *RateLimitThresholdObservation `json:"rateLimitThreshold,omitempty" tf:"rate_limit_threshold,omitempty"`
+	// Textual representation of an expression in Common Expression Language syntax.
+	// The application context of the containing message determines which well-known feature set of CEL is supported.
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
 }
 
-type RateLimitOptionsParameters struct {
+type MatchExprParameters struct {
 
-	// Can only be specified if the action for the rule is rate_based_ban.
-	// If specified, determines the time (in seconds) the traffic will continue to be banned by the rate limit after the rate falls below the threshold.
+	// Textual representation of an expression in Common Expression Language syntax.
+	// The application context of the containing message determines which well-known feature set of CEL is supported.
 	// +kubebuilder:validation:Optional
-	BanDurationSec *float64 `json:"banDurationSec,omitempty" tf:"ban_duration_sec,omitempty"`
-
-	// Can only be specified if the action for the rule is rate_based_ban.
-	// If specified, the key will be banned for the configured ban_duration_sec when the number of requests that exceed the rate_limit_threshold also
-	// exceed this ban_threshold. Structure is documented below.
-	// +kubebuilder:validation:Optional
-	BanThreshold *BanThresholdParameters `json:"banThreshold,omitempty" tf:"ban_threshold,omitempty"`
-
-	// Action to take for requests that are under the configured rate limit threshold. Valid option is allow only.
-	// +kubebuilder:validation:Optional
-	ConformAction *string `json:"conformAction" tf:"conform_action,omitempty"`
-
-	// Determines the key to enforce the rate_limit_threshold on. If not specified, defaults to ALL.
-	// +kubebuilder:validation:Optional
-	EnforceOnKey *string `json:"enforceOnKey,omitempty" tf:"enforce_on_key,omitempty"`
-
-	// If specified, any combination of values of enforce_on_key_type/enforce_on_key_name is treated as the key on which rate limit threshold/action is enforced. You can specify up to 3 enforce_on_key_configs. If enforce_on_key_configs is specified, enforce_on_key must be set to an empty string. Structure is documented below.
-	// +kubebuilder:validation:Optional
-	EnforceOnKeyConfigs []EnforceOnKeyConfigsParameters `json:"enforceOnKeyConfigs,omitempty" tf:"enforce_on_key_configs,omitempty"`
-
-	// Rate limit key name applicable only for the following key types:
-	// +kubebuilder:validation:Optional
-	EnforceOnKeyName *string `json:"enforceOnKeyName,omitempty" tf:"enforce_on_key_name,omitempty"`
-
-	// When a request is denied, returns the HTTP response code specified.
-	// Valid options are deny() where valid values for status are 403, 404, 429, and 502.
-	// +kubebuilder:validation:Optional
-	ExceedAction *string `json:"exceedAction" tf:"exceed_action,omitempty"`
-
-	// Parameters defining the redirect action that is used as the exceed action. Cannot be specified if the exceed action is not redirect. Structure is documented below.
-	// +kubebuilder:validation:Optional
-	ExceedRedirectOptions *ExceedRedirectOptionsParameters `json:"exceedRedirectOptions,omitempty" tf:"exceed_redirect_options,omitempty"`
-
-	// Threshold at which to begin ratelimiting. Structure is documented below.
-	// +kubebuilder:validation:Optional
-	RateLimitThreshold *RateLimitThresholdParameters `json:"rateLimitThreshold" tf:"rate_limit_threshold,omitempty"`
+	Expression *string `json:"expression" tf:"expression,omitempty"`
 }
 
-type RateLimitThresholdInitParameters struct {
+type PreconfiguredWafConfigExclusionInitParameters struct {
+
+	// Request cookie whose value will be excluded from inspection during preconfigured WAF evaluation. Structure is documented below.
+	RequestCookie []ExclusionRequestCookieInitParameters `json:"requestCookie,omitempty" tf:"request_cookie,omitempty"`
+
+	// Request header whose value will be excluded from inspection during preconfigured WAF evaluation. Structure is documented below.
+	RequestHeader []ExclusionRequestHeaderInitParameters `json:"requestHeader,omitempty" tf:"request_header,omitempty"`
+
+	// Request query parameter whose value will be excluded from inspection during preconfigured WAF evaluation. Note that the parameter can be in the query string or in the POST body. Structure is documented below.
+	RequestQueryParam []ExclusionRequestQueryParamInitParameters `json:"requestQueryParam,omitempty" tf:"request_query_param,omitempty"`
+
+	// Request URI from the request line to be excluded from inspection during preconfigured WAF evaluation. When specifying this field, the query or fragment part should be excluded. Structure is documented below.
+	RequestURI []ExclusionRequestURIInitParameters `json:"requestUri,omitempty" tf:"request_uri,omitempty"`
+
+	// A list of target rule IDs under the WAF rule set to apply the preconfigured WAF exclusion. If omitted, it refers to all the rule IDs under the WAF rule set.
+	// +listType=set
+	TargetRuleIds []*string `json:"targetRuleIds,omitempty" tf:"target_rule_ids,omitempty"`
+
+	// Target WAF rule set to apply the preconfigured WAF exclusion.
+	TargetRuleSet *string `json:"targetRuleSet,omitempty" tf:"target_rule_set,omitempty"`
+}
+
+type PreconfiguredWafConfigExclusionObservation struct {
+
+	// Request cookie whose value will be excluded from inspection during preconfigured WAF evaluation. Structure is documented below.
+	RequestCookie []ExclusionRequestCookieObservation `json:"requestCookie,omitempty" tf:"request_cookie,omitempty"`
+
+	// Request header whose value will be excluded from inspection during preconfigured WAF evaluation. Structure is documented below.
+	RequestHeader []ExclusionRequestHeaderObservation `json:"requestHeader,omitempty" tf:"request_header,omitempty"`
+
+	// Request query parameter whose value will be excluded from inspection during preconfigured WAF evaluation. Note that the parameter can be in the query string or in the POST body. Structure is documented below.
+	RequestQueryParam []ExclusionRequestQueryParamObservation `json:"requestQueryParam,omitempty" tf:"request_query_param,omitempty"`
+
+	// Request URI from the request line to be excluded from inspection during preconfigured WAF evaluation. When specifying this field, the query or fragment part should be excluded. Structure is documented below.
+	RequestURI []ExclusionRequestURIObservation `json:"requestUri,omitempty" tf:"request_uri,omitempty"`
+
+	// A list of target rule IDs under the WAF rule set to apply the preconfigured WAF exclusion. If omitted, it refers to all the rule IDs under the WAF rule set.
+	// +listType=set
+	TargetRuleIds []*string `json:"targetRuleIds,omitempty" tf:"target_rule_ids,omitempty"`
+
+	// Target WAF rule set to apply the preconfigured WAF exclusion.
+	TargetRuleSet *string `json:"targetRuleSet,omitempty" tf:"target_rule_set,omitempty"`
+}
+
+type PreconfiguredWafConfigExclusionParameters struct {
+
+	// Request cookie whose value will be excluded from inspection during preconfigured WAF evaluation. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RequestCookie []ExclusionRequestCookieParameters `json:"requestCookie,omitempty" tf:"request_cookie,omitempty"`
+
+	// Request header whose value will be excluded from inspection during preconfigured WAF evaluation. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RequestHeader []ExclusionRequestHeaderParameters `json:"requestHeader,omitempty" tf:"request_header,omitempty"`
+
+	// Request query parameter whose value will be excluded from inspection during preconfigured WAF evaluation. Note that the parameter can be in the query string or in the POST body. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RequestQueryParam []ExclusionRequestQueryParamParameters `json:"requestQueryParam,omitempty" tf:"request_query_param,omitempty"`
+
+	// Request URI from the request line to be excluded from inspection during preconfigured WAF evaluation. When specifying this field, the query or fragment part should be excluded. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RequestURI []ExclusionRequestURIParameters `json:"requestUri,omitempty" tf:"request_uri,omitempty"`
+
+	// A list of target rule IDs under the WAF rule set to apply the preconfigured WAF exclusion. If omitted, it refers to all the rule IDs under the WAF rule set.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	TargetRuleIds []*string `json:"targetRuleIds,omitempty" tf:"target_rule_ids,omitempty"`
+
+	// Target WAF rule set to apply the preconfigured WAF exclusion.
+	// +kubebuilder:validation:Optional
+	TargetRuleSet *string `json:"targetRuleSet" tf:"target_rule_set,omitempty"`
+}
+
+type RateLimitOptionsBanThresholdInitParameters struct {
 
 	// Number of HTTP(S) requests for calculating the threshold.
 	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
@@ -528,7 +456,7 @@ type RateLimitThresholdInitParameters struct {
 	IntervalSec *float64 `json:"intervalSec,omitempty" tf:"interval_sec,omitempty"`
 }
 
-type RateLimitThresholdObservation struct {
+type RateLimitOptionsBanThresholdObservation struct {
 
 	// Number of HTTP(S) requests for calculating the threshold.
 	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
@@ -537,7 +465,65 @@ type RateLimitThresholdObservation struct {
 	IntervalSec *float64 `json:"intervalSec,omitempty" tf:"interval_sec,omitempty"`
 }
 
-type RateLimitThresholdParameters struct {
+type RateLimitOptionsBanThresholdParameters struct {
+
+	// Number of HTTP(S) requests for calculating the threshold.
+	// +kubebuilder:validation:Optional
+	Count *float64 `json:"count" tf:"count,omitempty"`
+
+	// Interval over which the threshold is computed.
+	// +kubebuilder:validation:Optional
+	IntervalSec *float64 `json:"intervalSec" tf:"interval_sec,omitempty"`
+}
+
+type RateLimitOptionsEnforceOnKeyConfigsInitParameters struct {
+
+	// Rate limit key name applicable only for the following key types:
+	EnforceOnKeyName *string `json:"enforceOnKeyName,omitempty" tf:"enforce_on_key_name,omitempty"`
+
+	// Determines the key to enforce the rate_limit_threshold on. If not specified, defaults to ALL.
+	EnforceOnKeyType *string `json:"enforceOnKeyType,omitempty" tf:"enforce_on_key_type,omitempty"`
+}
+
+type RateLimitOptionsEnforceOnKeyConfigsObservation struct {
+
+	// Rate limit key name applicable only for the following key types:
+	EnforceOnKeyName *string `json:"enforceOnKeyName,omitempty" tf:"enforce_on_key_name,omitempty"`
+
+	// Determines the key to enforce the rate_limit_threshold on. If not specified, defaults to ALL.
+	EnforceOnKeyType *string `json:"enforceOnKeyType,omitempty" tf:"enforce_on_key_type,omitempty"`
+}
+
+type RateLimitOptionsEnforceOnKeyConfigsParameters struct {
+
+	// Rate limit key name applicable only for the following key types:
+	// +kubebuilder:validation:Optional
+	EnforceOnKeyName *string `json:"enforceOnKeyName,omitempty" tf:"enforce_on_key_name,omitempty"`
+
+	// Determines the key to enforce the rate_limit_threshold on. If not specified, defaults to ALL.
+	// +kubebuilder:validation:Optional
+	EnforceOnKeyType *string `json:"enforceOnKeyType,omitempty" tf:"enforce_on_key_type,omitempty"`
+}
+
+type RateLimitOptionsRateLimitThresholdInitParameters struct {
+
+	// Number of HTTP(S) requests for calculating the threshold.
+	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
+
+	// Interval over which the threshold is computed.
+	IntervalSec *float64 `json:"intervalSec,omitempty" tf:"interval_sec,omitempty"`
+}
+
+type RateLimitOptionsRateLimitThresholdObservation struct {
+
+	// Number of HTTP(S) requests for calculating the threshold.
+	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
+
+	// Interval over which the threshold is computed.
+	IntervalSec *float64 `json:"intervalSec,omitempty" tf:"interval_sec,omitempty"`
+}
+
+type RateLimitOptionsRateLimitThresholdParameters struct {
 
 	// Number of HTTP(S) requests for calculating the threshold.
 	// +kubebuilder:validation:Optional
@@ -625,64 +611,6 @@ type RedirectOptionsParameters struct {
 	Type *string `json:"type" tf:"type,omitempty"`
 }
 
-type RequestCookieInitParameters struct {
-
-	// You can specify an exact match or a partial match by using a field operator and a field value.
-	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
-
-	// Requests that match this value constitute a granular traffic unit.
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
-
-type RequestCookieObservation struct {
-
-	// You can specify an exact match or a partial match by using a field operator and a field value.
-	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
-
-	// Requests that match this value constitute a granular traffic unit.
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
-
-type RequestCookieParameters struct {
-
-	// You can specify an exact match or a partial match by using a field operator and a field value.
-	// +kubebuilder:validation:Optional
-	Operator *string `json:"operator" tf:"operator,omitempty"`
-
-	// Requests that match this value constitute a granular traffic unit.
-	// +kubebuilder:validation:Optional
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
-
-type RequestHeaderInitParameters struct {
-
-	// You can specify an exact match or a partial match by using a field operator and a field value.
-	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
-
-	// Requests that match this value constitute a granular traffic unit.
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
-
-type RequestHeaderObservation struct {
-
-	// You can specify an exact match or a partial match by using a field operator and a field value.
-	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
-
-	// Requests that match this value constitute a granular traffic unit.
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
-
-type RequestHeaderParameters struct {
-
-	// You can specify an exact match or a partial match by using a field operator and a field value.
-	// +kubebuilder:validation:Optional
-	Operator *string `json:"operator" tf:"operator,omitempty"`
-
-	// Requests that match this value constitute a granular traffic unit.
-	// +kubebuilder:validation:Optional
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
-
 type RequestHeadersToAddsInitParameters struct {
 
 	// The name of the header to set.
@@ -710,64 +638,6 @@ type RequestHeadersToAddsParameters struct {
 	// The value to set the named header to.
 	// +kubebuilder:validation:Optional
 	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
-}
-
-type RequestQueryParamInitParameters struct {
-
-	// You can specify an exact match or a partial match by using a field operator and a field value.
-	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
-
-	// Requests that match this value constitute a granular traffic unit.
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
-
-type RequestQueryParamObservation struct {
-
-	// You can specify an exact match or a partial match by using a field operator and a field value.
-	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
-
-	// Requests that match this value constitute a granular traffic unit.
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
-
-type RequestQueryParamParameters struct {
-
-	// You can specify an exact match or a partial match by using a field operator and a field value.
-	// +kubebuilder:validation:Optional
-	Operator *string `json:"operator" tf:"operator,omitempty"`
-
-	// Requests that match this value constitute a granular traffic unit.
-	// +kubebuilder:validation:Optional
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
-
-type RequestURIInitParameters struct {
-
-	// You can specify an exact match or a partial match by using a field operator and a field value.
-	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
-
-	// Requests that match this value constitute a granular traffic unit.
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
-
-type RequestURIObservation struct {
-
-	// You can specify an exact match or a partial match by using a field operator and a field value.
-	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
-
-	// Requests that match this value constitute a granular traffic unit.
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
-
-type RequestURIParameters struct {
-
-	// You can specify an exact match or a partial match by using a field operator and a field value.
-	// +kubebuilder:validation:Optional
-	Operator *string `json:"operator" tf:"operator,omitempty"`
-
-	// Requests that match this value constitute a granular traffic unit.
-	// +kubebuilder:validation:Optional
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type RuleHeaderActionInitParameters struct {
@@ -805,7 +675,7 @@ type RuleInitParameters struct {
 	Match *RuleMatchInitParameters `json:"match,omitempty" tf:"match,omitempty"`
 
 	// Preconfigured WAF configuration to be applied for the rule. If the rule does not evaluate preconfigured WAF rules, i.e., if evaluatePreconfiguredWaf() is not used, this field will have no effect. Structure is documented below.
-	PreconfiguredWafConfig *PreconfiguredWafConfigInitParameters `json:"preconfiguredWafConfig,omitempty" tf:"preconfigured_waf_config,omitempty"`
+	PreconfiguredWafConfig *RulePreconfiguredWafConfigInitParameters `json:"preconfiguredWafConfig,omitempty" tf:"preconfigured_waf_config,omitempty"`
 
 	// When set to true, the action specified above is not enforced.
 	// Stackdriver logs for requests that trigger a preview action are annotated as such.
@@ -816,7 +686,7 @@ type RuleInitParameters struct {
 	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
 
 	// Must be specified if the action is rate_based_ban or throttle. Cannot be specified for other actions. Structure is documented below.
-	RateLimitOptions *RateLimitOptionsInitParameters `json:"rateLimitOptions,omitempty" tf:"rate_limit_options,omitempty"`
+	RateLimitOptions *RuleRateLimitOptionsInitParameters `json:"rateLimitOptions,omitempty" tf:"rate_limit_options,omitempty"`
 
 	// Can be specified if the action is redirect. Cannot be specified for other actions. Structure is documented below.
 	RedirectOptions *RedirectOptionsInitParameters `json:"redirectOptions,omitempty" tf:"redirect_options,omitempty"`
@@ -827,12 +697,12 @@ type RuleMatchInitParameters struct {
 	// The configuration options available when specifying versioned_expr.
 	// This field must be specified if versioned_expr is specified and cannot be specified if versioned_expr is not specified.
 	// Structure is documented below.
-	Config *ConfigInitParameters `json:"config,omitempty" tf:"config,omitempty"`
+	Config *MatchConfigInitParameters `json:"config,omitempty" tf:"config,omitempty"`
 
 	// User defined CEVAL expression. A CEVAL expression is used to specify match criteria
 	// such as origin.ip, source.region_code and contents in the request header.
 	// Structure is documented below.
-	Expr *ExprInitParameters `json:"expr,omitempty" tf:"expr,omitempty"`
+	Expr *MatchExprInitParameters `json:"expr,omitempty" tf:"expr,omitempty"`
 
 	// The configuration options available when specifying a user defined CEVAL expression (i.e., 'expr').
 	// Structure is documented below.
@@ -848,12 +718,12 @@ type RuleMatchObservation struct {
 	// The configuration options available when specifying versioned_expr.
 	// This field must be specified if versioned_expr is specified and cannot be specified if versioned_expr is not specified.
 	// Structure is documented below.
-	Config *ConfigObservation `json:"config,omitempty" tf:"config,omitempty"`
+	Config *MatchConfigObservation `json:"config,omitempty" tf:"config,omitempty"`
 
 	// User defined CEVAL expression. A CEVAL expression is used to specify match criteria
 	// such as origin.ip, source.region_code and contents in the request header.
 	// Structure is documented below.
-	Expr *ExprObservation `json:"expr,omitempty" tf:"expr,omitempty"`
+	Expr *MatchExprObservation `json:"expr,omitempty" tf:"expr,omitempty"`
 
 	// The configuration options available when specifying a user defined CEVAL expression (i.e., 'expr').
 	// Structure is documented below.
@@ -870,13 +740,13 @@ type RuleMatchParameters struct {
 	// This field must be specified if versioned_expr is specified and cannot be specified if versioned_expr is not specified.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Config *ConfigParameters `json:"config,omitempty" tf:"config,omitempty"`
+	Config *MatchConfigParameters `json:"config,omitempty" tf:"config,omitempty"`
 
 	// User defined CEVAL expression. A CEVAL expression is used to specify match criteria
 	// such as origin.ip, source.region_code and contents in the request header.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Expr *ExprParameters `json:"expr,omitempty" tf:"expr,omitempty"`
+	Expr *MatchExprParameters `json:"expr,omitempty" tf:"expr,omitempty"`
 
 	// The configuration options available when specifying a user defined CEVAL expression (i.e., 'expr').
 	// Structure is documented below.
@@ -905,7 +775,7 @@ type RuleObservation struct {
 	Match *RuleMatchObservation `json:"match,omitempty" tf:"match,omitempty"`
 
 	// Preconfigured WAF configuration to be applied for the rule. If the rule does not evaluate preconfigured WAF rules, i.e., if evaluatePreconfiguredWaf() is not used, this field will have no effect. Structure is documented below.
-	PreconfiguredWafConfig *PreconfiguredWafConfigObservation `json:"preconfiguredWafConfig,omitempty" tf:"preconfigured_waf_config,omitempty"`
+	PreconfiguredWafConfig *RulePreconfiguredWafConfigObservation `json:"preconfiguredWafConfig,omitempty" tf:"preconfigured_waf_config,omitempty"`
 
 	// When set to true, the action specified above is not enforced.
 	// Stackdriver logs for requests that trigger a preview action are annotated as such.
@@ -916,7 +786,7 @@ type RuleObservation struct {
 	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
 
 	// Must be specified if the action is rate_based_ban or throttle. Cannot be specified for other actions. Structure is documented below.
-	RateLimitOptions *RateLimitOptionsObservation `json:"rateLimitOptions,omitempty" tf:"rate_limit_options,omitempty"`
+	RateLimitOptions *RuleRateLimitOptionsObservation `json:"rateLimitOptions,omitempty" tf:"rate_limit_options,omitempty"`
 
 	// Can be specified if the action is redirect. Cannot be specified for other actions. Structure is documented below.
 	RedirectOptions *RedirectOptionsObservation `json:"redirectOptions,omitempty" tf:"redirect_options,omitempty"`
@@ -943,7 +813,7 @@ type RuleParameters struct {
 
 	// Preconfigured WAF configuration to be applied for the rule. If the rule does not evaluate preconfigured WAF rules, i.e., if evaluatePreconfiguredWaf() is not used, this field will have no effect. Structure is documented below.
 	// +kubebuilder:validation:Optional
-	PreconfiguredWafConfig *PreconfiguredWafConfigParameters `json:"preconfiguredWafConfig,omitempty" tf:"preconfigured_waf_config,omitempty"`
+	PreconfiguredWafConfig *RulePreconfiguredWafConfigParameters `json:"preconfiguredWafConfig,omitempty" tf:"preconfigured_waf_config,omitempty"`
 
 	// When set to true, the action specified above is not enforced.
 	// Stackdriver logs for requests that trigger a preview action are annotated as such.
@@ -957,11 +827,141 @@ type RuleParameters struct {
 
 	// Must be specified if the action is rate_based_ban or throttle. Cannot be specified for other actions. Structure is documented below.
 	// +kubebuilder:validation:Optional
-	RateLimitOptions *RateLimitOptionsParameters `json:"rateLimitOptions,omitempty" tf:"rate_limit_options,omitempty"`
+	RateLimitOptions *RuleRateLimitOptionsParameters `json:"rateLimitOptions,omitempty" tf:"rate_limit_options,omitempty"`
 
 	// Can be specified if the action is redirect. Cannot be specified for other actions. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	RedirectOptions *RedirectOptionsParameters `json:"redirectOptions,omitempty" tf:"redirect_options,omitempty"`
+}
+
+type RulePreconfiguredWafConfigInitParameters struct {
+
+	// An exclusion to apply during preconfigured WAF evaluation. Structure is documented below.
+	Exclusion []PreconfiguredWafConfigExclusionInitParameters `json:"exclusion,omitempty" tf:"exclusion,omitempty"`
+}
+
+type RulePreconfiguredWafConfigObservation struct {
+
+	// An exclusion to apply during preconfigured WAF evaluation. Structure is documented below.
+	Exclusion []PreconfiguredWafConfigExclusionObservation `json:"exclusion,omitempty" tf:"exclusion,omitempty"`
+}
+
+type RulePreconfiguredWafConfigParameters struct {
+
+	// An exclusion to apply during preconfigured WAF evaluation. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Exclusion []PreconfiguredWafConfigExclusionParameters `json:"exclusion,omitempty" tf:"exclusion,omitempty"`
+}
+
+type RuleRateLimitOptionsInitParameters struct {
+
+	// Can only be specified if the action for the rule is rate_based_ban.
+	// If specified, determines the time (in seconds) the traffic will continue to be banned by the rate limit after the rate falls below the threshold.
+	BanDurationSec *float64 `json:"banDurationSec,omitempty" tf:"ban_duration_sec,omitempty"`
+
+	// Can only be specified if the action for the rule is rate_based_ban.
+	// If specified, the key will be banned for the configured ban_duration_sec when the number of requests that exceed the rate_limit_threshold also
+	// exceed this ban_threshold. Structure is documented below.
+	BanThreshold *RateLimitOptionsBanThresholdInitParameters `json:"banThreshold,omitempty" tf:"ban_threshold,omitempty"`
+
+	// Action to take for requests that are under the configured rate limit threshold. Valid option is allow only.
+	ConformAction *string `json:"conformAction,omitempty" tf:"conform_action,omitempty"`
+
+	// Determines the key to enforce the rate_limit_threshold on. If not specified, defaults to ALL.
+	EnforceOnKey *string `json:"enforceOnKey,omitempty" tf:"enforce_on_key,omitempty"`
+
+	// If specified, any combination of values of enforce_on_key_type/enforce_on_key_name is treated as the key on which rate limit threshold/action is enforced. You can specify up to 3 enforce_on_key_configs. If enforce_on_key_configs is specified, enforce_on_key must be set to an empty string. Structure is documented below.
+	EnforceOnKeyConfigs []RateLimitOptionsEnforceOnKeyConfigsInitParameters `json:"enforceOnKeyConfigs,omitempty" tf:"enforce_on_key_configs,omitempty"`
+
+	// Rate limit key name applicable only for the following key types:
+	EnforceOnKeyName *string `json:"enforceOnKeyName,omitempty" tf:"enforce_on_key_name,omitempty"`
+
+	// When a request is denied, returns the HTTP response code specified.
+	// Valid options are deny() where valid values for status are 403, 404, 429, and 502.
+	ExceedAction *string `json:"exceedAction,omitempty" tf:"exceed_action,omitempty"`
+
+	// Parameters defining the redirect action that is used as the exceed action. Cannot be specified if the exceed action is not redirect. Structure is documented below.
+	ExceedRedirectOptions *ExceedRedirectOptionsInitParameters `json:"exceedRedirectOptions,omitempty" tf:"exceed_redirect_options,omitempty"`
+
+	// Threshold at which to begin ratelimiting. Structure is documented below.
+	RateLimitThreshold *RateLimitOptionsRateLimitThresholdInitParameters `json:"rateLimitThreshold,omitempty" tf:"rate_limit_threshold,omitempty"`
+}
+
+type RuleRateLimitOptionsObservation struct {
+
+	// Can only be specified if the action for the rule is rate_based_ban.
+	// If specified, determines the time (in seconds) the traffic will continue to be banned by the rate limit after the rate falls below the threshold.
+	BanDurationSec *float64 `json:"banDurationSec,omitempty" tf:"ban_duration_sec,omitempty"`
+
+	// Can only be specified if the action for the rule is rate_based_ban.
+	// If specified, the key will be banned for the configured ban_duration_sec when the number of requests that exceed the rate_limit_threshold also
+	// exceed this ban_threshold. Structure is documented below.
+	BanThreshold *RateLimitOptionsBanThresholdObservation `json:"banThreshold,omitempty" tf:"ban_threshold,omitempty"`
+
+	// Action to take for requests that are under the configured rate limit threshold. Valid option is allow only.
+	ConformAction *string `json:"conformAction,omitempty" tf:"conform_action,omitempty"`
+
+	// Determines the key to enforce the rate_limit_threshold on. If not specified, defaults to ALL.
+	EnforceOnKey *string `json:"enforceOnKey,omitempty" tf:"enforce_on_key,omitempty"`
+
+	// If specified, any combination of values of enforce_on_key_type/enforce_on_key_name is treated as the key on which rate limit threshold/action is enforced. You can specify up to 3 enforce_on_key_configs. If enforce_on_key_configs is specified, enforce_on_key must be set to an empty string. Structure is documented below.
+	EnforceOnKeyConfigs []RateLimitOptionsEnforceOnKeyConfigsObservation `json:"enforceOnKeyConfigs,omitempty" tf:"enforce_on_key_configs,omitempty"`
+
+	// Rate limit key name applicable only for the following key types:
+	EnforceOnKeyName *string `json:"enforceOnKeyName,omitempty" tf:"enforce_on_key_name,omitempty"`
+
+	// When a request is denied, returns the HTTP response code specified.
+	// Valid options are deny() where valid values for status are 403, 404, 429, and 502.
+	ExceedAction *string `json:"exceedAction,omitempty" tf:"exceed_action,omitempty"`
+
+	// Parameters defining the redirect action that is used as the exceed action. Cannot be specified if the exceed action is not redirect. Structure is documented below.
+	ExceedRedirectOptions *ExceedRedirectOptionsObservation `json:"exceedRedirectOptions,omitempty" tf:"exceed_redirect_options,omitempty"`
+
+	// Threshold at which to begin ratelimiting. Structure is documented below.
+	RateLimitThreshold *RateLimitOptionsRateLimitThresholdObservation `json:"rateLimitThreshold,omitempty" tf:"rate_limit_threshold,omitempty"`
+}
+
+type RuleRateLimitOptionsParameters struct {
+
+	// Can only be specified if the action for the rule is rate_based_ban.
+	// If specified, determines the time (in seconds) the traffic will continue to be banned by the rate limit after the rate falls below the threshold.
+	// +kubebuilder:validation:Optional
+	BanDurationSec *float64 `json:"banDurationSec,omitempty" tf:"ban_duration_sec,omitempty"`
+
+	// Can only be specified if the action for the rule is rate_based_ban.
+	// If specified, the key will be banned for the configured ban_duration_sec when the number of requests that exceed the rate_limit_threshold also
+	// exceed this ban_threshold. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	BanThreshold *RateLimitOptionsBanThresholdParameters `json:"banThreshold,omitempty" tf:"ban_threshold,omitempty"`
+
+	// Action to take for requests that are under the configured rate limit threshold. Valid option is allow only.
+	// +kubebuilder:validation:Optional
+	ConformAction *string `json:"conformAction" tf:"conform_action,omitempty"`
+
+	// Determines the key to enforce the rate_limit_threshold on. If not specified, defaults to ALL.
+	// +kubebuilder:validation:Optional
+	EnforceOnKey *string `json:"enforceOnKey,omitempty" tf:"enforce_on_key,omitempty"`
+
+	// If specified, any combination of values of enforce_on_key_type/enforce_on_key_name is treated as the key on which rate limit threshold/action is enforced. You can specify up to 3 enforce_on_key_configs. If enforce_on_key_configs is specified, enforce_on_key must be set to an empty string. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	EnforceOnKeyConfigs []RateLimitOptionsEnforceOnKeyConfigsParameters `json:"enforceOnKeyConfigs,omitempty" tf:"enforce_on_key_configs,omitempty"`
+
+	// Rate limit key name applicable only for the following key types:
+	// +kubebuilder:validation:Optional
+	EnforceOnKeyName *string `json:"enforceOnKeyName,omitempty" tf:"enforce_on_key_name,omitempty"`
+
+	// When a request is denied, returns the HTTP response code specified.
+	// Valid options are deny() where valid values for status are 403, 404, 429, and 502.
+	// +kubebuilder:validation:Optional
+	ExceedAction *string `json:"exceedAction" tf:"exceed_action,omitempty"`
+
+	// Parameters defining the redirect action that is used as the exceed action. Cannot be specified if the exceed action is not redirect. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ExceedRedirectOptions *ExceedRedirectOptionsParameters `json:"exceedRedirectOptions,omitempty" tf:"exceed_redirect_options,omitempty"`
+
+	// Threshold at which to begin ratelimiting. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RateLimitThreshold *RateLimitOptionsRateLimitThresholdParameters `json:"rateLimitThreshold" tf:"rate_limit_threshold,omitempty"`
 }
 
 type SecurityPolicyInitParameters struct {
