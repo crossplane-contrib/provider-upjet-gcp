@@ -1,0 +1,97 @@
+apiVersion: kms.gcp.upbound.io/v1beta1
+kind: KeyHandle
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1beta1/keyhandle
+  labels:
+    testing.upbound.io/example-name: example-keyhandle
+  name: example-keyhandle
+spec:
+  forProvider:
+    location: global
+    projectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: resource_project
+    provider: ${google-beta}
+    resourceTypeSelector: storage.googleapis.com/Bucket
+
+---
+
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: Folder
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1beta1/keyhandle
+  labels:
+    testing.upbound.io/example-name: autokms_folder
+  name: autokms-folder
+spec:
+  forProvider:
+    deletionProtection: false
+    displayName: my-folder
+    parentSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    provider: ${google-beta}
+
+---
+
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1beta1/keyhandle
+  labels:
+    testing.upbound.io/example-name: key_project
+  name: key-project
+spec:
+  forProvider:
+    billingAccount: 000000-0000000-0000000-000000
+    deletionPolicy: DELETE
+    folderIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: autokms_folder
+    name: key-proj
+    projectId: key-proj
+    provider: ${google-beta}
+
+---
+
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1beta1/keyhandle
+  labels:
+    testing.upbound.io/example-name: resource_project
+  name: resource-project
+spec:
+  forProvider:
+    billingAccount: 000000-0000000-0000000-000000
+    deletionPolicy: DELETE
+    folderIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: autokms_folder
+    name: res-proj
+    projectId: res-proj
+    provider: ${google-beta}
+
+---
+
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: ProjectService
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1beta1/keyhandle
+  labels:
+    testing.upbound.io/example-name: kms_api_service
+  name: kms-api-service
+spec:
+  forProvider:
+    disableDependentServices: true
+    disableOnDestroy: false
+    projectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: key_project
+    provider: ${google-beta}
+    service: cloudkms.googleapis.com
