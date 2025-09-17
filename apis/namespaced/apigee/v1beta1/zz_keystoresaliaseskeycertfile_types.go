@@ -155,8 +155,18 @@ type KeystoresAliasesKeyCertFileParameters struct {
 	// +kubebuilder:validation:Required
 	Keystore *string `json:"keystore" tf:"keystore,omitempty"`
 
-	// +kubebuilder:validation:Required
-	OrgID *string `json:"orgId" tf:"org_id,omitempty"`
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/apigee/v1beta1.Organization
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
+	// +kubebuilder:validation:Optional
+	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
+
+	// Reference to a Organization in apigee to populate orgId.
+	// +kubebuilder:validation:Optional
+	OrgIDRef *v1.NamespacedReference `json:"orgIdRef,omitempty" tf:"-"`
+
+	// Selector for a Organization in apigee to populate orgId.
+	// +kubebuilder:validation:Optional
+	OrgIDSelector *v1.NamespacedSelector `json:"orgIdSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`

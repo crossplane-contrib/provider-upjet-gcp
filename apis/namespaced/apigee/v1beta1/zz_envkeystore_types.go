@@ -27,8 +27,18 @@ type EnvKeystoreObservation struct {
 
 type EnvKeystoreParameters struct {
 
-	// +kubebuilder:validation:Required
-	EnvID *string `json:"envId" tf:"env_id,omitempty"`
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/apigee/v1beta1.Environment
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/namespaced/common.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	EnvID *string `json:"envId,omitempty" tf:"env_id,omitempty"`
+
+	// Reference to a Environment in apigee to populate envId.
+	// +kubebuilder:validation:Optional
+	EnvIDRef *v1.NamespacedReference `json:"envIdRef,omitempty" tf:"-"`
+
+	// Selector for a Environment in apigee to populate envId.
+	// +kubebuilder:validation:Optional
+	EnvIDSelector *v1.NamespacedSelector `json:"envIdSelector,omitempty" tf:"-"`
 }
 
 // EnvKeystoreSpec defines the desired state of EnvKeystore
