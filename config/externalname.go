@@ -816,6 +816,14 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_storage_notification": config.IdentifierFromProvider,
 	// Imported by using the following projects/{{project}}/hmacKeys/{{access_id}}
 	"google_storage_hmac_key": config.IdentifierFromProvider,
+	// Imported by using the following format: {{bucket}}/managedFolders/{{name}}
+	"google_storage_managed_folder": config.IdentifierFromProvider,
+	// Imported by using the following format: {{bucket}}/managedFolders/{{name}}
+	"google_storage_managed_folder_iam_policy": config.IdentifierFromProvider,
+	// Imported by using the following format: {{bucket}}/managedFolders/{{name}}
+	"google_storage_managed_folder_iam_binding": config.IdentifierFromProvider,
+	// Imported by using the following format: {{bucket}}/managedFolders/{{name}}
+	"google_storage_managed_folder_iam_member": config.IdentifierFromProvider,
 
 	// bigquery
 	//

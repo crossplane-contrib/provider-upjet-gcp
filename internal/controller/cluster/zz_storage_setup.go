@@ -18,6 +18,10 @@ import (
 	defaultobjectaccesscontrol "github.com/upbound/provider-gcp/internal/controller/cluster/storage/defaultobjectaccesscontrol"
 	defaultobjectacl "github.com/upbound/provider-gcp/internal/controller/cluster/storage/defaultobjectacl"
 	hmackey "github.com/upbound/provider-gcp/internal/controller/cluster/storage/hmackey"
+	managedfolder "github.com/upbound/provider-gcp/internal/controller/cluster/storage/managedfolder"
+	managedfolderiambinding "github.com/upbound/provider-gcp/internal/controller/cluster/storage/managedfolderiambinding"
+	managedfolderiammember "github.com/upbound/provider-gcp/internal/controller/cluster/storage/managedfolderiammember"
+	managedfolderiampolicy "github.com/upbound/provider-gcp/internal/controller/cluster/storage/managedfolderiampolicy"
 	notification "github.com/upbound/provider-gcp/internal/controller/cluster/storage/notification"
 	objectaccesscontrol "github.com/upbound/provider-gcp/internal/controller/cluster/storage/objectaccesscontrol"
 	objectacl "github.com/upbound/provider-gcp/internal/controller/cluster/storage/objectacl"
@@ -36,6 +40,10 @@ func Setup_storage(mgr ctrl.Manager, o controller.Options) error {
 		defaultobjectaccesscontrol.Setup,
 		defaultobjectacl.Setup,
 		hmackey.Setup,
+		managedfolder.Setup,
+		managedfolderiambinding.Setup,
+		managedfolderiammember.Setup,
+		managedfolderiampolicy.Setup,
 		notification.Setup,
 		objectaccesscontrol.Setup,
 		objectacl.Setup,
@@ -60,6 +68,10 @@ func SetupGated_storage(mgr ctrl.Manager, o controller.Options) error {
 		defaultobjectaccesscontrol.SetupGated,
 		defaultobjectacl.SetupGated,
 		hmackey.SetupGated,
+		managedfolder.SetupGated,
+		managedfolderiambinding.SetupGated,
+		managedfolderiammember.SetupGated,
+		managedfolderiampolicy.SetupGated,
 		notification.SetupGated,
 		objectaccesscontrol.SetupGated,
 		objectacl.SetupGated,
