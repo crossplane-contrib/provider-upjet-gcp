@@ -19,4 +19,23 @@ func Configure(p *config.Provider) {
 			Extractor:     common.ExtractResourceIDFuncPath,
 		}
 	})
+	p.AddResourceConfigurator("google_apigee_env_keystore", func(r *config.Resource) {
+		r.References["env_id"] = config.Reference{
+			TerraformName: "google_apigee_environment",
+			Extractor:     common.ExtractResourceIDFuncPath,
+		}
+	})
+	p.AddResourceConfigurator("google_apigee_env_references", func(r *config.Resource) {
+		r.References["env_id"] = config.Reference{
+			TerraformName: "google_apigee_environment",
+			Extractor:     common.ExtractResourceIDFuncPath,
+		}
+	})
+	p.AddResourceConfigurator("google_apigee_keystores_aliases_key_cert_file", func(r *config.Resource) {
+		// org_id requires Organization ID without organization/ prefix, so extract name attribute
+		r.References["org_id"] = config.Reference{
+			TerraformName: "google_apigee_organization",
+			Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)`,
+		}
+	})
 }
