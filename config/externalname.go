@@ -819,10 +819,6 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: {{bucket}}/managedFolders/{{name}}
 	"google_storage_managed_folder": config.IdentifierFromProvider,
 	// Imported by using the following format: {{bucket}}/managedFolders/{{name}}
-	"google_storage_managed_folder_iam_policy": config.IdentifierFromProvider,
-	// Imported by using the following format: {{bucket}}/managedFolders/{{name}}
-	"google_storage_managed_folder_iam_binding": config.IdentifierFromProvider,
-	// Imported by using the following format: {{bucket}}/managedFolders/{{name}}
 	"google_storage_managed_folder_iam_member": config.IdentifierFromProvider,
 
 	// bigquery

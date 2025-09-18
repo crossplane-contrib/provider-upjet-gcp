@@ -371,9 +371,7 @@ import (
 	defaultobjectacl "github.com/upbound/provider-gcp/internal/controller/namespaced/storage/defaultobjectacl"
 	hmackey "github.com/upbound/provider-gcp/internal/controller/namespaced/storage/hmackey"
 	managedfolder "github.com/upbound/provider-gcp/internal/controller/namespaced/storage/managedfolder"
-	managedfolderiambinding "github.com/upbound/provider-gcp/internal/controller/namespaced/storage/managedfolderiambinding"
 	managedfolderiammember "github.com/upbound/provider-gcp/internal/controller/namespaced/storage/managedfolderiammember"
-	managedfolderiampolicy "github.com/upbound/provider-gcp/internal/controller/namespaced/storage/managedfolderiampolicy"
 	notification "github.com/upbound/provider-gcp/internal/controller/namespaced/storage/notification"
 	objectaccesscontrol "github.com/upbound/provider-gcp/internal/controller/namespaced/storage/objectaccesscontrol"
 	objectacl "github.com/upbound/provider-gcp/internal/controller/namespaced/storage/objectacl"
@@ -757,9 +755,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		defaultobjectacl.Setup,
 		hmackey.Setup,
 		managedfolder.Setup,
-		managedfolderiambinding.Setup,
 		managedfolderiammember.Setup,
-		managedfolderiampolicy.Setup,
 		notification.Setup,
 		objectaccesscontrol.Setup,
 		objectacl.Setup,
@@ -1149,9 +1145,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		defaultobjectacl.SetupGated,
 		hmackey.SetupGated,
 		managedfolder.SetupGated,
-		managedfolderiambinding.SetupGated,
 		managedfolderiammember.SetupGated,
-		managedfolderiampolicy.SetupGated,
 		notification.SetupGated,
 		objectaccesscontrol.SetupGated,
 		objectacl.SetupGated,

@@ -37,13 +37,7 @@ func (tr *HMACKey) Hub() {}
 func (tr *ManagedFolder) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *ManagedFolderIAMBinding) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *ManagedFolderIAMMember) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *ManagedFolderIAMPolicy) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *Notification) Hub() {}

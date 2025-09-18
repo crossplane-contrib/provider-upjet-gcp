@@ -66,14 +66,4 @@ func Configure(p *config.Provider) {
 			TerraformName: "google_storage_bucket",
 		}
 	})
-
-	p.AddResourceConfigurator("google_storage_managed_folder_iam_binding", func(r *config.Resource) {
-		r.References["managed_folder"] = config.Reference{
-			TerraformName: "google_storage_managed_folder",
-			Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)`,
-		}
-		r.References["bucket"] = config.Reference{
-			TerraformName: "google_storage_bucket",
-		}
-	})
 }
