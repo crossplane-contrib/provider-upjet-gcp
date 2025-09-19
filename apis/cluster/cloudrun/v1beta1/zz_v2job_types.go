@@ -778,7 +778,7 @@ type TemplateTemplateInitParameters struct {
 
 	// Node Selector describes the hardware requirements of the resources.
 	// Structure is documented below.
-	NodeSelector *NodeSelectorInitParameters `json:"nodeSelector,omitempty" tf:"node_selector,omitempty"`
+	NodeSelector []NodeSelectorInitParameters `json:"nodeSelector,omitempty" tf:"node_selector,omitempty"`
 
 	// Email address of the IAM service account associated with the Task of a Job. The service account represents the identity of the running task, and determines what permissions the task has. If not provided, the task will use the project's default service account.
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
@@ -817,7 +817,7 @@ type TemplateTemplateObservation struct {
 
 	// Node Selector describes the hardware requirements of the resources.
 	// Structure is documented below.
-	NodeSelector *NodeSelectorObservation `json:"nodeSelector,omitempty" tf:"node_selector,omitempty"`
+	NodeSelector []NodeSelectorObservation `json:"nodeSelector,omitempty" tf:"node_selector,omitempty"`
 
 	// Email address of the IAM service account associated with the Task of a Job. The service account represents the identity of the running task, and determines what permissions the task has. If not provided, the task will use the project's default service account.
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
@@ -862,7 +862,7 @@ type TemplateTemplateParameters struct {
 	// Node Selector describes the hardware requirements of the resources.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	NodeSelector *NodeSelectorParameters `json:"nodeSelector,omitempty" tf:"node_selector,omitempty"`
+	NodeSelector []NodeSelectorParameters `json:"nodeSelector,omitempty" tf:"node_selector,omitempty"`
 
 	// Email address of the IAM service account associated with the Task of a Job. The service account represents the identity of the running task, and determines what permissions the task has. If not provided, the task will use the project's default service account.
 	// +kubebuilder:validation:Optional

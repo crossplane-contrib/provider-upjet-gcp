@@ -8564,8 +8564,10 @@ func (in *TemplateTemplateInitParameters) DeepCopyInto(out *TemplateTemplateInit
 	}
 	if in.NodeSelector != nil {
 		in, out := &in.NodeSelector, &out.NodeSelector
-		*out = new(NodeSelectorInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]NodeSelectorInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.ServiceAccount != nil {
 		in, out := &in.ServiceAccount, &out.ServiceAccount
@@ -8635,8 +8637,10 @@ func (in *TemplateTemplateObservation) DeepCopyInto(out *TemplateTemplateObserva
 	}
 	if in.NodeSelector != nil {
 		in, out := &in.NodeSelector, &out.NodeSelector
-		*out = new(NodeSelectorObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]NodeSelectorObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.ServiceAccount != nil {
 		in, out := &in.ServiceAccount, &out.ServiceAccount
@@ -8706,8 +8710,10 @@ func (in *TemplateTemplateParameters) DeepCopyInto(out *TemplateTemplateParamete
 	}
 	if in.NodeSelector != nil {
 		in, out := &in.NodeSelector, &out.NodeSelector
-		*out = new(NodeSelectorParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]NodeSelectorParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.ServiceAccount != nil {
 		in, out := &in.ServiceAccount, &out.ServiceAccount
