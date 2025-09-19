@@ -601,8 +601,8 @@ func (in *FunctionInitParameters) DeepCopyInto(out *FunctionInitParameters) {
 	*out = *in
 	if in.AutomaticUpdatePolicy != nil {
 		in, out := &in.AutomaticUpdatePolicy, &out.AutomaticUpdatePolicy
-		*out = new(AutomaticUpdatePolicyInitParameters)
-		**out = **in
+		*out = make([]AutomaticUpdatePolicyInitParameters, len(*in))
+		copy(*out, *in)
 	}
 	if in.AvailableMemoryMb != nil {
 		in, out := &in.AvailableMemoryMb, &out.AvailableMemoryMb
@@ -699,8 +699,8 @@ func (in *FunctionInitParameters) DeepCopyInto(out *FunctionInitParameters) {
 	}
 	if in.OnDeployUpdatePolicy != nil {
 		in, out := &in.OnDeployUpdatePolicy, &out.OnDeployUpdatePolicy
-		*out = new(OnDeployUpdatePolicyInitParameters)
-		**out = **in
+		*out = make([]OnDeployUpdatePolicyInitParameters, len(*in))
+		copy(*out, *in)
 	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
@@ -837,8 +837,8 @@ func (in *FunctionObservation) DeepCopyInto(out *FunctionObservation) {
 	*out = *in
 	if in.AutomaticUpdatePolicy != nil {
 		in, out := &in.AutomaticUpdatePolicy, &out.AutomaticUpdatePolicy
-		*out = new(AutomaticUpdatePolicyParameters)
-		**out = **in
+		*out = make([]AutomaticUpdatePolicyParameters, len(*in))
+		copy(*out, *in)
 	}
 	if in.AvailableMemoryMb != nil {
 		in, out := &in.AvailableMemoryMb, &out.AvailableMemoryMb
@@ -956,8 +956,10 @@ func (in *FunctionObservation) DeepCopyInto(out *FunctionObservation) {
 	}
 	if in.OnDeployUpdatePolicy != nil {
 		in, out := &in.OnDeployUpdatePolicy, &out.OnDeployUpdatePolicy
-		*out = new(OnDeployUpdatePolicyObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]OnDeployUpdatePolicyObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
@@ -1073,8 +1075,8 @@ func (in *FunctionParameters) DeepCopyInto(out *FunctionParameters) {
 	*out = *in
 	if in.AutomaticUpdatePolicy != nil {
 		in, out := &in.AutomaticUpdatePolicy, &out.AutomaticUpdatePolicy
-		*out = new(AutomaticUpdatePolicyParameters)
-		**out = **in
+		*out = make([]AutomaticUpdatePolicyParameters, len(*in))
+		copy(*out, *in)
 	}
 	if in.AvailableMemoryMb != nil {
 		in, out := &in.AvailableMemoryMb, &out.AvailableMemoryMb
@@ -1171,8 +1173,8 @@ func (in *FunctionParameters) DeepCopyInto(out *FunctionParameters) {
 	}
 	if in.OnDeployUpdatePolicy != nil {
 		in, out := &in.OnDeployUpdatePolicy, &out.OnDeployUpdatePolicy
-		*out = new(OnDeployUpdatePolicyParameters)
-		**out = **in
+		*out = make([]OnDeployUpdatePolicyParameters, len(*in))
+		copy(*out, *in)
 	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project

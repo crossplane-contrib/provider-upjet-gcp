@@ -78,7 +78,9 @@ spec:
                       runtime without requiring the function to be redeployed. This
                       should be specified as an empty block and cannot be set alongside
                       on_deploy_update_policy.
-                    type: object
+                    items:
+                      type: object
+                    type: array
                   availableMemoryMb:
                     description: Memory (in MB), available to the function. Default
                       value is 256. Possible values include 128, 256, 512, 1024, etc.
@@ -192,7 +194,9 @@ spec:
                       is redeployed. This should be specified as an empty block and
                       cannot be set alongside automatic_update_policy. Structure is
                       documented below.
-                    type: object
+                    items:
+                      type: object
+                    type: array
                   project:
                     description: Project of the function. If it is not provided, the
                       provider project is used.
@@ -500,7 +504,9 @@ spec:
                       runtime without requiring the function to be redeployed. This
                       should be specified as an empty block and cannot be set alongside
                       on_deploy_update_policy.
-                    type: object
+                    items:
+                      type: object
+                    type: array
                   availableMemoryMb:
                     description: Memory (in MB), available to the function. Default
                       value is 256. Possible values include 128, 256, 512, 1024, etc.
@@ -614,7 +620,9 @@ spec:
                       is redeployed. This should be specified as an empty block and
                       cannot be set alongside automatic_update_policy. Structure is
                       documented below.
-                    type: object
+                    items:
+                      type: object
+                    type: array
                   project:
                     description: Project of the function. If it is not provided, the
                       provider project is used.
@@ -999,7 +1007,9 @@ spec:
                       runtime without requiring the function to be redeployed. This
                       should be specified as an empty block and cannot be set alongside
                       on_deploy_update_policy.
-                    type: object
+                    items:
+                      type: object
+                    type: array
                   availableMemoryMb:
                     description: Memory (in MB), available to the function. Default
                       value is 256. Possible values include 128, 256, 512, 1024, etc.
@@ -1121,12 +1131,14 @@ spec:
                       is redeployed. This should be specified as an empty block and
                       cannot be set alongside automatic_update_policy. Structure is
                       documented below.
-                    properties:
-                      runtimeVersion:
-                        description: (Output) The runtime version which was used during
-                          latest function deployment.
-                        type: string
-                    type: object
+                    items:
+                      properties:
+                        runtimeVersion:
+                          description: (Output) The runtime version which was used
+                            during latest function deployment.
+                          type: string
+                      type: object
+                    type: array
                   project:
                     description: Project of the function. If it is not provided, the
                       provider project is used.
