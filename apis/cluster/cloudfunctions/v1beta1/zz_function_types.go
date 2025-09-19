@@ -92,7 +92,7 @@ type FailurePolicyParameters struct {
 type FunctionInitParameters struct {
 
 	// Security patches are applied automatically to the runtime without requiring the function to be redeployed. This should be specified as an empty block and cannot be set alongside on_deploy_update_policy.
-	AutomaticUpdatePolicy *AutomaticUpdatePolicyInitParameters `json:"automaticUpdatePolicy,omitempty" tf:"automatic_update_policy,omitempty"`
+	AutomaticUpdatePolicy []AutomaticUpdatePolicyInitParameters `json:"automaticUpdatePolicy,omitempty" tf:"automatic_update_policy,omitempty"`
 
 	// Memory (in MB), available to the function. Default value is 256. Possible values include 128, 256, 512, 1024, etc.
 	AvailableMemoryMb *float64 `json:"availableMemoryMb,omitempty" tf:"available_memory_mb,omitempty"`
@@ -147,7 +147,7 @@ type FunctionInitParameters struct {
 	MinInstances *float64 `json:"minInstances,omitempty" tf:"min_instances,omitempty"`
 
 	// Security patches are only applied when a function is redeployed. This should be specified as an empty block and cannot be set alongside automatic_update_policy. Structure is documented below.
-	OnDeployUpdatePolicy *OnDeployUpdatePolicyInitParameters `json:"onDeployUpdatePolicy,omitempty" tf:"on_deploy_update_policy,omitempty"`
+	OnDeployUpdatePolicy []OnDeployUpdatePolicyInitParameters `json:"onDeployUpdatePolicy,omitempty" tf:"on_deploy_update_policy,omitempty"`
 
 	// Project of the function. If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -210,7 +210,7 @@ type FunctionInitParameters struct {
 type FunctionObservation struct {
 
 	// Security patches are applied automatically to the runtime without requiring the function to be redeployed. This should be specified as an empty block and cannot be set alongside on_deploy_update_policy.
-	AutomaticUpdatePolicy *AutomaticUpdatePolicyParameters `json:"automaticUpdatePolicy,omitempty" tf:"automatic_update_policy,omitempty"`
+	AutomaticUpdatePolicy []AutomaticUpdatePolicyParameters `json:"automaticUpdatePolicy,omitempty" tf:"automatic_update_policy,omitempty"`
 
 	// Memory (in MB), available to the function. Default value is 256. Possible values include 128, 256, 512, 1024, etc.
 	AvailableMemoryMb *float64 `json:"availableMemoryMb,omitempty" tf:"available_memory_mb,omitempty"`
@@ -271,7 +271,7 @@ type FunctionObservation struct {
 	MinInstances *float64 `json:"minInstances,omitempty" tf:"min_instances,omitempty"`
 
 	// Security patches are only applied when a function is redeployed. This should be specified as an empty block and cannot be set alongside automatic_update_policy. Structure is documented below.
-	OnDeployUpdatePolicy *OnDeployUpdatePolicyObservation `json:"onDeployUpdatePolicy,omitempty" tf:"on_deploy_update_policy,omitempty"`
+	OnDeployUpdatePolicy []OnDeployUpdatePolicyObservation `json:"onDeployUpdatePolicy,omitempty" tf:"on_deploy_update_policy,omitempty"`
 
 	// Project of the function. If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -328,7 +328,7 @@ type FunctionParameters struct {
 
 	// Security patches are applied automatically to the runtime without requiring the function to be redeployed. This should be specified as an empty block and cannot be set alongside on_deploy_update_policy.
 	// +kubebuilder:validation:Optional
-	AutomaticUpdatePolicy *AutomaticUpdatePolicyParameters `json:"automaticUpdatePolicy,omitempty" tf:"automatic_update_policy,omitempty"`
+	AutomaticUpdatePolicy []AutomaticUpdatePolicyParameters `json:"automaticUpdatePolicy,omitempty" tf:"automatic_update_policy,omitempty"`
 
 	// Memory (in MB), available to the function. Default value is 256. Possible values include 128, 256, 512, 1024, etc.
 	// +kubebuilder:validation:Optional
@@ -401,7 +401,7 @@ type FunctionParameters struct {
 
 	// Security patches are only applied when a function is redeployed. This should be specified as an empty block and cannot be set alongside automatic_update_policy. Structure is documented below.
 	// +kubebuilder:validation:Optional
-	OnDeployUpdatePolicy *OnDeployUpdatePolicyParameters `json:"onDeployUpdatePolicy,omitempty" tf:"on_deploy_update_policy,omitempty"`
+	OnDeployUpdatePolicy []OnDeployUpdatePolicyParameters `json:"onDeployUpdatePolicy,omitempty" tf:"on_deploy_update_policy,omitempty"`
 
 	// Project of the function. If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
