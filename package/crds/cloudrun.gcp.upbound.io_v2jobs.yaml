@@ -560,13 +560,15 @@ spec:
                                 description: |-
                                   Node Selector describes the hardware requirements of the resources.
                                   Structure is documented below.
-                                properties:
-                                  accelerator:
-                                    description: The GPU to attach to an instance.
-                                      See https://cloud.google.com/run/docs/configuring/jobs/gpu
-                                      for configuring GPU.
-                                    type: string
-                                type: object
+                                items:
+                                  properties:
+                                    accelerator:
+                                      description: The GPU to attach to an instance.
+                                        See https://cloud.google.com/run/docs/configuring/jobs/gpu
+                                        for configuring GPU.
+                                      type: string
+                                  type: object
+                                type: array
                               serviceAccount:
                                 description: Email address of the IAM service account
                                   associated with the Task of a Job. The service account
@@ -1426,13 +1428,15 @@ spec:
                                 description: |-
                                   Node Selector describes the hardware requirements of the resources.
                                   Structure is documented below.
-                                properties:
-                                  accelerator:
-                                    description: The GPU to attach to an instance.
-                                      See https://cloud.google.com/run/docs/configuring/jobs/gpu
-                                      for configuring GPU.
-                                    type: string
-                                type: object
+                                items:
+                                  properties:
+                                    accelerator:
+                                      description: The GPU to attach to an instance.
+                                        See https://cloud.google.com/run/docs/configuring/jobs/gpu
+                                        for configuring GPU.
+                                      type: string
+                                  type: object
+                                type: array
                               serviceAccount:
                                 description: Email address of the IAM service account
                                   associated with the Task of a Job. The service account
@@ -2421,13 +2425,15 @@ spec:
                                 description: |-
                                   Node Selector describes the hardware requirements of the resources.
                                   Structure is documented below.
-                                properties:
-                                  accelerator:
-                                    description: The GPU to attach to an instance.
-                                      See https://cloud.google.com/run/docs/configuring/jobs/gpu
-                                      for configuring GPU.
-                                    type: string
-                                type: object
+                                items:
+                                  properties:
+                                    accelerator:
+                                      description: The GPU to attach to an instance.
+                                        See https://cloud.google.com/run/docs/configuring/jobs/gpu
+                                        for configuring GPU.
+                                      type: string
+                                  type: object
+                                type: array
                               serviceAccount:
                                 description: Email address of the IAM service account
                                   associated with the Task of a Job. The service account
