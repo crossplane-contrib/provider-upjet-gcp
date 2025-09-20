@@ -257,20 +257,22 @@ spec:
                     description: |-
                       Additional params passed with the request, but not persisted as part of resource payload
                       Structure is documented below.
-                    properties:
-                      resourceManagerTags:
-                        additionalProperties:
-                          type: string
-                        description: |-
-                          Resource manager tags to be bound to the firewall. Tag keys and values have the
-                          same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
-                          and values are in the format tagValues/456. The field is ignored when empty.
-                          The field is immutable and causes resource replacement when mutated. This field is only
-                          set at create time and modifying this field after creation will trigger recreation.
-                          To apply tags to an existing resource, see the google_tags_tag_binding resource.
-                        type: object
-                        x-kubernetes-map-type: granular
-                    type: object
+                    items:
+                      properties:
+                        resourceManagerTags:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            Resource manager tags to be bound to the firewall. Tag keys and values have the
+                            same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+                            and values are in the format tagValues/456. The field is ignored when empty.
+                            The field is immutable and causes resource replacement when mutated. This field is only
+                            set at create time and modifying this field after creation will trigger recreation.
+                            To apply tags to an existing resource, see the google_tags_tag_binding resource.
+                          type: object
+                          x-kubernetes-map-type: granular
+                      type: object
+                    type: array
                   priority:
                     description: |-
                       Priority for this rule. This is an integer between 0 and 65535, both
@@ -554,20 +556,22 @@ spec:
                     description: |-
                       Additional params passed with the request, but not persisted as part of resource payload
                       Structure is documented below.
-                    properties:
-                      resourceManagerTags:
-                        additionalProperties:
-                          type: string
-                        description: |-
-                          Resource manager tags to be bound to the firewall. Tag keys and values have the
-                          same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
-                          and values are in the format tagValues/456. The field is ignored when empty.
-                          The field is immutable and causes resource replacement when mutated. This field is only
-                          set at create time and modifying this field after creation will trigger recreation.
-                          To apply tags to an existing resource, see the google_tags_tag_binding resource.
-                        type: object
-                        x-kubernetes-map-type: granular
-                    type: object
+                    items:
+                      properties:
+                        resourceManagerTags:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            Resource manager tags to be bound to the firewall. Tag keys and values have the
+                            same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+                            and values are in the format tagValues/456. The field is ignored when empty.
+                            The field is immutable and causes resource replacement when mutated. This field is only
+                            set at create time and modifying this field after creation will trigger recreation.
+                            To apply tags to an existing resource, see the google_tags_tag_binding resource.
+                          type: object
+                          x-kubernetes-map-type: granular
+                      type: object
+                    type: array
                   priority:
                     description: |-
                       Priority for this rule. This is an integer between 0 and 65535, both
@@ -861,20 +865,22 @@ spec:
                     description: |-
                       Additional params passed with the request, but not persisted as part of resource payload
                       Structure is documented below.
-                    properties:
-                      resourceManagerTags:
-                        additionalProperties:
-                          type: string
-                        description: |-
-                          Resource manager tags to be bound to the firewall. Tag keys and values have the
-                          same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
-                          and values are in the format tagValues/456. The field is ignored when empty.
-                          The field is immutable and causes resource replacement when mutated. This field is only
-                          set at create time and modifying this field after creation will trigger recreation.
-                          To apply tags to an existing resource, see the google_tags_tag_binding resource.
-                        type: object
-                        x-kubernetes-map-type: granular
-                    type: object
+                    items:
+                      properties:
+                        resourceManagerTags:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            Resource manager tags to be bound to the firewall. Tag keys and values have the
+                            same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+                            and values are in the format tagValues/456. The field is ignored when empty.
+                            The field is immutable and causes resource replacement when mutated. This field is only
+                            set at create time and modifying this field after creation will trigger recreation.
+                            To apply tags to an existing resource, see the google_tags_tag_binding resource.
+                          type: object
+                          x-kubernetes-map-type: granular
+                      type: object
+                    type: array
                   priority:
                     description: |-
                       Priority for this rule. This is an integer between 0 and 65535, both

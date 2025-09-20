@@ -4946,8 +4946,10 @@ func (in *BackendServiceInitParameters) DeepCopyInto(out *BackendServiceInitPara
 	}
 	if in.TLSSettings != nil {
 		in, out := &in.TLSSettings, &out.TLSSettings
-		*out = new(TLSSettingsInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]TLSSettingsInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.TimeoutSec != nil {
 		in, out := &in.TimeoutSec, &out.TimeoutSec
@@ -5230,8 +5232,10 @@ func (in *BackendServiceObservation) DeepCopyInto(out *BackendServiceObservation
 	}
 	if in.TLSSettings != nil {
 		in, out := &in.TLSSettings, &out.TLSSettings
-		*out = new(TLSSettingsObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]TLSSettingsObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.TimeoutSec != nil {
 		in, out := &in.TimeoutSec, &out.TimeoutSec
@@ -5469,8 +5473,10 @@ func (in *BackendServiceParameters) DeepCopyInto(out *BackendServiceParameters) 
 	}
 	if in.TLSSettings != nil {
 		in, out := &in.TLSSettings, &out.TLSSettings
-		*out = new(TLSSettingsParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]TLSSettingsParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.TimeoutSec != nil {
 		in, out := &in.TimeoutSec, &out.TimeoutSec
@@ -15877,8 +15883,10 @@ func (in *FirewallInitParameters) DeepCopyInto(out *FirewallInitParameters) {
 	}
 	if in.Params != nil {
 		in, out := &in.Params, &out.Params
-		*out = new(FirewallParamsInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]FirewallParamsInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.Priority != nil {
 		in, out := &in.Priority, &out.Priority
@@ -16121,8 +16129,10 @@ func (in *FirewallObservation) DeepCopyInto(out *FirewallObservation) {
 	}
 	if in.Params != nil {
 		in, out := &in.Params, &out.Params
-		*out = new(FirewallParamsObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]FirewallParamsObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.Priority != nil {
 		in, out := &in.Priority, &out.Priority
@@ -16278,8 +16288,10 @@ func (in *FirewallParameters) DeepCopyInto(out *FirewallParameters) {
 	}
 	if in.Params != nil {
 		in, out := &in.Params, &out.Params
-		*out = new(FirewallParamsParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]FirewallParamsParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.Priority != nil {
 		in, out := &in.Priority, &out.Priority
@@ -66249,8 +66261,10 @@ func (in *ReservationInitParameters) DeepCopyInto(out *ReservationInitParameters
 	*out = *in
 	if in.DeleteAfterDuration != nil {
 		in, out := &in.DeleteAfterDuration, &out.DeleteAfterDuration
-		*out = new(DeleteAfterDurationInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]DeleteAfterDurationInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.DeleteAtTime != nil {
 		in, out := &in.DeleteAtTime, &out.DeleteAtTime
@@ -66269,8 +66283,10 @@ func (in *ReservationInitParameters) DeepCopyInto(out *ReservationInitParameters
 	}
 	if in.ReservationSharingPolicy != nil {
 		in, out := &in.ReservationSharingPolicy, &out.ReservationSharingPolicy
-		*out = new(ReservationSharingPolicyInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]ReservationSharingPolicyInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.ShareSettings != nil {
 		in, out := &in.ShareSettings, &out.ShareSettings
@@ -66350,8 +66366,10 @@ func (in *ReservationObservation) DeepCopyInto(out *ReservationObservation) {
 	}
 	if in.DeleteAfterDuration != nil {
 		in, out := &in.DeleteAfterDuration, &out.DeleteAfterDuration
-		*out = new(DeleteAfterDurationObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]DeleteAfterDurationObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.DeleteAtTime != nil {
 		in, out := &in.DeleteAtTime, &out.DeleteAtTime
@@ -66375,8 +66393,10 @@ func (in *ReservationObservation) DeepCopyInto(out *ReservationObservation) {
 	}
 	if in.ReservationSharingPolicy != nil {
 		in, out := &in.ReservationSharingPolicy, &out.ReservationSharingPolicy
-		*out = new(ReservationSharingPolicyObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]ReservationSharingPolicyObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.SelfLink != nil {
 		in, out := &in.SelfLink, &out.SelfLink
@@ -66429,8 +66449,10 @@ func (in *ReservationParameters) DeepCopyInto(out *ReservationParameters) {
 	*out = *in
 	if in.DeleteAfterDuration != nil {
 		in, out := &in.DeleteAfterDuration, &out.DeleteAfterDuration
-		*out = new(DeleteAfterDurationParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]DeleteAfterDurationParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.DeleteAtTime != nil {
 		in, out := &in.DeleteAtTime, &out.DeleteAtTime
@@ -66449,8 +66471,10 @@ func (in *ReservationParameters) DeepCopyInto(out *ReservationParameters) {
 	}
 	if in.ReservationSharingPolicy != nil {
 		in, out := &in.ReservationSharingPolicy, &out.ReservationSharingPolicy
-		*out = new(ReservationSharingPolicyParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]ReservationSharingPolicyParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.ShareSettings != nil {
 		in, out := &in.ShareSettings, &out.ShareSettings
@@ -82176,8 +82200,10 @@ func (in *SubnetworkInitParameters_2) DeepCopyInto(out *SubnetworkInitParameters
 	}
 	if in.Params != nil {
 		in, out := &in.Params, &out.Params
-		*out = new(SubnetworkParamsInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]SubnetworkParamsInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.PrivateIPGoogleAccess != nil {
 		in, out := &in.PrivateIPGoogleAccess, &out.PrivateIPGoogleAccess
@@ -82532,8 +82558,10 @@ func (in *SubnetworkObservation_2) DeepCopyInto(out *SubnetworkObservation_2) {
 	}
 	if in.Params != nil {
 		in, out := &in.Params, &out.Params
-		*out = new(SubnetworkParamsObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]SubnetworkParamsObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.PrivateIPGoogleAccess != nil {
 		in, out := &in.PrivateIPGoogleAccess, &out.PrivateIPGoogleAccess
@@ -82723,8 +82751,10 @@ func (in *SubnetworkParameters_2) DeepCopyInto(out *SubnetworkParameters_2) {
 	}
 	if in.Params != nil {
 		in, out := &in.Params, &out.Params
-		*out = new(SubnetworkParamsParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]SubnetworkParamsParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.PrivateIPGoogleAccess != nil {
 		in, out := &in.PrivateIPGoogleAccess, &out.PrivateIPGoogleAccess

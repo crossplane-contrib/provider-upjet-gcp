@@ -807,7 +807,7 @@ type BackendServiceInitParameters struct {
 
 	// Configuration for Backend Authenticated TLS and mTLS. May only be specified when the backend protocol is SSL, HTTPS or HTTP2.
 	// Structure is documented below.
-	TLSSettings *TLSSettingsInitParameters `json:"tlsSettings,omitempty" tf:"tls_settings,omitempty"`
+	TLSSettings []TLSSettingsInitParameters `json:"tlsSettings,omitempty" tf:"tls_settings,omitempty"`
 
 	// The backend service timeout has a different meaning depending on the type of load balancer.
 	// For more information see, Backend service settings.
@@ -1019,7 +1019,7 @@ type BackendServiceObservation struct {
 
 	// Configuration for Backend Authenticated TLS and mTLS. May only be specified when the backend protocol is SSL, HTTPS or HTTP2.
 	// Structure is documented below.
-	TLSSettings *TLSSettingsObservation `json:"tlsSettings,omitempty" tf:"tls_settings,omitempty"`
+	TLSSettings []TLSSettingsObservation `json:"tlsSettings,omitempty" tf:"tls_settings,omitempty"`
 
 	// The backend service timeout has a different meaning depending on the type of load balancer.
 	// For more information see, Backend service settings.
@@ -1258,7 +1258,7 @@ type BackendServiceParameters struct {
 	// Configuration for Backend Authenticated TLS and mTLS. May only be specified when the backend protocol is SSL, HTTPS or HTTP2.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	TLSSettings *TLSSettingsParameters `json:"tlsSettings,omitempty" tf:"tls_settings,omitempty"`
+	TLSSettings []TLSSettingsParameters `json:"tlsSettings,omitempty" tf:"tls_settings,omitempty"`
 
 	// The backend service timeout has a different meaning depending on the type of load balancer.
 	// For more information see, Backend service settings.

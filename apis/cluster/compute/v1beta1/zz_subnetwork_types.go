@@ -133,7 +133,7 @@ type SubnetworkInitParameters_2 struct {
 
 	// Additional params passed with the request, but not persisted as part of resource payload
 	// Structure is documented below.
-	Params *SubnetworkParamsInitParameters `json:"params,omitempty" tf:"params,omitempty"`
+	Params []SubnetworkParamsInitParameters `json:"params,omitempty" tf:"params,omitempty"`
 
 	// When enabled, VMs in this subnetwork without external IP addresses can
 	// access Google APIs and services by using Private Google Access.
@@ -372,7 +372,7 @@ type SubnetworkObservation_2 struct {
 
 	// Additional params passed with the request, but not persisted as part of resource payload
 	// Structure is documented below.
-	Params *SubnetworkParamsObservation `json:"params,omitempty" tf:"params,omitempty"`
+	Params []SubnetworkParamsObservation `json:"params,omitempty" tf:"params,omitempty"`
 
 	// When enabled, VMs in this subnetwork without external IP addresses can
 	// access Google APIs and services by using Private Google Access.
@@ -513,7 +513,7 @@ type SubnetworkParameters_2 struct {
 	// Additional params passed with the request, but not persisted as part of resource payload
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Params *SubnetworkParamsParameters `json:"params,omitempty" tf:"params,omitempty"`
+	Params []SubnetworkParamsParameters `json:"params,omitempty" tf:"params,omitempty"`
 
 	// When enabled, VMs in this subnetwork without external IP addresses can
 	// access Google APIs and services by using Private Google Access.

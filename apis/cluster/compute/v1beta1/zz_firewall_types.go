@@ -178,7 +178,7 @@ type FirewallInitParameters struct {
 
 	// Additional params passed with the request, but not persisted as part of resource payload
 	// Structure is documented below.
-	Params *FirewallParamsInitParameters `json:"params,omitempty" tf:"params,omitempty"`
+	Params []FirewallParamsInitParameters `json:"params,omitempty" tf:"params,omitempty"`
 
 	// Priority for this rule. This is an integer between 0 and 65535, both
 	// inclusive. When not specified, the value assumed is 1000. Relative
@@ -326,7 +326,7 @@ type FirewallObservation struct {
 
 	// Additional params passed with the request, but not persisted as part of resource payload
 	// Structure is documented below.
-	Params *FirewallParamsObservation `json:"params,omitempty" tf:"params,omitempty"`
+	Params []FirewallParamsObservation `json:"params,omitempty" tf:"params,omitempty"`
 
 	// Priority for this rule. This is an integer between 0 and 65535, both
 	// inclusive. When not specified, the value assumed is 1000. Relative
@@ -469,7 +469,7 @@ type FirewallParameters struct {
 	// Additional params passed with the request, but not persisted as part of resource payload
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Params *FirewallParamsParameters `json:"params,omitempty" tf:"params,omitempty"`
+	Params []FirewallParamsParameters `json:"params,omitempty" tf:"params,omitempty"`
 
 	// Priority for this rule. This is an integer between 0 and 65535, both
 	// inclusive. When not specified, the value assumed is 1000. Relative

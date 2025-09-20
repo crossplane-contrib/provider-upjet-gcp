@@ -77,14 +77,16 @@ spec:
                     description: |-
                       Duration after which the reservation will be auto-deleted by Compute Engine. Cannot be used with delete_at_time.
                       Structure is documented below.
-                    properties:
-                      nanos:
-                        description: Number of nanoseconds for the auto-delete duration.
-                        type: number
-                      seconds:
-                        description: Number of seconds for the auto-delete duration.
-                        type: string
-                    type: object
+                    items:
+                      properties:
+                        nanos:
+                          description: Number of nanoseconds for the auto-delete duration.
+                          type: number
+                        seconds:
+                          description: Number of seconds for the auto-delete duration.
+                          type: string
+                      type: object
+                    type: array
                   deleteAtTime:
                     description: |-
                       Absolute time in future when the reservation will be auto-deleted by Compute Engine. Timestamp is represented in RFC3339 text format.
@@ -102,13 +104,15 @@ spec:
                     description: |-
                       Sharing policy for reservations with Google Cloud managed services.
                       Structure is documented below.
-                    properties:
-                      serviceShareType:
-                        description: |-
-                          Sharing config for all Google Cloud services.
-                          Possible values are: ALLOW_ALL, DISALLOW_ALL.
-                        type: string
-                    type: object
+                    items:
+                      properties:
+                        serviceShareType:
+                          description: |-
+                            Sharing config for all Google Cloud services.
+                            Possible values are: ALLOW_ALL, DISALLOW_ALL.
+                          type: string
+                      type: object
+                    type: array
                   shareSettings:
                     description: |-
                       The share setting for reservations.
@@ -317,14 +321,16 @@ spec:
                     description: |-
                       Duration after which the reservation will be auto-deleted by Compute Engine. Cannot be used with delete_at_time.
                       Structure is documented below.
-                    properties:
-                      nanos:
-                        description: Number of nanoseconds for the auto-delete duration.
-                        type: number
-                      seconds:
-                        description: Number of seconds for the auto-delete duration.
-                        type: string
-                    type: object
+                    items:
+                      properties:
+                        nanos:
+                          description: Number of nanoseconds for the auto-delete duration.
+                          type: number
+                        seconds:
+                          description: Number of seconds for the auto-delete duration.
+                          type: string
+                      type: object
+                    type: array
                   deleteAtTime:
                     description: |-
                       Absolute time in future when the reservation will be auto-deleted by Compute Engine. Timestamp is represented in RFC3339 text format.
@@ -342,13 +348,15 @@ spec:
                     description: |-
                       Sharing policy for reservations with Google Cloud managed services.
                       Structure is documented below.
-                    properties:
-                      serviceShareType:
-                        description: |-
-                          Sharing config for all Google Cloud services.
-                          Possible values are: ALLOW_ALL, DISALLOW_ALL.
-                        type: string
-                    type: object
+                    items:
+                      properties:
+                        serviceShareType:
+                          description: |-
+                            Sharing config for all Google Cloud services.
+                            Possible values are: ALLOW_ALL, DISALLOW_ALL.
+                          type: string
+                      type: object
+                    type: array
                   shareSettings:
                     description: |-
                       The share setting for reservations.
@@ -643,14 +651,16 @@ spec:
                     description: |-
                       Duration after which the reservation will be auto-deleted by Compute Engine. Cannot be used with delete_at_time.
                       Structure is documented below.
-                    properties:
-                      nanos:
-                        description: Number of nanoseconds for the auto-delete duration.
-                        type: number
-                      seconds:
-                        description: Number of seconds for the auto-delete duration.
-                        type: string
-                    type: object
+                    items:
+                      properties:
+                        nanos:
+                          description: Number of nanoseconds for the auto-delete duration.
+                          type: number
+                        seconds:
+                          description: Number of seconds for the auto-delete duration.
+                          type: string
+                      type: object
+                    type: array
                   deleteAtTime:
                     description: |-
                       Absolute time in future when the reservation will be auto-deleted by Compute Engine. Timestamp is represented in RFC3339 text format.
@@ -671,13 +681,15 @@ spec:
                     description: |-
                       Sharing policy for reservations with Google Cloud managed services.
                       Structure is documented below.
-                    properties:
-                      serviceShareType:
-                        description: |-
-                          Sharing config for all Google Cloud services.
-                          Possible values are: ALLOW_ALL, DISALLOW_ALL.
-                        type: string
-                    type: object
+                    items:
+                      properties:
+                        serviceShareType:
+                          description: |-
+                            Sharing config for all Google Cloud services.
+                            Possible values are: ALLOW_ALL, DISALLOW_ALL.
+                          type: string
+                      type: object
+                    type: array
                   selfLink:
                     description: The URI of the created resource.
                     type: string
