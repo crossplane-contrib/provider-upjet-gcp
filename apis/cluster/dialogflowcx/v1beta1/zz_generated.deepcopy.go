@@ -4746,8 +4746,10 @@ func (in *GenericWebServiceInitParameters) DeepCopyInto(out *GenericWebServiceIn
 	}
 	if in.OAuthConfig != nil {
 		in, out := &in.OAuthConfig, &out.OAuthConfig
-		*out = new(OAuthConfigInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]OAuthConfigInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.ParameterMapping != nil {
 		in, out := &in.ParameterMapping, &out.ParameterMapping
@@ -4984,8 +4986,10 @@ func (in *GenericWebServiceObservation) DeepCopyInto(out *GenericWebServiceObser
 	}
 	if in.OAuthConfig != nil {
 		in, out := &in.OAuthConfig, &out.OAuthConfig
-		*out = new(OAuthConfigObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]OAuthConfigObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.ParameterMapping != nil {
 		in, out := &in.ParameterMapping, &out.ParameterMapping
@@ -5084,8 +5088,10 @@ func (in *GenericWebServiceParameters) DeepCopyInto(out *GenericWebServiceParame
 	}
 	if in.OAuthConfig != nil {
 		in, out := &in.OAuthConfig, &out.OAuthConfig
-		*out = new(OAuthConfigParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]OAuthConfigParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.ParameterMapping != nil {
 		in, out := &in.ParameterMapping, &out.ParameterMapping
@@ -13242,8 +13248,10 @@ func (in *ServiceDirectoryGenericWebServiceInitParameters) DeepCopyInto(out *Ser
 	}
 	if in.OAuthConfig != nil {
 		in, out := &in.OAuthConfig, &out.OAuthConfig
-		*out = new(GenericWebServiceOAuthConfigInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]GenericWebServiceOAuthConfigInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.ParameterMapping != nil {
 		in, out := &in.ParameterMapping, &out.ParameterMapping
@@ -13342,8 +13350,10 @@ func (in *ServiceDirectoryGenericWebServiceObservation) DeepCopyInto(out *Servic
 	}
 	if in.OAuthConfig != nil {
 		in, out := &in.OAuthConfig, &out.OAuthConfig
-		*out = new(GenericWebServiceOAuthConfigObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]GenericWebServiceOAuthConfigObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.ParameterMapping != nil {
 		in, out := &in.ParameterMapping, &out.ParameterMapping
@@ -13442,8 +13452,10 @@ func (in *ServiceDirectoryGenericWebServiceParameters) DeepCopyInto(out *Service
 	}
 	if in.OAuthConfig != nil {
 		in, out := &in.OAuthConfig, &out.OAuthConfig
-		*out = new(GenericWebServiceOAuthConfigParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]GenericWebServiceOAuthConfigParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.ParameterMapping != nil {
 		in, out := &in.ParameterMapping, &out.ParameterMapping

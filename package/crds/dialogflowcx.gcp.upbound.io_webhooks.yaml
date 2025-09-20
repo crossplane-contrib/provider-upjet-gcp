@@ -121,35 +121,37 @@ spec:
                             Represents configuration of OAuth client credential flow for 3rd party
                             API authentication.
                             Structure is documented below.
-                          properties:
-                            clientId:
-                              description: The client ID provided by the 3rd party
-                                platform.
-                              type: string
-                            clientSecret:
-                              description: |-
-                                The client secret provided by the 3rd party platform.  If the
-                                secret_version_for_client_secret field is set, this field will be
-                                ignored.
-                              type: string
-                            scopes:
-                              description: The OAuth scopes to grant.
-                              items:
+                          items:
+                            properties:
+                              clientId:
+                                description: The client ID provided by the 3rd party
+                                  platform.
                                 type: string
-                              type: array
-                            secretVersionForClientSecret:
-                              description: |-
-                                The name of the SecretManager secret version resource storing the
-                                client secret. If this field is set, the client_secret field will be
-                                ignored.
-                                Format: projects/{project}/secrets/{secret}/versions/{version}
-                              type: string
-                            tokenEndpoint:
-                              description: |-
-                                The token endpoint provided by the 3rd party platform to exchange an
-                                access token.
-                              type: string
-                          type: object
+                              clientSecret:
+                                description: |-
+                                  The client secret provided by the 3rd party platform.  If the
+                                  secret_version_for_client_secret field is set, this field will be
+                                  ignored.
+                                type: string
+                              scopes:
+                                description: The OAuth scopes to grant.
+                                items:
+                                  type: string
+                                type: array
+                              secretVersionForClientSecret:
+                                description: |-
+                                  The name of the SecretManager secret version resource storing the
+                                  client secret. If this field is set, the client_secret field will be
+                                  ignored.
+                                  Format: projects/{project}/secrets/{secret}/versions/{version}
+                                type: string
+                              tokenEndpoint:
+                                description: |-
+                                  The token endpoint provided by the 3rd party platform to exchange an
+                                  access token.
+                                type: string
+                            type: object
+                          type: array
                         parameterMapping:
                           additionalProperties:
                             type: string
@@ -338,35 +340,37 @@ spec:
                                   Represents configuration of OAuth client credential flow for 3rd party
                                   API authentication.
                                   Structure is documented below.
-                                properties:
-                                  clientId:
-                                    description: The client ID provided by the 3rd
-                                      party platform.
-                                    type: string
-                                  clientSecret:
-                                    description: |-
-                                      The client secret provided by the 3rd party platform.  If the
-                                      secret_version_for_client_secret field is set, this field will be
-                                      ignored.
-                                    type: string
-                                  scopes:
-                                    description: The OAuth scopes to grant.
-                                    items:
+                                items:
+                                  properties:
+                                    clientId:
+                                      description: The client ID provided by the 3rd
+                                        party platform.
                                       type: string
-                                    type: array
-                                  secretVersionForClientSecret:
-                                    description: |-
-                                      The name of the SecretManager secret version resource storing the
-                                      client secret. If this field is set, the client_secret field will be
-                                      ignored.
-                                      Format: projects/{project}/secrets/{secret}/versions/{version}
-                                    type: string
-                                  tokenEndpoint:
-                                    description: |-
-                                      The token endpoint provided by the 3rd party platform to exchange an
-                                      access token.
-                                    type: string
-                                type: object
+                                    clientSecret:
+                                      description: |-
+                                        The client secret provided by the 3rd party platform.  If the
+                                        secret_version_for_client_secret field is set, this field will be
+                                        ignored.
+                                      type: string
+                                    scopes:
+                                      description: The OAuth scopes to grant.
+                                      items:
+                                        type: string
+                                      type: array
+                                    secretVersionForClientSecret:
+                                      description: |-
+                                        The name of the SecretManager secret version resource storing the
+                                        client secret. If this field is set, the client_secret field will be
+                                        ignored.
+                                        Format: projects/{project}/secrets/{secret}/versions/{version}
+                                      type: string
+                                    tokenEndpoint:
+                                      description: |-
+                                        The token endpoint provided by the 3rd party platform to exchange an
+                                        access token.
+                                      type: string
+                                  type: object
+                                type: array
                               parameterMapping:
                                 additionalProperties:
                                   type: string
@@ -501,35 +505,37 @@ spec:
                             Represents configuration of OAuth client credential flow for 3rd party
                             API authentication.
                             Structure is documented below.
-                          properties:
-                            clientId:
-                              description: The client ID provided by the 3rd party
-                                platform.
-                              type: string
-                            clientSecret:
-                              description: |-
-                                The client secret provided by the 3rd party platform.  If the
-                                secret_version_for_client_secret field is set, this field will be
-                                ignored.
-                              type: string
-                            scopes:
-                              description: The OAuth scopes to grant.
-                              items:
+                          items:
+                            properties:
+                              clientId:
+                                description: The client ID provided by the 3rd party
+                                  platform.
                                 type: string
-                              type: array
-                            secretVersionForClientSecret:
-                              description: |-
-                                The name of the SecretManager secret version resource storing the
-                                client secret. If this field is set, the client_secret field will be
-                                ignored.
-                                Format: projects/{project}/secrets/{secret}/versions/{version}
-                              type: string
-                            tokenEndpoint:
-                              description: |-
-                                The token endpoint provided by the 3rd party platform to exchange an
-                                access token.
-                              type: string
-                          type: object
+                              clientSecret:
+                                description: |-
+                                  The client secret provided by the 3rd party platform.  If the
+                                  secret_version_for_client_secret field is set, this field will be
+                                  ignored.
+                                type: string
+                              scopes:
+                                description: The OAuth scopes to grant.
+                                items:
+                                  type: string
+                                type: array
+                              secretVersionForClientSecret:
+                                description: |-
+                                  The name of the SecretManager secret version resource storing the
+                                  client secret. If this field is set, the client_secret field will be
+                                  ignored.
+                                  Format: projects/{project}/secrets/{secret}/versions/{version}
+                                type: string
+                              tokenEndpoint:
+                                description: |-
+                                  The token endpoint provided by the 3rd party platform to exchange an
+                                  access token.
+                                type: string
+                            type: object
+                          type: array
                         parameterMapping:
                           additionalProperties:
                             type: string
@@ -718,35 +724,37 @@ spec:
                                   Represents configuration of OAuth client credential flow for 3rd party
                                   API authentication.
                                   Structure is documented below.
-                                properties:
-                                  clientId:
-                                    description: The client ID provided by the 3rd
-                                      party platform.
-                                    type: string
-                                  clientSecret:
-                                    description: |-
-                                      The client secret provided by the 3rd party platform.  If the
-                                      secret_version_for_client_secret field is set, this field will be
-                                      ignored.
-                                    type: string
-                                  scopes:
-                                    description: The OAuth scopes to grant.
-                                    items:
+                                items:
+                                  properties:
+                                    clientId:
+                                      description: The client ID provided by the 3rd
+                                        party platform.
                                       type: string
-                                    type: array
-                                  secretVersionForClientSecret:
-                                    description: |-
-                                      The name of the SecretManager secret version resource storing the
-                                      client secret. If this field is set, the client_secret field will be
-                                      ignored.
-                                      Format: projects/{project}/secrets/{secret}/versions/{version}
-                                    type: string
-                                  tokenEndpoint:
-                                    description: |-
-                                      The token endpoint provided by the 3rd party platform to exchange an
-                                      access token.
-                                    type: string
-                                type: object
+                                    clientSecret:
+                                      description: |-
+                                        The client secret provided by the 3rd party platform.  If the
+                                        secret_version_for_client_secret field is set, this field will be
+                                        ignored.
+                                      type: string
+                                    scopes:
+                                      description: The OAuth scopes to grant.
+                                      items:
+                                        type: string
+                                      type: array
+                                    secretVersionForClientSecret:
+                                      description: |-
+                                        The name of the SecretManager secret version resource storing the
+                                        client secret. If this field is set, the client_secret field will be
+                                        ignored.
+                                        Format: projects/{project}/secrets/{secret}/versions/{version}
+                                      type: string
+                                    tokenEndpoint:
+                                      description: |-
+                                        The token endpoint provided by the 3rd party platform to exchange an
+                                        access token.
+                                      type: string
+                                  type: object
+                                type: array
                               parameterMapping:
                                 additionalProperties:
                                   type: string
@@ -964,35 +972,37 @@ spec:
                             Represents configuration of OAuth client credential flow for 3rd party
                             API authentication.
                             Structure is documented below.
-                          properties:
-                            clientId:
-                              description: The client ID provided by the 3rd party
-                                platform.
-                              type: string
-                            clientSecret:
-                              description: |-
-                                The client secret provided by the 3rd party platform.  If the
-                                secret_version_for_client_secret field is set, this field will be
-                                ignored.
-                              type: string
-                            scopes:
-                              description: The OAuth scopes to grant.
-                              items:
+                          items:
+                            properties:
+                              clientId:
+                                description: The client ID provided by the 3rd party
+                                  platform.
                                 type: string
-                              type: array
-                            secretVersionForClientSecret:
-                              description: |-
-                                The name of the SecretManager secret version resource storing the
-                                client secret. If this field is set, the client_secret field will be
-                                ignored.
-                                Format: projects/{project}/secrets/{secret}/versions/{version}
-                              type: string
-                            tokenEndpoint:
-                              description: |-
-                                The token endpoint provided by the 3rd party platform to exchange an
-                                access token.
-                              type: string
-                          type: object
+                              clientSecret:
+                                description: |-
+                                  The client secret provided by the 3rd party platform.  If the
+                                  secret_version_for_client_secret field is set, this field will be
+                                  ignored.
+                                type: string
+                              scopes:
+                                description: The OAuth scopes to grant.
+                                items:
+                                  type: string
+                                type: array
+                              secretVersionForClientSecret:
+                                description: |-
+                                  The name of the SecretManager secret version resource storing the
+                                  client secret. If this field is set, the client_secret field will be
+                                  ignored.
+                                  Format: projects/{project}/secrets/{secret}/versions/{version}
+                                type: string
+                              tokenEndpoint:
+                                description: |-
+                                  The token endpoint provided by the 3rd party platform to exchange an
+                                  access token.
+                                type: string
+                            type: object
+                          type: array
                         parameterMapping:
                           additionalProperties:
                             type: string
@@ -1113,35 +1123,37 @@ spec:
                                   Represents configuration of OAuth client credential flow for 3rd party
                                   API authentication.
                                   Structure is documented below.
-                                properties:
-                                  clientId:
-                                    description: The client ID provided by the 3rd
-                                      party platform.
-                                    type: string
-                                  clientSecret:
-                                    description: |-
-                                      The client secret provided by the 3rd party platform.  If the
-                                      secret_version_for_client_secret field is set, this field will be
-                                      ignored.
-                                    type: string
-                                  scopes:
-                                    description: The OAuth scopes to grant.
-                                    items:
+                                items:
+                                  properties:
+                                    clientId:
+                                      description: The client ID provided by the 3rd
+                                        party platform.
                                       type: string
-                                    type: array
-                                  secretVersionForClientSecret:
-                                    description: |-
-                                      The name of the SecretManager secret version resource storing the
-                                      client secret. If this field is set, the client_secret field will be
-                                      ignored.
-                                      Format: projects/{project}/secrets/{secret}/versions/{version}
-                                    type: string
-                                  tokenEndpoint:
-                                    description: |-
-                                      The token endpoint provided by the 3rd party platform to exchange an
-                                      access token.
-                                    type: string
-                                type: object
+                                    clientSecret:
+                                      description: |-
+                                        The client secret provided by the 3rd party platform.  If the
+                                        secret_version_for_client_secret field is set, this field will be
+                                        ignored.
+                                      type: string
+                                    scopes:
+                                      description: The OAuth scopes to grant.
+                                      items:
+                                        type: string
+                                      type: array
+                                    secretVersionForClientSecret:
+                                      description: |-
+                                        The name of the SecretManager secret version resource storing the
+                                        client secret. If this field is set, the client_secret field will be
+                                        ignored.
+                                        Format: projects/{project}/secrets/{secret}/versions/{version}
+                                      type: string
+                                    tokenEndpoint:
+                                      description: |-
+                                        The token endpoint provided by the 3rd party platform to exchange an
+                                        access token.
+                                      type: string
+                                  type: object
+                                type: array
                               parameterMapping:
                                 additionalProperties:
                                   type: string
