@@ -189,7 +189,7 @@ type ReservationInitParameters struct {
 
 	// Duration after which the reservation will be auto-deleted by Compute Engine. Cannot be used with delete_at_time.
 	// Structure is documented below.
-	DeleteAfterDuration *DeleteAfterDurationInitParameters `json:"deleteAfterDuration,omitempty" tf:"delete_after_duration,omitempty"`
+	DeleteAfterDuration []DeleteAfterDurationInitParameters `json:"deleteAfterDuration,omitempty" tf:"delete_after_duration,omitempty"`
 
 	// Absolute time in future when the reservation will be auto-deleted by Compute Engine. Timestamp is represented in RFC3339 text format.
 	// Cannot be used with delete_after_duration.
@@ -204,7 +204,7 @@ type ReservationInitParameters struct {
 
 	// Sharing policy for reservations with Google Cloud managed services.
 	// Structure is documented below.
-	ReservationSharingPolicy *ReservationSharingPolicyInitParameters `json:"reservationSharingPolicy,omitempty" tf:"reservation_sharing_policy,omitempty"`
+	ReservationSharingPolicy []ReservationSharingPolicyInitParameters `json:"reservationSharingPolicy,omitempty" tf:"reservation_sharing_policy,omitempty"`
 
 	// The share setting for reservations.
 	// Structure is documented below.
@@ -231,7 +231,7 @@ type ReservationObservation struct {
 
 	// Duration after which the reservation will be auto-deleted by Compute Engine. Cannot be used with delete_at_time.
 	// Structure is documented below.
-	DeleteAfterDuration *DeleteAfterDurationObservation `json:"deleteAfterDuration,omitempty" tf:"delete_after_duration,omitempty"`
+	DeleteAfterDuration []DeleteAfterDurationObservation `json:"deleteAfterDuration,omitempty" tf:"delete_after_duration,omitempty"`
 
 	// Absolute time in future when the reservation will be auto-deleted by Compute Engine. Timestamp is represented in RFC3339 text format.
 	// Cannot be used with delete_after_duration.
@@ -249,7 +249,7 @@ type ReservationObservation struct {
 
 	// Sharing policy for reservations with Google Cloud managed services.
 	// Structure is documented below.
-	ReservationSharingPolicy *ReservationSharingPolicyObservation `json:"reservationSharingPolicy,omitempty" tf:"reservation_sharing_policy,omitempty"`
+	ReservationSharingPolicy []ReservationSharingPolicyObservation `json:"reservationSharingPolicy,omitempty" tf:"reservation_sharing_policy,omitempty"`
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
@@ -279,7 +279,7 @@ type ReservationParameters struct {
 	// Duration after which the reservation will be auto-deleted by Compute Engine. Cannot be used with delete_at_time.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	DeleteAfterDuration *DeleteAfterDurationParameters `json:"deleteAfterDuration,omitempty" tf:"delete_after_duration,omitempty"`
+	DeleteAfterDuration []DeleteAfterDurationParameters `json:"deleteAfterDuration,omitempty" tf:"delete_after_duration,omitempty"`
 
 	// Absolute time in future when the reservation will be auto-deleted by Compute Engine. Timestamp is represented in RFC3339 text format.
 	// Cannot be used with delete_after_duration.
@@ -298,7 +298,7 @@ type ReservationParameters struct {
 	// Sharing policy for reservations with Google Cloud managed services.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	ReservationSharingPolicy *ReservationSharingPolicyParameters `json:"reservationSharingPolicy,omitempty" tf:"reservation_sharing_policy,omitempty"`
+	ReservationSharingPolicy []ReservationSharingPolicyParameters `json:"reservationSharingPolicy,omitempty" tf:"reservation_sharing_policy,omitempty"`
 
 	// The share setting for reservations.
 	// Structure is documented below.
