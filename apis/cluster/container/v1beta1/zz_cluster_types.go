@@ -143,7 +143,7 @@ type AddonsConfigInitParameters struct {
 	// enable_legacy_lustre_port which allows the Lustre CSI driver to initialize LNet (the virtual networklayer for Lustre kernel module) using port 6988.
 	// This flag is required to workaround a port conflict with the gke-metadata-server on GKE nodes.
 	// See Enable Lustre CSI driver for more information.
-	LustreCsiDriverConfig *LustreCsiDriverConfigInitParameters `json:"lustreCsiDriverConfig,omitempty" tf:"lustre_csi_driver_config,omitempty"`
+	LustreCsiDriverConfig []LustreCsiDriverConfigInitParameters `json:"lustreCsiDriverConfig,omitempty" tf:"lustre_csi_driver_config,omitempty"`
 
 	// Whether we should enable the network policy addon
 	// for the master.  This must be enabled in order to enable network policy for the nodes.
@@ -226,7 +226,7 @@ type AddonsConfigObservation struct {
 	// enable_legacy_lustre_port which allows the Lustre CSI driver to initialize LNet (the virtual networklayer for Lustre kernel module) using port 6988.
 	// This flag is required to workaround a port conflict with the gke-metadata-server on GKE nodes.
 	// See Enable Lustre CSI driver for more information.
-	LustreCsiDriverConfig *LustreCsiDriverConfigObservation `json:"lustreCsiDriverConfig,omitempty" tf:"lustre_csi_driver_config,omitempty"`
+	LustreCsiDriverConfig []LustreCsiDriverConfigObservation `json:"lustreCsiDriverConfig,omitempty" tf:"lustre_csi_driver_config,omitempty"`
 
 	// Whether we should enable the network policy addon
 	// for the master.  This must be enabled in order to enable network policy for the nodes.
@@ -319,7 +319,7 @@ type AddonsConfigParameters struct {
 	// This flag is required to workaround a port conflict with the gke-metadata-server on GKE nodes.
 	// See Enable Lustre CSI driver for more information.
 	// +kubebuilder:validation:Optional
-	LustreCsiDriverConfig *LustreCsiDriverConfigParameters `json:"lustreCsiDriverConfig,omitempty" tf:"lustre_csi_driver_config,omitempty"`
+	LustreCsiDriverConfig []LustreCsiDriverConfigParameters `json:"lustreCsiDriverConfig,omitempty" tf:"lustre_csi_driver_config,omitempty"`
 
 	// Whether we should enable the network policy addon
 	// for the master.  This must be enabled in order to enable network policy for the nodes.
@@ -1200,7 +1200,7 @@ type ClusterInitParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// RBACBindingConfig allows user to restrict ClusterRoleBindings an RoleBindings that can be created. Structure is documented below.
-	RbacBindingConfig *RbacBindingConfigInitParameters `json:"rbacBindingConfig,omitempty" tf:"rbac_binding_config,omitempty"`
+	RbacBindingConfig []RbacBindingConfigInitParameters `json:"rbacBindingConfig,omitempty" tf:"rbac_binding_config,omitempty"`
 
 	// Configuration options for the Release channel
 	// feature, which provide more control over automatic upgrades of your GKE clusters.
@@ -1562,7 +1562,7 @@ type ClusterObservation struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// RBACBindingConfig allows user to restrict ClusterRoleBindings an RoleBindings that can be created. Structure is documented below.
-	RbacBindingConfig *RbacBindingConfigObservation `json:"rbacBindingConfig,omitempty" tf:"rbac_binding_config,omitempty"`
+	RbacBindingConfig []RbacBindingConfigObservation `json:"rbacBindingConfig,omitempty" tf:"rbac_binding_config,omitempty"`
 
 	// Configuration options for the Release channel
 	// feature, which provide more control over automatic upgrades of your GKE clusters.
@@ -1977,7 +1977,7 @@ type ClusterParameters struct {
 
 	// RBACBindingConfig allows user to restrict ClusterRoleBindings an RoleBindings that can be created. Structure is documented below.
 	// +kubebuilder:validation:Optional
-	RbacBindingConfig *RbacBindingConfigParameters `json:"rbacBindingConfig,omitempty" tf:"rbac_binding_config,omitempty"`
+	RbacBindingConfig []RbacBindingConfigParameters `json:"rbacBindingConfig,omitempty" tf:"rbac_binding_config,omitempty"`
 
 	// Configuration options for the Release channel
 	// feature, which provide more control over automatic upgrades of your GKE clusters.

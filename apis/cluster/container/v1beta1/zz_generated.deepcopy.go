@@ -307,8 +307,10 @@ func (in *AddonsConfigInitParameters) DeepCopyInto(out *AddonsConfigInitParamete
 	}
 	if in.LustreCsiDriverConfig != nil {
 		in, out := &in.LustreCsiDriverConfig, &out.LustreCsiDriverConfig
-		*out = new(LustreCsiDriverConfigInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]LustreCsiDriverConfigInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.NetworkPolicyConfig != nil {
 		in, out := &in.NetworkPolicyConfig, &out.NetworkPolicyConfig
@@ -418,8 +420,10 @@ func (in *AddonsConfigObservation) DeepCopyInto(out *AddonsConfigObservation) {
 	}
 	if in.LustreCsiDriverConfig != nil {
 		in, out := &in.LustreCsiDriverConfig, &out.LustreCsiDriverConfig
-		*out = new(LustreCsiDriverConfigObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]LustreCsiDriverConfigObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.NetworkPolicyConfig != nil {
 		in, out := &in.NetworkPolicyConfig, &out.NetworkPolicyConfig
@@ -529,8 +533,10 @@ func (in *AddonsConfigParameters) DeepCopyInto(out *AddonsConfigParameters) {
 	}
 	if in.LustreCsiDriverConfig != nil {
 		in, out := &in.LustreCsiDriverConfig, &out.LustreCsiDriverConfig
-		*out = new(LustreCsiDriverConfigParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]LustreCsiDriverConfigParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.NetworkPolicyConfig != nil {
 		in, out := &in.NetworkPolicyConfig, &out.NetworkPolicyConfig
@@ -2385,8 +2391,10 @@ func (in *ClusterInitParameters) DeepCopyInto(out *ClusterInitParameters) {
 	}
 	if in.RbacBindingConfig != nil {
 		in, out := &in.RbacBindingConfig, &out.RbacBindingConfig
-		*out = new(RbacBindingConfigInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]RbacBindingConfigInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.ReleaseChannel != nil {
 		in, out := &in.ReleaseChannel, &out.ReleaseChannel
@@ -2952,8 +2960,10 @@ func (in *ClusterObservation) DeepCopyInto(out *ClusterObservation) {
 	}
 	if in.RbacBindingConfig != nil {
 		in, out := &in.RbacBindingConfig, &out.RbacBindingConfig
-		*out = new(RbacBindingConfigObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]RbacBindingConfigObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.ReleaseChannel != nil {
 		in, out := &in.ReleaseChannel, &out.ReleaseChannel
@@ -3470,8 +3480,10 @@ func (in *ClusterParameters) DeepCopyInto(out *ClusterParameters) {
 	}
 	if in.RbacBindingConfig != nil {
 		in, out := &in.RbacBindingConfig, &out.RbacBindingConfig
-		*out = new(RbacBindingConfigParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]RbacBindingConfigParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.ReleaseChannel != nil {
 		in, out := &in.ReleaseChannel, &out.ReleaseChannel
