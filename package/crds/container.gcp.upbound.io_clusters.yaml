@@ -206,13 +206,15 @@ spec:
                             enable_legacy_lustre_port which allows the Lustre CSI driver to initialize LNet (the virtual networklayer for Lustre kernel module) using port 6988.
                             This flag is required to workaround a port conflict with the gke-metadata-server on GKE nodes.
                             See Enable Lustre CSI driver for more information.
-                          properties:
-                            enableLegacyLustrePort:
-                              type: boolean
-                            enabled:
-                              description: Enables vertical pod autoscaling
-                              type: boolean
-                          type: object
+                          items:
+                            properties:
+                              enableLegacyLustrePort:
+                                type: boolean
+                              enabled:
+                                description: Enables vertical pod autoscaling
+                                type: boolean
+                            type: object
+                          type: array
                         networkPolicyConfig:
                           description: |-
                             Whether we should enable the network policy addon
@@ -2297,16 +2299,18 @@ spec:
                     description: RBACBindingConfig allows user to restrict ClusterRoleBindings
                       an RoleBindings that can be created. Structure is documented
                       below.
-                    properties:
-                      enableInsecureBindingSystemAuthenticated:
-                        description: Setting this to true will allow any ClusterRoleBinding
-                          and RoleBinding with subjects system:authenticated.
-                        type: boolean
-                      enableInsecureBindingSystemUnauthenticated:
-                        description: Setting this to true will allow any ClusterRoleBinding
-                          and RoleBinding with subjects system:anonymous or system:unauthenticated.
-                        type: boolean
-                    type: object
+                    items:
+                      properties:
+                        enableInsecureBindingSystemAuthenticated:
+                          description: Setting this to true will allow any ClusterRoleBinding
+                            and RoleBinding with subjects system:authenticated.
+                          type: boolean
+                        enableInsecureBindingSystemUnauthenticated:
+                          description: Setting this to true will allow any ClusterRoleBinding
+                            and RoleBinding with subjects system:anonymous or system:unauthenticated.
+                          type: boolean
+                      type: object
+                    type: array
                   releaseChannel:
                     description: |-
                       Configuration options for the Release channel
@@ -2710,13 +2714,15 @@ spec:
                             enable_legacy_lustre_port which allows the Lustre CSI driver to initialize LNet (the virtual networklayer for Lustre kernel module) using port 6988.
                             This flag is required to workaround a port conflict with the gke-metadata-server on GKE nodes.
                             See Enable Lustre CSI driver for more information.
-                          properties:
-                            enableLegacyLustrePort:
-                              type: boolean
-                            enabled:
-                              description: Enables vertical pod autoscaling
-                              type: boolean
-                          type: object
+                          items:
+                            properties:
+                              enableLegacyLustrePort:
+                                type: boolean
+                              enabled:
+                                description: Enables vertical pod autoscaling
+                                type: boolean
+                            type: object
+                          type: array
                         networkPolicyConfig:
                           description: |-
                             Whether we should enable the network policy addon
@@ -4792,16 +4798,18 @@ spec:
                     description: RBACBindingConfig allows user to restrict ClusterRoleBindings
                       an RoleBindings that can be created. Structure is documented
                       below.
-                    properties:
-                      enableInsecureBindingSystemAuthenticated:
-                        description: Setting this to true will allow any ClusterRoleBinding
-                          and RoleBinding with subjects system:authenticated.
-                        type: boolean
-                      enableInsecureBindingSystemUnauthenticated:
-                        description: Setting this to true will allow any ClusterRoleBinding
-                          and RoleBinding with subjects system:anonymous or system:unauthenticated.
-                        type: boolean
-                    type: object
+                    items:
+                      properties:
+                        enableInsecureBindingSystemAuthenticated:
+                          description: Setting this to true will allow any ClusterRoleBinding
+                            and RoleBinding with subjects system:authenticated.
+                          type: boolean
+                        enableInsecureBindingSystemUnauthenticated:
+                          description: Setting this to true will allow any ClusterRoleBinding
+                            and RoleBinding with subjects system:anonymous or system:unauthenticated.
+                          type: boolean
+                      type: object
+                    type: array
                   releaseChannel:
                     description: |-
                       Configuration options for the Release channel
@@ -5281,13 +5289,15 @@ spec:
                             enable_legacy_lustre_port which allows the Lustre CSI driver to initialize LNet (the virtual networklayer for Lustre kernel module) using port 6988.
                             This flag is required to workaround a port conflict with the gke-metadata-server on GKE nodes.
                             See Enable Lustre CSI driver for more information.
-                          properties:
-                            enableLegacyLustrePort:
-                              type: boolean
-                            enabled:
-                              description: Enables vertical pod autoscaling
-                              type: boolean
-                          type: object
+                          items:
+                            properties:
+                              enableLegacyLustrePort:
+                                type: boolean
+                              enabled:
+                                description: Enables vertical pod autoscaling
+                                type: boolean
+                            type: object
+                          type: array
                         networkPolicyConfig:
                           description: |-
                             Whether we should enable the network policy addon
@@ -8131,16 +8141,18 @@ spec:
                     description: RBACBindingConfig allows user to restrict ClusterRoleBindings
                       an RoleBindings that can be created. Structure is documented
                       below.
-                    properties:
-                      enableInsecureBindingSystemAuthenticated:
-                        description: Setting this to true will allow any ClusterRoleBinding
-                          and RoleBinding with subjects system:authenticated.
-                        type: boolean
-                      enableInsecureBindingSystemUnauthenticated:
-                        description: Setting this to true will allow any ClusterRoleBinding
-                          and RoleBinding with subjects system:anonymous or system:unauthenticated.
-                        type: boolean
-                    type: object
+                    items:
+                      properties:
+                        enableInsecureBindingSystemAuthenticated:
+                          description: Setting this to true will allow any ClusterRoleBinding
+                            and RoleBinding with subjects system:authenticated.
+                          type: boolean
+                        enableInsecureBindingSystemUnauthenticated:
+                          description: Setting this to true will allow any ClusterRoleBinding
+                            and RoleBinding with subjects system:anonymous or system:unauthenticated.
+                          type: boolean
+                      type: object
+                    type: array
                   releaseChannel:
                     description: |-
                       Configuration options for the Release channel
