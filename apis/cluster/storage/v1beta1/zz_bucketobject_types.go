@@ -50,11 +50,17 @@ type BucketObjectInitParameters struct {
 	// Structure is documented below.
 	CustomerEncryption []CustomerEncryptionInitParameters `json:"customerEncryption,omitempty" tf:"customer_encryption,omitempty"`
 
+	// When set to ABANDON, the object won't be deleted from storage bucket.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// MD5 hash of the data, encoded using base64. This field is not present for composite objects. For more information about using the MD5 hash, see Hashes and ETags: Best Practices.
 	DetectMd5Hash *string `json:"detectMd5Hash,omitempty" tf:"detect_md5hash,omitempty"`
 
 	// Whether an object is under event-based hold. Event-based hold is a way to retain objects until an event occurs, which is signified by the hold's release (i.e. this value is set to false). After being released (set to false), such objects will be subject to bucket-level retention (if any).
 	EventBasedHold *bool `json:"eventBasedHold,omitempty" tf:"event_based_hold,omitempty"`
+
+	// When set to true, it ensure the object's Content-Type is empty.
+	ForceEmptyContentType *bool `json:"forceEmptyContentType,omitempty" tf:"force_empty_content_type,omitempty"`
 
 	// The resource name of the Cloud KMS key that will be used to encrypt the object.
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
@@ -116,11 +122,17 @@ type BucketObjectObservation struct {
 	// Structure is documented below.
 	CustomerEncryption []CustomerEncryptionObservation `json:"customerEncryption,omitempty" tf:"customer_encryption,omitempty"`
 
+	// When set to ABANDON, the object won't be deleted from storage bucket.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// MD5 hash of the data, encoded using base64. This field is not present for composite objects. For more information about using the MD5 hash, see Hashes and ETags: Best Practices.
 	DetectMd5Hash *string `json:"detectMd5Hash,omitempty" tf:"detect_md5hash,omitempty"`
 
 	// Whether an object is under event-based hold. Event-based hold is a way to retain objects until an event occurs, which is signified by the hold's release (i.e. this value is set to false). After being released (set to false), such objects will be subject to bucket-level retention (if any).
 	EventBasedHold *bool `json:"eventBasedHold,omitempty" tf:"event_based_hold,omitempty"`
+
+	// When set to true, it ensure the object's Content-Type is empty.
+	ForceEmptyContentType *bool `json:"forceEmptyContentType,omitempty" tf:"force_empty_content_type,omitempty"`
 
 	// (Computed) The content generation of this object. Used for object versioning and soft delete.
 	Generation *float64 `json:"generation,omitempty" tf:"generation,omitempty"`
@@ -217,6 +229,10 @@ type BucketObjectParameters struct {
 	// +kubebuilder:validation:Optional
 	CustomerEncryption []CustomerEncryptionParameters `json:"customerEncryption,omitempty" tf:"customer_encryption,omitempty"`
 
+	// When set to ABANDON, the object won't be deleted from storage bucket.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// MD5 hash of the data, encoded using base64. This field is not present for composite objects. For more information about using the MD5 hash, see Hashes and ETags: Best Practices.
 	// +kubebuilder:validation:Optional
 	DetectMd5Hash *string `json:"detectMd5Hash,omitempty" tf:"detect_md5hash,omitempty"`
@@ -224,6 +240,10 @@ type BucketObjectParameters struct {
 	// Whether an object is under event-based hold. Event-based hold is a way to retain objects until an event occurs, which is signified by the hold's release (i.e. this value is set to false). After being released (set to false), such objects will be subject to bucket-level retention (if any).
 	// +kubebuilder:validation:Optional
 	EventBasedHold *bool `json:"eventBasedHold,omitempty" tf:"event_based_hold,omitempty"`
+
+	// When set to true, it ensure the object's Content-Type is empty.
+	// +kubebuilder:validation:Optional
+	ForceEmptyContentType *bool `json:"forceEmptyContentType,omitempty" tf:"force_empty_content_type,omitempty"`
 
 	// The resource name of the Cloud KMS key that will be used to encrypt the object.
 	// +kubebuilder:validation:Optional

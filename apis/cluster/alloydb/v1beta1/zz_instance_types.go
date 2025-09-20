@@ -467,12 +467,22 @@ type MachineConfigInitParameters struct {
 
 	// The number of CPU's in the VM instance.
 	CPUCount *float64 `json:"cpuCount,omitempty" tf:"cpu_count,omitempty"`
+
+	// Machine type of the VM instance.
+	// E.g. "n2-highmem-4", "n2-highmem-8", "c4a-highmem-4-lssd".
+	// cpu_count must match the number of vCPUs in the machine type.
+	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 }
 
 type MachineConfigObservation struct {
 
 	// The number of CPU's in the VM instance.
 	CPUCount *float64 `json:"cpuCount,omitempty" tf:"cpu_count,omitempty"`
+
+	// Machine type of the VM instance.
+	// E.g. "n2-highmem-4", "n2-highmem-8", "c4a-highmem-4-lssd".
+	// cpu_count must match the number of vCPUs in the machine type.
+	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 }
 
 type MachineConfigParameters struct {
@@ -480,6 +490,12 @@ type MachineConfigParameters struct {
 	// The number of CPU's in the VM instance.
 	// +kubebuilder:validation:Optional
 	CPUCount *float64 `json:"cpuCount,omitempty" tf:"cpu_count,omitempty"`
+
+	// Machine type of the VM instance.
+	// E.g. "n2-highmem-4", "n2-highmem-8", "c4a-highmem-4-lssd".
+	// cpu_count must match the number of vCPUs in the machine type.
+	// +kubebuilder:validation:Optional
+	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 }
 
 type PscAutoConnectionsInitParameters struct {

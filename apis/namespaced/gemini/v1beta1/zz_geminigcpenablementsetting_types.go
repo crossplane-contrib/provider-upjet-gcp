@@ -31,6 +31,12 @@ type GeminiGCPEnablementSettingInitParameters struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Web grounding type.
+	// Possible values:
+	// GROUNDING_WITH_GOOGLE_SEARCH
+	// WEB_GROUNDING_FOR_ENTERPRISE
+	WebGroundingType *string `json:"webGroundingType,omitempty" tf:"web_grounding_type,omitempty"`
 }
 
 type GeminiGCPEnablementSettingObservation struct {
@@ -74,6 +80,12 @@ type GeminiGCPEnablementSettingObservation struct {
 
 	// Update time stamp.
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`
+
+	// Web grounding type.
+	// Possible values:
+	// GROUNDING_WITH_GOOGLE_SEARCH
+	// WEB_GROUNDING_FOR_ENTERPRISE
+	WebGroundingType *string `json:"webGroundingType,omitempty" tf:"web_grounding_type,omitempty"`
 }
 
 type GeminiGCPEnablementSettingParameters struct {
@@ -101,6 +113,13 @@ type GeminiGCPEnablementSettingParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Web grounding type.
+	// Possible values:
+	// GROUNDING_WITH_GOOGLE_SEARCH
+	// WEB_GROUNDING_FOR_ENTERPRISE
+	// +kubebuilder:validation:Optional
+	WebGroundingType *string `json:"webGroundingType,omitempty" tf:"web_grounding_type,omitempty"`
 }
 
 // GeminiGCPEnablementSettingSpec defines the desired state of GeminiGCPEnablementSetting

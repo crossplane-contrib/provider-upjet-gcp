@@ -16,7 +16,7 @@ spec:
     availableMemoryMb: 128
     description: Upbound function
     entryPoint: helloGET
-    runtime: nodejs16
+    runtime: nodejs20
     sourceArchiveBucketSelector:
       matchLabels:
         testing.upbound.io/example-name: cloud-function-42345

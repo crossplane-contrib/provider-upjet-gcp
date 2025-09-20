@@ -506,6 +506,25 @@ type NetworkInterfacesParameters struct {
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
+type NodeSelectorInitParameters struct {
+
+	// The GPU to attach to an instance. See https://cloud.google.com/run/docs/configuring/jobs/gpu for configuring GPU.
+	Accelerator *string `json:"accelerator,omitempty" tf:"accelerator,omitempty"`
+}
+
+type NodeSelectorObservation struct {
+
+	// The GPU to attach to an instance. See https://cloud.google.com/run/docs/configuring/jobs/gpu for configuring GPU.
+	Accelerator *string `json:"accelerator,omitempty" tf:"accelerator,omitempty"`
+}
+
+type NodeSelectorParameters struct {
+
+	// The GPU to attach to an instance. See https://cloud.google.com/run/docs/configuring/jobs/gpu for configuring GPU.
+	// +kubebuilder:validation:Optional
+	Accelerator *string `json:"accelerator" tf:"accelerator,omitempty"`
+}
+
 type SecretItemsInitParameters struct {
 
 	// Integer octal mode bits to use on this file, must be a value between 01 and 0777 (octal). If 0 or not set, the Volume's default mode will be used.
@@ -752,8 +771,15 @@ type TemplateTemplateInitParameters struct {
 	// Possible values are: EXECUTION_ENVIRONMENT_GEN1, EXECUTION_ENVIRONMENT_GEN2.
 	ExecutionEnvironment *string `json:"executionEnvironment,omitempty" tf:"execution_environment,omitempty"`
 
+	// True if GPU zonal redundancy is disabled on this execution.
+	GpuZonalRedundancyDisabled *bool `json:"gpuZonalRedundancyDisabled,omitempty" tf:"gpu_zonal_redundancy_disabled,omitempty"`
+
 	// Number of retries allowed per Task, before marking this Task failed. Defaults to 3. Minimum value is 0.
 	MaxRetries *float64 `json:"maxRetries,omitempty" tf:"max_retries,omitempty"`
+
+	// Node Selector describes the hardware requirements of the resources.
+	// Structure is documented below.
+	NodeSelector *NodeSelectorInitParameters `json:"nodeSelector,omitempty" tf:"node_selector,omitempty"`
 
 	// Email address of the IAM service account associated with the Task of a Job. The service account represents the identity of the running task, and determines what permissions the task has. If not provided, the task will use the project's default service account.
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
@@ -784,8 +810,15 @@ type TemplateTemplateObservation struct {
 	// Possible values are: EXECUTION_ENVIRONMENT_GEN1, EXECUTION_ENVIRONMENT_GEN2.
 	ExecutionEnvironment *string `json:"executionEnvironment,omitempty" tf:"execution_environment,omitempty"`
 
+	// True if GPU zonal redundancy is disabled on this execution.
+	GpuZonalRedundancyDisabled *bool `json:"gpuZonalRedundancyDisabled,omitempty" tf:"gpu_zonal_redundancy_disabled,omitempty"`
+
 	// Number of retries allowed per Task, before marking this Task failed. Defaults to 3. Minimum value is 0.
 	MaxRetries *float64 `json:"maxRetries,omitempty" tf:"max_retries,omitempty"`
+
+	// Node Selector describes the hardware requirements of the resources.
+	// Structure is documented below.
+	NodeSelector *NodeSelectorObservation `json:"nodeSelector,omitempty" tf:"node_selector,omitempty"`
 
 	// Email address of the IAM service account associated with the Task of a Job. The service account represents the identity of the running task, and determines what permissions the task has. If not provided, the task will use the project's default service account.
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
@@ -819,9 +852,18 @@ type TemplateTemplateParameters struct {
 	// +kubebuilder:validation:Optional
 	ExecutionEnvironment *string `json:"executionEnvironment,omitempty" tf:"execution_environment,omitempty"`
 
+	// True if GPU zonal redundancy is disabled on this execution.
+	// +kubebuilder:validation:Optional
+	GpuZonalRedundancyDisabled *bool `json:"gpuZonalRedundancyDisabled,omitempty" tf:"gpu_zonal_redundancy_disabled,omitempty"`
+
 	// Number of retries allowed per Task, before marking this Task failed. Defaults to 3. Minimum value is 0.
 	// +kubebuilder:validation:Optional
 	MaxRetries *float64 `json:"maxRetries,omitempty" tf:"max_retries,omitempty"`
+
+	// Node Selector describes the hardware requirements of the resources.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	NodeSelector *NodeSelectorParameters `json:"nodeSelector,omitempty" tf:"node_selector,omitempty"`
 
 	// Email address of the IAM service account associated with the Task of a Job. The service account represents the identity of the running task, and determines what permissions the task has. If not provided, the task will use the project's default service account.
 	// +kubebuilder:validation:Optional

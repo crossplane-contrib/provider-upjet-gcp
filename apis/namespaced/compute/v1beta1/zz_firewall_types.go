@@ -177,6 +177,10 @@ type FirewallInitParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	Params *FirewallParamsInitParameters `json:"params,omitempty" tf:"params,omitempty"`
+
 	// Priority for this rule. This is an integer between 0 and 65535, both
 	// inclusive. When not specified, the value assumed is 1000. Relative
 	// priorities determine precedence of conflicting rules. Lower value of
@@ -321,6 +325,10 @@ type FirewallObservation struct {
 	// The name or self_link of the network to attach this firewall to.
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	Params *FirewallParamsObservation `json:"params,omitempty" tf:"params,omitempty"`
+
 	// Priority for this rule. This is an integer between 0 and 65535, both
 	// inclusive. When not specified, the value assumed is 1000. Relative
 	// priorities determine precedence of conflicting rules. Lower value of
@@ -459,6 +467,11 @@ type FirewallParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Params *FirewallParamsParameters `json:"params,omitempty" tf:"params,omitempty"`
+
 	// Priority for this rule. This is an integer between 0 and 65535, both
 	// inclusive. When not specified, the value assumed is 1000. Relative
 	// priorities determine precedence of conflicting rules. Lower value of
@@ -533,6 +546,43 @@ type FirewallParameters struct {
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	TargetTags []*string `json:"targetTags,omitempty" tf:"target_tags,omitempty"`
+}
+
+type FirewallParamsInitParameters struct {
+
+	// Resource manager tags to be bound to the firewall. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456. The field is ignored when empty.
+	// The field is immutable and causes resource replacement when mutated. This field is only
+	// set at create time and modifying this field after creation will trigger recreation.
+	// To apply tags to an existing resource, see the google_tags_tag_binding resource.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type FirewallParamsObservation struct {
+
+	// Resource manager tags to be bound to the firewall. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456. The field is ignored when empty.
+	// The field is immutable and causes resource replacement when mutated. This field is only
+	// set at create time and modifying this field after creation will trigger recreation.
+	// To apply tags to an existing resource, see the google_tags_tag_binding resource.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type FirewallParamsParameters struct {
+
+	// Resource manager tags to be bound to the firewall. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456. The field is ignored when empty.
+	// The field is immutable and causes resource replacement when mutated. This field is only
+	// set at create time and modifying this field after creation will trigger recreation.
+	// To apply tags to an existing resource, see the google_tags_tag_binding resource.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 }
 
 // FirewallSpec defines the desired state of Firewall
