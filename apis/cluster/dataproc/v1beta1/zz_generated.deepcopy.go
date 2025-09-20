@@ -14610,8 +14610,10 @@ func (in *SecurityConfigInitParameters) DeepCopyInto(out *SecurityConfigInitPara
 	*out = *in
 	if in.IdentityConfig != nil {
 		in, out := &in.IdentityConfig, &out.IdentityConfig
-		*out = new(IdentityConfigInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]IdentityConfigInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.KerberosConfig != nil {
 		in, out := &in.KerberosConfig, &out.KerberosConfig
@@ -14907,8 +14909,10 @@ func (in *SecurityConfigObservation) DeepCopyInto(out *SecurityConfigObservation
 	*out = *in
 	if in.IdentityConfig != nil {
 		in, out := &in.IdentityConfig, &out.IdentityConfig
-		*out = new(IdentityConfigObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]IdentityConfigObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.KerberosConfig != nil {
 		in, out := &in.KerberosConfig, &out.KerberosConfig
@@ -14934,13 +14938,17 @@ func (in *SecurityConfigParameters) DeepCopyInto(out *SecurityConfigParameters) 
 	*out = *in
 	if in.IdentityConfig != nil {
 		in, out := &in.IdentityConfig, &out.IdentityConfig
-		*out = new(IdentityConfigParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]IdentityConfigParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.KerberosConfig != nil {
 		in, out := &in.KerberosConfig, &out.KerberosConfig
-		*out = new(KerberosConfigParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]KerberosConfigParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
