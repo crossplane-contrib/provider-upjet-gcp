@@ -36,7 +36,7 @@ type GenericWebServiceInitParameters struct {
 	// Represents configuration of OAuth client credential flow for 3rd party
 	// API authentication.
 	// Structure is documented below.
-	OAuthConfig *OAuthConfigInitParameters `json:"oauthConfig,omitempty" tf:"oauth_config,omitempty"`
+	OAuthConfig []OAuthConfigInitParameters `json:"oauthConfig,omitempty" tf:"oauth_config,omitempty"`
 
 	// Maps the values extracted from specific fields of the flexible webhook
 	// response into session parameters.
@@ -177,7 +177,7 @@ type GenericWebServiceObservation struct {
 	// Represents configuration of OAuth client credential flow for 3rd party
 	// API authentication.
 	// Structure is documented below.
-	OAuthConfig *OAuthConfigObservation `json:"oauthConfig,omitempty" tf:"oauth_config,omitempty"`
+	OAuthConfig []OAuthConfigObservation `json:"oauthConfig,omitempty" tf:"oauth_config,omitempty"`
 
 	// Maps the values extracted from specific fields of the flexible webhook
 	// response into session parameters.
@@ -244,7 +244,7 @@ type GenericWebServiceParameters struct {
 	// API authentication.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	OAuthConfig *OAuthConfigParameters `json:"oauthConfig,omitempty" tf:"oauth_config,omitempty"`
+	OAuthConfig []OAuthConfigParameters `json:"oauthConfig,omitempty" tf:"oauth_config,omitempty"`
 
 	// Maps the values extracted from specific fields of the flexible webhook
 	// response into session parameters.
@@ -457,7 +457,7 @@ type ServiceDirectoryGenericWebServiceInitParameters struct {
 	// Represents configuration of OAuth client credential flow for 3rd party
 	// API authentication.
 	// Structure is documented below.
-	OAuthConfig *GenericWebServiceOAuthConfigInitParameters `json:"oauthConfig,omitempty" tf:"oauth_config,omitempty"`
+	OAuthConfig []GenericWebServiceOAuthConfigInitParameters `json:"oauthConfig,omitempty" tf:"oauth_config,omitempty"`
 
 	// Maps the values extracted from specific fields of the flexible webhook
 	// response into session parameters.
@@ -521,7 +521,7 @@ type ServiceDirectoryGenericWebServiceObservation struct {
 	// Represents configuration of OAuth client credential flow for 3rd party
 	// API authentication.
 	// Structure is documented below.
-	OAuthConfig *GenericWebServiceOAuthConfigObservation `json:"oauthConfig,omitempty" tf:"oauth_config,omitempty"`
+	OAuthConfig []GenericWebServiceOAuthConfigObservation `json:"oauthConfig,omitempty" tf:"oauth_config,omitempty"`
 
 	// Maps the values extracted from specific fields of the flexible webhook
 	// response into session parameters.
@@ -588,7 +588,7 @@ type ServiceDirectoryGenericWebServiceParameters struct {
 	// API authentication.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	OAuthConfig *GenericWebServiceOAuthConfigParameters `json:"oauthConfig,omitempty" tf:"oauth_config,omitempty"`
+	OAuthConfig []GenericWebServiceOAuthConfigParameters `json:"oauthConfig,omitempty" tf:"oauth_config,omitempty"`
 
 	// Maps the values extracted from specific fields of the flexible webhook
 	// response into session parameters.
