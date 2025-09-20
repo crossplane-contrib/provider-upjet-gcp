@@ -2323,7 +2323,7 @@ type SecurityConfigInitParameters struct {
 
 	// Identity Configuration. At least one of identity_config
 	// or kerberos_config is required.
-	IdentityConfig *IdentityConfigInitParameters `json:"identityConfig,omitempty" tf:"identity_config,omitempty"`
+	IdentityConfig []IdentityConfigInitParameters `json:"identityConfig,omitempty" tf:"identity_config,omitempty"`
 
 	// Kerberos Configuration. At least one of identity_config
 	// or kerberos_config is required.
@@ -2334,7 +2334,7 @@ type SecurityConfigObservation struct {
 
 	// Identity Configuration. At least one of identity_config
 	// or kerberos_config is required.
-	IdentityConfig *IdentityConfigObservation `json:"identityConfig,omitempty" tf:"identity_config,omitempty"`
+	IdentityConfig []IdentityConfigObservation `json:"identityConfig,omitempty" tf:"identity_config,omitempty"`
 
 	// Kerberos Configuration. At least one of identity_config
 	// or kerberos_config is required.
@@ -2346,12 +2346,12 @@ type SecurityConfigParameters struct {
 	// Identity Configuration. At least one of identity_config
 	// or kerberos_config is required.
 	// +kubebuilder:validation:Optional
-	IdentityConfig *IdentityConfigParameters `json:"identityConfig,omitempty" tf:"identity_config,omitempty"`
+	IdentityConfig []IdentityConfigParameters `json:"identityConfig,omitempty" tf:"identity_config,omitempty"`
 
 	// Kerberos Configuration. At least one of identity_config
 	// or kerberos_config is required.
 	// +kubebuilder:validation:Optional
-	KerberosConfig *KerberosConfigParameters `json:"kerberosConfig,omitempty" tf:"kerberos_config,omitempty"`
+	KerberosConfig []KerberosConfigParameters `json:"kerberosConfig,omitempty" tf:"kerberos_config,omitempty"`
 }
 
 type ShieldedInstanceConfigInitParameters struct {
