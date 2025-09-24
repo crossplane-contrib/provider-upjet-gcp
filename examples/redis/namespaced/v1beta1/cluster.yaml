@@ -27,8 +27,6 @@ spec:
       mode: MULTI_ZONE
   writeConnectionSecretToRef:
     name: example-redis-cluster-secret
-    namespace: upbound-system
-      
 ---
 apiVersion: compute.gcp.m.upbound.io/v1beta1
 kind: Network
