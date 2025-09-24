@@ -18,7 +18,6 @@ spec:
         testing.upbound.io/example-name: service_account
   writeConnectionSecretToRef:
     name: example-cloud-storage-hmac-secret
-    namespace: upbound-system
 ---
 apiVersion: cloudplatform.gcp.m.upbound.io/v1beta1
 kind: ServiceAccount

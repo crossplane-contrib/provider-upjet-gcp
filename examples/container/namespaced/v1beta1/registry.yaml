@@ -16,4 +16,3 @@ spec:
     location: US
   writeConnectionSecretToRef:
     name: example-container-registry-secret
-    namespace: upbound-system

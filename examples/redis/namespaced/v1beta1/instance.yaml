@@ -21,4 +21,3 @@ spec:
     tier: STANDARD_HA
   writeConnectionSecretToRef:
     name: example-redis-instance-secret
-    namespace: upbound-system

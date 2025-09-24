@@ -21,4 +21,3 @@ spec:
       tier: db-f1-micro
   writeConnectionSecretToRef:
     name: example-sql-db-instance-secret
-    namespace: upbound-system

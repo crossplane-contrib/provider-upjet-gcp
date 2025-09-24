@@ -21,7 +21,6 @@ spec:
       name: example-sql-user
   writeConnectionSecretToRef:
     name: example-sql-db-user-secret
-    namespace: upbound-system
 ---
 apiVersion: v1
 data:
@@ -55,4 +54,3 @@ spec:
       tier: db-f1-micro
   writeConnectionSecretToRef:
     name: example-sql-db-instance-secret
-    namespace: upbound-system
