@@ -5,6 +5,8 @@
 package config
 
 import (
+	"strings"
+
 	"github.com/crossplane/upjet/v2/pkg/config"
 
 	"github.com/upbound/provider-gcp/config/cluster/common"
@@ -921,15 +923,15 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: {{org_id}}/envgroups/{{name}}
 	"google_apigee_envgroup": config.TemplatedStringAsIdentifier("name", "{{ .parameters.org_id }}/envgroups/{{ .external_name }}"),
 	// Imported by using the following format: {{envgroup_id}}/attachments/{{name}}. Name doesn't exist in parameters, try using IdentifierFromProvider
-	"google_apigee_envgroup_attachment": config.IdentifierFromProvider,
+	"google_apigee_envgroup_attachment": apigeeEnvgroupAttachment(),
 	// Imported by using the following format: {{org_id}}/environments/{{name}}
 	"google_apigee_environment": config.TemplatedStringAsIdentifier("name", "{{ .parameters.org_id }}/environments/{{ .external_name }}"),
 	// Imported by using the following format: {{org_id}}/instances/{{name}}
 	"google_apigee_instance": config.TemplatedStringAsIdentifier("name", "{{ .parameters.org_id }}/instances/{{ .external_name }}"),
 	// Imported by using the following format: {{instance_id}}/attachments/{{name}}
-	"google_apigee_instance_attachment": config.IdentifierFromProvider,
+	"google_apigee_instance_attachment": apigeeInstanceAttachment(),
 	// Imported by using the following format: organizations/{{name}}
-	"google_apigee_organization": config.IdentifierFromProvider,
+	"google_apigee_organization": apigeeOrganization(),
 	// Imported by using the following format: organizations/{{name}}/syncAuthorization
 	"google_apigee_sync_authorization": config.TemplatedStringAsIdentifier("", "organizations/{{ .parameters.name }}/syncAuthorization"),
 	// Imported by using the following format: {{instance_id}}/natAddresses/{{name}}
@@ -1107,6 +1109,89 @@ var cliReconciledExternalNameConfigs = map[string]config.ExternalName{}
 func TemplatedStringAsIdentifierWithNoName(tmpl string) config.ExternalName {
 	e := config.TemplatedStringAsIdentifier("", tmpl)
 	e.DisableNameInitializer = true
+	return e
+}
+
+// apigeeInstanceAttachment configures the external name for
+// apigee_instance_attachment TF resource. The TF schema of this resource is
+// not normalized. Attachment name is provider-defined, and both exists
+// as part of the TF ID and the computed `name` attribute.
+// During TF resource read, the resource uses `name` attribute instead of
+// the one from TF ID, therefore in the import case, where only external name
+// is set, `name` attribute must be also set.
+func apigeeInstanceAttachment() config.ExternalName {
+	e := config.IdentifierFromProvider
+	e.SetIdentifierArgumentFn = func(base map[string]any, externalName string) {
+		if externalName == "" {
+			return
+		}
+		parts := strings.Split(externalName, "/")
+		// external name should match {instance_id}/attachments/{name}
+		if len(parts) < 3 {
+			return
+		}
+		attachmentUrlPath := parts[len(parts)-2]
+		if attachmentUrlPath != "attachments" {
+			return
+		}
+		attachmentName := parts[len(parts)-1]
+		base["name"] = attachmentName
+	}
+	return e
+}
+
+// apigeeEnvgroupAttachment configures the external name for
+// apigee_envgroup_attachment TF resource. The TF schema of this resource is
+// not normalized. Attachment name is provider-defined, and both exists
+// as part of the TF ID and the computed `name` attribute.
+// During TF resource read, the resource uses `name` attribute instead of
+// the one from TF ID, therefore in the import case, where only external name
+// is set, `name` attribute must be also set.
+func apigeeEnvgroupAttachment() config.ExternalName {
+	e := config.IdentifierFromProvider
+	e.SetIdentifierArgumentFn = func(base map[string]any, externalName string) {
+		if externalName == "" {
+			return
+		}
+		parts := strings.Split(externalName, "/")
+		// external name should match {envgroup_id}/attachments/{name}
+		if len(parts) < 3 {
+			return
+		}
+		attachmentUrlPath := parts[len(parts)-2]
+		if attachmentUrlPath != "attachments" {
+			return
+		}
+		attachmentName := parts[len(parts)-1]
+		base["name"] = attachmentName
+	}
+	return e
+}
+
+// apigeeOrganization configures the external name for
+// apigee_organization TF resource. The TF schema of this resource is
+// not normalized. Organization name is provider-defined, and both exists
+// as part of the TF ID and the computed `name` attribute.
+// During TF resource read, the resource uses `name` attribute instead of
+// the one from TF ID, therefore in the import case, where only external name
+// is set, `name` attribute must be also set.
+func apigeeOrganization() config.ExternalName {
+	e := config.IdentifierFromProvider
+	e.SetIdentifierArgumentFn = func(base map[string]any, externalName string) {
+		if externalName == "" {
+			return
+		}
+		parts := strings.Split(externalName, "/")
+		// external name should match organizations/{name}
+		if len(parts) != 2 {
+			return
+		}
+
+		if parts[len(parts)-2] != "organizations" {
+			return
+		}
+		base["name"] = parts[len(parts)-1]
+	}
 	return e
 }
 
