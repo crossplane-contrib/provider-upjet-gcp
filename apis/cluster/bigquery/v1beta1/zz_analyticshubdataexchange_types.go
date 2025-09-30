@@ -21,6 +21,10 @@ type AnalyticsHubDataExchangeInitParameters struct {
 	// Description of the data exchange.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Type of discovery on the discovery page for all the listings under this exchange. Cannot be set for a Data Clean Room. Updating this field also updates (overwrites) the discoveryType field for all the listings under this exchange.
+	// Possible values are: DISCOVERY_TYPE_PRIVATE, DISCOVERY_TYPE_PUBLIC.
+	DiscoveryType *string `json:"discoveryType,omitempty" tf:"discovery_type,omitempty"`
+
 	// Human-readable display name of the data exchange. The display name must contain only Unicode letters, numbers (0-9), underscores (_), dashes (-), spaces ( ), and must not start or end with spaces.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
@@ -56,6 +60,10 @@ type AnalyticsHubDataExchangeObservation struct {
 
 	// Description of the data exchange.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Type of discovery on the discovery page for all the listings under this exchange. Cannot be set for a Data Clean Room. Updating this field also updates (overwrites) the discoveryType field for all the listings under this exchange.
+	// Possible values are: DISCOVERY_TYPE_PRIVATE, DISCOVERY_TYPE_PUBLIC.
+	DiscoveryType *string `json:"discoveryType,omitempty" tf:"discovery_type,omitempty"`
 
 	// Human-readable display name of the data exchange. The display name must contain only Unicode letters, numbers (0-9), underscores (_), dashes (-), spaces ( ), and must not start or end with spaces.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -104,6 +112,11 @@ type AnalyticsHubDataExchangeParameters struct {
 	// Description of the data exchange.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Type of discovery on the discovery page for all the listings under this exchange. Cannot be set for a Data Clean Room. Updating this field also updates (overwrites) the discoveryType field for all the listings under this exchange.
+	// Possible values are: DISCOVERY_TYPE_PRIVATE, DISCOVERY_TYPE_PUBLIC.
+	// +kubebuilder:validation:Optional
+	DiscoveryType *string `json:"discoveryType,omitempty" tf:"discovery_type,omitempty"`
 
 	// Human-readable display name of the data exchange. The display name must contain only Unicode letters, numbers (0-9), underscores (_), dashes (-), spaces ( ), and must not start or end with spaces.
 	// +kubebuilder:validation:Optional

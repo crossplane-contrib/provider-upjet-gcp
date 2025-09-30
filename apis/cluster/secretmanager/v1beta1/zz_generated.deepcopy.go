@@ -878,6 +878,22 @@ func (in *SecretInitParameters) DeepCopyInto(out *SecretInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.Topics != nil {
 		in, out := &in.Topics, &out.Topics
 		*out = make([]TopicsInitParameters, len(*in))
@@ -1066,6 +1082,22 @@ func (in *SecretObservation) DeepCopyInto(out *SecretObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.TerraformLabels != nil {
 		in, out := &in.TerraformLabels, &out.TerraformLabels
 		*out = make(map[string]*string, len(*in))
@@ -1190,6 +1222,22 @@ func (in *SecretParameters) DeepCopyInto(out *SecretParameters) {
 		in, out := &in.TTL, &out.TTL
 		*out = new(string)
 		**out = **in
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.Topics != nil {
 		in, out := &in.Topics, &out.Topics

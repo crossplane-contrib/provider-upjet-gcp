@@ -15,91 +15,631 @@ import (
 
 type GenericWebServiceInitParameters struct {
 
-	// Specifies a list of allowed custom CA certificates (in DER format) for HTTPS verification.
+	// Specifies a list of allowed custom CA certificates (in DER format) for
+	// HTTPS verification. This overrides the default SSL trust store. If this
+	// is empty or unspecified, Dialogflow will use Google's default trust store
+	// to verify certificates.
+	// N.B. Make sure the HTTPS server certificates are signed with "subject alt
+	// name". For instance a certificate can be self-signed using the following
+	// command,
+	// openssl x509 -req -days 200 -in example.com.csr
+	// -signkey example.com.key
+	// -out example.com.crt
+	// -extfile <(printf "\nsubjectAltName='DNS:www.example.com'")
 	AllowedCACerts []*string `json:"allowedCaCerts,omitempty" tf:"allowed_ca_certs,omitempty"`
+
+	// HTTP method for the flexible webhook calls. Standard webhook always uses
+	// POST.
+	// Possible values are: POST, GET, HEAD, PUT, DELETE, PATCH, OPTIONS.
+	HTTPMethod *string `json:"httpMethod,omitempty" tf:"http_method,omitempty"`
+
+	// Represents configuration of OAuth client credential flow for 3rd party
+	// API authentication.
+	// Structure is documented below.
+	OAuthConfig []OAuthConfigInitParameters `json:"oauthConfig,omitempty" tf:"oauth_config,omitempty"`
+
+	// Maps the values extracted from specific fields of the flexible webhook
+	// response into session parameters.
+	// +mapType=granular
+	ParameterMapping map[string]*string `json:"parameterMapping,omitempty" tf:"parameter_mapping,omitempty"`
+
+	// Defines a custom JSON object as request body to send to flexible webhook.
+	RequestBody *string `json:"requestBody,omitempty" tf:"request_body,omitempty"`
 
 	// The HTTP request headers to send together with webhook requests.
 	// +mapType=granular
 	RequestHeaders map[string]*string `json:"requestHeaders,omitempty" tf:"request_headers,omitempty"`
 
-	// Whether to use speech adaptation for speech recognition.
+	// The SecretManager secret version resource storing the username:password
+	// pair for HTTP Basic authentication.
+	// Format: projects/{project}/secrets/{secret}/versions/{version}
+	SecretVersionForUsernamePassword *string `json:"secretVersionForUsernamePassword,omitempty" tf:"secret_version_for_username_password,omitempty"`
+
+	// The HTTP request headers to send together with webhook requests. Header
+	// values are stored in SecretManager secret versions.
+	// When the same header name is specified in both request_headers and
+	// secret_versions_for_request_headers, the value in
+	// secret_versions_for_request_headers will be used.
+	// Structure is documented below.
+	SecretVersionsForRequestHeaders []SecretVersionsForRequestHeadersInitParameters `json:"secretVersionsForRequestHeaders,omitempty" tf:"secret_versions_for_request_headers,omitempty"`
+
+	// Indicate the auth token type generated from the Diglogflow service
+	// agent.
+	// The generated token is sent in the Authorization header.
+	// Possible values are: NONE, ID_TOKEN, ACCESS_TOKEN.
+	ServiceAgentAuth *string `json:"serviceAgentAuth,omitempty" tf:"service_agent_auth,omitempty"`
+
+	// The webhook URI for receiving POST requests. It must use https protocol.
 	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+
+	// Type of the webhook.
+	// Possible values are: STANDARD, FLEXIBLE.
+	WebhookType *string `json:"webhookType,omitempty" tf:"webhook_type,omitempty"`
+}
+
+type GenericWebServiceOAuthConfigInitParameters struct {
+
+	// The client ID provided by the 3rd party platform.
+	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
+
+	// The client secret provided by the 3rd party platform.  If the
+	// secret_version_for_client_secret field is set, this field will be
+	// ignored.
+	ClientSecret *string `json:"clientSecret,omitempty" tf:"client_secret,omitempty"`
+
+	// The OAuth scopes to grant.
+	Scopes []*string `json:"scopes,omitempty" tf:"scopes,omitempty"`
+
+	// The name of the SecretManager secret version resource storing the
+	// client secret. If this field is set, the client_secret field will be
+	// ignored.
+	// Format: projects/{project}/secrets/{secret}/versions/{version}
+	SecretVersionForClientSecret *string `json:"secretVersionForClientSecret,omitempty" tf:"secret_version_for_client_secret,omitempty"`
+
+	// The token endpoint provided by the 3rd party platform to exchange an
+	// access token.
+	TokenEndpoint *string `json:"tokenEndpoint,omitempty" tf:"token_endpoint,omitempty"`
+}
+
+type GenericWebServiceOAuthConfigObservation struct {
+
+	// The client ID provided by the 3rd party platform.
+	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
+
+	// The client secret provided by the 3rd party platform.  If the
+	// secret_version_for_client_secret field is set, this field will be
+	// ignored.
+	ClientSecret *string `json:"clientSecret,omitempty" tf:"client_secret,omitempty"`
+
+	// The OAuth scopes to grant.
+	Scopes []*string `json:"scopes,omitempty" tf:"scopes,omitempty"`
+
+	// The name of the SecretManager secret version resource storing the
+	// client secret. If this field is set, the client_secret field will be
+	// ignored.
+	// Format: projects/{project}/secrets/{secret}/versions/{version}
+	SecretVersionForClientSecret *string `json:"secretVersionForClientSecret,omitempty" tf:"secret_version_for_client_secret,omitempty"`
+
+	// The token endpoint provided by the 3rd party platform to exchange an
+	// access token.
+	TokenEndpoint *string `json:"tokenEndpoint,omitempty" tf:"token_endpoint,omitempty"`
+}
+
+type GenericWebServiceOAuthConfigParameters struct {
+
+	// The client ID provided by the 3rd party platform.
+	// +kubebuilder:validation:Optional
+	ClientID *string `json:"clientId" tf:"client_id,omitempty"`
+
+	// The client secret provided by the 3rd party platform.  If the
+	// secret_version_for_client_secret field is set, this field will be
+	// ignored.
+	// +kubebuilder:validation:Optional
+	ClientSecret *string `json:"clientSecret,omitempty" tf:"client_secret,omitempty"`
+
+	// The OAuth scopes to grant.
+	// +kubebuilder:validation:Optional
+	Scopes []*string `json:"scopes,omitempty" tf:"scopes,omitempty"`
+
+	// The name of the SecretManager secret version resource storing the
+	// client secret. If this field is set, the client_secret field will be
+	// ignored.
+	// Format: projects/{project}/secrets/{secret}/versions/{version}
+	// +kubebuilder:validation:Optional
+	SecretVersionForClientSecret *string `json:"secretVersionForClientSecret,omitempty" tf:"secret_version_for_client_secret,omitempty"`
+
+	// The token endpoint provided by the 3rd party platform to exchange an
+	// access token.
+	// +kubebuilder:validation:Optional
+	TokenEndpoint *string `json:"tokenEndpoint" tf:"token_endpoint,omitempty"`
 }
 
 type GenericWebServiceObservation struct {
 
-	// Specifies a list of allowed custom CA certificates (in DER format) for HTTPS verification.
+	// Specifies a list of allowed custom CA certificates (in DER format) for
+	// HTTPS verification. This overrides the default SSL trust store. If this
+	// is empty or unspecified, Dialogflow will use Google's default trust store
+	// to verify certificates.
+	// N.B. Make sure the HTTPS server certificates are signed with "subject alt
+	// name". For instance a certificate can be self-signed using the following
+	// command,
+	// openssl x509 -req -days 200 -in example.com.csr
+	// -signkey example.com.key
+	// -out example.com.crt
+	// -extfile <(printf "\nsubjectAltName='DNS:www.example.com'")
 	AllowedCACerts []*string `json:"allowedCaCerts,omitempty" tf:"allowed_ca_certs,omitempty"`
+
+	// HTTP method for the flexible webhook calls. Standard webhook always uses
+	// POST.
+	// Possible values are: POST, GET, HEAD, PUT, DELETE, PATCH, OPTIONS.
+	HTTPMethod *string `json:"httpMethod,omitempty" tf:"http_method,omitempty"`
+
+	// Represents configuration of OAuth client credential flow for 3rd party
+	// API authentication.
+	// Structure is documented below.
+	OAuthConfig []OAuthConfigObservation `json:"oauthConfig,omitempty" tf:"oauth_config,omitempty"`
+
+	// Maps the values extracted from specific fields of the flexible webhook
+	// response into session parameters.
+	// +mapType=granular
+	ParameterMapping map[string]*string `json:"parameterMapping,omitempty" tf:"parameter_mapping,omitempty"`
+
+	// Defines a custom JSON object as request body to send to flexible webhook.
+	RequestBody *string `json:"requestBody,omitempty" tf:"request_body,omitempty"`
 
 	// The HTTP request headers to send together with webhook requests.
 	// +mapType=granular
 	RequestHeaders map[string]*string `json:"requestHeaders,omitempty" tf:"request_headers,omitempty"`
 
-	// Whether to use speech adaptation for speech recognition.
+	// The SecretManager secret version resource storing the username:password
+	// pair for HTTP Basic authentication.
+	// Format: projects/{project}/secrets/{secret}/versions/{version}
+	SecretVersionForUsernamePassword *string `json:"secretVersionForUsernamePassword,omitempty" tf:"secret_version_for_username_password,omitempty"`
+
+	// The HTTP request headers to send together with webhook requests. Header
+	// values are stored in SecretManager secret versions.
+	// When the same header name is specified in both request_headers and
+	// secret_versions_for_request_headers, the value in
+	// secret_versions_for_request_headers will be used.
+	// Structure is documented below.
+	SecretVersionsForRequestHeaders []SecretVersionsForRequestHeadersObservation `json:"secretVersionsForRequestHeaders,omitempty" tf:"secret_versions_for_request_headers,omitempty"`
+
+	// Indicate the auth token type generated from the Diglogflow service
+	// agent.
+	// The generated token is sent in the Authorization header.
+	// Possible values are: NONE, ID_TOKEN, ACCESS_TOKEN.
+	ServiceAgentAuth *string `json:"serviceAgentAuth,omitempty" tf:"service_agent_auth,omitempty"`
+
+	// The webhook URI for receiving POST requests. It must use https protocol.
 	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+
+	// Type of the webhook.
+	// Possible values are: STANDARD, FLEXIBLE.
+	WebhookType *string `json:"webhookType,omitempty" tf:"webhook_type,omitempty"`
 }
 
 type GenericWebServiceParameters struct {
 
-	// Specifies a list of allowed custom CA certificates (in DER format) for HTTPS verification.
+	// Specifies a list of allowed custom CA certificates (in DER format) for
+	// HTTPS verification. This overrides the default SSL trust store. If this
+	// is empty or unspecified, Dialogflow will use Google's default trust store
+	// to verify certificates.
+	// N.B. Make sure the HTTPS server certificates are signed with "subject alt
+	// name". For instance a certificate can be self-signed using the following
+	// command,
+	// openssl x509 -req -days 200 -in example.com.csr
+	// -signkey example.com.key
+	// -out example.com.crt
+	// -extfile <(printf "\nsubjectAltName='DNS:www.example.com'")
 	// +kubebuilder:validation:Optional
 	AllowedCACerts []*string `json:"allowedCaCerts,omitempty" tf:"allowed_ca_certs,omitempty"`
+
+	// HTTP method for the flexible webhook calls. Standard webhook always uses
+	// POST.
+	// Possible values are: POST, GET, HEAD, PUT, DELETE, PATCH, OPTIONS.
+	// +kubebuilder:validation:Optional
+	HTTPMethod *string `json:"httpMethod,omitempty" tf:"http_method,omitempty"`
+
+	// Represents configuration of OAuth client credential flow for 3rd party
+	// API authentication.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	OAuthConfig []OAuthConfigParameters `json:"oauthConfig,omitempty" tf:"oauth_config,omitempty"`
+
+	// Maps the values extracted from specific fields of the flexible webhook
+	// response into session parameters.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ParameterMapping map[string]*string `json:"parameterMapping,omitempty" tf:"parameter_mapping,omitempty"`
+
+	// Defines a custom JSON object as request body to send to flexible webhook.
+	// +kubebuilder:validation:Optional
+	RequestBody *string `json:"requestBody,omitempty" tf:"request_body,omitempty"`
 
 	// The HTTP request headers to send together with webhook requests.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	RequestHeaders map[string]*string `json:"requestHeaders,omitempty" tf:"request_headers,omitempty"`
 
-	// Whether to use speech adaptation for speech recognition.
+	// The SecretManager secret version resource storing the username:password
+	// pair for HTTP Basic authentication.
+	// Format: projects/{project}/secrets/{secret}/versions/{version}
+	// +kubebuilder:validation:Optional
+	SecretVersionForUsernamePassword *string `json:"secretVersionForUsernamePassword,omitempty" tf:"secret_version_for_username_password,omitempty"`
+
+	// The HTTP request headers to send together with webhook requests. Header
+	// values are stored in SecretManager secret versions.
+	// When the same header name is specified in both request_headers and
+	// secret_versions_for_request_headers, the value in
+	// secret_versions_for_request_headers will be used.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SecretVersionsForRequestHeaders []SecretVersionsForRequestHeadersParameters `json:"secretVersionsForRequestHeaders,omitempty" tf:"secret_versions_for_request_headers,omitempty"`
+
+	// Indicate the auth token type generated from the Diglogflow service
+	// agent.
+	// The generated token is sent in the Authorization header.
+	// Possible values are: NONE, ID_TOKEN, ACCESS_TOKEN.
+	// +kubebuilder:validation:Optional
+	ServiceAgentAuth *string `json:"serviceAgentAuth,omitempty" tf:"service_agent_auth,omitempty"`
+
+	// The webhook URI for receiving POST requests. It must use https protocol.
 	// +kubebuilder:validation:Optional
 	URI *string `json:"uri" tf:"uri,omitempty"`
+
+	// Type of the webhook.
+	// Possible values are: STANDARD, FLEXIBLE.
+	// +kubebuilder:validation:Optional
+	WebhookType *string `json:"webhookType,omitempty" tf:"webhook_type,omitempty"`
+}
+
+type GenericWebServiceSecretVersionsForRequestHeadersInitParameters struct {
+
+	// The identifier for this object. Format specified above.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// The SecretManager secret version resource storing the header value.
+	// Format: projects/{project}/secrets/{secret}/versions/{version}
+	SecretVersion *string `json:"secretVersion,omitempty" tf:"secret_version,omitempty"`
+}
+
+type GenericWebServiceSecretVersionsForRequestHeadersObservation struct {
+
+	// The identifier for this object. Format specified above.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// The SecretManager secret version resource storing the header value.
+	// Format: projects/{project}/secrets/{secret}/versions/{version}
+	SecretVersion *string `json:"secretVersion,omitempty" tf:"secret_version,omitempty"`
+}
+
+type GenericWebServiceSecretVersionsForRequestHeadersParameters struct {
+
+	// The identifier for this object. Format specified above.
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key" tf:"key,omitempty"`
+
+	// The SecretManager secret version resource storing the header value.
+	// Format: projects/{project}/secrets/{secret}/versions/{version}
+	// +kubebuilder:validation:Optional
+	SecretVersion *string `json:"secretVersion" tf:"secret_version,omitempty"`
+}
+
+type OAuthConfigInitParameters struct {
+
+	// The client ID provided by the 3rd party platform.
+	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
+
+	// The client secret provided by the 3rd party platform.  If the
+	// secret_version_for_client_secret field is set, this field will be
+	// ignored.
+	ClientSecret *string `json:"clientSecret,omitempty" tf:"client_secret,omitempty"`
+
+	// The OAuth scopes to grant.
+	Scopes []*string `json:"scopes,omitempty" tf:"scopes,omitempty"`
+
+	// The name of the SecretManager secret version resource storing the
+	// client secret. If this field is set, the client_secret field will be
+	// ignored.
+	// Format: projects/{project}/secrets/{secret}/versions/{version}
+	SecretVersionForClientSecret *string `json:"secretVersionForClientSecret,omitempty" tf:"secret_version_for_client_secret,omitempty"`
+
+	// The token endpoint provided by the 3rd party platform to exchange an
+	// access token.
+	TokenEndpoint *string `json:"tokenEndpoint,omitempty" tf:"token_endpoint,omitempty"`
+}
+
+type OAuthConfigObservation struct {
+
+	// The client ID provided by the 3rd party platform.
+	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
+
+	// The client secret provided by the 3rd party platform.  If the
+	// secret_version_for_client_secret field is set, this field will be
+	// ignored.
+	ClientSecret *string `json:"clientSecret,omitempty" tf:"client_secret,omitempty"`
+
+	// The OAuth scopes to grant.
+	Scopes []*string `json:"scopes,omitempty" tf:"scopes,omitempty"`
+
+	// The name of the SecretManager secret version resource storing the
+	// client secret. If this field is set, the client_secret field will be
+	// ignored.
+	// Format: projects/{project}/secrets/{secret}/versions/{version}
+	SecretVersionForClientSecret *string `json:"secretVersionForClientSecret,omitempty" tf:"secret_version_for_client_secret,omitempty"`
+
+	// The token endpoint provided by the 3rd party platform to exchange an
+	// access token.
+	TokenEndpoint *string `json:"tokenEndpoint,omitempty" tf:"token_endpoint,omitempty"`
+}
+
+type OAuthConfigParameters struct {
+
+	// The client ID provided by the 3rd party platform.
+	// +kubebuilder:validation:Optional
+	ClientID *string `json:"clientId" tf:"client_id,omitempty"`
+
+	// The client secret provided by the 3rd party platform.  If the
+	// secret_version_for_client_secret field is set, this field will be
+	// ignored.
+	// +kubebuilder:validation:Optional
+	ClientSecret *string `json:"clientSecret,omitempty" tf:"client_secret,omitempty"`
+
+	// The OAuth scopes to grant.
+	// +kubebuilder:validation:Optional
+	Scopes []*string `json:"scopes,omitempty" tf:"scopes,omitempty"`
+
+	// The name of the SecretManager secret version resource storing the
+	// client secret. If this field is set, the client_secret field will be
+	// ignored.
+	// Format: projects/{project}/secrets/{secret}/versions/{version}
+	// +kubebuilder:validation:Optional
+	SecretVersionForClientSecret *string `json:"secretVersionForClientSecret,omitempty" tf:"secret_version_for_client_secret,omitempty"`
+
+	// The token endpoint provided by the 3rd party platform to exchange an
+	// access token.
+	// +kubebuilder:validation:Optional
+	TokenEndpoint *string `json:"tokenEndpoint" tf:"token_endpoint,omitempty"`
+}
+
+type SecretVersionsForRequestHeadersInitParameters struct {
+
+	// The identifier for this object. Format specified above.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// The SecretManager secret version resource storing the header value.
+	// Format: projects/{project}/secrets/{secret}/versions/{version}
+	SecretVersion *string `json:"secretVersion,omitempty" tf:"secret_version,omitempty"`
+}
+
+type SecretVersionsForRequestHeadersObservation struct {
+
+	// The identifier for this object. Format specified above.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// The SecretManager secret version resource storing the header value.
+	// Format: projects/{project}/secrets/{secret}/versions/{version}
+	SecretVersion *string `json:"secretVersion,omitempty" tf:"secret_version,omitempty"`
+}
+
+type SecretVersionsForRequestHeadersParameters struct {
+
+	// The identifier for this object. Format specified above.
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key" tf:"key,omitempty"`
+
+	// The SecretManager secret version resource storing the header value.
+	// Format: projects/{project}/secrets/{secret}/versions/{version}
+	// +kubebuilder:validation:Optional
+	SecretVersion *string `json:"secretVersion" tf:"secret_version,omitempty"`
 }
 
 type ServiceDirectoryGenericWebServiceInitParameters struct {
 
-	// Specifies a list of allowed custom CA certificates (in DER format) for HTTPS verification.
+	// Specifies a list of allowed custom CA certificates (in DER format) for
+	// HTTPS verification. This overrides the default SSL trust store. If this
+	// is empty or unspecified, Dialogflow will use Google's default trust store
+	// to verify certificates.
+	// N.B. Make sure the HTTPS server certificates are signed with "subject alt
+	// name". For instance a certificate can be self-signed using the following
+	// command,
+	// openssl x509 -req -days 200 -in example.com.csr
+	// -signkey example.com.key
+	// -out example.com.crt
+	// -extfile <(printf "\nsubjectAltName='DNS:www.example.com'")
 	AllowedCACerts []*string `json:"allowedCaCerts,omitempty" tf:"allowed_ca_certs,omitempty"`
+
+	// HTTP method for the flexible webhook calls. Standard webhook always uses
+	// POST.
+	// Possible values are: POST, GET, HEAD, PUT, DELETE, PATCH, OPTIONS.
+	HTTPMethod *string `json:"httpMethod,omitempty" tf:"http_method,omitempty"`
+
+	// Represents configuration of OAuth client credential flow for 3rd party
+	// API authentication.
+	// Structure is documented below.
+	OAuthConfig []GenericWebServiceOAuthConfigInitParameters `json:"oauthConfig,omitempty" tf:"oauth_config,omitempty"`
+
+	// Maps the values extracted from specific fields of the flexible webhook
+	// response into session parameters.
+	// +mapType=granular
+	ParameterMapping map[string]*string `json:"parameterMapping,omitempty" tf:"parameter_mapping,omitempty"`
+
+	// Defines a custom JSON object as request body to send to flexible webhook.
+	RequestBody *string `json:"requestBody,omitempty" tf:"request_body,omitempty"`
 
 	// The HTTP request headers to send together with webhook requests.
 	// +mapType=granular
 	RequestHeaders map[string]*string `json:"requestHeaders,omitempty" tf:"request_headers,omitempty"`
 
-	// Whether to use speech adaptation for speech recognition.
+	// The SecretManager secret version resource storing the username:password
+	// pair for HTTP Basic authentication.
+	// Format: projects/{project}/secrets/{secret}/versions/{version}
+	SecretVersionForUsernamePassword *string `json:"secretVersionForUsernamePassword,omitempty" tf:"secret_version_for_username_password,omitempty"`
+
+	// The HTTP request headers to send together with webhook requests. Header
+	// values are stored in SecretManager secret versions.
+	// When the same header name is specified in both request_headers and
+	// secret_versions_for_request_headers, the value in
+	// secret_versions_for_request_headers will be used.
+	// Structure is documented below.
+	SecretVersionsForRequestHeaders []GenericWebServiceSecretVersionsForRequestHeadersInitParameters `json:"secretVersionsForRequestHeaders,omitempty" tf:"secret_versions_for_request_headers,omitempty"`
+
+	// Indicate the auth token type generated from the Diglogflow service
+	// agent.
+	// The generated token is sent in the Authorization header.
+	// Possible values are: NONE, ID_TOKEN, ACCESS_TOKEN.
+	ServiceAgentAuth *string `json:"serviceAgentAuth,omitempty" tf:"service_agent_auth,omitempty"`
+
+	// The webhook URI for receiving POST requests. It must use https protocol.
 	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+
+	// Type of the webhook.
+	// Possible values are: STANDARD, FLEXIBLE.
+	WebhookType *string `json:"webhookType,omitempty" tf:"webhook_type,omitempty"`
 }
 
 type ServiceDirectoryGenericWebServiceObservation struct {
 
-	// Specifies a list of allowed custom CA certificates (in DER format) for HTTPS verification.
+	// Specifies a list of allowed custom CA certificates (in DER format) for
+	// HTTPS verification. This overrides the default SSL trust store. If this
+	// is empty or unspecified, Dialogflow will use Google's default trust store
+	// to verify certificates.
+	// N.B. Make sure the HTTPS server certificates are signed with "subject alt
+	// name". For instance a certificate can be self-signed using the following
+	// command,
+	// openssl x509 -req -days 200 -in example.com.csr
+	// -signkey example.com.key
+	// -out example.com.crt
+	// -extfile <(printf "\nsubjectAltName='DNS:www.example.com'")
 	AllowedCACerts []*string `json:"allowedCaCerts,omitempty" tf:"allowed_ca_certs,omitempty"`
+
+	// HTTP method for the flexible webhook calls. Standard webhook always uses
+	// POST.
+	// Possible values are: POST, GET, HEAD, PUT, DELETE, PATCH, OPTIONS.
+	HTTPMethod *string `json:"httpMethod,omitempty" tf:"http_method,omitempty"`
+
+	// Represents configuration of OAuth client credential flow for 3rd party
+	// API authentication.
+	// Structure is documented below.
+	OAuthConfig []GenericWebServiceOAuthConfigObservation `json:"oauthConfig,omitempty" tf:"oauth_config,omitempty"`
+
+	// Maps the values extracted from specific fields of the flexible webhook
+	// response into session parameters.
+	// +mapType=granular
+	ParameterMapping map[string]*string `json:"parameterMapping,omitempty" tf:"parameter_mapping,omitempty"`
+
+	// Defines a custom JSON object as request body to send to flexible webhook.
+	RequestBody *string `json:"requestBody,omitempty" tf:"request_body,omitempty"`
 
 	// The HTTP request headers to send together with webhook requests.
 	// +mapType=granular
 	RequestHeaders map[string]*string `json:"requestHeaders,omitempty" tf:"request_headers,omitempty"`
 
-	// Whether to use speech adaptation for speech recognition.
+	// The SecretManager secret version resource storing the username:password
+	// pair for HTTP Basic authentication.
+	// Format: projects/{project}/secrets/{secret}/versions/{version}
+	SecretVersionForUsernamePassword *string `json:"secretVersionForUsernamePassword,omitempty" tf:"secret_version_for_username_password,omitempty"`
+
+	// The HTTP request headers to send together with webhook requests. Header
+	// values are stored in SecretManager secret versions.
+	// When the same header name is specified in both request_headers and
+	// secret_versions_for_request_headers, the value in
+	// secret_versions_for_request_headers will be used.
+	// Structure is documented below.
+	SecretVersionsForRequestHeaders []GenericWebServiceSecretVersionsForRequestHeadersObservation `json:"secretVersionsForRequestHeaders,omitempty" tf:"secret_versions_for_request_headers,omitempty"`
+
+	// Indicate the auth token type generated from the Diglogflow service
+	// agent.
+	// The generated token is sent in the Authorization header.
+	// Possible values are: NONE, ID_TOKEN, ACCESS_TOKEN.
+	ServiceAgentAuth *string `json:"serviceAgentAuth,omitempty" tf:"service_agent_auth,omitempty"`
+
+	// The webhook URI for receiving POST requests. It must use https protocol.
 	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+
+	// Type of the webhook.
+	// Possible values are: STANDARD, FLEXIBLE.
+	WebhookType *string `json:"webhookType,omitempty" tf:"webhook_type,omitempty"`
 }
 
 type ServiceDirectoryGenericWebServiceParameters struct {
 
-	// Specifies a list of allowed custom CA certificates (in DER format) for HTTPS verification.
+	// Specifies a list of allowed custom CA certificates (in DER format) for
+	// HTTPS verification. This overrides the default SSL trust store. If this
+	// is empty or unspecified, Dialogflow will use Google's default trust store
+	// to verify certificates.
+	// N.B. Make sure the HTTPS server certificates are signed with "subject alt
+	// name". For instance a certificate can be self-signed using the following
+	// command,
+	// openssl x509 -req -days 200 -in example.com.csr
+	// -signkey example.com.key
+	// -out example.com.crt
+	// -extfile <(printf "\nsubjectAltName='DNS:www.example.com'")
 	// +kubebuilder:validation:Optional
 	AllowedCACerts []*string `json:"allowedCaCerts,omitempty" tf:"allowed_ca_certs,omitempty"`
+
+	// HTTP method for the flexible webhook calls. Standard webhook always uses
+	// POST.
+	// Possible values are: POST, GET, HEAD, PUT, DELETE, PATCH, OPTIONS.
+	// +kubebuilder:validation:Optional
+	HTTPMethod *string `json:"httpMethod,omitempty" tf:"http_method,omitempty"`
+
+	// Represents configuration of OAuth client credential flow for 3rd party
+	// API authentication.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	OAuthConfig []GenericWebServiceOAuthConfigParameters `json:"oauthConfig,omitempty" tf:"oauth_config,omitempty"`
+
+	// Maps the values extracted from specific fields of the flexible webhook
+	// response into session parameters.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ParameterMapping map[string]*string `json:"parameterMapping,omitempty" tf:"parameter_mapping,omitempty"`
+
+	// Defines a custom JSON object as request body to send to flexible webhook.
+	// +kubebuilder:validation:Optional
+	RequestBody *string `json:"requestBody,omitempty" tf:"request_body,omitempty"`
 
 	// The HTTP request headers to send together with webhook requests.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	RequestHeaders map[string]*string `json:"requestHeaders,omitempty" tf:"request_headers,omitempty"`
 
-	// Whether to use speech adaptation for speech recognition.
+	// The SecretManager secret version resource storing the username:password
+	// pair for HTTP Basic authentication.
+	// Format: projects/{project}/secrets/{secret}/versions/{version}
+	// +kubebuilder:validation:Optional
+	SecretVersionForUsernamePassword *string `json:"secretVersionForUsernamePassword,omitempty" tf:"secret_version_for_username_password,omitempty"`
+
+	// The HTTP request headers to send together with webhook requests. Header
+	// values are stored in SecretManager secret versions.
+	// When the same header name is specified in both request_headers and
+	// secret_versions_for_request_headers, the value in
+	// secret_versions_for_request_headers will be used.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SecretVersionsForRequestHeaders []GenericWebServiceSecretVersionsForRequestHeadersParameters `json:"secretVersionsForRequestHeaders,omitempty" tf:"secret_versions_for_request_headers,omitempty"`
+
+	// Indicate the auth token type generated from the Diglogflow service
+	// agent.
+	// The generated token is sent in the Authorization header.
+	// Possible values are: NONE, ID_TOKEN, ACCESS_TOKEN.
+	// +kubebuilder:validation:Optional
+	ServiceAgentAuth *string `json:"serviceAgentAuth,omitempty" tf:"service_agent_auth,omitempty"`
+
+	// The webhook URI for receiving POST requests. It must use https protocol.
 	// +kubebuilder:validation:Optional
 	URI *string `json:"uri" tf:"uri,omitempty"`
+
+	// Type of the webhook.
+	// Possible values are: STANDARD, FLEXIBLE.
+	// +kubebuilder:validation:Optional
+	WebhookType *string `json:"webhookType,omitempty" tf:"webhook_type,omitempty"`
 }
 
 type ServiceDirectoryInitParameters struct {
 
-	// The name of Service Directory service.
+	// Represents configuration for a generic web service.
 	// Structure is documented below.
 	GenericWebService []ServiceDirectoryGenericWebServiceInitParameters `json:"genericWebService,omitempty" tf:"generic_web_service,omitempty"`
 
@@ -109,7 +649,7 @@ type ServiceDirectoryInitParameters struct {
 
 type ServiceDirectoryObservation struct {
 
-	// The name of Service Directory service.
+	// Represents configuration for a generic web service.
 	// Structure is documented below.
 	GenericWebService []ServiceDirectoryGenericWebServiceObservation `json:"genericWebService,omitempty" tf:"generic_web_service,omitempty"`
 
@@ -119,10 +659,10 @@ type ServiceDirectoryObservation struct {
 
 type ServiceDirectoryParameters struct {
 
-	// The name of Service Directory service.
+	// Represents configuration for a generic web service.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	GenericWebService []ServiceDirectoryGenericWebServiceParameters `json:"genericWebService" tf:"generic_web_service,omitempty"`
+	GenericWebService []ServiceDirectoryGenericWebServiceParameters `json:"genericWebService,omitempty" tf:"generic_web_service,omitempty"`
 
 	// The name of Service Directory service.
 	// +kubebuilder:validation:Optional
@@ -137,13 +677,13 @@ type WebhookInitParameters struct {
 	// The human-readable name of the webhook, unique within the agent.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
-	// Indicates if automatic spell correction is enabled in detect intent requests.
+	// Deprecated. Indicates if automatic spell correction is enabled in detect intent requests.
 	EnableSpellCorrection *bool `json:"enableSpellCorrection,omitempty" tf:"enable_spell_correction,omitempty"`
 
-	// Determines whether this agent should log conversation queries.
+	// Deprecated. Determines whether this agent should log conversation queries.
 	EnableStackdriverLogging *bool `json:"enableStackdriverLogging,omitempty" tf:"enable_stackdriver_logging,omitempty"`
 
-	// Configuration for a generic web service.
+	// Represents configuration for a generic web service.
 	// Structure is documented below.
 	GenericWebService []GenericWebServiceInitParameters `json:"genericWebService,omitempty" tf:"generic_web_service,omitempty"`
 
@@ -161,7 +701,7 @@ type WebhookInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ParentSelector *v1.Selector `json:"parentSelector,omitempty" tf:"-"`
 
-	// Name of the SecuritySettings reference for the agent. Format: projects//locations//securitySettings/.
+	// Deprecated. Name of the SecuritySettings reference for the agent. Format: projects//locations//securitySettings/.
 	SecuritySettings *string `json:"securitySettings,omitempty" tf:"security_settings,omitempty"`
 
 	// Configuration for a Service Directory service.
@@ -180,13 +720,13 @@ type WebhookObservation struct {
 	// The human-readable name of the webhook, unique within the agent.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
-	// Indicates if automatic spell correction is enabled in detect intent requests.
+	// Deprecated. Indicates if automatic spell correction is enabled in detect intent requests.
 	EnableSpellCorrection *bool `json:"enableSpellCorrection,omitempty" tf:"enable_spell_correction,omitempty"`
 
-	// Determines whether this agent should log conversation queries.
+	// Deprecated. Determines whether this agent should log conversation queries.
 	EnableStackdriverLogging *bool `json:"enableStackdriverLogging,omitempty" tf:"enable_stackdriver_logging,omitempty"`
 
-	// Configuration for a generic web service.
+	// Represents configuration for a generic web service.
 	// Structure is documented below.
 	GenericWebService []GenericWebServiceObservation `json:"genericWebService,omitempty" tf:"generic_web_service,omitempty"`
 
@@ -201,14 +741,14 @@ type WebhookObservation struct {
 	// Format: projects//locations//agents/.
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
-	// Name of the SecuritySettings reference for the agent. Format: projects//locations//securitySettings/.
+	// Deprecated. Name of the SecuritySettings reference for the agent. Format: projects//locations//securitySettings/.
 	SecuritySettings *string `json:"securitySettings,omitempty" tf:"security_settings,omitempty"`
 
 	// Configuration for a Service Directory service.
 	// Structure is documented below.
 	ServiceDirectory []ServiceDirectoryObservation `json:"serviceDirectory,omitempty" tf:"service_directory,omitempty"`
 
-	// Name of the start flow in this agent. A start flow will be automatically created when the agent is created, and can only be deleted by deleting the agent. Format: projects//locations//agents//flows/.
+	// Deprecated. Name of the start flow in this agent. A start flow will be automatically created when the agent is created, and can only be deleted by deleting the agent. Format: projects//locations//agents//flows/.
 	StartFlow *string `json:"startFlow,omitempty" tf:"start_flow,omitempty"`
 
 	// Webhook execution timeout.
@@ -225,15 +765,15 @@ type WebhookParameters struct {
 	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
-	// Indicates if automatic spell correction is enabled in detect intent requests.
+	// Deprecated. Indicates if automatic spell correction is enabled in detect intent requests.
 	// +kubebuilder:validation:Optional
 	EnableSpellCorrection *bool `json:"enableSpellCorrection,omitempty" tf:"enable_spell_correction,omitempty"`
 
-	// Determines whether this agent should log conversation queries.
+	// Deprecated. Determines whether this agent should log conversation queries.
 	// +kubebuilder:validation:Optional
 	EnableStackdriverLogging *bool `json:"enableStackdriverLogging,omitempty" tf:"enable_stackdriver_logging,omitempty"`
 
-	// Configuration for a generic web service.
+	// Represents configuration for a generic web service.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	GenericWebService []GenericWebServiceParameters `json:"genericWebService,omitempty" tf:"generic_web_service,omitempty"`
@@ -253,7 +793,7 @@ type WebhookParameters struct {
 	// +kubebuilder:validation:Optional
 	ParentSelector *v1.Selector `json:"parentSelector,omitempty" tf:"-"`
 
-	// Name of the SecuritySettings reference for the agent. Format: projects//locations//securitySettings/.
+	// Deprecated. Name of the SecuritySettings reference for the agent. Format: projects//locations//securitySettings/.
 	// +kubebuilder:validation:Optional
 	SecuritySettings *string `json:"securitySettings,omitempty" tf:"security_settings,omitempty"`
 

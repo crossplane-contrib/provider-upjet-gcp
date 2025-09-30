@@ -242,6 +242,26 @@ spec:
                             type: string
                         type: object
                     type: object
+                  params:
+                    description: |-
+                      Additional params passed with the request, but not persisted as part of resource payload
+                      Structure is documented below.
+                    items:
+                      properties:
+                        resourceManagerTags:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            Resource manager tags to be bound to the subnetwork. Tag keys and values have the
+                            same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+                            and values are in the format tagValues/456. The field is ignored when empty.
+                            The field is immutable and causes resource replacement when mutated. This field is only
+                            set at create time and modifying this field after creation will trigger recreation.
+                            To apply tags to an existing resource, see the google_tags_tag_binding resource.
+                          type: object
+                          x-kubernetes-map-type: granular
+                      type: object
+                    type: array
                   privateIpGoogleAccess:
                     description: |-
                       When enabled, VMs in this subnetwork without external IP addresses can
@@ -518,6 +538,26 @@ spec:
                             type: string
                         type: object
                     type: object
+                  params:
+                    description: |-
+                      Additional params passed with the request, but not persisted as part of resource payload
+                      Structure is documented below.
+                    items:
+                      properties:
+                        resourceManagerTags:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            Resource manager tags to be bound to the subnetwork. Tag keys and values have the
+                            same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+                            and values are in the format tagValues/456. The field is ignored when empty.
+                            The field is immutable and causes resource replacement when mutated. This field is only
+                            set at create time and modifying this field after creation will trigger recreation.
+                            To apply tags to an existing resource, see the google_tags_tag_binding resource.
+                          type: object
+                          x-kubernetes-map-type: granular
+                      type: object
+                    type: array
                   privateIpGoogleAccess:
                     description: |-
                       When enabled, VMs in this subnetwork without external IP addresses can
@@ -823,6 +863,26 @@ spec:
                       The network this subnet belongs to.
                       Only networks that are in the distributed mode can have subnetworks.
                     type: string
+                  params:
+                    description: |-
+                      Additional params passed with the request, but not persisted as part of resource payload
+                      Structure is documented below.
+                    items:
+                      properties:
+                        resourceManagerTags:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            Resource manager tags to be bound to the subnetwork. Tag keys and values have the
+                            same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+                            and values are in the format tagValues/456. The field is ignored when empty.
+                            The field is immutable and causes resource replacement when mutated. This field is only
+                            set at create time and modifying this field after creation will trigger recreation.
+                            To apply tags to an existing resource, see the google_tags_tag_binding resource.
+                          type: object
+                          x-kubernetes-map-type: granular
+                      type: object
+                    type: array
                   privateIpGoogleAccess:
                     description: |-
                       When enabled, VMs in this subnetwork without external IP addresses can
@@ -1214,6 +1274,24 @@ spec:
                             type: string
                         type: object
                     type: object
+                  params:
+                    description: |-
+                      Additional params passed with the request, but not persisted as part of resource payload
+                      Structure is documented below.
+                    properties:
+                      resourceManagerTags:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Resource manager tags to be bound to the subnetwork. Tag keys and values have the
+                          same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+                          and values are in the format tagValues/456. The field is ignored when empty.
+                          The field is immutable and causes resource replacement when mutated. This field is only
+                          set at create time and modifying this field after creation will trigger recreation.
+                          To apply tags to an existing resource, see the google_tags_tag_binding resource.
+                        type: object
+                        x-kubernetes-map-type: granular
+                    type: object
                   privateIpGoogleAccess:
                     description: |-
                       When enabled, VMs in this subnetwork without external IP addresses can
@@ -1487,6 +1565,24 @@ spec:
                             - IfNotPresent
                             type: string
                         type: object
+                    type: object
+                  params:
+                    description: |-
+                      Additional params passed with the request, but not persisted as part of resource payload
+                      Structure is documented below.
+                    properties:
+                      resourceManagerTags:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Resource manager tags to be bound to the subnetwork. Tag keys and values have the
+                          same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+                          and values are in the format tagValues/456. The field is ignored when empty.
+                          The field is immutable and causes resource replacement when mutated. This field is only
+                          set at create time and modifying this field after creation will trigger recreation.
+                          To apply tags to an existing resource, see the google_tags_tag_binding resource.
+                        type: object
+                        x-kubernetes-map-type: granular
                     type: object
                   privateIpGoogleAccess:
                     description: |-
@@ -1786,6 +1882,24 @@ spec:
                       The network this subnet belongs to.
                       Only networks that are in the distributed mode can have subnetworks.
                     type: string
+                  params:
+                    description: |-
+                      Additional params passed with the request, but not persisted as part of resource payload
+                      Structure is documented below.
+                    properties:
+                      resourceManagerTags:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Resource manager tags to be bound to the subnetwork. Tag keys and values have the
+                          same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+                          and values are in the format tagValues/456. The field is ignored when empty.
+                          The field is immutable and causes resource replacement when mutated. This field is only
+                          set at create time and modifying this field after creation will trigger recreation.
+                          To apply tags to an existing resource, see the google_tags_tag_binding resource.
+                        type: object
+                        x-kubernetes-map-type: granular
+                    type: object
                   privateIpGoogleAccess:
                     description: |-
                       When enabled, VMs in this subnetwork without external IP addresses can

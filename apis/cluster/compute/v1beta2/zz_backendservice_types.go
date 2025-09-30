@@ -805,6 +805,10 @@ type BackendServiceInitParameters struct {
 	// Structure is documented below.
 	StrongSessionAffinityCookie *StrongSessionAffinityCookieInitParameters `json:"strongSessionAffinityCookie,omitempty" tf:"strong_session_affinity_cookie,omitempty"`
 
+	// Configuration for Backend Authenticated TLS and mTLS. May only be specified when the backend protocol is SSL, HTTPS or HTTP2.
+	// Structure is documented below.
+	TLSSettings *TLSSettingsInitParameters `json:"tlsSettings,omitempty" tf:"tls_settings,omitempty"`
+
 	// The backend service timeout has a different meaning depending on the type of load balancer.
 	// For more information see, Backend service settings.
 	// The default is 30 seconds.
@@ -1012,6 +1016,10 @@ type BackendServiceObservation struct {
 	// Describes the HTTP cookie used for stateful session affinity. This field is applicable and required if the sessionAffinity is set to STRONG_COOKIE_AFFINITY.
 	// Structure is documented below.
 	StrongSessionAffinityCookie *StrongSessionAffinityCookieObservation `json:"strongSessionAffinityCookie,omitempty" tf:"strong_session_affinity_cookie,omitempty"`
+
+	// Configuration for Backend Authenticated TLS and mTLS. May only be specified when the backend protocol is SSL, HTTPS or HTTP2.
+	// Structure is documented below.
+	TLSSettings *TLSSettingsObservation `json:"tlsSettings,omitempty" tf:"tls_settings,omitempty"`
 
 	// The backend service timeout has a different meaning depending on the type of load balancer.
 	// For more information see, Backend service settings.
@@ -1246,6 +1254,11 @@ type BackendServiceParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	StrongSessionAffinityCookie *StrongSessionAffinityCookieParameters `json:"strongSessionAffinityCookie,omitempty" tf:"strong_session_affinity_cookie,omitempty"`
+
+	// Configuration for Backend Authenticated TLS and mTLS. May only be specified when the backend protocol is SSL, HTTPS or HTTP2.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	TLSSettings *TLSSettingsParameters `json:"tlsSettings,omitempty" tf:"tls_settings,omitempty"`
 
 	// The backend service timeout has a different meaning depending on the type of load balancer.
 	// For more information see, Backend service settings.
@@ -2330,6 +2343,104 @@ type StrongSessionAffinityCookieTTLParameters struct {
 	// Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
 	Seconds *float64 `json:"seconds" tf:"seconds,omitempty"`
+}
+
+type SubjectAltNamesInitParameters struct {
+
+	// The SAN specified as a DNS Name.
+	DNSName *string `json:"dnsName,omitempty" tf:"dns_name,omitempty"`
+
+	// The SAN specified as a URI.
+	UniformResourceIdentifier *string `json:"uniformResourceIdentifier,omitempty" tf:"uniform_resource_identifier,omitempty"`
+}
+
+type SubjectAltNamesObservation struct {
+
+	// The SAN specified as a DNS Name.
+	DNSName *string `json:"dnsName,omitempty" tf:"dns_name,omitempty"`
+
+	// The SAN specified as a URI.
+	UniformResourceIdentifier *string `json:"uniformResourceIdentifier,omitempty" tf:"uniform_resource_identifier,omitempty"`
+}
+
+type SubjectAltNamesParameters struct {
+
+	// The SAN specified as a DNS Name.
+	// +kubebuilder:validation:Optional
+	DNSName *string `json:"dnsName,omitempty" tf:"dns_name,omitempty"`
+
+	// The SAN specified as a URI.
+	// +kubebuilder:validation:Optional
+	UniformResourceIdentifier *string `json:"uniformResourceIdentifier,omitempty" tf:"uniform_resource_identifier,omitempty"`
+}
+
+type TLSSettingsInitParameters struct {
+
+	// Reference to the BackendAuthenticationConfig resource from the networksecurity.googleapis.com namespace.
+	// Can be used in authenticating TLS connections to the backend, as specified by the authenticationMode field.
+	// Can only be specified if authenticationMode is not NONE.
+	AuthenticationConfig *string `json:"authenticationConfig,omitempty" tf:"authentication_config,omitempty"`
+
+	// Server Name Indication - see RFC3546 section 3.1. If set, the load balancer sends this string as the SNI hostname in the
+	// TLS connection to the backend, and requires that this string match a Subject Alternative Name (SAN) in the backend's
+	// server certificate. With a Regional Internet NEG backend, if the SNI is specified here, the load balancer uses it
+	// regardless of whether the Regional Internet NEG is specified with FQDN or IP address and port.
+	Sni *string `json:"sni,omitempty" tf:"sni,omitempty"`
+
+	// A list of Subject Alternative Names (SANs) that the Load Balancer verifies during a TLS handshake with the backend.
+	// When the server presents its X.509 certificate to the Load Balancer, the Load Balancer inspects the certificate's SAN field,
+	// and requires that at least one SAN match one of the subjectAltNames in the list. This field is limited to 5 entries.
+	// When both sni and subjectAltNames are specified, the load balancer matches the backend certificate's SAN only to
+	// subjectAltNames.
+	// Structure is documented below.
+	SubjectAltNames []SubjectAltNamesInitParameters `json:"subjectAltNames,omitempty" tf:"subject_alt_names,omitempty"`
+}
+
+type TLSSettingsObservation struct {
+
+	// Reference to the BackendAuthenticationConfig resource from the networksecurity.googleapis.com namespace.
+	// Can be used in authenticating TLS connections to the backend, as specified by the authenticationMode field.
+	// Can only be specified if authenticationMode is not NONE.
+	AuthenticationConfig *string `json:"authenticationConfig,omitempty" tf:"authentication_config,omitempty"`
+
+	// Server Name Indication - see RFC3546 section 3.1. If set, the load balancer sends this string as the SNI hostname in the
+	// TLS connection to the backend, and requires that this string match a Subject Alternative Name (SAN) in the backend's
+	// server certificate. With a Regional Internet NEG backend, if the SNI is specified here, the load balancer uses it
+	// regardless of whether the Regional Internet NEG is specified with FQDN or IP address and port.
+	Sni *string `json:"sni,omitempty" tf:"sni,omitempty"`
+
+	// A list of Subject Alternative Names (SANs) that the Load Balancer verifies during a TLS handshake with the backend.
+	// When the server presents its X.509 certificate to the Load Balancer, the Load Balancer inspects the certificate's SAN field,
+	// and requires that at least one SAN match one of the subjectAltNames in the list. This field is limited to 5 entries.
+	// When both sni and subjectAltNames are specified, the load balancer matches the backend certificate's SAN only to
+	// subjectAltNames.
+	// Structure is documented below.
+	SubjectAltNames []SubjectAltNamesObservation `json:"subjectAltNames,omitempty" tf:"subject_alt_names,omitempty"`
+}
+
+type TLSSettingsParameters struct {
+
+	// Reference to the BackendAuthenticationConfig resource from the networksecurity.googleapis.com namespace.
+	// Can be used in authenticating TLS connections to the backend, as specified by the authenticationMode field.
+	// Can only be specified if authenticationMode is not NONE.
+	// +kubebuilder:validation:Optional
+	AuthenticationConfig *string `json:"authenticationConfig,omitempty" tf:"authentication_config,omitempty"`
+
+	// Server Name Indication - see RFC3546 section 3.1. If set, the load balancer sends this string as the SNI hostname in the
+	// TLS connection to the backend, and requires that this string match a Subject Alternative Name (SAN) in the backend's
+	// server certificate. With a Regional Internet NEG backend, if the SNI is specified here, the load balancer uses it
+	// regardless of whether the Regional Internet NEG is specified with FQDN or IP address and port.
+	// +kubebuilder:validation:Optional
+	Sni *string `json:"sni,omitempty" tf:"sni,omitempty"`
+
+	// A list of Subject Alternative Names (SANs) that the Load Balancer verifies during a TLS handshake with the backend.
+	// When the server presents its X.509 certificate to the Load Balancer, the Load Balancer inspects the certificate's SAN field,
+	// and requires that at least one SAN match one of the subjectAltNames in the list. This field is limited to 5 entries.
+	// When both sni and subjectAltNames are specified, the load balancer matches the backend certificate's SAN only to
+	// subjectAltNames.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SubjectAltNames []SubjectAltNamesParameters `json:"subjectAltNames,omitempty" tf:"subject_alt_names,omitempty"`
 }
 
 type TTLInitParameters struct {

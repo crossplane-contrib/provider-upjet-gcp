@@ -13,7 +13,50 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
+type AccessLoggingConfigInitParameters struct {
+
+	// Boolean flag that specifies whether the customer access log feature is enabled.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// Ship the access log entries that match the statusCode defined in the filter.
+	// The statusCode is the only expected/supported filter field. (Ex: statusCode)
+	// The filter will parse it to the Common Expression Language semantics for expression
+	// evaluation to build the filter condition. (Ex: "filter": statusCode >= 200 && statusCode < 300 )
+	Filter *string `json:"filter,omitempty" tf:"filter,omitempty"`
+}
+
+type AccessLoggingConfigObservation struct {
+
+	// Boolean flag that specifies whether the customer access log feature is enabled.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// Ship the access log entries that match the statusCode defined in the filter.
+	// The statusCode is the only expected/supported filter field. (Ex: statusCode)
+	// The filter will parse it to the Common Expression Language semantics for expression
+	// evaluation to build the filter condition. (Ex: "filter": statusCode >= 200 && statusCode < 300 )
+	Filter *string `json:"filter,omitempty" tf:"filter,omitempty"`
+}
+
+type AccessLoggingConfigParameters struct {
+
+	// Boolean flag that specifies whether the customer access log feature is enabled.
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+
+	// Ship the access log entries that match the statusCode defined in the filter.
+	// The statusCode is the only expected/supported filter field. (Ex: statusCode)
+	// The filter will parse it to the Common Expression Language semantics for expression
+	// evaluation to build the filter condition. (Ex: "filter": statusCode >= 200 && statusCode < 300 )
+	// +kubebuilder:validation:Optional
+	Filter *string `json:"filter,omitempty" tf:"filter,omitempty"`
+}
+
 type InstanceInitParameters struct {
+
+	// Access logging configuration enables the access logging feature at the instance.
+	// Apigee customers can enable access logging to ship the access logs to their own project's cloud logging.
+	// Structure is documented below.
+	AccessLoggingConfig *AccessLoggingConfigInitParameters `json:"accessLoggingConfig,omitempty" tf:"access_logging_config,omitempty"`
 
 	// Optional. Customer accept list represents the list of projects (id/number) on customer
 	// side that can privately connect to the service attachment. It is an optional field
@@ -59,6 +102,11 @@ type InstanceInitParameters struct {
 }
 
 type InstanceObservation struct {
+
+	// Access logging configuration enables the access logging feature at the instance.
+	// Apigee customers can enable access logging to ship the access logs to their own project's cloud logging.
+	// Structure is documented below.
+	AccessLoggingConfig *AccessLoggingConfigObservation `json:"accessLoggingConfig,omitempty" tf:"access_logging_config,omitempty"`
 
 	// Optional. Customer accept list represents the list of projects (id/number) on customer
 	// side that can privately connect to the service attachment. It is an optional field
@@ -112,6 +160,12 @@ type InstanceObservation struct {
 }
 
 type InstanceParameters struct {
+
+	// Access logging configuration enables the access logging feature at the instance.
+	// Apigee customers can enable access logging to ship the access logs to their own project's cloud logging.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AccessLoggingConfig *AccessLoggingConfigParameters `json:"accessLoggingConfig,omitempty" tf:"access_logging_config,omitempty"`
 
 	// Optional. Customer accept list represents the list of projects (id/number) on customer
 	// side that can privately connect to the service attachment. It is an optional field
