@@ -34,6 +34,12 @@ func (tr *DefaultObjectACL) Hub() {}
 func (tr *HMACKey) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *ManagedFolder) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *ManagedFolderIAMMember) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *Notification) Hub() {}
 
 // Hub marks this type as a conversion hub.

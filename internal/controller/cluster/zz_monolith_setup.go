@@ -382,6 +382,8 @@ import (
 	defaultobjectaccesscontrol "github.com/upbound/provider-gcp/internal/controller/cluster/storage/defaultobjectaccesscontrol"
 	defaultobjectacl "github.com/upbound/provider-gcp/internal/controller/cluster/storage/defaultobjectacl"
 	hmackey "github.com/upbound/provider-gcp/internal/controller/cluster/storage/hmackey"
+	managedfolder "github.com/upbound/provider-gcp/internal/controller/cluster/storage/managedfolder"
+	managedfolderiammember "github.com/upbound/provider-gcp/internal/controller/cluster/storage/managedfolderiammember"
 	notification "github.com/upbound/provider-gcp/internal/controller/cluster/storage/notification"
 	objectaccesscontrol "github.com/upbound/provider-gcp/internal/controller/cluster/storage/objectaccesscontrol"
 	objectacl "github.com/upbound/provider-gcp/internal/controller/cluster/storage/objectacl"
@@ -776,6 +778,8 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		defaultobjectaccesscontrol.Setup,
 		defaultobjectacl.Setup,
 		hmackey.Setup,
+		managedfolder.Setup,
+		managedfolderiammember.Setup,
 		notification.Setup,
 		objectaccesscontrol.Setup,
 		objectacl.Setup,
@@ -1176,6 +1180,8 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		defaultobjectaccesscontrol.SetupGated,
 		defaultobjectacl.SetupGated,
 		hmackey.SetupGated,
+		managedfolder.SetupGated,
+		managedfolderiammember.SetupGated,
 		notification.SetupGated,
 		objectaccesscontrol.SetupGated,
 		objectacl.SetupGated,
