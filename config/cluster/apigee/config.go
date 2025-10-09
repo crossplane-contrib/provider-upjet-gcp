@@ -66,7 +66,7 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			}
 			if isAddonsConfigEmptyState && !hasActualDiff {
 				for k := range diff.Attributes {
-					if strings.HasPrefix(k, "addons_config.0") {
+					if strings.HasPrefix(k, "addons_config.") {
 						delete(diff.Attributes, k)
 					}
 				}

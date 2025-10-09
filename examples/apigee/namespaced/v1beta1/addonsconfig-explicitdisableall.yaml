@@ -3,7 +3,6 @@ kind: AddonsConfig
 metadata:
   annotations:
     meta.upbound.io/example-id: apigee/v1beta1/addonsconfig
-    upjet.upbound.io/manual-intervention: "This resource was skipped because the dependent Organization resource was skipped"
   labels:
     testing.upbound.io/example-name: apigee-addon-configs-explicitdisableall
   name: apigee-addon-configs-explicitdisableall
@@ -21,76 +20,5 @@ spec:
         enabled: false
       integrationConfig:
         enabled: false
-    orgSelector:
-      matchLabels:
-        testing.upbound.io/example-name: apigee-addon-configs-explicitdisableall
----
-apiVersion: apigee.gcp.m.upbound.io/v1beta1
-kind: Organization
-metadata:
-  annotations:
-    meta.upbound.io/example-id: apigee/v1beta1/addonsconfig
-    upjet.upbound.io/manual-intervention: Organization requires a real Project ID
-  labels:
-    testing.upbound.io/example-name: apigee-addon-configs-explicitdisableall
-  name: apigee-addon-configs-explicitdisableall
-  namespace: upbound-system
-spec:
-  forProvider:
-    analyticsRegion: us-central1
-    authorizedNetworkSelector:
-      matchLabels:
-        testing.upbound.io/example-name: apigee-addon-configs-explicitdisableall
-    projectId: ${project.project_id}
----
-apiVersion: compute.gcp.m.upbound.io/v1beta1
-kind: GlobalAddress
-metadata:
-  annotations:
-    meta.upbound.io/example-id: apigee/v1beta1/addonsconfig
-    upjet.upbound.io/manual-intervention: "This resource was skipped because the dependent Organization resource was skipped"
-  labels:
-    testing.upbound.io/example-name: apigee-addon-configs-explicitdisableall
-  name: apigee-addon-configs-explicitdisableall
-  namespace: upbound-system
-spec:
-  forProvider:
-    addressType: INTERNAL
-    networkSelector:
-      matchLabels:
-        testing.upbound.io/example-name: apigee-addon-configs-explicitdisableall
-    prefixLength: 16
-    purpose: VPC_PEERING
----
-apiVersion: compute.gcp.m.upbound.io/v1beta1
-kind: Network
-metadata:
-  annotations:
-    meta.upbound.io/example-id: apigee/v1beta1/addonsconfig
-    upjet.upbound.io/manual-intervention: "This resource was skipped because the dependent Organization resource was skipped"
-  labels:
-    testing.upbound.io/example-name: apigee-addon-configs-explicitdisableall
-  name: apigee-addon-configs-explicitdisableall
-  namespace: upbound-system
-spec:
-  forProvider: {}
----
-apiVersion: servicenetworking.gcp.m.upbound.io/v1beta1
-kind: Connection
-metadata:
-  annotations:
-    meta.upbound.io/example-id: apigee/v1beta1/addonsconfig
-    upjet.upbound.io/manual-intervention: "This resource was skipped because the dependent Organization resource was skipped"
-  labels:
-    testing.upbound.io/example-name: apigee-addon-configs-explicitdisableall
-  name: apigee-addon-configs-explicitdisableall
-  namespace: upbound-system
-spec:
-  forProvider:
-    networkSelector:
-      matchLabels:
-        testing.upbound.io/example-name: apigee-addon-configs-explicitdisableall
-    reservedPeeringRangesSelector:
-      matchLabels:
-        testing.upbound.io/example-name: apigee-addon-configs-explicitdisableall
-    service: servicenetworking.googleapis.com
+    org: official-provider-testing
+    # This organization exists in the test environment and is temporarily hardcoded for 'uptest' verification purposes. Tests will fail if the organization is removed.
