@@ -11,10 +11,10 @@ metadata:
 spec:
   forProvider:
     addonsConfig:
-      - apiSecurityConfig:
-          - enabled: true
-        monetizationConfig:
-          - enabled: true
+      apiSecurityConfig:
+        enabled: true
+      monetizationConfig:
+        enabled: true
     orgSelector:
       matchLabels:
         testing.upbound.io/example-name: apigee-addon-configs
