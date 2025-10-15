@@ -17,8 +17,8 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: subscription
     destinationDataset:
-    - datasetReference:
-      - datasetId: destination_dataset
+      datasetReference:
+        datasetId: destination_dataset
         projectIdSelector:
           matchLabels:
             testing.upbound.io/example-name: subscription
@@ -31,9 +31,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: subscription
     location: US
-
 ---
-
 apiVersion: bigquery.gcp.m.upbound.io/v1beta1
 kind: AnalyticsHubDataExchange
 metadata:
@@ -49,9 +47,7 @@ spec:
     description: Test Description
     displayName: my_data_exchange
     location: US
-
 ---
-
 apiVersion: bigquery.gcp.m.upbound.io/v1beta1
 kind: AnalyticsHubListing
 metadata:
@@ -64,18 +60,16 @@ metadata:
 spec:
   forProvider:
     bigqueryDataset:
-    - datasetSelector:
+      datasetSelector:
         matchLabels:
           testing.upbound.io/example-name: subscription
     dataExchangeIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: example
+        testing.upbound.io/example-name: subscription
     description: Test Description
     displayName: my_listing
     location: US
-
 ---
-
 apiVersion: bigquery.gcp.m.upbound.io/v1beta1
 kind: Dataset
 metadata:

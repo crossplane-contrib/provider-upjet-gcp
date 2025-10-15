@@ -16,11 +16,11 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: subscription
     destinationDataset:
-    - datasetReference:
-      - datasetId: destination_dataset
-        projectIdSelector:
-          matchLabels:
-            testing.upbound.io/example-name: subscription
+    datasetReference:
+      datasetId: destination_dataset
+      projectIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: subscription
       description: A test subscription
       friendlyName: "\U0001F44B"
       labels:
@@ -30,9 +30,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: subscription
     location: US
-
 ---
-
 apiVersion: bigquery.gcp.upbound.io/v1beta1
 kind: AnalyticsHubDataExchange
 metadata:
@@ -47,10 +45,8 @@ spec:
     description: Test Description
     displayName: my_data_exchange
     location: US
-
 ---
-
-apiVersion: bigquery.gcp.upbound.io/v1beta2
+apiVersion: bigquery.gcp.upbound.io/v1beta1
 kind: AnalyticsHubListing
 metadata:
   annotations:
@@ -61,19 +57,17 @@ metadata:
 spec:
   forProvider:
     bigqueryDataset:
-    - datasetSelector:
-        matchLabels:
-          testing.upbound.io/example-name: subscription
+      - datasetSelector:
+          matchLabels:
+            testing.upbound.io/example-name: subscription
     dataExchangeIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: example
+        testing.upbound.io/example-name: subscription
     description: Test Description
     displayName: my_listing
     location: US
-
 ---
-
-apiVersion: bigquery.gcp.upbound.io/v1beta2
+apiVersion: bigquery.gcp.upbound.io/v1beta1
 kind: Dataset
 metadata:
   annotations:
