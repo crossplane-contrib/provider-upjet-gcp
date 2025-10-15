@@ -16,6 +16,9 @@ func (tr *AnalyticsHubDataExchangeIAMMember) Hub() {}
 func (tr *AnalyticsHubListing) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *AnalyticsHubListingSubscription) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *Connection) Hub() {}
 
 // Hub marks this type as a conversion hub.

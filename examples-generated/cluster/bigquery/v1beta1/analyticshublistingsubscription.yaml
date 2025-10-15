@@ -1,0 +1,84 @@
+apiVersion: bigquery.gcp.upbound.io/v1beta1
+kind: AnalyticsHubListingSubscription
+metadata:
+  annotations:
+    meta.upbound.io/example-id: bigquery/v1beta1/analyticshublistingsubscription
+  labels:
+    testing.upbound.io/example-name: subscription
+  name: subscription
+spec:
+  forProvider:
+    dataExchangeIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: subscription
+    destinationDataset:
+    - datasetReference:
+      - datasetId: destination_dataset
+        projectIdSelector:
+          matchLabels:
+            testing.upbound.io/example-name: subscription
+      description: A test subscription
+      friendlyName: "\U0001F44B"
+      labels:
+        testing: "123"
+      location: US
+    listingIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: subscription
+    location: US
+
+---
+
+apiVersion: bigquery.gcp.upbound.io/v1beta1
+kind: AnalyticsHubDataExchange
+metadata:
+  annotations:
+    meta.upbound.io/example-id: bigquery/v1beta1/analyticshublistingsubscription
+  labels:
+    testing.upbound.io/example-name: subscription
+  name: subscription
+spec:
+  forProvider:
+    dataExchangeId: my_data_exchange
+    description: Test Description
+    displayName: my_data_exchange
+    location: US
+
+---
+
+apiVersion: bigquery.gcp.upbound.io/v1beta2
+kind: AnalyticsHubListing
+metadata:
+  annotations:
+    meta.upbound.io/example-id: bigquery/v1beta1/analyticshublistingsubscription
+  labels:
+    testing.upbound.io/example-name: subscription
+  name: subscription
+spec:
+  forProvider:
+    bigqueryDataset:
+    - datasetSelector:
+        matchLabels:
+          testing.upbound.io/example-name: subscription
+    dataExchangeIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    description: Test Description
+    displayName: my_listing
+    location: US
+
+---
+
+apiVersion: bigquery.gcp.upbound.io/v1beta2
+kind: Dataset
+metadata:
+  annotations:
+    meta.upbound.io/example-id: bigquery/v1beta1/analyticshublistingsubscription
+  labels:
+    testing.upbound.io/example-name: subscription
+  name: subscription
+spec:
+  forProvider:
+    description: Test Description
+    friendlyName: my_listing
+    location: US
