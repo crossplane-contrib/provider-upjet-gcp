@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: datalossprevention.gcp.upbound.io/v1beta2
 kind: JobTrigger
 metadata:
@@ -11,18 +15,18 @@ spec:
     description: Description
     displayName: Displayname
     inspectJob:
-    - actions:
+      actions:
       - saveFindings:
-        - outputConfig:
-          - table:
-            - datasetId: dataset
+          outputConfig:
+            table:
+              datasetId: dataset
               projectId: project
       inspectTemplateName: fake
       storageConfig:
-      - cloudStorageOptions:
-        - fileSet:
-          - url: gs://mybucket/directory/
+        cloudStorageOptions:
+          fileSet:
+            url: gs://mybucket/directory/
     parent: projects/my-project-name
     triggers:
     - schedule:
-      - recurrencePeriodDuration: 86400s
+        recurrencePeriodDuration: 86400s

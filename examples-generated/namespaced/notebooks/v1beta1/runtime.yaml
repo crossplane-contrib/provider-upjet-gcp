@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: notebooks.gcp.m.upbound.io/v1beta1
 kind: Runtime
 metadata:
@@ -10,13 +14,13 @@ metadata:
 spec:
   forProvider:
     accessConfig:
-    - accessType: SINGLE_USER
+      accessType: SINGLE_USER
       runtimeOwner: admin@hashicorptest.com
     location: us-central1
     virtualMachine:
-    - virtualMachineConfig:
-      - dataDisk:
-        - initializeParams:
-          - diskSizeGb: "100"
+      virtualMachineConfig:
+        dataDisk:
+          initializeParams:
+            diskSizeGb: "100"
             diskType: PD_STANDARD
         machineType: n1-standard-4

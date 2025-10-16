@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: networksecurity.gcp.m.upbound.io/v1beta1
 kind: TLSInspectionPolicy
 metadata:
@@ -29,18 +33,17 @@ metadata:
 spec:
   forProvider:
     issuancePolicy:
-    - baselineValues:
-      - caOptions:
-        - isCa: false
+      baselineValues:
+        caOptions:
+          isCa: false
         keyUsage:
-        - baseKeyUsage:
-          - {}
+          baseKeyUsage: {}
           extendedKeyUsage:
-          - serverAuth: true
+            serverAuth: true
       maximumLifetime: 1209600s
     location: us-central1
     publishingOptions:
-    - publishCaCert: false
+      publishCaCert: false
       publishCrl: false
     tier: DEVOPS
 
@@ -58,23 +61,23 @@ metadata:
 spec:
   forProvider:
     config:
-    - subjectConfig:
-      - subject:
-        - commonName: my-ca
+      subjectConfig:
+        subject:
+          commonName: my-ca
           organization: Test LLC
       x509Config:
-      - caOptions:
-        - isCa: true
+        caOptions:
+          isCa: true
         keyUsage:
-        - baseKeyUsage:
-          - certSign: true
+          baseKeyUsage:
+            certSign: true
             crlSign: true
           extendedKeyUsage:
-          - serverAuth: false
+            serverAuth: false
     deletionProtection: false
     ignoreActiveCertificatesOnDeletion: true
     keySpec:
-    - algorithm: RSA_PKCS1_4096_SHA256
+      algorithm: RSA_PKCS1_4096_SHA256
     lifetime: 86400s
     location: us-central1
     poolSelector:

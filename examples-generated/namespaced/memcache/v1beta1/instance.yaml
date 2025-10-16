@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: memcache.gcp.m.upbound.io/v1beta1
 kind: Instance
 metadata:
@@ -15,18 +19,18 @@ spec:
     labels:
       env: test
     maintenancePolicy:
-    - weeklyMaintenanceWindow:
+      weeklyMaintenanceWindow:
       - day: SATURDAY
         duration: 14400s
         startTime:
-        - hours: 0
+          hours: 0
           minutes: 30
           nanos: 0
           seconds: 0
     memcacheVersion: MEMCACHE_1_5
     name: test-instance
     nodeConfig:
-    - cpuCount: 1
+      cpuCount: 1
       memorySizeMb: 1024
     nodeCount: 1
 

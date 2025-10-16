@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: privateca.gcp.m.upbound.io/v1beta1
 kind: CAPool
 metadata:
@@ -13,6 +17,6 @@ spec:
       foo: bar
     location: us-central1
     publishingOptions:
-    - publishCaCert: true
+      publishCaCert: true
       publishCrl: true
     tier: ENTERPRISE

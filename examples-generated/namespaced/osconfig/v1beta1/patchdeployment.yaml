@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: osconfig.gcp.m.upbound.io/v1beta1
 kind: PatchDeployment
 metadata:
@@ -10,6 +14,6 @@ metadata:
 spec:
   forProvider:
     instanceFilter:
-    - all: true
+      all: true
     oneTimeSchedule:
-    - executeTime: "2999-10-10T10:10:10.045123456Z"
+      executeTime: "2999-10-10T10:10:10.045123456Z"

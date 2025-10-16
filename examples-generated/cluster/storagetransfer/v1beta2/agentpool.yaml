@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: storagetransfer.gcp.upbound.io/v1beta2
 kind: AgentPool
 metadata:
@@ -9,5 +13,5 @@ metadata:
 spec:
   forProvider:
     bandwidthLimit:
-    - limitMbps: "120"
+      limitMbps: "120"
     displayName: Source A to destination Z

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: monitoring.gcp.m.upbound.io/v1beta1
 kind: MetricDescriptor
 metadata:
@@ -17,7 +21,7 @@ spec:
       valueType: STRING
     launchStage: BETA
     metadata:
-    - ingestDelay: 30s
+      ingestDelay: 30s
       samplePeriod: 60s
     metricKind: GAUGE
     type: custom.googleapis.com/stores/daily_sales

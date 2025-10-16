@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: compute.gcp.m.upbound.io/v1beta1
 kind: RegionTargetTCPProxy
 metadata:
@@ -50,5 +54,5 @@ spec:
     checkIntervalSec: 1
     region: europe-west4
     tcpHealthCheck:
-    - port: "80"
+      port: "80"
     timeoutSec: 1

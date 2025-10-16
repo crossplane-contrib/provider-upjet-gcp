@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: gkehub.gcp.upbound.io/v1beta2
 kind: Membership
 metadata:
@@ -9,8 +13,8 @@ metadata:
 spec:
   forProvider:
     endpoint:
-    - gkeCluster:
-      - resourceLinkSelector:
+      gkeCluster:
+        resourceLinkSelector:
           matchLabels:
             testing.upbound.io/example-name: primary
     location: us-west1

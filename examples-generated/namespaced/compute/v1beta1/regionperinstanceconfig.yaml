@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: compute.gcp.m.upbound.io/v1beta1
 kind: RegionPerInstanceConfig
 metadata:
@@ -11,7 +15,7 @@ spec:
   forProvider:
     name: instance-1
     preservedState:
-    - disk:
+      disk:
       - deviceName: my-stateful-disk
         mode: READ_ONLY
         sourceSelector:
@@ -70,7 +74,7 @@ spec:
         matchLabels:
           testing.upbound.io/example-name: example
     serviceAccount:
-    - scopes:
+      scopes:
       - userinfo-email
       - compute-ro
       - storage-ro
@@ -97,7 +101,7 @@ spec:
     region: us-central1
     targetSize: 2
     updatePolicy:
-    - instanceRedistributionType: NONE
+      instanceRedistributionType: NONE
       minimalAction: RESTART
       type: OPPORTUNISTIC
     version:

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: monitoring.gcp.upbound.io/v1beta2
 kind: SLO
 metadata:
@@ -9,8 +13,8 @@ metadata:
 spec:
   forProvider:
     basicSli:
-    - latency:
-      - threshold: 1s
+      latency:
+        threshold: 1s
     calendarPeriod: DAY
     displayName: Terraform Test SLO for App Engine
     goal: 0.9

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: monitoring.gcp.upbound.io/v1beta2
 kind: AlertPolicy
 metadata:
@@ -11,7 +15,7 @@ spec:
     combiner: OR
     conditions:
     - conditionThreshold:
-      - aggregations:
+        aggregations:
         - alignmentPeriod: 60s
           perSeriesAligner: ALIGN_RATE
         comparison: COMPARISON_GT

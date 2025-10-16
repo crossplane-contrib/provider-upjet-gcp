@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: bigtable.gcp.m.upbound.io/v1beta1
 kind: Table
 metadata:
@@ -10,7 +14,7 @@ metadata:
 spec:
   forProvider:
     automatedBackupPolicy:
-    - frequency: 24h0m0s
+      frequency: 24h0m0s
       retentionPeriod: 72h0m0s
     changeStreamRetention: 24h0m0s
     columnFamily:

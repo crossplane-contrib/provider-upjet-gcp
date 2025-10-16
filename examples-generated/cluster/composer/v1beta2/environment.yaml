@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: composer.gcp.upbound.io/v1beta2
 kind: Environment
 metadata:
@@ -9,6 +13,6 @@ metadata:
 spec:
   forProvider:
     config:
-    - softwareConfig:
-      - imageVersion: composer-3-airflow-2
+      softwareConfig:
+        imageVersion: composer-3-airflow-2
     region: us-central1

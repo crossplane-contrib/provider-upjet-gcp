@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: cloudfunctions2.gcp.upbound.io/v1beta2
 kind: Function
 metadata:
@@ -9,11 +13,11 @@ metadata:
 spec:
   forProvider:
     buildConfig:
-    - entryPoint: helloHttp
+      entryPoint: helloHttp
       runtime: nodejs20
       source:
-      - storageSource:
-        - bucketSelector:
+        storageSource:
+          bucketSelector:
             matchLabels:
               testing.upbound.io/example-name: bucket
           objectSelector:
@@ -22,7 +26,7 @@ spec:
     description: a new function
     location: us-central1
     serviceConfig:
-    - availableMemory: 256M
+      availableMemory: 256M
       maxInstanceCount: 1
       timeoutSeconds: 60
 

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: bigquery.gcp.upbound.io/v1beta2
 kind: Connection
 metadata:
@@ -8,8 +12,7 @@ metadata:
   name: connection
 spec:
   forProvider:
-    cloudResource:
-    - {}
+    cloudResource: {}
     connectionId: my-connection
     description: a riveting description
     friendlyName: "\U0001F44B"

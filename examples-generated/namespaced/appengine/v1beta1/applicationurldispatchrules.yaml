@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: appengine.gcp.m.upbound.io/v1beta1
 kind: ApplicationURLDispatchRules
 metadata:
@@ -36,10 +40,10 @@ spec:
   forProvider:
     deleteServiceOnDestroy: true
     deployment:
-    - zip:
-      - sourceUrl: https://storage.googleapis.com/${google_storage_bucket.bucket.name}/${google_storage_bucket_object.object.name}
+      zip:
+        sourceUrl: https://storage.googleapis.com/${google_storage_bucket.bucket.name}/${google_storage_bucket_object.object.name}
     entrypoint:
-    - shell: node ./app.js
+      shell: node ./app.js
     envVariables:
       port: "8080"
     runtime: nodejs20

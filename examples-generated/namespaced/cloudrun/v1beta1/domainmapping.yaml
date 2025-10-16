@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: cloudrun.gcp.m.upbound.io/v1beta1
 kind: DomainMapping
 metadata:
@@ -11,12 +15,12 @@ spec:
   forProvider:
     location: us-central1
     metadata:
-    - namespaceSelector:
+      namespaceSelector:
         matchLabels:
           testing.upbound.io/example-name: example
     name: verified-domain.com
     spec:
-    - routeNameSelector:
+      routeNameSelector:
         matchLabels:
           testing.upbound.io/example-name: default
 
@@ -35,10 +39,10 @@ spec:
   forProvider:
     location: us-central1
     metadata:
-    - namespaceSelector:
+      namespaceSelector:
         matchLabels:
           testing.upbound.io/example-name: example
     template:
-    - spec:
-      - containers:
+      spec:
+        containers:
         - image: us-docker.pkg.dev/cloudrun/container/hello

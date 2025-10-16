@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: compute.gcp.m.upbound.io/v1beta1
 kind: TargetGRPCProxy
 metadata:
@@ -49,7 +53,7 @@ spec:
   forProvider:
     checkIntervalSec: 1
     grpcHealthCheck:
-    - grpcServiceName: testservice
+      grpcServiceName: testservice
       portName: health-check-port
       portSpecification: USE_NAMED_PORT
     timeoutSec: 1
@@ -82,7 +86,7 @@ spec:
       name: allpaths
       routeRules:
       - headerAction:
-        - requestHeadersToAdd:
+          requestHeadersToAdd:
           - headerName: AddSomethingElse
             headerValue: MyOtherValue
             replace: true
@@ -111,7 +115,7 @@ spec:
             presentMatch: true
         priority: 1
         urlRedirect:
-        - hostRedirect: A host
+          hostRedirect: A host
           httpsRedirect: false
           pathRedirect: some/path
           redirectResponseCode: TEMPORARY_REDIRECT
