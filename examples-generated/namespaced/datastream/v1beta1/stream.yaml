@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: datastream.gcp.m.upbound.io/v1beta1
 kind: Stream
 metadata:
@@ -10,8 +14,8 @@ metadata:
 spec:
   forProvider:
     backfillAll:
-    - mysqlExcludedObjects:
-      - mysqlDatabases:
+      mysqlExcludedObjects:
+        mysqlDatabases:
         - database: my-database
           mysqlTables:
           - mysqlColumns:
@@ -25,14 +29,14 @@ spec:
     customerManagedEncryptionKey: kms-name
     desiredState: NOT_STARTED
     destinationConfig:
-    - destinationConnectionProfileSelector:
+      destinationConnectionProfileSelector:
         matchLabels:
           testing.upbound.io/example-name: destination_connection_profile
       gcsDestinationConfig:
-      - fileRotationInterval: 60s
+        fileRotationInterval: 60s
         fileRotationMb: 200
         jsonFileFormat:
-        - compression: GZIP
+          compression: GZIP
           schemaFileFormat: NO_SCHEMA_FILE
         path: mydata
     displayName: my stream
@@ -40,9 +44,9 @@ spec:
       key: value
     location: us-central1
     sourceConfig:
-    - mysqlSourceConfig:
-      - excludeObjects:
-        - mysqlDatabases:
+      mysqlSourceConfig:
+        excludeObjects:
+          mysqlDatabases:
           - database: my-database
             mysqlTables:
             - mysqlColumns:
@@ -54,7 +58,7 @@ spec:
                 primaryKey: false
               table: excludedTable
         includeObjects:
-        - mysqlDatabases:
+          mysqlDatabases:
           - database: my-database
             mysqlTables:
             - mysqlColumns:
@@ -86,7 +90,7 @@ spec:
   forProvider:
     displayName: Connection profile
     gcsProfile:
-    - bucket: my-bucket
+      bucket: my-bucket
       rootPath: /path
     location: us-central1
 
@@ -106,7 +110,7 @@ spec:
     displayName: Source connection profile
     location: us-central1
     mysqlProfile:
-    - hostname: ${google_sql_database_instance.instance.public_ip_address}
+      hostname: ${google_sql_database_instance.instance.public_ip_address}
       passwordSecretRef:
         key: attribute.result
         name: example-password
@@ -146,11 +150,11 @@ spec:
     deletionProtection: true
     region: us-central1
     settings:
-    - backupConfiguration:
-      - binaryLogEnabled: true
+      backupConfiguration:
+        binaryLogEnabled: true
         enabled: true
       ipConfiguration:
-      - authorizedNetworks:
+        authorizedNetworks:
         - value: 34.71.242.81
         - value: 34.72.28.29
         - value: 34.67.6.157
