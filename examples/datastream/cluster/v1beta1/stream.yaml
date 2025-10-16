@@ -105,7 +105,7 @@ spec:
     createWithoutValidation: true
     mysqlProfile:
       hostname: instance-hostname
-      secretManagerStoredPassword: projects/crossplane-playground/locations/us-west1/secrets/example-password/versions/latest
+      secretManagerStoredPassword: projects/crossplane-playground/secrets/example-password/versions/latest
       username: user
 
 ---
