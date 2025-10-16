@@ -16,11 +16,11 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: subscription
     destinationDataset:
-    datasetReference:
-      datasetId: destination_dataset
-      projectIdSelector:
-        matchLabels:
-          testing.upbound.io/example-name: subscription
+      datasetReference:
+        datasetId: destination_dataset
+        projectIdSelector:
+          matchLabels:
+            testing.upbound.io/example-name: subscription
       description: A test subscription
       friendlyName: "\U0001F44B"
       labels:
