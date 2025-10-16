@@ -76,18 +76,15 @@ export SUBPACKAGES := $(SUBPACKAGES)
 # ====================================================================================
 # Setup Kubernetes tools
 
-KIND_VERSION = v0.29.0
-# dependency for up
-UP_VERSION = v0.40.0-0.rc.3
-UP_CHANNEL = alpha
-UPTEST_VERSION = v2.0.1
+KIND_VERSION = v0.30.0
+UPTEST_VERSION = v2.2.0
 KUSTOMIZE_VERSION = v5.3.0
 YQ_VERSION = v4.40.5
-CROSSPLANE_VERSION = 1.20.0
+CROSSPLANE_VERSION = 2.0.2
+CROSSPLANE_CLI_VERSION = v2.0.2
 CRDDIFF_VERSION = v0.12.1
 
-export UP_VERSION := $(UP_VERSION)
-export UP_CHANNEL := $(UP_CHANNEL)
+export CROSSPLANE_CLI_VERSION := $(CROSSPLANE_CLI_VERSION)
 
 -include build/makelib/k8s_tools.mk
 
@@ -162,7 +159,7 @@ run: go.build
 
 # NOTE(hasheddan): we ensure up is installed prior to running platform-specific
 # build steps in parallel to avoid encountering an installation race condition.
-build.init: $(UP)
+build.init: $(CROSSPLANE_CLI)
 
 # ====================================================================================
 # Setup Terraform for fetching provider schema
@@ -344,12 +341,12 @@ endif
 SUBPACKAGES := $(if $(PROVIDERS),$(PROVIDERS),$(SUBPACKAGES))
 # use REPO in place of XPKG_REG_ORGS if set
 XPKG_REG_ORGS := $(if $(REPO),$(REPO),$(XPKG_REG_ORGS))
-load-pkg: $(UP) build.all
+load-pkg: $(CROSSPLANE_CLI) build.all
 	@$(INFO) Loading the family providers into the Docker daemon: $(SUBPACKAGES)
 	@for p in $(PLATFORMS); do \
 		mkdir -p "$(XPKG_OUTPUT_DIR)/$$p"; \
 	done
-	@$(UP) xpkg batch --smaller-providers $$(echo -n "$(SUBPACKAGES) config" | tr ' ' ',') \
+	$(CROSSPLANE_CLI) xpkg batch --smaller-providers $$(echo -n "$(SUBPACKAGES) config" | tr ' ' ',') \
 		--family-base-image $(BUILD_REGISTRY)/$(PROJECT_NAME) \
 		--platform $(BATCH_PLATFORMS) \
 		--provider-name $(PROJECT_NAME) \
@@ -361,7 +358,6 @@ load-pkg: $(UP) build.all
 		--build-only=true \
 		--examples-root $(ROOT_DIR)/examples \
 		--examples-group-override monolith=* --examples-group-override config=providerconfig \
-		--auth-ext $(ROOT_DIR)/package/auth.yaml \
 		--crd-root $(ROOT_DIR)/package/crds \
 		--crd-group-override monolith=* --crd-group-override config=$(PROVIDER_NAME) \
 		--package-metadata-template $(ROOT_DIR)/package/crossplane.yaml.tmpl \
