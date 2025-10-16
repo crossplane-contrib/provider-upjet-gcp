@@ -4,14 +4,16 @@
 
 module github.com/upbound/provider-gcp
 
-go 1.24.6
+go 1.24.7
+
+toolchain go1.24.9
 
 require (
 	dario.cat/mergo v1.0.2
 	github.com/alecthomas/kingpin/v2 v2.4.0
 	github.com/crossplane/crossplane-runtime/v2 v2.0.0-20250730220209-c306b1c8b181
 	github.com/crossplane/crossplane-tools v0.0.0-20250731192036-00d407d8b7ec
-	github.com/crossplane/upjet/v2 v2.0.1-0.20251009193737-0b7f640373c8
+	github.com/crossplane/upjet/v2 v2.0.1-0.20251016125717-bc4227e2dc7a
 	github.com/hashicorp/terraform-json v0.25.0
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.37.0
 	github.com/hashicorp/terraform-provider-google v1.20.1-0.20250805162037-2fd0afa09363
@@ -120,7 +122,7 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
-	github.com/muvaf/typewriter v0.0.0-20210910160850-80e49fe1eb32 // indirect
+	github.com/muvaf/typewriter v0.0.0-20240614220100-70f9d4a54ea0 // indirect
 	github.com/oklog/run v1.0.0 // indirect
 	github.com/planetscale/vtprotobuf v0.6.1-0.20240319094008-0393e58bdf10 // indirect
 	github.com/prometheus/client_golang v1.22.0 // indirect

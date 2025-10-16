@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: eventarc.gcp.m.upbound.io/v1beta1
 kind: Trigger
 metadata:
@@ -10,8 +14,8 @@ metadata:
 spec:
   forProvider:
     destination:
-    - cloudRunService:
-      - region: us-central1
+      cloudRunService:
+        region: us-central1
         serviceSelector:
           matchLabels:
             testing.upbound.io/example-name: default
@@ -22,8 +26,8 @@ spec:
     - attribute: type
       value: google.cloud.pubsub.topic.v1.messagePublished
     transport:
-    - pubsub:
-      - topicSelector:
+      pubsub:
+        topicSelector:
           matchLabels:
             testing.upbound.io/example-name: foo
 
@@ -42,8 +46,8 @@ spec:
   forProvider:
     location: us-central1
     template:
-    - spec:
-      - containerConcurrency: 50
+      spec:
+        containerConcurrency: 50
         containers:
         - image: gcr.io/cloudrun/hello
           ports:

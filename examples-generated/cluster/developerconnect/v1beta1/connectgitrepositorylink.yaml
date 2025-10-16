@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: developerconnect.gcp.upbound.io/v1beta1
 kind: ConnectGitRepositoryLink
 metadata:
@@ -27,9 +31,9 @@ metadata:
 spec:
   forProvider:
     githubConfig:
-    - appInstallationId: 123123
+      appInstallationId: 123123
       authorizerCredential:
-      - oauthTokenSecretVersionSelector:
+        oauthTokenSecretVersionSelector:
           matchLabels:
             testing.upbound.io/example-name: github-token-secret-version
       githubApp: DEVELOPER_CONNECT
@@ -48,8 +52,7 @@ metadata:
 spec:
   forProvider:
     replication:
-    - auto:
-      - {}
+      auto: {}
 
 ---
 

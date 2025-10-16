@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: dns.gcp.m.upbound.io/v1beta1
 kind: ResponsePolicyRule
 metadata:
@@ -11,7 +15,7 @@ spec:
   forProvider:
     dnsName: dns.example.com.
     localData:
-    - localDatas:
+      localDatas:
       - name: dns.example.com.
         rrdatas:
         - 192.0.2.91

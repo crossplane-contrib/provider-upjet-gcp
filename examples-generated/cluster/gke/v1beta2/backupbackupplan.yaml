@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: gke.gcp.upbound.io/v1beta2
 kind: BackupBackupPlan
 metadata:
@@ -9,7 +13,7 @@ metadata:
 spec:
   forProvider:
     backupConfig:
-    - allNamespaces: true
+      allNamespaces: true
       includeSecrets: true
       includeVolumeData: true
     clusterSelector:
@@ -30,8 +34,8 @@ metadata:
 spec:
   forProvider:
     addonsConfig:
-    - gkeBackupAgentConfig:
-      - enabled: true
+      gkeBackupAgentConfig:
+        enabled: true
     deletionProtection: true
     initialNodeCount: 1
     location: us-central1
@@ -42,4 +46,4 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: example
     workloadIdentityConfig:
-    - workloadPool: my-project-name.svc.id.goog
+      workloadPool: my-project-name.svc.id.goog

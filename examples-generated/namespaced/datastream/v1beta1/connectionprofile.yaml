@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: datastream.gcp.m.upbound.io/v1beta1
 kind: ConnectionProfile
 metadata:
@@ -11,6 +15,6 @@ spec:
   forProvider:
     displayName: Connection profile
     gcsProfile:
-    - bucket: my-bucket
+      bucket: my-bucket
       rootPath: /path
     location: us-central1

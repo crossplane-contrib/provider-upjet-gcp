@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: accesscontextmanager.gcp.upbound.io/v1beta2
 kind: ServicePerimeter
 metadata:
@@ -11,7 +15,7 @@ spec:
     name: accessPolicies/${google_access_context_manager_access_policy.access-policy.name}/servicePerimeters/restrict_storage
     parent: accessPolicies/${google_access_context_manager_access_policy.access-policy.name}
     status:
-    - restrictedServices:
+      restrictedServices:
       - storage.googleapis.com
     title: restrict_storage
 
@@ -28,9 +32,9 @@ metadata:
 spec:
   forProvider:
     basic:
-    - conditions:
+      conditions:
       - devicePolicy:
-        - osConstraints:
+          osConstraints:
           - osType: DESKTOP_CHROME_OS
           requireScreenLock: false
         regions:

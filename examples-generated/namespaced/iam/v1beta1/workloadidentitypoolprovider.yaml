@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: iam.gcp.m.upbound.io/v1beta1
 kind: WorkloadIdentityPoolProvider
 metadata:
@@ -10,7 +14,7 @@ metadata:
 spec:
   forProvider:
     aws:
-    - accountId: "999999999999"
+      accountId: "999999999999"
     workloadIdentityPoolIdSelector:
       matchLabels:
         testing.upbound.io/example-name: pool

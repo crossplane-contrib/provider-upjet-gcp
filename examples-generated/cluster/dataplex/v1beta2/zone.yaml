@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: dataplex.gcp.upbound.io/v1beta2
 kind: Zone
 metadata:
@@ -10,7 +14,7 @@ spec:
   forProvider:
     description: Zone for DCL
     discoverySpec:
-    - enabled: false
+      enabled: false
     displayName: Zone for DCL
     labels: {}
     lakeSelector:
@@ -19,7 +23,7 @@ spec:
     location: us-west1
     project: my-project-name
     resourceSpec:
-    - locationType: MULTI_REGION
+      locationType: MULTI_REGION
     type: RAW
 
 ---

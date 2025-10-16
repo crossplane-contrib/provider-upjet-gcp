@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: dataplex.gcp.m.upbound.io/v1beta1
 kind: Asset
 metadata:
@@ -13,7 +17,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: basic_zone
     discoverySpec:
-    - enabled: false
+      enabled: false
     labels:
       env: foo
       my-asset: exists
@@ -23,7 +27,7 @@ spec:
     location: us-west1
     project: my-project-name
     resourceSpec:
-    - name: projects/my-project-name/buckets/bucket
+      name: projects/my-project-name/buckets/bucket
       type: STORAGE_BUCKET
 
 ---
@@ -56,14 +60,14 @@ metadata:
 spec:
   forProvider:
     discoverySpec:
-    - enabled: false
+      enabled: false
     lakeSelector:
       matchLabels:
         testing.upbound.io/example-name: example
     location: us-west1
     project: my-project-name
     resourceSpec:
-    - locationType: SINGLE_REGION
+      locationType: SINGLE_REGION
     type: RAW
 
 ---

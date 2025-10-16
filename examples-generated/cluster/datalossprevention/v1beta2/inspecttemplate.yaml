@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: datalossprevention.gcp.upbound.io/v1beta2
 kind: InspectTemplate
 metadata:
@@ -11,7 +15,7 @@ spec:
     description: My description
     displayName: display_name
     inspectConfig:
-    - infoTypes:
+      infoTypes:
       - name: EMAIL_ADDRESS
       - name: PERSON_NAME
       - name: LAST_NAME
@@ -19,12 +23,12 @@ spec:
       - name: PHONE_NUMBER
       - name: FIRST_NAME
       limits:
-      - maxFindingsPerInfoType:
+        maxFindingsPerInfoType:
         - infoType:
-          - name: PERSON_NAME
+            name: PERSON_NAME
           maxFindings: "75"
         - infoType:
-          - name: LAST_NAME
+            name: LAST_NAME
           maxFindings: "80"
         maxFindingsPerItem: 10
         maxFindingsPerRequest: 50
@@ -34,9 +38,9 @@ spec:
         - name: EMAIL_ADDRESS
         rules:
         - exclusionRule:
-          - matchingType: MATCHING_TYPE_FULL_MATCH
+            matchingType: MATCHING_TYPE_FULL_MATCH
             regex:
-            - pattern: .+@example.com
+              pattern: .+@example.com
       - infoTypes:
         - name: EMAIL_ADDRESS
         - name: DOMAIN_NAME
@@ -45,19 +49,19 @@ spec:
         - name: FIRST_NAME
         rules:
         - exclusionRule:
-          - dictionary:
-            - wordList:
-              - words:
+            dictionary:
+              wordList:
+                words:
                 - TEST
             matchingType: MATCHING_TYPE_PARTIAL_MATCH
       - infoTypes:
         - name: PERSON_NAME
         rules:
         - hotwordRule:
-          - hotwordRegex:
-            - pattern: patient
+            hotwordRegex:
+              pattern: patient
             likelihoodAdjustment:
-            - fixedLikelihood: VERY_LIKELY
+              fixedLikelihood: VERY_LIKELY
             proximity:
-            - windowBefore: 50
+              windowBefore: 50
     parent: projects/my-project-name

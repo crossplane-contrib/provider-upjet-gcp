@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: compute.gcp.upbound.io/v1beta2
 kind: Instance
 metadata:
@@ -9,8 +13,8 @@ metadata:
 spec:
   forProvider:
     bootDisk:
-    - initializeParams:
-      - imageSelector:
+      initializeParams:
+        imageSelector:
           matchLabels:
             testing.upbound.io/example-name: example
         labels:
@@ -28,7 +32,7 @@ spec:
     scratchDisk:
     - interface: NVME
     serviceAccount:
-    - emailSelector:
+      emailSelector:
         matchLabels:
           testing.upbound.io/example-name: default
       scopes:

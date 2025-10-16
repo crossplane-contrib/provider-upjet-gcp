@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: notebooks.gcp.m.upbound.io/v1beta1
 kind: Instance
 metadata:
@@ -12,5 +16,5 @@ spec:
     location: us-west1-a
     machineType: e2-medium
     vmImage:
-    - imageFamily: pytorch-latest-cu124
+      imageFamily: pytorch-latest-cu124
       project: deeplearning-platform-release

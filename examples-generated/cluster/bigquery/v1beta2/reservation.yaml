@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: bigquery.gcp.upbound.io/v1beta2
 kind: Reservation
 metadata:
@@ -9,7 +13,7 @@ metadata:
 spec:
   forProvider:
     autoscale:
-    - maxSlots: 100
+      maxSlots: 100
     concurrency: 0
     edition: STANDARD
     ignoreIdleSlots: true

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: alloydb.gcp.upbound.io/v1beta2
 kind: Backup
 metadata:
@@ -27,7 +31,7 @@ spec:
   forProvider:
     location: us-central1
     networkConfig:
-    - networkSelector:
+      networkSelector:
         matchLabels:
           testing.upbound.io/example-name: default
 

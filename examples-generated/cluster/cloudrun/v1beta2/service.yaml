@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: cloudrun.gcp.upbound.io/v1beta2
 kind: Service
 metadata:
@@ -10,8 +14,8 @@ spec:
   forProvider:
     location: us-central1
     template:
-    - spec:
-      - containers:
+      spec:
+        containers:
         - image: us-docker.pkg.dev/cloudrun/container/hello
     traffic:
     - latestRevision: true

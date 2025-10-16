@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: pubsub.gcp.m.upbound.io/v1beta1
 kind: Subscription
 metadata:
@@ -13,7 +17,7 @@ spec:
     labels:
       foo: bar
     pushConfig:
-    - attributes:
+      attributes:
         x-goog-version: v1
       pushEndpoint: https://example.com/push
     topicSelector:

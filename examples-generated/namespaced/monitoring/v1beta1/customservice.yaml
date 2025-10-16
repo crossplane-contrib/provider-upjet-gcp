@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: monitoring.gcp.m.upbound.io/v1beta1
 kind: CustomService
 metadata:
@@ -12,7 +16,7 @@ spec:
     displayName: My Custom Service custom-srv
     serviceId: custom-srv
     telemetry:
-    - resourceName: //product.googleapis.com/foo/foo/services/test
+      resourceName: //product.googleapis.com/foo/foo/services/test
     userLabels:
       my_key: my_value
       my_other_key: my_other_value

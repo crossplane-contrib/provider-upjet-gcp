@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: sql.gcp.upbound.io/v1beta1
 kind: SSLCert
 metadata:
@@ -27,4 +31,4 @@ spec:
   forProvider:
     databaseVersion: MYSQL_5_7
     settings:
-    - tier: db-f1-micro
+      tier: db-f1-micro

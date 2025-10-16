@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: containeraws.gcp.upbound.io/v1beta2
 kind: NodePool
 metadata:
@@ -11,30 +15,30 @@ spec:
     annotations:
       label-one: value-one
     autoscaling:
-    - maxNodeCount: 5
+      maxNodeCount: 5
       minNodeCount: 1
     clusterSelector:
       matchLabels:
         testing.upbound.io/example-name: primary
     config:
-    - configEncryption:
-      - kmsKeyArn: arn:aws:kms:my-aws-region:012345678910:key/12345678-1234-1234-1234-123456789111
+      configEncryption:
+        kmsKeyArn: arn:aws:kms:my-aws-region:012345678910:key/12345678-1234-1234-1234-123456789111
       iamInstanceProfile: my--1p-dev-nodepool
       instanceType: t3.medium
       labels:
         label-one: value-one
       proxyConfig:
-      - secretArn: arn:aws:secretsmanager:us-west-2:126285863215:secret:proxy_config20210824150329476300000001-ABCDEF
+        secretArn: arn:aws:secretsmanager:us-west-2:126285863215:secret:proxy_config20210824150329476300000001-ABCDEF
         secretVersion: 12345678-ABCD-EFGH-IJKL-987654321098
       rootVolume:
-      - iops: 3000
+        iops: 3000
         kmsKeyArn: arn:aws:kms:my-aws-region:012345678910:key/12345678-1234-1234-1234-123456789111
         sizeGib: 10
         volumeType: GP3
       securityGroupIds:
       - sg-00000000000000000
       sshConfig:
-      - ec2KeyPair: my--1p-dev-ssh
+        ec2KeyPair: my--1p-dev-ssh
       tags:
         tag-one: value-one
       taints:
@@ -42,15 +46,15 @@ spec:
         key: taint-key
         value: taint-value
     kubeletConfig:
-    - cpuCfsQuota: true
+      cpuCfsQuota: true
       cpuCfsQuotaPeriod: 100ms
       cpuManagerPolicy: none
       podPidsLimit: 1024
     location: us-west1
     management:
-    - autoRepair: true
+      autoRepair: true
     maxPodsConstraint:
-    - maxPodsPerNode: 110
+      maxPodsPerNode: 110
     project: my-project-name
     subnetId: subnet-00000000000000000
     version: ${data.google_container_aws_versions.versions.valid_versions[0]}
@@ -70,36 +74,36 @@ spec:
     annotations:
       label-one: value-one
     authorization:
-    - adminUsers:
+      adminUsers:
       - username: my@service-account.com
     awsRegion: my-aws-region
     controlPlane:
-    - awsServicesAuthentication:
-      - roleArn: arn:aws:iam::012345678910:role/my--1p-dev-oneplatform
+      awsServicesAuthentication:
+        roleArn: arn:aws:iam::012345678910:role/my--1p-dev-oneplatform
         roleSessionName: my--1p-dev-session
       configEncryption:
-      - kmsKeyArn: arn:aws:kms:my-aws-region:012345678910:key/12345678-1234-1234-1234-123456789111
+        kmsKeyArn: arn:aws:kms:my-aws-region:012345678910:key/12345678-1234-1234-1234-123456789111
       databaseEncryption:
-      - kmsKeyArn: arn:aws:kms:my-aws-region:012345678910:key/12345678-1234-1234-1234-123456789111
+        kmsKeyArn: arn:aws:kms:my-aws-region:012345678910:key/12345678-1234-1234-1234-123456789111
       iamInstanceProfile: my--1p-dev-controlplane
       instanceType: t3.medium
       mainVolume:
-      - iops: 3000
+        iops: 3000
         kmsKeyArn: arn:aws:kms:my-aws-region:012345678910:key/12345678-1234-1234-1234-123456789111
         sizeGib: 10
         volumeType: GP3
       proxyConfig:
-      - secretArn: arn:aws:secretsmanager:us-west-2:126285863215:secret:proxy_config20210824150329476300000001-ABCDEF
+        secretArn: arn:aws:secretsmanager:us-west-2:126285863215:secret:proxy_config20210824150329476300000001-ABCDEF
         secretVersion: 12345678-ABCD-EFGH-IJKL-987654321098
       rootVolume:
-      - iops: 3000
+        iops: 3000
         kmsKeyArn: arn:aws:kms:my-aws-region:012345678910:key/12345678-1234-1234-1234-123456789111
         sizeGib: 10
         volumeType: GP3
       securityGroupIds:
       - sg-00000000000000000
       sshConfig:
-      - ec2KeyPair: my--1p-dev-ssh
+        ec2KeyPair: my--1p-dev-ssh
       subnetIds:
       - subnet-00000000000000000
       tags:
@@ -107,10 +111,10 @@ spec:
       version: ${data.google_container_aws_versions.versions.valid_versions[0]}
     description: A sample aws cluster
     fleet:
-    - project: my-project-number
+      project: my-project-number
     location: us-west1
     networking:
-    - podAddressCidrBlocks:
+      podAddressCidrBlocks:
       - 10.2.0.0/16
       serviceAddressCidrBlocks:
       - 10.1.0.0/16
