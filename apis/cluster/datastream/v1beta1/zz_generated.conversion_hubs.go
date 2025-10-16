@@ -7,10 +7,4 @@
 package v1beta1
 
 // Hub marks this type as a conversion hub.
-func (tr *ConnectionProfile) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *PrivateConnection) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *Stream) Hub() {}
