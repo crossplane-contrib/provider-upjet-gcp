@@ -322,6 +322,7 @@ import (
 	servicemonitoring "github.com/upbound/provider-gcp/internal/controller/namespaced/monitoring/service"
 	slo "github.com/upbound/provider-gcp/internal/controller/namespaced/monitoring/slo"
 	uptimecheckconfig "github.com/upbound/provider-gcp/internal/controller/namespaced/monitoring/uptimecheckconfig"
+	groupnetworkconnectivity "github.com/upbound/provider-gcp/internal/controller/namespaced/networkconnectivity/group"
 	hub "github.com/upbound/provider-gcp/internal/controller/namespaced/networkconnectivity/hub"
 	serviceconnectionpolicy "github.com/upbound/provider-gcp/internal/controller/namespaced/networkconnectivity/serviceconnectionpolicy"
 	spoke "github.com/upbound/provider-gcp/internal/controller/namespaced/networkconnectivity/spoke"
@@ -718,6 +719,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		servicemonitoring.Setup,
 		slo.Setup,
 		uptimecheckconfig.Setup,
+		groupnetworkconnectivity.Setup,
 		hub.Setup,
 		serviceconnectionpolicy.Setup,
 		spoke.Setup,
@@ -1120,6 +1122,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		servicemonitoring.SetupGated,
 		slo.SetupGated,
 		uptimecheckconfig.SetupGated,
+		groupnetworkconnectivity.SetupGated,
 		hub.SetupGated,
 		serviceconnectionpolicy.SetupGated,
 		spoke.SetupGated,

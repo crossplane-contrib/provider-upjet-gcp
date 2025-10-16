@@ -298,6 +298,7 @@
   "google_monitoring_service",
   "google_monitoring_slo",
   "google_monitoring_uptime_check_config",
+  "google_network_connectivity_group",
   "google_network_connectivity_hub",
   "google_network_connectivity_service_connection_policy",
   "google_network_connectivity_spoke",

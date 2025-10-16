@@ -665,6 +665,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_network_connectivity_spoke": config.IdentifierFromProvider,
 	// ServiceConnectionPolicy can be imported using projects/{{project}}/locations/{{location}}/serviceConnectionPolicies/{{name}}
 	"google_network_connectivity_service_connection_policy": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/serviceConnectionPolicies/{{ .external_name }}"),
+        // Group can be imported using {{hub}}/{{name}}
+	"google_network_connectivity_group": config.IdentifierFromProvider,
 
 	// network security
 	//
