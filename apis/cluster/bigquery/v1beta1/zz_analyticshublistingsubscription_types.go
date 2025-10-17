@@ -58,6 +58,9 @@ type AnalyticsHubListingSubscriptionInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ListingIDSelector *v1.Selector `json:"listingIdSelector,omitempty" tf:"-"`
 
+	// The name of the location of the data exchange. Distinct from the location of the destination data set.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -124,6 +127,9 @@ type AnalyticsHubListingSubscriptionObservation struct {
 
 	// Email of the subscriber.
 	SubscriberContact *string `json:"subscriberContact,omitempty" tf:"subscriber_contact,omitempty"`
+
+	// The subscription id used to reference the subscription.
+	SubscriptionID *string `json:"subscriptionId,omitempty" tf:"subscription_id,omitempty"`
 }
 
 type AnalyticsHubListingSubscriptionParameters struct {
@@ -161,8 +167,8 @@ type AnalyticsHubListingSubscriptionParameters struct {
 	ListingIDSelector *v1.Selector `json:"listingIdSelector,omitempty" tf:"-"`
 
 	// The name of the location of the data exchange. Distinct from the location of the destination data set.
-	// +kubebuilder:validation:Required
-	Location *string `json:"location" tf:"location,omitempty"`
+	// +kubebuilder:validation:Optional
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -248,6 +254,10 @@ type DestinationDatasetInitParameters struct {
 	// organize and group your datasets.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The geographic location where the dataset should reside.
+	// See https://cloud.google.com/bigquery/docs/locations for supported locations.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 }
 
 type DestinationDatasetObservation struct {
@@ -295,7 +305,7 @@ type DestinationDatasetParameters struct {
 
 	// The geographic location where the dataset should reside.
 	// See https://cloud.google.com/bigquery/docs/locations for supported locations.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	Location *string `json:"location" tf:"location,omitempty"`
 }
 
@@ -373,6 +383,7 @@ type AnalyticsHubListingSubscription struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.destinationDataset) || (has(self.initProvider) && has(self.initProvider.destinationDataset))",message="spec.forProvider.destinationDataset is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.location) || (has(self.initProvider) && has(self.initProvider.location))",message="spec.forProvider.location is a required parameter"
 	Spec   AnalyticsHubListingSubscriptionSpec   `json:"spec"`
 	Status AnalyticsHubListingSubscriptionStatus `json:"status,omitempty"`
 }

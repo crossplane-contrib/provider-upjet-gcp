@@ -270,8 +270,6 @@ spec:
                           The geographic location where the dataset should reside.
                           See https://cloud.google.com/bigquery/docs/locations for supported locations.
                         type: string
-                    required:
-                    - location
                     type: object
                   listingId:
                     description: The ID of the listing. Must contain only Unicode
@@ -363,8 +361,6 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
-                required:
-                - location
                 type: object
               initProvider:
                 description: |-
@@ -570,6 +566,11 @@ spec:
                           organize and group your datasets.
                         type: object
                         x-kubernetes-map-type: granular
+                      location:
+                        description: |-
+                          The geographic location where the dataset should reside.
+                          See https://cloud.google.com/bigquery/docs/locations for supported locations.
+                        type: string
                     type: object
                   listingId:
                     description: The ID of the listing. Must contain only Unicode
@@ -652,6 +653,10 @@ spec:
                             type: string
                         type: object
                     type: object
+                  location:
+                    description: The name of the location of the data exchange. Distinct
+                      from the location of the destination data set.
+                    type: string
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -749,6 +754,10 @@ spec:
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.destinationDataset)
                 || (has(self.initProvider) && has(self.initProvider.destinationDataset))'
+            - message: spec.forProvider.location is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.location)
+                || (has(self.initProvider) && has(self.initProvider.location))'
           status:
             description: AnalyticsHubListingSubscriptionStatus defines the observed
               state of AnalyticsHubListingSubscription.
@@ -908,6 +917,9 @@ spec:
                     type: string
                   subscriberContact:
                     description: Email of the subscriber.
+                    type: string
+                  subscriptionId:
+                    description: The subscription id used to reference the subscription.
                     type: string
                 type: object
               conditions:

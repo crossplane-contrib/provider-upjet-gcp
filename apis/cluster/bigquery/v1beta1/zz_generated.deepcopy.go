@@ -1716,6 +1716,11 @@ func (in *AnalyticsHubListingSubscriptionInitParameters) DeepCopyInto(out *Analy
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
+	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
 		*out = new(string)
@@ -1861,6 +1866,11 @@ func (in *AnalyticsHubListingSubscriptionObservation) DeepCopyInto(out *Analytic
 	}
 	if in.SubscriberContact != nil {
 		in, out := &in.SubscriberContact, &out.SubscriberContact
+		*out = new(string)
+		**out = **in
+	}
+	if in.SubscriptionID != nil {
+		in, out := &in.SubscriptionID, &out.SubscriptionID
 		*out = new(string)
 		**out = **in
 	}
@@ -7702,6 +7712,11 @@ func (in *DestinationDatasetInitParameters) DeepCopyInto(out *DestinationDataset
 			}
 			(*out)[key] = outVal
 		}
+	}
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
 	}
 }
 
