@@ -9,6 +9,7 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
+	group "github.com/upbound/provider-gcp/internal/controller/namespaced/networkconnectivity/group"
 	hub "github.com/upbound/provider-gcp/internal/controller/namespaced/networkconnectivity/hub"
 	serviceconnectionpolicy "github.com/upbound/provider-gcp/internal/controller/namespaced/networkconnectivity/serviceconnectionpolicy"
 	spoke "github.com/upbound/provider-gcp/internal/controller/namespaced/networkconnectivity/spoke"
@@ -18,6 +19,7 @@ import (
 // the supplied manager.
 func Setup_networkconnectivity(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		group.Setup,
 		hub.Setup,
 		serviceconnectionpolicy.Setup,
 		spoke.Setup,
@@ -33,6 +35,7 @@ func Setup_networkconnectivity(mgr ctrl.Manager, o controller.Options) error {
 // the supplied manager gated.
 func SetupGated_networkconnectivity(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		group.SetupGated,
 		hub.SetupGated,
 		serviceconnectionpolicy.SetupGated,
 		spoke.SetupGated,

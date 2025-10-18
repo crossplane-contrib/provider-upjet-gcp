@@ -405,7 +405,17 @@ type SpokeInitParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The name of the group that this spoke is associated with.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/networkconnectivity/v1beta1.Group
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Group *string `json:"group,omitempty" tf:"group,omitempty"`
+
+	// Reference to a Group in networkconnectivity to populate group.
+	// +kubebuilder:validation:Optional
+	GroupRef *v1.Reference `json:"groupRef,omitempty" tf:"-"`
+
+	// Selector for a Group in networkconnectivity to populate group.
+	// +kubebuilder:validation:Optional
+	GroupSelector *v1.Selector `json:"groupSelector,omitempty" tf:"-"`
 
 	// Immutable. The URI of the hub that this spoke is attached to.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/networkconnectivity/v1beta1.Hub
@@ -539,8 +549,18 @@ type SpokeParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The name of the group that this spoke is associated with.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/networkconnectivity/v1beta1.Group
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Group *string `json:"group,omitempty" tf:"group,omitempty"`
+
+	// Reference to a Group in networkconnectivity to populate group.
+	// +kubebuilder:validation:Optional
+	GroupRef *v1.Reference `json:"groupRef,omitempty" tf:"-"`
+
+	// Selector for a Group in networkconnectivity to populate group.
+	// +kubebuilder:validation:Optional
+	GroupSelector *v1.Selector `json:"groupSelector,omitempty" tf:"-"`
 
 	// Immutable. The URI of the hub that this spoke is attached to.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/networkconnectivity/v1beta1.Hub
