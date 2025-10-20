@@ -41,28 +41,11 @@ type GroupInitParameters struct {
 	// An optional description of the group.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// The name of the hub. Hub names must be unique. They use the following form: projects/{projectNumber}/locations/global/hubs/{hubId}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/networkconnectivity/v1beta1.Hub
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
-	Hub *string `json:"hub,omitempty" tf:"hub,omitempty"`
-
-	// Reference to a Hub in networkconnectivity to populate hub.
-	// +kubebuilder:validation:Optional
-	HubRef *v1.Reference `json:"hubRef,omitempty" tf:"-"`
-
-	// Selector for a Hub in networkconnectivity to populate hub.
-	// +kubebuilder:validation:Optional
-	HubSelector *v1.Selector `json:"hubSelector,omitempty" tf:"-"`
-
 	// Optional labels in key:value format. For more information about labels, see Requirements for labels.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
 	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
-
-	// The name of the group. Group names must be unique.
-	// Possible values are: default, center, edge.
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -95,10 +78,6 @@ type GroupObservation struct {
 	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
-
-	// The name of the group. Group names must be unique.
-	// Possible values are: default, center, edge.
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -154,11 +133,6 @@ type GroupParameters struct {
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
-	// The name of the group. Group names must be unique.
-	// Possible values are: default, center, edge.
-	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
@@ -201,9 +175,8 @@ type GroupStatus struct {
 type Group struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
-	Spec   GroupSpec   `json:"spec"`
-	Status GroupStatus `json:"status,omitempty"`
+	Spec              GroupSpec   `json:"spec"`
+	Status            GroupStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

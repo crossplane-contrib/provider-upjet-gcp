@@ -279,21 +279,6 @@ func (in *GroupInitParameters) DeepCopyInto(out *GroupInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.Hub != nil {
-		in, out := &in.Hub, &out.Hub
-		*out = new(string)
-		**out = **in
-	}
-	if in.HubRef != nil {
-		in, out := &in.HubRef, &out.HubRef
-		*out = new(v1.Reference)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.HubSelector != nil {
-		in, out := &in.HubSelector, &out.HubSelector
-		*out = new(v1.Selector)
-		(*in).DeepCopyInto(*out)
-	}
 	if in.Labels != nil {
 		in, out := &in.Labels, &out.Labels
 		*out = make(map[string]*string, len(*in))
@@ -309,11 +294,6 @@ func (in *GroupInitParameters) DeepCopyInto(out *GroupInitParameters) {
 			}
 			(*out)[key] = outVal
 		}
-	}
-	if in.Name != nil {
-		in, out := &in.Name, &out.Name
-		*out = new(string)
-		**out = **in
 	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
@@ -424,11 +404,6 @@ func (in *GroupObservation) DeepCopyInto(out *GroupObservation) {
 			(*out)[key] = outVal
 		}
 	}
-	if in.Name != nil {
-		in, out := &in.Name, &out.Name
-		*out = new(string)
-		**out = **in
-	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
 		*out = new(string)
@@ -525,11 +500,6 @@ func (in *GroupParameters) DeepCopyInto(out *GroupParameters) {
 			}
 			(*out)[key] = outVal
 		}
-	}
-	if in.Name != nil {
-		in, out := &in.Name, &out.Name
-		*out = new(string)
-		**out = **in
 	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project

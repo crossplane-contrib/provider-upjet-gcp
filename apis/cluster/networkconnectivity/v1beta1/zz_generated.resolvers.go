@@ -44,26 +44,6 @@ func (mg *Group) ResolveReferences( // ResolveReferences of this Group.
 	}
 	mg.Spec.ForProvider.Hub = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.HubRef = rsp.ResolvedReference
-	{
-		m, l, err = apisresolver.GetManagedResource("networkconnectivity.gcp.upbound.io", "v1beta1", "Hub", "HubList")
-		if err != nil {
-			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
-		}
-
-		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Hub),
-			Extract:      resource.ExtractResourceID(),
-			Namespace:    mg.GetNamespace(),
-			Reference:    mg.Spec.InitProvider.HubRef,
-			Selector:     mg.Spec.InitProvider.HubSelector,
-			To:           reference.To{List: l, Managed: m},
-		})
-	}
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.InitProvider.Hub")
-	}
-	mg.Spec.InitProvider.Hub = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.InitProvider.HubRef = rsp.ResolvedReference
 
 	return nil
 }

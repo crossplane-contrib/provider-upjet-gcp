@@ -1,7 +1,3 @@
-# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
-#
-# SPDX-License-Identifier: CC0-1.0
-
 apiVersion: networkconnectivity.gcp.m.upbound.io/v1beta1
 kind: Group
 metadata:
@@ -9,7 +5,7 @@ metadata:
     meta.upbound.io/example-id: networkconnectivity/v1beta1/group
   labels:
     testing.upbound.io/example-name: primary
-  name: primary
+  name: default
   namespace: upbound-system
 spec:
   forProvider:
@@ -23,7 +19,6 @@ spec:
         testing.upbound.io/example-name: basic_hub
     labels:
       label-one: value-one
-    name: default
 
 ---
 

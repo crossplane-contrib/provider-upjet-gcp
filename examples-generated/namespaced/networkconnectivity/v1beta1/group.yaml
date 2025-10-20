@@ -19,7 +19,6 @@ spec:
         testing.upbound.io/example-name: basic_hub
     labels:
       label-one: value-one
-    name: default
 
 ---
 
