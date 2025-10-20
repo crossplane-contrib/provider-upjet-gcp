@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: redis.gcp.m.upbound.io/v1beta1
 kind: Cluster
 metadata:
@@ -12,10 +16,10 @@ spec:
     authorizationMode: AUTH_MODE_DISABLED
     deletionProtectionEnabled: true
     maintenancePolicy:
-    - weeklyMaintenanceWindow:
+      weeklyMaintenanceWindow:
       - day: MONDAY
         startTime:
-        - hours: 1
+          hours: 1
           minutes: 0
           nanos: 0
           seconds: 0
@@ -31,7 +35,7 @@ spec:
     shardCount: 3
     transitEncryptionMode: TRANSIT_ENCRYPTION_MODE_DISABLED
     zoneDistributionConfig:
-    - mode: MULTI_ZONE
+      mode: MULTI_ZONE
 
 ---
 
@@ -86,6 +90,6 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: consumer_net
     pscConfig:
-    - subnetworksRefs:
+      subnetworksRefs:
       - name: consumer_subnet
     serviceClass: gcp-memorystore-redis

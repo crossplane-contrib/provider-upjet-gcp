@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: dns.gcp.upbound.io/v1beta1
 kind: ResponsePolicy
 metadata:
@@ -85,24 +89,23 @@ metadata:
 spec:
   forProvider:
     defaultSnatStatus:
-    - disabled: true
+      disabled: true
     deletionProtection: true
     initialNodeCount: 1
     ipAllocationPolicy:
-    - clusterSecondaryRangeName: pod
+      clusterSecondaryRangeName: pod
       servicesSecondaryRangeName: svc
     location: us-central1-c
-    masterAuthorizedNetworksConfig:
-    - {}
+    masterAuthorizedNetworksConfig: {}
     networkSelector:
       matchLabels:
         testing.upbound.io/example-name: example
     networkingMode: VPC_NATIVE
     privateClusterConfig:
-    - enablePrivateEndpoint: true
+      enablePrivateEndpoint: true
       enablePrivateNodes: true
       masterGlobalAccessConfig:
-      - enabled: true
+        enabled: true
       masterIpv4CidrBlock: 10.42.0.0/28
     subnetworkSelector:
       matchLabels:

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: dialogflowcx.gcp.m.upbound.io/v1beta1
 kind: Agent
 metadata:
@@ -10,18 +14,18 @@ metadata:
 spec:
   forProvider:
     advancedSettings:
-    - audioExportGcsDestination:
-      - uri: ${google_storage_bucket.bucket.url}/prefix-
+      audioExportGcsDestination:
+        uri: ${google_storage_bucket.bucket.url}/prefix-
       dtmfSettings:
-      - enabled: true
+        enabled: true
         finishDigit: '#'
         maxDigits: 1
       loggingSettings:
-      - enableConsentBasedRedaction: true
+        enableConsentBasedRedaction: true
         enableInteractionLogging: true
         enableStackdriverLogging: true
       speechSettings:
-      - endpointerSensitivity: 30
+        endpointerSensitivity: 30
         models:
           count: "3"
           mass: 1.3kg
@@ -35,10 +39,10 @@ spec:
     enableSpellCorrection: true
     enableStackdriverLogging: true
     genAppBuilderSettings:
-    - engine: projects/-/locations/-/collections/-/engines/-
+      engine: projects/-/locations/-/collections/-/engines/-
     gitIntegrationSettings:
-    - githubSettings:
-      - accessTokenSecretRef:
+      githubSettings:
+        accessTokenSecretRef:
           key: example-key
           name: example-secret
         branches:
@@ -48,13 +52,13 @@ spec:
         trackingBranch: main
     location: global
     speechToTextSettings:
-    - enableSpeechAdaptation: true
+      enableSpeechAdaptation: true
     supportedLanguageCodes:
     - fr
     - de
     - es
     textToSpeechSettings:
-    - synthesizeSpeechConfigs: |-
+      synthesizeSpeechConfigs: |-
         ${jsonencode({
               en = {
                 voice = {

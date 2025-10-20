@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: binaryauthorization.gcp.m.upbound.io/v1beta1
 kind: Attestor
 metadata:
@@ -10,7 +14,7 @@ metadata:
 spec:
   forProvider:
     attestationAuthorityNote:
-    - noteReferenceSelector:
+      noteReferenceSelector:
         matchLabels:
           testing.upbound.io/example-name: note
       publicKeys:
@@ -45,5 +49,5 @@ metadata:
 spec:
   forProvider:
     attestationAuthority:
-    - hint:
-      - humanReadableName: Attestor Note
+      hint:
+        humanReadableName: Attestor Note

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: compute.gcp.m.upbound.io/v1beta1
 kind: RouterNAT
 metadata:
@@ -10,7 +14,7 @@ metadata:
 spec:
   forProvider:
     logConfig:
-    - enable: true
+      enable: true
       filter: ERRORS_ONLY
     natIpAllocateOption: AUTO_ONLY
     region: ${google_compute_router.router.region}
@@ -47,7 +51,7 @@ metadata:
 spec:
   forProvider:
     bgp:
-    - asn: 64514
+      asn: 64514
     networkSelector:
       matchLabels:
         testing.upbound.io/example-name: net

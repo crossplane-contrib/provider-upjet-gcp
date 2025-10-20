@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: privateca.gcp.m.upbound.io/v1beta1
 kind: CertificateTemplate
 metadata:
@@ -11,10 +15,10 @@ spec:
   forProvider:
     description: A sample certificate template
     identityConstraints:
-    - allowSubjectAltNamesPassthrough: true
+      allowSubjectAltNamesPassthrough: true
       allowSubjectPassthrough: true
       celExpression:
-      - description: Always true
+        description: Always true
         expression: "true"
         location: any.file.anywhere
         title: Sample expression
@@ -23,28 +27,28 @@ spec:
     location: us-central1
     maximumLifetime: 86400s
     passthroughExtensions:
-    - additionalExtensions:
+      additionalExtensions:
       - objectIdPath:
         - 1
         - 6
       knownExtensions:
       - EXTENDED_KEY_USAGE
     predefinedValues:
-    - additionalExtensions:
+      additionalExtensions:
       - critical: true
         objectId:
-        - objectIdPath:
+          objectIdPath:
           - 1
           - 6
         value: c3RyaW5nCg==
       aiaOcspServers:
       - string
       caOptions:
-      - isCa: false
+        isCa: false
         maxIssuerPathLength: 6
       keyUsage:
-      - baseKeyUsage:
-        - certSign: false
+        baseKeyUsage:
+          certSign: false
           contentCommitment: true
           crlSign: false
           dataEncipherment: true
@@ -54,7 +58,7 @@ spec:
           keyAgreement: true
           keyEncipherment: true
         extendedKeyUsage:
-        - clientAuth: true
+          clientAuth: true
           codeSigning: true
           emailProtection: true
           ocspSigning: true

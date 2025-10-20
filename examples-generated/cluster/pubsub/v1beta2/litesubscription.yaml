@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: pubsub.gcp.upbound.io/v1beta2
 kind: LiteSubscription
 metadata:
@@ -9,7 +13,7 @@ metadata:
 spec:
   forProvider:
     deliveryConfig:
-    - deliveryRequirement: DELIVER_AFTER_STORED
+      deliveryRequirement: DELIVER_AFTER_STORED
     topicSelector:
       matchLabels:
         testing.upbound.io/example-name: example
@@ -27,10 +31,10 @@ metadata:
 spec:
   forProvider:
     partitionConfig:
-    - capacity:
-      - publishMibPerSec: 4
+      capacity:
+        publishMibPerSec: 4
         subscribeMibPerSec: 8
       count: 1
     project: ${data.google_project.project.number}
     retentionConfig:
-    - perPartitionBytes: 32212254720
+      perPartitionBytes: 32212254720

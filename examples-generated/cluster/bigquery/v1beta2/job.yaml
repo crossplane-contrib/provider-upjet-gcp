@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: bigquery.gcp.upbound.io/v1beta2
 kind: Job
 metadata:
@@ -12,9 +16,9 @@ spec:
     labels:
       example-label: example-value
     query:
-    - allowLargeResults: true
+      allowLargeResults: true
       destinationTable:
-      - datasetIdSelector:
+        datasetIdSelector:
           matchLabels:
             testing.upbound.io/example-name: foo
         projectId: ${google_bigquery_table.foo.project}
@@ -24,7 +28,7 @@ spec:
       flattenResults: true
       query: SELECT state FROM [lookerdata:cdc.project_tycho_reports]
       scriptOptions:
-      - keyResultStatement: LAST
+        keyResultStatement: LAST
 
 ---
 

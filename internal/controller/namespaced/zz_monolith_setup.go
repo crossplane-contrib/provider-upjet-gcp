@@ -47,6 +47,7 @@ import (
 	analyticshubdataexchange "github.com/upbound/provider-gcp/internal/controller/namespaced/bigquery/analyticshubdataexchange"
 	analyticshubdataexchangeiammember "github.com/upbound/provider-gcp/internal/controller/namespaced/bigquery/analyticshubdataexchangeiammember"
 	analyticshublisting "github.com/upbound/provider-gcp/internal/controller/namespaced/bigquery/analyticshublisting"
+	analyticshublistingsubscription "github.com/upbound/provider-gcp/internal/controller/namespaced/bigquery/analyticshublistingsubscription"
 	connection "github.com/upbound/provider-gcp/internal/controller/namespaced/bigquery/connection"
 	dataset "github.com/upbound/provider-gcp/internal/controller/namespaced/bigquery/dataset"
 	datasetaccess "github.com/upbound/provider-gcp/internal/controller/namespaced/bigquery/datasetaccess"
@@ -444,6 +445,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		analyticshubdataexchange.Setup,
 		analyticshubdataexchangeiammember.Setup,
 		analyticshublisting.Setup,
+		analyticshublistingsubscription.Setup,
 		connection.Setup,
 		dataset.Setup,
 		datasetaccess.Setup,
@@ -847,6 +849,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		analyticshubdataexchange.SetupGated,
 		analyticshubdataexchangeiammember.SetupGated,
 		analyticshublisting.SetupGated,
+		analyticshublistingsubscription.SetupGated,
 		connection.SetupGated,
 		dataset.SetupGated,
 		datasetaccess.SetupGated,

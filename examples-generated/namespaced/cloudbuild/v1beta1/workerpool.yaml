@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: cloudbuild.gcp.m.upbound.io/v1beta1
 kind: WorkerPool
 metadata:
@@ -11,6 +15,6 @@ spec:
   forProvider:
     location: europe-west1
     workerConfig:
-    - diskSizeGb: 100
+      diskSizeGb: 100
       machineType: e2-standard-4
       noExternalIp: false

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: compute.gcp.m.upbound.io/v1beta1
 kind: InstanceGroupNamedPort
 metadata:
@@ -64,7 +68,7 @@ spec:
     deletionProtection: true
     initialNodeCount: 1
     ipAllocationPolicy:
-    - clusterIpv4CidrBlock: /19
+      clusterIpv4CidrBlock: /19
       servicesIpv4CidrBlock: /22
     location: us-central1-a
     networkSelector:

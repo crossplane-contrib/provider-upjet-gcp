@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: osconfig.gcp.m.upbound.io/v1beta1
 kind: OsPolicyAssignment
 metadata:
@@ -11,7 +15,7 @@ spec:
   forProvider:
     description: A test os policy assignment
     instanceFilter:
-    - all: false
+      all: false
       exclusionLabels:
       - labels:
           label-two: value-two
@@ -34,33 +38,33 @@ spec:
         resources:
         - id: apt-to-yum
           repository:
-          - apt:
-            - archiveType: DEB
+            apt:
+              archiveType: DEB
               components:
               - doc
               distribution: debian
               gpgKey: .gnupg/pubring.kbx
               uri: https://atl.mirrors.clouvider.net/debian
         - exec:
-          - enforce:
-            - args:
+            enforce:
+              args:
               - arg1
               file:
-              - allowInsecure: true
+                allowInsecure: true
                 remote:
-                - sha256Checksum: c7938fed83afdccbb0e86a2a2e4cad7d5035012ca3214b4a61268393635c3063
+                  sha256Checksum: c7938fed83afdccbb0e86a2a2e4cad7d5035012ca3214b4a61268393635c3063
                   uri: https://www.example.com/script.sh
               interpreter: SHELL
               outputFilePath: $HOME/out
             validate:
-            - args:
+              args:
               - arg1
               file:
-              - localPath: $HOME/script.sh
+                localPath: $HOME/script.sh
               interpreter: SHELL
               outputFilePath: $HOME/out
           id: exec1
     rollout:
-    - disruptionBudget:
-      - percent: 100
+      disruptionBudget:
+        percent: 100
       minWaitDuration: 3s

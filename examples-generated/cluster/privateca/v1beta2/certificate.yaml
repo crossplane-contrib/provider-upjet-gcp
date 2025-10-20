@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: privateca.gcp.upbound.io/v1beta2
 kind: Certificate
 metadata:
@@ -12,15 +16,15 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: default
     config:
-    - publicKey:
-      - format: PEM
+      publicKey:
+        format: PEM
         keySecretRef:
           key: attribute.public_key_pem)
           name: example-private-key
           namespace: upbound-system
       subjectConfig:
-      - subject:
-        - commonName: san1.example.com
+        subject:
+          commonName: san1.example.com
           countryCode: us
           locality: mountain view
           organization: google
@@ -28,23 +32,23 @@ spec:
           province: california
           streetAddress: 1600 amphitheatre parkway
         subjectAltName:
-        - emailAddresses:
+          emailAddresses:
           - email@example.com
           ipAddresses:
           - 127.0.0.1
           uris:
           - http://www.ietf.org/rfc/rfc3986.txt
       x509Config:
-      - caOptions:
-        - isCa: true
+        caOptions:
+          isCa: true
         keyUsage:
-        - baseKeyUsage:
-          - certSign: true
+          baseKeyUsage:
+            certSign: true
             crlSign: true
           extendedKeyUsage:
-          - serverAuth: false
+            serverAuth: false
         nameConstraints:
-        - critical: true
+          critical: true
           excludedDnsNames:
           - '*.deny.example.com'
           excludedEmailAddresses:
@@ -95,26 +99,26 @@ metadata:
 spec:
   forProvider:
     config:
-    - subjectConfig:
-      - subject:
-        - commonName: my-certificate-authority
+      subjectConfig:
+        subject:
+          commonName: my-certificate-authority
           organization: HashiCorp
         subjectAltName:
-        - dnsNames:
+          dnsNames:
           - hashicorp.com
       x509Config:
-      - caOptions:
-        - isCa: true
+        caOptions:
+          isCa: true
         keyUsage:
-        - baseKeyUsage:
-          - certSign: true
+          baseKeyUsage:
+            certSign: true
             crlSign: true
           extendedKeyUsage:
-          - serverAuth: true
+            serverAuth: true
     deletionProtection: false
     ignoreActiveCertificatesOnDeletion: true
     keySpec:
-    - algorithm: RSA_PKCS1_4096_SHA256
+      algorithm: RSA_PKCS1_4096_SHA256
     location: us-central1
     poolSelector:
       matchLabels:

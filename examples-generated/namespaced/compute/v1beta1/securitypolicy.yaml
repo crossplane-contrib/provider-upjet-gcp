@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: compute.gcp.m.upbound.io/v1beta1
 kind: SecurityPolicy
 metadata:
@@ -13,16 +17,16 @@ spec:
     - action: deny(403)
       description: Deny access to IPs in 9.9.9.0/24
       match:
-      - config:
-        - srcIpRanges:
+        config:
+          srcIpRanges:
           - 9.9.9.0/24
         versionedExpr: SRC_IPS_V1
       priority: "1000"
     - action: allow
       description: default rule
       match:
-      - config:
-        - srcIpRanges:
+        config:
+          srcIpRanges:
           - '*'
         versionedExpr: SRC_IPS_V1
       priority: "2147483647"

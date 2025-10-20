@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: dialogflowcx.gcp.m.upbound.io/v1beta1
 kind: Flow
 metadata:
@@ -14,27 +18,27 @@ spec:
     eventHandlers:
     - event: custom-event
       triggerFulfillment:
-      - messages:
+        messages:
         - text:
-          - text:
+            text:
             - I didn't get that. Can you say it again?
         returnPartialResponses: false
     - event: sys.no-match-default
       triggerFulfillment:
-      - messages:
+        messages:
         - text:
-          - text:
+            text:
             - Sorry, could you say that again?
         returnPartialResponses: false
     - event: sys.no-input-default
       triggerFulfillment:
-      - messages:
+        messages:
         - text:
-          - text:
+            text:
             - One more time?
         returnPartialResponses: false
     nluSettings:
-    - classificationThreshold: 0.3
+      classificationThreshold: 0.3
       modelType: MODEL_TYPE_STANDARD
     parentSelector:
       matchLabels:
@@ -61,7 +65,7 @@ spec:
     enableStackdriverLogging: true
     location: global
     speechToTextSettings:
-    - enableSpeechAdaptation: true
+      enableSpeechAdaptation: true
     supportedLanguageCodes:
     - fr
     - de

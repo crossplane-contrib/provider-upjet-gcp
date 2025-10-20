@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: compute.gcp.m.upbound.io/v1beta1
 kind: ForwardingRule
 metadata:
@@ -93,8 +97,8 @@ metadata:
 spec:
   forProvider:
     bootDisk:
-    - initializeParams:
-      - imageSelector:
+      initializeParams:
+        imageSelector:
           matchLabels:
             testing.upbound.io/example-name: example
     machineType: e2-small
@@ -217,7 +221,7 @@ metadata:
 spec:
   forProvider:
     httpHealthCheck:
-    - portSpecification: USE_SERVING_PORT
+      portSpecification: USE_SERVING_PORT
     provider: ${google-beta}
     region: europe-west1
 

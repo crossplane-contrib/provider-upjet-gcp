@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: dataproc.gcp.m.upbound.io/v1beta1
 kind: Job
 metadata:
@@ -11,19 +15,19 @@ spec:
   forProvider:
     forceDelete: true
     placement:
-    - clusterNameSelector:
+      clusterNameSelector:
         matchLabels:
           testing.upbound.io/example-name: mycluster
     regionSelector:
       matchLabels:
         testing.upbound.io/example-name: mycluster
     sparkConfig:
-    - args:
+      args:
       - "1000"
       jarFileUris:
       - file:///usr/lib/spark/examples/jars/spark-examples.jar
       loggingConfig:
-      - driverLogLevels:
+        driverLogLevels:
           root: INFO
       mainClass: org.apache.spark.examples.SparkPi
       properties:

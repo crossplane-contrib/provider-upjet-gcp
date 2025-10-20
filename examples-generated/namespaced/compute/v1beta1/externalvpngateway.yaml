@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: compute.gcp.m.upbound.io/v1beta1
 kind: ExternalVPNGateway
 metadata:
@@ -63,7 +67,7 @@ metadata:
 spec:
   forProvider:
     bgp:
-    - asn: 64514
+      asn: 64514
     networkSelector:
       matchLabels:
         testing.upbound.io/example-name: network

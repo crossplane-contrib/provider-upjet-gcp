@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: dataproc.gcp.upbound.io/v1beta2
 kind: WorkflowTemplate
 metadata:
@@ -10,36 +14,36 @@ spec:
   forProvider:
     jobs:
     - sparkJob:
-      - mainClass: SomeClass
+        mainClass: SomeClass
       stepId: someJob
     - prerequisiteStepIds:
       - someJob
       prestoJob:
-      - queryFileUri: someuri
+        queryFileUri: someuri
       stepId: otherJob
     location: us-central1
     placement:
-    - managedCluster:
-      - clusterName: my-cluster
+      managedCluster:
+        clusterName: my-cluster
         config:
-        - gceClusterConfig:
-          - tags:
+          gceClusterConfig:
+            tags:
             - foo
             - bar
             zone: us-central1-a
           masterConfig:
-          - diskConfig:
-            - bootDiskSizeGb: 15
+            diskConfig:
+              bootDiskSizeGb: 15
               bootDiskType: pd-ssd
             machineType: n1-standard-1
             numInstances: 1
           secondaryWorkerConfig:
-          - numInstances: 2
+            numInstances: 2
           softwareConfig:
-          - imageVersion: 2.0.35-debian10
+            imageVersion: 2.0.35-debian10
           workerConfig:
-          - diskConfig:
-            - bootDiskSizeGb: 10
+            diskConfig:
+              bootDiskSizeGb: 10
               numLocalSsds: 2
             machineType: n1-standard-2
             numInstances: 3

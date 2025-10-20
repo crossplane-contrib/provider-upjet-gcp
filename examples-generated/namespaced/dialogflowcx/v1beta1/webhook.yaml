@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: dialogflowcx.gcp.m.upbound.io/v1beta1
 kind: Webhook
 metadata:
@@ -11,10 +15,10 @@ spec:
   forProvider:
     displayName: MyFlow
     genericWebService:
-    - allowedCaCerts:
+      allowedCaCerts:
       - BQA=
       oauthConfig:
-      - clientId: example-client-id
+        clientId: example-client-id
         scopes:
         - example-scope
         secretVersionForClientSecret: projects/example-proj/secrets/example-secret/versions/example-version
@@ -55,7 +59,7 @@ spec:
     enableStackdriverLogging: true
     location: global
     speechToTextSettings:
-    - enableSpeechAdaptation: true
+      enableSpeechAdaptation: true
     supportedLanguageCodes:
     - it
     - de

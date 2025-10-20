@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: sql.gcp.upbound.io/v1beta1
 kind: Database
 metadata:
@@ -28,4 +32,4 @@ spec:
     deletionProtection: true
     region: us-central1
     settings:
-    - tier: db-f1-micro
+      tier: db-f1-micro

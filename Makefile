@@ -76,18 +76,15 @@ export SUBPACKAGES := $(SUBPACKAGES)
 # ====================================================================================
 # Setup Kubernetes tools
 
-KIND_VERSION = v0.29.0
-# dependency for up
-UP_VERSION = v0.40.0-0.rc.3
-UP_CHANNEL = alpha
-UPTEST_VERSION = v2.0.1
+KIND_VERSION = v0.30.0
+UPTEST_VERSION = v2.2.0
 KUSTOMIZE_VERSION = v5.3.0
 YQ_VERSION = v4.40.5
-CROSSPLANE_VERSION = 1.20.0
+CROSSPLANE_VERSION = 2.0.2
+CROSSPLANE_CLI_VERSION = v2.0.2
 CRDDIFF_VERSION = v0.12.1
 
-export UP_VERSION := $(UP_VERSION)
-export UP_CHANNEL := $(UP_CHANNEL)
+export CROSSPLANE_CLI_VERSION := $(CROSSPLANE_CLI_VERSION)
 
 -include build/makelib/k8s_tools.mk
 
@@ -162,7 +159,7 @@ run: go.build
 
 # NOTE(hasheddan): we ensure up is installed prior to running platform-specific
 # build steps in parallel to avoid encountering an installation race condition.
-build.init: $(UP)
+build.init: $(CROSSPLANE_CLI)
 
 # ====================================================================================
 # Setup Terraform for fetching provider schema
@@ -221,21 +218,13 @@ build-provider.%:
 
 XPKG_SKIP_DEP_RESOLUTION := true
 
-local-deploy.%: controlplane.up
-	# uptest workaround for the behavior change at Crossplane 1.15 default registry
-	# XP RBAC manager has a check for packages from the same provider family
-	# that they come from the same org and assign RBACs for all providers.
-	# This got broken for locally deployed dev packages through crossplane/build submodule,
-	# therefore cannot get necessary RBACs.
-    # TODO: Remove this when https://github.com/crossplane/build/issues/38 is resolved
-    # this workaround is only valid for uptest on Crossplane 1.x
-    # Crossplane v2 needs the above issue to be resolved
+local-deploy.%: controlplane.up $(YQ)
 	@$(KUBECTL) -n $(CROSSPLANE_NAMESPACE) patch deployment crossplane-rbac-manager -p '{"spec":{"template":{"spec":{"containers":[{"name":"crossplane","env":[{"name":"REGISTRY","value":"index.docker.io"}]}]}}}}'
 	@for api in $$(tr ',' ' ' <<< $*); do \
-		$(MAKE) local.xpkg.deploy.provider.$(PROJECT_NAME)-$${api}; \
-		$(INFO) running locally built $(PROJECT_NAME)-$${api}; \
-		$(KUBECTL) wait provider.pkg $(PROJECT_NAME)-$${api} --for condition=Healthy --timeout 5m; \
-		$(KUBECTL) -n upbound-system wait --for=condition=Available deployment --all --timeout=5m; \
+		$(MAKE) local.xpkg.deploy.provider.$(PROJECT_NAME)-$${api} DRC_FILE="./examples/deploymentruntimeconfig.yaml" && \
+		$(INFO) running locally built $(PROJECT_NAME)-$${api} && \
+		$(KUBECTL) wait provider.pkg $(PROJECT_NAME)-$${api} --for condition=Healthy --timeout=5m && \
+		$(KUBECTL) -n upbound-system wait --for=condition=Available deployment --all --timeout=5m && \
 		$(OK) running locally built $(PROJECT_NAME)-$${api}; \
 	done || $(FAIL)
 
@@ -344,12 +333,12 @@ endif
 SUBPACKAGES := $(if $(PROVIDERS),$(PROVIDERS),$(SUBPACKAGES))
 # use REPO in place of XPKG_REG_ORGS if set
 XPKG_REG_ORGS := $(if $(REPO),$(REPO),$(XPKG_REG_ORGS))
-load-pkg: $(UP) build.all
+load-pkg: $(CROSSPLANE_CLI) build.all
 	@$(INFO) Loading the family providers into the Docker daemon: $(SUBPACKAGES)
 	@for p in $(PLATFORMS); do \
 		mkdir -p "$(XPKG_OUTPUT_DIR)/$$p"; \
 	done
-	@$(UP) xpkg batch --smaller-providers $$(echo -n "$(SUBPACKAGES) config" | tr ' ' ',') \
+	$(CROSSPLANE_CLI) xpkg batch --smaller-providers $$(echo -n "$(SUBPACKAGES) config" | tr ' ' ',') \
 		--family-base-image $(BUILD_REGISTRY)/$(PROJECT_NAME) \
 		--platform $(BATCH_PLATFORMS) \
 		--provider-name $(PROJECT_NAME) \
@@ -361,7 +350,6 @@ load-pkg: $(UP) build.all
 		--build-only=true \
 		--examples-root $(ROOT_DIR)/examples \
 		--examples-group-override monolith=* --examples-group-override config=providerconfig \
-		--auth-ext $(ROOT_DIR)/package/auth.yaml \
 		--crd-root $(ROOT_DIR)/package/crds \
 		--crd-group-override monolith=* --crd-group-override config=$(PROVIDER_NAME) \
 		--package-metadata-template $(ROOT_DIR)/package/crossplane.yaml.tmpl \

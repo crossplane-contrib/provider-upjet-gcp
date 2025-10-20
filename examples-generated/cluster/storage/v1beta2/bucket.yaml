@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: storage.gcp.upbound.io/v1beta2
 kind: Bucket
 metadata:
@@ -24,5 +28,5 @@ spec:
     location: EU
     uniformBucketLevelAccess: true
     website:
-    - mainPageSuffix: index.html
+      mainPageSuffix: index.html
       notFoundPage: 404.html
