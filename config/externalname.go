@@ -427,6 +427,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_datastream_connection_profile": config.TemplatedStringAsIdentifier("connection_profile_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/connectionProfiles/{{ .external_name }}"),
 	// Imported by using the following projects/{{project}}/locations/{{location}}/privateConnections/{{private_connection_id}}
 	"google_datastream_private_connection": config.TemplatedStringAsIdentifier("private_connection_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/privateConnections/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/streams/{{stream_id}}
+	"google_datastream_stream": config.TemplatedStringAsIdentifier("stream_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/streams/{{ .external_name }}"),
 
 	// dataplex
 	//

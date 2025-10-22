@@ -11,6 +11,7 @@ import (
 
 	connectionprofile "github.com/upbound/provider-gcp/internal/controller/namespaced/datastream/connectionprofile"
 	privateconnection "github.com/upbound/provider-gcp/internal/controller/namespaced/datastream/privateconnection"
+	stream "github.com/upbound/provider-gcp/internal/controller/namespaced/datastream/stream"
 )
 
 // Setup_datastream creates all controllers with the supplied logger and adds them to
@@ -19,6 +20,7 @@ func Setup_datastream(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		connectionprofile.Setup,
 		privateconnection.Setup,
+		stream.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err
@@ -33,6 +35,7 @@ func SetupGated_datastream(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		connectionprofile.SetupGated,
 		privateconnection.SetupGated,
+		stream.SetupGated,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err

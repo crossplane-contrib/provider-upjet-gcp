@@ -1,0 +1,197 @@
+apiVersion: datastream.gcp.m.upbound.io/v1beta1
+kind: Stream
+metadata:
+  annotations:
+    meta.upbound.io/example-id: datastream/v1beta1/stream
+    upjet.upbound.io/manual-intervention: "Requires IAM configuration for GCP service agents."
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: crossplane-system
+spec:
+  forProvider:
+    backfillAll:
+      mysqlExcludedObjects:
+        mysqlDatabases:
+        - database: db
+          mysqlTables:
+          - mysqlColumns:
+            - collation: utf8mb4
+              column: excludedColumn
+              dataType: VARCHAR
+              nullable: false
+              ordinalPosition: 0
+              primaryKey: false
+            table: excludedTable
+    customerManagedEncryptionKey: kms-name
+    desiredState: NOT_STARTED
+    destinationConfig:
+      destinationConnectionProfileSelector:
+        matchLabels:
+          testing.upbound.io/example-name: destination_connection_profile
+      gcsDestinationConfig:
+        fileRotationInterval: 60s
+        fileRotationMb: 200
+        jsonFileFormat:
+          compression: GZIP
+          schemaFileFormat: NO_SCHEMA_FILE
+        path: mydata
+    displayName: my stream
+    labels:
+      key: value
+    location: us-central1
+    createWithoutValidation: true
+    sourceConfig:
+      mysqlSourceConfig:
+        excludeObjects:
+          mysqlDatabases:
+          - database: db
+            mysqlTables:
+            - mysqlColumns:
+              - collation: utf8mb4
+                column: excludedColumn
+                dataType: VARCHAR
+                nullable: false
+                ordinalPosition: 0
+                primaryKey: false
+              table: excludedTable
+        includeObjects:
+          mysqlDatabases:
+          - database: my-database
+            mysqlTables:
+            - mysqlColumns:
+              - collation: utf8mb4
+                column: includedColumn
+                dataType: VARCHAR
+                nullable: false
+                ordinalPosition: 0
+                primaryKey: false
+              table: includedTable
+            - table: includedTable_2
+        maxConcurrentCdcTasks: 5
+      sourceConnectionProfileSelector:
+        matchLabels:
+          testing.upbound.io/example-name: source_connection_profile
+
+---
+
+apiVersion: datastream.gcp.m.upbound.io/v1beta1
+kind: ConnectionProfile
+metadata:
+  annotations:
+    meta.upbound.io/example-id: datastream/v1beta1/stream
+  labels:
+    testing.upbound.io/example-name: destination_connection_profile
+  name: destination-connection-profile
+  namespace: crossplane-system
+spec:
+  forProvider:
+    displayName: Connection profile
+    gcsProfile:
+    - bucket: my-bucket
+      rootPath: /path
+    location: us-central1
+
+---
+
+apiVersion: datastream.gcp.m.upbound.io/v1beta1
+kind: ConnectionProfile
+metadata:
+  annotations:
+    meta.upbound.io/example-id: datastream/v1beta1/stream
+  labels:
+    testing.upbound.io/example-name: source_connection_profile
+  name: source-connection-profile
+  namespace: crossplane-system
+spec:
+  forProvider:
+    displayName: Source connection profile
+    location: us-central1
+    createWithoutValidation: true
+    mysqlProfile:
+      hostname: instance-hostname
+      secretManagerStoredPassword: projects/crossplane-playground/secrets/example-password/versions/latest
+      username: user
+
+---
+
+apiVersion: sql.gcp.m.upbound.io/v1beta1
+kind: Database
+metadata:
+  annotations:
+    meta.upbound.io/example-id: datastream/v1beta1/stream
+  labels:
+    testing.upbound.io/example-name: db
+  name: db
+  namespace: crossplane-system
+spec:
+  forProvider:
+    instanceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: instance
+
+---
+
+apiVersion: sql.gcp.m.upbound.io/v1beta1
+kind: DatabaseInstance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: datastream/v1beta1/stream
+  labels:
+    testing.upbound.io/example-name: instance
+  name: instance
+  namespace: crossplane-system
+spec:
+  forProvider:
+    databaseVersion: MYSQL_8_0
+    deletionProtection: true
+    region: us-central1
+    settings:
+    - backupConfiguration:
+      - binaryLogEnabled: true
+        enabled: true
+      ipConfiguration:
+      - authorizedNetworks:
+        - value: 34.71.242.81
+        - value: 34.72.28.29
+        - value: 34.67.6.157
+        - value: 34.67.234.134
+        - value: 34.72.239.218
+      tier: db-f1-micro
+
+---
+
+apiVersion: sql.gcp.m.upbound.io/v1beta1
+kind: User
+metadata:
+  annotations:
+    meta.upbound.io/example-id: datastream/v1beta1/stream
+  labels:
+    testing.upbound.io/example-name: user
+  name: user
+  namespace: crossplane-system
+spec:
+  forProvider:
+    host: '%'
+    instanceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    passwordSecretRef:
+      key: attribute.result
+      name: example-password
+
+---
+
+apiVersion: storage.gcp.m.upbound.io/v1beta1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: datastream/v1beta1/stream
+  labels:
+    testing.upbound.io/example-name: bucket
+  name: bucket-${Rand.RFC1123Subdomain}
+  namespace: crossplane-system
+spec:
+  forProvider:
+    location: US
+    uniformBucketLevelAccess: true

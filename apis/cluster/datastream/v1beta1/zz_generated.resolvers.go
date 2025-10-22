@@ -393,3 +393,208 @@ func (mg *PrivateConnection) ResolveReferences(ctx context.Context, c client.Rea
 
 	return nil
 }
+
+// ResolveReferences of this Stream.
+func (mg *Stream) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	if mg.Spec.ForProvider.DestinationConfig != nil {
+		if mg.Spec.ForProvider.DestinationConfig.BigqueryDestinationConfig != nil {
+			if mg.Spec.ForProvider.DestinationConfig.BigqueryDestinationConfig.BlmtConfig != nil {
+				{
+					m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta2", "Bucket", "BucketList")
+					if err != nil {
+						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+					}
+					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DestinationConfig.BigqueryDestinationConfig.BlmtConfig.Bucket),
+						Extract:      reference.ExternalName(),
+						Namespace:    mg.GetNamespace(),
+						Reference:    mg.Spec.ForProvider.DestinationConfig.BigqueryDestinationConfig.BlmtConfig.BucketRef,
+						Selector:     mg.Spec.ForProvider.DestinationConfig.BigqueryDestinationConfig.BlmtConfig.BucketSelector,
+						To:           reference.To{List: l, Managed: m},
+					})
+				}
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.ForProvider.DestinationConfig.BigqueryDestinationConfig.BlmtConfig.Bucket")
+				}
+				mg.Spec.ForProvider.DestinationConfig.BigqueryDestinationConfig.BlmtConfig.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.ForProvider.DestinationConfig.BigqueryDestinationConfig.BlmtConfig.BucketRef = rsp.ResolvedReference
+
+			}
+		}
+	}
+	if mg.Spec.ForProvider.DestinationConfig != nil {
+		if mg.Spec.ForProvider.DestinationConfig.BigqueryDestinationConfig != nil {
+			if mg.Spec.ForProvider.DestinationConfig.BigqueryDestinationConfig.SingleTargetDataset != nil {
+				{
+					m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta2", "Dataset", "DatasetList")
+					if err != nil {
+						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+					}
+					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DestinationConfig.BigqueryDestinationConfig.SingleTargetDataset.DatasetID),
+						Extract:      resource.ExtractResourceID(),
+						Namespace:    mg.GetNamespace(),
+						Reference:    mg.Spec.ForProvider.DestinationConfig.BigqueryDestinationConfig.SingleTargetDataset.DatasetIDRef,
+						Selector:     mg.Spec.ForProvider.DestinationConfig.BigqueryDestinationConfig.SingleTargetDataset.DatasetIDSelector,
+						To:           reference.To{List: l, Managed: m},
+					})
+				}
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.ForProvider.DestinationConfig.BigqueryDestinationConfig.SingleTargetDataset.DatasetID")
+				}
+				mg.Spec.ForProvider.DestinationConfig.BigqueryDestinationConfig.SingleTargetDataset.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.ForProvider.DestinationConfig.BigqueryDestinationConfig.SingleTargetDataset.DatasetIDRef = rsp.ResolvedReference
+
+			}
+		}
+	}
+	if mg.Spec.ForProvider.DestinationConfig != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("datastream.gcp.upbound.io", "v1beta2", "ConnectionProfile", "ConnectionProfileList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DestinationConfig.DestinationConnectionProfile),
+				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.ForProvider.DestinationConfig.DestinationConnectionProfileRef,
+				Selector:     mg.Spec.ForProvider.DestinationConfig.DestinationConnectionProfileSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.DestinationConfig.DestinationConnectionProfile")
+		}
+		mg.Spec.ForProvider.DestinationConfig.DestinationConnectionProfile = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.DestinationConfig.DestinationConnectionProfileRef = rsp.ResolvedReference
+
+	}
+	if mg.Spec.ForProvider.SourceConfig != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("datastream.gcp.upbound.io", "v1beta2", "ConnectionProfile", "ConnectionProfileList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SourceConfig.SourceConnectionProfile),
+				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.ForProvider.SourceConfig.SourceConnectionProfileRef,
+				Selector:     mg.Spec.ForProvider.SourceConfig.SourceConnectionProfileSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.SourceConfig.SourceConnectionProfile")
+		}
+		mg.Spec.ForProvider.SourceConfig.SourceConnectionProfile = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.SourceConfig.SourceConnectionProfileRef = rsp.ResolvedReference
+
+	}
+	if mg.Spec.InitProvider.DestinationConfig != nil {
+		if mg.Spec.InitProvider.DestinationConfig.BigqueryDestinationConfig != nil {
+			if mg.Spec.InitProvider.DestinationConfig.BigqueryDestinationConfig.BlmtConfig != nil {
+				{
+					m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta2", "Bucket", "BucketList")
+					if err != nil {
+						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+					}
+					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DestinationConfig.BigqueryDestinationConfig.BlmtConfig.Bucket),
+						Extract:      reference.ExternalName(),
+						Namespace:    mg.GetNamespace(),
+						Reference:    mg.Spec.InitProvider.DestinationConfig.BigqueryDestinationConfig.BlmtConfig.BucketRef,
+						Selector:     mg.Spec.InitProvider.DestinationConfig.BigqueryDestinationConfig.BlmtConfig.BucketSelector,
+						To:           reference.To{List: l, Managed: m},
+					})
+				}
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.InitProvider.DestinationConfig.BigqueryDestinationConfig.BlmtConfig.Bucket")
+				}
+				mg.Spec.InitProvider.DestinationConfig.BigqueryDestinationConfig.BlmtConfig.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.InitProvider.DestinationConfig.BigqueryDestinationConfig.BlmtConfig.BucketRef = rsp.ResolvedReference
+
+			}
+		}
+	}
+	if mg.Spec.InitProvider.DestinationConfig != nil {
+		if mg.Spec.InitProvider.DestinationConfig.BigqueryDestinationConfig != nil {
+			if mg.Spec.InitProvider.DestinationConfig.BigqueryDestinationConfig.SingleTargetDataset != nil {
+				{
+					m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta2", "Dataset", "DatasetList")
+					if err != nil {
+						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+					}
+					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DestinationConfig.BigqueryDestinationConfig.SingleTargetDataset.DatasetID),
+						Extract:      resource.ExtractResourceID(),
+						Namespace:    mg.GetNamespace(),
+						Reference:    mg.Spec.InitProvider.DestinationConfig.BigqueryDestinationConfig.SingleTargetDataset.DatasetIDRef,
+						Selector:     mg.Spec.InitProvider.DestinationConfig.BigqueryDestinationConfig.SingleTargetDataset.DatasetIDSelector,
+						To:           reference.To{List: l, Managed: m},
+					})
+				}
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.InitProvider.DestinationConfig.BigqueryDestinationConfig.SingleTargetDataset.DatasetID")
+				}
+				mg.Spec.InitProvider.DestinationConfig.BigqueryDestinationConfig.SingleTargetDataset.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.InitProvider.DestinationConfig.BigqueryDestinationConfig.SingleTargetDataset.DatasetIDRef = rsp.ResolvedReference
+
+			}
+		}
+	}
+	if mg.Spec.InitProvider.DestinationConfig != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("datastream.gcp.upbound.io", "v1beta2", "ConnectionProfile", "ConnectionProfileList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DestinationConfig.DestinationConnectionProfile),
+				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.InitProvider.DestinationConfig.DestinationConnectionProfileRef,
+				Selector:     mg.Spec.InitProvider.DestinationConfig.DestinationConnectionProfileSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.DestinationConfig.DestinationConnectionProfile")
+		}
+		mg.Spec.InitProvider.DestinationConfig.DestinationConnectionProfile = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.DestinationConfig.DestinationConnectionProfileRef = rsp.ResolvedReference
+
+	}
+	if mg.Spec.InitProvider.SourceConfig != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("datastream.gcp.upbound.io", "v1beta2", "ConnectionProfile", "ConnectionProfileList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SourceConfig.SourceConnectionProfile),
+				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.InitProvider.SourceConfig.SourceConnectionProfileRef,
+				Selector:     mg.Spec.InitProvider.SourceConfig.SourceConnectionProfileSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.SourceConfig.SourceConnectionProfile")
+		}
+		mg.Spec.InitProvider.SourceConfig.SourceConnectionProfile = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.SourceConfig.SourceConnectionProfileRef = rsp.ResolvedReference
+
+	}
+
+	return nil
+}

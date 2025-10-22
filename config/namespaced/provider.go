@@ -25,6 +25,7 @@ import (
 	"github.com/upbound/provider-gcp/config/namespaced/dataflow"
 	"github.com/upbound/provider-gcp/config/namespaced/dataplex"
 	"github.com/upbound/provider-gcp/config/namespaced/dataproc"
+	"github.com/upbound/provider-gcp/config/namespaced/datastream"
 	"github.com/upbound/provider-gcp/config/namespaced/developerconnect"
 	"github.com/upbound/provider-gcp/config/namespaced/dns"
 	"github.com/upbound/provider-gcp/config/namespaced/endpoints"
@@ -75,6 +76,7 @@ func init() {
 	ProviderConfiguration.AddConfig(dataflow.Configure)
 	ProviderConfiguration.AddConfig(dataplex.Configure)
 	ProviderConfiguration.AddConfig(dataproc.Configure)
+	ProviderConfiguration.AddConfig(datastream.Configure)
 	ProviderConfiguration.AddConfig(developerconnect.Configure)
 	ProviderConfiguration.AddConfig(dns.Configure)
 	ProviderConfiguration.AddConfig(endpoints.Configure)

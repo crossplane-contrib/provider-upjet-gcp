@@ -241,6 +241,7 @@ import (
 	workflowtemplate "github.com/upbound/provider-gcp/internal/controller/namespaced/dataproc/workflowtemplate"
 	connectionprofile "github.com/upbound/provider-gcp/internal/controller/namespaced/datastream/connectionprofile"
 	privateconnection "github.com/upbound/provider-gcp/internal/controller/namespaced/datastream/privateconnection"
+	stream "github.com/upbound/provider-gcp/internal/controller/namespaced/datastream/stream"
 	connectaccountconnector "github.com/upbound/provider-gcp/internal/controller/namespaced/developerconnect/connectaccountconnector"
 	connectconnection "github.com/upbound/provider-gcp/internal/controller/namespaced/developerconnect/connectconnection"
 	connectgitrepositorylink "github.com/upbound/provider-gcp/internal/controller/namespaced/developerconnect/connectgitrepositorylink"
@@ -641,6 +642,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		workflowtemplate.Setup,
 		connectionprofile.Setup,
 		privateconnection.Setup,
+		stream.Setup,
 		connectaccountconnector.Setup,
 		connectconnection.Setup,
 		connectgitrepositorylink.Setup,
@@ -1047,6 +1049,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		workflowtemplate.SetupGated,
 		connectionprofile.SetupGated,
 		privateconnection.SetupGated,
+		stream.SetupGated,
 		connectaccountconnector.SetupGated,
 		connectconnection.SetupGated,
 		connectgitrepositorylink.SetupGated,
