@@ -3,6 +3,7 @@ kind: Stream
 metadata:
   annotations:
     meta.upbound.io/example-id: datastream/v1beta1/stream
+    upjet.upbound.io/manual-intervention: "Requires IAM configuration for GCP service agents."
   labels:
     testing.upbound.io/example-name: default
   name: default
