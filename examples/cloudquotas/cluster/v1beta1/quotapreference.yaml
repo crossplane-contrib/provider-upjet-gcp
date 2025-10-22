@@ -11,8 +11,8 @@ spec:
     contactEmail: testuser@gmail.com
     dimensions:
       region: us-east1
-    parent: projects/my-project-name
+    parent: projects/official-provider-testing
     quotaConfig:
-      preferredValue: 200
+      preferredValue: "5000"
     quotaId: CPUS-per-project-region
     service: compute.googleapis.com
