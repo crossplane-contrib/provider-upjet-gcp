@@ -99,6 +99,9 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following projects/{{project}}/roles/{{role_id}}
 	"google_project_iam_custom_role": config.TemplatedStringAsIdentifier("role_id", "projects/{{ .setup.configuration.project }}/roles/{{ .external_name }}"),
 
+	// cloudquotas
+	"google_cloud_quotas_quota_preference": config.TemplatedStringAsIdentifier("name", "{{ .parameters.parent }}/locations/global/quotaPreferences/{{ .external_name }}"),
+
 	// cloudrun
 	//
 	// Imported by using the following format: locations/{{location}}/namespaces/{{project}}/domainmappings/{{name}}

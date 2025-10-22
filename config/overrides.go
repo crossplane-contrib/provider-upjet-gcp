@@ -114,6 +114,8 @@ var groupMap = map[string]GroupKindCalculator{
 	"google_document_ai.+": ReplaceGroupWords("", 2),
 
 	"google_essential_contacts_contact$": ReplaceGroupWords("", 2),
+
+	"google_cloud_quotas.+$": ReplaceGroupWords("", 2),
 }
 
 // ReplaceGroupWords uses given group as the group of the resource and removes
