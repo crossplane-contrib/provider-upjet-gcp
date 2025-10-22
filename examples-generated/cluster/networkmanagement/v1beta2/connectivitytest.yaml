@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: networkmanagement.gcp.upbound.io/v1beta2
 kind: ConnectivityTest
 metadata:
@@ -9,7 +13,7 @@ metadata:
 spec:
   forProvider:
     destination:
-    - instanceSelector:
+      instanceSelector:
         matchLabels:
           testing.upbound.io/example-name: destination
     labels:
@@ -17,7 +21,7 @@ spec:
     name: conn-test-instances
     protocol: TCP
     source:
-    - instanceSelector:
+      instanceSelector:
         matchLabels:
           testing.upbound.io/example-name: source
 
@@ -34,8 +38,8 @@ metadata:
 spec:
   forProvider:
     bootDisk:
-    - initializeParams:
-      - imageSelector:
+      initializeParams:
+        imageSelector:
           matchLabels:
             testing.upbound.io/example-name: google_compute_image
     machineType: e2-medium
@@ -59,8 +63,8 @@ metadata:
 spec:
   forProvider:
     bootDisk:
-    - initializeParams:
-      - imageSelector:
+      initializeParams:
+        imageSelector:
           matchLabels:
             testing.upbound.io/example-name: google_compute_image
     machineType: e2-medium

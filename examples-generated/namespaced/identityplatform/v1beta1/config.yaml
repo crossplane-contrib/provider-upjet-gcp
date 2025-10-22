@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: identityplatform.gcp.m.upbound.io/v1beta1
 kind: Config
 metadata:
@@ -15,8 +19,8 @@ spec:
     - my-project.web.app
     autodeleteAnonymousUsers: true
     blockingFunctions:
-    - forwardInboundCredentials:
-      - accessToken: true
+      forwardInboundCredentials:
+        accessToken: true
         idToken: true
         refreshToken: true
       triggers:
@@ -26,24 +30,24 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: default
     quota:
-    - signUpQuotaConfig:
-      - quota: 1000
+      signUpQuotaConfig:
+        quota: 1000
         quotaDuration: 7200s
         startTime: "2014-10-02T15:01:23Z"
     signIn:
-    - allowDuplicateEmails: true
+      allowDuplicateEmails: true
       anonymous:
-      - enabled: true
+        enabled: true
       email:
-      - enabled: true
+        enabled: true
         passwordRequired: false
       phoneNumber:
-      - enabled: true
+        enabled: true
         testPhoneNumbers:
           "+11231231234": "000000"
     smsRegionConfig:
-    - allowlistOnly:
-      - allowedRegions:
+      allowlistOnly:
+        allowedRegions:
         - US
         - CA
 

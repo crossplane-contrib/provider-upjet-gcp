@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: binaryauthorization.gcp.m.upbound.io/v1beta1
 kind: Policy
 metadata:
@@ -18,7 +22,7 @@ spec:
       requireAttestationsByRefs:
       - name: attestor
     defaultAdmissionRule:
-    - enforcementMode: ENFORCED_BLOCK_AND_AUDIT_LOG
+      enforcementMode: ENFORCED_BLOCK_AND_AUDIT_LOG
       evaluationMode: ALWAYS_ALLOW
 
 ---
@@ -35,7 +39,7 @@ metadata:
 spec:
   forProvider:
     attestationAuthorityNote:
-    - noteReferenceSelector:
+      noteReferenceSelector:
         matchLabels:
           testing.upbound.io/example-name: note
 
@@ -53,5 +57,5 @@ metadata:
 spec:
   forProvider:
     attestationAuthority:
-    - hint:
-      - humanReadableName: My attestor
+      hint:
+        humanReadableName: My attestor

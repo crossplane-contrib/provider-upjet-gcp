@@ -1,0 +1,34 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: storage.gcp.upbound.io/v1beta1
+kind: ManagedFolder
+metadata:
+  annotations:
+    meta.upbound.io/example-id: storage/v1beta1/managedfolder
+  labels:
+    testing.upbound.io/example-name: folder
+  name: folder
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: bucket
+    forceDestroy: true
+    name: managed/folder/name/
+
+---
+
+apiVersion: storage.gcp.upbound.io/v1beta2
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: storage/v1beta1/managedfolder
+  labels:
+    testing.upbound.io/example-name: bucket
+  name: bucket
+spec:
+  forProvider:
+    location: EU
+    uniformBucketLevelAccess: true

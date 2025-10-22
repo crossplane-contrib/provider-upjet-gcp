@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: networkconnectivity.gcp.m.upbound.io/v1beta1
 kind: ServiceConnectionPolicy
 metadata:
@@ -15,7 +19,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: producer_net
     pscConfig:
-    - limit: 2
+      limit: 2
       subnetworksRefs:
       - name: producer_subnet
     serviceClass: my-basic-service-class

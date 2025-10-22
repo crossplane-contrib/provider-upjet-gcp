@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: datalossprevention.gcp.upbound.io/v1beta2
 kind: DeidentifyTemplate
 metadata:
@@ -9,25 +13,25 @@ metadata:
 spec:
   forProvider:
     deidentifyConfig:
-    - infoTypeTransformations:
-      - transformations:
+      infoTypeTransformations:
+        transformations:
         - infoTypes:
           - name: FIRST_NAME
           primitiveTransformation:
-          - replaceWithInfoTypeConfig: true
+            replaceWithInfoTypeConfig: true
         - infoTypes:
           - name: PHONE_NUMBER
           - name: AGE
           primitiveTransformation:
-          - replaceConfig:
-            - newValue:
-              - integerValue: 9
+            replaceConfig:
+              newValue:
+                integerValue: 9
         - infoTypes:
           - name: EMAIL_ADDRESS
           - name: LAST_NAME
           primitiveTransformation:
-          - characterMaskConfig:
-            - charactersToIgnore:
+            characterMaskConfig:
+              charactersToIgnore:
               - commonCharactersToIgnore: PUNCTUATION
               maskingCharacter: X
               numberToMask: 4
@@ -35,23 +39,23 @@ spec:
         - infoTypes:
           - name: DATE_OF_BIRTH
           primitiveTransformation:
-          - replaceConfig:
-            - newValue:
-              - dateValue:
-                - day: 1
+            replaceConfig:
+              newValue:
+                dateValue:
+                  day: 1
                   month: 1
                   year: 2020
         - infoTypes:
           - name: CREDIT_CARD_NUMBER
           primitiveTransformation:
-          - cryptoDeterministicConfig:
-            - context:
-              - name: sometweak
+            cryptoDeterministicConfig:
+              context:
+                name: sometweak
               cryptoKey:
-              - transient:
-                - name: beep
+                transient:
+                  name: beep
               surrogateInfoType:
-              - name: abc
+                name: abc
     description: Description
     displayName: Displayname
     parent: projects/my-project-name

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: containerattached.gcp.upbound.io/v1beta2
 kind: Cluster
 metadata:
@@ -11,9 +15,9 @@ spec:
     description: Test cluster
     distribution: aks
     fleet:
-    - project: projects/${data.google_project.project.number}
+      project: projects/${data.google_project.project.number}
     location: us-west1
     oidcConfig:
-    - issuerUrl: https://oidc.issuer.url
+      issuerUrl: https://oidc.issuer.url
     platformVersion: ${data.google_container_attached_versions.versions.valid_versions[0]}
     project: ${data.google_project.project.project_id}

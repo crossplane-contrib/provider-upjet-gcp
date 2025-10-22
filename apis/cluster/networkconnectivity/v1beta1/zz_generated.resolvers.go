@@ -16,8 +16,40 @@ import (
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-func (mg *InternalRange) ResolveReferences( // ResolveReferences of this InternalRange.
+func (mg *Group) ResolveReferences( // ResolveReferences of this Group.
 	ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("networkconnectivity.gcp.upbound.io", "v1beta1", "Hub", "HubList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Hub),
+			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.HubRef,
+			Selector:     mg.Spec.ForProvider.HubSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Hub")
+	}
+	mg.Spec.ForProvider.Hub = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.HubRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this InternalRange.
+func (mg *InternalRange) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed
 	var l xpresource.ManagedList
 	r := reference.NewAPIResolver(c, mg)

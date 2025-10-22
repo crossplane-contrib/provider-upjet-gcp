@@ -237,6 +237,146 @@ func (mg *AnalyticsHubListing) ResolveReferences(ctx context.Context, c client.R
 	return nil
 }
 
+// ResolveReferences of this AnalyticsHubListingSubscription.
+func (mg *AnalyticsHubListingSubscription) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta1", "AnalyticsHubDataExchange", "AnalyticsHubDataExchangeList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DataExchangeID),
+			Extract:      resource.ExtractParamPath("data_exchange_id", false),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.DataExchangeIDRef,
+			Selector:     mg.Spec.ForProvider.DataExchangeIDSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.DataExchangeID")
+	}
+	mg.Spec.ForProvider.DataExchangeID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.DataExchangeIDRef = rsp.ResolvedReference
+
+	if mg.Spec.ForProvider.DestinationDataset != nil {
+		if mg.Spec.ForProvider.DestinationDataset.DatasetReference != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta2", "Dataset", "DatasetList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DestinationDataset.DatasetReference.ProjectID),
+					Extract:      resource.ExtractParamPath("project", false),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.ForProvider.DestinationDataset.DatasetReference.ProjectIDRef,
+					Selector:     mg.Spec.ForProvider.DestinationDataset.DatasetReference.ProjectIDSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.DestinationDataset.DatasetReference.ProjectID")
+			}
+			mg.Spec.ForProvider.DestinationDataset.DatasetReference.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.DestinationDataset.DatasetReference.ProjectIDRef = rsp.ResolvedReference
+
+		}
+	}
+	{
+		m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta2", "AnalyticsHubListing", "AnalyticsHubListingList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ListingID),
+			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.ListingIDRef,
+			Selector:     mg.Spec.ForProvider.ListingIDSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.ListingID")
+	}
+	mg.Spec.ForProvider.ListingID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ListingIDRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta1", "AnalyticsHubDataExchange", "AnalyticsHubDataExchangeList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DataExchangeID),
+			Extract:      resource.ExtractParamPath("data_exchange_id", false),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.DataExchangeIDRef,
+			Selector:     mg.Spec.InitProvider.DataExchangeIDSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.DataExchangeID")
+	}
+	mg.Spec.InitProvider.DataExchangeID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.DataExchangeIDRef = rsp.ResolvedReference
+
+	if mg.Spec.InitProvider.DestinationDataset != nil {
+		if mg.Spec.InitProvider.DestinationDataset.DatasetReference != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta2", "Dataset", "DatasetList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DestinationDataset.DatasetReference.ProjectID),
+					Extract:      resource.ExtractParamPath("project", false),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.InitProvider.DestinationDataset.DatasetReference.ProjectIDRef,
+					Selector:     mg.Spec.InitProvider.DestinationDataset.DatasetReference.ProjectIDSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.DestinationDataset.DatasetReference.ProjectID")
+			}
+			mg.Spec.InitProvider.DestinationDataset.DatasetReference.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.DestinationDataset.DatasetReference.ProjectIDRef = rsp.ResolvedReference
+
+		}
+	}
+	{
+		m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta2", "AnalyticsHubListing", "AnalyticsHubListingList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ListingID),
+			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.ListingIDRef,
+			Selector:     mg.Spec.InitProvider.ListingIDSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ListingID")
+	}
+	mg.Spec.InitProvider.ListingID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ListingIDRef = rsp.ResolvedReference
+
+	return nil
+}
+
 // ResolveReferences of this Connection.
 func (mg *Connection) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed

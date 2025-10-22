@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: compute.gcp.m.upbound.io/v1beta1
 kind: InstanceTemplate
 metadata:
@@ -34,10 +38,10 @@ spec:
         matchLabels:
           testing.upbound.io/example-name: example
     scheduling:
-    - automaticRestart: true
+      automaticRestart: true
       onHostMaintenance: MIGRATE
     serviceAccount:
-    - emailSelector:
+      emailSelector:
         matchLabels:
           testing.upbound.io/example-name: default
       scopes:
@@ -79,9 +83,9 @@ spec:
   forProvider:
     region: us-central1
     snapshotSchedulePolicy:
-    - schedule:
-      - dailySchedule:
-        - daysInCycle: 1
+      schedule:
+        dailySchedule:
+          daysInCycle: 1
           startTime: "04:00"
 
 ---

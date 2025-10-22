@@ -16,6 +16,9 @@ import (
 
 type AnalyticsHubListingInitParameters struct {
 
+	// If true, the listing is only available to get the resource metadata. Listing is non subscribable.
+	AllowOnlyMetadataSharing *bool `json:"allowOnlyMetadataSharing,omitempty" tf:"allow_only_metadata_sharing,omitempty"`
+
 	// Shared dataset i.e. BigQuery dataset source.
 	// Structure is documented below.
 	BigqueryDataset *BigqueryDatasetInitParameters `json:"bigqueryDataset,omitempty" tf:"bigquery_dataset,omitempty"`
@@ -27,8 +30,15 @@ type AnalyticsHubListingInitParameters struct {
 	// Structure is documented below.
 	DataProvider *DataProviderInitParameters `json:"dataProvider,omitempty" tf:"data_provider,omitempty"`
 
+	// If the listing is commercial then this field must be set to true, otherwise a failure is thrown. This acts as a safety guard to avoid deleting commercial listings accidentally.
+	DeleteCommercial *bool `json:"deleteCommercial,omitempty" tf:"delete_commercial,omitempty"`
+
 	// Short description of the listing. The description must not contain Unicode non-characters and C0 and C1 control codes except tabs (HT), new lines (LF), carriage returns (CR), and page breaks (FF).
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Specifies the type of discovery on the discovery page. Cannot be set for a restricted listing. Note that this does not control the visibility of the exchange/listing which is defined by IAM permission.
+	// Possible values are: DISCOVERY_TYPE_PRIVATE, DISCOVERY_TYPE_PUBLIC.
+	DiscoveryType *string `json:"discoveryType,omitempty" tf:"discovery_type,omitempty"`
 
 	// Human-readable display name of the listing. The display name must contain only Unicode letters, numbers (0-9), underscores (_), dashes (-), spaces ( ), ampersands (&) and can't start or end with spaces.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -67,12 +77,19 @@ type AnalyticsHubListingInitParameters struct {
 
 type AnalyticsHubListingObservation struct {
 
+	// If true, the listing is only available to get the resource metadata. Listing is non subscribable.
+	AllowOnlyMetadataSharing *bool `json:"allowOnlyMetadataSharing,omitempty" tf:"allow_only_metadata_sharing,omitempty"`
+
 	// Shared dataset i.e. BigQuery dataset source.
 	// Structure is documented below.
 	BigqueryDataset *BigqueryDatasetObservation `json:"bigqueryDataset,omitempty" tf:"bigquery_dataset,omitempty"`
 
 	// Categories of the listing. Up to two categories are allowed.
 	Categories []*string `json:"categories,omitempty" tf:"categories,omitempty"`
+
+	// Commercial info contains the information about the commercial data products associated with the listing.
+	// Structure is documented below.
+	CommercialInfo []CommercialInfoObservation `json:"commercialInfo,omitempty" tf:"commercial_info,omitempty"`
 
 	// The ID of the data exchange. Must contain only Unicode letters, numbers (0-9), underscores (_). Should not use characters that require URL-escaping, or characters outside of ASCII, spaces.
 	DataExchangeID *string `json:"dataExchangeId,omitempty" tf:"data_exchange_id,omitempty"`
@@ -81,8 +98,15 @@ type AnalyticsHubListingObservation struct {
 	// Structure is documented below.
 	DataProvider *DataProviderObservation `json:"dataProvider,omitempty" tf:"data_provider,omitempty"`
 
+	// If the listing is commercial then this field must be set to true, otherwise a failure is thrown. This acts as a safety guard to avoid deleting commercial listings accidentally.
+	DeleteCommercial *bool `json:"deleteCommercial,omitempty" tf:"delete_commercial,omitempty"`
+
 	// Short description of the listing. The description must not contain Unicode non-characters and C0 and C1 control codes except tabs (HT), new lines (LF), carriage returns (CR), and page breaks (FF).
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Specifies the type of discovery on the discovery page. Cannot be set for a restricted listing. Note that this does not control the visibility of the exchange/listing which is defined by IAM permission.
+	// Possible values are: DISCOVERY_TYPE_PRIVATE, DISCOVERY_TYPE_PUBLIC.
+	DiscoveryType *string `json:"discoveryType,omitempty" tf:"discovery_type,omitempty"`
 
 	// Human-readable display name of the listing. The display name must contain only Unicode letters, numbers (0-9), underscores (_), dashes (-), spaces ( ), ampersands (&) and can't start or end with spaces.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -126,9 +150,16 @@ type AnalyticsHubListingObservation struct {
 	// If set, restricted export configuration will be propagated and enforced on the linked dataset.
 	// Structure is documented below.
 	RestrictedExportConfig *RestrictedExportConfigObservation `json:"restrictedExportConfig,omitempty" tf:"restricted_export_config,omitempty"`
+
+	// Current state of the listing.
+	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }
 
 type AnalyticsHubListingParameters struct {
+
+	// If true, the listing is only available to get the resource metadata. Listing is non subscribable.
+	// +kubebuilder:validation:Optional
+	AllowOnlyMetadataSharing *bool `json:"allowOnlyMetadataSharing,omitempty" tf:"allow_only_metadata_sharing,omitempty"`
 
 	// Shared dataset i.e. BigQuery dataset source.
 	// Structure is documented below.
@@ -158,9 +189,18 @@ type AnalyticsHubListingParameters struct {
 	// +kubebuilder:validation:Optional
 	DataProvider *DataProviderParameters `json:"dataProvider,omitempty" tf:"data_provider,omitempty"`
 
+	// If the listing is commercial then this field must be set to true, otherwise a failure is thrown. This acts as a safety guard to avoid deleting commercial listings accidentally.
+	// +kubebuilder:validation:Optional
+	DeleteCommercial *bool `json:"deleteCommercial,omitempty" tf:"delete_commercial,omitempty"`
+
 	// Short description of the listing. The description must not contain Unicode non-characters and C0 and C1 control codes except tabs (HT), new lines (LF), carriage returns (CR), and page breaks (FF).
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Specifies the type of discovery on the discovery page. Cannot be set for a restricted listing. Note that this does not control the visibility of the exchange/listing which is defined by IAM permission.
+	// Possible values are: DISCOVERY_TYPE_PRIVATE, DISCOVERY_TYPE_PUBLIC.
+	// +kubebuilder:validation:Optional
+	DiscoveryType *string `json:"discoveryType,omitempty" tf:"discovery_type,omitempty"`
 
 	// Human-readable display name of the listing. The display name must contain only Unicode letters, numbers (0-9), underscores (_), dashes (-), spaces ( ), ampersands (&) and can't start or end with spaces.
 	// +kubebuilder:validation:Optional
@@ -261,6 +301,38 @@ type BigqueryDatasetParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SelectedResources []SelectedResourcesParameters `json:"selectedResources,omitempty" tf:"selected_resources,omitempty"`
+}
+
+type CloudMarketplaceInitParameters struct {
+}
+
+type CloudMarketplaceObservation struct {
+
+	// (Output)
+	// Commercial state of the Marketplace Data Product.
+	// Possible values: COMMERCIAL_STATE_UNSPECIFIED, ONBOARDING, ACTIVE
+	CommercialState *string `json:"commercialState,omitempty" tf:"commercial_state,omitempty"`
+
+	// (Output)
+	// Resource name of the commercial service associated with the Marketplace Data Product. e.g. example.com
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+}
+
+type CloudMarketplaceParameters struct {
+}
+
+type CommercialInfoInitParameters struct {
+}
+
+type CommercialInfoObservation struct {
+
+	// (Output)
+	// Details of the Marketplace Data Product associated with the Listing.
+	// Structure is documented below.
+	CloudMarketplace []CloudMarketplaceObservation `json:"cloudMarketplace,omitempty" tf:"cloud_marketplace,omitempty"`
+}
+
+type CommercialInfoParameters struct {
 }
 
 type DataProviderInitParameters struct {

@@ -25,11 +25,15 @@ import (
 	envgroupattachment "github.com/upbound/provider-gcp/internal/controller/namespaced/apigee/envgroupattachment"
 	environment "github.com/upbound/provider-gcp/internal/controller/namespaced/apigee/environment"
 	environmentiammember "github.com/upbound/provider-gcp/internal/controller/namespaced/apigee/environmentiammember"
+	envkeystore "github.com/upbound/provider-gcp/internal/controller/namespaced/apigee/envkeystore"
+	envreferences "github.com/upbound/provider-gcp/internal/controller/namespaced/apigee/envreferences"
 	instanceapigee "github.com/upbound/provider-gcp/internal/controller/namespaced/apigee/instance"
 	instanceattachment "github.com/upbound/provider-gcp/internal/controller/namespaced/apigee/instanceattachment"
+	keystoresaliaseskeycertfile "github.com/upbound/provider-gcp/internal/controller/namespaced/apigee/keystoresaliaseskeycertfile"
 	nataddress "github.com/upbound/provider-gcp/internal/controller/namespaced/apigee/nataddress"
 	organization "github.com/upbound/provider-gcp/internal/controller/namespaced/apigee/organization"
 	syncauthorization "github.com/upbound/provider-gcp/internal/controller/namespaced/apigee/syncauthorization"
+	targetserver "github.com/upbound/provider-gcp/internal/controller/namespaced/apigee/targetserver"
 	application "github.com/upbound/provider-gcp/internal/controller/namespaced/appengine/application"
 	applicationurldispatchrules "github.com/upbound/provider-gcp/internal/controller/namespaced/appengine/applicationurldispatchrules"
 	firewallrule "github.com/upbound/provider-gcp/internal/controller/namespaced/appengine/firewallrule"
@@ -43,6 +47,7 @@ import (
 	analyticshubdataexchange "github.com/upbound/provider-gcp/internal/controller/namespaced/bigquery/analyticshubdataexchange"
 	analyticshubdataexchangeiammember "github.com/upbound/provider-gcp/internal/controller/namespaced/bigquery/analyticshubdataexchangeiammember"
 	analyticshublisting "github.com/upbound/provider-gcp/internal/controller/namespaced/bigquery/analyticshublisting"
+	analyticshublistingsubscription "github.com/upbound/provider-gcp/internal/controller/namespaced/bigquery/analyticshublistingsubscription"
 	connection "github.com/upbound/provider-gcp/internal/controller/namespaced/bigquery/connection"
 	dataset "github.com/upbound/provider-gcp/internal/controller/namespaced/bigquery/dataset"
 	datasetaccess "github.com/upbound/provider-gcp/internal/controller/namespaced/bigquery/datasetaccess"
@@ -167,6 +172,7 @@ import (
 	regionnetworkfirewallpolicy "github.com/upbound/provider-gcp/internal/controller/namespaced/compute/regionnetworkfirewallpolicy"
 	regionnetworkfirewallpolicyassociation "github.com/upbound/provider-gcp/internal/controller/namespaced/compute/regionnetworkfirewallpolicyassociation"
 	regionperinstanceconfig "github.com/upbound/provider-gcp/internal/controller/namespaced/compute/regionperinstanceconfig"
+	regionsecuritypolicy "github.com/upbound/provider-gcp/internal/controller/namespaced/compute/regionsecuritypolicy"
 	regionsslcertificate "github.com/upbound/provider-gcp/internal/controller/namespaced/compute/regionsslcertificate"
 	regionsslpolicy "github.com/upbound/provider-gcp/internal/controller/namespaced/compute/regionsslpolicy"
 	regiontargethttpproxy "github.com/upbound/provider-gcp/internal/controller/namespaced/compute/regiontargethttpproxy"
@@ -234,6 +240,9 @@ import (
 	workflowtemplate "github.com/upbound/provider-gcp/internal/controller/namespaced/dataproc/workflowtemplate"
 	connectionprofile "github.com/upbound/provider-gcp/internal/controller/namespaced/datastream/connectionprofile"
 	privateconnection "github.com/upbound/provider-gcp/internal/controller/namespaced/datastream/privateconnection"
+	connectaccountconnector "github.com/upbound/provider-gcp/internal/controller/namespaced/developerconnect/connectaccountconnector"
+	connectconnection "github.com/upbound/provider-gcp/internal/controller/namespaced/developerconnect/connectconnection"
+	connectgitrepositorylink "github.com/upbound/provider-gcp/internal/controller/namespaced/developerconnect/connectgitrepositorylink"
 	agent "github.com/upbound/provider-gcp/internal/controller/namespaced/dialogflowcx/agent"
 	entitytype "github.com/upbound/provider-gcp/internal/controller/namespaced/dialogflowcx/entitytype"
 	environmentdialogflowcx "github.com/upbound/provider-gcp/internal/controller/namespaced/dialogflowcx/environment"
@@ -258,6 +267,13 @@ import (
 	snapshotfilestore "github.com/upbound/provider-gcp/internal/controller/namespaced/filestore/snapshot"
 	release "github.com/upbound/provider-gcp/internal/controller/namespaced/firebaserules/release"
 	ruleset "github.com/upbound/provider-gcp/internal/controller/namespaced/firebaserules/ruleset"
+	coderepositoryindex "github.com/upbound/provider-gcp/internal/controller/namespaced/gemini/coderepositoryindex"
+	codetoolssetting "github.com/upbound/provider-gcp/internal/controller/namespaced/gemini/codetoolssetting"
+	datasharingwithgooglesetting "github.com/upbound/provider-gcp/internal/controller/namespaced/gemini/datasharingwithgooglesetting"
+	geminigcpenablementsetting "github.com/upbound/provider-gcp/internal/controller/namespaced/gemini/geminigcpenablementsetting"
+	loggingsetting "github.com/upbound/provider-gcp/internal/controller/namespaced/gemini/loggingsetting"
+	releasechannelsetting "github.com/upbound/provider-gcp/internal/controller/namespaced/gemini/releasechannelsetting"
+	repositorygroup "github.com/upbound/provider-gcp/internal/controller/namespaced/gemini/repositorygroup"
 	backupbackupplan "github.com/upbound/provider-gcp/internal/controller/namespaced/gke/backupbackupplan"
 	membership "github.com/upbound/provider-gcp/internal/controller/namespaced/gkehub/membership"
 	membershipiammember "github.com/upbound/provider-gcp/internal/controller/namespaced/gkehub/membershipiammember"
@@ -307,6 +323,7 @@ import (
 	servicemonitoring "github.com/upbound/provider-gcp/internal/controller/namespaced/monitoring/service"
 	slo "github.com/upbound/provider-gcp/internal/controller/namespaced/monitoring/slo"
 	uptimecheckconfig "github.com/upbound/provider-gcp/internal/controller/namespaced/monitoring/uptimecheckconfig"
+	groupnetworkconnectivity "github.com/upbound/provider-gcp/internal/controller/namespaced/networkconnectivity/group"
 	hub "github.com/upbound/provider-gcp/internal/controller/namespaced/networkconnectivity/hub"
 	internalrange "github.com/upbound/provider-gcp/internal/controller/namespaced/networkconnectivity/internalrange"
 	serviceconnectionpolicy "github.com/upbound/provider-gcp/internal/controller/namespaced/networkconnectivity/serviceconnectionpolicy"
@@ -368,6 +385,8 @@ import (
 	defaultobjectaccesscontrol "github.com/upbound/provider-gcp/internal/controller/namespaced/storage/defaultobjectaccesscontrol"
 	defaultobjectacl "github.com/upbound/provider-gcp/internal/controller/namespaced/storage/defaultobjectacl"
 	hmackey "github.com/upbound/provider-gcp/internal/controller/namespaced/storage/hmackey"
+	managedfolder "github.com/upbound/provider-gcp/internal/controller/namespaced/storage/managedfolder"
+	managedfolderiammember "github.com/upbound/provider-gcp/internal/controller/namespaced/storage/managedfolderiammember"
 	notification "github.com/upbound/provider-gcp/internal/controller/namespaced/storage/notification"
 	objectaccesscontrol "github.com/upbound/provider-gcp/internal/controller/namespaced/storage/objectaccesscontrol"
 	objectacl "github.com/upbound/provider-gcp/internal/controller/namespaced/storage/objectacl"
@@ -405,11 +424,15 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		envgroupattachment.Setup,
 		environment.Setup,
 		environmentiammember.Setup,
+		envkeystore.Setup,
+		envreferences.Setup,
 		instanceapigee.Setup,
 		instanceattachment.Setup,
+		keystoresaliaseskeycertfile.Setup,
 		nataddress.Setup,
 		organization.Setup,
 		syncauthorization.Setup,
+		targetserver.Setup,
 		application.Setup,
 		applicationurldispatchrules.Setup,
 		firewallrule.Setup,
@@ -423,6 +446,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		analyticshubdataexchange.Setup,
 		analyticshubdataexchangeiammember.Setup,
 		analyticshublisting.Setup,
+		analyticshublistingsubscription.Setup,
 		connection.Setup,
 		dataset.Setup,
 		datasetaccess.Setup,
@@ -547,6 +571,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		regionnetworkfirewallpolicy.Setup,
 		regionnetworkfirewallpolicyassociation.Setup,
 		regionperinstanceconfig.Setup,
+		regionsecuritypolicy.Setup,
 		regionsslcertificate.Setup,
 		regionsslpolicy.Setup,
 		regiontargethttpproxy.Setup,
@@ -614,6 +639,9 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		workflowtemplate.Setup,
 		connectionprofile.Setup,
 		privateconnection.Setup,
+		connectaccountconnector.Setup,
+		connectconnection.Setup,
+		connectgitrepositorylink.Setup,
 		agent.Setup,
 		entitytype.Setup,
 		environmentdialogflowcx.Setup,
@@ -638,6 +666,13 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		snapshotfilestore.Setup,
 		release.Setup,
 		ruleset.Setup,
+		coderepositoryindex.Setup,
+		codetoolssetting.Setup,
+		datasharingwithgooglesetting.Setup,
+		geminigcpenablementsetting.Setup,
+		loggingsetting.Setup,
+		releasechannelsetting.Setup,
+		repositorygroup.Setup,
 		backupbackupplan.Setup,
 		membership.Setup,
 		membershipiammember.Setup,
@@ -687,6 +722,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		servicemonitoring.Setup,
 		slo.Setup,
 		uptimecheckconfig.Setup,
+		groupnetworkconnectivity.Setup,
 		hub.Setup,
 		internalrange.Setup,
 		serviceconnectionpolicy.Setup,
@@ -748,6 +784,8 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		defaultobjectaccesscontrol.Setup,
 		defaultobjectacl.Setup,
 		hmackey.Setup,
+		managedfolder.Setup,
+		managedfolderiammember.Setup,
 		notification.Setup,
 		objectaccesscontrol.Setup,
 		objectacl.Setup,
@@ -791,11 +829,15 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		envgroupattachment.SetupGated,
 		environment.SetupGated,
 		environmentiammember.SetupGated,
+		envkeystore.SetupGated,
+		envreferences.SetupGated,
 		instanceapigee.SetupGated,
 		instanceattachment.SetupGated,
+		keystoresaliaseskeycertfile.SetupGated,
 		nataddress.SetupGated,
 		organization.SetupGated,
 		syncauthorization.SetupGated,
+		targetserver.SetupGated,
 		application.SetupGated,
 		applicationurldispatchrules.SetupGated,
 		firewallrule.SetupGated,
@@ -809,6 +851,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		analyticshubdataexchange.SetupGated,
 		analyticshubdataexchangeiammember.SetupGated,
 		analyticshublisting.SetupGated,
+		analyticshublistingsubscription.SetupGated,
 		connection.SetupGated,
 		dataset.SetupGated,
 		datasetaccess.SetupGated,
@@ -933,6 +976,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		regionnetworkfirewallpolicy.SetupGated,
 		regionnetworkfirewallpolicyassociation.SetupGated,
 		regionperinstanceconfig.SetupGated,
+		regionsecuritypolicy.SetupGated,
 		regionsslcertificate.SetupGated,
 		regionsslpolicy.SetupGated,
 		regiontargethttpproxy.SetupGated,
@@ -1000,6 +1044,9 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		workflowtemplate.SetupGated,
 		connectionprofile.SetupGated,
 		privateconnection.SetupGated,
+		connectaccountconnector.SetupGated,
+		connectconnection.SetupGated,
+		connectgitrepositorylink.SetupGated,
 		agent.SetupGated,
 		entitytype.SetupGated,
 		environmentdialogflowcx.SetupGated,
@@ -1024,6 +1071,13 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		snapshotfilestore.SetupGated,
 		release.SetupGated,
 		ruleset.SetupGated,
+		coderepositoryindex.SetupGated,
+		codetoolssetting.SetupGated,
+		datasharingwithgooglesetting.SetupGated,
+		geminigcpenablementsetting.SetupGated,
+		loggingsetting.SetupGated,
+		releasechannelsetting.SetupGated,
+		repositorygroup.SetupGated,
 		backupbackupplan.SetupGated,
 		membership.SetupGated,
 		membershipiammember.SetupGated,
@@ -1073,6 +1127,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		servicemonitoring.SetupGated,
 		slo.SetupGated,
 		uptimecheckconfig.SetupGated,
+		groupnetworkconnectivity.SetupGated,
 		hub.SetupGated,
 		internalrange.SetupGated,
 		serviceconnectionpolicy.SetupGated,
@@ -1134,6 +1189,8 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		defaultobjectaccesscontrol.SetupGated,
 		defaultobjectacl.SetupGated,
 		hmackey.SetupGated,
+		managedfolder.SetupGated,
+		managedfolderiammember.SetupGated,
 		notification.SetupGated,
 		objectaccesscontrol.SetupGated,
 		objectacl.SetupGated,

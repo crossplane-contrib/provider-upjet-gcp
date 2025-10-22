@@ -25,10 +25,19 @@ func (tr *Environment) Hub() {}
 func (tr *EnvironmentIAMMember) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *EnvKeystore) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *EnvReferences) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *Instance) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *InstanceAttachment) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *KeystoresAliasesKeyCertFile) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *NATAddress) Hub() {}
@@ -38,3 +47,6 @@ func (tr *Organization) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *SyncAuthorization) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *TargetServer) Hub() {}

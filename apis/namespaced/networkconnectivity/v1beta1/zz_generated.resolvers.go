@@ -16,8 +16,40 @@ import (
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-func (mg *InternalRange) ResolveReferences( // ResolveReferences of this InternalRange.
+func (mg *Group) ResolveReferences( // ResolveReferences of this Group.
 	ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPINamespacedResolver(c, mg)
+
+	var rsp reference.NamespacedResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("networkconnectivity.gcp.m.upbound.io", "v1beta1", "Hub", "HubList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Hub),
+			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.HubRef,
+			Selector:     mg.Spec.ForProvider.HubSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Hub")
+	}
+	mg.Spec.ForProvider.Hub = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.HubRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this InternalRange.
+func (mg *InternalRange) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed
 	var l xpresource.ManagedList
 	r := reference.NewAPINamespacedResolver(c, mg)
@@ -220,6 +252,26 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var mrsp reference.MultiNamespacedResolutionResponse
 	var err error
 	{
+		m, l, err = apisresolver.GetManagedResource("networkconnectivity.gcp.m.upbound.io", "v1beta1", "Group", "GroupList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Group),
+			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.GroupRef,
+			Selector:     mg.Spec.ForProvider.GroupSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Group")
+	}
+	mg.Spec.ForProvider.Group = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.GroupRef = rsp.ResolvedReference
+	{
 		m, l, err = apisresolver.GetManagedResource("networkconnectivity.gcp.m.upbound.io", "v1beta1", "Hub", "HubList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
@@ -375,10 +427,30 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 
 	}
 	{
+		m, l, err = apisresolver.GetManagedResource("networkconnectivity.gcp.m.upbound.io", "v1beta1", "Group", "GroupList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Group),
+			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.GroupRef,
+			Selector:     mg.Spec.InitProvider.GroupSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Group")
+	}
+	mg.Spec.InitProvider.Group = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.GroupRef = rsp.ResolvedReference
+	{
 		m, l, err = apisresolver.GetManagedResource("networkconnectivity.gcp.m.upbound.io", "v1beta1", "Hub", "HubList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
+
 		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Hub),
 			Extract:      resource.ExtractResourceID(),

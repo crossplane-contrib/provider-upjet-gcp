@@ -25,6 +25,24 @@ func (l *EndpointAttachmentList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this EnvKeystoreList.
+func (l *EnvKeystoreList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this EnvReferencesList.
+func (l *EnvReferencesList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this EnvgroupAttachmentList.
 func (l *EnvgroupAttachmentList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
@@ -79,6 +97,15 @@ func (l *InstanceList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this KeystoresAliasesKeyCertFileList.
+func (l *KeystoresAliasesKeyCertFileList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this NATAddressList.
 func (l *NATAddressList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
@@ -99,6 +126,15 @@ func (l *OrganizationList) GetItems() []resource.Managed {
 
 // GetItems of this SyncAuthorizationList.
 func (l *SyncAuthorizationList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this TargetServerList.
+func (l *TargetServerList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]

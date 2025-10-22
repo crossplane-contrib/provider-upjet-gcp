@@ -1,0 +1,19 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: developerconnect.gcp.m.upbound.io/v1beta1
+kind: ConnectConnection
+metadata:
+  annotations:
+    meta.upbound.io/example-id: developerconnect/v1beta1/connectconnection
+  labels:
+    testing.upbound.io/example-name: my-connection
+  name: my-connection
+  namespace: upbound-system
+spec:
+  forProvider:
+    githubConfig:
+      githubApp: FIREBASE
+    location: us-central1
+    provider: ${google-beta}

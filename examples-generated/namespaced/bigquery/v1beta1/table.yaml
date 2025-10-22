@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: bigquery.gcp.m.upbound.io/v1beta1
 kind: Table
 metadata:
@@ -30,7 +34,7 @@ spec:
         }
       ]
     timePartitioning:
-    - type: DAY
+      type: DAY
 
 ---
 

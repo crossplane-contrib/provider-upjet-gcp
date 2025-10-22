@@ -5502,6 +5502,63 @@ func (mg *RegionURLMap) ResolveReferences(ctx context.Context, c client.Reader) 
 	return nil
 }
 
+// ResolveReferences of this Reservation.
+func (mg *Reservation) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.SpecificReservation); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "InstanceTemplate", "InstanceTemplateList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SpecificReservation[i3].SourceInstanceTemplate),
+				Extract:      resource.ExtractParamPath("self_link", true),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.ForProvider.SpecificReservation[i3].SourceInstanceTemplateRef,
+				Selector:     mg.Spec.ForProvider.SpecificReservation[i3].SourceInstanceTemplateSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.SpecificReservation[i3].SourceInstanceTemplate")
+		}
+		mg.Spec.ForProvider.SpecificReservation[i3].SourceInstanceTemplate = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.SpecificReservation[i3].SourceInstanceTemplateRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.SpecificReservation); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "InstanceTemplate", "InstanceTemplateList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SpecificReservation[i3].SourceInstanceTemplate),
+				Extract:      resource.ExtractParamPath("self_link", true),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.InitProvider.SpecificReservation[i3].SourceInstanceTemplateRef,
+				Selector:     mg.Spec.InitProvider.SpecificReservation[i3].SourceInstanceTemplateSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.SpecificReservation[i3].SourceInstanceTemplate")
+		}
+		mg.Spec.InitProvider.SpecificReservation[i3].SourceInstanceTemplate = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.SpecificReservation[i3].SourceInstanceTemplateRef = rsp.ResolvedReference
+
+	}
+
+	return nil
+}
+
 // ResolveReferences of this Route.
 func (mg *Route) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed

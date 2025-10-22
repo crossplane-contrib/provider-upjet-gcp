@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: alloydb.gcp.m.upbound.io/v1beta1
 kind: Instance
 metadata:
@@ -16,7 +20,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: example
     machineConfig:
-    - cpuCount: 2
+      cpuCount: 2
 
 ---
 
@@ -32,12 +36,12 @@ metadata:
 spec:
   forProvider:
     initialUser:
-    - passwordSecretRef:
+      passwordSecretRef:
         key: example-key
         name: example-secret
     location: us-central1
     networkConfig:
-    - networkSelector:
+      networkSelector:
         matchLabels:
           testing.upbound.io/example-name: default
 

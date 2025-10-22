@@ -15,11 +15,15 @@ import (
 	envgroupattachment "github.com/upbound/provider-gcp/internal/controller/cluster/apigee/envgroupattachment"
 	environment "github.com/upbound/provider-gcp/internal/controller/cluster/apigee/environment"
 	environmentiammember "github.com/upbound/provider-gcp/internal/controller/cluster/apigee/environmentiammember"
+	envkeystore "github.com/upbound/provider-gcp/internal/controller/cluster/apigee/envkeystore"
+	envreferences "github.com/upbound/provider-gcp/internal/controller/cluster/apigee/envreferences"
 	instance "github.com/upbound/provider-gcp/internal/controller/cluster/apigee/instance"
 	instanceattachment "github.com/upbound/provider-gcp/internal/controller/cluster/apigee/instanceattachment"
+	keystoresaliaseskeycertfile "github.com/upbound/provider-gcp/internal/controller/cluster/apigee/keystoresaliaseskeycertfile"
 	nataddress "github.com/upbound/provider-gcp/internal/controller/cluster/apigee/nataddress"
 	organization "github.com/upbound/provider-gcp/internal/controller/cluster/apigee/organization"
 	syncauthorization "github.com/upbound/provider-gcp/internal/controller/cluster/apigee/syncauthorization"
+	targetserver "github.com/upbound/provider-gcp/internal/controller/cluster/apigee/targetserver"
 )
 
 // Setup_apigee creates all controllers with the supplied logger and adds them to
@@ -32,11 +36,15 @@ func Setup_apigee(mgr ctrl.Manager, o controller.Options) error {
 		envgroupattachment.Setup,
 		environment.Setup,
 		environmentiammember.Setup,
+		envkeystore.Setup,
+		envreferences.Setup,
 		instance.Setup,
 		instanceattachment.Setup,
+		keystoresaliaseskeycertfile.Setup,
 		nataddress.Setup,
 		organization.Setup,
 		syncauthorization.Setup,
+		targetserver.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err
@@ -55,11 +63,15 @@ func SetupGated_apigee(mgr ctrl.Manager, o controller.Options) error {
 		envgroupattachment.SetupGated,
 		environment.SetupGated,
 		environmentiammember.SetupGated,
+		envkeystore.SetupGated,
+		envreferences.SetupGated,
 		instance.SetupGated,
 		instanceattachment.SetupGated,
+		keystoresaliaseskeycertfile.SetupGated,
 		nataddress.SetupGated,
 		organization.SetupGated,
 		syncauthorization.SetupGated,
+		targetserver.SetupGated,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err

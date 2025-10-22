@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: datalossprevention.gcp.m.upbound.io/v1beta1
 kind: StoredInfoType
 metadata:
@@ -13,6 +17,6 @@ spec:
     displayName: Displayname
     parent: projects/my-project-name
     regex:
-    - groupIndexes:
+      groupIndexes:
       - 2
       pattern: patient

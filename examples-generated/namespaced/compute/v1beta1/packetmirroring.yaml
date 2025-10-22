@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: compute.gcp.m.upbound.io/v1beta1
 kind: PacketMirroring
 metadata:
@@ -10,25 +14,25 @@ metadata:
 spec:
   forProvider:
     collectorIlb:
-    - urlSelector:
+      urlSelector:
         matchLabels:
           testing.upbound.io/example-name: default
     description: bar
     filter:
-    - cidrRanges:
+      cidrRanges:
       - 0.0.0.0/0
       direction: BOTH
       ipProtocols:
       - tcp
     mirroredResources:
-    - instances:
+      instances:
       - urlSelector:
           matchLabels:
             testing.upbound.io/example-name: mirror
       tags:
       - foo
     network:
-    - urlSelector:
+      urlSelector:
         matchLabels:
           testing.upbound.io/example-name: default
 
@@ -75,7 +79,7 @@ spec:
   forProvider:
     checkIntervalSec: 1
     tcpHealthCheck:
-    - port: "80"
+      port: "80"
     timeoutSec: 1
 
 ---
@@ -92,8 +96,8 @@ metadata:
 spec:
   forProvider:
     bootDisk:
-    - initializeParams:
-      - imageSelector:
+      initializeParams:
+        imageSelector:
           matchLabels:
             testing.upbound.io/example-name: example
     machineType: e2-medium

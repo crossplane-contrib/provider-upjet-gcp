@@ -73,6 +73,7 @@ import (
 	v1beta2dataproc "github.com/upbound/provider-gcp/apis/cluster/dataproc/v1beta2"
 	v1beta1datastream "github.com/upbound/provider-gcp/apis/cluster/datastream/v1beta1"
 	v1beta2datastream "github.com/upbound/provider-gcp/apis/cluster/datastream/v1beta2"
+	v1beta1developerconnect "github.com/upbound/provider-gcp/apis/cluster/developerconnect/v1beta1"
 	v1beta1dialogflowcx "github.com/upbound/provider-gcp/apis/cluster/dialogflowcx/v1beta1"
 	v1beta2dialogflowcx "github.com/upbound/provider-gcp/apis/cluster/dialogflowcx/v1beta2"
 	v1beta1dns "github.com/upbound/provider-gcp/apis/cluster/dns/v1beta1"
@@ -85,6 +86,7 @@ import (
 	v1beta2filestore "github.com/upbound/provider-gcp/apis/cluster/filestore/v1beta2"
 	v1beta1firebaserules "github.com/upbound/provider-gcp/apis/cluster/firebaserules/v1beta1"
 	v1beta2firebaserules "github.com/upbound/provider-gcp/apis/cluster/firebaserules/v1beta2"
+	v1beta1gemini "github.com/upbound/provider-gcp/apis/cluster/gemini/v1beta1"
 	v1beta1gke "github.com/upbound/provider-gcp/apis/cluster/gke/v1beta1"
 	v1beta2gke "github.com/upbound/provider-gcp/apis/cluster/gke/v1beta2"
 	v1beta1gkehub "github.com/upbound/provider-gcp/apis/cluster/gkehub/v1beta1"
@@ -216,6 +218,7 @@ func init() {
 		v1beta2dataproc.SchemeBuilder.AddToScheme,
 		v1beta1datastream.SchemeBuilder.AddToScheme,
 		v1beta2datastream.SchemeBuilder.AddToScheme,
+		v1beta1developerconnect.SchemeBuilder.AddToScheme,
 		v1beta1dialogflowcx.SchemeBuilder.AddToScheme,
 		v1beta2dialogflowcx.SchemeBuilder.AddToScheme,
 		v1beta1dns.SchemeBuilder.AddToScheme,
@@ -228,6 +231,7 @@ func init() {
 		v1beta2filestore.SchemeBuilder.AddToScheme,
 		v1beta1firebaserules.SchemeBuilder.AddToScheme,
 		v1beta2firebaserules.SchemeBuilder.AddToScheme,
+		v1beta1gemini.SchemeBuilder.AddToScheme,
 		v1beta1gke.SchemeBuilder.AddToScheme,
 		v1beta2gke.SchemeBuilder.AddToScheme,
 		v1beta1gkehub.SchemeBuilder.AddToScheme,

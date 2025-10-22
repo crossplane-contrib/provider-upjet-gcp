@@ -1,16 +1,38 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: dialogflowcx.gcp.upbound.io/v1beta2
 kind: Webhook
 metadata:
   annotations:
     meta.upbound.io/example-id: dialogflowcx/v1beta2/webhook
   labels:
-    testing.upbound.io/example-name: basic_webhook
-  name: basic-webhook
+    testing.upbound.io/example-name: standard_webhook
+  name: standard-webhook
 spec:
   forProvider:
     displayName: MyFlow
     genericWebService:
-    - uri: https://example.com
+      allowedCaCerts:
+      - BQA=
+      oauthConfig:
+        clientId: example-client-id
+        scopes:
+        - example-scope
+        secretVersionForClientSecret: projects/example-proj/secrets/example-secret/versions/example-version
+        tokenEndpoint: https://example.com
+      requestHeaders:
+        example-key: example-value
+      secretVersionForUsernamePassword: projects/example-proj/secrets/example-secret/versions/example-version
+      secretVersionsForRequestHeaders:
+      - key: example-key-1
+        secretVersion: projects/example-proj/secrets/example-secret/versions/example-version
+      - key: example-key-2
+        secretVersion: projects/example-proj/secrets/example-secret/versions/example-version-2
+      serviceAgentAuth: NONE
+      uri: https://example.com
+      webhookType: STANDARD
     parentSelector:
       matchLabels:
         testing.upbound.io/example-name: agent
@@ -35,7 +57,7 @@ spec:
     enableStackdriverLogging: true
     location: global
     speechToTextSettings:
-    - enableSpeechAdaptation: true
+      enableSpeechAdaptation: true
     supportedLanguageCodes:
     - it
     - de

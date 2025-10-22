@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: vertexai.gcp.upbound.io/v1beta2
 kind: FeaturestoreEntitytype
 metadata:
@@ -15,15 +19,15 @@ spec:
     labels:
       foo: bar
     monitoringConfig:
-    - categoricalThresholdConfig:
-      - value: 10
+      categoricalThresholdConfig:
+        value: 10
       importFeaturesAnalysis:
-      - anomalyDetectionBaseline: PREVIOUS_IMPORT_FEATURES_STATS
+        anomalyDetectionBaseline: PREVIOUS_IMPORT_FEATURES_STATS
         state: ENABLED
       numericalThresholdConfig:
-      - value: 0.8
+        value: 0.8
       snapshotAnalysis:
-      - disabled: false
+        disabled: false
         monitoringIntervalDays: 1
         stalenessDays: 21
     name: terraform
@@ -41,10 +45,10 @@ metadata:
 spec:
   forProvider:
     encryptionSpec:
-    - kmsKeyName: kms-name
+      kmsKeyName: kms-name
     labels:
       foo: bar
     name: terraform
     onlineServingConfig:
-    - fixedNodeCount: 2
+      fixedNodeCount: 2
     region: us-central1

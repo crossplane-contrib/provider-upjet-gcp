@@ -132,6 +132,10 @@ type SubnetworkInitParameters_2 struct {
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	Params *SubnetworkParamsInitParameters `json:"params,omitempty" tf:"params,omitempty"`
+
 	// When enabled, VMs in this subnetwork without external IP addresses can
 	// access Google APIs and services by using Private Google Access.
 	PrivateIPGoogleAccess *bool `json:"privateIpGoogleAccess,omitempty" tf:"private_ip_google_access,omitempty"`
@@ -367,6 +371,10 @@ type SubnetworkObservation_2 struct {
 	// Only networks that are in the distributed mode can have subnetworks.
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	Params *SubnetworkParamsObservation `json:"params,omitempty" tf:"params,omitempty"`
+
 	// When enabled, VMs in this subnetwork without external IP addresses can
 	// access Google APIs and services by using Private Google Access.
 	PrivateIPGoogleAccess *bool `json:"privateIpGoogleAccess,omitempty" tf:"private_ip_google_access,omitempty"`
@@ -503,6 +511,11 @@ type SubnetworkParameters_2 struct {
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Params *SubnetworkParamsParameters `json:"params,omitempty" tf:"params,omitempty"`
+
 	// When enabled, VMs in this subnetwork without external IP addresses can
 	// access Google APIs and services by using Private Google Access.
 	// +kubebuilder:validation:Optional
@@ -571,6 +584,43 @@ type SubnetworkParameters_2 struct {
 	// Possible values are: IPV4_ONLY, IPV4_IPV6, IPV6_ONLY.
 	// +kubebuilder:validation:Optional
 	StackType *string `json:"stackType,omitempty" tf:"stack_type,omitempty"`
+}
+
+type SubnetworkParamsInitParameters struct {
+
+	// Resource manager tags to be bound to the subnetwork. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456. The field is ignored when empty.
+	// The field is immutable and causes resource replacement when mutated. This field is only
+	// set at create time and modifying this field after creation will trigger recreation.
+	// To apply tags to an existing resource, see the google_tags_tag_binding resource.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type SubnetworkParamsObservation struct {
+
+	// Resource manager tags to be bound to the subnetwork. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456. The field is ignored when empty.
+	// The field is immutable and causes resource replacement when mutated. This field is only
+	// set at create time and modifying this field after creation will trigger recreation.
+	// To apply tags to an existing resource, see the google_tags_tag_binding resource.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type SubnetworkParamsParameters struct {
+
+	// Resource manager tags to be bound to the subnetwork. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456. The field is ignored when empty.
+	// The field is immutable and causes resource replacement when mutated. This field is only
+	// set at create time and modifying this field after creation will trigger recreation.
+	// To apply tags to an existing resource, see the google_tags_tag_binding resource.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 }
 
 // SubnetworkSpec defines the desired state of Subnetwork

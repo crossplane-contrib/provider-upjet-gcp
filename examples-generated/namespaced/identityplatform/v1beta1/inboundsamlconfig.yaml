@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: identityplatform.gcp.m.upbound.io/v1beta1
 kind: InboundSAMLConfig
 metadata:
@@ -11,7 +15,7 @@ spec:
   forProvider:
     displayName: Display Name
     idpConfig:
-    - idpCertificates:
+      idpCertificates:
       - x509CertificateSecretRef:
           key: attribute.rsa_cert.pem
           name: example-secret
@@ -20,5 +24,5 @@ spec:
       ssoUrl: https://example.com
     name: saml.tf-config
     spConfig:
-    - callbackUri: https://example.com
+      callbackUri: https://example.com
       spEntityId: tf-sp
