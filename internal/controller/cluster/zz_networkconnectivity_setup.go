@@ -11,6 +11,7 @@ import (
 
 	group "github.com/upbound/provider-gcp/internal/controller/cluster/networkconnectivity/group"
 	hub "github.com/upbound/provider-gcp/internal/controller/cluster/networkconnectivity/hub"
+	internalrange "github.com/upbound/provider-gcp/internal/controller/cluster/networkconnectivity/internalrange"
 	serviceconnectionpolicy "github.com/upbound/provider-gcp/internal/controller/cluster/networkconnectivity/serviceconnectionpolicy"
 	spoke "github.com/upbound/provider-gcp/internal/controller/cluster/networkconnectivity/spoke"
 )
@@ -21,6 +22,7 @@ func Setup_networkconnectivity(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		group.Setup,
 		hub.Setup,
+		internalrange.Setup,
 		serviceconnectionpolicy.Setup,
 		spoke.Setup,
 	} {
@@ -37,6 +39,7 @@ func SetupGated_networkconnectivity(mgr ctrl.Manager, o controller.Options) erro
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		group.SetupGated,
 		hub.SetupGated,
+		internalrange.SetupGated,
 		serviceconnectionpolicy.SetupGated,
 		spoke.SetupGated,
 	} {

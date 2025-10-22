@@ -301,6 +301,7 @@
   "google_monitoring_uptime_check_config",
   "google_network_connectivity_group",
   "google_network_connectivity_hub",
+  "google_network_connectivity_internal_range",
   "google_network_connectivity_service_connection_policy",
   "google_network_connectivity_spoke",
   "google_network_management_connectivity_test",
