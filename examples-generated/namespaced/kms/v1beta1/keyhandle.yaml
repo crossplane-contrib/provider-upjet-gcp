@@ -12,8 +12,7 @@ spec:
     location: global
     projectSelector:
       matchLabels:
-        testing.upbound.io/example-name: resource_project
-    provider: ${google-beta}
+        testing.upbound.io/example-name: resource-project
     resourceTypeSelector: storage.googleapis.com/Bucket
 
 ---
@@ -24,17 +23,14 @@ metadata:
   annotations:
     meta.upbound.io/example-id: kms/v1beta1/keyhandle
   labels:
-    testing.upbound.io/example-name: autokms_folder
+    testing.upbound.io/example-name: autokms-folder
   name: autokms-folder
   namespace: upbound-system
 spec:
   forProvider:
     deletionProtection: false
     displayName: my-folder
-    parentSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
-    provider: ${google-beta}
+    parent: organizations/${Rand.RFC1123Subdomain}
 
 ---
 
@@ -44,19 +40,18 @@ metadata:
   annotations:
     meta.upbound.io/example-id: kms/v1beta1/keyhandle
   labels:
-    testing.upbound.io/example-name: key_project
+    testing.upbound.io/example-name: key-project
   name: key-project
   namespace: upbound-system
 spec:
   forProvider:
-    billingAccount: 000000-0000000-0000000-000000
+    billingAccount: ${Rand.RFC1123Subdomain}
     deletionPolicy: DELETE
     folderIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: autokms_folder
-    name: key-proj
-    projectId: key-proj
-    provider: ${google-beta}
+        testing.upbound.io/example-name: autokms-folder
+    name: key-proj-${Rand.RFC1123Subdomain}
+    projectId: key-proj-${Rand.RFC1123Subdomain}
 
 ---
 
@@ -66,19 +61,18 @@ metadata:
   annotations:
     meta.upbound.io/example-id: kms/v1beta1/keyhandle
   labels:
-    testing.upbound.io/example-name: resource_project
+    testing.upbound.io/example-name: resource-project
   name: resource-project
   namespace: upbound-system
 spec:
   forProvider:
-    billingAccount: 000000-0000000-0000000-000000
+    billingAccount: ${Rand.RFC1123Subdomain}
     deletionPolicy: DELETE
     folderIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: autokms_folder
-    name: res-proj
-    projectId: res-proj
-    provider: ${google-beta}
+        testing.upbound.io/example-name: autokms-folder
+    name: res-proj-${Rand.RFC1123Subdomain}
+    projectId: res-proj-${Rand.RFC1123Subdomain}
 
 ---
 
@@ -88,7 +82,7 @@ metadata:
   annotations:
     meta.upbound.io/example-id: kms/v1beta1/keyhandle
   labels:
-    testing.upbound.io/example-name: kms_api_service
+    testing.upbound.io/example-name: kms-api-service
   name: kms-api-service
   namespace: upbound-system
 spec:
@@ -97,6 +91,5 @@ spec:
     disableOnDestroy: false
     projectSelector:
       matchLabels:
-        testing.upbound.io/example-name: key_project
-    provider: ${google-beta}
+        testing.upbound.io/example-name: key-project
     service: cloudkms.googleapis.com
