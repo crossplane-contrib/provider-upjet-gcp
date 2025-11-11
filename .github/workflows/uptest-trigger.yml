@@ -96,7 +96,7 @@ jobs:
       - check-permissions
       - get-example-list
     if: ${{ (needs.check-permissions.outputs.permission == 'admin' || needs.check-permissions.outputs.permission == 'write') && github.event.issue.pull_request != null && contains(github.event.comment.body, '/test-examples')}}
-    runs-on: oracle-vm-8cpu-32gb-x86-64
+    runs-on: ${{ (github.repository_owner == 'crossplane-contrib' && 'oracle-vm-16cpu-64gb-x86-64' || 'Ubuntu-Jumbo-Runner') }}
 
     steps:
       - name: Cleanup Disk
