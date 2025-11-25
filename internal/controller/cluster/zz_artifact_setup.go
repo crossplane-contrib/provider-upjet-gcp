@@ -9,8 +9,8 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	registryrepository "github.com/upbound/provider-gcp/internal/controller/cluster/artifact/registryrepository"
-	registryrepositoryiammember "github.com/upbound/provider-gcp/internal/controller/cluster/artifact/registryrepositoryiammember"
+	registryrepository "github.com/upbound/provider-gcp/v2/internal/controller/cluster/artifact/registryrepository"
+	registryrepositoryiammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/artifact/registryrepositoryiammember"
 )
 
 // Setup_artifact creates all controllers with the supplied logger and adds them to

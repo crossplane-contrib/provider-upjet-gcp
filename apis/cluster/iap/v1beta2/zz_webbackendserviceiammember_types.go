@@ -50,7 +50,7 @@ type WebBackendServiceIAMMemberInitParameters struct {
 
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.BackendService
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.BackendService
 	WebBackendService *string `json:"webBackendService,omitempty" tf:"web_backend_service,omitempty"`
 
 	// Reference to a BackendService in compute to populate webBackendService.
@@ -92,7 +92,7 @@ type WebBackendServiceIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.BackendService
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.BackendService
 	// +kubebuilder:validation:Optional
 	WebBackendService *string `json:"webBackendService,omitempty" tf:"web_backend_service,omitempty"`
 

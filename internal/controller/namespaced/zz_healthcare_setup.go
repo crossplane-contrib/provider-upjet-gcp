@@ -9,9 +9,9 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	consentstore "github.com/upbound/provider-gcp/internal/controller/namespaced/healthcare/consentstore"
-	dataset "github.com/upbound/provider-gcp/internal/controller/namespaced/healthcare/dataset"
-	datasetiammember "github.com/upbound/provider-gcp/internal/controller/namespaced/healthcare/datasetiammember"
+	consentstore "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/healthcare/consentstore"
+	dataset "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/healthcare/dataset"
+	datasetiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/healthcare/datasetiammember"
 )
 
 // Setup_healthcare creates all controllers with the supplied logger and adds them to

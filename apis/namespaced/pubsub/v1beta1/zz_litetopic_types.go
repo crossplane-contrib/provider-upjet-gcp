@@ -159,7 +159,7 @@ type PartitionConfigParameters struct {
 type ReservationConfigInitParameters struct {
 
 	// The Reservation to use for this topic's throughput capacity.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/pubsub/v1beta1.LiteReservation
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/pubsub/v1beta1.LiteReservation
 	ThroughputReservation *string `json:"throughputReservation,omitempty" tf:"throughput_reservation,omitempty"`
 
 	// Reference to a LiteReservation in pubsub to populate throughputReservation.
@@ -180,7 +180,7 @@ type ReservationConfigObservation struct {
 type ReservationConfigParameters struct {
 
 	// The Reservation to use for this topic's throughput capacity.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/pubsub/v1beta1.LiteReservation
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/pubsub/v1beta1.LiteReservation
 	// +kubebuilder:validation:Optional
 	ThroughputReservation *string `json:"throughputReservation,omitempty" tf:"throughput_reservation,omitempty"`
 

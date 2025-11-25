@@ -100,7 +100,7 @@ type CleanupPoliciesParameters struct {
 type CommonRepositoryInitParameters struct {
 
 	// Specific uri to the registry, e.g. "https://registry-1.docker.io"
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/artifact/v1beta1.RegistryRepository
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/artifact/v1beta1.RegistryRepository
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
 
@@ -122,7 +122,7 @@ type CommonRepositoryObservation struct {
 type CommonRepositoryParameters struct {
 
 	// Specific uri to the registry, e.g. "https://registry-1.docker.io"
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/artifact/v1beta1.RegistryRepository
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/artifact/v1beta1.RegistryRepository
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
@@ -969,7 +969,7 @@ type UpstreamPoliciesInitParameters struct {
 
 	// A reference to the repository resource, for example:
 	// "projects/p1/locations/us-central1/repository/repo1".
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/artifact/v1beta1.RegistryRepository
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/artifact/v1beta1.RegistryRepository
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
 
@@ -1007,7 +1007,7 @@ type UpstreamPoliciesParameters struct {
 
 	// A reference to the repository resource, for example:
 	// "projects/p1/locations/us-central1/repository/repo1".
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/artifact/v1beta1.RegistryRepository
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/artifact/v1beta1.RegistryRepository
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
@@ -1026,7 +1026,7 @@ type UsernamePasswordCredentialsInitParameters struct {
 	// The Secret Manager key version that holds the password to access the
 	// remote repository. Must be in the format of
 	// projects/{project}/secrets/{secret}/versions/{version}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/secretmanager/v1beta1.SecretVersion
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/secretmanager/v1beta1.SecretVersion
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	PasswordSecretVersion *string `json:"passwordSecretVersion,omitempty" tf:"password_secret_version,omitempty"`
 
@@ -1058,7 +1058,7 @@ type UsernamePasswordCredentialsParameters struct {
 	// The Secret Manager key version that holds the password to access the
 	// remote repository. Must be in the format of
 	// projects/{project}/secrets/{secret}/versions/{version}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/secretmanager/v1beta1.SecretVersion
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/secretmanager/v1beta1.SecretVersion
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	PasswordSecretVersion *string `json:"passwordSecretVersion,omitempty" tf:"password_secret_version,omitempty"`

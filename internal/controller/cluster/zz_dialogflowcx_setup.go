@@ -9,14 +9,14 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	agent "github.com/upbound/provider-gcp/internal/controller/cluster/dialogflowcx/agent"
-	entitytype "github.com/upbound/provider-gcp/internal/controller/cluster/dialogflowcx/entitytype"
-	environment "github.com/upbound/provider-gcp/internal/controller/cluster/dialogflowcx/environment"
-	flow "github.com/upbound/provider-gcp/internal/controller/cluster/dialogflowcx/flow"
-	intent "github.com/upbound/provider-gcp/internal/controller/cluster/dialogflowcx/intent"
-	page "github.com/upbound/provider-gcp/internal/controller/cluster/dialogflowcx/page"
-	version "github.com/upbound/provider-gcp/internal/controller/cluster/dialogflowcx/version"
-	webhook "github.com/upbound/provider-gcp/internal/controller/cluster/dialogflowcx/webhook"
+	agent "github.com/upbound/provider-gcp/v2/internal/controller/cluster/dialogflowcx/agent"
+	entitytype "github.com/upbound/provider-gcp/v2/internal/controller/cluster/dialogflowcx/entitytype"
+	environment "github.com/upbound/provider-gcp/v2/internal/controller/cluster/dialogflowcx/environment"
+	flow "github.com/upbound/provider-gcp/v2/internal/controller/cluster/dialogflowcx/flow"
+	intent "github.com/upbound/provider-gcp/v2/internal/controller/cluster/dialogflowcx/intent"
+	page "github.com/upbound/provider-gcp/v2/internal/controller/cluster/dialogflowcx/page"
+	version "github.com/upbound/provider-gcp/v2/internal/controller/cluster/dialogflowcx/version"
+	webhook "github.com/upbound/provider-gcp/v2/internal/controller/cluster/dialogflowcx/webhook"
 )
 
 // Setup_dialogflowcx creates all controllers with the supplied logger and adds them to

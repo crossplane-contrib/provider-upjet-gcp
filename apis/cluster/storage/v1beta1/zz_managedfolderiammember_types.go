@@ -43,7 +43,7 @@ type ManagedFolderIAMMemberConditionParameters struct {
 
 type ManagedFolderIAMMemberInitParameters struct {
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/storage/v1beta2.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta2.Bucket
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// Reference to a Bucket in storage to populate bucket.
@@ -56,7 +56,7 @@ type ManagedFolderIAMMemberInitParameters struct {
 
 	Condition *ManagedFolderIAMMemberConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/storage/v1beta1.ManagedFolder
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta1.ManagedFolder
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	ManagedFolder *string `json:"managedFolder,omitempty" tf:"managed_folder,omitempty"`
 
@@ -91,7 +91,7 @@ type ManagedFolderIAMMemberObservation struct {
 
 type ManagedFolderIAMMemberParameters struct {
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/storage/v1beta2.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta2.Bucket
 	// +kubebuilder:validation:Optional
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
@@ -106,7 +106,7 @@ type ManagedFolderIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Condition *ManagedFolderIAMMemberConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/storage/v1beta1.ManagedFolder
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta1.ManagedFolder
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	ManagedFolder *string `json:"managedFolder,omitempty" tf:"managed_folder,omitempty"`

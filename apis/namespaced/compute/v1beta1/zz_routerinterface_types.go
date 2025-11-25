@@ -50,7 +50,7 @@ type RouterInterfaceInitParameters struct {
 
 	// The name of the router this interface will be attached to.
 	// Changing this forces a new interface to be created.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.Router
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Router
 	Router *string `json:"router,omitempty" tf:"router,omitempty"`
 
 	// Reference to a Router in compute to populate router.
@@ -68,7 +68,7 @@ type RouterInterfaceInitParameters struct {
 	// The name or resource link to the VPN tunnel this
 	// interface will be linked to. Changing this forces a new interface to be created. Only
 	// one of vpn_tunnel, interconnect_attachment or subnetwork can be specified.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.VPNTunnel
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.VPNTunnel
 	VPNTunnel *string `json:"vpnTunnel,omitempty" tf:"vpn_tunnel,omitempty"`
 
 	// Reference to a VPNTunnel in compute to populate vpnTunnel.
@@ -175,7 +175,7 @@ type RouterInterfaceParameters struct {
 
 	// The name of the router this interface will be attached to.
 	// Changing this forces a new interface to be created.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.Router
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Router
 	// +kubebuilder:validation:Optional
 	Router *string `json:"router,omitempty" tf:"router,omitempty"`
 
@@ -195,7 +195,7 @@ type RouterInterfaceParameters struct {
 	// The name or resource link to the VPN tunnel this
 	// interface will be linked to. Changing this forces a new interface to be created. Only
 	// one of vpn_tunnel, interconnect_attachment or subnetwork can be specified.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.VPNTunnel
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.VPNTunnel
 	// +kubebuilder:validation:Optional
 	VPNTunnel *string `json:"vpnTunnel,omitempty" tf:"vpn_tunnel,omitempty"`
 

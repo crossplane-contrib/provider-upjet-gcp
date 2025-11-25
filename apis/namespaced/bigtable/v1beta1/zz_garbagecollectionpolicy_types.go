@@ -32,7 +32,7 @@ type GarbageCollectionPolicyInitParameters struct {
 	IgnoreWarnings *bool `json:"ignoreWarnings,omitempty" tf:"ignore_warnings,omitempty"`
 
 	// The name of the Bigtable instance.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/bigtable/v1beta1.Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/bigtable/v1beta1.Instance
 	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
 
 	// Reference to a Instance in bigtable to populate instanceName.
@@ -56,7 +56,7 @@ type GarbageCollectionPolicyInitParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The name of the table.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/bigtable/v1beta1.Table
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/bigtable/v1beta1.Table
 	Table *string `json:"table,omitempty" tf:"table,omitempty"`
 
 	// Reference to a Table in bigtable to populate table.
@@ -128,7 +128,7 @@ type GarbageCollectionPolicyParameters struct {
 	IgnoreWarnings *bool `json:"ignoreWarnings,omitempty" tf:"ignore_warnings,omitempty"`
 
 	// The name of the Bigtable instance.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/bigtable/v1beta1.Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/bigtable/v1beta1.Instance
 	// +kubebuilder:validation:Optional
 	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
 
@@ -157,7 +157,7 @@ type GarbageCollectionPolicyParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The name of the table.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/bigtable/v1beta1.Table
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/bigtable/v1beta1.Table
 	// +kubebuilder:validation:Optional
 	Table *string `json:"table,omitempty" tf:"table,omitempty"`
 

@@ -18,7 +18,7 @@ type InstanceInitParameters struct {
 
 	// The full name of the GCE network to connect the instance to.  If not provided,
 	// 'default' will be used.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/servicenetworking/v1beta1.Connection
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/servicenetworking/v1beta1.Connection
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("network",false)
 	AuthorizedNetwork *string `json:"authorizedNetwork,omitempty" tf:"authorized_network,omitempty"`
 
@@ -169,7 +169,7 @@ type InstanceParameters struct {
 
 	// The full name of the GCE network to connect the instance to.  If not provided,
 	// 'default' will be used.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/servicenetworking/v1beta1.Connection
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/servicenetworking/v1beta1.Connection
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("network",false)
 	// +kubebuilder:validation:Optional
 	AuthorizedNetwork *string `json:"authorizedNetwork,omitempty" tf:"authorized_network,omitempty"`

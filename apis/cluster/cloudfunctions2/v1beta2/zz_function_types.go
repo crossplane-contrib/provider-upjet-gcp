@@ -29,7 +29,7 @@ type BuildConfigInitParameters struct {
 	AutomaticUpdatePolicy *AutomaticUpdatePolicyInitParameters `json:"automaticUpdatePolicy,omitempty" tf:"automatic_update_policy,omitempty"`
 
 	// User managed repository created in Artifact Registry optionally with a customer managed encryption key.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/artifact/v1beta2.RegistryRepository
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/artifact/v1beta2.RegistryRepository
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	DockerRepository *string `json:"dockerRepository,omitempty" tf:"docker_repository,omitempty"`
 
@@ -61,7 +61,7 @@ type BuildConfigInitParameters struct {
 	Runtime *string `json:"runtime,omitempty" tf:"runtime,omitempty"`
 
 	// The fully-qualified name of the service account to be used for building the container.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
@@ -78,7 +78,7 @@ type BuildConfigInitParameters struct {
 	Source *SourceInitParameters `json:"source,omitempty" tf:"source,omitempty"`
 
 	// Name of the Cloud Build Custom Worker Pool that should be used to build the function.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudbuild/v1beta2.WorkerPool
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudbuild/v1beta2.WorkerPool
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	WorkerPool *string `json:"workerPool,omitempty" tf:"worker_pool,omitempty"`
 
@@ -143,7 +143,7 @@ type BuildConfigParameters struct {
 	AutomaticUpdatePolicy *AutomaticUpdatePolicyParameters `json:"automaticUpdatePolicy,omitempty" tf:"automatic_update_policy,omitempty"`
 
 	// User managed repository created in Artifact Registry optionally with a customer managed encryption key.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/artifact/v1beta2.RegistryRepository
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/artifact/v1beta2.RegistryRepository
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	DockerRepository *string `json:"dockerRepository,omitempty" tf:"docker_repository,omitempty"`
@@ -180,7 +180,7 @@ type BuildConfigParameters struct {
 	Runtime *string `json:"runtime,omitempty" tf:"runtime,omitempty"`
 
 	// The fully-qualified name of the service account to be used for building the container.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
@@ -199,7 +199,7 @@ type BuildConfigParameters struct {
 	Source *SourceParameters `json:"source,omitempty" tf:"source,omitempty"`
 
 	// Name of the Cloud Build Custom Worker Pool that should be used to build the function.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudbuild/v1beta2.WorkerPool
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudbuild/v1beta2.WorkerPool
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	WorkerPool *string `json:"workerPool,omitempty" tf:"worker_pool,omitempty"`
@@ -229,7 +229,7 @@ type EventFiltersInitParameters struct {
 
 	// Required. The value for the attribute.
 	// If the operator field is set as match-path-pattern, this value can be a path pattern instead of an exact value.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/storage/v1beta2.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta2.Bucket
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 
 	// Reference to a Bucket in storage to populate value.
@@ -278,7 +278,7 @@ type EventFiltersParameters struct {
 
 	// Required. The value for the attribute.
 	// If the operator field is set as match-path-pattern, this value can be a path pattern instead of an exact value.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/storage/v1beta2.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta2.Bucket
 	// +kubebuilder:validation:Optional
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 
@@ -302,7 +302,7 @@ type EventTriggerInitParameters struct {
 
 	// The name of a Pub/Sub topic in the same project that will be used
 	// as the transport topic for the event delivery.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/pubsub/v1beta2.Topic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/pubsub/v1beta2.Topic
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	PubsubTopic *string `json:"pubsubTopic,omitempty" tf:"pubsub_topic,omitempty"`
 
@@ -322,7 +322,7 @@ type EventTriggerInitParameters struct {
 	// Optional. The email of the trigger's service account. The service account
 	// must have permission to invoke Cloud Run services. If empty, defaults to the
 	// Compute Engine default service account: {project_number}-compute@developer.gserviceaccount.com.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 
@@ -388,7 +388,7 @@ type EventTriggerParameters struct {
 
 	// The name of a Pub/Sub topic in the same project that will be used
 	// as the transport topic for the event delivery.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/pubsub/v1beta2.Topic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/pubsub/v1beta2.Topic
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	PubsubTopic *string `json:"pubsubTopic,omitempty" tf:"pubsub_topic,omitempty"`
@@ -410,7 +410,7 @@ type EventTriggerParameters struct {
 	// Optional. The email of the trigger's service account. The service account
 	// must have permission to invoke Cloud Run services. If empty, defaults to the
 	// Compute Engine default service account: {project_number}-compute@developer.gserviceaccount.com.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	// +kubebuilder:validation:Optional
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
@@ -669,7 +669,7 @@ type SecretEnvironmentVariablesInitParameters struct {
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Name of the secret in secret manager (not the full resource name).
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/secretmanager/v1beta2.Secret
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/secretmanager/v1beta2.Secret
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
 	// Reference to a Secret in secretmanager to populate secret.
@@ -710,7 +710,7 @@ type SecretEnvironmentVariablesParameters struct {
 	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
 
 	// Name of the secret in secret manager (not the full resource name).
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/secretmanager/v1beta2.Secret
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/secretmanager/v1beta2.Secret
 	// +kubebuilder:validation:Optional
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
@@ -736,7 +736,7 @@ type SecretVolumesInitParameters struct {
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Name of the secret in secret manager (not the full resource name).
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/secretmanager/v1beta2.Secret
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/secretmanager/v1beta2.Secret
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
 	// Reference to a Secret in secretmanager to populate secret.
@@ -779,7 +779,7 @@ type SecretVolumesParameters struct {
 	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
 
 	// Name of the secret in secret manager (not the full resource name).
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/secretmanager/v1beta2.Secret
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/secretmanager/v1beta2.Secret
 	// +kubebuilder:validation:Optional
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
@@ -845,7 +845,7 @@ type ServiceConfigInitParameters struct {
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 
 	// The email of the service account for this function.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 
@@ -1001,7 +1001,7 @@ type ServiceConfigParameters struct {
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 
 	// The email of the service account for this function.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	// +kubebuilder:validation:Optional
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
@@ -1068,7 +1068,7 @@ type SourceParameters struct {
 type StorageSourceInitParameters struct {
 
 	// Google Cloud Storage bucket containing the source
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/storage/v1beta2.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta2.Bucket
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// Reference to a Bucket in storage to populate bucket.
@@ -1084,7 +1084,7 @@ type StorageSourceInitParameters struct {
 	Generation *float64 `json:"generation,omitempty" tf:"generation,omitempty"`
 
 	// Google Cloud Storage object containing the source.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/storage/v1beta2.BucketObject
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta2.BucketObject
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	Object *string `json:"object,omitempty" tf:"object,omitempty"`
 
@@ -1113,7 +1113,7 @@ type StorageSourceObservation struct {
 type StorageSourceParameters struct {
 
 	// Google Cloud Storage bucket containing the source
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/storage/v1beta2.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta2.Bucket
 	// +kubebuilder:validation:Optional
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
@@ -1131,7 +1131,7 @@ type StorageSourceParameters struct {
 	Generation *float64 `json:"generation,omitempty" tf:"generation,omitempty"`
 
 	// Google Cloud Storage object containing the source.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/storage/v1beta2.BucketObject
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta2.BucketObject
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	Object *string `json:"object,omitempty" tf:"object,omitempty"`

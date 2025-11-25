@@ -9,12 +9,12 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	managedzone "github.com/upbound/provider-gcp/internal/controller/cluster/dns/managedzone"
-	managedzoneiammember "github.com/upbound/provider-gcp/internal/controller/cluster/dns/managedzoneiammember"
-	policy "github.com/upbound/provider-gcp/internal/controller/cluster/dns/policy"
-	recordset "github.com/upbound/provider-gcp/internal/controller/cluster/dns/recordset"
-	responsepolicy "github.com/upbound/provider-gcp/internal/controller/cluster/dns/responsepolicy"
-	responsepolicyrule "github.com/upbound/provider-gcp/internal/controller/cluster/dns/responsepolicyrule"
+	managedzone "github.com/upbound/provider-gcp/v2/internal/controller/cluster/dns/managedzone"
+	managedzoneiammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/dns/managedzoneiammember"
+	policy "github.com/upbound/provider-gcp/v2/internal/controller/cluster/dns/policy"
+	recordset "github.com/upbound/provider-gcp/v2/internal/controller/cluster/dns/recordset"
+	responsepolicy "github.com/upbound/provider-gcp/v2/internal/controller/cluster/dns/responsepolicy"
+	responsepolicyrule "github.com/upbound/provider-gcp/v2/internal/controller/cluster/dns/responsepolicyrule"
 )
 
 // Setup_dns creates all controllers with the supplied logger and adds them to

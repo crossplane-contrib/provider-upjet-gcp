@@ -44,7 +44,7 @@ type WebTypeAppEngineIAMMemberConditionParameters struct {
 
 type WebTypeAppEngineIAMMemberInitParameters struct {
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/appengine/v1beta1.Application
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/appengine/v1beta1.Application
 	AppID *string `json:"appId,omitempty" tf:"app_id,omitempty"`
 
 	// Reference to a Application in appengine to populate appId.
@@ -82,7 +82,7 @@ type WebTypeAppEngineIAMMemberObservation struct {
 
 type WebTypeAppEngineIAMMemberParameters struct {
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/appengine/v1beta1.Application
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/appengine/v1beta1.Application
 	// +kubebuilder:validation:Optional
 	AppID *string `json:"appId,omitempty" tf:"app_id,omitempty"`
 

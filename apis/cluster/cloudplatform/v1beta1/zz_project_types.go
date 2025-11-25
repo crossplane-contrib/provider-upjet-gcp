@@ -37,7 +37,7 @@ type ProjectInitParameters struct {
 	// specified. If the folder_id is specified, then the project is
 	// created under the specified folder. Changing this forces the
 	// project to be migrated to the newly specified folder.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudplatform/v1beta1.Folder
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.Folder
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	FolderID *string `json:"folderId,omitempty" tf:"folder_id,omitempty"`
 
@@ -167,7 +167,7 @@ type ProjectParameters struct {
 	// specified. If the folder_id is specified, then the project is
 	// created under the specified folder. Changing this forces the
 	// project to be migrated to the newly specified folder.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudplatform/v1beta1.Folder
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.Folder
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	FolderID *string `json:"folderId,omitempty" tf:"folder_id,omitempty"`

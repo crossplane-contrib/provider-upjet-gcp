@@ -9,7 +9,7 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	function "github.com/upbound/provider-gcp/internal/controller/namespaced/cloudfunctions2/function"
+	function "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudfunctions2/function"
 )
 
 // Setup_cloudfunctions2 creates all controllers with the supplied logger and adds them to

@@ -38,7 +38,7 @@ type FeaturestoreEntitytypeInitParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The name of the Featurestore to use, in the format projects/{project}/locations/{location}/featurestores/{featurestore}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/vertexai/v1beta2.Featurestore
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/vertexai/v1beta2.Featurestore
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Featurestore *string `json:"featurestore,omitempty" tf:"featurestore,omitempty"`
 
@@ -114,7 +114,7 @@ type FeaturestoreEntitytypeParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The name of the Featurestore to use, in the format projects/{project}/locations/{location}/featurestores/{featurestore}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/vertexai/v1beta2.Featurestore
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/vertexai/v1beta2.Featurestore
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Featurestore *string `json:"featurestore,omitempty" tf:"featurestore,omitempty"`

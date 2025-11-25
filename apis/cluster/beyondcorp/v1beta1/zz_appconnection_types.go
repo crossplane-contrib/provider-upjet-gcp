@@ -20,7 +20,7 @@ type AppConnectionInitParameters struct {
 	ApplicationEndpoint []ApplicationEndpointInitParameters `json:"applicationEndpoint,omitempty" tf:"application_endpoint,omitempty"`
 
 	// List of AppConnectors that are authorised to be associated with this AppConnection
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/beyondcorp/v1beta2.AppConnector
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/beyondcorp/v1beta2.AppConnector
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Connectors []*string `json:"connectors,omitempty" tf:"connectors,omitempty"`
 
@@ -114,7 +114,7 @@ type AppConnectionParameters struct {
 	ApplicationEndpoint []ApplicationEndpointParameters `json:"applicationEndpoint,omitempty" tf:"application_endpoint,omitempty"`
 
 	// List of AppConnectors that are authorised to be associated with this AppConnection
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/beyondcorp/v1beta2.AppConnector
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/beyondcorp/v1beta2.AppConnector
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Connectors []*string `json:"connectors,omitempty" tf:"connectors,omitempty"`
@@ -193,7 +193,7 @@ type ApplicationEndpointParameters struct {
 type GatewayInitParameters struct {
 
 	// AppGateway name in following format: projects/{project_id}/locations/{locationId}/appgateways/{gateway_id}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/beyondcorp/v1beta1.AppGateway
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/beyondcorp/v1beta1.AppGateway
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	AppGateway *string `json:"appGateway,omitempty" tf:"app_gateway,omitempty"`
 
@@ -233,7 +233,7 @@ type GatewayObservation struct {
 type GatewayParameters struct {
 
 	// AppGateway name in following format: projects/{project_id}/locations/{locationId}/appgateways/{gateway_id}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/beyondcorp/v1beta1.AppGateway
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/beyondcorp/v1beta1.AppGateway
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	AppGateway *string `json:"appGateway,omitempty" tf:"app_gateway,omitempty"`

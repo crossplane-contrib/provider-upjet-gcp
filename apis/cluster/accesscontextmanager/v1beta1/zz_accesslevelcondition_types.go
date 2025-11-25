@@ -106,7 +106,7 @@ type AccessLevelConditionDevicePolicyParameters struct {
 type AccessLevelConditionInitParameters struct {
 
 	// The name of the Access Level to add this condition to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/accesscontextmanager/v1beta1.AccessLevel
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/accesscontextmanager/v1beta1.AccessLevel
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	AccessLevel *string `json:"accessLevel,omitempty" tf:"access_level,omitempty"`
 
@@ -230,7 +230,7 @@ type AccessLevelConditionObservation struct {
 type AccessLevelConditionParameters struct {
 
 	// The name of the Access Level to add this condition to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/accesscontextmanager/v1beta1.AccessLevel
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/accesscontextmanager/v1beta1.AccessLevel
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	AccessLevel *string `json:"accessLevel,omitempty" tf:"access_level,omitempty"`

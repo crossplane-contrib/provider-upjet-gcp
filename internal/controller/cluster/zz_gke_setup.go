@@ -9,7 +9,7 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	backupbackupplan "github.com/upbound/provider-gcp/internal/controller/cluster/gke/backupbackupplan"
+	backupbackupplan "github.com/upbound/provider-gcp/v2/internal/controller/cluster/gke/backupbackupplan"
 )
 
 // Setup_gke creates all controllers with the supplied logger and adds them to

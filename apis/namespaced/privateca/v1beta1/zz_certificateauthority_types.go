@@ -349,7 +349,7 @@ type CertificateAuthorityParameters struct {
 	PemCACertificate *string `json:"pemCaCertificate,omitempty" tf:"pem_ca_certificate,omitempty"`
 
 	// The name of the CaPool this Certificate Authority belongs to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/privateca/v1beta1.CAPool
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/privateca/v1beta1.CAPool
 	// +kubebuilder:validation:Optional
 	Pool *string `json:"pool,omitempty" tf:"pool,omitempty"`
 
@@ -1267,7 +1267,7 @@ type SubordinateConfigInitParameters struct {
 	// subordinate CertificateAuthority. This field is used for information
 	// and usability purposes only. The resource name is in the format
 	// projects/*/locations/*/caPools/*/certificateAuthorities/*.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/privateca/v1beta1.CertificateAuthority
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/privateca/v1beta1.CertificateAuthority
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	CertificateAuthority *string `json:"certificateAuthority,omitempty" tf:"certificate_authority,omitempty"`
 
@@ -1305,7 +1305,7 @@ type SubordinateConfigParameters struct {
 	// subordinate CertificateAuthority. This field is used for information
 	// and usability purposes only. The resource name is in the format
 	// projects/*/locations/*/caPools/*/certificateAuthorities/*.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/privateca/v1beta1.CertificateAuthority
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/privateca/v1beta1.CertificateAuthority
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	CertificateAuthority *string `json:"certificateAuthority,omitempty" tf:"certificate_authority,omitempty"`

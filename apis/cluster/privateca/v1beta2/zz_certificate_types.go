@@ -103,7 +103,7 @@ type CertificateInitParameters struct {
 	// a Certificate Authority with resource name projects/my-project/locations/us-central1/caPools/my-pool/certificateAuthorities/my-ca,
 	// argument pool should be set to projects/my-project/locations/us-central1/caPools/my-pool, argument certificate_authority
 	// should be set to my-ca.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/privateca/v1beta2.CertificateAuthority
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/privateca/v1beta2.CertificateAuthority
 	CertificateAuthority *string `json:"certificateAuthority,omitempty" tf:"certificate_authority,omitempty"`
 
 	// Reference to a CertificateAuthority in privateca to populate certificateAuthority.
@@ -119,7 +119,7 @@ type CertificateInitParameters struct {
 	// the caller must have the necessary permission to use this template. If this is
 	// omitted, no template will be used. This template must be in the same location
 	// as the Certificate.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/privateca/v1beta2.CertificateTemplate
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/privateca/v1beta2.CertificateTemplate
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	CertificateTemplate *string `json:"certificateTemplate,omitempty" tf:"certificate_template,omitempty"`
 
@@ -239,7 +239,7 @@ type CertificateParameters struct {
 	// a Certificate Authority with resource name projects/my-project/locations/us-central1/caPools/my-pool/certificateAuthorities/my-ca,
 	// argument pool should be set to projects/my-project/locations/us-central1/caPools/my-pool, argument certificate_authority
 	// should be set to my-ca.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/privateca/v1beta2.CertificateAuthority
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/privateca/v1beta2.CertificateAuthority
 	// +kubebuilder:validation:Optional
 	CertificateAuthority *string `json:"certificateAuthority,omitempty" tf:"certificate_authority,omitempty"`
 
@@ -256,7 +256,7 @@ type CertificateParameters struct {
 	// the caller must have the necessary permission to use this template. If this is
 	// omitted, no template will be used. This template must be in the same location
 	// as the Certificate.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/privateca/v1beta2.CertificateTemplate
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/privateca/v1beta2.CertificateTemplate
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	CertificateTemplate *string `json:"certificateTemplate,omitempty" tf:"certificate_template,omitempty"`
@@ -295,7 +295,7 @@ type CertificateParameters struct {
 	PemCsr *string `json:"pemCsr,omitempty" tf:"pem_csr,omitempty"`
 
 	// The name of the CaPool this Certificate belongs to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/privateca/v1beta2.CAPool
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/privateca/v1beta2.CAPool
 	// +kubebuilder:validation:Optional
 	Pool *string `json:"pool,omitempty" tf:"pool,omitempty"`
 

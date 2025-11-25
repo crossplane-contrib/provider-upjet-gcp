@@ -28,8 +28,8 @@ type SecretVersionInitParameters struct {
 	IsSecretDataBase64 *bool `json:"isSecretDataBase64,omitempty" tf:"is_secret_data_base64,omitempty"`
 
 	// Secret Manager secret resource
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/secretmanager/v1beta1.Secret
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/namespaced/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/secretmanager/v1beta1.Secret
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
 	// The secret data. Must be no larger than 64KiB.
@@ -108,8 +108,8 @@ type SecretVersionParameters struct {
 	IsSecretDataBase64 *bool `json:"isSecretDataBase64,omitempty" tf:"is_secret_data_base64,omitempty"`
 
 	// Secret Manager secret resource
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/secretmanager/v1beta1.Secret
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/namespaced/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/secretmanager/v1beta1.Secret
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 

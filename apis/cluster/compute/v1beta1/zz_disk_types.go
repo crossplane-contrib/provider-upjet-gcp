@@ -16,7 +16,7 @@ import (
 type AsyncPrimaryDiskInitParameters struct {
 
 	// Primary disk for asynchronous disk replication.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Disk
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Disk
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Disk *string `json:"disk,omitempty" tf:"disk,omitempty"`
 
@@ -38,7 +38,7 @@ type AsyncPrimaryDiskObservation struct {
 type AsyncPrimaryDiskParameters struct {
 
 	// Primary disk for asynchronous disk replication.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Disk
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Disk
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Disk *string `json:"disk,omitempty" tf:"disk,omitempty"`

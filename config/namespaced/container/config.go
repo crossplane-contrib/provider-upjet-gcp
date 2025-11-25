@@ -15,7 +15,7 @@ import (
 	"k8s.io/client-go/tools/clientcmd"
 	clientcmdapi "k8s.io/client-go/tools/clientcmd/api"
 
-	"github.com/upbound/provider-gcp/config/namespaced/common"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/common"
 )
 
 // Configure configures individual resources by adding custom

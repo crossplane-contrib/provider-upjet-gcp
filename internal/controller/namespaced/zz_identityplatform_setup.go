@@ -9,14 +9,14 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	config "github.com/upbound/provider-gcp/internal/controller/namespaced/identityplatform/config"
-	defaultsupportedidpconfig "github.com/upbound/provider-gcp/internal/controller/namespaced/identityplatform/defaultsupportedidpconfig"
-	inboundsamlconfig "github.com/upbound/provider-gcp/internal/controller/namespaced/identityplatform/inboundsamlconfig"
-	oauthidpconfig "github.com/upbound/provider-gcp/internal/controller/namespaced/identityplatform/oauthidpconfig"
-	tenant "github.com/upbound/provider-gcp/internal/controller/namespaced/identityplatform/tenant"
-	tenantdefaultsupportedidpconfig "github.com/upbound/provider-gcp/internal/controller/namespaced/identityplatform/tenantdefaultsupportedidpconfig"
-	tenantinboundsamlconfig "github.com/upbound/provider-gcp/internal/controller/namespaced/identityplatform/tenantinboundsamlconfig"
-	tenantoauthidpconfig "github.com/upbound/provider-gcp/internal/controller/namespaced/identityplatform/tenantoauthidpconfig"
+	config "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/identityplatform/config"
+	defaultsupportedidpconfig "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/identityplatform/defaultsupportedidpconfig"
+	inboundsamlconfig "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/identityplatform/inboundsamlconfig"
+	oauthidpconfig "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/identityplatform/oauthidpconfig"
+	tenant "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/identityplatform/tenant"
+	tenantdefaultsupportedidpconfig "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/identityplatform/tenantdefaultsupportedidpconfig"
+	tenantinboundsamlconfig "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/identityplatform/tenantinboundsamlconfig"
+	tenantoauthidpconfig "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/identityplatform/tenantoauthidpconfig"
 )
 
 // Setup_identityplatform creates all controllers with the supplied logger and adds them to

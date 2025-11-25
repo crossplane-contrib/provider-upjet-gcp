@@ -62,7 +62,7 @@ type ClusterAdmissionRulesInitParameters struct {
 	// request must be able to read the attestor resource.
 	// Note: this field must be non-empty when the evaluation_mode field
 	// specifies REQUIRE_ATTESTATION, otherwise it must be empty.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/binaryauthorization/v1beta2.Attestor
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/binaryauthorization/v1beta2.Attestor
 	// +listType=set
 	RequireAttestationsBy []*string `json:"requireAttestationsBy,omitempty" tf:"require_attestations_by,omitempty"`
 
@@ -124,7 +124,7 @@ type ClusterAdmissionRulesParameters struct {
 	// request must be able to read the attestor resource.
 	// Note: this field must be non-empty when the evaluation_mode field
 	// specifies REQUIRE_ATTESTATION, otherwise it must be empty.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/binaryauthorization/v1beta2.Attestor
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/binaryauthorization/v1beta2.Attestor
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	RequireAttestationsBy []*string `json:"requireAttestationsBy,omitempty" tf:"require_attestations_by,omitempty"`
@@ -156,7 +156,7 @@ type DefaultAdmissionRuleInitParameters struct {
 	// request must be able to read the attestor resource.
 	// Note: this field must be non-empty when the evaluation_mode field
 	// specifies REQUIRE_ATTESTATION, otherwise it must be empty.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/binaryauthorization/v1beta2.Attestor
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/binaryauthorization/v1beta2.Attestor
 	// +listType=set
 	RequireAttestationsBy []*string `json:"requireAttestationsBy,omitempty" tf:"require_attestations_by,omitempty"`
 
@@ -211,7 +211,7 @@ type DefaultAdmissionRuleParameters struct {
 	// request must be able to read the attestor resource.
 	// Note: this field must be non-empty when the evaluation_mode field
 	// specifies REQUIRE_ATTESTATION, otherwise it must be empty.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/binaryauthorization/v1beta2.Attestor
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/binaryauthorization/v1beta2.Attestor
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	RequireAttestationsBy []*string `json:"requireAttestationsBy,omitempty" tf:"require_attestations_by,omitempty"`

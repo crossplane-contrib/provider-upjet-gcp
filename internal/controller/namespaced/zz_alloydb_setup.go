@@ -9,9 +9,9 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	backup "github.com/upbound/provider-gcp/internal/controller/namespaced/alloydb/backup"
-	cluster "github.com/upbound/provider-gcp/internal/controller/namespaced/alloydb/cluster"
-	instance "github.com/upbound/provider-gcp/internal/controller/namespaced/alloydb/instance"
+	backup "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/alloydb/backup"
+	cluster "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/alloydb/cluster"
+	instance "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/alloydb/instance"
 )
 
 // Setup_alloydb creates all controllers with the supplied logger and adds them to

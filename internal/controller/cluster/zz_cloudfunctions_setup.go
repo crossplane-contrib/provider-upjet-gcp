@@ -9,8 +9,8 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	function "github.com/upbound/provider-gcp/internal/controller/cluster/cloudfunctions/function"
-	functioniammember "github.com/upbound/provider-gcp/internal/controller/cluster/cloudfunctions/functioniammember"
+	function "github.com/upbound/provider-gcp/v2/internal/controller/cluster/cloudfunctions/function"
+	functioniammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/cloudfunctions/functioniammember"
 )
 
 // Setup_cloudfunctions creates all controllers with the supplied logger and adds them to

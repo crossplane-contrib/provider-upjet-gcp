@@ -69,7 +69,7 @@ type EntryInitParameters struct {
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The name of the entry group this entry is in.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/datacatalog/v1beta1.EntryGroup
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/datacatalog/v1beta1.EntryGroup
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	EntryGroup *string `json:"entryGroup,omitempty" tf:"entry_group,omitempty"`
 
@@ -203,7 +203,7 @@ type EntryParameters struct {
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The name of the entry group this entry is in.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/datacatalog/v1beta1.EntryGroup
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/datacatalog/v1beta1.EntryGroup
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	EntryGroup *string `json:"entryGroup,omitempty" tf:"entry_group,omitempty"`

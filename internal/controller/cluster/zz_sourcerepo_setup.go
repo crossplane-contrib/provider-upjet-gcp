@@ -9,8 +9,8 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	repository "github.com/upbound/provider-gcp/internal/controller/cluster/sourcerepo/repository"
-	repositoryiammember "github.com/upbound/provider-gcp/internal/controller/cluster/sourcerepo/repositoryiammember"
+	repository "github.com/upbound/provider-gcp/v2/internal/controller/cluster/sourcerepo/repository"
+	repositoryiammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/sourcerepo/repositoryiammember"
 )
 
 // Setup_sourcerepo creates all controllers with the supplied logger and adds them to

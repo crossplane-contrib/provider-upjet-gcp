@@ -145,7 +145,7 @@ type ResponsePolicyRuleParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Identifies the response policy addressed by this request.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/dns/v1beta1.ResponsePolicy
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/dns/v1beta1.ResponsePolicy
 	// +kubebuilder:validation:Optional
 	ResponsePolicy *string `json:"responsePolicy,omitempty" tf:"response_policy,omitempty"`
 

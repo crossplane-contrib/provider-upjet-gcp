@@ -9,11 +9,11 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	group "github.com/upbound/provider-gcp/internal/controller/namespaced/networkconnectivity/group"
-	hub "github.com/upbound/provider-gcp/internal/controller/namespaced/networkconnectivity/hub"
-	internalrange "github.com/upbound/provider-gcp/internal/controller/namespaced/networkconnectivity/internalrange"
-	serviceconnectionpolicy "github.com/upbound/provider-gcp/internal/controller/namespaced/networkconnectivity/serviceconnectionpolicy"
-	spoke "github.com/upbound/provider-gcp/internal/controller/namespaced/networkconnectivity/spoke"
+	group "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/networkconnectivity/group"
+	hub "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/networkconnectivity/hub"
+	internalrange "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/networkconnectivity/internalrange"
+	serviceconnectionpolicy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/networkconnectivity/serviceconnectionpolicy"
+	spoke "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/networkconnectivity/spoke"
 )
 
 // Setup_networkconnectivity creates all controllers with the supplied logger and adds them to

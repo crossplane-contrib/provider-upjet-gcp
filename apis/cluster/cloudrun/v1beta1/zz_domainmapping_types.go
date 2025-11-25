@@ -135,7 +135,7 @@ type MetadataInitParameters struct {
 
 	// In Cloud Run the namespace must be equal to either the
 	// project ID or project number.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.Project
 	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
 
 	// Reference to a Project in cloudplatform to populate namespace.
@@ -232,7 +232,7 @@ type MetadataParameters struct {
 
 	// In Cloud Run the namespace must be equal to either the
 	// project ID or project number.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.Project
 	// +kubebuilder:validation:Optional
 	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
 
@@ -283,7 +283,7 @@ type SpecInitParameters struct {
 
 	// The name of the Cloud Run Service that this DomainMapping applies to.
 	// The route must exist.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudrun/v1beta1.Service
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudrun/v1beta1.Service
 	RouteName *string `json:"routeName,omitempty" tf:"route_name,omitempty"`
 
 	// Reference to a Service in cloudrun to populate routeName.
@@ -330,7 +330,7 @@ type SpecParameters struct {
 
 	// The name of the Cloud Run Service that this DomainMapping applies to.
 	// The route must exist.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudrun/v1beta1.Service
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudrun/v1beta1.Service
 	// +kubebuilder:validation:Optional
 	RouteName *string `json:"routeName,omitempty" tf:"route_name,omitempty"`
 

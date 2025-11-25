@@ -51,7 +51,7 @@ type ConsumerAcceptListsInitParameters struct {
 
 	// The network that is allowed to connect to this service attachment.
 	// Only one of project_id_or_num and network_url may be set.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`
 
@@ -92,7 +92,7 @@ type ConsumerAcceptListsParameters struct {
 
 	// The network that is allowed to connect to this service attachment.
 	// Only one of project_id_or_num and network_url may be set.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`
@@ -141,7 +141,7 @@ type ServiceAttachmentInitParameters struct {
 	EnableProxyProtocol *bool `json:"enableProxyProtocol,omitempty" tf:"enable_proxy_protocol,omitempty"`
 
 	// An array of subnets that is provided for NAT in this service attachment.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Subnetwork
 	NATSubnets []*string `json:"natSubnets,omitempty" tf:"nat_subnets,omitempty"`
 
 	// References to Subnetwork in compute to populate natSubnets.
@@ -175,7 +175,7 @@ type ServiceAttachmentInitParameters struct {
 	SendPropagatedConnectionLimitIfZero *bool `json:"sendPropagatedConnectionLimitIfZero,omitempty" tf:"send_propagated_connection_limit_if_zero,omitempty"`
 
 	// The URL of a service serving the endpoint identified by this service attachment.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.ForwardingRule
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.ForwardingRule
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	TargetService *string `json:"targetService,omitempty" tf:"target_service,omitempty"`
 
@@ -300,7 +300,7 @@ type ServiceAttachmentParameters struct {
 	EnableProxyProtocol *bool `json:"enableProxyProtocol,omitempty" tf:"enable_proxy_protocol,omitempty"`
 
 	// An array of subnets that is provided for NAT in this service attachment.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Subnetwork
 	// +kubebuilder:validation:Optional
 	NATSubnets []*string `json:"natSubnets,omitempty" tf:"nat_subnets,omitempty"`
 
@@ -343,7 +343,7 @@ type ServiceAttachmentParameters struct {
 	SendPropagatedConnectionLimitIfZero *bool `json:"sendPropagatedConnectionLimitIfZero,omitempty" tf:"send_propagated_connection_limit_if_zero,omitempty"`
 
 	// The URL of a service serving the endpoint identified by this service attachment.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.ForwardingRule
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.ForwardingRule
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	TargetService *string `json:"targetService,omitempty" tf:"target_service,omitempty"`

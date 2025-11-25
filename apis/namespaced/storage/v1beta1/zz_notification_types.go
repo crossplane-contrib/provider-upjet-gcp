@@ -17,7 +17,7 @@ import (
 type NotificationInitParameters struct {
 
 	// The name of the bucket.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/storage/v1beta1.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta1.Bucket
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// Reference to a Bucket in storage to populate bucket.
@@ -46,7 +46,7 @@ type NotificationInitParameters struct {
 	// topic name, assumed to belong to the default GCP provider project, or the project-level name,
 	// i.e. projects/my-gcp-project/topics/my-topic or my-topic. If the project is not set in the provider,
 	// you will need to use the project-level name.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/pubsub/v1beta1.Topic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/pubsub/v1beta1.Topic
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
 
@@ -96,7 +96,7 @@ type NotificationObservation struct {
 type NotificationParameters struct {
 
 	// The name of the bucket.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/storage/v1beta1.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta1.Bucket
 	// +kubebuilder:validation:Optional
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
@@ -130,7 +130,7 @@ type NotificationParameters struct {
 	// topic name, assumed to belong to the default GCP provider project, or the project-level name,
 	// i.e. projects/my-gcp-project/topics/my-topic or my-topic. If the project is not set in the provider,
 	// you will need to use the project-level name.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/pubsub/v1beta1.Topic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/pubsub/v1beta1.Topic
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`

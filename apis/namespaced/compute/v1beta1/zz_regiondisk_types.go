@@ -17,7 +17,7 @@ import (
 type RegionDiskAsyncPrimaryDiskInitParameters struct {
 
 	// Primary disk for asynchronous disk replication.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.RegionDisk
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.RegionDisk
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Disk *string `json:"disk,omitempty" tf:"disk,omitempty"`
 
@@ -39,7 +39,7 @@ type RegionDiskAsyncPrimaryDiskObservation struct {
 type RegionDiskAsyncPrimaryDiskParameters struct {
 
 	// Primary disk for asynchronous disk replication.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.RegionDisk
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.RegionDisk
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Disk *string `json:"disk,omitempty" tf:"disk,omitempty"`
@@ -204,7 +204,7 @@ type RegionDiskInitParameters struct {
 	// The source snapshot used to create this disk. You can provide this as
 	// a partial or full URL to the resource. For example, the following are
 	// valid values:
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.Snapshot
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Snapshot
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Snapshot *string `json:"snapshot,omitempty" tf:"snapshot,omitempty"`
 
@@ -480,7 +480,7 @@ type RegionDiskParameters struct {
 	// The source snapshot used to create this disk. You can provide this as
 	// a partial or full URL to the resource. For example, the following are
 	// valid values:
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.Snapshot
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Snapshot
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Snapshot *string `json:"snapshot,omitempty" tf:"snapshot,omitempty"`

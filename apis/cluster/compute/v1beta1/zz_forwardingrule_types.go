@@ -36,8 +36,8 @@ type ForwardingRuleInitParameters struct {
 	// Identifies the backend service to which the forwarding rule sends traffic.
 	// Required for Internal TCP/UDP Load Balancing and Network Load Balancing;
 	// must be omitted for all other load balancer types.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.RegionBackendService
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/cluster/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.RegionBackendService
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.SelfLinkExtractor()
 	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
 
 	// Reference to a RegionBackendService in compute to populate backendService.
@@ -57,8 +57,8 @@ type ForwardingRuleInitParameters struct {
 	// to the referenced target or backendService.
 	// While creating a forwarding rule, specifying an IPAddress is
 	// required under the following circumstances:
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Address
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/cluster/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Address
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.SelfLinkExtractor()
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
 	// Reference to a Address in compute to populate ipAddress.
@@ -123,8 +123,8 @@ type ForwardingRuleInitParameters struct {
 	// be used.
 	// For Private Service Connect forwarding rules that forward traffic to Google
 	// APIs, a network must be provided.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/cluster/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.SelfLinkExtractor()
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Reference to a Network in compute to populate network.
@@ -196,8 +196,8 @@ type ForwardingRuleInitParameters struct {
 	// If the network specified is in auto subnet mode, this field is optional.
 	// However, a subnetwork must be specified if the network is in custom subnet
 	// mode or when creating external forwarding rule with IPv6.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Subnetwork
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/cluster/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Subnetwork
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.SelfLinkExtractor()
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
 	// Reference to a Subnetwork in compute to populate subnetwork.
@@ -211,8 +211,8 @@ type ForwardingRuleInitParameters struct {
 	// is set to targetGrpcProxy and
 	// validateForProxyless is set to true, the
 	// IPAddress should be set to 0.0.0.0.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.RegionTargetHTTPProxy
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/cluster/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.RegionTargetHTTPProxy
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.SelfLinkExtractor()
 	Target *string `json:"target,omitempty" tf:"target,omitempty"`
 
 	// Reference to a RegionTargetHTTPProxy in compute to populate target.
@@ -453,8 +453,8 @@ type ForwardingRuleParameters struct {
 	// Identifies the backend service to which the forwarding rule sends traffic.
 	// Required for Internal TCP/UDP Load Balancing and Network Load Balancing;
 	// must be omitted for all other load balancer types.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.RegionBackendService
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/cluster/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.RegionBackendService
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
 
@@ -476,8 +476,8 @@ type ForwardingRuleParameters struct {
 	// to the referenced target or backendService.
 	// While creating a forwarding rule, specifying an IPAddress is
 	// required under the following circumstances:
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Address
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/cluster/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Address
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
@@ -549,8 +549,8 @@ type ForwardingRuleParameters struct {
 	// be used.
 	// For Private Service Connect forwarding rules that forward traffic to Google
 	// APIs, a network must be provided.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/cluster/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
@@ -637,8 +637,8 @@ type ForwardingRuleParameters struct {
 	// If the network specified is in auto subnet mode, this field is optional.
 	// However, a subnetwork must be specified if the network is in custom subnet
 	// mode or when creating external forwarding rule with IPv6.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Subnetwork
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/cluster/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Subnetwork
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
@@ -653,8 +653,8 @@ type ForwardingRuleParameters struct {
 	// is set to targetGrpcProxy and
 	// validateForProxyless is set to true, the
 	// IPAddress should be set to 0.0.0.0.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.RegionTargetHTTPProxy
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/cluster/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.RegionTargetHTTPProxy
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	Target *string `json:"target,omitempty" tf:"target,omitempty"`
 

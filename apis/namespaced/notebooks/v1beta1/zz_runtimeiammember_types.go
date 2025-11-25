@@ -53,7 +53,7 @@ type RuntimeIAMMemberInitParameters struct {
 
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/notebooks/v1beta1.Runtime
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/notebooks/v1beta1.Runtime
 	RuntimeName *string `json:"runtimeName,omitempty" tf:"runtime_name,omitempty"`
 
 	// Reference to a Runtime in notebooks to populate runtimeName.
@@ -100,7 +100,7 @@ type RuntimeIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/notebooks/v1beta1.Runtime
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/notebooks/v1beta1.Runtime
 	// +kubebuilder:validation:Optional
 	RuntimeName *string `json:"runtimeName,omitempty" tf:"runtime_name,omitempty"`
 

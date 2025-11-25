@@ -9,11 +9,11 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	database "github.com/upbound/provider-gcp/internal/controller/namespaced/sql/database"
-	databaseinstance "github.com/upbound/provider-gcp/internal/controller/namespaced/sql/databaseinstance"
-	sourcerepresentationinstance "github.com/upbound/provider-gcp/internal/controller/namespaced/sql/sourcerepresentationinstance"
-	sslcert "github.com/upbound/provider-gcp/internal/controller/namespaced/sql/sslcert"
-	user "github.com/upbound/provider-gcp/internal/controller/namespaced/sql/user"
+	database "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/sql/database"
+	databaseinstance "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/sql/databaseinstance"
+	sourcerepresentationinstance "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/sql/sourcerepresentationinstance"
+	sslcert "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/sql/sslcert"
+	user "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/sql/user"
 )
 
 // Setup_sql creates all controllers with the supplied logger and adds them to

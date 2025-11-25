@@ -277,7 +277,7 @@ type ZoneParameters struct {
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The lake for the resource
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/dataplex/v1beta1.Lake
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/dataplex/v1beta1.Lake
 	// +kubebuilder:validation:Optional
 	Lake *string `json:"lake,omitempty" tf:"lake,omitempty"`
 

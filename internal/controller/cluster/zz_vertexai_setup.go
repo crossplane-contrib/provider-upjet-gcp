@@ -9,10 +9,10 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	dataset "github.com/upbound/provider-gcp/internal/controller/cluster/vertexai/dataset"
-	featurestore "github.com/upbound/provider-gcp/internal/controller/cluster/vertexai/featurestore"
-	featurestoreentitytype "github.com/upbound/provider-gcp/internal/controller/cluster/vertexai/featurestoreentitytype"
-	tensorboard "github.com/upbound/provider-gcp/internal/controller/cluster/vertexai/tensorboard"
+	dataset "github.com/upbound/provider-gcp/v2/internal/controller/cluster/vertexai/dataset"
+	featurestore "github.com/upbound/provider-gcp/v2/internal/controller/cluster/vertexai/featurestore"
+	featurestoreentitytype "github.com/upbound/provider-gcp/v2/internal/controller/cluster/vertexai/featurestoreentitytype"
+	tensorboard "github.com/upbound/provider-gcp/v2/internal/controller/cluster/vertexai/tensorboard"
 )
 
 // Setup_vertexai creates all controllers with the supplied logger and adds them to

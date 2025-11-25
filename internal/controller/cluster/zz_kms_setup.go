@@ -9,13 +9,13 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	cryptokey "github.com/upbound/provider-gcp/internal/controller/cluster/kms/cryptokey"
-	cryptokeyiammember "github.com/upbound/provider-gcp/internal/controller/cluster/kms/cryptokeyiammember"
-	cryptokeyversion "github.com/upbound/provider-gcp/internal/controller/cluster/kms/cryptokeyversion"
-	keyring "github.com/upbound/provider-gcp/internal/controller/cluster/kms/keyring"
-	keyringiammember "github.com/upbound/provider-gcp/internal/controller/cluster/kms/keyringiammember"
-	keyringimportjob "github.com/upbound/provider-gcp/internal/controller/cluster/kms/keyringimportjob"
-	secretciphertext "github.com/upbound/provider-gcp/internal/controller/cluster/kms/secretciphertext"
+	cryptokey "github.com/upbound/provider-gcp/v2/internal/controller/cluster/kms/cryptokey"
+	cryptokeyiammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/kms/cryptokeyiammember"
+	cryptokeyversion "github.com/upbound/provider-gcp/v2/internal/controller/cluster/kms/cryptokeyversion"
+	keyring "github.com/upbound/provider-gcp/v2/internal/controller/cluster/kms/keyring"
+	keyringiammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/kms/keyringiammember"
+	keyringimportjob "github.com/upbound/provider-gcp/v2/internal/controller/cluster/kms/keyringimportjob"
+	secretciphertext "github.com/upbound/provider-gcp/v2/internal/controller/cluster/kms/secretciphertext"
 )
 
 // Setup_kms creates all controllers with the supplied logger and adds them to

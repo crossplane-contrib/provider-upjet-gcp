@@ -318,7 +318,7 @@ type MetricInitParameters struct {
 
 	// The resource name of the Log Bucket that owns the Log Metric. Only Log Buckets in projects
 	// are supported. The bucket has to be in the same project as the metric.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/logging/v1beta1.ProjectBucketConfig
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/logging/v1beta1.ProjectBucketConfig
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
 
@@ -431,7 +431,7 @@ type MetricParameters struct {
 
 	// The resource name of the Log Bucket that owns the Log Metric. Only Log Buckets in projects
 	// are supported. The bucket has to be in the same project as the metric.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/logging/v1beta1.ProjectBucketConfig
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/logging/v1beta1.ProjectBucketConfig
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`

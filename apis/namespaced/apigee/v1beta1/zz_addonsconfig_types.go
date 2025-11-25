@@ -118,7 +118,7 @@ type AddonsConfigInitParameters struct {
 	AddonsConfig *AddonsConfigAddonsConfigInitParameters `json:"addonsConfig,omitempty" tf:"addons_config,omitempty"`
 
 	// Name of the Apigee organization.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/apigee/v1beta1.Organization
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/apigee/v1beta1.Organization
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	Org *string `json:"org,omitempty" tf:"org,omitempty"`
 
@@ -152,7 +152,7 @@ type AddonsConfigParameters struct {
 	AddonsConfig *AddonsConfigAddonsConfigParameters `json:"addonsConfig,omitempty" tf:"addons_config,omitempty"`
 
 	// Name of the Apigee organization.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/apigee/v1beta1.Organization
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/apigee/v1beta1.Organization
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	Org *string `json:"org,omitempty" tf:"org,omitempty"`

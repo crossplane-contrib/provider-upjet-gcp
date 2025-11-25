@@ -9,7 +9,7 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	environment "github.com/upbound/provider-gcp/internal/controller/cluster/composer/environment"
+	environment "github.com/upbound/provider-gcp/v2/internal/controller/cluster/composer/environment"
 )
 
 // Setup_composer creates all controllers with the supplied logger and adds them to

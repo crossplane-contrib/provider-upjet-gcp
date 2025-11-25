@@ -361,8 +361,8 @@ type RegionBackendServiceBackendInitParameters struct {
 	// Note that you must specify an Instance Group or Network Endpoint
 	// Group resource using the fully-qualified URL, rather than a
 	// partial URL.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.RegionInstanceGroupManager
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/namespaced/compute.InstanceGroupExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.RegionInstanceGroupManager
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/compute.InstanceGroupExtractor()
 	Group *string `json:"group,omitempty" tf:"group,omitempty"`
 
 	// Reference to a RegionInstanceGroupManager in compute to populate group.
@@ -582,8 +582,8 @@ type RegionBackendServiceBackendParameters struct {
 	// Note that you must specify an Instance Group or Network Endpoint
 	// Group resource using the fully-qualified URL, rather than a
 	// partial URL.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.RegionInstanceGroupManager
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/namespaced/compute.InstanceGroupExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.RegionInstanceGroupManager
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/compute.InstanceGroupExtractor()
 	// +kubebuilder:validation:Optional
 	Group *string `json:"group,omitempty" tf:"group,omitempty"`
 
@@ -1231,8 +1231,8 @@ type RegionBackendServiceInitParameters struct {
 	// check can be specified.
 	// A health check must be specified unless the backend service uses an internet
 	// or serverless NEG as a backend.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.RegionHealthCheck
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/namespaced/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.RegionHealthCheck
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.SelfLinkExtractor()
 	// +listType=set
 	HealthChecks []*string `json:"healthChecks,omitempty" tf:"health_checks,omitempty"`
 
@@ -1780,8 +1780,8 @@ type RegionBackendServiceParameters struct {
 	// check can be specified.
 	// A health check must be specified unless the backend service uses an internet
 	// or serverless NEG as a backend.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.RegionHealthCheck
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/namespaced/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.RegionHealthCheck
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	HealthChecks []*string `json:"healthChecks,omitempty" tf:"health_checks,omitempty"`

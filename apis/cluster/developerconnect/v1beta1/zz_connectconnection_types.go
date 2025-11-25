@@ -529,7 +529,7 @@ type GithubConfigAuthorizerCredentialInitParameters struct {
 
 	// Required. A SecretManager resource containing the OAuth token that authorizes
 	// the connection. Format: projects/*/secrets/*/versions/*.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/secretmanager/v1beta1.SecretVersion
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/secretmanager/v1beta1.SecretVersion
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	OAuthTokenSecretVersion *string `json:"oauthTokenSecretVersion,omitempty" tf:"oauth_token_secret_version,omitempty"`
 
@@ -557,7 +557,7 @@ type GithubConfigAuthorizerCredentialParameters struct {
 
 	// Required. A SecretManager resource containing the OAuth token that authorizes
 	// the connection. Format: projects/*/secrets/*/versions/*.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/secretmanager/v1beta1.SecretVersion
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/secretmanager/v1beta1.SecretVersion
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	OAuthTokenSecretVersion *string `json:"oauthTokenSecretVersion,omitempty" tf:"oauth_token_secret_version,omitempty"`
@@ -649,7 +649,7 @@ type GithubEnterpriseConfigInitParameters struct {
 
 	// Optional. SecretManager resource containing the private key of the GitHub App,
 	// formatted as projects/*/secrets/*/versions/*.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/secretmanager/v1beta1.SecretVersion
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/secretmanager/v1beta1.SecretVersion
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	PrivateKeySecretVersion *string `json:"privateKeySecretVersion,omitempty" tf:"private_key_secret_version,omitempty"`
 
@@ -671,7 +671,7 @@ type GithubEnterpriseConfigInitParameters struct {
 
 	// Optional. SecretManager resource containing the webhook secret of the GitHub App,
 	// formatted as projects/*/secrets/*/versions/*.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/secretmanager/v1beta1.SecretVersion
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/secretmanager/v1beta1.SecretVersion
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	WebhookSecretSecretVersion *string `json:"webhookSecretSecretVersion,omitempty" tf:"webhook_secret_secret_version,omitempty"`
 
@@ -741,7 +741,7 @@ type GithubEnterpriseConfigParameters struct {
 
 	// Optional. SecretManager resource containing the private key of the GitHub App,
 	// formatted as projects/*/secrets/*/versions/*.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/secretmanager/v1beta1.SecretVersion
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/secretmanager/v1beta1.SecretVersion
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	PrivateKeySecretVersion *string `json:"privateKeySecretVersion,omitempty" tf:"private_key_secret_version,omitempty"`
@@ -766,7 +766,7 @@ type GithubEnterpriseConfigParameters struct {
 
 	// Optional. SecretManager resource containing the webhook secret of the GitHub App,
 	// formatted as projects/*/secrets/*/versions/*.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/secretmanager/v1beta1.SecretVersion
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/secretmanager/v1beta1.SecretVersion
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	WebhookSecretSecretVersion *string `json:"webhookSecretSecretVersion,omitempty" tf:"webhook_secret_secret_version,omitempty"`

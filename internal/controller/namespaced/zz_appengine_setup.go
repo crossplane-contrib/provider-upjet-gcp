@@ -9,11 +9,11 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	application "github.com/upbound/provider-gcp/internal/controller/namespaced/appengine/application"
-	applicationurldispatchrules "github.com/upbound/provider-gcp/internal/controller/namespaced/appengine/applicationurldispatchrules"
-	firewallrule "github.com/upbound/provider-gcp/internal/controller/namespaced/appengine/firewallrule"
-	servicenetworksettings "github.com/upbound/provider-gcp/internal/controller/namespaced/appengine/servicenetworksettings"
-	standardappversion "github.com/upbound/provider-gcp/internal/controller/namespaced/appengine/standardappversion"
+	application "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/appengine/application"
+	applicationurldispatchrules "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/appengine/applicationurldispatchrules"
+	firewallrule "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/appengine/firewallrule"
+	servicenetworksettings "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/appengine/servicenetworksettings"
+	standardappversion "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/appengine/standardappversion"
 )
 
 // Setup_appengine creates all controllers with the supplied logger and adds them to

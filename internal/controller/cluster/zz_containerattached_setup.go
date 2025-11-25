@@ -9,7 +9,7 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	cluster "github.com/upbound/provider-gcp/internal/controller/cluster/containerattached/cluster"
+	cluster "github.com/upbound/provider-gcp/v2/internal/controller/cluster/containerattached/cluster"
 )
 
 // Setup_containerattached creates all controllers with the supplied logger and adds them to

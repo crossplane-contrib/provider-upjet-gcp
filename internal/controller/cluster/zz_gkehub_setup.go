@@ -9,8 +9,8 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	membership "github.com/upbound/provider-gcp/internal/controller/cluster/gkehub/membership"
-	membershipiammember "github.com/upbound/provider-gcp/internal/controller/cluster/gkehub/membershipiammember"
+	membership "github.com/upbound/provider-gcp/v2/internal/controller/cluster/gkehub/membership"
+	membershipiammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/gkehub/membershipiammember"
 )
 
 // Setup_gkehub creates all controllers with the supplied logger and adds them to

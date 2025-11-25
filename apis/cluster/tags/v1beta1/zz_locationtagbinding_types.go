@@ -22,8 +22,8 @@ type LocationTagBindingInitParameters struct {
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
 	// The TagValue of the TagBinding. Must be of the form tagValues/456.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/tags/v1beta1.TagValue
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/cluster/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/tags/v1beta1.TagValue
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.ExtractResourceID()
 	TagValue *string `json:"tagValue,omitempty" tf:"tag_value,omitempty"`
 
 	// Reference to a TagValue in tags to populate tagValue.
@@ -64,8 +64,8 @@ type LocationTagBindingParameters struct {
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
 	// The TagValue of the TagBinding. Must be of the form tagValues/456.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/tags/v1beta1.TagValue
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/cluster/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/tags/v1beta1.TagValue
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	TagValue *string `json:"tagValue,omitempty" tf:"tag_value,omitempty"`
 

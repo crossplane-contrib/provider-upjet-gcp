@@ -9,9 +9,9 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	appconnection "github.com/upbound/provider-gcp/internal/controller/cluster/beyondcorp/appconnection"
-	appconnector "github.com/upbound/provider-gcp/internal/controller/cluster/beyondcorp/appconnector"
-	appgateway "github.com/upbound/provider-gcp/internal/controller/cluster/beyondcorp/appgateway"
+	appconnection "github.com/upbound/provider-gcp/v2/internal/controller/cluster/beyondcorp/appconnection"
+	appconnector "github.com/upbound/provider-gcp/v2/internal/controller/cluster/beyondcorp/appconnector"
+	appgateway "github.com/upbound/provider-gcp/v2/internal/controller/cluster/beyondcorp/appgateway"
 )
 
 // Setup_beyondcorp creates all controllers with the supplied logger and adds them to

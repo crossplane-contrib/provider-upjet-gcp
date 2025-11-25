@@ -12,8 +12,8 @@ import (
 	xpresource "github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 	resource "github.com/crossplane/upjet/v2/pkg/resource"
 	errors "github.com/pkg/errors"
-	common "github.com/upbound/provider-gcp/config/namespaced/common"
-	apisresolver "github.com/upbound/provider-gcp/internal/apis"
+	common "github.com/upbound/provider-gcp/v2/config/namespaced/common"
+	apisresolver "github.com/upbound/provider-gcp/v2/internal/apis"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 

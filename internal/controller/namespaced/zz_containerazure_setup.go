@@ -9,9 +9,9 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	client "github.com/upbound/provider-gcp/internal/controller/namespaced/containerazure/client"
-	cluster "github.com/upbound/provider-gcp/internal/controller/namespaced/containerazure/cluster"
-	nodepool "github.com/upbound/provider-gcp/internal/controller/namespaced/containerazure/nodepool"
+	client "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/containerazure/client"
+	cluster "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/containerazure/cluster"
+	nodepool "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/containerazure/nodepool"
 )
 
 // Setup_containerazure creates all controllers with the supplied logger and adds them to

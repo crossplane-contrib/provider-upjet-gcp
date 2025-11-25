@@ -9,7 +9,7 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	idsendpoint "github.com/upbound/provider-gcp/internal/controller/namespaced/cloud/idsendpoint"
+	idsendpoint "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloud/idsendpoint"
 )
 
 // Setup_cloud creates all controllers with the supplied logger and adds them to

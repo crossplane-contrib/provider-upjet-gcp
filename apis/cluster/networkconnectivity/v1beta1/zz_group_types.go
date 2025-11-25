@@ -113,7 +113,7 @@ type GroupParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The name of the hub. Hub names must be unique. They use the following form: projects/{projectNumber}/locations/global/hubs/{hubId}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/networkconnectivity/v1beta1.Hub
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/networkconnectivity/v1beta1.Hub
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Hub *string `json:"hub,omitempty" tf:"hub,omitempty"`

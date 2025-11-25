@@ -116,7 +116,7 @@ type GatewaySecurityPolicyRuleParameters struct {
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
 	// The name of the gatewat security policy this rule belongs to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/networksecurity/v1beta1.GatewaySecurityPolicy
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/networksecurity/v1beta1.GatewaySecurityPolicy
 	// +kubebuilder:validation:Optional
 	GatewaySecurityPolicy *string `json:"gatewaySecurityPolicy,omitempty" tf:"gateway_security_policy,omitempty"`
 

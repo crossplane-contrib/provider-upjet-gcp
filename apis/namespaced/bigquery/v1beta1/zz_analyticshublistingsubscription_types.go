@@ -31,7 +31,7 @@ type AnalyticsHubListingSubscriptionCommercialInfoParameters struct {
 type AnalyticsHubListingSubscriptionInitParameters struct {
 
 	// The ID of the data exchange. Must contain only Unicode letters, numbers (0-9), underscores (_). Should not use characters that require URL-escaping, or characters outside of ASCII, spaces.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/bigquery/v1beta1.AnalyticsHubDataExchange
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/bigquery/v1beta1.AnalyticsHubDataExchange
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("data_exchange_id",false)
 	DataExchangeID *string `json:"dataExchangeId,omitempty" tf:"data_exchange_id,omitempty"`
 
@@ -48,7 +48,7 @@ type AnalyticsHubListingSubscriptionInitParameters struct {
 	DestinationDataset *DestinationDatasetInitParameters `json:"destinationDataset,omitempty" tf:"destination_dataset,omitempty"`
 
 	// The ID of the listing. Must contain only Unicode letters, numbers (0-9), underscores (_). Should not use characters that require URL-escaping, or characters outside of ASCII, spaces.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/bigquery/v1beta1.AnalyticsHubListing
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/bigquery/v1beta1.AnalyticsHubListing
 	ListingID *string `json:"listingId,omitempty" tf:"listing_id,omitempty"`
 
 	// Reference to a AnalyticsHubListing in bigquery to populate listingId.
@@ -136,7 +136,7 @@ type AnalyticsHubListingSubscriptionObservation struct {
 type AnalyticsHubListingSubscriptionParameters struct {
 
 	// The ID of the data exchange. Must contain only Unicode letters, numbers (0-9), underscores (_). Should not use characters that require URL-escaping, or characters outside of ASCII, spaces.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/bigquery/v1beta1.AnalyticsHubDataExchange
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/bigquery/v1beta1.AnalyticsHubDataExchange
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("data_exchange_id",false)
 	// +kubebuilder:validation:Optional
 	DataExchangeID *string `json:"dataExchangeId,omitempty" tf:"data_exchange_id,omitempty"`
@@ -155,7 +155,7 @@ type AnalyticsHubListingSubscriptionParameters struct {
 	DestinationDataset *DestinationDatasetParameters `json:"destinationDataset,omitempty" tf:"destination_dataset,omitempty"`
 
 	// The ID of the listing. Must contain only Unicode letters, numbers (0-9), underscores (_). Should not use characters that require URL-escaping, or characters outside of ASCII, spaces.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/bigquery/v1beta1.AnalyticsHubListing
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/bigquery/v1beta1.AnalyticsHubListing
 	// +kubebuilder:validation:Optional
 	ListingID *string `json:"listingId,omitempty" tf:"listing_id,omitempty"`
 
@@ -196,7 +196,7 @@ type DatasetReferenceInitParameters struct {
 	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
 
 	// The ID of the project containing this dataset.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/bigquery/v1beta1.Dataset
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/bigquery/v1beta1.Dataset
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project",false)
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -225,7 +225,7 @@ type DatasetReferenceParameters struct {
 	DatasetID *string `json:"datasetId" tf:"dataset_id,omitempty"`
 
 	// The ID of the project containing this dataset.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/bigquery/v1beta1.Dataset
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/bigquery/v1beta1.Dataset
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project",false)
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`

@@ -9,11 +9,11 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	autoscalingpolicy "github.com/upbound/provider-gcp/internal/controller/cluster/dataproc/autoscalingpolicy"
-	cluster "github.com/upbound/provider-gcp/internal/controller/cluster/dataproc/cluster"
-	job "github.com/upbound/provider-gcp/internal/controller/cluster/dataproc/job"
-	metastoreservice "github.com/upbound/provider-gcp/internal/controller/cluster/dataproc/metastoreservice"
-	workflowtemplate "github.com/upbound/provider-gcp/internal/controller/cluster/dataproc/workflowtemplate"
+	autoscalingpolicy "github.com/upbound/provider-gcp/v2/internal/controller/cluster/dataproc/autoscalingpolicy"
+	cluster "github.com/upbound/provider-gcp/v2/internal/controller/cluster/dataproc/cluster"
+	job "github.com/upbound/provider-gcp/v2/internal/controller/cluster/dataproc/job"
+	metastoreservice "github.com/upbound/provider-gcp/v2/internal/controller/cluster/dataproc/metastoreservice"
+	workflowtemplate "github.com/upbound/provider-gcp/v2/internal/controller/cluster/dataproc/workflowtemplate"
 )
 
 // Setup_dataproc creates all controllers with the supplied logger and adds them to

@@ -9,12 +9,12 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	capool "github.com/upbound/provider-gcp/internal/controller/cluster/privateca/capool"
-	capooliammember "github.com/upbound/provider-gcp/internal/controller/cluster/privateca/capooliammember"
-	certificate "github.com/upbound/provider-gcp/internal/controller/cluster/privateca/certificate"
-	certificateauthority "github.com/upbound/provider-gcp/internal/controller/cluster/privateca/certificateauthority"
-	certificatetemplate "github.com/upbound/provider-gcp/internal/controller/cluster/privateca/certificatetemplate"
-	certificatetemplateiammember "github.com/upbound/provider-gcp/internal/controller/cluster/privateca/certificatetemplateiammember"
+	capool "github.com/upbound/provider-gcp/v2/internal/controller/cluster/privateca/capool"
+	capooliammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/privateca/capooliammember"
+	certificate "github.com/upbound/provider-gcp/v2/internal/controller/cluster/privateca/certificate"
+	certificateauthority "github.com/upbound/provider-gcp/v2/internal/controller/cluster/privateca/certificateauthority"
+	certificatetemplate "github.com/upbound/provider-gcp/v2/internal/controller/cluster/privateca/certificatetemplate"
+	certificatetemplateiammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/privateca/certificatetemplateiammember"
 )
 
 // Setup_privateca creates all controllers with the supplied logger and adds them to

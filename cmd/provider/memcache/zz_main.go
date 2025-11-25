@@ -42,16 +42,16 @@ import (
 	metricsserver "sigs.k8s.io/controller-runtime/pkg/metrics/server"
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
 
-	clusterapis "github.com/upbound/provider-gcp/apis/cluster"
-	namespacedapis "github.com/upbound/provider-gcp/apis/namespaced"
-	"github.com/upbound/provider-gcp/config"
-	resolverapis "github.com/upbound/provider-gcp/internal/apis"
-	"github.com/upbound/provider-gcp/internal/bootcheck"
-	"github.com/upbound/provider-gcp/internal/clients"
-	clustercontroller "github.com/upbound/provider-gcp/internal/controller/cluster"
-	namespacedcontroller "github.com/upbound/provider-gcp/internal/controller/namespaced"
-	"github.com/upbound/provider-gcp/internal/features"
-	"github.com/upbound/provider-gcp/internal/version"
+	clusterapis "github.com/upbound/provider-gcp/v2/apis/cluster"
+	namespacedapis "github.com/upbound/provider-gcp/v2/apis/namespaced"
+	"github.com/upbound/provider-gcp/v2/config"
+	resolverapis "github.com/upbound/provider-gcp/v2/internal/apis"
+	"github.com/upbound/provider-gcp/v2/internal/bootcheck"
+	"github.com/upbound/provider-gcp/v2/internal/clients"
+	clustercontroller "github.com/upbound/provider-gcp/v2/internal/controller/cluster"
+	namespacedcontroller "github.com/upbound/provider-gcp/v2/internal/controller/namespaced"
+	"github.com/upbound/provider-gcp/v2/internal/features"
+	"github.com/upbound/provider-gcp/v2/internal/version"
 )
 
 const (

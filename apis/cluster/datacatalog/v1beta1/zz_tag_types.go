@@ -107,7 +107,7 @@ type TagInitParameters struct {
 
 	// The name of the parent this tag is attached to. This can be the name of an entry or an entry group. If an entry group, the tag will be attached to
 	// all entries in that group.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/datacatalog/v1beta2.Entry
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/datacatalog/v1beta2.Entry
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
@@ -122,7 +122,7 @@ type TagInitParameters struct {
 	// The resource name of the tag template that this tag uses. Example:
 	// projects/{project_id}/locations/{location}/tagTemplates/{tagTemplateId}
 	// This field cannot be modified after creation.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/datacatalog/v1beta2.TagTemplate
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/datacatalog/v1beta2.TagTemplate
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Template *string `json:"template,omitempty" tf:"template,omitempty"`
 
@@ -187,7 +187,7 @@ type TagParameters struct {
 
 	// The name of the parent this tag is attached to. This can be the name of an entry or an entry group. If an entry group, the tag will be attached to
 	// all entries in that group.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/datacatalog/v1beta2.Entry
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/datacatalog/v1beta2.Entry
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
@@ -203,7 +203,7 @@ type TagParameters struct {
 	// The resource name of the tag template that this tag uses. Example:
 	// projects/{project_id}/locations/{location}/tagTemplates/{tagTemplateId}
 	// This field cannot be modified after creation.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/datacatalog/v1beta2.TagTemplate
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/datacatalog/v1beta2.TagTemplate
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Template *string `json:"template,omitempty" tf:"template,omitempty"`

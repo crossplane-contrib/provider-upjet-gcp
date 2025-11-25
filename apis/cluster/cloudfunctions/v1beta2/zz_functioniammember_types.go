@@ -43,7 +43,7 @@ type ConditionParameters struct {
 
 type FunctionIAMMemberInitParameters struct {
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudfunctions/v1beta2.Function
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudfunctions/v1beta2.Function
 	CloudFunction *string `json:"cloudFunction,omitempty" tf:"cloud_function,omitempty"`
 
 	// Reference to a Function in cloudfunctions to populate cloudFunction.
@@ -85,7 +85,7 @@ type FunctionIAMMemberObservation struct {
 
 type FunctionIAMMemberParameters struct {
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudfunctions/v1beta2.Function
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudfunctions/v1beta2.Function
 	// +kubebuilder:validation:Optional
 	CloudFunction *string `json:"cloudFunction,omitempty" tf:"cloud_function,omitempty"`
 

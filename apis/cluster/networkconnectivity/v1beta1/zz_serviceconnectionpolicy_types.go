@@ -73,7 +73,7 @@ type PscConfigInitParameters struct {
 	ProducerInstanceLocation *string `json:"producerInstanceLocation,omitempty" tf:"producer_instance_location,omitempty"`
 
 	// IDs of the subnetworks or fully qualified identifiers for the subnetworks
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Subnetwork
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Subnetworks []*string `json:"subnetworks,omitempty" tf:"subnetworks,omitempty"`
 
@@ -136,7 +136,7 @@ type PscConfigParameters struct {
 	ProducerInstanceLocation *string `json:"producerInstanceLocation,omitempty" tf:"producer_instance_location,omitempty"`
 
 	// IDs of the subnetworks or fully qualified identifiers for the subnetworks
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Subnetwork
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Subnetworks []*string `json:"subnetworks,omitempty" tf:"subnetworks,omitempty"`
@@ -201,7 +201,7 @@ type ServiceConnectionPolicyInitParameters struct {
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The resource path of the consumer network. Example: - projects/{projectNumOrId}/global/networks/{resourceId}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
@@ -298,7 +298,7 @@ type ServiceConnectionPolicyParameters struct {
 	Location *string `json:"location" tf:"location,omitempty"`
 
 	// The resource path of the consumer network. Example: - projects/{projectNumOrId}/global/networks/{resourceId}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`

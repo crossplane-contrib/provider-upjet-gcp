@@ -29,7 +29,7 @@ type TargetPoolInitParameters struct {
 
 	// List of zero or one health check name or self_link. Only
 	// legacy google_compute_http_health_check is supported.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.HTTPHealthCheck
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.HTTPHealthCheck
 	HealthChecks []*string `json:"healthChecks,omitempty" tf:"health_checks,omitempty"`
 
 	// References to HTTPHealthCheck in compute to populate healthChecks.
@@ -115,7 +115,7 @@ type TargetPoolParameters struct {
 
 	// List of zero or one health check name or self_link. Only
 	// legacy google_compute_http_health_check is supported.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.HTTPHealthCheck
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.HTTPHealthCheck
 	// +kubebuilder:validation:Optional
 	HealthChecks []*string `json:"healthChecks,omitempty" tf:"health_checks,omitempty"`
 

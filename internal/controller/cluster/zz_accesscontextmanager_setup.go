@@ -9,12 +9,12 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	accesslevel "github.com/upbound/provider-gcp/internal/controller/cluster/accesscontextmanager/accesslevel"
-	accesslevelcondition "github.com/upbound/provider-gcp/internal/controller/cluster/accesscontextmanager/accesslevelcondition"
-	accesspolicy "github.com/upbound/provider-gcp/internal/controller/cluster/accesscontextmanager/accesspolicy"
-	accesspolicyiammember "github.com/upbound/provider-gcp/internal/controller/cluster/accesscontextmanager/accesspolicyiammember"
-	serviceperimeter "github.com/upbound/provider-gcp/internal/controller/cluster/accesscontextmanager/serviceperimeter"
-	serviceperimeterresource "github.com/upbound/provider-gcp/internal/controller/cluster/accesscontextmanager/serviceperimeterresource"
+	accesslevel "github.com/upbound/provider-gcp/v2/internal/controller/cluster/accesscontextmanager/accesslevel"
+	accesslevelcondition "github.com/upbound/provider-gcp/v2/internal/controller/cluster/accesscontextmanager/accesslevelcondition"
+	accesspolicy "github.com/upbound/provider-gcp/v2/internal/controller/cluster/accesscontextmanager/accesspolicy"
+	accesspolicyiammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/accesscontextmanager/accesspolicyiammember"
+	serviceperimeter "github.com/upbound/provider-gcp/v2/internal/controller/cluster/accesscontextmanager/serviceperimeter"
+	serviceperimeterresource "github.com/upbound/provider-gcp/v2/internal/controller/cluster/accesscontextmanager/serviceperimeterresource"
 )
 
 // Setup_accesscontextmanager creates all controllers with the supplied logger and adds them to

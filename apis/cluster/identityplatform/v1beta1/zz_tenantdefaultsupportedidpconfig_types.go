@@ -32,7 +32,7 @@ type TenantDefaultSupportedIdPConfigInitParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The name of the tenant where this DefaultSupportedIdpConfig resource exists
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/identityplatform/v1beta1.Tenant
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/identityplatform/v1beta1.Tenant
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	Tenant *string `json:"tenant,omitempty" tf:"tenant,omitempty"`
 
@@ -91,7 +91,7 @@ type TenantDefaultSupportedIdPConfigParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The name of the tenant where this DefaultSupportedIdpConfig resource exists
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/identityplatform/v1beta1.Tenant
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/identityplatform/v1beta1.Tenant
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	Tenant *string `json:"tenant,omitempty" tf:"tenant,omitempty"`

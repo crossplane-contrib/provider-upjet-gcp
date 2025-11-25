@@ -52,7 +52,7 @@ type SyncAuthorizationParameters struct {
 	Identities []*string `json:"identities,omitempty" tf:"identities,omitempty"`
 
 	// Name of the Apigee organization.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/apigee/v1beta1.Organization
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/apigee/v1beta1.Organization
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`

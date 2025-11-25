@@ -9,11 +9,11 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	aspecttype "github.com/upbound/provider-gcp/internal/controller/namespaced/dataplex/aspecttype"
-	asset "github.com/upbound/provider-gcp/internal/controller/namespaced/dataplex/asset"
-	lake "github.com/upbound/provider-gcp/internal/controller/namespaced/dataplex/lake"
-	lakeiampolicy "github.com/upbound/provider-gcp/internal/controller/namespaced/dataplex/lakeiampolicy"
-	zone "github.com/upbound/provider-gcp/internal/controller/namespaced/dataplex/zone"
+	aspecttype "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/dataplex/aspecttype"
+	asset "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/dataplex/asset"
+	lake "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/dataplex/lake"
+	lakeiampolicy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/dataplex/lakeiampolicy"
+	zone "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/dataplex/zone"
 )
 
 // Setup_dataplex creates all controllers with the supplied logger and adds them to

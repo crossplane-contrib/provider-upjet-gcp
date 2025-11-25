@@ -9,7 +9,7 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	domain "github.com/upbound/provider-gcp/internal/controller/cluster/activedirectory/domain"
+	domain "github.com/upbound/provider-gcp/v2/internal/controller/cluster/activedirectory/domain"
 )
 
 // Setup_activedirectory creates all controllers with the supplied logger and adds them to

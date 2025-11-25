@@ -9,9 +9,9 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	backup "github.com/upbound/provider-gcp/internal/controller/cluster/filestore/backup"
-	instance "github.com/upbound/provider-gcp/internal/controller/cluster/filestore/instance"
-	snapshot "github.com/upbound/provider-gcp/internal/controller/cluster/filestore/snapshot"
+	backup "github.com/upbound/provider-gcp/v2/internal/controller/cluster/filestore/backup"
+	instance "github.com/upbound/provider-gcp/v2/internal/controller/cluster/filestore/instance"
+	snapshot "github.com/upbound/provider-gcp/v2/internal/controller/cluster/filestore/snapshot"
 )
 
 // Setup_filestore creates all controllers with the supplied logger and adds them to

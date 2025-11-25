@@ -9,9 +9,9 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	connectaccountconnector "github.com/upbound/provider-gcp/internal/controller/cluster/developerconnect/connectaccountconnector"
-	connectconnection "github.com/upbound/provider-gcp/internal/controller/cluster/developerconnect/connectconnection"
-	connectgitrepositorylink "github.com/upbound/provider-gcp/internal/controller/cluster/developerconnect/connectgitrepositorylink"
+	connectaccountconnector "github.com/upbound/provider-gcp/v2/internal/controller/cluster/developerconnect/connectaccountconnector"
+	connectconnection "github.com/upbound/provider-gcp/v2/internal/controller/cluster/developerconnect/connectconnection"
+	connectgitrepositorylink "github.com/upbound/provider-gcp/v2/internal/controller/cluster/developerconnect/connectgitrepositorylink"
 )
 
 // Setup_developerconnect creates all controllers with the supplied logger and adds them to

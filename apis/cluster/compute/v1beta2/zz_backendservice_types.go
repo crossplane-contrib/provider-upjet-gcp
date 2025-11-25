@@ -108,8 +108,8 @@ type BackendInitParameters struct {
 	// Note that you must specify an Instance Group or Network Endpoint
 	// Group resource using the fully-qualified URL, rather than a
 	// partial URL.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.InstanceGroupManager
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/cluster/compute.InstanceGroupExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.InstanceGroupManager
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/compute.InstanceGroupExtractor()
 	Group *string `json:"group,omitempty" tf:"group,omitempty"`
 
 	// Reference to a InstanceGroupManager in compute to populate group.
@@ -312,8 +312,8 @@ type BackendParameters struct {
 	// Note that you must specify an Instance Group or Network Endpoint
 	// Group resource using the fully-qualified URL, rather than a
 	// partial URL.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.InstanceGroupManager
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/cluster/compute.InstanceGroupExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.InstanceGroupManager
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/compute.InstanceGroupExtractor()
 	// +kubebuilder:validation:Optional
 	Group *string `json:"group,omitempty" tf:"group,omitempty"`
 
@@ -702,8 +702,8 @@ type BackendServiceInitParameters struct {
 	// A health check must be specified unless the backend service uses an internet
 	// or serverless NEG as a backend.
 	// For internal load balancing, a URL to a HealthCheck resource must be specified instead.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.HealthCheck
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/cluster/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.HealthCheck
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.SelfLinkExtractor()
 	// +listType=set
 	HealthChecks []*string `json:"healthChecks,omitempty" tf:"health_checks,omitempty"`
 
@@ -1135,8 +1135,8 @@ type BackendServiceParameters struct {
 	// A health check must be specified unless the backend service uses an internet
 	// or serverless NEG as a backend.
 	// For internal load balancing, a URL to a HealthCheck resource must be specified instead.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.HealthCheck
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/cluster/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.HealthCheck
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	HealthChecks []*string `json:"healthChecks,omitempty" tf:"health_checks,omitempty"`

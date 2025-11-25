@@ -44,7 +44,7 @@ type ConditionParameters struct {
 type InstanceIAMMemberInitParameters struct {
 	Condition *ConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/notebooks/v1beta2.Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/notebooks/v1beta2.Instance
 	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
 
 	// Reference to a Instance in notebooks to populate instanceName.
@@ -87,7 +87,7 @@ type InstanceIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Condition *ConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/notebooks/v1beta2.Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/notebooks/v1beta2.Instance
 	// +kubebuilder:validation:Optional
 	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
 

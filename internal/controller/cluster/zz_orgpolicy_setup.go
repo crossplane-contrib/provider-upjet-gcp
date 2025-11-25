@@ -9,7 +9,7 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	policy "github.com/upbound/provider-gcp/internal/controller/cluster/orgpolicy/policy"
+	policy "github.com/upbound/provider-gcp/v2/internal/controller/cluster/orgpolicy/policy"
 )
 
 // Setup_orgpolicy creates all controllers with the supplied logger and adds them to

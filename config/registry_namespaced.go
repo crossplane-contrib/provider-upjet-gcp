@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/pkg/errors"
 
-	"github.com/upbound/provider-gcp/config/namespaced"
-	"github.com/upbound/provider-gcp/hack"
+	"github.com/upbound/provider-gcp/v2/config/namespaced"
+	"github.com/upbound/provider-gcp/v2/hack"
 )
 
 // GetNamespacedProvider returns the namespaced provider configuration
