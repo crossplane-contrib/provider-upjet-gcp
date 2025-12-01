@@ -39,7 +39,7 @@ type ApplicationInitParameters struct {
 	// The project ID to create the application under.
 	// ~>NOTE: GCP only accepts project ID, not project number. If you are using number,
 	// you may get a "Permission denied" error.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project_id",false)
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
@@ -142,7 +142,7 @@ type ApplicationParameters struct {
 	// The project ID to create the application under.
 	// ~>NOTE: GCP only accepts project ID, not project number. If you are using number,
 	// you may get a "Permission denied" error.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project_id",false)
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`

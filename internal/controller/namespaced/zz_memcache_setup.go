@@ -9,7 +9,7 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	instance "github.com/upbound/provider-gcp/internal/controller/namespaced/memcache/instance"
+	instance "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/memcache/instance"
 )
 
 // Setup_memcache creates all controllers with the supplied logger and adds them to

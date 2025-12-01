@@ -9,7 +9,7 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	connector "github.com/upbound/provider-gcp/internal/controller/cluster/vpcaccess/connector"
+	connector "github.com/upbound/provider-gcp/v2/internal/controller/cluster/vpcaccess/connector"
 )
 
 // Setup_vpcaccess creates all controllers with the supplied logger and adds them to

@@ -20,7 +20,7 @@ type ConnectionInitParameters struct {
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Name of VPC network connected with service producers using VPC peering.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
@@ -35,7 +35,7 @@ type ConnectionInitParameters struct {
 	// Named IP address range(s) of PEERING type reserved for
 	// this service provider. Note that invoking this method with a different range when connection
 	// is already established will not reallocate already provisioned service producer subnetworks.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.GlobalAddress
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.GlobalAddress
 	ReservedPeeringRanges []*string `json:"reservedPeeringRanges,omitempty" tf:"reserved_peering_ranges,omitempty"`
 
 	// References to GlobalAddress in compute to populate reservedPeeringRanges.
@@ -89,7 +89,7 @@ type ConnectionParameters struct {
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Name of VPC network connected with service producers using VPC peering.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
@@ -105,7 +105,7 @@ type ConnectionParameters struct {
 	// Named IP address range(s) of PEERING type reserved for
 	// this service provider. Note that invoking this method with a different range when connection
 	// is already established will not reallocate already provisioned service producer subnetworks.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.GlobalAddress
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.GlobalAddress
 	// +kubebuilder:validation:Optional
 	ReservedPeeringRanges []*string `json:"reservedPeeringRanges,omitempty" tf:"reserved_peering_ranges,omitempty"`
 

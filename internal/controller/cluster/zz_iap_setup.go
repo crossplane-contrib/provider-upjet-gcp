@@ -9,13 +9,13 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	appengineserviceiammember "github.com/upbound/provider-gcp/internal/controller/cluster/iap/appengineserviceiammember"
-	appengineversioniammember "github.com/upbound/provider-gcp/internal/controller/cluster/iap/appengineversioniammember"
-	tunneliammember "github.com/upbound/provider-gcp/internal/controller/cluster/iap/tunneliammember"
-	webbackendserviceiammember "github.com/upbound/provider-gcp/internal/controller/cluster/iap/webbackendserviceiammember"
-	webiammember "github.com/upbound/provider-gcp/internal/controller/cluster/iap/webiammember"
-	webtypeappengineiammember "github.com/upbound/provider-gcp/internal/controller/cluster/iap/webtypeappengineiammember"
-	webtypecomputeiammember "github.com/upbound/provider-gcp/internal/controller/cluster/iap/webtypecomputeiammember"
+	appengineserviceiammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/iap/appengineserviceiammember"
+	appengineversioniammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/iap/appengineversioniammember"
+	tunneliammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/iap/tunneliammember"
+	webbackendserviceiammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/iap/webbackendserviceiammember"
+	webiammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/iap/webiammember"
+	webtypeappengineiammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/iap/webtypeappengineiammember"
+	webtypecomputeiammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/iap/webtypecomputeiammember"
 )
 
 // Setup_iap creates all controllers with the supplied logger and adds them to

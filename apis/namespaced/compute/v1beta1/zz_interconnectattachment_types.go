@@ -73,7 +73,7 @@ type InterconnectAttachmentInitParameters struct {
 	// encryption option as IPSEC, later on when creating HA VPN gateway on this
 	// interconnect attachment, the HA VPN gateway's IP address will be
 	// allocated from regional external IP address pool.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.Address
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Address
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	IpsecInternalAddresses []*string `json:"ipsecInternalAddresses,omitempty" tf:"ipsec_internal_addresses,omitempty"`
 
@@ -102,8 +102,8 @@ type InterconnectAttachmentInitParameters struct {
 	// the same region as this InterconnectAttachment. The InterconnectAttachment will
 	// automatically connect the Interconnect to the network & region within which the
 	// Cloud Router is configured.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.Router
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/namespaced/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Router
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.SelfLinkExtractor()
 	Router *string `json:"router,omitempty" tf:"router,omitempty"`
 
 	// Reference to a Router in compute to populate router.
@@ -379,7 +379,7 @@ type InterconnectAttachmentParameters struct {
 	// encryption option as IPSEC, later on when creating HA VPN gateway on this
 	// interconnect attachment, the HA VPN gateway's IP address will be
 	// allocated from regional external IP address pool.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.Address
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Address
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	IpsecInternalAddresses []*string `json:"ipsecInternalAddresses,omitempty" tf:"ipsec_internal_addresses,omitempty"`
@@ -416,8 +416,8 @@ type InterconnectAttachmentParameters struct {
 	// the same region as this InterconnectAttachment. The InterconnectAttachment will
 	// automatically connect the Interconnect to the network & region within which the
 	// Cloud Router is configured.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.Router
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/namespaced/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Router
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	Router *string `json:"router,omitempty" tf:"router,omitempty"`
 

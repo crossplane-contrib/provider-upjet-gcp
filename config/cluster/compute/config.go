@@ -12,12 +12,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/upbound/provider-gcp/config/cluster/common"
+	"github.com/upbound/provider-gcp/v2/config/cluster/common"
 )
 
 const (
 	// SelfPackagePath is the golang path for this package.
-	SelfPackagePath = "github.com/upbound/provider-gcp/config/cluster/compute"
+	SelfPackagePath = "github.com/upbound/provider-gcp/v2/config/cluster/compute"
 )
 
 var (
@@ -429,7 +429,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 	p.AddResourceConfigurator("google_compute_instance_group_named_port", func(r *config.Resource) {
 		// Note(donovanmuller): see https://github.com/upbound/official-providers/issues/597
 		// r.References["group"] = config.Reference{
-		// 	Type:      "github.com/upbound/provider-gcp/apis/cluster/container/v1beta1.Cluster",
+		// 	Type:      "github.com/upbound/provider-gcp/v2/apis/cluster/container/v1beta1.Cluster",
 		// 	Extractor: PathClusterInstanceGroupExtractor,
 		// }
 	})

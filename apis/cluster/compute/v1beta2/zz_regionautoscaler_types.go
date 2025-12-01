@@ -540,7 +540,7 @@ type RegionAutoscalerInitParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// URL of the managed instance group that this autoscaler will scale.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.RegionInstanceGroupManager
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.RegionInstanceGroupManager
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Target *string `json:"target,omitempty" tf:"target,omitempty"`
 
@@ -611,7 +611,7 @@ type RegionAutoscalerParameters struct {
 	Region *string `json:"region" tf:"region,omitempty"`
 
 	// URL of the managed instance group that this autoscaler will scale.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.RegionInstanceGroupManager
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.RegionInstanceGroupManager
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Target *string `json:"target,omitempty" tf:"target,omitempty"`

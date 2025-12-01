@@ -9,7 +9,7 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	workflow "github.com/upbound/provider-gcp/internal/controller/namespaced/workflows/workflow"
+	workflow "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/workflows/workflow"
 )
 
 // Setup_workflows creates all controllers with the supplied logger and adds them to

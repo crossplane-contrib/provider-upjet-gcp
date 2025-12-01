@@ -9,7 +9,7 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	connectivitytest "github.com/upbound/provider-gcp/internal/controller/cluster/networkmanagement/connectivitytest"
+	connectivitytest "github.com/upbound/provider-gcp/v2/internal/controller/cluster/networkmanagement/connectivitytest"
 )
 
 // Setup_networkmanagement creates all controllers with the supplied logger and adds them to

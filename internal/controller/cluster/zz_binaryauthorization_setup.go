@@ -9,8 +9,8 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	attestor "github.com/upbound/provider-gcp/internal/controller/cluster/binaryauthorization/attestor"
-	policy "github.com/upbound/provider-gcp/internal/controller/cluster/binaryauthorization/policy"
+	attestor "github.com/upbound/provider-gcp/v2/internal/controller/cluster/binaryauthorization/attestor"
+	policy "github.com/upbound/provider-gcp/v2/internal/controller/cluster/binaryauthorization/policy"
 )
 
 // Setup_binaryauthorization creates all controllers with the supplied logger and adds them to

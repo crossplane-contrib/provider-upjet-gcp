@@ -40,7 +40,7 @@ type ConnectorInitParameters struct {
 	MinThroughput *float64 `json:"minThroughput,omitempty" tf:"min_throughput,omitempty"`
 
 	// Name or self_link of the VPC network. Required if ip_cidr_range is set.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Reference to a Network in compute to populate network.
@@ -146,7 +146,7 @@ type ConnectorParameters struct {
 	MinThroughput *float64 `json:"minThroughput,omitempty" tf:"min_throughput,omitempty"`
 
 	// Name or self_link of the VPC network. Required if ip_cidr_range is set.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
@@ -177,7 +177,7 @@ type SubnetInitParameters struct {
 
 	// Subnet name (relative, not fully qualified). E.g. if the full subnet selfLink is
 	// https://compute.googleapis.com/compute/v1/projects/{project}/regions/{region}/subnetworks/{subnetName} the correct input for this field would be {subnetName}"
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Subnetwork
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Reference to a Subnetwork in compute to populate name.
@@ -206,7 +206,7 @@ type SubnetParameters struct {
 
 	// Subnet name (relative, not fully qualified). E.g. if the full subnet selfLink is
 	// https://compute.googleapis.com/compute/v1/projects/{project}/regions/{region}/subnetworks/{subnetName} the correct input for this field would be {subnetName}"
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Subnetwork
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 

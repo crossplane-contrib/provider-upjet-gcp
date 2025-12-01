@@ -107,7 +107,7 @@ type AppProfileParameters struct {
 	IgnoreWarnings *bool `json:"ignoreWarnings,omitempty" tf:"ignore_warnings,omitempty"`
 
 	// The name of the instance to create the app profile within.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/bigtable/v1beta1.Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/bigtable/v1beta1.Instance
 	// +kubebuilder:validation:Optional
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 

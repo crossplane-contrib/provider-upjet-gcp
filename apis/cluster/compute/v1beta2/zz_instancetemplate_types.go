@@ -351,7 +351,7 @@ type InstanceTemplateDiskInitParameters struct {
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
 	// - A list (short name or id) of resource policies to attach to this disk for automatic snapshot creations. Currently a max of 1 resource policy is supported.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.ResourcePolicy
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.ResourcePolicy
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	ResourcePolicies []*string `json:"resourcePolicies,omitempty" tf:"resource_policies,omitempty"`
 
@@ -366,7 +366,7 @@ type InstanceTemplateDiskInitParameters struct {
 	// The name (not self_link)
 	// of the disk (such as those managed by google_compute_disk) to attach.
 	// ~> Note: Either source, source_image, or source_snapshot is required in a disk block unless the disk type is local-ssd. Check the API docs for details.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.Disk
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Disk
 	Source *string `json:"source,omitempty" tf:"source,omitempty"`
 
 	// The image from which to
@@ -585,7 +585,7 @@ type InstanceTemplateDiskParameters struct {
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
 	// - A list (short name or id) of resource policies to attach to this disk for automatic snapshot creations. Currently a max of 1 resource policy is supported.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.ResourcePolicy
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.ResourcePolicy
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ResourcePolicies []*string `json:"resourcePolicies,omitempty" tf:"resource_policies,omitempty"`
@@ -601,7 +601,7 @@ type InstanceTemplateDiskParameters struct {
 	// The name (not self_link)
 	// of the disk (such as those managed by google_compute_disk) to attach.
 	// ~> Note: Either source, source_image, or source_snapshot is required in a disk block unless the disk type is local-ssd. Check the API docs for details.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.Disk
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Disk
 	// +kubebuilder:validation:Optional
 	Source *string `json:"source,omitempty" tf:"source,omitempty"`
 
@@ -924,7 +924,7 @@ type InstanceTemplateNetworkInterfaceInitParameters struct {
 	// The name or self_link of the network to attach this interface to.
 	// Use network attribute for Legacy or Auto subnetted networks and
 	// subnetwork for custom subnetted networks.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// The private IP address to assign to the instance. If
@@ -951,7 +951,7 @@ type InstanceTemplateNetworkInterfaceInitParameters struct {
 	// the name of the subnetwork to attach this interface
 	// to. The subnetwork must exist in the same region this instance will be
 	// created in. Either network or subnetwork must be provided.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Subnetwork
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
 	// The ID of the project in which the subnetwork belongs.
@@ -1050,7 +1050,7 @@ type InstanceTemplateNetworkInterfaceParameters struct {
 	// The name or self_link of the network to attach this interface to.
 	// Use network attribute for Legacy or Auto subnetted networks and
 	// subnetwork for custom subnetted networks.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
@@ -1082,7 +1082,7 @@ type InstanceTemplateNetworkInterfaceParameters struct {
 	// the name of the subnetwork to attach this interface
 	// to. The subnetwork must exist in the same region this instance will be
 	// created in. Either network or subnetwork must be provided.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Subnetwork
 	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
@@ -1765,7 +1765,7 @@ type InstanceTemplateServiceAccountInitParameters struct {
 
 	// The service account e-mail address. If not given, the
 	// default Google Compute Engine service account is used.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	Email *string `json:"email,omitempty" tf:"email,omitempty"`
 
@@ -1801,7 +1801,7 @@ type InstanceTemplateServiceAccountParameters struct {
 
 	// The service account e-mail address. If not given, the
 	// default Google Compute Engine service account is used.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	// +kubebuilder:validation:Optional
 	Email *string `json:"email,omitempty" tf:"email,omitempty"`

@@ -9,14 +9,14 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	folderbucketconfig "github.com/upbound/provider-gcp/internal/controller/cluster/logging/folderbucketconfig"
-	folderexclusion "github.com/upbound/provider-gcp/internal/controller/cluster/logging/folderexclusion"
-	foldersink "github.com/upbound/provider-gcp/internal/controller/cluster/logging/foldersink"
-	logview "github.com/upbound/provider-gcp/internal/controller/cluster/logging/logview"
-	metric "github.com/upbound/provider-gcp/internal/controller/cluster/logging/metric"
-	projectbucketconfig "github.com/upbound/provider-gcp/internal/controller/cluster/logging/projectbucketconfig"
-	projectexclusion "github.com/upbound/provider-gcp/internal/controller/cluster/logging/projectexclusion"
-	projectsink "github.com/upbound/provider-gcp/internal/controller/cluster/logging/projectsink"
+	folderbucketconfig "github.com/upbound/provider-gcp/v2/internal/controller/cluster/logging/folderbucketconfig"
+	folderexclusion "github.com/upbound/provider-gcp/v2/internal/controller/cluster/logging/folderexclusion"
+	foldersink "github.com/upbound/provider-gcp/v2/internal/controller/cluster/logging/foldersink"
+	logview "github.com/upbound/provider-gcp/v2/internal/controller/cluster/logging/logview"
+	metric "github.com/upbound/provider-gcp/v2/internal/controller/cluster/logging/metric"
+	projectbucketconfig "github.com/upbound/provider-gcp/v2/internal/controller/cluster/logging/projectbucketconfig"
+	projectexclusion "github.com/upbound/provider-gcp/v2/internal/controller/cluster/logging/projectexclusion"
+	projectsink "github.com/upbound/provider-gcp/v2/internal/controller/cluster/logging/projectsink"
 )
 
 // Setup_logging creates all controllers with the supplied logger and adds them to

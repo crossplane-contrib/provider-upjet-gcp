@@ -9,7 +9,7 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	queue "github.com/upbound/provider-gcp/internal/controller/namespaced/cloudtasks/queue"
+	queue "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudtasks/queue"
 )
 
 // Setup_cloudtasks creates all controllers with the supplied logger and adds them to

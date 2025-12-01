@@ -30,7 +30,7 @@ type PolicyTagInitParameters struct {
 	// Resource name of this policy tag's parent policy tag.
 	// If empty, it means this policy tag is a top level policy tag.
 	// If not set, defaults to an empty string.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/datacatalog/v1beta1.PolicyTag
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/datacatalog/v1beta1.PolicyTag
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	ParentPolicyTag *string `json:"parentPolicyTag,omitempty" tf:"parent_policy_tag,omitempty"`
 
@@ -43,7 +43,7 @@ type PolicyTagInitParameters struct {
 	ParentPolicyTagSelector *v1.NamespacedSelector `json:"parentPolicyTagSelector,omitempty" tf:"-"`
 
 	// Taxonomy the policy tag is associated with
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/datacatalog/v1beta1.Taxonomy
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/datacatalog/v1beta1.Taxonomy
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Taxonomy *string `json:"taxonomy,omitempty" tf:"taxonomy,omitempty"`
 
@@ -106,7 +106,7 @@ type PolicyTagParameters struct {
 	// Resource name of this policy tag's parent policy tag.
 	// If empty, it means this policy tag is a top level policy tag.
 	// If not set, defaults to an empty string.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/datacatalog/v1beta1.PolicyTag
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/datacatalog/v1beta1.PolicyTag
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ParentPolicyTag *string `json:"parentPolicyTag,omitempty" tf:"parent_policy_tag,omitempty"`
@@ -120,7 +120,7 @@ type PolicyTagParameters struct {
 	ParentPolicyTagSelector *v1.NamespacedSelector `json:"parentPolicyTagSelector,omitempty" tf:"-"`
 
 	// Taxonomy the policy tag is associated with
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/datacatalog/v1beta1.Taxonomy
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/datacatalog/v1beta1.Taxonomy
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Taxonomy *string `json:"taxonomy,omitempty" tf:"taxonomy,omitempty"`

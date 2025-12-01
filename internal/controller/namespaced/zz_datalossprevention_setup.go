@@ -9,10 +9,10 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	deidentifytemplate "github.com/upbound/provider-gcp/internal/controller/namespaced/datalossprevention/deidentifytemplate"
-	inspecttemplate "github.com/upbound/provider-gcp/internal/controller/namespaced/datalossprevention/inspecttemplate"
-	jobtrigger "github.com/upbound/provider-gcp/internal/controller/namespaced/datalossprevention/jobtrigger"
-	storedinfotype "github.com/upbound/provider-gcp/internal/controller/namespaced/datalossprevention/storedinfotype"
+	deidentifytemplate "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/datalossprevention/deidentifytemplate"
+	inspecttemplate "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/datalossprevention/inspecttemplate"
+	jobtrigger "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/datalossprevention/jobtrigger"
+	storedinfotype "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/datalossprevention/storedinfotype"
 )
 
 // Setup_datalossprevention creates all controllers with the supplied logger and adds them to

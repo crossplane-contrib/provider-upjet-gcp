@@ -99,7 +99,7 @@ type NodeGroupInitParameters struct {
 	MaintenanceWindow []MaintenanceWindowInitParameters `json:"maintenanceWindow,omitempty" tf:"maintenance_window,omitempty"`
 
 	// The URL of the node template to which this node group belongs.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.NodeTemplate
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.NodeTemplate
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	NodeTemplate *string `json:"nodeTemplate,omitempty" tf:"node_template,omitempty"`
 
@@ -195,7 +195,7 @@ type NodeGroupParameters struct {
 	MaintenanceWindow []MaintenanceWindowParameters `json:"maintenanceWindow,omitempty" tf:"maintenance_window,omitempty"`
 
 	// The URL of the node template to which this node group belongs.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.NodeTemplate
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.NodeTemplate
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	NodeTemplate *string `json:"nodeTemplate,omitempty" tf:"node_template,omitempty"`
@@ -226,7 +226,7 @@ type NodeGroupParameters struct {
 type ProjectMapInitParameters struct {
 
 	// The identifier for this object. Format specified above.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project_id",false)
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -239,7 +239,7 @@ type ProjectMapInitParameters struct {
 	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
 
 	// The project id/number should be the same as the key of this project config in the project map.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project_id",false)
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -264,7 +264,7 @@ type ProjectMapObservation struct {
 type ProjectMapParameters struct {
 
 	// The identifier for this object. Format specified above.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project_id",false)
 	// +kubebuilder:validation:Optional
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -278,7 +278,7 @@ type ProjectMapParameters struct {
 	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
 
 	// The project id/number should be the same as the key of this project config in the project map.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project_id",false)
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`

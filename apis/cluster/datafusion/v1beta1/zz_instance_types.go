@@ -51,7 +51,7 @@ type AcceleratorsParameters struct {
 type CryptoKeyConfigInitParameters struct {
 
 	// The name of the key which is used to encrypt/decrypt customer data. For key in Cloud KMS, the key should be in the format of projects//locations//keyRings//cryptoKeys/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/kms/v1beta1.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	KeyReference *string `json:"keyReference,omitempty" tf:"key_reference,omitempty"`
 
@@ -73,7 +73,7 @@ type CryptoKeyConfigObservation struct {
 type CryptoKeyConfigParameters struct {
 
 	// The name of the key which is used to encrypt/decrypt customer data. For key in Cloud KMS, the key should be in the format of projects//locations//keyRings//cryptoKeys/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/kms/v1beta1.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	KeyReference *string `json:"keyReference,omitempty" tf:"key_reference,omitempty"`
@@ -93,7 +93,7 @@ type EventPublishConfigInitParameters struct {
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
 	// The resource name of the Pub/Sub topic. Format: projects/{projectId}/topics/{topic_id}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/pubsub/v1beta1.Topic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/pubsub/v1beta1.Topic
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
 
@@ -122,7 +122,7 @@ type EventPublishConfigParameters struct {
 	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 
 	// The resource name of the Pub/Sub topic. Format: projects/{projectId}/topics/{topic_id}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/pubsub/v1beta1.Topic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/pubsub/v1beta1.Topic
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`

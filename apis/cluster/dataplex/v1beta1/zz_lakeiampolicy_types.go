@@ -21,7 +21,7 @@ type LakeIAMPolicyInitParameters struct {
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the project will be parsed from the identifier of the parent resource. If no project is provided in the parent identifier and no project is specified, the provider project is used.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/dataplex/v1beta2.Lake
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dataplex/v1beta2.Lake
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project",false)
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
@@ -61,7 +61,7 @@ type LakeIAMPolicyObservation struct {
 type LakeIAMPolicyParameters struct {
 
 	// Used to find the parent resource to bind the IAM policy to
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/dataplex/v1beta2.Lake
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dataplex/v1beta2.Lake
 	// +kubebuilder:validation:Optional
 	Lake *string `json:"lake,omitempty" tf:"lake,omitempty"`
 
@@ -76,7 +76,7 @@ type LakeIAMPolicyParameters struct {
 	// Used to find the parent resource to bind the IAM policy to. If not specified,
 	// the value will be parsed from the identifier of the parent resource. If no location is provided in the parent identifier and no
 	// location is specified, it is taken from the provider configuration.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/dataplex/v1beta2.Lake
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dataplex/v1beta2.Lake
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("location",false)
 	// +kubebuilder:validation:Required
 	Location *string `json:"location" tf:"location,omitempty"`
@@ -96,7 +96,7 @@ type LakeIAMPolicyParameters struct {
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the project will be parsed from the identifier of the parent resource. If no project is provided in the parent identifier and no project is specified, the provider project is used.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/dataplex/v1beta2.Lake
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dataplex/v1beta2.Lake
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project",false)
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`

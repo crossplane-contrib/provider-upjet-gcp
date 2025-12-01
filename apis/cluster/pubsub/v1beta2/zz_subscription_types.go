@@ -61,7 +61,7 @@ type BigqueryConfigInitParameters struct {
 	// The service account to use to write to BigQuery. If not specified, the Pub/Sub
 	// service agent,
 	// service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com, is used.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 
@@ -128,7 +128,7 @@ type BigqueryConfigParameters struct {
 	// The service account to use to write to BigQuery. If not specified, the Pub/Sub
 	// service agent,
 	// service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com, is used.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	// +kubebuilder:validation:Optional
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
@@ -194,7 +194,7 @@ type CloudStorageConfigInitParameters struct {
 	// The service account to use to write to Cloud Storage. If not specified, the Pub/Sub
 	// service agent,
 	// service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com, is used.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 
@@ -288,7 +288,7 @@ type CloudStorageConfigParameters struct {
 	// The service account to use to write to Cloud Storage. If not specified, the Pub/Sub
 	// service agent,
 	// service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com, is used.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	// +kubebuilder:validation:Optional
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
@@ -313,7 +313,7 @@ type DeadLetterPolicyInitParameters struct {
 	// The operation will fail if the topic does not exist.
 	// Users should ensure that there is a subscription attached to this topic
 	// since messages published to a topic with no subscriptions are lost.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/pubsub/v1beta2.Topic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/pubsub/v1beta2.Topic
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	DeadLetterTopic *string `json:"deadLetterTopic,omitempty" tf:"dead_letter_topic,omitempty"`
 
@@ -371,7 +371,7 @@ type DeadLetterPolicyParameters struct {
 	// The operation will fail if the topic does not exist.
 	// Users should ensure that there is a subscription attached to this topic
 	// since messages published to a topic with no subscriptions are lost.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/pubsub/v1beta2.Topic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/pubsub/v1beta2.Topic
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	DeadLetterTopic *string `json:"deadLetterTopic,omitempty" tf:"dead_letter_topic,omitempty"`
@@ -835,7 +835,7 @@ type SubscriptionInitParameters struct {
 	// A reference to a Topic resource, of the form projects/{project}/topics/{{name}}
 	// (as in the id property of a google_pubsub_topic), or just a topic name if
 	// the topic is in the same project as the subscription.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/pubsub/v1beta2.Topic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/pubsub/v1beta2.Topic
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
 
 	// Reference to a Topic in pubsub to populate topic.
@@ -1097,7 +1097,7 @@ type SubscriptionParameters struct {
 	// A reference to a Topic resource, of the form projects/{project}/topics/{{name}}
 	// (as in the id property of a google_pubsub_topic), or just a topic name if
 	// the topic is in the same project as the subscription.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/pubsub/v1beta2.Topic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/pubsub/v1beta2.Topic
 	// +kubebuilder:validation:Optional
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
 

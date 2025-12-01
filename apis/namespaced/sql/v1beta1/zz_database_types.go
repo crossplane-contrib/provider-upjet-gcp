@@ -105,7 +105,7 @@ type DatabaseParameters struct {
 
 	// The name of the Cloud SQL instance. This does not include the project
 	// ID.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/sql/v1beta1.DatabaseInstance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/sql/v1beta1.DatabaseInstance
 	// +kubebuilder:validation:Optional
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 

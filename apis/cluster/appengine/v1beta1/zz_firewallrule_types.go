@@ -31,7 +31,7 @@ type FirewallRuleInitParameters struct {
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/appengine/v1beta2.Application
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/appengine/v1beta2.Application
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project",false)
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
@@ -95,7 +95,7 @@ type FirewallRuleParameters struct {
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/appengine/v1beta2.Application
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/appengine/v1beta2.Application
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project",false)
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`

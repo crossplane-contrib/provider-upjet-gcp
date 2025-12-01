@@ -18,7 +18,7 @@ type ActionInitParameters struct {
 	// A list of URLs of the IP resources used for this NAT rule.
 	// These IP addresses must be valid static external IP addresses assigned to the project.
 	// This field is used for public NAT.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Address
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Address
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	// +listType=set
 	SourceNATActiveIps []*string `json:"sourceNatActiveIps,omitempty" tf:"source_nat_active_ips,omitempty"`
@@ -34,7 +34,7 @@ type ActionInitParameters struct {
 	// A list of URLs of the subnetworks used as source ranges for this NAT Rule.
 	// These subnetworks must have purpose set to PRIVATE_NAT.
 	// This field is used for private NAT.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Subnetwork
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	// +listType=set
 	SourceNATActiveRanges []*string `json:"sourceNatActiveRanges,omitempty" tf:"source_nat_active_ranges,omitempty"`
@@ -94,7 +94,7 @@ type ActionParameters struct {
 	// A list of URLs of the IP resources used for this NAT rule.
 	// These IP addresses must be valid static external IP addresses assigned to the project.
 	// This field is used for public NAT.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Address
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Address
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	// +listType=set
@@ -111,7 +111,7 @@ type ActionParameters struct {
 	// A list of URLs of the subnetworks used as source ranges for this NAT Rule.
 	// These subnetworks must have purpose set to PRIVATE_NAT.
 	// This field is used for private NAT.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Subnetwork
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	// +listType=set
@@ -221,7 +221,7 @@ type RouterNATInitParameters struct {
 	// If this field is used alongside with a count created list of address resources google_compute_address.foobar.*.self_link,
 	// the access level resource for the address resource must have a lifecycle block with create_before_destroy = true so
 	// the number of resources can be increased/decreased without triggering the resourceInUseByAnotherResource error.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Address
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Address
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	// +listType=set
 	NATIps []*string `json:"natIps,omitempty" tf:"nat_ips,omitempty"`
@@ -537,7 +537,7 @@ type RouterNATParameters struct {
 	// If this field is used alongside with a count created list of address resources google_compute_address.foobar.*.self_link,
 	// the access level resource for the address resource must have a lifecycle block with create_before_destroy = true so
 	// the number of resources can be increased/decreased without triggering the resourceInUseByAnotherResource error.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Address
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Address
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	// +listType=set
@@ -567,7 +567,7 @@ type RouterNATParameters struct {
 	Region *string `json:"region" tf:"region,omitempty"`
 
 	// The name of the Cloud Router in which this NAT will be configured.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.Router
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Router
 	// +kubebuilder:validation:Optional
 	Router *string `json:"router,omitempty" tf:"router,omitempty"`
 
@@ -718,7 +718,7 @@ type RulesParameters struct {
 type SubnetworkInitParameters struct {
 
 	// Self-link of subnetwork to NAT
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Subnetwork
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Reference to a Subnetwork in compute to populate name.
@@ -767,7 +767,7 @@ type SubnetworkObservation struct {
 type SubnetworkParameters struct {
 
 	// Self-link of subnetwork to NAT
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Subnetwork
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 

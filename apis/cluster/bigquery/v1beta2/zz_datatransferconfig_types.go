@@ -26,7 +26,7 @@ type DataTransferConfigInitParameters struct {
 	DataSourceID *string `json:"dataSourceId,omitempty" tf:"data_source_id,omitempty"`
 
 	// The BigQuery target dataset id.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/bigquery/v1beta2.Dataset
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/bigquery/v1beta2.Dataset
 	DestinationDatasetID *string `json:"destinationDatasetId,omitempty" tf:"destination_dataset_id,omitempty"`
 
 	// Reference to a Dataset in bigquery to populate destinationDatasetId.
@@ -205,7 +205,7 @@ type DataTransferConfigParameters struct {
 	DataSourceID *string `json:"dataSourceId,omitempty" tf:"data_source_id,omitempty"`
 
 	// The BigQuery target dataset id.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/bigquery/v1beta2.Dataset
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/bigquery/v1beta2.Dataset
 	// +kubebuilder:validation:Optional
 	DestinationDatasetID *string `json:"destinationDatasetId,omitempty" tf:"destination_dataset_id,omitempty"`
 
@@ -315,7 +315,7 @@ type EmailPreferencesParameters struct {
 type EncryptionConfigurationInitParameters struct {
 
 	// The name of the KMS key used for encrypting BigQuery data.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/kms/v1beta2.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/kms/v1beta2.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
@@ -337,7 +337,7 @@ type EncryptionConfigurationObservation struct {
 type EncryptionConfigurationParameters struct {
 
 	// The name of the KMS key used for encrypting BigQuery data.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/kms/v1beta2.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/kms/v1beta2.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`

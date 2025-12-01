@@ -9,7 +9,7 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	gateway "github.com/upbound/provider-gcp/internal/controller/namespaced/networkservices/gateway"
+	gateway "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/networkservices/gateway"
 )
 
 // Setup_networkservices creates all controllers with the supplied logger and adds them to

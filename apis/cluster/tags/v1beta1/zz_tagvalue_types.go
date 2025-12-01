@@ -19,8 +19,8 @@ type TagValueInitParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Input only. The resource name of the new TagValue's parent. Must be of the form tagKeys/{tag_key_id}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/tags/v1beta1.TagKey
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/cluster/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/tags/v1beta1.TagKey
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.ExtractResourceID()
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
 	// Reference to a TagKey in tags to populate parent.
@@ -73,8 +73,8 @@ type TagValueParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Input only. The resource name of the new TagValue's parent. Must be of the form tagKeys/{tag_key_id}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/tags/v1beta1.TagKey
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/cluster/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/tags/v1beta1.TagKey
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 

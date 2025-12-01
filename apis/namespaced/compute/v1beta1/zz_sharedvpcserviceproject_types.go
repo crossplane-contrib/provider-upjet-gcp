@@ -20,8 +20,8 @@ type SharedVPCServiceProjectInitParameters struct {
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The ID of a host project to associate.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/cloudplatform/v1beta1.Project
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/namespaced/common.ExtractProjectID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractProjectID()
 	HostProject *string `json:"hostProject,omitempty" tf:"host_project,omitempty"`
 
 	// Reference to a Project in cloudplatform to populate hostProject.
@@ -33,8 +33,8 @@ type SharedVPCServiceProjectInitParameters struct {
 	HostProjectSelector *v1.NamespacedSelector `json:"hostProjectSelector,omitempty" tf:"-"`
 
 	// The ID of the project that will serve as a Shared VPC service project.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/cloudplatform/v1beta1.Project
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/namespaced/common.ExtractProjectID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractProjectID()
 	ServiceProject *string `json:"serviceProject,omitempty" tf:"service_project,omitempty"`
 
 	// Reference to a Project in cloudplatform to populate serviceProject.
@@ -68,8 +68,8 @@ type SharedVPCServiceProjectParameters struct {
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The ID of a host project to associate.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/cloudplatform/v1beta1.Project
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/namespaced/common.ExtractProjectID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractProjectID()
 	// +kubebuilder:validation:Optional
 	HostProject *string `json:"hostProject,omitempty" tf:"host_project,omitempty"`
 
@@ -82,8 +82,8 @@ type SharedVPCServiceProjectParameters struct {
 	HostProjectSelector *v1.NamespacedSelector `json:"hostProjectSelector,omitempty" tf:"-"`
 
 	// The ID of the project that will serve as a Shared VPC service project.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/cloudplatform/v1beta1.Project
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/namespaced/common.ExtractProjectID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractProjectID()
 	// +kubebuilder:validation:Optional
 	ServiceProject *string `json:"serviceProject,omitempty" tf:"service_project,omitempty"`
 

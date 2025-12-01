@@ -139,7 +139,7 @@ type ConnectGitRepositoryLinkParameters struct {
 	Location *string `json:"location" tf:"location,omitempty"`
 
 	// Resource ID segment making up resource name. It identifies the resource within its parent collection as described in https://google.aip.dev/122. See documentation for resource type developerconnect.googleapis.com/GitRepositoryLink.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/developerconnect/v1beta1.ConnectConnection
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/developerconnect/v1beta1.ConnectConnection
 	// +kubebuilder:validation:Optional
 	ParentConnection *string `json:"parentConnection,omitempty" tf:"parent_connection,omitempty"`
 

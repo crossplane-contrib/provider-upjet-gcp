@@ -9,8 +9,8 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	trigger "github.com/upbound/provider-gcp/internal/controller/cluster/cloudbuild/trigger"
-	workerpool "github.com/upbound/provider-gcp/internal/controller/cluster/cloudbuild/workerpool"
+	trigger "github.com/upbound/provider-gcp/v2/internal/controller/cluster/cloudbuild/trigger"
+	workerpool "github.com/upbound/provider-gcp/v2/internal/controller/cluster/cloudbuild/workerpool"
 )
 
 // Setup_cloudbuild creates all controllers with the supplied logger and adds them to

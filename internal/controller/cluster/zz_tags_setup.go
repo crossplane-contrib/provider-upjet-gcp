@@ -9,10 +9,10 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	locationtagbinding "github.com/upbound/provider-gcp/internal/controller/cluster/tags/locationtagbinding"
-	tagbinding "github.com/upbound/provider-gcp/internal/controller/cluster/tags/tagbinding"
-	tagkey "github.com/upbound/provider-gcp/internal/controller/cluster/tags/tagkey"
-	tagvalue "github.com/upbound/provider-gcp/internal/controller/cluster/tags/tagvalue"
+	locationtagbinding "github.com/upbound/provider-gcp/v2/internal/controller/cluster/tags/locationtagbinding"
+	tagbinding "github.com/upbound/provider-gcp/v2/internal/controller/cluster/tags/tagbinding"
+	tagkey "github.com/upbound/provider-gcp/v2/internal/controller/cluster/tags/tagkey"
+	tagvalue "github.com/upbound/provider-gcp/v2/internal/controller/cluster/tags/tagvalue"
 )
 
 // Setup_tags creates all controllers with the supplied logger and adds them to

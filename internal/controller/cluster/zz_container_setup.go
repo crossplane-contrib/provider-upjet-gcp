@@ -9,9 +9,9 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	cluster "github.com/upbound/provider-gcp/internal/controller/cluster/container/cluster"
-	nodepool "github.com/upbound/provider-gcp/internal/controller/cluster/container/nodepool"
-	registry "github.com/upbound/provider-gcp/internal/controller/cluster/container/registry"
+	cluster "github.com/upbound/provider-gcp/v2/internal/controller/cluster/container/cluster"
+	nodepool "github.com/upbound/provider-gcp/v2/internal/controller/cluster/container/nodepool"
+	registry "github.com/upbound/provider-gcp/v2/internal/controller/cluster/container/registry"
 )
 
 // Setup_container creates all controllers with the supplied logger and adds them to

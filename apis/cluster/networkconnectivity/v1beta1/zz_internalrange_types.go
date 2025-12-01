@@ -78,7 +78,7 @@ type InternalRangeInitParameters struct {
 	Migration *MigrationInitParameters `json:"migration,omitempty" tf:"migration,omitempty"`
 
 	// Fully-qualified URL of the network that this route applies to, for example: projects/my-project/global/networks/my-network.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
@@ -230,7 +230,7 @@ type InternalRangeParameters struct {
 	Migration *MigrationParameters `json:"migration,omitempty" tf:"migration,omitempty"`
 
 	// Fully-qualified URL of the network that this route applies to, for example: projects/my-project/global/networks/my-network.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
@@ -282,7 +282,7 @@ type MigrationInitParameters struct {
 	// The project for the source resource should match the project for the
 	// InternalRange.
 	// An example /projects/{project}/regions/{region}/subnetworks/{subnet}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Subnetwork
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	Source *string `json:"source,omitempty" tf:"source,omitempty"`
 
@@ -322,7 +322,7 @@ type MigrationParameters struct {
 	// The project for the source resource should match the project for the
 	// InternalRange.
 	// An example /projects/{project}/regions/{region}/subnetworks/{subnet}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Subnetwork
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	Source *string `json:"source,omitempty" tf:"source,omitempty"`

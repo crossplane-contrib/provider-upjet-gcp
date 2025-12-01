@@ -9,7 +9,7 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	instance "github.com/upbound/provider-gcp/internal/controller/cluster/datafusion/instance"
+	instance "github.com/upbound/provider-gcp/v2/internal/controller/cluster/datafusion/instance"
 )
 
 // Setup_datafusion creates all controllers with the supplied logger and adds them to

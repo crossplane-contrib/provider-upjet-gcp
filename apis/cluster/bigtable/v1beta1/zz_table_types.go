@@ -136,7 +136,7 @@ type TableParameters struct {
 	DeletionProtection *string `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// The name of the Bigtable instance.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/bigtable/v1beta2.Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/bigtable/v1beta2.Instance
 	// +kubebuilder:validation:Optional
 	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
 

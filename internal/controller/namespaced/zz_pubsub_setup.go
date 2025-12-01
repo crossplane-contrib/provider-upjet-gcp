@@ -9,14 +9,14 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	litereservation "github.com/upbound/provider-gcp/internal/controller/namespaced/pubsub/litereservation"
-	litesubscription "github.com/upbound/provider-gcp/internal/controller/namespaced/pubsub/litesubscription"
-	litetopic "github.com/upbound/provider-gcp/internal/controller/namespaced/pubsub/litetopic"
-	schema "github.com/upbound/provider-gcp/internal/controller/namespaced/pubsub/schema"
-	subscription "github.com/upbound/provider-gcp/internal/controller/namespaced/pubsub/subscription"
-	subscriptioniammember "github.com/upbound/provider-gcp/internal/controller/namespaced/pubsub/subscriptioniammember"
-	topic "github.com/upbound/provider-gcp/internal/controller/namespaced/pubsub/topic"
-	topiciammember "github.com/upbound/provider-gcp/internal/controller/namespaced/pubsub/topiciammember"
+	litereservation "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/pubsub/litereservation"
+	litesubscription "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/pubsub/litesubscription"
+	litetopic "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/pubsub/litetopic"
+	schema "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/pubsub/schema"
+	subscription "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/pubsub/subscription"
+	subscriptioniammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/pubsub/subscriptioniammember"
+	topic "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/pubsub/topic"
+	topiciammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/pubsub/topiciammember"
 )
 
 // Setup_pubsub creates all controllers with the supplied logger and adds them to

@@ -9,7 +9,7 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	model "github.com/upbound/provider-gcp/internal/controller/cluster/mlengine/model"
+	model "github.com/upbound/provider-gcp/v2/internal/controller/cluster/mlengine/model"
 )
 
 // Setup_mlengine creates all controllers with the supplied logger and adds them to

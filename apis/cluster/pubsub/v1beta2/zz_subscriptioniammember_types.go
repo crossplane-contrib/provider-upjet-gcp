@@ -50,7 +50,7 @@ type SubscriptionIAMMemberInitParameters struct {
 
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/pubsub/v1beta2.Subscription
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/pubsub/v1beta2.Subscription
 	Subscription *string `json:"subscription,omitempty" tf:"subscription,omitempty"`
 
 	// Reference to a Subscription in pubsub to populate subscription.
@@ -92,7 +92,7 @@ type SubscriptionIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/pubsub/v1beta2.Subscription
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/pubsub/v1beta2.Subscription
 	// +kubebuilder:validation:Optional
 	Subscription *string `json:"subscription,omitempty" tf:"subscription,omitempty"`
 

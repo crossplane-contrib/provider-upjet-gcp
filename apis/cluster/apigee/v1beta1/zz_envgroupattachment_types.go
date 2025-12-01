@@ -17,7 +17,7 @@ type EnvgroupAttachmentInitParameters struct {
 
 	// The Apigee environment group associated with the Apigee environment,
 	// in the format organizations/{{org_name}}/envgroups/{{envgroup_name}}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/apigee/v1beta1.Envgroup
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/apigee/v1beta1.Envgroup
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	EnvgroupID *string `json:"envgroupId,omitempty" tf:"envgroup_id,omitempty"`
 
@@ -30,7 +30,7 @@ type EnvgroupAttachmentInitParameters struct {
 	EnvgroupIDSelector *v1.Selector `json:"envgroupIdSelector,omitempty" tf:"-"`
 
 	// The resource ID of the environment.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/apigee/v1beta2.Environment
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/apigee/v1beta2.Environment
 	Environment *string `json:"environment,omitempty" tf:"environment,omitempty"`
 
 	// Reference to a Environment in apigee to populate environment.
@@ -62,7 +62,7 @@ type EnvgroupAttachmentParameters struct {
 
 	// The Apigee environment group associated with the Apigee environment,
 	// in the format organizations/{{org_name}}/envgroups/{{envgroup_name}}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/apigee/v1beta1.Envgroup
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/apigee/v1beta1.Envgroup
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	EnvgroupID *string `json:"envgroupId,omitempty" tf:"envgroup_id,omitempty"`
@@ -76,7 +76,7 @@ type EnvgroupAttachmentParameters struct {
 	EnvgroupIDSelector *v1.Selector `json:"envgroupIdSelector,omitempty" tf:"-"`
 
 	// The resource ID of the environment.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/apigee/v1beta2.Environment
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/apigee/v1beta2.Environment
 	// +kubebuilder:validation:Optional
 	Environment *string `json:"environment,omitempty" tf:"environment,omitempty"`
 

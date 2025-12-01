@@ -380,7 +380,7 @@ type WorkloadIdentityPoolProviderParameters struct {
 	// The ID used for the pool, which is the final component of the pool resource name. This
 	// value should be 4-32 characters, and may contain the characters [a-z0-9-]. The prefix
 	// gcp- is reserved for use by Google, and may not be specified.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/iam/v1beta1.WorkloadIdentityPool
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/iam/v1beta1.WorkloadIdentityPool
 	// +kubebuilder:validation:Optional
 	WorkloadIdentityPoolID *string `json:"workloadIdentityPoolId,omitempty" tf:"workload_identity_pool_id,omitempty"`
 

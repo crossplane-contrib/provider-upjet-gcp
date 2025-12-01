@@ -49,7 +49,7 @@ type MembershipIAMMemberInitParameters struct {
 
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/gkehub/v1beta1.Membership
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/gkehub/v1beta1.Membership
 	MembershipID *string `json:"membershipId,omitempty" tf:"membership_id,omitempty"`
 
 	// Reference to a Membership in gkehub to populate membershipId.
@@ -94,7 +94,7 @@ type MembershipIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/gkehub/v1beta1.Membership
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/gkehub/v1beta1.Membership
 	// +kubebuilder:validation:Optional
 	MembershipID *string `json:"membershipId,omitempty" tf:"membership_id,omitempty"`
 

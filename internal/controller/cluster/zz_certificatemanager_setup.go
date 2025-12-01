@@ -9,11 +9,11 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	certificate "github.com/upbound/provider-gcp/internal/controller/cluster/certificatemanager/certificate"
-	certificatemap "github.com/upbound/provider-gcp/internal/controller/cluster/certificatemanager/certificatemap"
-	certificatemapentry "github.com/upbound/provider-gcp/internal/controller/cluster/certificatemanager/certificatemapentry"
-	dnsauthorization "github.com/upbound/provider-gcp/internal/controller/cluster/certificatemanager/dnsauthorization"
-	trustconfig "github.com/upbound/provider-gcp/internal/controller/cluster/certificatemanager/trustconfig"
+	certificate "github.com/upbound/provider-gcp/v2/internal/controller/cluster/certificatemanager/certificate"
+	certificatemap "github.com/upbound/provider-gcp/v2/internal/controller/cluster/certificatemanager/certificatemap"
+	certificatemapentry "github.com/upbound/provider-gcp/v2/internal/controller/cluster/certificatemanager/certificatemapentry"
+	dnsauthorization "github.com/upbound/provider-gcp/v2/internal/controller/cluster/certificatemanager/dnsauthorization"
+	trustconfig "github.com/upbound/provider-gcp/v2/internal/controller/cluster/certificatemanager/trustconfig"
 )
 
 // Setup_certificatemanager creates all controllers with the supplied logger and adds them to

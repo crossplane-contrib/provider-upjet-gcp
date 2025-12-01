@@ -622,7 +622,7 @@ type InitializeParamsInitParameters struct {
 	// google_compute_image data source.
 	// For instance, the image centos-6-v20180104 includes its family name centos-6.
 	// These images can be referred by family name here.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.Image
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Image
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
 	// Reference to a Image in compute to populate image.
@@ -775,7 +775,7 @@ type InitializeParamsParameters struct {
 	// google_compute_image data source.
 	// For instance, the image centos-6-v20180104 includes its family name centos-6.
 	// These images can be referred by family name here.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.Image
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Image
 	// +kubebuilder:validation:Optional
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
@@ -1624,8 +1624,8 @@ type NetworkInterfaceInitParameters struct {
 	// The name or self_link of the network to attach this interface to.
 	// Either network or subnetwork must be provided. If network isn't provided it will
 	// be inferred from the subnetwork.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/cluster/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.SelfLinkExtractor()
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// The URL of the network attachment that this interface should connect to in the following format: projects/{projectNumber}/regions/{region_name}/networkAttachments/{network_attachment_name}.
@@ -1659,8 +1659,8 @@ type NetworkInterfaceInitParameters struct {
 	// legacy mode, do not specify this field. If the
 	// network is in auto subnet mode, specifying the subnetwork is optional. If the network is
 	// in custom subnet mode, specifying the subnetwork is required.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.Subnetwork
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/cluster/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.SelfLinkExtractor()
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
 	// The project in which the subnetwork belongs.
@@ -1777,8 +1777,8 @@ type NetworkInterfaceParameters struct {
 	// The name or self_link of the network to attach this interface to.
 	// Either network or subnetwork must be provided. If network isn't provided it will
 	// be inferred from the subnetwork.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/cluster/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
@@ -1818,8 +1818,8 @@ type NetworkInterfaceParameters struct {
 	// legacy mode, do not specify this field. If the
 	// network is in auto subnet mode, specifying the subnetwork is optional. If the network is
 	// in custom subnet mode, specifying the subnetwork is required.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.Subnetwork
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/cluster/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
@@ -2174,7 +2174,7 @@ type ServiceAccountInitParameters struct {
 
 	// The service account e-mail address.
 	// Note: allow_stopping_for_update must be set to true or your instance must have a desired_status of TERMINATED in order to update this field.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	Email *string `json:"email,omitempty" tf:"email,omitempty"`
 
@@ -2212,7 +2212,7 @@ type ServiceAccountParameters struct {
 
 	// The service account e-mail address.
 	// Note: allow_stopping_for_update must be set to true or your instance must have a desired_status of TERMINATED in order to update this field.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	// +kubebuilder:validation:Optional
 	Email *string `json:"email,omitempty" tf:"email,omitempty"`

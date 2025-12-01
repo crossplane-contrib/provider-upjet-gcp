@@ -17,7 +17,7 @@ import (
 type NetworkFirewallPolicyAssociationInitParameters struct {
 
 	// The target that the firewall policy is attached to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	AttachmentTarget *string `json:"attachmentTarget,omitempty" tf:"attachment_target,omitempty"`
 
@@ -56,7 +56,7 @@ type NetworkFirewallPolicyAssociationObservation struct {
 type NetworkFirewallPolicyAssociationParameters struct {
 
 	// The target that the firewall policy is attached to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	AttachmentTarget *string `json:"attachmentTarget,omitempty" tf:"attachment_target,omitempty"`
@@ -70,7 +70,7 @@ type NetworkFirewallPolicyAssociationParameters struct {
 	AttachmentTargetSelector *v1.NamespacedSelector `json:"attachmentTargetSelector,omitempty" tf:"-"`
 
 	// The firewall policy of the resource.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.NetworkFirewallPolicy
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.NetworkFirewallPolicy
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	FirewallPolicy *string `json:"firewallPolicy,omitempty" tf:"firewall_policy,omitempty"`

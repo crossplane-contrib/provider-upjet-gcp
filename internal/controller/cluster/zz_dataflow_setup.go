@@ -9,7 +9,7 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	job "github.com/upbound/provider-gcp/internal/controller/cluster/dataflow/job"
+	job "github.com/upbound/provider-gcp/v2/internal/controller/cluster/dataflow/job"
 )
 
 // Setup_dataflow creates all controllers with the supplied logger and adds them to

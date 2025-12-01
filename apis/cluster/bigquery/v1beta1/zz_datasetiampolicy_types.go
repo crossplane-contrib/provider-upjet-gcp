@@ -46,7 +46,7 @@ type DatasetIAMPolicyObservation struct {
 type DatasetIAMPolicyParameters struct {
 
 	// The dataset ID.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/bigquery/v1beta2.Dataset
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/bigquery/v1beta2.Dataset
 	// +kubebuilder:validation:Optional
 	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
 

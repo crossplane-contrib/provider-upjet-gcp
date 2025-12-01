@@ -9,8 +9,8 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	workloadidentitypool "github.com/upbound/provider-gcp/internal/controller/namespaced/iam/workloadidentitypool"
-	workloadidentitypoolprovider "github.com/upbound/provider-gcp/internal/controller/namespaced/iam/workloadidentitypoolprovider"
+	workloadidentitypool "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/iam/workloadidentitypool"
+	workloadidentitypoolprovider "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/iam/workloadidentitypoolprovider"
 )
 
 // Setup_iam creates all controllers with the supplied logger and adds them to

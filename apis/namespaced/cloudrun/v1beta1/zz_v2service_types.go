@@ -33,7 +33,7 @@ type BuildConfigInitParameters struct {
 	ImageURI *string `json:"imageUri,omitempty" tf:"image_uri,omitempty"`
 
 	// Service account to be used for building the container. The format of this field is projects/{projectId}/serviceAccounts/{serviceAccountEmail}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
@@ -108,7 +108,7 @@ type BuildConfigParameters struct {
 	ImageURI *string `json:"imageUri,omitempty" tf:"image_uri,omitempty"`
 
 	// Service account to be used for building the container. The format of this field is projects/{projectId}/serviceAccounts/{serviceAccountEmail}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
@@ -315,7 +315,7 @@ type EnvValueSourceSecretKeyRefInitParameters struct {
 
 	// Secret represents a secret that should populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
 	// Structure is documented below.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/secretmanager/v1beta1.Secret
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/secretmanager/v1beta1.Secret
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
 	// Reference to a Secret in secretmanager to populate secret.
@@ -344,7 +344,7 @@ type EnvValueSourceSecretKeyRefParameters struct {
 
 	// Secret represents a secret that should populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
 	// Structure is documented below.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/secretmanager/v1beta1.Secret
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/secretmanager/v1beta1.Secret
 	// +kubebuilder:validation:Optional
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
@@ -1049,7 +1049,7 @@ type TemplateVolumesSecretInitParameters struct {
 
 	// Secret represents a secret that should populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
 	// Structure is documented below.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/secretmanager/v1beta1.Secret
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/secretmanager/v1beta1.Secret
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
 	// Reference to a Secret in secretmanager to populate secret.
@@ -1088,7 +1088,7 @@ type TemplateVolumesSecretParameters struct {
 
 	// Secret represents a secret that should populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
 	// Structure is documented below.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/secretmanager/v1beta1.Secret
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/secretmanager/v1beta1.Secret
 	// +kubebuilder:validation:Optional
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
@@ -2136,7 +2136,7 @@ type VPCAccessNetworkInterfacesParameters struct {
 type VolumesCloudSQLInstanceInitParameters struct {
 
 	// The Cloud SQL instance connection names, as can be found in https://console.cloud.google.com/sql/instances. Visit https://cloud.google.com/sql/docs/mysql/connect-run for more information on how to connect Cloud SQL and Cloud Run. Format: {project}:{location}:{instance}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/sql/v1beta1.DatabaseInstance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/sql/v1beta1.DatabaseInstance
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("connection_name",true)
 	// +listType=set
 	Instances []*string `json:"instances,omitempty" tf:"instances,omitempty"`
@@ -2160,7 +2160,7 @@ type VolumesCloudSQLInstanceObservation struct {
 type VolumesCloudSQLInstanceParameters struct {
 
 	// The Cloud SQL instance connection names, as can be found in https://console.cloud.google.com/sql/instances. Visit https://cloud.google.com/sql/docs/mysql/connect-run for more information on how to connect Cloud SQL and Cloud Run. Format: {project}:{location}:{instance}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/sql/v1beta1.DatabaseInstance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/sql/v1beta1.DatabaseInstance
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("connection_name",true)
 	// +kubebuilder:validation:Optional
 	// +listType=set
@@ -2178,7 +2178,7 @@ type VolumesCloudSQLInstanceParameters struct {
 type VolumesGcsInitParameters struct {
 
 	// GCS Bucket name
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/storage/v1beta1.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta1.Bucket
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// Reference to a Bucket in storage to populate bucket.
@@ -2205,7 +2205,7 @@ type VolumesGcsObservation struct {
 type VolumesGcsParameters struct {
 
 	// GCS Bucket name
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/storage/v1beta1.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta1.Bucket
 	// +kubebuilder:validation:Optional
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 

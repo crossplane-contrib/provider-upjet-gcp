@@ -9,15 +9,15 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	alertpolicy "github.com/upbound/provider-gcp/internal/controller/namespaced/monitoring/alertpolicy"
-	customservice "github.com/upbound/provider-gcp/internal/controller/namespaced/monitoring/customservice"
-	dashboard "github.com/upbound/provider-gcp/internal/controller/namespaced/monitoring/dashboard"
-	group "github.com/upbound/provider-gcp/internal/controller/namespaced/monitoring/group"
-	metricdescriptor "github.com/upbound/provider-gcp/internal/controller/namespaced/monitoring/metricdescriptor"
-	notificationchannel "github.com/upbound/provider-gcp/internal/controller/namespaced/monitoring/notificationchannel"
-	service "github.com/upbound/provider-gcp/internal/controller/namespaced/monitoring/service"
-	slo "github.com/upbound/provider-gcp/internal/controller/namespaced/monitoring/slo"
-	uptimecheckconfig "github.com/upbound/provider-gcp/internal/controller/namespaced/monitoring/uptimecheckconfig"
+	alertpolicy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/monitoring/alertpolicy"
+	customservice "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/monitoring/customservice"
+	dashboard "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/monitoring/dashboard"
+	group "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/monitoring/group"
+	metricdescriptor "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/monitoring/metricdescriptor"
+	notificationchannel "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/monitoring/notificationchannel"
+	service "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/monitoring/service"
+	slo "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/monitoring/slo"
+	uptimecheckconfig "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/monitoring/uptimecheckconfig"
 )
 
 // Setup_monitoring creates all controllers with the supplied logger and adds them to

@@ -330,7 +330,7 @@ type NodePoolParameters struct {
 	AzureAvailabilityZone *string `json:"azureAvailabilityZone,omitempty" tf:"azure_availability_zone,omitempty"`
 
 	// The azureCluster for the resource
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/containerazure/v1beta2.Cluster
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/containerazure/v1beta2.Cluster
 	// +kubebuilder:validation:Optional
 	Cluster *string `json:"cluster,omitempty" tf:"cluster,omitempty"`
 

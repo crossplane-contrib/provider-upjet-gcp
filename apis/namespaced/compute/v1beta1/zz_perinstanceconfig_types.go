@@ -151,7 +151,7 @@ type InternalIPParameters struct {
 type PerInstanceConfigInitParameters struct {
 
 	// The instance group manager this instance config is part of.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.InstanceGroupManager
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.InstanceGroupManager
 	InstanceGroupManager *string `json:"instanceGroupManager,omitempty" tf:"instance_group_manager,omitempty"`
 
 	// Reference to a InstanceGroupManager in compute to populate instanceGroupManager.
@@ -191,7 +191,7 @@ type PerInstanceConfigInitParameters struct {
 	RemoveInstanceStateOnDestroy *bool `json:"removeInstanceStateOnDestroy,omitempty" tf:"remove_instance_state_on_destroy,omitempty"`
 
 	// Zone where the containing instance group manager is located
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.InstanceGroupManager
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.InstanceGroupManager
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("zone",false)
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 
@@ -247,7 +247,7 @@ type PerInstanceConfigObservation struct {
 type PerInstanceConfigParameters struct {
 
 	// The instance group manager this instance config is part of.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.InstanceGroupManager
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.InstanceGroupManager
 	// +kubebuilder:validation:Optional
 	InstanceGroupManager *string `json:"instanceGroupManager,omitempty" tf:"instance_group_manager,omitempty"`
 
@@ -295,7 +295,7 @@ type PerInstanceConfigParameters struct {
 	RemoveInstanceStateOnDestroy *bool `json:"removeInstanceStateOnDestroy,omitempty" tf:"remove_instance_state_on_destroy,omitempty"`
 
 	// Zone where the containing instance group manager is located
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.InstanceGroupManager
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.InstanceGroupManager
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("zone",false)
 	// +kubebuilder:validation:Optional
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
@@ -330,7 +330,7 @@ type PreservedStateDiskInitParameters struct {
 
 	// The URI of an existing persistent disk to attach under the specified device-name in the format
 	// projects/project-id/zones/zone/disks/disk-name.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.Disk
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Disk
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Source *string `json:"source,omitempty" tf:"source,omitempty"`
 
@@ -391,7 +391,7 @@ type PreservedStateDiskParameters struct {
 
 	// The URI of an existing persistent disk to attach under the specified device-name in the format
 	// projects/project-id/zones/zone/disks/disk-name.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.Disk
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Disk
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Source *string `json:"source,omitempty" tf:"source,omitempty"`

@@ -9,7 +9,7 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/config"
 
-	"github.com/upbound/provider-gcp/config/cluster/common"
+	"github.com/upbound/provider-gcp/v2/config/cluster/common"
 )
 
 // terraformPluginSDKExternalNameConfigs contains all external name configurations

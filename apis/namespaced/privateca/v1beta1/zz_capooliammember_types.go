@@ -16,8 +16,8 @@ import (
 
 type CAPoolIAMMemberInitParameters struct {
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/privateca/v1beta1.CAPool
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/namespaced/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/privateca/v1beta1.CAPool
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
 	CAPool *string `json:"caPool,omitempty" tf:"ca_pool,omitempty"`
 
 	// Reference to a CAPool in privateca to populate caPool.
@@ -59,8 +59,8 @@ type CAPoolIAMMemberObservation struct {
 
 type CAPoolIAMMemberParameters struct {
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/privateca/v1beta1.CAPool
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/namespaced/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/privateca/v1beta1.CAPool
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	CAPool *string `json:"caPool,omitempty" tf:"ca_pool,omitempty"`
 

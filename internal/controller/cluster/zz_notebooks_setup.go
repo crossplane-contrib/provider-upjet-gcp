@@ -9,11 +9,11 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	environment "github.com/upbound/provider-gcp/internal/controller/cluster/notebooks/environment"
-	instance "github.com/upbound/provider-gcp/internal/controller/cluster/notebooks/instance"
-	instanceiammember "github.com/upbound/provider-gcp/internal/controller/cluster/notebooks/instanceiammember"
-	runtime "github.com/upbound/provider-gcp/internal/controller/cluster/notebooks/runtime"
-	runtimeiammember "github.com/upbound/provider-gcp/internal/controller/cluster/notebooks/runtimeiammember"
+	environment "github.com/upbound/provider-gcp/v2/internal/controller/cluster/notebooks/environment"
+	instance "github.com/upbound/provider-gcp/v2/internal/controller/cluster/notebooks/instance"
+	instanceiammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/notebooks/instanceiammember"
+	runtime "github.com/upbound/provider-gcp/v2/internal/controller/cluster/notebooks/runtime"
+	runtimeiammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/notebooks/runtimeiammember"
 )
 
 // Setup_notebooks creates all controllers with the supplied logger and adds them to

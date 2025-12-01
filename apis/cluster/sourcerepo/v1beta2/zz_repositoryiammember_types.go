@@ -48,7 +48,7 @@ type RepositoryIAMMemberInitParameters struct {
 
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/sourcerepo/v1beta1.Repository
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/sourcerepo/v1beta1.Repository
 	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
 
 	// Reference to a Repository in sourcerepo to populate repository.
@@ -89,7 +89,7 @@ type RepositoryIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/sourcerepo/v1beta1.Repository
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/sourcerepo/v1beta1.Repository
 	// +kubebuilder:validation:Optional
 	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
 

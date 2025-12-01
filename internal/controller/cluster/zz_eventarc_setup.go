@@ -9,9 +9,9 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	channel "github.com/upbound/provider-gcp/internal/controller/cluster/eventarc/channel"
-	googlechannelconfig "github.com/upbound/provider-gcp/internal/controller/cluster/eventarc/googlechannelconfig"
-	trigger "github.com/upbound/provider-gcp/internal/controller/cluster/eventarc/trigger"
+	channel "github.com/upbound/provider-gcp/v2/internal/controller/cluster/eventarc/channel"
+	googlechannelconfig "github.com/upbound/provider-gcp/v2/internal/controller/cluster/eventarc/googlechannelconfig"
+	trigger "github.com/upbound/provider-gcp/v2/internal/controller/cluster/eventarc/trigger"
 )
 
 // Setup_eventarc creates all controllers with the supplied logger and adds them to

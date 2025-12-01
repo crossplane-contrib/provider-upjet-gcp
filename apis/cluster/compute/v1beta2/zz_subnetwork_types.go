@@ -121,7 +121,7 @@ type SubnetworkInitParameters_2 struct {
 
 	// The network this subnet belongs to.
 	// Only networks that are in the distributed mode can have subnetworks.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Reference to a Network in compute to populate network.
@@ -499,7 +499,7 @@ type SubnetworkParameters_2 struct {
 
 	// The network this subnet belongs to.
 	// Only networks that are in the distributed mode can have subnetworks.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 

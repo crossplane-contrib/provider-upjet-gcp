@@ -9,14 +9,14 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	config "github.com/upbound/provider-gcp/internal/controller/cluster/identityplatform/config"
-	defaultsupportedidpconfig "github.com/upbound/provider-gcp/internal/controller/cluster/identityplatform/defaultsupportedidpconfig"
-	inboundsamlconfig "github.com/upbound/provider-gcp/internal/controller/cluster/identityplatform/inboundsamlconfig"
-	oauthidpconfig "github.com/upbound/provider-gcp/internal/controller/cluster/identityplatform/oauthidpconfig"
-	tenant "github.com/upbound/provider-gcp/internal/controller/cluster/identityplatform/tenant"
-	tenantdefaultsupportedidpconfig "github.com/upbound/provider-gcp/internal/controller/cluster/identityplatform/tenantdefaultsupportedidpconfig"
-	tenantinboundsamlconfig "github.com/upbound/provider-gcp/internal/controller/cluster/identityplatform/tenantinboundsamlconfig"
-	tenantoauthidpconfig "github.com/upbound/provider-gcp/internal/controller/cluster/identityplatform/tenantoauthidpconfig"
+	config "github.com/upbound/provider-gcp/v2/internal/controller/cluster/identityplatform/config"
+	defaultsupportedidpconfig "github.com/upbound/provider-gcp/v2/internal/controller/cluster/identityplatform/defaultsupportedidpconfig"
+	inboundsamlconfig "github.com/upbound/provider-gcp/v2/internal/controller/cluster/identityplatform/inboundsamlconfig"
+	oauthidpconfig "github.com/upbound/provider-gcp/v2/internal/controller/cluster/identityplatform/oauthidpconfig"
+	tenant "github.com/upbound/provider-gcp/v2/internal/controller/cluster/identityplatform/tenant"
+	tenantdefaultsupportedidpconfig "github.com/upbound/provider-gcp/v2/internal/controller/cluster/identityplatform/tenantdefaultsupportedidpconfig"
+	tenantinboundsamlconfig "github.com/upbound/provider-gcp/v2/internal/controller/cluster/identityplatform/tenantinboundsamlconfig"
+	tenantoauthidpconfig "github.com/upbound/provider-gcp/v2/internal/controller/cluster/identityplatform/tenantoauthidpconfig"
 )
 
 // Setup_identityplatform creates all controllers with the supplied logger and adds them to

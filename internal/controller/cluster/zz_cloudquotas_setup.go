@@ -9,7 +9,7 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	quotapreference "github.com/upbound/provider-gcp/internal/controller/cluster/cloudquotas/quotapreference"
+	quotapreference "github.com/upbound/provider-gcp/v2/internal/controller/cluster/cloudquotas/quotapreference"
 )
 
 // Setup_cloudquotas creates all controllers with the supplied logger and adds them to

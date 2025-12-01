@@ -16,7 +16,7 @@ import (
 type BackendBucketSignedURLKeyInitParameters struct {
 
 	// The backend bucket this signed URL key belongs.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.BackendBucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.BackendBucket
 	BackendBucket *string `json:"backendBucket,omitempty" tf:"backend_bucket,omitempty"`
 
 	// Reference to a BackendBucket in compute to populate backendBucket.
@@ -59,7 +59,7 @@ type BackendBucketSignedURLKeyObservation struct {
 type BackendBucketSignedURLKeyParameters struct {
 
 	// The backend bucket this signed URL key belongs.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.BackendBucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.BackendBucket
 	// +kubebuilder:validation:Optional
 	BackendBucket *string `json:"backendBucket,omitempty" tf:"backend_bucket,omitempty"`
 

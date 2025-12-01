@@ -9,8 +9,8 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	release "github.com/upbound/provider-gcp/internal/controller/namespaced/firebaserules/release"
-	ruleset "github.com/upbound/provider-gcp/internal/controller/namespaced/firebaserules/ruleset"
+	release "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/firebaserules/release"
+	ruleset "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/firebaserules/ruleset"
 )
 
 // Setup_firebaserules creates all controllers with the supplied logger and adds them to

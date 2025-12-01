@@ -1047,7 +1047,7 @@ type PubsubConfigInitParameters struct {
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 
 	// The name of the topic from which this subscription is receiving messages.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/pubsub/v1beta1.Topic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/pubsub/v1beta1.Topic
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
 
@@ -1085,7 +1085,7 @@ type PubsubConfigParameters struct {
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 
 	// The name of the topic from which this subscription is receiving messages.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/pubsub/v1beta1.Topic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/pubsub/v1beta1.Topic
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
@@ -2144,7 +2144,7 @@ type TriggerInitParameters struct {
 	// If no service account is set, then the standard Cloud Build service account
 	// ([PROJECT_NUM]@system.gserviceaccount.com) will be used instead.
 	// Format: projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT_ID_OR_EMAIL}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
@@ -2426,7 +2426,7 @@ type TriggerParameters struct {
 	// If no service account is set, then the standard Cloud Build service account
 	// ([PROJECT_NUM]@system.gserviceaccount.com) will be used instead.
 	// Format: projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT_ID_OR_EMAIL}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
@@ -2615,7 +2615,7 @@ type VolumesParameters struct {
 type WebhookConfigInitParameters struct {
 
 	// Resource name for the secret required as a URL parameter.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/secretmanager/v1beta1.SecretVersion
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/secretmanager/v1beta1.SecretVersion
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
@@ -2642,7 +2642,7 @@ type WebhookConfigObservation struct {
 type WebhookConfigParameters struct {
 
 	// Resource name for the secret required as a URL parameter.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/secretmanager/v1beta1.SecretVersion
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/secretmanager/v1beta1.SecretVersion
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`

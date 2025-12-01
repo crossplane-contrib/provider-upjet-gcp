@@ -9,16 +9,16 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	appprofile "github.com/upbound/provider-gcp/internal/controller/cluster/bigtable/appprofile"
-	garbagecollectionpolicy "github.com/upbound/provider-gcp/internal/controller/cluster/bigtable/garbagecollectionpolicy"
-	instance "github.com/upbound/provider-gcp/internal/controller/cluster/bigtable/instance"
-	instanceiambinding "github.com/upbound/provider-gcp/internal/controller/cluster/bigtable/instanceiambinding"
-	instanceiammember "github.com/upbound/provider-gcp/internal/controller/cluster/bigtable/instanceiammember"
-	instanceiampolicy "github.com/upbound/provider-gcp/internal/controller/cluster/bigtable/instanceiampolicy"
-	table "github.com/upbound/provider-gcp/internal/controller/cluster/bigtable/table"
-	tableiambinding "github.com/upbound/provider-gcp/internal/controller/cluster/bigtable/tableiambinding"
-	tableiammember "github.com/upbound/provider-gcp/internal/controller/cluster/bigtable/tableiammember"
-	tableiampolicy "github.com/upbound/provider-gcp/internal/controller/cluster/bigtable/tableiampolicy"
+	appprofile "github.com/upbound/provider-gcp/v2/internal/controller/cluster/bigtable/appprofile"
+	garbagecollectionpolicy "github.com/upbound/provider-gcp/v2/internal/controller/cluster/bigtable/garbagecollectionpolicy"
+	instance "github.com/upbound/provider-gcp/v2/internal/controller/cluster/bigtable/instance"
+	instanceiambinding "github.com/upbound/provider-gcp/v2/internal/controller/cluster/bigtable/instanceiambinding"
+	instanceiammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/bigtable/instanceiammember"
+	instanceiampolicy "github.com/upbound/provider-gcp/v2/internal/controller/cluster/bigtable/instanceiampolicy"
+	table "github.com/upbound/provider-gcp/v2/internal/controller/cluster/bigtable/table"
+	tableiambinding "github.com/upbound/provider-gcp/v2/internal/controller/cluster/bigtable/tableiambinding"
+	tableiammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/bigtable/tableiammember"
+	tableiampolicy "github.com/upbound/provider-gcp/v2/internal/controller/cluster/bigtable/tableiampolicy"
 )
 
 // Setup_bigtable creates all controllers with the supplied logger and adds them to

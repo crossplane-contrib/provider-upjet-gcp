@@ -20,7 +20,7 @@ type ReleaseInitParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Name of the Ruleset referred to by this Release. The Ruleset must exist for the Release to be created.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/firebaserules/v1beta1.Ruleset
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/firebaserules/v1beta1.Ruleset
 	RulesetName *string `json:"rulesetName,omitempty" tf:"ruleset_name,omitempty"`
 
 	// Reference to a Ruleset in firebaserules to populate rulesetName.
@@ -60,7 +60,7 @@ type ReleaseParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Name of the Ruleset referred to by this Release. The Ruleset must exist for the Release to be created.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/firebaserules/v1beta1.Ruleset
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/firebaserules/v1beta1.Ruleset
 	// +kubebuilder:validation:Optional
 	RulesetName *string `json:"rulesetName,omitempty" tf:"ruleset_name,omitempty"`
 

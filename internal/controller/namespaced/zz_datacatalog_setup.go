@@ -9,12 +9,12 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	entry "github.com/upbound/provider-gcp/internal/controller/namespaced/datacatalog/entry"
-	entrygroup "github.com/upbound/provider-gcp/internal/controller/namespaced/datacatalog/entrygroup"
-	policytag "github.com/upbound/provider-gcp/internal/controller/namespaced/datacatalog/policytag"
-	tag "github.com/upbound/provider-gcp/internal/controller/namespaced/datacatalog/tag"
-	tagtemplate "github.com/upbound/provider-gcp/internal/controller/namespaced/datacatalog/tagtemplate"
-	taxonomy "github.com/upbound/provider-gcp/internal/controller/namespaced/datacatalog/taxonomy"
+	entry "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/datacatalog/entry"
+	entrygroup "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/datacatalog/entrygroup"
+	policytag "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/datacatalog/policytag"
+	tag "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/datacatalog/tag"
+	tagtemplate "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/datacatalog/tagtemplate"
+	taxonomy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/datacatalog/taxonomy"
 )
 
 // Setup_datacatalog creates all controllers with the supplied logger and adds them to

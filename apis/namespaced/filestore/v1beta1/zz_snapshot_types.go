@@ -76,7 +76,7 @@ type SnapshotParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The resource name of the filestore instance.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/filestore/v1beta1.Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/filestore/v1beta1.Instance
 	// +kubebuilder:validation:Optional
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 

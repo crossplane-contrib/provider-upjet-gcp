@@ -511,7 +511,7 @@ type PubsubTargetInitParameters struct {
 	// messages will be published when a job is delivered. ~>NOTE:
 	// The topic name must be in the same format as required by PubSub's
 	// PublishRequest.name, e.g. projects/my-project/topics/my-topic.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/pubsub/v1beta2.Topic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/pubsub/v1beta2.Topic
 	TopicName *string `json:"topicName,omitempty" tf:"topic_name,omitempty"`
 
 	// Reference to a Topic in pubsub to populate topicName.
@@ -560,7 +560,7 @@ type PubsubTargetParameters struct {
 	// messages will be published when a job is delivered. ~>NOTE:
 	// The topic name must be in the same format as required by PubSub's
 	// PublishRequest.name, e.g. projects/my-project/topics/my-topic.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/pubsub/v1beta2.Topic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/pubsub/v1beta2.Topic
 	// +kubebuilder:validation:Optional
 	TopicName *string `json:"topicName,omitempty" tf:"topic_name,omitempty"`
 

@@ -23,7 +23,7 @@ type AttestationAuthorityNoteInitParameters struct {
 	// An attestation by this attestor is stored as a Container Analysis
 	// ATTESTATION_AUTHORITY Occurrence that names a container image
 	// and that links to this Note.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/containeranalysis/v1beta1.Note
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/containeranalysis/v1beta1.Note
 	NoteReference *string `json:"noteReference,omitempty" tf:"note_reference,omitempty"`
 
 	// Reference to a Note in containeranalysis to populate noteReference.
@@ -88,7 +88,7 @@ type AttestationAuthorityNoteParameters struct {
 	// An attestation by this attestor is stored as a Container Analysis
 	// ATTESTATION_AUTHORITY Occurrence that names a container image
 	// and that links to this Note.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/containeranalysis/v1beta1.Note
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/containeranalysis/v1beta1.Note
 	// +kubebuilder:validation:Optional
 	NoteReference *string `json:"noteReference,omitempty" tf:"note_reference,omitempty"`
 

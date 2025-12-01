@@ -16,7 +16,7 @@ import (
 type BucketIAMPolicyInitParameters struct {
 
 	// Used to find the parent resource to bind the IAM policy to
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/storage/v1beta2.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta2.Bucket
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// Reference to a Bucket in storage to populate bucket.
@@ -50,7 +50,7 @@ type BucketIAMPolicyObservation struct {
 type BucketIAMPolicyParameters struct {
 
 	// Used to find the parent resource to bind the IAM policy to
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/storage/v1beta2.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta2.Bucket
 	// +kubebuilder:validation:Optional
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 

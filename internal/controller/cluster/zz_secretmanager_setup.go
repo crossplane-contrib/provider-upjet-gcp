@@ -9,9 +9,9 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	secret "github.com/upbound/provider-gcp/internal/controller/cluster/secretmanager/secret"
-	secretiammember "github.com/upbound/provider-gcp/internal/controller/cluster/secretmanager/secretiammember"
-	secretversion "github.com/upbound/provider-gcp/internal/controller/cluster/secretmanager/secretversion"
+	secret "github.com/upbound/provider-gcp/v2/internal/controller/cluster/secretmanager/secret"
+	secretiammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/secretmanager/secretiammember"
+	secretversion "github.com/upbound/provider-gcp/v2/internal/controller/cluster/secretmanager/secretversion"
 )
 
 // Setup_secretmanager creates all controllers with the supplied logger and adds them to

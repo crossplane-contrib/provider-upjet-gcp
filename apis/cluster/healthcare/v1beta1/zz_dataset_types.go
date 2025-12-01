@@ -96,7 +96,7 @@ type EncryptionSpecInitParameters struct {
 	// encryption and the dataset must be in the same location. If empty, the default Google encryption
 	// key will be used to secure this dataset. The format is
 	// projects/{projectId}/locations/{locationId}/keyRings/{keyRingId}/cryptoKeys/{keyId}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/kms/v1beta2.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/kms/v1beta2.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
@@ -124,7 +124,7 @@ type EncryptionSpecParameters struct {
 	// encryption and the dataset must be in the same location. If empty, the default Google encryption
 	// key will be used to secure this dataset. The format is
 	// projects/{projectId}/locations/{locationId}/keyRings/{keyRingId}/cryptoKeys/{keyId}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/kms/v1beta2.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/kms/v1beta2.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`

@@ -7,7 +7,7 @@ package spanner
 import (
 	"github.com/crossplane/upjet/v2/pkg/config"
 
-	"github.com/upbound/provider-gcp/config/namespaced/common"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/common"
 )
 
 // Configure configures individual resources by adding custom

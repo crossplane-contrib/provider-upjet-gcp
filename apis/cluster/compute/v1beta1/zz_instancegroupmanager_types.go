@@ -51,8 +51,8 @@ type AllInstancesConfigParameters struct {
 type AutoHealingPoliciesInitParameters struct {
 
 	// The health check resource that signals autohealing.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.HealthCheck
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/cluster/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.HealthCheck
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.ExtractResourceID()
 	HealthCheck *string `json:"healthCheck,omitempty" tf:"health_check,omitempty"`
 
 	// Reference to a HealthCheck in compute to populate healthCheck.
@@ -81,8 +81,8 @@ type AutoHealingPoliciesObservation struct {
 type AutoHealingPoliciesParameters struct {
 
 	// The health check resource that signals autohealing.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.HealthCheck
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/cluster/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.HealthCheck
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	HealthCheck *string `json:"healthCheck,omitempty" tf:"health_check,omitempty"`
 
@@ -159,8 +159,8 @@ type InstanceGroupManagerInitParameters struct {
 	// The full URL of all target pools to which new
 	// instances in the group are added. Updating the target pools attribute does
 	// not affect existing instances.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.TargetPool
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/cluster/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.TargetPool
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.SelfLinkExtractor()
 	// +listType=set
 	TargetPools []*string `json:"targetPools,omitempty" tf:"target_pools,omitempty"`
 
@@ -424,8 +424,8 @@ type InstanceGroupManagerParameters struct {
 	// The full URL of all target pools to which new
 	// instances in the group are added. Updating the target pools attribute does
 	// not affect existing instances.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.TargetPool
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/cluster/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.TargetPool
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	TargetPools []*string `json:"targetPools,omitempty" tf:"target_pools,omitempty"`
@@ -525,7 +525,7 @@ type PerInstanceConfigsParameters struct {
 type ResourcePoliciesInitParameters struct {
 
 	// The URL of the workload policy that is specified for this managed instance group. It can be a full or partial URL.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.ResourcePolicy
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.ResourcePolicy
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	WorkloadPolicy *string `json:"workloadPolicy,omitempty" tf:"workload_policy,omitempty"`
 
@@ -547,7 +547,7 @@ type ResourcePoliciesObservation struct {
 type ResourcePoliciesParameters struct {
 
 	// The URL of the workload policy that is specified for this managed instance group. It can be a full or partial URL.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.ResourcePolicy
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.ResourcePolicy
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	WorkloadPolicy *string `json:"workloadPolicy,omitempty" tf:"workload_policy,omitempty"`
@@ -856,8 +856,8 @@ type UpdatePolicyParameters struct {
 type VersionInitParameters struct {
 
 	// - The full URL to an instance template from which all new instances of this version will be created. It is recommended to reference instance templates through their unique id (self_link_unique attribute).
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.InstanceTemplate
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/cluster/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.InstanceTemplate
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.ExtractResourceID()
 	InstanceTemplate *string `json:"instanceTemplate,omitempty" tf:"instance_template,omitempty"`
 
 	// Reference to a InstanceTemplate in compute to populate instanceTemplate.
@@ -890,8 +890,8 @@ type VersionObservation struct {
 type VersionParameters struct {
 
 	// - The full URL to an instance template from which all new instances of this version will be created. It is recommended to reference instance templates through their unique id (self_link_unique attribute).
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.InstanceTemplate
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/cluster/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.InstanceTemplate
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	InstanceTemplate *string `json:"instanceTemplate,omitempty" tf:"instance_template,omitempty"`
 

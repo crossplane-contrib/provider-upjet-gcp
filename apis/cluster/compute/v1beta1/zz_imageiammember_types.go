@@ -44,7 +44,7 @@ type ImageIAMMemberConditionParameters struct {
 type ImageIAMMemberInitParameters struct {
 	Condition []ImageIAMMemberConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Image
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Image
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
 	// Reference to a Image in compute to populate image.
@@ -83,7 +83,7 @@ type ImageIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Condition []ImageIAMMemberConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Image
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Image
 	// +kubebuilder:validation:Optional
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 

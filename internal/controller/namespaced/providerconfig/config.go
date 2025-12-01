@@ -13,7 +13,7 @@ import (
 	"github.com/crossplane/crossplane-runtime/v2/pkg/reconciler/providerconfig"
 	"github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 
-	"github.com/upbound/provider-gcp/apis/namespaced/v1beta1"
+	"github.com/upbound/provider-gcp/v2/apis/namespaced/v1beta1"
 )
 
 // Setup adds a controller that reconciles ProviderConfigs and

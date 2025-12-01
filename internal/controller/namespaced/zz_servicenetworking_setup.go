@@ -9,7 +9,7 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	connection "github.com/upbound/provider-gcp/internal/controller/namespaced/servicenetworking/connection"
+	connection "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/servicenetworking/connection"
 )
 
 // Setup_servicenetworking creates all controllers with the supplied logger and adds them to

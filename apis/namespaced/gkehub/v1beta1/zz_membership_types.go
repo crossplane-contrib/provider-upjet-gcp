@@ -64,7 +64,7 @@ type GkeClusterInitParameters struct {
 	// For example: //container.googleapis.com/projects/my-project/locations/us-west1-a/clusters/my-cluster.
 	// It can be at the most 1000 characters in length.googleapis.com/${google_container_cluster.my-cluster.id}" or
 	// google_container_cluster.my-cluster.id.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/container/v1beta1.Cluster
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/container/v1beta1.Cluster
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	ResourceLink *string `json:"resourceLink,omitempty" tf:"resource_link,omitempty"`
 
@@ -92,7 +92,7 @@ type GkeClusterParameters struct {
 	// For example: //container.googleapis.com/projects/my-project/locations/us-west1-a/clusters/my-cluster.
 	// It can be at the most 1000 characters in length.googleapis.com/${google_container_cluster.my-cluster.id}" or
 	// google_container_cluster.my-cluster.id.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/container/v1beta1.Cluster
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/container/v1beta1.Cluster
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ResourceLink *string `json:"resourceLink,omitempty" tf:"resource_link,omitempty"`

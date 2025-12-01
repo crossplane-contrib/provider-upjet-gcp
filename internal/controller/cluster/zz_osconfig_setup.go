@@ -9,8 +9,8 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	ospolicyassignment "github.com/upbound/provider-gcp/internal/controller/cluster/osconfig/ospolicyassignment"
-	patchdeployment "github.com/upbound/provider-gcp/internal/controller/cluster/osconfig/patchdeployment"
+	ospolicyassignment "github.com/upbound/provider-gcp/v2/internal/controller/cluster/osconfig/ospolicyassignment"
+	patchdeployment "github.com/upbound/provider-gcp/v2/internal/controller/cluster/osconfig/patchdeployment"
 )
 
 // Setup_osconfig creates all controllers with the supplied logger and adds them to

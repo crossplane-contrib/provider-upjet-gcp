@@ -35,7 +35,7 @@ type RegionNetworkEndpointInitParameters struct {
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// The network endpoint group this endpoint is part of.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.RegionNetworkEndpointGroup
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.RegionNetworkEndpointGroup
 	RegionNetworkEndpointGroup *string `json:"regionNetworkEndpointGroup,omitempty" tf:"region_network_endpoint_group,omitempty"`
 
 	// Reference to a RegionNetworkEndpointGroup in compute to populate regionNetworkEndpointGroup.
@@ -103,7 +103,7 @@ type RegionNetworkEndpointParameters struct {
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// The network endpoint group this endpoint is part of.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.RegionNetworkEndpointGroup
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.RegionNetworkEndpointGroup
 	// +kubebuilder:validation:Optional
 	RegionNetworkEndpointGroup *string `json:"regionNetworkEndpointGroup,omitempty" tf:"region_network_endpoint_group,omitempty"`
 

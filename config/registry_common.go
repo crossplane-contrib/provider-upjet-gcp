@@ -18,7 +18,7 @@ import (
 
 const (
 	resourcePrefix = "gcp"
-	modulePath     = "github.com/upbound/provider-gcp"
+	modulePath     = "github.com/upbound/provider-gcp/v2"
 )
 
 var (

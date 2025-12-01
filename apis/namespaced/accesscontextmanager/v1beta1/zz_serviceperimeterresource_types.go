@@ -17,7 +17,7 @@ import (
 type ServicePerimeterResourceInitParameters struct {
 
 	// The name of the Service Perimeter to add this resource to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/accesscontextmanager/v1beta1.ServicePerimeter
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/accesscontextmanager/v1beta1.ServicePerimeter
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	PerimeterName *string `json:"perimeterName,omitempty" tf:"perimeter_name,omitempty"`
 
@@ -58,7 +58,7 @@ type ServicePerimeterResourceObservation struct {
 type ServicePerimeterResourceParameters struct {
 
 	// The name of the Service Perimeter to add this resource to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/accesscontextmanager/v1beta1.ServicePerimeter
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/accesscontextmanager/v1beta1.ServicePerimeter
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	PerimeterName *string `json:"perimeterName,omitempty" tf:"perimeter_name,omitempty"`

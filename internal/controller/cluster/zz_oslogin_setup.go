@@ -9,7 +9,7 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	sshpublickey "github.com/upbound/provider-gcp/internal/controller/cluster/oslogin/sshpublickey"
+	sshpublickey "github.com/upbound/provider-gcp/v2/internal/controller/cluster/oslogin/sshpublickey"
 )
 
 // Setup_oslogin creates all controllers with the supplied logger and adds them to

@@ -109,7 +109,7 @@ type SnapshotInitParameters struct {
 	SnapshotEncryptionKey *SnapshotEncryptionKeyInitParameters `json:"snapshotEncryptionKey,omitempty" tf:"snapshot_encryption_key,omitempty"`
 
 	// A reference to the disk used to create this snapshot.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.Disk
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Disk
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	SourceDisk *string `json:"sourceDisk,omitempty" tf:"source_disk,omitempty"`
 
@@ -266,7 +266,7 @@ type SnapshotParameters struct {
 	SnapshotEncryptionKey *SnapshotEncryptionKeyParameters `json:"snapshotEncryptionKey,omitempty" tf:"snapshot_encryption_key,omitempty"`
 
 	// A reference to the disk used to create this snapshot.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.Disk
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Disk
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	SourceDisk *string `json:"sourceDisk,omitempty" tf:"source_disk,omitempty"`

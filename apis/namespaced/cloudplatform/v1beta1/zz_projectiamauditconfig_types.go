@@ -43,7 +43,7 @@ type ProjectIAMAuditConfigAuditLogConfigParameters struct {
 type ProjectIAMAuditConfigInitParameters struct {
 	AuditLogConfig []ProjectIAMAuditConfigAuditLogConfigInitParameters `json:"auditLogConfig,omitempty" tf:"audit_log_config,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.Project
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Reference to a Project in cloudplatform to populate project.
@@ -74,7 +74,7 @@ type ProjectIAMAuditConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	AuditLogConfig []ProjectIAMAuditConfigAuditLogConfigParameters `json:"auditLogConfig,omitempty" tf:"audit_log_config,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.Project
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 

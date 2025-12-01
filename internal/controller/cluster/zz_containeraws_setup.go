@@ -9,8 +9,8 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	cluster "github.com/upbound/provider-gcp/internal/controller/cluster/containeraws/cluster"
-	nodepool "github.com/upbound/provider-gcp/internal/controller/cluster/containeraws/nodepool"
+	cluster "github.com/upbound/provider-gcp/v2/internal/controller/cluster/containeraws/cluster"
+	nodepool "github.com/upbound/provider-gcp/v2/internal/controller/cluster/containeraws/nodepool"
 )
 
 // Setup_containeraws creates all controllers with the supplied logger and adds them to

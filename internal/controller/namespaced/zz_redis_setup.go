@@ -9,8 +9,8 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	cluster "github.com/upbound/provider-gcp/internal/controller/namespaced/redis/cluster"
-	instance "github.com/upbound/provider-gcp/internal/controller/namespaced/redis/instance"
+	cluster "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/redis/cluster"
+	instance "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/redis/instance"
 )
 
 // Setup_redis creates all controllers with the supplied logger and adds them to

@@ -17,7 +17,7 @@ import (
 type RegionDiskResourcePolicyAttachmentInitParameters struct {
 
 	// The name of the regional disk in which the resource policies are attached to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.RegionDisk
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.RegionDisk
 	Disk *string `json:"disk,omitempty" tf:"disk,omitempty"`
 
 	// Reference to a RegionDisk in compute to populate disk.
@@ -30,7 +30,7 @@ type RegionDiskResourcePolicyAttachmentInitParameters struct {
 
 	// The resource policy to be attached to the disk for scheduling snapshot
 	// creation. Do not specify the self link.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.ResourcePolicy
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.ResourcePolicy
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Reference to a ResourcePolicy in compute to populate name.
@@ -72,7 +72,7 @@ type RegionDiskResourcePolicyAttachmentObservation struct {
 type RegionDiskResourcePolicyAttachmentParameters struct {
 
 	// The name of the regional disk in which the resource policies are attached to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.RegionDisk
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.RegionDisk
 	// +kubebuilder:validation:Optional
 	Disk *string `json:"disk,omitempty" tf:"disk,omitempty"`
 
@@ -86,7 +86,7 @@ type RegionDiskResourcePolicyAttachmentParameters struct {
 
 	// The resource policy to be attached to the disk for scheduling snapshot
 	// creation. Do not specify the self link.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.ResourcePolicy
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.ResourcePolicy
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 

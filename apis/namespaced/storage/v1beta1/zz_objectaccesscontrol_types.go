@@ -17,7 +17,7 @@ import (
 type ObjectAccessControlInitParameters struct {
 
 	// The name of the bucket.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/storage/v1beta1.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta1.Bucket
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// Reference to a Bucket in storage to populate bucket.
@@ -32,7 +32,7 @@ type ObjectAccessControlInitParameters struct {
 	Entity *string `json:"entity,omitempty" tf:"entity,omitempty"`
 
 	// The name of the object to apply the access control to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/storage/v1beta1.BucketObject
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta1.BucketObject
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("output_name",true)
 	Object *string `json:"object,omitempty" tf:"object,omitempty"`
 
@@ -87,7 +87,7 @@ type ObjectAccessControlObservation struct {
 type ObjectAccessControlParameters struct {
 
 	// The name of the bucket.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/storage/v1beta1.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta1.Bucket
 	// +kubebuilder:validation:Optional
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
@@ -104,7 +104,7 @@ type ObjectAccessControlParameters struct {
 	Entity *string `json:"entity,omitempty" tf:"entity,omitempty"`
 
 	// The name of the object to apply the access control to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/storage/v1beta1.BucketObject
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta1.BucketObject
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("output_name",true)
 	// +kubebuilder:validation:Optional
 	Object *string `json:"object,omitempty" tf:"object,omitempty"`

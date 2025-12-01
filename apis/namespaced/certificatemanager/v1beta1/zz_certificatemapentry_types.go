@@ -19,7 +19,7 @@ type CertificateMapEntryInitParameters struct {
 	// A set of Certificates defines for the given hostname.
 	// There can be defined up to fifteen certificates in each Certificate Map Entry.
 	// Each certificate must match pattern projects//locations//certificates/*.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/certificatemanager/v1beta1.Certificate
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/certificatemanager/v1beta1.Certificate
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Certificates []*string `json:"certificates,omitempty" tf:"certificates,omitempty"`
 
@@ -115,7 +115,7 @@ type CertificateMapEntryParameters struct {
 	// A set of Certificates defines for the given hostname.
 	// There can be defined up to fifteen certificates in each Certificate Map Entry.
 	// Each certificate must match pattern projects//locations//certificates/*.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/certificatemanager/v1beta1.Certificate
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/certificatemanager/v1beta1.Certificate
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Certificates []*string `json:"certificates,omitempty" tf:"certificates,omitempty"`
@@ -146,7 +146,7 @@ type CertificateMapEntryParameters struct {
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// A map entry that is inputted into the cetrificate map
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/certificatemanager/v1beta1.CertificateMap
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/certificatemanager/v1beta1.CertificateMap
 	// +kubebuilder:validation:Optional
 	Map *string `json:"map,omitempty" tf:"map,omitempty"`
 

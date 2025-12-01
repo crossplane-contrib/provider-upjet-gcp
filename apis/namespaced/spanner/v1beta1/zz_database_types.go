@@ -153,7 +153,7 @@ type DatabaseParameters struct {
 	EncryptionConfig *EncryptionConfigParameters `json:"encryptionConfig,omitempty" tf:"encryption_config,omitempty"`
 
 	// The instance to create the database on.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/spanner/v1beta1.Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/spanner/v1beta1.Instance
 	// +kubebuilder:validation:Optional
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
