@@ -10,4 +10,7 @@ package v1beta1
 func (tr *Cluster) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *ClusterUserCreatedConnections) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *Instance) Hub() {}

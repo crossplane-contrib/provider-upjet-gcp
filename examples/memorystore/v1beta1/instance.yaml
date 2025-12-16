@@ -1,0 +1,85 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: memorystore.gcp.upbound.io/v1beta1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: memorystore/v1beta1/instance
+    uptest.upbound.io/timeout: "3600"
+  labels:
+    testing.upbound.io/example-name: instance-basic
+  name: instance-basic
+spec:
+  forProvider:
+    deletionProtectionEnabled: false
+    desiredAutoCreatedEndpoints:
+    - networkSelector:
+        matchLabels:
+          testing.upbound.io/example-name: producer_net
+      projectId: official-provider-testing
+    location: us-central1
+    maintenancePolicy:
+      weeklyMaintenanceWindow:
+      - day: MONDAY
+        startTime:
+          hours: 1
+          minutes: 0
+          nanos: 0
+          seconds: 0
+    shardCount: 1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: memorystore/v1beta1/instance
+  labels:
+    testing.upbound.io/example-name: producer_net
+  name: producer-net
+spec:
+  forProvider:
+    autoCreateSubnetworks: false
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: Subnetwork
+metadata:
+  annotations:
+    meta.upbound.io/example-id: memorystore/v1beta1/instance
+  labels:
+    testing.upbound.io/example-name: producer_subnet
+  name: producer-subnet
+spec:
+  forProvider:
+    ipCidrRange: 10.0.0.248/29
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: producer_net
+    region: us-central1
+
+---
+
+apiVersion: networkconnectivity.gcp.upbound.io/v1beta1
+kind: ServiceConnectionPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: memorystore/v1beta1/instance
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    description: my basic service connection policy
+    location: us-central1
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: producer_net
+    pscConfig:
+      subnetworksRefs:
+      - name: producer-subnet
+    serviceClass: gcp-memorystore

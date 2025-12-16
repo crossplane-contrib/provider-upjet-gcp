@@ -106,6 +106,7 @@ import (
 	v1beta2logging "github.com/upbound/provider-gcp/v2/apis/cluster/logging/v1beta2"
 	v1beta1memcache "github.com/upbound/provider-gcp/v2/apis/cluster/memcache/v1beta1"
 	v1beta2memcache "github.com/upbound/provider-gcp/v2/apis/cluster/memcache/v1beta2"
+	v1beta1memorystore "github.com/upbound/provider-gcp/v2/apis/cluster/memorystore/v1beta1"
 	v1beta1mlengine "github.com/upbound/provider-gcp/v2/apis/cluster/mlengine/v1beta1"
 	v1beta2mlengine "github.com/upbound/provider-gcp/v2/apis/cluster/mlengine/v1beta2"
 	v1beta1monitoring "github.com/upbound/provider-gcp/v2/apis/cluster/monitoring/v1beta1"
@@ -252,6 +253,7 @@ func init() {
 		v1beta2logging.SchemeBuilder.AddToScheme,
 		v1beta1memcache.SchemeBuilder.AddToScheme,
 		v1beta2memcache.SchemeBuilder.AddToScheme,
+		v1beta1memorystore.SchemeBuilder.AddToScheme,
 		v1beta1mlengine.SchemeBuilder.AddToScheme,
 		v1beta2mlengine.SchemeBuilder.AddToScheme,
 		v1beta1monitoring.SchemeBuilder.AddToScheme,

@@ -1,0 +1,328 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: redis.gcp.upbound.io/v1beta1
+kind: ClusterUserCreatedConnections
+metadata:
+  annotations:
+    meta.upbound.io/example-id: redis/v1beta1/clusterusercreatedconnections
+  labels:
+    testing.upbound.io/example-name: cluster-user-conn
+  name: cluster-user-conn
+spec:
+  forProvider:
+    clusterEndpoints:
+    - connections:
+      - pscConnection:
+          addressSelector:
+            matchLabels:
+              testing.upbound.io/example-name: ip1_network1
+          forwardingRuleSelector:
+            matchLabels:
+              testing.upbound.io/example-name: forwarding_rule1_network1
+          networkSelector:
+            matchLabels:
+              testing.upbound.io/example-name: network1
+          projectId: ${data.google_project.project.project_id}
+          pscConnectionIdSelector:
+            matchLabels:
+              testing.upbound.io/example-name: forwarding_rule1_network1
+          serviceAttachment: ${google_redis_cluster.cluster-user-conn.psc_service_attachments[0].service_attachment}
+      - pscConnection:
+          addressSelector:
+            matchLabels:
+              testing.upbound.io/example-name: ip2_network1
+          forwardingRuleSelector:
+            matchLabels:
+              testing.upbound.io/example-name: forwarding_rule2_network1
+          networkSelector:
+            matchLabels:
+              testing.upbound.io/example-name: network1
+          pscConnectionIdSelector:
+            matchLabels:
+              testing.upbound.io/example-name: forwarding_rule2_network1
+          serviceAttachment: ${google_redis_cluster.cluster-user-conn.psc_service_attachments[1].service_attachment}
+    - connections:
+      - pscConnection:
+          addressSelector:
+            matchLabels:
+              testing.upbound.io/example-name: ip1_network2
+          forwardingRuleSelector:
+            matchLabels:
+              testing.upbound.io/example-name: forwarding_rule1_network2
+          networkSelector:
+            matchLabels:
+              testing.upbound.io/example-name: network2
+          pscConnectionIdSelector:
+            matchLabels:
+              testing.upbound.io/example-name: forwarding_rule1_network2
+          serviceAttachment: ${google_redis_cluster.cluster-user-conn.psc_service_attachments[0].service_attachment}
+      - pscConnection:
+          addressSelector:
+            matchLabels:
+              testing.upbound.io/example-name: ip2_network2
+          forwardingRuleSelector:
+            matchLabels:
+              testing.upbound.io/example-name: forwarding_rule2_network2
+          networkSelector:
+            matchLabels:
+              testing.upbound.io/example-name: network2
+          pscConnectionIdSelector:
+            matchLabels:
+              testing.upbound.io/example-name: forwarding_rule2_network2
+          serviceAttachment: ${google_redis_cluster.cluster-user-conn.psc_service_attachments[1].service_attachment}
+    region: us-central1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Address
+metadata:
+  annotations:
+    meta.upbound.io/example-id: redis/v1beta1/clusterusercreatedconnections
+  labels:
+    testing.upbound.io/example-name: ip1_network1
+  name: ip1-network1
+spec:
+  forProvider:
+    addressType: INTERNAL
+    purpose: GCE_ENDPOINT
+    region: us-central1
+    subnetworkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: subnet_network1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Address
+metadata:
+  annotations:
+    meta.upbound.io/example-id: redis/v1beta1/clusterusercreatedconnections
+  labels:
+    testing.upbound.io/example-name: ip1_network2
+  name: ip1-network2
+spec:
+  forProvider:
+    addressType: INTERNAL
+    purpose: GCE_ENDPOINT
+    region: us-central1
+    subnetworkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: subnet_network2
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Address
+metadata:
+  annotations:
+    meta.upbound.io/example-id: redis/v1beta1/clusterusercreatedconnections
+  labels:
+    testing.upbound.io/example-name: ip2_network1
+  name: ip2-network1
+spec:
+  forProvider:
+    addressType: INTERNAL
+    purpose: GCE_ENDPOINT
+    region: us-central1
+    subnetworkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: subnet_network1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Address
+metadata:
+  annotations:
+    meta.upbound.io/example-id: redis/v1beta1/clusterusercreatedconnections
+  labels:
+    testing.upbound.io/example-name: ip2_network2
+  name: ip2-network2
+spec:
+  forProvider:
+    addressType: INTERNAL
+    purpose: GCE_ENDPOINT
+    region: us-central1
+    subnetworkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: subnet_network2
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: ForwardingRule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: redis/v1beta1/clusterusercreatedconnections
+  labels:
+    testing.upbound.io/example-name: forwarding_rule1_network1
+  name: forwarding-rule1-network1
+spec:
+  forProvider:
+    ipAddressSelector:
+      matchLabels:
+        testing.upbound.io/example-name: ip1_network1
+    loadBalancingScheme: ""
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: network1
+    region: us-central1
+    targetSelector:
+      matchLabels:
+        testing.upbound.io/example-name: cluster-user-conn
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: ForwardingRule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: redis/v1beta1/clusterusercreatedconnections
+  labels:
+    testing.upbound.io/example-name: forwarding_rule1_network2
+  name: forwarding-rule1-network2
+spec:
+  forProvider:
+    ipAddressSelector:
+      matchLabels:
+        testing.upbound.io/example-name: ip1_network2
+    loadBalancingScheme: ""
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: network2
+    region: us-central1
+    targetSelector:
+      matchLabels:
+        testing.upbound.io/example-name: cluster-user-conn
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: ForwardingRule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: redis/v1beta1/clusterusercreatedconnections
+  labels:
+    testing.upbound.io/example-name: forwarding_rule2_network1
+  name: forwarding-rule2-network1
+spec:
+  forProvider:
+    ipAddressSelector:
+      matchLabels:
+        testing.upbound.io/example-name: ip2_network1
+    loadBalancingScheme: ""
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: network1
+    region: us-central1
+    targetSelector:
+      matchLabels:
+        testing.upbound.io/example-name: cluster-user-conn
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: ForwardingRule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: redis/v1beta1/clusterusercreatedconnections
+  labels:
+    testing.upbound.io/example-name: forwarding_rule2_network2
+  name: forwarding-rule2-network2
+spec:
+  forProvider:
+    ipAddressSelector:
+      matchLabels:
+        testing.upbound.io/example-name: ip2_network2
+    loadBalancingScheme: ""
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: network2
+    region: us-central1
+    targetSelector:
+      matchLabels:
+        testing.upbound.io/example-name: cluster-user-conn
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: redis/v1beta1/clusterusercreatedconnections
+  labels:
+    testing.upbound.io/example-name: network1
+  name: network1
+spec:
+  forProvider:
+    autoCreateSubnetworks: false
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: redis/v1beta1/clusterusercreatedconnections
+  labels:
+    testing.upbound.io/example-name: network2
+  name: network2
+spec:
+  forProvider:
+    autoCreateSubnetworks: false
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: Subnetwork
+metadata:
+  annotations:
+    meta.upbound.io/example-id: redis/v1beta1/clusterusercreatedconnections
+  labels:
+    testing.upbound.io/example-name: subnet_network1
+  name: subnet-network1
+spec:
+  forProvider:
+    ipCidrRange: 10.0.0.248/29
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: network1
+    region: us-central1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: Subnetwork
+metadata:
+  annotations:
+    meta.upbound.io/example-id: redis/v1beta1/clusterusercreatedconnections
+  labels:
+    testing.upbound.io/example-name: subnet_network2
+  name: subnet-network2
+spec:
+  forProvider:
+    ipCidrRange: 10.0.0.248/29
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: network2
+    region: us-central1
+
+---
+
+apiVersion: redis.gcp.upbound.io/v1beta1
+kind: Cluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: redis/v1beta1/clusterusercreatedconnections
+  labels:
+    testing.upbound.io/example-name: cluster-user-conn
+  name: cluster-user-conn
+spec:
+  forProvider:
+    deletionProtectionEnabled: false
+    region: us-central1
+    replicaCount: 0
+    shardCount: 3
