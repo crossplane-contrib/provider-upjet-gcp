@@ -315,6 +315,8 @@ import (
 	projectexclusion "github.com/upbound/provider-gcp/v2/internal/controller/cluster/logging/projectexclusion"
 	projectsink "github.com/upbound/provider-gcp/v2/internal/controller/cluster/logging/projectsink"
 	instancememcache "github.com/upbound/provider-gcp/v2/internal/controller/cluster/memcache/instance"
+	instancememorystore "github.com/upbound/provider-gcp/v2/internal/controller/cluster/memorystore/instance"
+	instancedesiredusercreatedendpoints "github.com/upbound/provider-gcp/v2/internal/controller/cluster/memorystore/instancedesiredusercreatedendpoints"
 	model "github.com/upbound/provider-gcp/v2/internal/controller/cluster/mlengine/model"
 	alertpolicy "github.com/upbound/provider-gcp/v2/internal/controller/cluster/monitoring/alertpolicy"
 	customservice "github.com/upbound/provider-gcp/v2/internal/controller/cluster/monitoring/customservice"
@@ -362,6 +364,7 @@ import (
 	topic "github.com/upbound/provider-gcp/v2/internal/controller/cluster/pubsub/topic"
 	topiciammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/pubsub/topiciammember"
 	clusterredis "github.com/upbound/provider-gcp/v2/internal/controller/cluster/redis/cluster"
+	clusterusercreatedconnections "github.com/upbound/provider-gcp/v2/internal/controller/cluster/redis/clusterusercreatedconnections"
 	instanceredis "github.com/upbound/provider-gcp/v2/internal/controller/cluster/redis/instance"
 	secret "github.com/upbound/provider-gcp/v2/internal/controller/cluster/secretmanager/secret"
 	secretiammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/secretmanager/secretiammember"
@@ -716,6 +719,8 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		projectexclusion.Setup,
 		projectsink.Setup,
 		instancememcache.Setup,
+		instancememorystore.Setup,
+		instancedesiredusercreatedendpoints.Setup,
 		model.Setup,
 		alertpolicy.Setup,
 		customservice.Setup,
@@ -763,6 +768,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		topic.Setup,
 		topiciammember.Setup,
 		clusterredis.Setup,
+		clusterusercreatedconnections.Setup,
 		instanceredis.Setup,
 		secret.Setup,
 		secretiammember.Setup,
@@ -1123,6 +1129,8 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		projectexclusion.SetupGated,
 		projectsink.SetupGated,
 		instancememcache.SetupGated,
+		instancememorystore.SetupGated,
+		instancedesiredusercreatedendpoints.SetupGated,
 		model.SetupGated,
 		alertpolicy.SetupGated,
 		customservice.SetupGated,
@@ -1170,6 +1178,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		topic.SetupGated,
 		topiciammember.SetupGated,
 		clusterredis.SetupGated,
+		clusterusercreatedconnections.SetupGated,
 		instanceredis.SetupGated,
 		secret.SetupGated,
 		secretiammember.SetupGated,

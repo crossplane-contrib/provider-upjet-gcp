@@ -10,6 +10,7 @@ import (
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
 	cluster "github.com/upbound/provider-gcp/v2/internal/controller/cluster/redis/cluster"
+	clusterusercreatedconnections "github.com/upbound/provider-gcp/v2/internal/controller/cluster/redis/clusterusercreatedconnections"
 	instance "github.com/upbound/provider-gcp/v2/internal/controller/cluster/redis/instance"
 )
 
@@ -18,6 +19,7 @@ import (
 func Setup_redis(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		cluster.Setup,
+		clusterusercreatedconnections.Setup,
 		instance.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
@@ -32,6 +34,7 @@ func Setup_redis(mgr ctrl.Manager, o controller.Options) error {
 func SetupGated_redis(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		cluster.SetupGated,
+		clusterusercreatedconnections.SetupGated,
 		instance.SetupGated,
 	} {
 		if err := setup(mgr, o); err != nil {

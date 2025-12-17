@@ -121,6 +121,227 @@ func (mg *Cluster) ResolveReferences( // ResolveReferences of this Cluster.
 	return nil
 }
 
+// ResolveReferences of this ClusterUserCreatedConnections.
+func (mg *ClusterUserCreatedConnections) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.ClusterEndpoints); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.ClusterEndpoints[i3].Connections); i4++ {
+			if mg.Spec.ForProvider.ClusterEndpoints[i3].Connections[i4].PscConnection != nil {
+				{
+					m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Address", "AddressList")
+					if err != nil {
+						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+					}
+					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.Address),
+						Extract:      resource.ExtractParamPath("address", false),
+						Namespace:    mg.GetNamespace(),
+						Reference:    mg.Spec.ForProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.AddressRef,
+						Selector:     mg.Spec.ForProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.AddressSelector,
+						To:           reference.To{List: l, Managed: m},
+					})
+				}
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.ForProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.Address")
+				}
+				mg.Spec.ForProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.Address = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.ForProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.AddressRef = rsp.ResolvedReference
+
+			}
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.ClusterEndpoints); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.ClusterEndpoints[i3].Connections); i4++ {
+			if mg.Spec.ForProvider.ClusterEndpoints[i3].Connections[i4].PscConnection != nil {
+				{
+					m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "ForwardingRule", "ForwardingRuleList")
+					if err != nil {
+						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+					}
+					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.ForwardingRule),
+						Extract:      resource.ExtractResourceID(),
+						Namespace:    mg.GetNamespace(),
+						Reference:    mg.Spec.ForProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.ForwardingRuleRef,
+						Selector:     mg.Spec.ForProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.ForwardingRuleSelector,
+						To:           reference.To{List: l, Managed: m},
+					})
+				}
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.ForProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.ForwardingRule")
+				}
+				mg.Spec.ForProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.ForwardingRule = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.ForProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.ForwardingRuleRef = rsp.ResolvedReference
+
+			}
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.ClusterEndpoints); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.ClusterEndpoints[i3].Connections); i4++ {
+			if mg.Spec.ForProvider.ClusterEndpoints[i3].Connections[i4].PscConnection != nil {
+				{
+					m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Network", "NetworkList")
+					if err != nil {
+						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+					}
+					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.Network),
+						Extract:      resource.ExtractResourceID(),
+						Namespace:    mg.GetNamespace(),
+						Reference:    mg.Spec.ForProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.NetworkRef,
+						Selector:     mg.Spec.ForProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.NetworkSelector,
+						To:           reference.To{List: l, Managed: m},
+					})
+				}
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.ForProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.Network")
+				}
+				mg.Spec.ForProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.Network = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.ForProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.NetworkRef = rsp.ResolvedReference
+
+			}
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.ClusterEndpoints); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.ClusterEndpoints[i3].Connections); i4++ {
+			if mg.Spec.ForProvider.ClusterEndpoints[i3].Connections[i4].PscConnection != nil {
+				{
+					m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "ForwardingRule", "ForwardingRuleList")
+					if err != nil {
+						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+					}
+					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.PscConnectionID),
+						Extract:      resource.ExtractParamPath("psc_connection_id", true),
+						Namespace:    mg.GetNamespace(),
+						Reference:    mg.Spec.ForProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.PscConnectionIDRef,
+						Selector:     mg.Spec.ForProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.PscConnectionIDSelector,
+						To:           reference.To{List: l, Managed: m},
+					})
+				}
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.ForProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.PscConnectionID")
+				}
+				mg.Spec.ForProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.PscConnectionID = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.ForProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.PscConnectionIDRef = rsp.ResolvedReference
+
+			}
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.ClusterEndpoints); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.ClusterEndpoints[i3].Connections); i4++ {
+			if mg.Spec.InitProvider.ClusterEndpoints[i3].Connections[i4].PscConnection != nil {
+				{
+					m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Address", "AddressList")
+					if err != nil {
+						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+					}
+					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.Address),
+						Extract:      resource.ExtractParamPath("address", false),
+						Namespace:    mg.GetNamespace(),
+						Reference:    mg.Spec.InitProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.AddressRef,
+						Selector:     mg.Spec.InitProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.AddressSelector,
+						To:           reference.To{List: l, Managed: m},
+					})
+				}
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.InitProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.Address")
+				}
+				mg.Spec.InitProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.Address = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.InitProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.AddressRef = rsp.ResolvedReference
+
+			}
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.ClusterEndpoints); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.ClusterEndpoints[i3].Connections); i4++ {
+			if mg.Spec.InitProvider.ClusterEndpoints[i3].Connections[i4].PscConnection != nil {
+				{
+					m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "ForwardingRule", "ForwardingRuleList")
+					if err != nil {
+						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+					}
+					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.ForwardingRule),
+						Extract:      resource.ExtractResourceID(),
+						Namespace:    mg.GetNamespace(),
+						Reference:    mg.Spec.InitProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.ForwardingRuleRef,
+						Selector:     mg.Spec.InitProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.ForwardingRuleSelector,
+						To:           reference.To{List: l, Managed: m},
+					})
+				}
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.InitProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.ForwardingRule")
+				}
+				mg.Spec.InitProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.ForwardingRule = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.InitProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.ForwardingRuleRef = rsp.ResolvedReference
+
+			}
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.ClusterEndpoints); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.ClusterEndpoints[i3].Connections); i4++ {
+			if mg.Spec.InitProvider.ClusterEndpoints[i3].Connections[i4].PscConnection != nil {
+				{
+					m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Network", "NetworkList")
+					if err != nil {
+						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+					}
+					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.Network),
+						Extract:      resource.ExtractResourceID(),
+						Namespace:    mg.GetNamespace(),
+						Reference:    mg.Spec.InitProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.NetworkRef,
+						Selector:     mg.Spec.InitProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.NetworkSelector,
+						To:           reference.To{List: l, Managed: m},
+					})
+				}
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.InitProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.Network")
+				}
+				mg.Spec.InitProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.Network = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.InitProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.NetworkRef = rsp.ResolvedReference
+
+			}
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.ClusterEndpoints); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.ClusterEndpoints[i3].Connections); i4++ {
+			if mg.Spec.InitProvider.ClusterEndpoints[i3].Connections[i4].PscConnection != nil {
+				{
+					m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "ForwardingRule", "ForwardingRuleList")
+					if err != nil {
+						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+					}
+					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.PscConnectionID),
+						Extract:      resource.ExtractParamPath("psc_connection_id", true),
+						Namespace:    mg.GetNamespace(),
+						Reference:    mg.Spec.InitProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.PscConnectionIDRef,
+						Selector:     mg.Spec.InitProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.PscConnectionIDSelector,
+						To:           reference.To{List: l, Managed: m},
+					})
+				}
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.InitProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.PscConnectionID")
+				}
+				mg.Spec.InitProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.PscConnectionID = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.InitProvider.ClusterEndpoints[i3].Connections[i4].PscConnection.PscConnectionIDRef = rsp.ResolvedReference
+
+			}
+		}
+	}
+
+	return nil
+}
+
 // ResolveReferences of this Instance.
 func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed

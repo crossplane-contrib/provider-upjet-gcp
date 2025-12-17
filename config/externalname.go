@@ -755,6 +755,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_redis_instance": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/instances/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/locations/{{region}}/clusters/{{name}}
 	"google_redis_cluster": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/clusters/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{region}}/clusters/{{name}}
+	"google_redis_cluster_user_created_connections": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.region }}/clusters/{{ .external_name }}"),
 
 	// resource_manager
 	//
@@ -1108,6 +1110,13 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	//
 	// Imported by using projects/{{project}}/locations/{{location}}/gateways/{{name}}
 	"google_network_services_gateway": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/gateways/{{ .external_name }}"),
+
+	// memorystore
+	//
+	// Imported by using the following projects/{{project}}/locations/{{location}}/instances/{{instance_id}}
+	"google_memorystore_instance": config.TemplatedStringAsIdentifier("instance_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/instances/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{region}}/instances/{{name}}
+	"google_memorystore_instance_desired_user_created_endpoints": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.region }}/instances/{{ .external_name }}"),
 }
 
 // cliReconciledExternalNameConfigs contains all external name configurations
