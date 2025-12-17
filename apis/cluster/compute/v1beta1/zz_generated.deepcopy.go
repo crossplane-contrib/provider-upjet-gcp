@@ -16814,11 +16814,6 @@ func (in *FirewallPolicyObservation) DeepCopyInto(out *FirewallPolicyObservation
 		*out = new(string)
 		**out = **in
 	}
-	if in.Name != nil {
-		in, out := &in.Name, &out.Name
-		*out = new(string)
-		**out = **in
-	}
 	if in.Parent != nil {
 		in, out := &in.Parent, &out.Parent
 		*out = new(string)
