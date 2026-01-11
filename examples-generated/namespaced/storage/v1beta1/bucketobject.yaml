@@ -1,0 +1,20 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: storage.gcp.m.upbound.io/v1beta1
+kind: BucketObject
+metadata:
+  annotations:
+    meta.upbound.io/example-id: storage/v1beta1/bucketobject
+  labels:
+    testing.upbound.io/example-name: picture
+  name: picture
+  namespace: upbound-system
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    name: butterfly01
+    source: /images/nature/garden-tiger-moth.jpg

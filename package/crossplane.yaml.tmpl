@@ -1,0 +1,42 @@
+apiVersion: meta.pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: {{ .Name }}
+{{ if ne .Service "monolith" }}
+  labels:
+    pkg.crossplane.io/provider-family: provider-family-{{ .ProviderName }}
+{{ end }}
+  annotations:
+    meta.crossplane.io/maintainer: Upbound <support@upbound.io>
+    meta.crossplane.io/source: github.com/crossplane-contrib/provider-upjet-{{ .ProviderName }}
+    meta.crossplane.io/license: Apache-2.0
+    meta.crossplane.io/description: |
+      Upbound's official Crossplane provider to manage Google Cloud Platform (GCP)
+      {{ .Service }} services in Kubernetes.
+    meta.crossplane.io/readme: |
+      {{ if eq .Service "monolith" }}
+      ⚠️ **Deprecation Notice:** The monolithic package is deprecated in favor of the GCP family's
+      resource packages and will no longer be maintained after 12 June 2024. Please consider
+      switching to the [family provider packages](https://docs.upbound.io/providers/provider-families/)
+      as we will no longer be publishing new versions of the monolithic package.
+      \
+      {{ end }}
+      Provider GCP is a Crossplane provider for [Google Cloud Platform](https://cloud.google.com/) developed and supported by Upbound.
+      Available resources and their fields can be found in the [Upbound
+      Marketplace](https://marketplace.upbound.io/providers/upbound/provider-{{ .ProviderName }}).
+      If you encounter an issue please reach out on support@upbound.io email
+      address. This is a subpackage for the {{ .Service }} API group.
+    friendly-name.meta.crossplane.io: Provider GCP ({{ .Service }})
+    auth.upbound.io/group: {{ .ProviderAuthGroup }}.upbound.io
+spec:
+{{ if ne .Service "monolith" }}
+  crossplane:
+    version: ">=v1.12.1-0"
+  capabilities:
+    - SafeStart
+{{ end }}
+{{ if and (ne .Service "config") (ne .Service "monolith") }}
+  dependsOn:
+    - provider: {{ .XpkgRegOrg }}/provider-family-{{ .ProviderName }}
+      version: "{{ .DepConstraint }}"
+{{ end }}

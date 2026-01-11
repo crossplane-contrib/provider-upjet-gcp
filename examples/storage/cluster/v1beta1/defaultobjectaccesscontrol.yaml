@@ -1,0 +1,33 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: storage.gcp.upbound.io/v1beta1
+kind: DefaultObjectAccessControl
+metadata:
+  annotations:
+    meta.upbound.io/example-id: storage/v1beta1/defaultobjectaccesscontrol
+  labels:
+    testing.upbound.io/example-name: default-object-access-control
+  name: default-object-access-control
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default-object-access-control
+    entity: allUsers
+    role: READER
+
+---
+
+apiVersion: storage.gcp.upbound.io/v1beta1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: storage/v1beta1/defaultobjectaccesscontrol
+  labels:
+    testing.upbound.io/example-name: default-object-access-control
+  name: default-object-access-control-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    location: US

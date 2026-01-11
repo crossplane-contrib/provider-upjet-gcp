@@ -1,0 +1,121 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: networkconnectivity.gcp.upbound.io/v1beta1
+kind: Spoke
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkconnectivity/v1beta1/spoke
+  labels:
+    testing.upbound.io/example-name: primary
+  name: primary
+spec:
+  forProvider:
+    name: name
+    location: us-west1
+    description: A sample spoke with a linked routher appliance instance
+    labels:
+      label-one: value-one
+    hubSelector:
+      matchLabels:
+        testing.upbound.io/example-name: hub
+    linkedRouterApplianceInstances:
+      - instances:
+          - ipAddress: 10.0.0.2
+            virtualMachineSelector:
+              matchLabels:
+                testing.upbound.io/example-name: instance
+        siteToSiteDataTransfer: true
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkconnectivity/v1beta1/spoke
+  labels:
+    testing.upbound.io/example-name: instance
+  name: instance
+spec:
+  forProvider:
+    machineType: e2-medium
+    canIpForward: true
+    zone: us-west1-a
+    bootDisk:
+      - initializeParams:
+          - imageSelector:
+              matchLabels:
+                testing.upbound.io/example-name: image
+    networkInterface:
+      - accessConfig:
+          - {}
+        subnetworkSelector:
+          matchLabels:
+            testing.upbound.io/example-name: subnetwork
+
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkconnectivity/v1beta1/spoke
+  labels:
+    testing.upbound.io/example-name: vpc
+  name: vpc
+spec:
+  forProvider: {}
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Subnetwork
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkconnectivity/v1beta1/spoke
+  labels:
+    testing.upbound.io/example-name: subnetwork
+  name: subnetwork
+spec:
+  forProvider:
+    ipCidrRange: 10.0.0.0/28
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: vpc
+    region: us-west1
+
+---
+
+apiVersion: networkconnectivity.gcp.upbound.io/v1beta1
+kind: Hub
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkconnectivity/v1beta1/spoke
+  labels:
+    testing.upbound.io/example-name: hub
+  name: hub
+spec:
+  forProvider:
+    description: "A sample hub"
+    labels:
+      label-one: "value-one"
+    name: hub
+    project: official-provider-testing
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Image
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkconnectivity/v1beta1/spoke
+  labels:
+    testing.upbound.io/example-name: image
+  name: image
+spec:
+  forProvider:
+    rawDisk:
+      - source: https://storage.googleapis.com/bosh-gce-raw-stemcells/bosh-stemcell-97.98-google-kvm-ubuntu-xenial-go_agent-raw-1557960142.tar.gz

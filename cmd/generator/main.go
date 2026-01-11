@@ -1,20 +1,11 @@
-// Copyright 2022 Upbound Inc.
+// SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// SPDX-License-Identifier: Apache-2.0
 
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"os"
@@ -22,11 +13,13 @@ import (
 	"sort"
 	"strings"
 
-	ujconfig "github.com/upbound/upjet/pkg/config"
-	"github.com/upbound/upjet/pkg/pipeline"
-	"gopkg.in/alecthomas/kingpin.v2"
+	"github.com/alecthomas/kingpin/v2"
+	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
+	"github.com/crossplane/upjet/v2/pkg/examples/conversion"
+	"github.com/crossplane/upjet/v2/pkg/pipeline"
+	"github.com/hashicorp/terraform-provider-google/google/provider"
 
-	"github.com/upbound/provider-gcp/config"
+	"github.com/upbound/provider-gcp/v2/config"
 )
 
 func main() {
@@ -42,10 +35,17 @@ func main() {
 	if err != nil {
 		panic(fmt.Sprintf("cannot calculate the absolute path with %s", *repoRoot))
 	}
-	p := config.GetProvider()
-	dumpGeneratedResourceList(p, generatedResourceList)
-	dumpSkippedResourcesCSV(p, skippedResourcesCSV)
-	pipeline.Run(p, absRootDir)
+	sdkProvider := provider.Provider()
+	pc, err := config.GetProvider(context.Background(), sdkProvider, true)
+	kingpin.FatalIfError(err, "Cannot initialize the cluster-scoped provider configuration")
+	pns, err := config.GetNamespacedProvider(context.Background(), sdkProvider, true)
+	kingpin.FatalIfError(err, "Cannot initialize the namespaced provider configuration")
+	dumpGeneratedResourceList(pc, generatedResourceList)
+	dumpSkippedResourcesCSV(pc, skippedResourcesCSV)
+	pipeline.Run(pc, pns, absRootDir)
+
+	kingpin.FatalIfError(conversion.ApplyAPIConverters(pc, "../examples-generated/cluster", "../hack/boilerplate.yaml.txt"), "Cannot convert singleton lists to embedded objects in example cluster-scoped resource manifests.")
+	kingpin.FatalIfError(conversion.ApplyAPIConverters(pns, "../examples-generated/namespaced", "../hack/boilerplate.yaml.txt"), "Cannot convert singleton lists to embedded objects in example namespace-scoped resource manifests.")
 }
 
 func dumpGeneratedResourceList(p *ujconfig.Provider, targetPath *string) {
@@ -57,7 +57,7 @@ func dumpGeneratedResourceList(p *ujconfig.Provider, targetPath *string) {
 		generatedResources = append(generatedResources, name)
 	}
 	sort.Strings(generatedResources)
-	buff, err := json.Marshal(generatedResources)
+	buff, err := json.MarshalIndent(generatedResources, "", "  ")
 	if err != nil {
 		panic(fmt.Sprintf("Cannot marshal native schema versions to JSON: %s", err.Error()))
 	}

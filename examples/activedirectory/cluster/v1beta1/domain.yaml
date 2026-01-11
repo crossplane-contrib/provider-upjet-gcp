@@ -1,0 +1,19 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: activedirectory.gcp.upbound.io/v1beta1
+kind: Domain
+metadata:
+  annotations:
+    meta.upbound.io/example-id: activedirectory/v1beta1/domain
+    uptest.upbound.io/timeout: "3600" # Takes very long.
+  labels:
+    testing.upbound.io/example-name: domain
+  name: domain
+spec:
+  forProvider:
+    domainName: "fndomain.org.com"
+    locations:
+    - us-central1
+    reservedIpRange: "192.168.0.0/24"

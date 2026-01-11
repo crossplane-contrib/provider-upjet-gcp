@@ -1,13 +1,17 @@
+// SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 package config
 
 import (
 	"regexp"
 	"strings"
 
+	tjconfig "github.com/crossplane/upjet/v2/pkg/config"
+	"github.com/crossplane/upjet/v2/pkg/types/name"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/pkg/errors"
-	tjconfig "github.com/upbound/upjet/pkg/config"
-	"github.com/upbound/upjet/pkg/types/name"
 )
 
 // VersionV1Beta1 is used to signify that the resource has been tested and external name configured
@@ -70,6 +74,7 @@ var groupMap = map[string]GroupKindCalculator{
 	"google_assured_workloads.+":            ReplaceGroupWords("", 2),
 	"google_binary_authorization.+":         ReplaceGroupWords("", 2),
 	"google_container_analysis.+":           ReplaceGroupWords("", 2),
+	"google_container_attached.+":           ReplaceGroupWords("", 2),
 	"google_container_aws.+":                ReplaceGroupWords("", 2),
 	"google_container_azure.+":              ReplaceGroupWords("", 2),
 	"google_deployment_manager.+":           ReplaceGroupWords("", 2),
@@ -82,6 +87,7 @@ var groupMap = map[string]GroupKindCalculator{
 	"google_network_management.+":           ReplaceGroupWords("", 2),
 	"google_network_services.+":             ReplaceGroupWords("", 2),
 	"google_network_connectivity.+":         ReplaceGroupWords("", 2),
+	"google_network_security.+":             ReplaceGroupWords("", 2),
 	"google_resource_manager.+":             ReplaceGroupWords("", 2),
 	"google_secret_manager.+":               ReplaceGroupWords("", 2),
 	"google_storage_transfer.+":             ReplaceGroupWords("", 2),
@@ -108,6 +114,8 @@ var groupMap = map[string]GroupKindCalculator{
 	"google_document_ai.+": ReplaceGroupWords("", 2),
 
 	"google_essential_contacts_contact$": ReplaceGroupWords("", 2),
+
+	"google_cloud_quotas.+$": ReplaceGroupWords("", 2),
 }
 
 // ReplaceGroupWords uses given group as the group of the resource and removes

@@ -1,0 +1,67 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: dialogflowcx.gcp.m.upbound.io/v1beta1
+kind: Webhook
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dialogflowcx/v1beta1/webhook
+  labels:
+    testing.upbound.io/example-name: standard_webhook
+  name: standard-webhook
+  namespace: upbound-system
+spec:
+  forProvider:
+    displayName: MyFlow
+    genericWebService:
+      allowedCaCerts:
+      - BQA=
+      oauthConfig:
+        clientId: example-client-id
+        scopes:
+        - example-scope
+        secretVersionForClientSecret: projects/example-proj/secrets/example-secret/versions/example-version
+        tokenEndpoint: https://example.com
+      requestHeaders:
+        example-key: example-value
+      secretVersionForUsernamePassword: projects/example-proj/secrets/example-secret/versions/example-version
+      secretVersionsForRequestHeaders:
+      - key: example-key-1
+        secretVersion: projects/example-proj/secrets/example-secret/versions/example-version
+      - key: example-key-2
+        secretVersion: projects/example-proj/secrets/example-secret/versions/example-version-2
+      serviceAgentAuth: NONE
+      uri: https://example.com
+      webhookType: STANDARD
+    parentSelector:
+      matchLabels:
+        testing.upbound.io/example-name: agent
+
+---
+
+apiVersion: dialogflowcx.gcp.m.upbound.io/v1beta1
+kind: Agent
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dialogflowcx/v1beta1/webhook
+  labels:
+    testing.upbound.io/example-name: agent
+  name: agent
+  namespace: upbound-system
+spec:
+  forProvider:
+    avatarUri: https://cloud.google.com/_static/images/cloud/icons/favicons/onecloud/super_cloud.png
+    defaultLanguageCode: en
+    description: Example description.
+    displayName: dialogflowcx-agent
+    enableSpellCorrection: true
+    enableStackdriverLogging: true
+    location: global
+    speechToTextSettings:
+      enableSpeechAdaptation: true
+    supportedLanguageCodes:
+    - it
+    - de
+    - es
+    timeZone: America/New_York

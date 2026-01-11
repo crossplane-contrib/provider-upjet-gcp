@@ -1,0 +1,17 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: iap.gcp.upbound.io/v1beta1
+kind: WebTypeAppEngineIAMMember
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iap/v1beta1/webtypeappengineiammember
+  labels:
+    testing.upbound.io/example-name: web-type-app-engine-iam
+  name: web-type-app-engine-iam
+spec:
+  forProvider:
+    appId: ${data.cloudplatform_project.projectId}
+    member: "${data.google_iam_member.member}"
+    role: "roles/iap.httpsResourceAccessor"

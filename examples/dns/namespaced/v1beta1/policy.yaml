@@ -1,0 +1,39 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: dns.gcp.m.upbound.io/v1beta1
+kind: Policy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dns/v1beta1/policy
+  labels:
+    testing.upbound.io/example-name: policy
+  name: policy
+  namespace: upbound-system
+spec:
+  forProvider:
+    alternativeNameServerConfig:
+      targetNameServers:
+        - forwardingPath: private
+          ipv4Address: 172.16.1.10
+        - ipv4Address: 172.16.1.20
+    enableInboundForwarding: true
+    enableLogging: true
+    networks:
+      - networkSelector:
+          matchLabels:
+            testing.upbound.io/example-name: policy
+---
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dns/v1beta1/policy
+  labels:
+    testing.upbound.io/example-name: policy
+  name: policy
+  namespace: upbound-system
+spec:
+  forProvider:
+    autoCreateSubnetworks: false

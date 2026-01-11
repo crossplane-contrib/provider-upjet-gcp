@@ -1,0 +1,123 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: URLMap
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta2/urlmap
+  labels:
+    testing.upbound.io/example-name: urlmap
+  name: urlmap
+spec:
+  forProvider:
+    defaultServiceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: urlmap
+    description: a description
+    hostRule:
+    - hosts:
+      - mysite.com
+      pathMatcher: mysite
+    - hosts:
+      - myothersite.com
+      pathMatcher: otherpaths
+    pathMatcher:
+    - defaultServiceSelector:
+        matchLabels:
+          testing.upbound.io/example-name: urlmap
+      name: mysite
+      pathRule:
+      - paths:
+        - /home
+        serviceSelector:
+          matchLabels:
+            testing.upbound.io/example-name: urlmap
+      - paths:
+        - /login
+        serviceSelector:
+          matchLabels:
+            testing.upbound.io/example-name: urlmap
+      - paths:
+        - /static
+        serviceSelector:
+          matchLabels:
+            testing.upbound.io/example-name: urlmap
+    - defaultServiceSelector:
+        matchLabels:
+          testing.upbound.io/example-name: urlmap
+      name: otherpaths
+    test:
+    - host: hi.com
+      path: /home
+      serviceSelector:
+        matchLabels:
+          testing.upbound.io/example-name: urlmap
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: BackendBucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta2/urlmap
+  labels:
+    testing.upbound.io/example-name: urlmap
+  name: urlmap
+spec:
+  forProvider:
+    bucketNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: urlmap
+    enableCdn: true
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: BackendService
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta2/urlmap
+  labels:
+    testing.upbound.io/example-name: urlmap
+  name: urlmap
+spec:
+  forProvider:
+    healthChecksSelector:
+      matchLabels:
+        testing.upbound.io/example-name: urlmap
+    portName: http
+    protocol: HTTP
+    timeoutSec: 10
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: HealthCheck
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta2/urlmap
+  labels:
+    testing.upbound.io/example-name: urlmap
+  name: urlmap
+spec:
+  forProvider:
+    checkIntervalSec: 1
+    httpHealthCheck:
+      port: 80
+    timeoutSec: 1
+
+---
+
+apiVersion: storage.gcp.upbound.io/v1beta2
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta2/urlmap
+  labels:
+    testing.upbound.io/example-name: urlmap
+  name: urlmap-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    location: US

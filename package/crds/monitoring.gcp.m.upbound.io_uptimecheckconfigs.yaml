@@ -1,0 +1,1455 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.18.0
+  name: uptimecheckconfigs.monitoring.gcp.m.upbound.io
+spec:
+  group: monitoring.gcp.m.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - gcp
+    kind: UptimeCheckConfig
+    listKind: UptimeCheckConfigList
+    plural: uptimecheckconfigs
+    singular: uptimecheckconfig
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: UptimeCheckConfig is the Schema for the UptimeCheckConfigs API.
+          This message configures which resources and services to monitor for availability.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: UptimeCheckConfigSpec defines the desired state of UptimeCheckConfig
+            properties:
+              forProvider:
+                properties:
+                  checkerType:
+                    description: |-
+                      The checker type to use for the check. If the monitored resource type is servicedirectory_service, checker_type must be set to VPC_CHECKERS.
+                      Possible values are: STATIC_IP_CHECKERS, VPC_CHECKERS.
+                    type: string
+                  contentMatchers:
+                    description: |-
+                      The expected content on the page the check is run against. Currently, only the first entry in the list is supported, and other entries will be ignored. The server will look for an exact match of the string in the page response's content. This field is optional and should only be specified if a content match is required.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        content:
+                          description: String or regex content to match (max 1024
+                            bytes)
+                          type: string
+                        jsonPathMatcher:
+                          description: |-
+                            Information needed to perform a JSONPath content match. Used for ContentMatcherOption::MATCHES_JSON_PATH and ContentMatcherOption::NOT_MATCHES_JSON_PATH.
+                            Structure is documented below.
+                          properties:
+                            jsonMatcher:
+                              description: |-
+                                Options to perform JSONPath content matching.
+                                Default value is EXACT_MATCH.
+                                Possible values are: EXACT_MATCH, REGEX_MATCH.
+                              type: string
+                            jsonPath:
+                              description: JSONPath within the response output pointing
+                                to the expected ContentMatcher::content to match against.
+                              type: string
+                          type: object
+                        matcher:
+                          description: |-
+                            The type of content matcher that will be applied to the server output, compared to the content string when the check is run.
+                            Default value is CONTAINS_STRING.
+                            Possible values are: CONTAINS_STRING, NOT_CONTAINS_STRING, MATCHES_REGEX, NOT_MATCHES_REGEX, MATCHES_JSON_PATH, NOT_MATCHES_JSON_PATH.
+                          type: string
+                      type: object
+                    type: array
+                  displayName:
+                    description: A human-friendly name for the uptime check configuration.
+                      The display name should be unique within a Stackdriver Workspace
+                      in order to make it easier to identify; however, uniqueness
+                      is not enforced.
+                    type: string
+                  httpCheck:
+                    description: |-
+                      Contains information needed to make an HTTP or HTTPS check.
+                      Structure is documented below.
+                    properties:
+                      acceptedResponseStatusCodes:
+                        description: |-
+                          If present, the check will only pass if the HTTP response status code is in this set of status codes. If empty, the HTTP status code will only pass if the HTTP status code is 200-299.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            statusClass:
+                              description: |-
+                                A class of status codes to accept.
+                                Possible values are: STATUS_CLASS_1XX, STATUS_CLASS_2XX, STATUS_CLASS_3XX, STATUS_CLASS_4XX, STATUS_CLASS_5XX, STATUS_CLASS_ANY.
+                              type: string
+                            statusValue:
+                              description: A status code to accept.
+                              type: number
+                          type: object
+                        type: array
+                      authInfo:
+                        description: |-
+                          The authentication information using username and password. Optional when creating an HTTP check; defaults to empty. Do not use with other authentication fields.
+                          Structure is documented below.
+                        properties:
+                          passwordSecretRef:
+                            description: |-
+                              A LocalSecretKeySelector is a reference to a secret key
+                              in the same namespace with the referencing object.
+                            properties:
+                              key:
+                                type: string
+                              name:
+                                description: Name of the secret.
+                                type: string
+                            required:
+                            - key
+                            - name
+                            type: object
+                          passwordWo:
+                            type: string
+                          passwordWoVersion:
+                            type: string
+                          username:
+                            description: A unique resource name for this UptimeCheckConfig.
+                              The format is projects/[PROJECT_ID]/uptimeCheckConfigs/[UPTIME_CHECK_ID].
+                            type: string
+                        type: object
+                      body:
+                        description: The request body associated with the HTTP POST
+                          request. If content_type is URL_ENCODED, the body passed
+                          in must be URL-encoded. Users can provide a Content-Length
+                          header via the headers field or the API will do so. If the
+                          request_method is GET and body is not empty, the API will
+                          return an error. The maximum byte size is 1 megabyte. Note
+                          - As with all bytes fields JSON representations are base64
+                          encoded. e.g. foo=bar in URL-encoded form is foo%3Dbar and
+                          in base64 encoding is Zm9vJTI1M0RiYXI=.
+                        type: string
+                      contentType:
+                        description: |-
+                          The content type to use for the check.
+                          Possible values are: TYPE_UNSPECIFIED, URL_ENCODED, USER_PROVIDED.
+                        type: string
+                      customContentType:
+                        description: A user provided content type header to use for
+                          the check. The invalid configurations outlined in the content_type
+                          field apply to custom_content_type, as well as the following
+                          1. content_typeisURL_ENCODEDandcustom_content_typeis set.
+                          2.content_typeisUSER_PROVIDEDandcustom_content_type` is
+                          not set.
+                        type: string
+                      headers:
+                        additionalProperties:
+                          type: string
+                        description: The list of headers to send as part of the uptime
+                          check request. If two headers have the same key and different
+                          values, they should be entered as a single header, with
+                          the value being a comma-separated list of all the desired
+                          values as described in RFC 2616 (page 31). Entering two
+                          separate headers with the same key in a Create call will
+                          cause the first to be overwritten by the second. The maximum
+                          number of headers allowed is 100.
+                        type: object
+                        x-kubernetes-map-type: granular
+                      maskHeaders:
+                        description: Boolean specifying whether to encrypt the header
+                          information. Encryption should be specified for any headers
+                          related to authentication that you do not wish to be seen
+                          when retrieving the configuration. The server will be responsible
+                          for encrypting the headers. On Get/List calls, if mask_headers
+                          is set to true then the headers will be obscured with ******.
+                        type: boolean
+                      path:
+                        description: The path to the page to run the check against.
+                          Will be combined with the host (specified within the MonitoredResource)
+                          and port to construct the full URL. If the provided path
+                          does not begin with /, a / will be prepended automatically.
+                          Optional (defaults to /).
+                        type: string
+                      pingConfig:
+                        description: |-
+                          Contains information needed to add pings to an HTTP check.
+                          Structure is documented below.
+                        properties:
+                          pingsCount:
+                            description: Number of ICMP pings. A maximum of 3 ICMP
+                              pings is currently supported.
+                            type: number
+                        type: object
+                      port:
+                        description: The port to the page to run the check against.
+                          Will be combined with host (specified within the monitored_resource)
+                          and path to construct the full URL. Optional (defaults to
+                          80 without SSL, or 443 with SSL).
+                        type: number
+                      requestMethod:
+                        description: |-
+                          The HTTP request method to use for the check. If set to METHOD_UNSPECIFIED then request_method defaults to GET.
+                          Default value is GET.
+                          Possible values are: METHOD_UNSPECIFIED, GET, POST.
+                        type: string
+                      serviceAgentAuthentication:
+                        description: |-
+                          The authentication information using the Monitoring Service Agent. Optional when creating an HTTPS check; defaults to empty. Do not use with other authentication fields.
+                          Structure is documented below.
+                        properties:
+                          type:
+                            description: |-
+                              The type of authentication to use.
+                              Possible values are: SERVICE_AGENT_AUTHENTICATION_TYPE_UNSPECIFIED, OIDC_TOKEN.
+                            type: string
+                        type: object
+                      useSsl:
+                        description: If true, use HTTPS instead of HTTP to run the
+                          check.
+                        type: boolean
+                      validateSsl:
+                        description: Boolean specifying whether to include SSL certificate
+                          validation as a part of the Uptime check. Only applies to
+                          checks where monitored_resource is set to uptime_url. If
+                          use_ssl is false, setting validate_ssl to true has no effect.
+                        type: boolean
+                    type: object
+                  logCheckFailures:
+                    description: Specifies whether to log the results of failed probes
+                      to Cloud Logging.
+                    type: boolean
+                  monitoredResource:
+                    description: |-
+                      The [monitored resource]
+                      (https://cloud.google.com/monitoring/api/resources) associated with the
+                      configuration. The following monitored resource types are supported for
+                      uptime checks:
+                    properties:
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: Values for all of the labels listed in the associated
+                          monitored resource descriptor. For example, Compute Engine
+                          VM instances use the labels project_id, instance_id, and
+                          zone.
+                        type: object
+                        x-kubernetes-map-type: granular
+                      type:
+                        description: The monitored resource type. This field must
+                          match the type field of a MonitoredResourceDescriptor object.
+                          For example, the type of a Compute Engine VM instance is
+                          gce_instance. For a list of types, see Monitoring resource
+                          types and Logging resource types.
+                        type: string
+                    type: object
+                  period:
+                    description: How often, in seconds, the uptime check is performed.
+                      Currently, the only supported values are 60s (1 minute), 300s
+                      (5 minutes), 600s (10 minutes), and 900s (15 minutes). Optional,
+                      defaults to 300s.
+                    type: string
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  resourceGroup:
+                    description: |-
+                      The group resource associated with the configuration.
+                      Structure is documented below.
+                    properties:
+                      groupId:
+                        description: The group of resources being monitored. Should
+                          be the name of a group
+                        type: string
+                      groupIdRef:
+                        description: Reference to a Group in monitoring to populate
+                          groupId.
+                        properties:
+                          name:
+                            description: Name of the referenced object.
+                            type: string
+                          namespace:
+                            description: Namespace of the referenced object
+                            type: string
+                          policy:
+                            description: Policies for referencing.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        required:
+                        - name
+                        type: object
+                      groupIdSelector:
+                        description: Selector for a Group in monitoring to populate
+                          groupId.
+                        properties:
+                          matchControllerRef:
+                            description: |-
+                              MatchControllerRef ensures an object with the same controller reference
+                              as the selecting object is selected.
+                            type: boolean
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: MatchLabels ensures an object with matching
+                              labels is selected.
+                            type: object
+                          namespace:
+                            description: Namespace for the selector
+                            type: string
+                          policy:
+                            description: Policies for selection.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        type: object
+                      resourceType:
+                        description: |-
+                          The resource type of the group members.
+                          Possible values are: RESOURCE_TYPE_UNSPECIFIED, INSTANCE, AWS_ELB_LOAD_BALANCER.
+                        type: string
+                    type: object
+                  selectedRegions:
+                    description: The list of regions from which the check will be
+                      run. Some regions contain one location, and others contain more
+                      than one. If this field is specified, enough regions to include
+                      a minimum of 3 locations must be provided, or an error message
+                      is returned. Not specifying this field will result in uptime
+                      checks running from all regions.
+                    items:
+                      type: string
+                    type: array
+                  syntheticMonitor:
+                    description: |-
+                      A Synthetic Monitor deployed to a Cloud Functions V2 instance.
+                      Structure is documented below.
+                    properties:
+                      cloudFunctionV2:
+                        description: |-
+                          Target a Synthetic Monitor GCFv2 Instance
+                          Structure is documented below.
+                        properties:
+                          name:
+                            description: The fully qualified name of the cloud function
+                              resource.
+                            type: string
+                          nameRef:
+                            description: Reference to a Function in cloudfunctions2
+                              to populate name.
+                            properties:
+                              name:
+                                description: Name of the referenced object.
+                                type: string
+                              namespace:
+                                description: Namespace of the referenced object
+                                type: string
+                              policy:
+                                description: Policies for referencing.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            required:
+                            - name
+                            type: object
+                          nameSelector:
+                            description: Selector for a Function in cloudfunctions2
+                              to populate name.
+                            properties:
+                              matchControllerRef:
+                                description: |-
+                                  MatchControllerRef ensures an object with the same controller reference
+                                  as the selecting object is selected.
+                                type: boolean
+                              matchLabels:
+                                additionalProperties:
+                                  type: string
+                                description: MatchLabels ensures an object with matching
+                                  labels is selected.
+                                type: object
+                              namespace:
+                                description: Namespace for the selector
+                                type: string
+                              policy:
+                                description: Policies for selection.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            type: object
+                        type: object
+                    type: object
+                  tcpCheck:
+                    description: |-
+                      Contains information needed to make a TCP check.
+                      Structure is documented below.
+                    properties:
+                      pingConfig:
+                        description: |-
+                          Contains information needed to add pings to a TCP check.
+                          Structure is documented below.
+                        properties:
+                          pingsCount:
+                            description: Number of ICMP pings. A maximum of 3 ICMP
+                              pings is currently supported.
+                            type: number
+                        type: object
+                      port:
+                        description: The port to the page to run the check against.
+                          Will be combined with host (specified within the monitored_resource)
+                          to construct the full URL.
+                        type: number
+                    type: object
+                  timeout:
+                    description: The maximum amount of time to wait for the request
+                      to complete (must be between 1 and 60 seconds). See the accepted
+                      formats
+                    type: string
+                  userLabels:
+                    additionalProperties:
+                      type: string
+                    description: User-supplied key/value data to be used for organizing
+                      and identifying the UptimeCheckConfig objects. The field can
+                      contain up to 64 entries. Each key and value is limited to 63
+                      Unicode characters or 128 bytes, whichever is smaller. Labels
+                      and values can contain only lowercase letters, numerals, underscores,
+                      and dashes. Keys must begin with a letter.
+                    type: object
+                    x-kubernetes-map-type: granular
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  checkerType:
+                    description: |-
+                      The checker type to use for the check. If the monitored resource type is servicedirectory_service, checker_type must be set to VPC_CHECKERS.
+                      Possible values are: STATIC_IP_CHECKERS, VPC_CHECKERS.
+                    type: string
+                  contentMatchers:
+                    description: |-
+                      The expected content on the page the check is run against. Currently, only the first entry in the list is supported, and other entries will be ignored. The server will look for an exact match of the string in the page response's content. This field is optional and should only be specified if a content match is required.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        content:
+                          description: String or regex content to match (max 1024
+                            bytes)
+                          type: string
+                        jsonPathMatcher:
+                          description: |-
+                            Information needed to perform a JSONPath content match. Used for ContentMatcherOption::MATCHES_JSON_PATH and ContentMatcherOption::NOT_MATCHES_JSON_PATH.
+                            Structure is documented below.
+                          properties:
+                            jsonMatcher:
+                              description: |-
+                                Options to perform JSONPath content matching.
+                                Default value is EXACT_MATCH.
+                                Possible values are: EXACT_MATCH, REGEX_MATCH.
+                              type: string
+                            jsonPath:
+                              description: JSONPath within the response output pointing
+                                to the expected ContentMatcher::content to match against.
+                              type: string
+                          type: object
+                        matcher:
+                          description: |-
+                            The type of content matcher that will be applied to the server output, compared to the content string when the check is run.
+                            Default value is CONTAINS_STRING.
+                            Possible values are: CONTAINS_STRING, NOT_CONTAINS_STRING, MATCHES_REGEX, NOT_MATCHES_REGEX, MATCHES_JSON_PATH, NOT_MATCHES_JSON_PATH.
+                          type: string
+                      type: object
+                    type: array
+                  displayName:
+                    description: A human-friendly name for the uptime check configuration.
+                      The display name should be unique within a Stackdriver Workspace
+                      in order to make it easier to identify; however, uniqueness
+                      is not enforced.
+                    type: string
+                  httpCheck:
+                    description: |-
+                      Contains information needed to make an HTTP or HTTPS check.
+                      Structure is documented below.
+                    properties:
+                      acceptedResponseStatusCodes:
+                        description: |-
+                          If present, the check will only pass if the HTTP response status code is in this set of status codes. If empty, the HTTP status code will only pass if the HTTP status code is 200-299.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            statusClass:
+                              description: |-
+                                A class of status codes to accept.
+                                Possible values are: STATUS_CLASS_1XX, STATUS_CLASS_2XX, STATUS_CLASS_3XX, STATUS_CLASS_4XX, STATUS_CLASS_5XX, STATUS_CLASS_ANY.
+                              type: string
+                            statusValue:
+                              description: A status code to accept.
+                              type: number
+                          type: object
+                        type: array
+                      authInfo:
+                        description: |-
+                          The authentication information using username and password. Optional when creating an HTTP check; defaults to empty. Do not use with other authentication fields.
+                          Structure is documented below.
+                        properties:
+                          passwordSecretRef:
+                            description: |-
+                              A LocalSecretKeySelector is a reference to a secret key
+                              in the same namespace with the referencing object.
+                            properties:
+                              key:
+                                type: string
+                              name:
+                                description: Name of the secret.
+                                type: string
+                            required:
+                            - key
+                            - name
+                            type: object
+                          passwordWo:
+                            type: string
+                          passwordWoVersion:
+                            type: string
+                          username:
+                            description: A unique resource name for this UptimeCheckConfig.
+                              The format is projects/[PROJECT_ID]/uptimeCheckConfigs/[UPTIME_CHECK_ID].
+                            type: string
+                        type: object
+                      body:
+                        description: The request body associated with the HTTP POST
+                          request. If content_type is URL_ENCODED, the body passed
+                          in must be URL-encoded. Users can provide a Content-Length
+                          header via the headers field or the API will do so. If the
+                          request_method is GET and body is not empty, the API will
+                          return an error. The maximum byte size is 1 megabyte. Note
+                          - As with all bytes fields JSON representations are base64
+                          encoded. e.g. foo=bar in URL-encoded form is foo%3Dbar and
+                          in base64 encoding is Zm9vJTI1M0RiYXI=.
+                        type: string
+                      contentType:
+                        description: |-
+                          The content type to use for the check.
+                          Possible values are: TYPE_UNSPECIFIED, URL_ENCODED, USER_PROVIDED.
+                        type: string
+                      customContentType:
+                        description: A user provided content type header to use for
+                          the check. The invalid configurations outlined in the content_type
+                          field apply to custom_content_type, as well as the following
+                          1. content_typeisURL_ENCODEDandcustom_content_typeis set.
+                          2.content_typeisUSER_PROVIDEDandcustom_content_type` is
+                          not set.
+                        type: string
+                      headers:
+                        additionalProperties:
+                          type: string
+                        description: The list of headers to send as part of the uptime
+                          check request. If two headers have the same key and different
+                          values, they should be entered as a single header, with
+                          the value being a comma-separated list of all the desired
+                          values as described in RFC 2616 (page 31). Entering two
+                          separate headers with the same key in a Create call will
+                          cause the first to be overwritten by the second. The maximum
+                          number of headers allowed is 100.
+                        type: object
+                        x-kubernetes-map-type: granular
+                      maskHeaders:
+                        description: Boolean specifying whether to encrypt the header
+                          information. Encryption should be specified for any headers
+                          related to authentication that you do not wish to be seen
+                          when retrieving the configuration. The server will be responsible
+                          for encrypting the headers. On Get/List calls, if mask_headers
+                          is set to true then the headers will be obscured with ******.
+                        type: boolean
+                      path:
+                        description: The path to the page to run the check against.
+                          Will be combined with the host (specified within the MonitoredResource)
+                          and port to construct the full URL. If the provided path
+                          does not begin with /, a / will be prepended automatically.
+                          Optional (defaults to /).
+                        type: string
+                      pingConfig:
+                        description: |-
+                          Contains information needed to add pings to an HTTP check.
+                          Structure is documented below.
+                        properties:
+                          pingsCount:
+                            description: Number of ICMP pings. A maximum of 3 ICMP
+                              pings is currently supported.
+                            type: number
+                        type: object
+                      port:
+                        description: The port to the page to run the check against.
+                          Will be combined with host (specified within the monitored_resource)
+                          and path to construct the full URL. Optional (defaults to
+                          80 without SSL, or 443 with SSL).
+                        type: number
+                      requestMethod:
+                        description: |-
+                          The HTTP request method to use for the check. If set to METHOD_UNSPECIFIED then request_method defaults to GET.
+                          Default value is GET.
+                          Possible values are: METHOD_UNSPECIFIED, GET, POST.
+                        type: string
+                      serviceAgentAuthentication:
+                        description: |-
+                          The authentication information using the Monitoring Service Agent. Optional when creating an HTTPS check; defaults to empty. Do not use with other authentication fields.
+                          Structure is documented below.
+                        properties:
+                          type:
+                            description: |-
+                              The type of authentication to use.
+                              Possible values are: SERVICE_AGENT_AUTHENTICATION_TYPE_UNSPECIFIED, OIDC_TOKEN.
+                            type: string
+                        type: object
+                      useSsl:
+                        description: If true, use HTTPS instead of HTTP to run the
+                          check.
+                        type: boolean
+                      validateSsl:
+                        description: Boolean specifying whether to include SSL certificate
+                          validation as a part of the Uptime check. Only applies to
+                          checks where monitored_resource is set to uptime_url. If
+                          use_ssl is false, setting validate_ssl to true has no effect.
+                        type: boolean
+                    type: object
+                  logCheckFailures:
+                    description: Specifies whether to log the results of failed probes
+                      to Cloud Logging.
+                    type: boolean
+                  monitoredResource:
+                    description: |-
+                      The [monitored resource]
+                      (https://cloud.google.com/monitoring/api/resources) associated with the
+                      configuration. The following monitored resource types are supported for
+                      uptime checks:
+                    properties:
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: Values for all of the labels listed in the associated
+                          monitored resource descriptor. For example, Compute Engine
+                          VM instances use the labels project_id, instance_id, and
+                          zone.
+                        type: object
+                        x-kubernetes-map-type: granular
+                      type:
+                        description: The monitored resource type. This field must
+                          match the type field of a MonitoredResourceDescriptor object.
+                          For example, the type of a Compute Engine VM instance is
+                          gce_instance. For a list of types, see Monitoring resource
+                          types and Logging resource types.
+                        type: string
+                    type: object
+                  period:
+                    description: How often, in seconds, the uptime check is performed.
+                      Currently, the only supported values are 60s (1 minute), 300s
+                      (5 minutes), 600s (10 minutes), and 900s (15 minutes). Optional,
+                      defaults to 300s.
+                    type: string
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  resourceGroup:
+                    description: |-
+                      The group resource associated with the configuration.
+                      Structure is documented below.
+                    properties:
+                      groupId:
+                        description: The group of resources being monitored. Should
+                          be the name of a group
+                        type: string
+                      groupIdRef:
+                        description: Reference to a Group in monitoring to populate
+                          groupId.
+                        properties:
+                          name:
+                            description: Name of the referenced object.
+                            type: string
+                          namespace:
+                            description: Namespace of the referenced object
+                            type: string
+                          policy:
+                            description: Policies for referencing.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        required:
+                        - name
+                        type: object
+                      groupIdSelector:
+                        description: Selector for a Group in monitoring to populate
+                          groupId.
+                        properties:
+                          matchControllerRef:
+                            description: |-
+                              MatchControllerRef ensures an object with the same controller reference
+                              as the selecting object is selected.
+                            type: boolean
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: MatchLabels ensures an object with matching
+                              labels is selected.
+                            type: object
+                          namespace:
+                            description: Namespace for the selector
+                            type: string
+                          policy:
+                            description: Policies for selection.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        type: object
+                      resourceType:
+                        description: |-
+                          The resource type of the group members.
+                          Possible values are: RESOURCE_TYPE_UNSPECIFIED, INSTANCE, AWS_ELB_LOAD_BALANCER.
+                        type: string
+                    type: object
+                  selectedRegions:
+                    description: The list of regions from which the check will be
+                      run. Some regions contain one location, and others contain more
+                      than one. If this field is specified, enough regions to include
+                      a minimum of 3 locations must be provided, or an error message
+                      is returned. Not specifying this field will result in uptime
+                      checks running from all regions.
+                    items:
+                      type: string
+                    type: array
+                  syntheticMonitor:
+                    description: |-
+                      A Synthetic Monitor deployed to a Cloud Functions V2 instance.
+                      Structure is documented below.
+                    properties:
+                      cloudFunctionV2:
+                        description: |-
+                          Target a Synthetic Monitor GCFv2 Instance
+                          Structure is documented below.
+                        properties:
+                          name:
+                            description: The fully qualified name of the cloud function
+                              resource.
+                            type: string
+                          nameRef:
+                            description: Reference to a Function in cloudfunctions2
+                              to populate name.
+                            properties:
+                              name:
+                                description: Name of the referenced object.
+                                type: string
+                              namespace:
+                                description: Namespace of the referenced object
+                                type: string
+                              policy:
+                                description: Policies for referencing.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            required:
+                            - name
+                            type: object
+                          nameSelector:
+                            description: Selector for a Function in cloudfunctions2
+                              to populate name.
+                            properties:
+                              matchControllerRef:
+                                description: |-
+                                  MatchControllerRef ensures an object with the same controller reference
+                                  as the selecting object is selected.
+                                type: boolean
+                              matchLabels:
+                                additionalProperties:
+                                  type: string
+                                description: MatchLabels ensures an object with matching
+                                  labels is selected.
+                                type: object
+                              namespace:
+                                description: Namespace for the selector
+                                type: string
+                              policy:
+                                description: Policies for selection.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            type: object
+                        type: object
+                    type: object
+                  tcpCheck:
+                    description: |-
+                      Contains information needed to make a TCP check.
+                      Structure is documented below.
+                    properties:
+                      pingConfig:
+                        description: |-
+                          Contains information needed to add pings to a TCP check.
+                          Structure is documented below.
+                        properties:
+                          pingsCount:
+                            description: Number of ICMP pings. A maximum of 3 ICMP
+                              pings is currently supported.
+                            type: number
+                        type: object
+                      port:
+                        description: The port to the page to run the check against.
+                          Will be combined with host (specified within the monitored_resource)
+                          to construct the full URL.
+                        type: number
+                    type: object
+                  timeout:
+                    description: The maximum amount of time to wait for the request
+                      to complete (must be between 1 and 60 seconds). See the accepted
+                      formats
+                    type: string
+                  userLabels:
+                    additionalProperties:
+                      type: string
+                    description: User-supplied key/value data to be used for organizing
+                      and identifying the UptimeCheckConfig objects. The field can
+                      contain up to 64 entries. Each key and value is limited to 63
+                      Unicode characters or 128 bytes, whichever is smaller. Labels
+                      and values can contain only lowercase letters, numerals, underscores,
+                      and dashes. Keys must begin with a letter.
+                    type: object
+                    x-kubernetes-map-type: granular
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  kind: ClusterProviderConfig
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  kind:
+                    description: Kind of the referenced object.
+                    type: string
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - kind
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                required:
+                - name
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.displayName is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.displayName)
+                || (has(self.initProvider) && has(self.initProvider.displayName))'
+            - message: spec.forProvider.timeout is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.timeout)
+                || (has(self.initProvider) && has(self.initProvider.timeout))'
+          status:
+            description: UptimeCheckConfigStatus defines the observed state of UptimeCheckConfig.
+            properties:
+              atProvider:
+                properties:
+                  checkerType:
+                    description: |-
+                      The checker type to use for the check. If the monitored resource type is servicedirectory_service, checker_type must be set to VPC_CHECKERS.
+                      Possible values are: STATIC_IP_CHECKERS, VPC_CHECKERS.
+                    type: string
+                  contentMatchers:
+                    description: |-
+                      The expected content on the page the check is run against. Currently, only the first entry in the list is supported, and other entries will be ignored. The server will look for an exact match of the string in the page response's content. This field is optional and should only be specified if a content match is required.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        content:
+                          description: String or regex content to match (max 1024
+                            bytes)
+                          type: string
+                        jsonPathMatcher:
+                          description: |-
+                            Information needed to perform a JSONPath content match. Used for ContentMatcherOption::MATCHES_JSON_PATH and ContentMatcherOption::NOT_MATCHES_JSON_PATH.
+                            Structure is documented below.
+                          properties:
+                            jsonMatcher:
+                              description: |-
+                                Options to perform JSONPath content matching.
+                                Default value is EXACT_MATCH.
+                                Possible values are: EXACT_MATCH, REGEX_MATCH.
+                              type: string
+                            jsonPath:
+                              description: JSONPath within the response output pointing
+                                to the expected ContentMatcher::content to match against.
+                              type: string
+                          type: object
+                        matcher:
+                          description: |-
+                            The type of content matcher that will be applied to the server output, compared to the content string when the check is run.
+                            Default value is CONTAINS_STRING.
+                            Possible values are: CONTAINS_STRING, NOT_CONTAINS_STRING, MATCHES_REGEX, NOT_MATCHES_REGEX, MATCHES_JSON_PATH, NOT_MATCHES_JSON_PATH.
+                          type: string
+                      type: object
+                    type: array
+                  displayName:
+                    description: A human-friendly name for the uptime check configuration.
+                      The display name should be unique within a Stackdriver Workspace
+                      in order to make it easier to identify; however, uniqueness
+                      is not enforced.
+                    type: string
+                  httpCheck:
+                    description: |-
+                      Contains information needed to make an HTTP or HTTPS check.
+                      Structure is documented below.
+                    properties:
+                      acceptedResponseStatusCodes:
+                        description: |-
+                          If present, the check will only pass if the HTTP response status code is in this set of status codes. If empty, the HTTP status code will only pass if the HTTP status code is 200-299.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            statusClass:
+                              description: |-
+                                A class of status codes to accept.
+                                Possible values are: STATUS_CLASS_1XX, STATUS_CLASS_2XX, STATUS_CLASS_3XX, STATUS_CLASS_4XX, STATUS_CLASS_5XX, STATUS_CLASS_ANY.
+                              type: string
+                            statusValue:
+                              description: A status code to accept.
+                              type: number
+                          type: object
+                        type: array
+                      authInfo:
+                        description: |-
+                          The authentication information using username and password. Optional when creating an HTTP check; defaults to empty. Do not use with other authentication fields.
+                          Structure is documented below.
+                        properties:
+                          passwordWo:
+                            type: string
+                          passwordWoVersion:
+                            type: string
+                          username:
+                            description: A unique resource name for this UptimeCheckConfig.
+                              The format is projects/[PROJECT_ID]/uptimeCheckConfigs/[UPTIME_CHECK_ID].
+                            type: string
+                        type: object
+                      body:
+                        description: The request body associated with the HTTP POST
+                          request. If content_type is URL_ENCODED, the body passed
+                          in must be URL-encoded. Users can provide a Content-Length
+                          header via the headers field or the API will do so. If the
+                          request_method is GET and body is not empty, the API will
+                          return an error. The maximum byte size is 1 megabyte. Note
+                          - As with all bytes fields JSON representations are base64
+                          encoded. e.g. foo=bar in URL-encoded form is foo%3Dbar and
+                          in base64 encoding is Zm9vJTI1M0RiYXI=.
+                        type: string
+                      contentType:
+                        description: |-
+                          The content type to use for the check.
+                          Possible values are: TYPE_UNSPECIFIED, URL_ENCODED, USER_PROVIDED.
+                        type: string
+                      customContentType:
+                        description: A user provided content type header to use for
+                          the check. The invalid configurations outlined in the content_type
+                          field apply to custom_content_type, as well as the following
+                          1. content_typeisURL_ENCODEDandcustom_content_typeis set.
+                          2.content_typeisUSER_PROVIDEDandcustom_content_type` is
+                          not set.
+                        type: string
+                      headers:
+                        additionalProperties:
+                          type: string
+                        description: The list of headers to send as part of the uptime
+                          check request. If two headers have the same key and different
+                          values, they should be entered as a single header, with
+                          the value being a comma-separated list of all the desired
+                          values as described in RFC 2616 (page 31). Entering two
+                          separate headers with the same key in a Create call will
+                          cause the first to be overwritten by the second. The maximum
+                          number of headers allowed is 100.
+                        type: object
+                        x-kubernetes-map-type: granular
+                      maskHeaders:
+                        description: Boolean specifying whether to encrypt the header
+                          information. Encryption should be specified for any headers
+                          related to authentication that you do not wish to be seen
+                          when retrieving the configuration. The server will be responsible
+                          for encrypting the headers. On Get/List calls, if mask_headers
+                          is set to true then the headers will be obscured with ******.
+                        type: boolean
+                      path:
+                        description: The path to the page to run the check against.
+                          Will be combined with the host (specified within the MonitoredResource)
+                          and port to construct the full URL. If the provided path
+                          does not begin with /, a / will be prepended automatically.
+                          Optional (defaults to /).
+                        type: string
+                      pingConfig:
+                        description: |-
+                          Contains information needed to add pings to an HTTP check.
+                          Structure is documented below.
+                        properties:
+                          pingsCount:
+                            description: Number of ICMP pings. A maximum of 3 ICMP
+                              pings is currently supported.
+                            type: number
+                        type: object
+                      port:
+                        description: The port to the page to run the check against.
+                          Will be combined with host (specified within the monitored_resource)
+                          and path to construct the full URL. Optional (defaults to
+                          80 without SSL, or 443 with SSL).
+                        type: number
+                      requestMethod:
+                        description: |-
+                          The HTTP request method to use for the check. If set to METHOD_UNSPECIFIED then request_method defaults to GET.
+                          Default value is GET.
+                          Possible values are: METHOD_UNSPECIFIED, GET, POST.
+                        type: string
+                      serviceAgentAuthentication:
+                        description: |-
+                          The authentication information using the Monitoring Service Agent. Optional when creating an HTTPS check; defaults to empty. Do not use with other authentication fields.
+                          Structure is documented below.
+                        properties:
+                          type:
+                            description: |-
+                              The type of authentication to use.
+                              Possible values are: SERVICE_AGENT_AUTHENTICATION_TYPE_UNSPECIFIED, OIDC_TOKEN.
+                            type: string
+                        type: object
+                      useSsl:
+                        description: If true, use HTTPS instead of HTTP to run the
+                          check.
+                        type: boolean
+                      validateSsl:
+                        description: Boolean specifying whether to include SSL certificate
+                          validation as a part of the Uptime check. Only applies to
+                          checks where monitored_resource is set to uptime_url. If
+                          use_ssl is false, setting validate_ssl to true has no effect.
+                        type: boolean
+                    type: object
+                  id:
+                    description: an identifier for the resource with format {{name}}
+                    type: string
+                  logCheckFailures:
+                    description: Specifies whether to log the results of failed probes
+                      to Cloud Logging.
+                    type: boolean
+                  monitoredResource:
+                    description: |-
+                      The [monitored resource]
+                      (https://cloud.google.com/monitoring/api/resources) associated with the
+                      configuration. The following monitored resource types are supported for
+                      uptime checks:
+                    properties:
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: Values for all of the labels listed in the associated
+                          monitored resource descriptor. For example, Compute Engine
+                          VM instances use the labels project_id, instance_id, and
+                          zone.
+                        type: object
+                        x-kubernetes-map-type: granular
+                      type:
+                        description: The monitored resource type. This field must
+                          match the type field of a MonitoredResourceDescriptor object.
+                          For example, the type of a Compute Engine VM instance is
+                          gce_instance. For a list of types, see Monitoring resource
+                          types and Logging resource types.
+                        type: string
+                    type: object
+                  name:
+                    description: A unique resource name for this UptimeCheckConfig.
+                      The format is projects/[PROJECT_ID]/uptimeCheckConfigs/[UPTIME_CHECK_ID].
+                    type: string
+                  period:
+                    description: How often, in seconds, the uptime check is performed.
+                      Currently, the only supported values are 60s (1 minute), 300s
+                      (5 minutes), 600s (10 minutes), and 900s (15 minutes). Optional,
+                      defaults to 300s.
+                    type: string
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  resourceGroup:
+                    description: |-
+                      The group resource associated with the configuration.
+                      Structure is documented below.
+                    properties:
+                      groupId:
+                        description: The group of resources being monitored. Should
+                          be the name of a group
+                        type: string
+                      resourceType:
+                        description: |-
+                          The resource type of the group members.
+                          Possible values are: RESOURCE_TYPE_UNSPECIFIED, INSTANCE, AWS_ELB_LOAD_BALANCER.
+                        type: string
+                    type: object
+                  selectedRegions:
+                    description: The list of regions from which the check will be
+                      run. Some regions contain one location, and others contain more
+                      than one. If this field is specified, enough regions to include
+                      a minimum of 3 locations must be provided, or an error message
+                      is returned. Not specifying this field will result in uptime
+                      checks running from all regions.
+                    items:
+                      type: string
+                    type: array
+                  syntheticMonitor:
+                    description: |-
+                      A Synthetic Monitor deployed to a Cloud Functions V2 instance.
+                      Structure is documented below.
+                    properties:
+                      cloudFunctionV2:
+                        description: |-
+                          Target a Synthetic Monitor GCFv2 Instance
+                          Structure is documented below.
+                        properties:
+                          name:
+                            description: The fully qualified name of the cloud function
+                              resource.
+                            type: string
+                        type: object
+                    type: object
+                  tcpCheck:
+                    description: |-
+                      Contains information needed to make a TCP check.
+                      Structure is documented below.
+                    properties:
+                      pingConfig:
+                        description: |-
+                          Contains information needed to add pings to a TCP check.
+                          Structure is documented below.
+                        properties:
+                          pingsCount:
+                            description: Number of ICMP pings. A maximum of 3 ICMP
+                              pings is currently supported.
+                            type: number
+                        type: object
+                      port:
+                        description: The port to the page to run the check against.
+                          Will be combined with host (specified within the monitored_resource)
+                          to construct the full URL.
+                        type: number
+                    type: object
+                  timeout:
+                    description: The maximum amount of time to wait for the request
+                      to complete (must be between 1 and 60 seconds). See the accepted
+                      formats
+                    type: string
+                  uptimeCheckId:
+                    description: The id of the uptime check
+                    type: string
+                  userLabels:
+                    additionalProperties:
+                      type: string
+                    description: User-supplied key/value data to be used for organizing
+                      and identifying the UptimeCheckConfig objects. The field can
+                      contain up to 64 entries. Each key and value is limited to 63
+                      Unicode characters or 128 bytes, whichever is smaller. Labels
+                      and values can contain only lowercase letters, numerals, underscores,
+                      and dashes. Keys must begin with a letter.
+                    type: object
+                    x-kubernetes-map-type: granular
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

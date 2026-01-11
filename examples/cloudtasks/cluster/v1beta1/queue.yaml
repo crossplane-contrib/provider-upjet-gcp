@@ -1,0 +1,16 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: cloudtasks.gcp.upbound.io/v1beta1
+kind: Queue
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudtasks/v1beta1/queue
+  labels:
+    testing.upbound.io/example-name: queue
+  # If you delete a queue from the Google Cloud console, you must wait 7 days before recreating it with the same name.
+  name: queue-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    location: us-central1

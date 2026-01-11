@@ -1,0 +1,33 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: ProjectUsageExportBucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudplatform/v1beta1/projectusageexportbucket
+  labels:
+    testing.upbound.io/example-name: project-usage-tracking-bucket
+  name: project-usage-tracking-bucket
+spec:
+  forProvider:
+    bucketNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: project-usage-tracking-bucket
+    project: ${data.cloudplatform_project.projectId}
+
+---
+
+apiVersion: storage.gcp.upbound.io/v1beta1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudplatform/v1beta1/projectusageexportbucket
+  labels:
+    testing.upbound.io/example-name: project-usage-tracking-bucket
+  name: project-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    location: US
+    storageClass: MULTI_REGIONAL

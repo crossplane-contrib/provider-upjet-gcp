@@ -1,0 +1,72 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: beyondcorp.gcp.m.upbound.io/v1beta1
+kind: AppConnection
+metadata:
+  annotations:
+    meta.upbound.io/example-id: beyondcorp/v1beta1/appconnection
+    upjet.upbound.io/manual-intervention: The resource requires a real Project ID
+  labels:
+    testing.upbound.io/example-name: app_connection
+  name: app-connection
+  namespace: upbound-system
+spec:
+  forProvider:
+    applicationEndpoint:
+      - host: foo-host
+        port: 8080
+    connectorsRefs:
+      - name: app_connector
+    gateway:
+      appGateway: app-gateway
+    name: my-app-connection
+    region: us-central1
+    type: TCP_PROXY
+---
+apiVersion: beyondcorp.gcp.m.upbound.io/v1beta1
+kind: AppConnector
+metadata:
+  annotations:
+    meta.upbound.io/example-id: beyondcorp/v1beta1/appconnection
+  labels:
+    testing.upbound.io/example-name: app_connector
+  name: app-connector
+  namespace: upbound-system
+spec:
+  forProvider:
+    principalInfo:
+      - serviceAccount:
+          - emailSelector:
+              matchLabels:
+                testing.upbound.io/example-name: service_account
+    region: us-central1
+---
+apiVersion: cloudplatform.gcp.m.upbound.io/v1beta1
+kind: ServiceAccount
+metadata:
+  annotations:
+    meta.upbound.io/example-id: beyondcorp/v1beta1/appconnection
+  labels:
+    testing.upbound.io/example-name: service_account
+  name: service-account
+  namespace: upbound-system
+spec:
+  forProvider:
+    displayName: Test Service Account
+---
+apiVersion: beyondcorp.gcp.m.upbound.io/v1beta1
+kind: AppGateway
+metadata:
+  annotations:
+    meta.upbound.io/example-id: beyondcorp/v1beta1/appconnection
+  labels:
+    testing.upbound.io/example-name: app_gateway
+  name: app-gateway
+  namespace: upbound-system
+spec:
+  forProvider:
+    hostType: GCP_REGIONAL_MIG
+    region: us-central1
+    type: TCP_PROXY

@@ -1,6 +1,10 @@
+// SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 package config
 
-import "github.com/upbound/upjet/pkg/config"
+import "github.com/crossplane/upjet/v2/pkg/config"
 
 // ExternalNameNotTestedConfigs contains no-tested configurations for this
 // provider.
@@ -77,6 +81,18 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	"google_data_catalog_tag_template_iam_member": config.IdentifierFromProvider,
 	// projects/{{project}}/locations/{{region}}/tagTemplates/{{tag_template}}
 	"google_data_catalog_tag_template_iam_policy": config.IdentifierFromProvider,
+	// projects/{{project}}/locations/{{region}}/taxonomies/{{taxonomy}} roles/viewer
+	"google_data_catalog_taxonomy_iam_binding": config.IdentifierFromProvider,
+	// projects/{{project}}/locations/{{region}}/taxonomies/{{taxonomy}} roles/viewer user:jane@example.com
+	"google_data_catalog_taxonomy_iam_member": config.IdentifierFromProvider,
+	// projects/{{project}}/locations/{{region}}/taxonomies/{{taxonomy}}/policyTags/{{policy_tag}}
+	"google_data_catalog_taxonomy_iam_policy": config.IdentifierFromProvider,
+	// projects/{{project}}/locations/{{region}}/taxonomies/{{taxonomy}}/policyTags/{{policy_tag}} roles/viewer
+	"google_data_catalog_policy_tag_iam_binding": config.IdentifierFromProvider,
+	// projects/{{project}}/locations/{{region}}/taxonomies/{{taxonomy}}/policyTags/{{policy_tag}} roles/viewer user:jane@example.com
+	"google_data_catalog_policy_tag_iam_member": config.IdentifierFromProvider,
+	// projects/{{project}}/locations/{{region}}/taxonomies/{{taxonomy}}/policyTags/{{policy_tag}}
+	"google_data_catalog_policy_tag_iam_policy": config.IdentifierFromProvider,
 
 	// accessapproval
 	//
@@ -89,25 +105,12 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 
 	// accesscontextmanager
 	//
-	//
-	// Imported by using the following format: {{name}}: accessPolicies/{policy_id}/accessLevels/{short_name}
-	"google_access_context_manager_access_level": config.IdentifierFromProvider,
-	// No import
-	"google_access_context_manager_access_level_condition": config.IdentifierFromProvider,
-	// Imported by using {{name}}, but name doesn't exist in parameters. Try using IdentifierFromProvider
-	"google_access_context_manager_access_policy": config.IdentifierFromProvider,
 	// Imported by using the following format: accessPolicies/{{access_policy}} roles/accesscontextmanager.policyAdmin
 	"google_access_context_manager_access_policy_iam_binding": config.IdentifierFromProvider,
-	// Imported by using the following format: "accessPolicies/{{access_policy}} roles/accesscontextmanager.policyAdmin user:jane@example.com"
-	"google_access_context_manager_access_policy_iam_member": config.IdentifierFromProvider,
 	// Imported by using the following format: accessPolicies/{{access_policy}}
 	"google_access_context_manager_access_policy_iam_policy": config.TemplatedStringAsIdentifier("name", "accessPolicies/{{ .external_name }}"),
 	// Imported by using the following format: {{name}}
 	"google_access_context_manager_gcp_user_access_binding": config.IdentifierFromProvider,
-	// Imported by using the following format: {{name}}
-	"google_access_context_manager_service_perimeter": config.IdentifierFromProvider,
-	// Imported by using the following format: {{perimeter_name}}/{{resource}}
-	"google_access_context_manager_service_perimeter_resource": config.TemplatedStringAsIdentifier("resource", "{{ .parameters.perimeter_name }}/{{ .external_name }}"),
 
 	// activedirectory
 	//
@@ -116,20 +119,12 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 
 	// apigee
 	//
-	// Imported by using the following format: {{org_id}}/endpointAttachments/{{endpoint_attachment_id}}
-	"google_apigee_endpoint_attachment": config.TemplatedStringAsIdentifier("endpoint_attachment_id", "{{ .parameters.org_id }}/endpointAttachments/{{ .external_name }}"),
-	// Imported by using the following format: {{envgroup_id}}/attachments/{{name}}. Name doesn't exist in parameters, try using IdentifierFromProvider
-	"google_apigee_envgroup_attachment": config.IdentifierFromProvider,
 	// Imported by using the following format: {{org_id}}/environments/{{environment}} roles/viewer
 	"google_apigee_environment_iam_binding": config.IdentifierFromProvider,
 	// Imported by using the following format: {{org_id}}/environments/{{environment}}
 	"google_apigee_environment_iam_policy": config.IdentifierFromProvider,
-	// Imported by using the following format: {{instance_id}}/attachments/{{name}}. Name doesn't exist in parameters, try using IdentifierFromProvider
-	"google_apigee_instance_attachment": config.IdentifierFromProvider,
 	// Imported by using the following format: {{instance_id}}/natAddresses/{{name}}
 	"google_apigee_nat_address": config.TemplatedStringAsIdentifier("name", "{{ .parameters.instance_id }}/natAddresses/{{ .external_name }}"),
-	// Imported by using the following format: organizations/{{name}}/syncAuthorization
-	"google_apigee_sync_authorization": config.TemplatedStringAsIdentifier("name", "organizations/{{ .external_name }}/syncAuthorization"),
 
 	// apikeys
 	//
@@ -150,6 +145,12 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	//
 	// Imported by using the following format: projects/{{project}}/locations/{{location}}/lakes/{{name}}
 	"google_dataplex_lake": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/lakes/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/aspectTypes/{{aspect_type_id}}
+	"google_dataplex_aspect_type_iam_binding": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/aspectTypes/{{ .external_name }} {{ .parameters.role }}"),
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/aspectTypes/{{aspect_type_id}}
+	"google_dataplex_aspect_type_iam_member": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/aspectTypes/{{ .external_name }} {{ .parameters.role }} {{ .parameters.member }}"),
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/aspectTypes/{{aspect_type_id}}
+	"google_dataplex_aspect_type_iam_policy": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/aspectTypes/{{ .external_name }}"),
 
 	// dataproc
 	//
@@ -219,13 +220,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	"google_logging_billing_account_exclusion": config.TemplatedStringAsIdentifier("name", "billingAccounts/{{ .parameters.billing_account }}/exclusions/{{ .external_name }}"),
 	// Billing account logging sinks can be imported using this format: billingAccounts/{{billing_account_id}}/sinks/{{sink_id}}
 	"google_logging_billing_account_sink": config.IdentifierFromProvider,
-	// This resource can be imported using the following format: folders/{{folder}}/locations/{{location}}/buckets/{{bucket_id}}
-	"google_logging_folder_bucket_config": config.TemplatedStringAsIdentifier("", "folders/{{ .parameters.folder }}/locations/{{ .parameters.location }}/buckets/{{ .parameters.bucket_id }}"),
-	// Folder-level logging exclusions can be imported using their URI
-	// folders/my-folder/exclusions/my-exclusion
-	"google_logging_folder_exclusion": config.TemplatedStringAsIdentifier("name", "folders/{{ .parameters.folder }}/exclusions/{{ .external_name }}"),
-	// Folder-level logging sinks can be imported using this format: folders/{{folder_id}}/sinks/{{name}}
-	"google_logging_folder_sink": config.TemplatedStringAsIdentifier("name", "folders/{{ .parameters.folder }}/sinks/{{ .external_name }}"),
 	// This resource can be imported using the following format: organizations/{{organization}}/locations/{{location}}/buckets/{{bucket_id}}
 	"google_logging_organization_bucket_config": config.TemplatedStringAsIdentifier("", "organizations/{{ .parameters.organization }}/locations/{{ .parameters.location }}/buckets/{{ .parameters.bucket_id }}"),
 	// Organization-level logging exclusions can be imported using their URI
@@ -303,10 +297,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	// Imported by using the following projects/{{project}}/locations/{{location}}/functions/{{cloud_function}} roles/viewer user:jane@example.com
 	"google_cloudfunctions2_function_iam_member": config.TemplatedStringAsIdentifier("cloud_function", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/functions/{{ .external_name }} {{ .parameters.role }} {{ .parameters.member }}"),
 
-	// cloudiot
-	//
-	// Imported by using the following projects/{{project}}/locations/{{location}}/registries/{{device_registry}} roles/viewer user:jane@example.com
-	"google_cloudiot_registry_iam_member": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/registries/{{ .external_name }} {{ .parameters.role }} {{ .parameters.member }}"),
 	// compute
 	//
 	// No import
@@ -315,8 +305,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	"google_compute_network_firewall_policy": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/global/firewallPolicies/{{ .external_name }}"),
 	// Imported by using the following projects/{{project}}/global/firewallPolicies/{{firewall_policy}}/associations/{{name}}
 	"google_compute_network_firewall_policy_association": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/global/firewallPolicies/{{ .parameters.firewall_policy }}/associations/{{ .external_name }}"),
-	// Imported by using the following projects/{{project}}/global/firewallPolicies/{{firewall_policy}}/rules/{{priority}}
-	"google_compute_network_firewall_policy_rule": config.TemplatedStringAsIdentifier("priority", "projects/{{ .setup.configuration.project }}/global/firewallPolicies/{{ .parameters.firewall_policy }}/rules/{{ .external_name }}"),
 	// Imported by using the following projects/{{project}}/regions/{{region}}/firewallPolicies/{{name}}
 	"google_compute_region_network_firewall_policy": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/regions/{{ .parameters.region }}/firewallPolicies/{{ .external_name }}"),
 	// Imported by using the following projects/{{project}}/regions/{{region}}/firewallPolicies/{{firewall_policy}}/associations/{{name}}
@@ -329,11 +317,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	"google_compute_snapshot": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/global/snapshots/{{ .external_name }}"),
 	// Imported by using the following projects/{{project}}/global/sslPolicies/{{name}}
 	"google_compute_ssl_policy": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/global/sslPolicies/{{ .external_name }}"),
-
-	// containerattached
-	//
-	// Imported by using the following projects/{{project}}/locations/{{location}}/attachedClusters/{{name}}
-	"google_container_attached_cluster": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/attachedClusters/{{ .external_name }}"),
 
 	// datafusion
 	//
@@ -391,13 +374,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	// Imported by using the following projects/{{project}}/locations/global/workloadIdentityPools/{{workload_identity_pool_id}}/providers/{{workload_identity_pool_provider_id}}
 	"google_iam_workload_identity_pool_provider": config.TemplatedStringAsIdentifier("workload_identity_pool_provider_id", "projects/{{ .setup.configuration.project }}/locations/global/workloadIdentityPools/{{ .parameters.workload_identity_pool_id }}/providers/{{ .external_name }}"),
 
-	// identityplatform
-	//
-	// Imported by using the following projects/{{project}}/config
-	"google_identity_platform_config": config.TemplatedStringAsIdentifier("", "projects/{{ .setup.configuration.project }}/config"),
-	// Imported by using the following projects/{{project}}/config/{{name}}
-	"google_identity_platform_project_default_config": config.IdentifierFromProvider,
-
 	// kms
 	//
 	// Imported by using the following {{name}}
@@ -417,8 +393,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 
 	// storage
 	//
-	// Imported by using the following projects/{{project}}/hmacKeys/{{access_id}}
-	"google_storage_hmac_key": config.IdentifierFromProvider,
 	// Imported by using the following {{bucket}}/{{object}}/{{entity}}
 	"google_storage_object_access_control": config.TemplatedStringAsIdentifier("entity", "{{ .parameters.bucket }}/{{ .parameters.object }}/{{ .external_name }}"),
 	// No Import
@@ -461,26 +435,10 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	// Imported by using the following projects/{{project}}/iap_tunnel/zones/{{zone}}/instances/{{tunnel_instance}} roles/iap.tunnelResourceAccessor user:jane@example.com
 	"google_iap_tunnel_instance_iam_member": config.IdentifierFromProvider,
 
-	// orgpolicy
-	//
-	// Imported by using the following {{parent}}/policies/{{name}}
-	"google_org_policy_policy": config.TemplatedStringAsIdentifier("name", "{{ .parameters.parent }}/policies/{{ .external_name }}"),
-
 	// tags
 	//
-	// Imported by using the following tagKeys/{{name}}
-	"google_tags_tag_key": config.IdentifierFromProvider,
 	// Imported by using the following tagKeys/{{tag_key}} roles/viewer user:jane@example.com
 	"google_tags_tag_key_iam_member": config.TemplatedStringAsIdentifier("tag_key", "tagKeys/{{ .external_name }} {{ .parameters.role }} {{ .parameters.member }}"),
-	// Imported by using the following tagValues/{{name}}
-	"google_tags_tag_value": config.IdentifierFromProvider,
 	// Imported by using the following tagValues/{{tag_value}} roles/viewer user:jane@example.com
 	"google_tags_tag_value_iam_member": config.TemplatedStringAsIdentifier("tag_value", "tagValues/{{ .external_name }} {{ .parameters.role }} {{ .parameters.member }}"),
-	// Imported by using the following tagBindings/{{name}}
-	"google_tags_tag_binding": config.IdentifierFromProvider,
-
-	// vpcaccess
-	//
-	// Imported by using the following projects/{{project}}/locations/{{region}}/connectors/{{name}}
-	"google_vpc_access_connector": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/connectors/{{ .external_name }}"),
 }

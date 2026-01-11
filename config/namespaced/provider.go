@@ -1,0 +1,112 @@
+// SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+//
+// SPDX-License-Identifier: Apache-2.0
+
+package namespaced
+
+import (
+	"github.com/upbound/provider-gcp/v2/config/namespaced/accessapproval"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/accesscontextmanager"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/apigee"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/beyondcorp"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/bigquery"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/bigtable"
+	composer "github.com/upbound/provider-gcp/v2/config/namespaced/cloudcomposer"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/cloudfunctions"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/cloudplatform"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/cloudrun"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/cloudscheduler"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/cloudtasks"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/compute"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/container"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/containerattached"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/containeraws"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/containerazure"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/dataflow"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/dataplex"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/dataproc"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/datastream"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/developerconnect"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/dns"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/endpoints"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/firebaserules"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/gameservices"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/gkehub"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/healthcare"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/iap"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/identityplatform"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/kms"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/logging"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/monitoring"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/networksecurity"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/notebooks"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/oslogin"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/privateca"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/project"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/pubsub"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/redis"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/secretmanager"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/servicenetworking"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/sourcerepo"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/spanner"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/sql"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/storage"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/tags"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/tpu"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/vertexai"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/vpcaccess"
+)
+
+func init() {
+	ProviderConfiguration.AddConfig(accessapproval.Configure)
+	ProviderConfiguration.AddConfig(accesscontextmanager.Configure)
+	ProviderConfiguration.AddConfig(apigee.Configure)
+	ProviderConfiguration.AddConfig(bigtable.Configure)
+	ProviderConfiguration.AddConfig(composer.Configure)
+	ProviderConfiguration.AddConfig(cloudfunctions.Configure)
+	ProviderConfiguration.AddConfig(cloudplatform.Configure)
+	ProviderConfiguration.AddConfig(cloudrun.Configure)
+	ProviderConfiguration.AddConfig(cloudscheduler.Configure)
+	ProviderConfiguration.AddConfig(cloudtasks.Configure)
+	ProviderConfiguration.AddConfig(containerattached.Configure)
+	ProviderConfiguration.AddConfig(containeraws.Configure)
+	ProviderConfiguration.AddConfig(containerazure.Configure)
+	ProviderConfiguration.AddConfig(compute.Configure)
+	ProviderConfiguration.AddConfig(container.Configure)
+	ProviderConfiguration.AddConfig(dataflow.Configure)
+	ProviderConfiguration.AddConfig(dataplex.Configure)
+	ProviderConfiguration.AddConfig(dataproc.Configure)
+	ProviderConfiguration.AddConfig(datastream.Configure)
+	ProviderConfiguration.AddConfig(developerconnect.Configure)
+	ProviderConfiguration.AddConfig(dns.Configure)
+	ProviderConfiguration.AddConfig(endpoints.Configure)
+	ProviderConfiguration.AddConfig(firebaserules.Configure)
+	ProviderConfiguration.AddConfig(gameservices.Configure)
+	ProviderConfiguration.AddConfig(iap.Configure)
+	ProviderConfiguration.AddConfig(identityplatform.Configure)
+	ProviderConfiguration.AddConfig(logging.Configure)
+	ProviderConfiguration.AddConfig(kms.Configure)
+	ProviderConfiguration.AddConfig(networksecurity.Configure)
+	ProviderConfiguration.AddConfig(notebooks.Configure)
+	ProviderConfiguration.AddConfig(privateca.Configure)
+	ProviderConfiguration.AddConfig(oslogin.Configure)
+	ProviderConfiguration.AddConfig(project.Configure)
+	ProviderConfiguration.AddConfig(pubsub.Configure)
+	ProviderConfiguration.AddConfig(redis.Configure)
+	ProviderConfiguration.AddConfig(secretmanager.Configure)
+	ProviderConfiguration.AddConfig(servicenetworking.Configure)
+	ProviderConfiguration.AddConfig(sourcerepo.Configure)
+	ProviderConfiguration.AddConfig(spanner.Configure)
+	ProviderConfiguration.AddConfig(storage.Configure)
+	ProviderConfiguration.AddConfig(sql.Configure)
+	ProviderConfiguration.AddConfig(redis.Configure)
+	ProviderConfiguration.AddConfig(bigquery.Configure)
+	ProviderConfiguration.AddConfig(beyondcorp.Configure)
+	ProviderConfiguration.AddConfig(vertexai.Configure)
+	ProviderConfiguration.AddConfig(tags.Configure)
+	ProviderConfiguration.AddConfig(tpu.Configure)
+	ProviderConfiguration.AddConfig(vpcaccess.Configure)
+	ProviderConfiguration.AddConfig(healthcare.Configure)
+	ProviderConfiguration.AddConfig(gkehub.Configure)
+	ProviderConfiguration.AddConfig(monitoring.Configure)
+}

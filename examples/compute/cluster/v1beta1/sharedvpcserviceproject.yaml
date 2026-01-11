@@ -1,0 +1,19 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: SharedVPCServiceProject
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/sharedvpcserviceproject
+    upjet.upbound.io/manual-intervention: "This resource depends on an existed service project"
+  labels:
+    testing.upbound.io/example-name: service1
+  name: service1
+spec:
+  forProvider:
+    hostProject: ${data.cloudplatform_project.projectId}
+    serviceProjectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

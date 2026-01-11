@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
 import yaml
 import os
 import sys
@@ -26,12 +30,8 @@ def load_crd_type(t):
 
 exceptions = {
     "provider-gcp": {
-        'StoreConfig.gcp.upbound.io/v1alpha1',
         'ProviderConfigUsage.gcp.upbound.io/v1beta1',
-        'TableIAMMember.bigtable.gcp.upbound.io/v1beta1',
-        'InstanceIAMMember.bigtable.gcp.upbound.io/v1beta1',
-        'TableIAMBinding.bigtable.gcp.upbound.io/v1beta1',
-        'InstanceIAMBinding.bigtable.gcp.upbound.io/v1beta1'
+        'ProviderConfigUsage.gcp.m.upbound.io/v1beta1'
     },
 }
 

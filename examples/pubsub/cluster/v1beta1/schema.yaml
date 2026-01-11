@@ -1,0 +1,30 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: pubsub.gcp.upbound.io/v1beta1
+kind: Schema
+metadata:
+  annotations:
+    meta.upbound.io/example-id: pubsub/v1beta1/schema
+  labels:
+    testing.upbound.io/example-name: schema
+  name: schema
+spec:
+  forProvider:
+    definition: |
+      {
+        "type" : "record",
+        "name" : "Avro",
+        "fields" : [
+          {
+            "name" : "StringField",
+            "type" : "string"
+          },
+          {
+            "name" : "IntField",
+            "type" : "int"
+          }
+        ]
+      }
+    type: AVRO

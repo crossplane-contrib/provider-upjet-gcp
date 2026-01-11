@@ -1,0 +1,61 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: gameservices.gcp.upbound.io/v1beta1
+kind: GameServerDeploymentRollout
+metadata:
+  annotations:
+    meta.upbound.io/example-id: gameservices/v1beta1/gameserverdeploymentrollout
+    upjet.upbound.io/manual-intervention: "Error 404: Method not found"
+  labels:
+    testing.upbound.io/example-name: game-server-deployment-rollout
+  name: game-server-deployment-rollout
+spec:
+  forProvider:
+    defaultGameServerConfigSelector:
+      matchLabels:
+        testing.upbound.io/example-name: game-server-deployment-rollout
+    deploymentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: game-server-deployment-rollout
+
+---
+
+apiVersion: gameservices.gcp.upbound.io/v1beta1
+kind: GameServerConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: gameservices/v1beta1/gameserverdeploymentrollout
+    upjet.upbound.io/manual-intervention: "Error 404: Method not found" 
+  labels:
+    testing.upbound.io/example-name: game-server-deployment-rollout
+  name: game-server-deployment-rollout
+spec:
+  forProvider:
+    deploymentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    description: a config description
+    fleetConfigs:
+    - fleetSpec: '${jsonencode({ "replicas" : 1, "scheduling" : "Packed", "template"
+        : { "metadata" : { "name" : "tf-test-game-server-template" }, "spec" : { "ports":
+        [{"name": "default", "portPolicy": "Dynamic", "containerPort": 7654, "protocol":
+        "UDP"}], "template" : { "spec" : { "containers" : [{ "name" : "simple-udp-server",
+        "image" : "gcr.io/agones-images/udp-server:0.14" }] } } } } })}'
+      name: some-non-guid
+
+---
+
+apiVersion: gameservices.gcp.upbound.io/v1beta1
+kind: GameServerDeployment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: gameservices/v1beta1/gameserverdeploymentrollout
+    upjet.upbound.io/manual-intervention: "Error 404: Method not found"
+  labels:
+    testing.upbound.io/example-name: game-server-deployment-rollout
+  name: game-server-deployment-rollout
+spec:
+  forProvider:
+    description: a deployment description

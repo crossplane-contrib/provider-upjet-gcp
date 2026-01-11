@@ -1,49 +1,59 @@
-# Official Provider GCP
+<!--
+SPDX-FileCopyrightText: 2023 The Crossplane Authors <https://crossplane.io>
 
-<div align="center">
+SPDX-License-Identifier: CC-BY-4.0
+-->
 
-![CI](https://github.com/upbound/provider-gcp/workflows/CI/badge.svg) [![GitHub release](https://img.shields.io/github/release/upbound/provider-gcp/all.svg?style=flat-square)](https://github.com/upbound/provider-gcp/releases) [![Go Report Card](https://goreportcard.com/badge/github.com/upbound/provider-gcp)](https://goreportcard.com/report/github.com/upbound/provider-gcp) [![Slack](https://slack.crossplane.io/badge.svg)](https://crossplane.slack.com/archives/C01TRKD4623) [![Twitter Follow](https://img.shields.io/twitter/follow/upbound_io.svg?style=social&label=Follow)](https://twitter.com/intent/follow?screen_name=upbound_io&user_id=788180534543339520)
+# Upjet-based Crossplane provider for GCP
+
+<div style="text-align: center;">
+
+![CI](https://github.com/crossplane-contrib/provider-upjet-gcp/workflows/CI/badge.svg)
+[![GitHub release](https://img.shields.io/github/release/crossplane-contrib/provider-upjet-gcp/all.svg)](https://github.com/crossplane-contrib/provider-upjet-gcp/releases)
+[![Go Report Card](https://goreportcard.com/badge/github.com/crossplane-contrib/provider-upjet-gcp)](https://goreportcard.com/report/github.com/crossplane-contrib/provider-upjet-gcp)
+[![Contributors](https://img.shields.io/github/contributors/crossplane-contrib/provider-upjet-gcp)](https://github.com/crossplane-contrib/provider-upjet-gcp/graphs/contributors)
+[![Slack](https://img.shields.io/badge/Slack-4A154B?logo=slack)](https://crossplane.slack.com/archives/C05E7EVM459)
+[![X (formerly Twitter) Follow](https://img.shields.io/twitter/follow/crossplane_io)](https://twitter.com/crossplane_io)
 
 </div>
 
-`provider-gcp` is a [Crossplane](https://crossplane.io/) provider that
-is built using [Upjet](https://github.com/upbound/upjet) code
-generation tools and exposes XRM-conformant managed resources for the 
+Provider Upjet-GCP is a [Crossplane](https://crossplane.io/) provider that
+is built using [Upjet](https://github.com/crossplane/upjet) code
+generation tools and exposes XRM-conformant managed resources for the
 GCP API.
 
 ## Getting Started
 
-Follow the quick start guide [here](https://marketplace.upbound.io/providers/upbound/provider-gcp/latest/docs/quickstart).
-You can find a detailed API reference with all CRDs and examples [here](https://marketplace.upbound.io/providers/upbound/provider-gcp)
+Follow the quick start
+guide [here](https://marketplace.upbound.io/providers/upbound/provider-family-gcp/latest/docs/quickstart).
 
-For getting more information about resource consumption and monitoring
-the upjet runtime, please see [Sizing Guide](https://github.com/upbound/upjet/blob/main/docs/sizing-guide.md)
-and [Monitoring Guide](https://github.com/upbound/upjet/blob/main/docs/monitoring.md)
+You can find a detailed API reference for all the managed resources with examples in
+the [Upbound Marketplace](https://marketplace.upbound.io/providers/upbound/provider-family-gcp/latest/managed-resources).
+
+For more information about monitoring the Upjet runtime, please
+see [Monitoring Guide](https://github.com/crossplane/upjet/blob/main/docs/monitoring.md)
 
 ## Contributing
 
-For the general contribution guide, see [Upjet Contribution Guide](https://github.com/upbound/upjet/blob/main/CONTRIBUTING.md)
+For the general contribution guide,
+see [Upjet Contribution Guide](https://github.com/crossplane/upjet/blob/main/CONTRIBUTING.md)
 
-If you'd like to learn how to use Upjet, see [Usage Guide](https://github.com/upbound/upjet/tree/main/docs).
+If you'd like to learn how to use Upjet, see [Usage Guide](https://github.com/crossplane/upjet/tree/main/docs).
 
 ### Add a New Resource
 
-Follow the guide [here](https://github.com/upbound/upjet/blob/main/docs/add-new-resource-short.md).
+Follow the Upjet guide
+for [adding new resources](https://github.com/crossplane/upjet/blob/main/docs/adding-new-resource.md).
 
-## Report a Bug
+## Getting help
 
-For filing bugs, suggesting improvements, or requesting new features, please
-open an [issue](https://github.com/upbound/provider-gcp/issues).
+For filing bugs, suggesting improvements, or requesting new resources or features, please
+open an [issue](https://github.com/crossplane-contrib/provider-upjet-gcp/issues/new/choose).
 
-## Contact
+For general help on using the provider consider asking the Crossplane community in the
+[#upjet-provider-gcp](https://crossplane.slack.com/archives/C05E7EVM459) channel in
+[Crossplane Slack](https://slack.crossplane.io)
 
-Please open a Github issue for all requests. If you need to reach out to Upbound, you can do so via the following channels:
+## License
 
-* Slack: [#upbound](https://crossplane.slack.com/archives/C01TRKD4623) channel in [Crossplane Slack](https://slack.crossplane.io)
-* Twitter: [@upbound_io](https://twitter.com/upbound_io)
-* Email: [support@upbound.io](mailto:support@upbound.io)
-
-## Licensing
-
-Provider GCP is under [the Apache 2.0 license](LICENSE) with [notice](NOTICE).
-
+The provider is released under the [the Apache 2.0 license](LICENSE) with [notice](NOTICE).

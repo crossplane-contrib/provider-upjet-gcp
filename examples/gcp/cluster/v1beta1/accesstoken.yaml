@@ -1,0 +1,16 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: gcp.upbound.io/v1beta1
+kind: ProviderConfig
+metadata:
+  name: default
+spec:
+  projectID: crossplane-playground
+  credentials:
+    source: AccessToken
+    secretRef:
+      name: example-creds
+      namespace: crossplane-system
+      key: credentials

@@ -1,0 +1,187 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: memorystore.gcp.upbound.io/v1beta1
+kind: InstanceDesiredUserCreatedEndpoints
+metadata:
+  annotations:
+    meta.upbound.io/example-id: memorystore/v1beta1/instancedesiredusercreatedendpoints
+    uptest.upbound.io/timeout: "3600"
+    upjet.upbound.io/manual-intervention: |
+      This resource needs manually copy the service_attachment values of MemoryStore Instance to ForwardingRule connections.pscConnection.serviceAttachment.
+      Two different index fields of the google_memorystore_instance resource must be copied to the same field type in two another items of a list.
+      This is not supported for the XP MR references in terms of. By using the high-level abstractions of XP, this can be achieved.
+  labels:
+    testing.upbound.io/example-name: instance-user-conn
+  name: instance-user-conn
+spec:
+  forProvider:
+    region: us-central1
+    desiredUserCreatedEndpoints:
+      - connections:
+          - pscConnection:
+              forwardingRuleSelector:
+                matchLabels:
+                  testing.upbound.io/example-name: forwarding_rule1_network1
+              ipAddressSelector:
+                matchLabels:
+                  testing.upbound.io/example-name: ip1_network1
+              networkSelector:
+                matchLabels:
+                  testing.upbound.io/example-name: network1
+              pscConnectionIdSelector:
+                matchLabels:
+                  testing.upbound.io/example-name: forwarding_rule1_network1
+              serviceAttachment: ${google_memorystore_instance.instance-user-conn.psc_attachment_details[0].service_attachment}
+          - pscConnection:
+              forwardingRuleSelector:
+                matchLabels:
+                  testing.upbound.io/example-name: forwarding_rule2_network1
+              ipAddressSelector:
+                matchLabels:
+                  testing.upbound.io/example-name: ip2_network1
+              networkSelector:
+                matchLabels:
+                  testing.upbound.io/example-name: network1
+              pscConnectionIdSelector:
+                matchLabels:
+                  testing.upbound.io/example-name: forwarding_rule2_network1
+              serviceAttachment: ${google_memorystore_instance.instance-user-conn.psc_attachment_details[1].service_attachment}
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Address
+metadata:
+  annotations:
+    meta.upbound.io/example-id: memorystore/v1beta1/instancedesiredusercreatedendpoints
+    upjet.upbound.io/manual-intervention: "Root resource skipped"
+  labels:
+    testing.upbound.io/example-name: ip1_network1
+  name: ip1-network1
+spec:
+  forProvider:
+    addressType: INTERNAL
+    purpose: GCE_ENDPOINT
+    region: us-central1
+    subnetworkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: subnet_network1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Address
+metadata:
+  annotations:
+    meta.upbound.io/example-id: memorystore/v1beta1/instancedesiredusercreatedendpoints
+    upjet.upbound.io/manual-intervention: "Root resource skipped"
+  labels:
+    testing.upbound.io/example-name: ip2_network1
+  name: ip2-network1
+spec:
+  forProvider:
+    addressType: INTERNAL
+    purpose: GCE_ENDPOINT
+    region: us-central1
+    subnetworkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: subnet_network1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: ForwardingRule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: memorystore/v1beta1/instancedesiredusercreatedendpoints
+    upjet.upbound.io/manual-intervention: "Root resource skipped"
+  labels:
+    testing.upbound.io/example-name: forwarding_rule1_network1
+  name: forwarding-rule1-network1
+spec:
+  forProvider:
+    ipAddressSelector:
+      matchLabels:
+        testing.upbound.io/example-name: ip1_network1
+    loadBalancingScheme: ""
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: network1
+    region: us-central1
+    target: ${google_memorystore_instance.instance-user-conn.psc_attachment_details[0].service_attachment}
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: ForwardingRule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: memorystore/v1beta1/instancedesiredusercreatedendpoints
+    upjet.upbound.io/manual-intervention: "Root resource skipped"
+  labels:
+    testing.upbound.io/example-name: forwarding_rule2_network1
+  name: forwarding-rule2-network1
+spec:
+  forProvider:
+    ipAddressSelector:
+      matchLabels:
+        testing.upbound.io/example-name: ip2_network1
+    loadBalancingScheme: ""
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: network1
+    region: us-central1
+    target: ${google_memorystore_instance.instance-user-conn.psc_attachment_details[1].service_attachment}
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: memorystore/v1beta1/instancedesiredusercreatedendpoints
+    upjet.upbound.io/manual-intervention: "Root resource skipped"
+  labels:
+    testing.upbound.io/example-name: network1
+  name: network1
+spec:
+  forProvider:
+    autoCreateSubnetworks: false
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: Subnetwork
+metadata:
+  annotations:
+    meta.upbound.io/example-id: memorystore/v1beta1/instancedesiredusercreatedendpoints
+    upjet.upbound.io/manual-intervention: "Root resource skipped"
+  labels:
+    testing.upbound.io/example-name: subnet_network1
+  name: subnet-network1
+spec:
+  forProvider:
+    ipCidrRange: 10.0.0.248/29
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: network1
+    region: us-central1
+
+---
+
+apiVersion: memorystore.gcp.upbound.io/v1beta1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: memorystore/v1beta1/instancedesiredusercreatedendpoints
+    upjet.upbound.io/manual-intervention: "Root resource skipped"
+  labels:
+    testing.upbound.io/example-name: instance-user-conn
+  name: instance-user-conn
+spec:
+  forProvider:
+    deletionProtectionEnabled: false
+    location: us-central1
+    shardCount: 1

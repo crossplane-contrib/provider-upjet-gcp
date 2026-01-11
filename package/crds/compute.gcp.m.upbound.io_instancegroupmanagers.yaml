@@ -1,0 +1,1968 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.18.0
+  name: instancegroupmanagers.compute.gcp.m.upbound.io
+spec:
+  group: compute.gcp.m.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - gcp
+    kind: InstanceGroupManager
+    listKind: InstanceGroupManagerList
+    plural: instancegroupmanagers
+    singular: instancegroupmanager
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: InstanceGroupManager is the Schema for the InstanceGroupManagers
+          API. Manages an Instance Group within GCE.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: InstanceGroupManagerSpec defines the desired state of InstanceGroupManager
+            properties:
+              forProvider:
+                properties:
+                  allInstancesConfig:
+                    description: |-
+                      Properties to set on all instances in the group. After setting
+                      allInstancesConfig on the group, you must update the group's instances to
+                      apply the configuration.
+                    properties:
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: ', The label key-value pairs that you want to
+                          patch onto the instance.'
+                        type: object
+                        x-kubernetes-map-type: granular
+                      metadata:
+                        additionalProperties:
+                          type: string
+                        description: ', The metadata key-value pairs that you want
+                          to patch onto the instance. For more information, see Project
+                          and instance metadata.'
+                        type: object
+                        x-kubernetes-map-type: granular
+                    type: object
+                  autoHealingPolicies:
+                    description: |-
+                      The autohealing policies for this managed instance
+                      group. You can specify only one value. Structure is documented below. For more information, see the official documentation.
+                    properties:
+                      healthCheck:
+                        description: The health check resource that signals autohealing.
+                        type: string
+                      healthCheckRef:
+                        description: Reference to a HealthCheck in compute to populate
+                          healthCheck.
+                        properties:
+                          name:
+                            description: Name of the referenced object.
+                            type: string
+                          namespace:
+                            description: Namespace of the referenced object
+                            type: string
+                          policy:
+                            description: Policies for referencing.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        required:
+                        - name
+                        type: object
+                      healthCheckSelector:
+                        description: Selector for a HealthCheck in compute to populate
+                          healthCheck.
+                        properties:
+                          matchControllerRef:
+                            description: |-
+                              MatchControllerRef ensures an object with the same controller reference
+                              as the selecting object is selected.
+                            type: boolean
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: MatchLabels ensures an object with matching
+                              labels is selected.
+                            type: object
+                          namespace:
+                            description: Namespace for the selector
+                            type: string
+                          policy:
+                            description: Policies for selection.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        type: object
+                      initialDelaySec:
+                        description: |-
+                          The number of seconds that the managed instance group waits before
+                          it applies autohealing policies to new instances or recently recreated instances. Between 0 and 3600.
+                        type: number
+                    type: object
+                  baseInstanceName:
+                    description: |-
+                      The base instance name to use for
+                      instances in this group. The value must be a valid
+                      RFC1035 name. Supported characters
+                      are lowercase letters, numbers, and hyphens (-). Instances are named by
+                      appending a hyphen and a random four-character string to the base instance
+                      name.
+                    type: string
+                  description:
+                    description: |-
+                      An optional textual description of the instance
+                      group manager.
+                    type: string
+                  instanceLifecyclePolicy:
+                    properties:
+                      defaultActionOnFailure:
+                        description: ', Specifies the action that a MIG performs on
+                          a failed VM. If the value of the on_failed_health_check
+                          field is DEFAULT_ACTION, then the same action also applies
+                          to the VMs on which your application fails a health check.
+                          Valid options are: DO_NOTHING, REPAIR. If DO_NOTHING, then
+                          MIG does not repair a failed VM. If REPAIR (default), then
+                          MIG automatically repairs a failed VM by recreating it.
+                          For more information, see about repairing VMs in a MIG.'
+                        type: string
+                      forceUpdateOnRepair:
+                        description: ', Specifies whether to apply the group''s latest
+                          configuration when repairing a VM. Valid options are: YES,
+                          NO. If YES and you updated the group''s instance template
+                          or per-instance configurations after the VM was created,
+                          then these changes are applied when VM is repaired. If NO
+                          (default), then updates are applied in accordance with the
+                          group''s update policy type.'
+                        type: string
+                    type: object
+                  listManagedInstancesResults:
+                    description: |-
+                      Pagination behavior of the listManagedInstances API
+                      method for this managed instance group. Valid values are: PAGELESS, PAGINATED.
+                      If PAGELESS (default), Pagination is disabled for the group's listManagedInstances API method.
+                      maxResults and pageToken query parameters are ignored and all instances are returned in a single
+                      response. If PAGINATED, pagination is enabled, maxResults and pageToken query parameters are
+                      respected.
+                    type: string
+                  namedPort:
+                    description: |-
+                      The named port configuration. See the section below
+                      for details on configuration.
+                    items:
+                      properties:
+                        name:
+                          description: The name of the port.
+                          type: string
+                        port:
+                          description: The port number.
+                          type: number
+                      type: object
+                    type: array
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs. If it
+                      is not provided, the provider project is used.
+                    type: string
+                  resourcePolicies:
+                    description: Resource policies for this managed instance group.
+                      Structure is documented below.
+                    properties:
+                      workloadPolicy:
+                        description: The URL of the workload policy that is specified
+                          for this managed instance group. It can be a full or partial
+                          URL.
+                        type: string
+                      workloadPolicyRef:
+                        description: Reference to a ResourcePolicy in compute to populate
+                          workloadPolicy.
+                        properties:
+                          name:
+                            description: Name of the referenced object.
+                            type: string
+                          namespace:
+                            description: Namespace of the referenced object
+                            type: string
+                          policy:
+                            description: Policies for referencing.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        required:
+                        - name
+                        type: object
+                      workloadPolicySelector:
+                        description: Selector for a ResourcePolicy in compute to populate
+                          workloadPolicy.
+                        properties:
+                          matchControllerRef:
+                            description: |-
+                              MatchControllerRef ensures an object with the same controller reference
+                              as the selecting object is selected.
+                            type: boolean
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: MatchLabels ensures an object with matching
+                              labels is selected.
+                            type: object
+                          namespace:
+                            description: Namespace for the selector
+                            type: string
+                          policy:
+                            description: Policies for selection.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        type: object
+                    type: object
+                  standbyPolicy:
+                    description: The standby policy for stopped and suspended instances.
+                      Structure is documented below. For more information, see the
+                      official documentation.
+                    properties:
+                      initialDelaySec:
+                        description: '- Specifies the number of seconds that the MIG
+                          should wait to suspend or stop a VM after that VM was created.
+                          The initial delay gives the initialization script the time
+                          to prepare your VM for a quick scale out. The value of initial
+                          delay must be between 0 and 3600 seconds. The default value
+                          is 0.'
+                        type: number
+                      mode:
+                        description: '- Defines how a MIG resumes or starts VMs from
+                          a standby pool when the group scales out. Valid options
+                          are: MANUAL, SCALE_OUT_POOL. If MANUAL(default), you have
+                          full control over which VMs are stopped and suspended in
+                          the MIG. If SCALE_OUT_POOL, the MIG uses the VMs from the
+                          standby pools to accelerate the scale out by resuming or
+                          starting them and then automatically replenishes the standby
+                          pool with new VMs to maintain the target sizes.'
+                        type: string
+                    type: object
+                  statefulDisk:
+                    description: Disks created on the instances that will be preserved
+                      on instance delete, update, etc. Structure is documented below.
+                      For more information see the official documentation.
+                    items:
+                      properties:
+                        deleteRule:
+                          description: ', A value that prescribes what should happen
+                            to the stateful disk when the VM instance is deleted.
+                            The available options are NEVER and ON_PERMANENT_INSTANCE_DELETION.
+                            NEVER - detach the disk when the VM is deleted, but do
+                            not delete the disk. ON_PERMANENT_INSTANCE_DELETION will
+                            delete the stateful disk when the VM is permanently deleted
+                            from the instance group. The default is NEVER.'
+                          type: string
+                        deviceName:
+                          description: ', The device name of the disk to be attached.'
+                          type: string
+                      type: object
+                    type: array
+                  statefulExternalIp:
+                    description: External network IPs assigned to the instances that
+                      will be preserved on instance delete, update, etc. This map
+                      is keyed with the network interface name. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        deleteRule:
+                          description: ', A value that prescribes what should happen
+                            to the external ip when the VM instance is deleted. The
+                            available options are NEVER and ON_PERMANENT_INSTANCE_DELETION.
+                            NEVER - detach the ip when the VM is deleted, but do not
+                            delete the ip. ON_PERMANENT_INSTANCE_DELETION will delete
+                            the external ip when the VM is permanently deleted from
+                            the instance group.'
+                          type: string
+                        interfaceName:
+                          description: ', The network interface name of the external
+                            Ip. Possible value: nic0'
+                          type: string
+                      type: object
+                    type: array
+                  statefulInternalIp:
+                    description: Internal network IPs assigned to the instances that
+                      will be preserved on instance delete, update, etc. This map
+                      is keyed with the network interface name. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        deleteRule:
+                          description: ', A value that prescribes what should happen
+                            to the internal ip when the VM instance is deleted. The
+                            available options are NEVER and ON_PERMANENT_INSTANCE_DELETION.
+                            NEVER - detach the ip when the VM is deleted, but do not
+                            delete the ip. ON_PERMANENT_INSTANCE_DELETION will delete
+                            the internal ip when the VM is permanently deleted from
+                            the instance group.'
+                          type: string
+                        interfaceName:
+                          description: ', The network interface name of the internal
+                            Ip. Possible value: nic0'
+                          type: string
+                      type: object
+                    type: array
+                  targetPools:
+                    description: |-
+                      The full URL of all target pools to which new
+                      instances in the group are added. Updating the target pools attribute does
+                      not affect existing instances.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  targetPoolsRefs:
+                    description: References to TargetPool in compute to populate targetPools.
+                    items:
+                      description: A NamespacedReference to a named object.
+                      properties:
+                        name:
+                          description: Name of the referenced object.
+                          type: string
+                        namespace:
+                          description: Namespace of the referenced object
+                          type: string
+                        policy:
+                          description: Policies for referencing.
+                          properties:
+                            resolution:
+                              default: Required
+                              description: |-
+                                Resolution specifies whether resolution of this reference is required.
+                                The default is 'Required', which means the reconcile will fail if the
+                                reference cannot be resolved. 'Optional' means this reference will be
+                                a no-op if it cannot be resolved.
+                              enum:
+                              - Required
+                              - Optional
+                              type: string
+                            resolve:
+                              description: |-
+                                Resolve specifies when this reference should be resolved. The default
+                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                the corresponding field is not present. Use 'Always' to resolve the
+                                reference on every reconcile.
+                              enum:
+                              - Always
+                              - IfNotPresent
+                              type: string
+                          type: object
+                      required:
+                      - name
+                      type: object
+                    type: array
+                  targetPoolsSelector:
+                    description: Selector for a list of TargetPool in compute to populate
+                      targetPools.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  targetSize:
+                    description: |-
+                      The target number of running instances for this managed
+                      instance group. This value will fight with autoscaler settings when set, and generally shouldn't be set
+                      when using one. If a value is required, such as to specify a creation-time target size for the MIG,
+                      lifecycle. Defaults to 0.
+                    type: number
+                  targetStoppedSize:
+                    description: The target number of stopped instances for this managed
+                      instance group.
+                    type: number
+                  targetSuspendedSize:
+                    description: The target number of suspended instances for this
+                      managed instance group.
+                    type: number
+                  updatePolicy:
+                    description: The update policy for this managed instance group.
+                      Structure is documented below. For more information, see the
+                      official documentation and API.
+                    properties:
+                      maxSurgeFixed:
+                        description: ', Specifies a fixed number of VM instances.
+                          This must be a positive integer. Conflicts with max_surge_percent.
+                          Both cannot be 0.'
+                        type: number
+                      maxSurgePercent:
+                        description: ', Specifies a percentage of instances between
+                          0 to 100%, inclusive. For example, specify 80 for 80%. Conflicts
+                          with max_surge_fixed.'
+                        type: number
+                      maxUnavailableFixed:
+                        description: ', Specifies a fixed number of VM instances.
+                          This must be a positive integer.'
+                        type: number
+                      maxUnavailablePercent:
+                        description: ', Specifies a percentage of instances between
+                          0 to 100%, inclusive. For example, specify 80 for 80%..'
+                        type: number
+                      minimalAction:
+                        description: '- Minimal action to be taken on an instance.
+                          You can specify either NONE to forbid any actions, REFRESH
+                          to update without stopping instances, RESTART to restart
+                          existing instances or REPLACE to delete and create new instances
+                          from the target template. If you specify a REFRESH, the
+                          Updater will attempt to perform that action only. However,
+                          if the Updater determines that the minimal action you specify
+                          is not enough to perform the update, it might perform a
+                          more disruptive action.'
+                        type: string
+                      mostDisruptiveAllowedAction:
+                        description: '- Most disruptive action that is allowed to
+                          be taken on an instance. You can specify either NONE to
+                          forbid any actions, REFRESH to allow actions that do not
+                          need instance restart, RESTART to allow actions that can
+                          be applied without instance replacing or REPLACE to allow
+                          all possible actions. If the Updater determines that the
+                          minimal update action needed is more disruptive than most
+                          disruptive allowed action you specify it will not perform
+                          the update at all.'
+                        type: string
+                      replacementMethod:
+                        description: ', The instance replacement method for managed
+                          instance groups. Valid values are: "RECREATE", "SUBSTITUTE".
+                          If SUBSTITUTE (default), the group replaces VM instances
+                          with new instances that have randomly generated names. If
+                          RECREATE, instance names are preserved.  You must also set
+                          max_unavailable_fixed or max_unavailable_percent to be greater
+                          than 0.'
+                        type: string
+                      type:
+                        description: '- The type of update process. You can specify
+                          either PROACTIVE so that the instance group manager proactively
+                          executes actions in order to bring instances to their target
+                          versions or OPPORTUNISTIC so that no action is proactively
+                          executed but the update will be performed as part of other
+                          actions (for example, resizes or recreateInstances calls).'
+                        type: string
+                    type: object
+                  version:
+                    description: |-
+                      Application versions managed by this instance group. Each
+                      version deals with a specific instance template, allowing canary release scenarios.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        instanceTemplate:
+                          description: '- The full URL to an instance template from
+                            which all new instances of this version will be created.
+                            It is recommended to reference instance templates through
+                            their unique id (self_link_unique attribute).'
+                          type: string
+                        instanceTemplateRef:
+                          description: Reference to a InstanceTemplate in compute
+                            to populate instanceTemplate.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            namespace:
+                              description: Namespace of the referenced object
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        instanceTemplateSelector:
+                          description: Selector for a InstanceTemplate in compute
+                            to populate instanceTemplate.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            namespace:
+                              description: Namespace for the selector
+                              type: string
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                        name:
+                          description: '- Version name.'
+                          type: string
+                        targetSize:
+                          description: '- The number of instances calculated as a
+                            fixed number or a percentage depending on the settings.
+                            Structure is documented below.'
+                          properties:
+                            fixed:
+                              description: ', The number of instances which are managed
+                                for this version. Conflicts with percent.'
+                              type: number
+                            percent:
+                              description: |-
+                                , The number of instances (calculated as percentage) which are managed for this version. Conflicts with fixed.
+                                Note that when using percent, rounding will be in favor of explicitly set target_size values; a managed instance group with 2 instances and 2 versions,
+                                one of which has a target_size.percent of 60 will create 2 instances of that version.
+                              type: number
+                          type: object
+                      type: object
+                    type: array
+                  waitForInstances:
+                    description: |-
+                      Whether to wait for all instances to be created/updated before
+                      returning.
+                    type: boolean
+                  waitForInstancesStatus:
+                    description: |-
+                      When used with wait_for_instances it specifies the status to wait for.
+                      When STABLE is specified this resource will wait until the instances are stable before returning. When UPDATED is
+                      set, it will wait for the version target to be reached and any per instance configs to be effective as well as all
+                      instances to be stable before returning. The possible values are STABLE and UPDATED
+                    type: string
+                  zone:
+                    description: |-
+                      The zone that instances in this group should be created
+                      in.
+                    type: string
+                required:
+                - zone
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  allInstancesConfig:
+                    description: |-
+                      Properties to set on all instances in the group. After setting
+                      allInstancesConfig on the group, you must update the group's instances to
+                      apply the configuration.
+                    properties:
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: ', The label key-value pairs that you want to
+                          patch onto the instance.'
+                        type: object
+                        x-kubernetes-map-type: granular
+                      metadata:
+                        additionalProperties:
+                          type: string
+                        description: ', The metadata key-value pairs that you want
+                          to patch onto the instance. For more information, see Project
+                          and instance metadata.'
+                        type: object
+                        x-kubernetes-map-type: granular
+                    type: object
+                  autoHealingPolicies:
+                    description: |-
+                      The autohealing policies for this managed instance
+                      group. You can specify only one value. Structure is documented below. For more information, see the official documentation.
+                    properties:
+                      healthCheck:
+                        description: The health check resource that signals autohealing.
+                        type: string
+                      healthCheckRef:
+                        description: Reference to a HealthCheck in compute to populate
+                          healthCheck.
+                        properties:
+                          name:
+                            description: Name of the referenced object.
+                            type: string
+                          namespace:
+                            description: Namespace of the referenced object
+                            type: string
+                          policy:
+                            description: Policies for referencing.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        required:
+                        - name
+                        type: object
+                      healthCheckSelector:
+                        description: Selector for a HealthCheck in compute to populate
+                          healthCheck.
+                        properties:
+                          matchControllerRef:
+                            description: |-
+                              MatchControllerRef ensures an object with the same controller reference
+                              as the selecting object is selected.
+                            type: boolean
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: MatchLabels ensures an object with matching
+                              labels is selected.
+                            type: object
+                          namespace:
+                            description: Namespace for the selector
+                            type: string
+                          policy:
+                            description: Policies for selection.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        type: object
+                      initialDelaySec:
+                        description: |-
+                          The number of seconds that the managed instance group waits before
+                          it applies autohealing policies to new instances or recently recreated instances. Between 0 and 3600.
+                        type: number
+                    type: object
+                  baseInstanceName:
+                    description: |-
+                      The base instance name to use for
+                      instances in this group. The value must be a valid
+                      RFC1035 name. Supported characters
+                      are lowercase letters, numbers, and hyphens (-). Instances are named by
+                      appending a hyphen and a random four-character string to the base instance
+                      name.
+                    type: string
+                  description:
+                    description: |-
+                      An optional textual description of the instance
+                      group manager.
+                    type: string
+                  instanceLifecyclePolicy:
+                    properties:
+                      defaultActionOnFailure:
+                        description: ', Specifies the action that a MIG performs on
+                          a failed VM. If the value of the on_failed_health_check
+                          field is DEFAULT_ACTION, then the same action also applies
+                          to the VMs on which your application fails a health check.
+                          Valid options are: DO_NOTHING, REPAIR. If DO_NOTHING, then
+                          MIG does not repair a failed VM. If REPAIR (default), then
+                          MIG automatically repairs a failed VM by recreating it.
+                          For more information, see about repairing VMs in a MIG.'
+                        type: string
+                      forceUpdateOnRepair:
+                        description: ', Specifies whether to apply the group''s latest
+                          configuration when repairing a VM. Valid options are: YES,
+                          NO. If YES and you updated the group''s instance template
+                          or per-instance configurations after the VM was created,
+                          then these changes are applied when VM is repaired. If NO
+                          (default), then updates are applied in accordance with the
+                          group''s update policy type.'
+                        type: string
+                    type: object
+                  listManagedInstancesResults:
+                    description: |-
+                      Pagination behavior of the listManagedInstances API
+                      method for this managed instance group. Valid values are: PAGELESS, PAGINATED.
+                      If PAGELESS (default), Pagination is disabled for the group's listManagedInstances API method.
+                      maxResults and pageToken query parameters are ignored and all instances are returned in a single
+                      response. If PAGINATED, pagination is enabled, maxResults and pageToken query parameters are
+                      respected.
+                    type: string
+                  namedPort:
+                    description: |-
+                      The named port configuration. See the section below
+                      for details on configuration.
+                    items:
+                      properties:
+                        name:
+                          description: The name of the port.
+                          type: string
+                        port:
+                          description: The port number.
+                          type: number
+                      type: object
+                    type: array
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs. If it
+                      is not provided, the provider project is used.
+                    type: string
+                  resourcePolicies:
+                    description: Resource policies for this managed instance group.
+                      Structure is documented below.
+                    properties:
+                      workloadPolicy:
+                        description: The URL of the workload policy that is specified
+                          for this managed instance group. It can be a full or partial
+                          URL.
+                        type: string
+                      workloadPolicyRef:
+                        description: Reference to a ResourcePolicy in compute to populate
+                          workloadPolicy.
+                        properties:
+                          name:
+                            description: Name of the referenced object.
+                            type: string
+                          namespace:
+                            description: Namespace of the referenced object
+                            type: string
+                          policy:
+                            description: Policies for referencing.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        required:
+                        - name
+                        type: object
+                      workloadPolicySelector:
+                        description: Selector for a ResourcePolicy in compute to populate
+                          workloadPolicy.
+                        properties:
+                          matchControllerRef:
+                            description: |-
+                              MatchControllerRef ensures an object with the same controller reference
+                              as the selecting object is selected.
+                            type: boolean
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: MatchLabels ensures an object with matching
+                              labels is selected.
+                            type: object
+                          namespace:
+                            description: Namespace for the selector
+                            type: string
+                          policy:
+                            description: Policies for selection.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        type: object
+                    type: object
+                  standbyPolicy:
+                    description: The standby policy for stopped and suspended instances.
+                      Structure is documented below. For more information, see the
+                      official documentation.
+                    properties:
+                      initialDelaySec:
+                        description: '- Specifies the number of seconds that the MIG
+                          should wait to suspend or stop a VM after that VM was created.
+                          The initial delay gives the initialization script the time
+                          to prepare your VM for a quick scale out. The value of initial
+                          delay must be between 0 and 3600 seconds. The default value
+                          is 0.'
+                        type: number
+                      mode:
+                        description: '- Defines how a MIG resumes or starts VMs from
+                          a standby pool when the group scales out. Valid options
+                          are: MANUAL, SCALE_OUT_POOL. If MANUAL(default), you have
+                          full control over which VMs are stopped and suspended in
+                          the MIG. If SCALE_OUT_POOL, the MIG uses the VMs from the
+                          standby pools to accelerate the scale out by resuming or
+                          starting them and then automatically replenishes the standby
+                          pool with new VMs to maintain the target sizes.'
+                        type: string
+                    type: object
+                  statefulDisk:
+                    description: Disks created on the instances that will be preserved
+                      on instance delete, update, etc. Structure is documented below.
+                      For more information see the official documentation.
+                    items:
+                      properties:
+                        deleteRule:
+                          description: ', A value that prescribes what should happen
+                            to the stateful disk when the VM instance is deleted.
+                            The available options are NEVER and ON_PERMANENT_INSTANCE_DELETION.
+                            NEVER - detach the disk when the VM is deleted, but do
+                            not delete the disk. ON_PERMANENT_INSTANCE_DELETION will
+                            delete the stateful disk when the VM is permanently deleted
+                            from the instance group. The default is NEVER.'
+                          type: string
+                        deviceName:
+                          description: ', The device name of the disk to be attached.'
+                          type: string
+                      type: object
+                    type: array
+                  statefulExternalIp:
+                    description: External network IPs assigned to the instances that
+                      will be preserved on instance delete, update, etc. This map
+                      is keyed with the network interface name. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        deleteRule:
+                          description: ', A value that prescribes what should happen
+                            to the external ip when the VM instance is deleted. The
+                            available options are NEVER and ON_PERMANENT_INSTANCE_DELETION.
+                            NEVER - detach the ip when the VM is deleted, but do not
+                            delete the ip. ON_PERMANENT_INSTANCE_DELETION will delete
+                            the external ip when the VM is permanently deleted from
+                            the instance group.'
+                          type: string
+                        interfaceName:
+                          description: ', The network interface name of the external
+                            Ip. Possible value: nic0'
+                          type: string
+                      type: object
+                    type: array
+                  statefulInternalIp:
+                    description: Internal network IPs assigned to the instances that
+                      will be preserved on instance delete, update, etc. This map
+                      is keyed with the network interface name. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        deleteRule:
+                          description: ', A value that prescribes what should happen
+                            to the internal ip when the VM instance is deleted. The
+                            available options are NEVER and ON_PERMANENT_INSTANCE_DELETION.
+                            NEVER - detach the ip when the VM is deleted, but do not
+                            delete the ip. ON_PERMANENT_INSTANCE_DELETION will delete
+                            the internal ip when the VM is permanently deleted from
+                            the instance group.'
+                          type: string
+                        interfaceName:
+                          description: ', The network interface name of the internal
+                            Ip. Possible value: nic0'
+                          type: string
+                      type: object
+                    type: array
+                  targetPools:
+                    description: |-
+                      The full URL of all target pools to which new
+                      instances in the group are added. Updating the target pools attribute does
+                      not affect existing instances.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  targetPoolsRefs:
+                    description: References to TargetPool in compute to populate targetPools.
+                    items:
+                      description: A NamespacedReference to a named object.
+                      properties:
+                        name:
+                          description: Name of the referenced object.
+                          type: string
+                        namespace:
+                          description: Namespace of the referenced object
+                          type: string
+                        policy:
+                          description: Policies for referencing.
+                          properties:
+                            resolution:
+                              default: Required
+                              description: |-
+                                Resolution specifies whether resolution of this reference is required.
+                                The default is 'Required', which means the reconcile will fail if the
+                                reference cannot be resolved. 'Optional' means this reference will be
+                                a no-op if it cannot be resolved.
+                              enum:
+                              - Required
+                              - Optional
+                              type: string
+                            resolve:
+                              description: |-
+                                Resolve specifies when this reference should be resolved. The default
+                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                the corresponding field is not present. Use 'Always' to resolve the
+                                reference on every reconcile.
+                              enum:
+                              - Always
+                              - IfNotPresent
+                              type: string
+                          type: object
+                      required:
+                      - name
+                      type: object
+                    type: array
+                  targetPoolsSelector:
+                    description: Selector for a list of TargetPool in compute to populate
+                      targetPools.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  targetSize:
+                    description: |-
+                      The target number of running instances for this managed
+                      instance group. This value will fight with autoscaler settings when set, and generally shouldn't be set
+                      when using one. If a value is required, such as to specify a creation-time target size for the MIG,
+                      lifecycle. Defaults to 0.
+                    type: number
+                  targetStoppedSize:
+                    description: The target number of stopped instances for this managed
+                      instance group.
+                    type: number
+                  targetSuspendedSize:
+                    description: The target number of suspended instances for this
+                      managed instance group.
+                    type: number
+                  updatePolicy:
+                    description: The update policy for this managed instance group.
+                      Structure is documented below. For more information, see the
+                      official documentation and API.
+                    properties:
+                      maxSurgeFixed:
+                        description: ', Specifies a fixed number of VM instances.
+                          This must be a positive integer. Conflicts with max_surge_percent.
+                          Both cannot be 0.'
+                        type: number
+                      maxSurgePercent:
+                        description: ', Specifies a percentage of instances between
+                          0 to 100%, inclusive. For example, specify 80 for 80%. Conflicts
+                          with max_surge_fixed.'
+                        type: number
+                      maxUnavailableFixed:
+                        description: ', Specifies a fixed number of VM instances.
+                          This must be a positive integer.'
+                        type: number
+                      maxUnavailablePercent:
+                        description: ', Specifies a percentage of instances between
+                          0 to 100%, inclusive. For example, specify 80 for 80%..'
+                        type: number
+                      minimalAction:
+                        description: '- Minimal action to be taken on an instance.
+                          You can specify either NONE to forbid any actions, REFRESH
+                          to update without stopping instances, RESTART to restart
+                          existing instances or REPLACE to delete and create new instances
+                          from the target template. If you specify a REFRESH, the
+                          Updater will attempt to perform that action only. However,
+                          if the Updater determines that the minimal action you specify
+                          is not enough to perform the update, it might perform a
+                          more disruptive action.'
+                        type: string
+                      mostDisruptiveAllowedAction:
+                        description: '- Most disruptive action that is allowed to
+                          be taken on an instance. You can specify either NONE to
+                          forbid any actions, REFRESH to allow actions that do not
+                          need instance restart, RESTART to allow actions that can
+                          be applied without instance replacing or REPLACE to allow
+                          all possible actions. If the Updater determines that the
+                          minimal update action needed is more disruptive than most
+                          disruptive allowed action you specify it will not perform
+                          the update at all.'
+                        type: string
+                      replacementMethod:
+                        description: ', The instance replacement method for managed
+                          instance groups. Valid values are: "RECREATE", "SUBSTITUTE".
+                          If SUBSTITUTE (default), the group replaces VM instances
+                          with new instances that have randomly generated names. If
+                          RECREATE, instance names are preserved.  You must also set
+                          max_unavailable_fixed or max_unavailable_percent to be greater
+                          than 0.'
+                        type: string
+                      type:
+                        description: '- The type of update process. You can specify
+                          either PROACTIVE so that the instance group manager proactively
+                          executes actions in order to bring instances to their target
+                          versions or OPPORTUNISTIC so that no action is proactively
+                          executed but the update will be performed as part of other
+                          actions (for example, resizes or recreateInstances calls).'
+                        type: string
+                    type: object
+                  version:
+                    description: |-
+                      Application versions managed by this instance group. Each
+                      version deals with a specific instance template, allowing canary release scenarios.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        instanceTemplate:
+                          description: '- The full URL to an instance template from
+                            which all new instances of this version will be created.
+                            It is recommended to reference instance templates through
+                            their unique id (self_link_unique attribute).'
+                          type: string
+                        instanceTemplateRef:
+                          description: Reference to a InstanceTemplate in compute
+                            to populate instanceTemplate.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            namespace:
+                              description: Namespace of the referenced object
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        instanceTemplateSelector:
+                          description: Selector for a InstanceTemplate in compute
+                            to populate instanceTemplate.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            namespace:
+                              description: Namespace for the selector
+                              type: string
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                        name:
+                          description: '- Version name.'
+                          type: string
+                        targetSize:
+                          description: '- The number of instances calculated as a
+                            fixed number or a percentage depending on the settings.
+                            Structure is documented below.'
+                          properties:
+                            fixed:
+                              description: ', The number of instances which are managed
+                                for this version. Conflicts with percent.'
+                              type: number
+                            percent:
+                              description: |-
+                                , The number of instances (calculated as percentage) which are managed for this version. Conflicts with fixed.
+                                Note that when using percent, rounding will be in favor of explicitly set target_size values; a managed instance group with 2 instances and 2 versions,
+                                one of which has a target_size.percent of 60 will create 2 instances of that version.
+                              type: number
+                          type: object
+                      type: object
+                    type: array
+                  waitForInstances:
+                    description: |-
+                      Whether to wait for all instances to be created/updated before
+                      returning.
+                    type: boolean
+                  waitForInstancesStatus:
+                    description: |-
+                      When used with wait_for_instances it specifies the status to wait for.
+                      When STABLE is specified this resource will wait until the instances are stable before returning. When UPDATED is
+                      set, it will wait for the version target to be reached and any per instance configs to be effective as well as all
+                      instances to be stable before returning. The possible values are STABLE and UPDATED
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  kind: ClusterProviderConfig
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  kind:
+                    description: Kind of the referenced object.
+                    type: string
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - kind
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                required:
+                - name
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.baseInstanceName is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.baseInstanceName)
+                || (has(self.initProvider) && has(self.initProvider.baseInstanceName))'
+            - message: spec.forProvider.version is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.version)
+                || (has(self.initProvider) && has(self.initProvider.version))'
+          status:
+            description: InstanceGroupManagerStatus defines the observed state of
+              InstanceGroupManager.
+            properties:
+              atProvider:
+                properties:
+                  allInstancesConfig:
+                    description: |-
+                      Properties to set on all instances in the group. After setting
+                      allInstancesConfig on the group, you must update the group's instances to
+                      apply the configuration.
+                    properties:
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: ', The label key-value pairs that you want to
+                          patch onto the instance.'
+                        type: object
+                        x-kubernetes-map-type: granular
+                      metadata:
+                        additionalProperties:
+                          type: string
+                        description: ', The metadata key-value pairs that you want
+                          to patch onto the instance. For more information, see Project
+                          and instance metadata.'
+                        type: object
+                        x-kubernetes-map-type: granular
+                    type: object
+                  autoHealingPolicies:
+                    description: |-
+                      The autohealing policies for this managed instance
+                      group. You can specify only one value. Structure is documented below. For more information, see the official documentation.
+                    properties:
+                      healthCheck:
+                        description: The health check resource that signals autohealing.
+                        type: string
+                      initialDelaySec:
+                        description: |-
+                          The number of seconds that the managed instance group waits before
+                          it applies autohealing policies to new instances or recently recreated instances. Between 0 and 3600.
+                        type: number
+                    type: object
+                  baseInstanceName:
+                    description: |-
+                      The base instance name to use for
+                      instances in this group. The value must be a valid
+                      RFC1035 name. Supported characters
+                      are lowercase letters, numbers, and hyphens (-). Instances are named by
+                      appending a hyphen and a random four-character string to the base instance
+                      name.
+                    type: string
+                  creationTimestamp:
+                    description: Creation timestamp in RFC3339 text format.
+                    type: string
+                  description:
+                    description: |-
+                      An optional textual description of the instance
+                      group manager.
+                    type: string
+                  fingerprint:
+                    description: The fingerprint of the instance group manager.
+                    type: string
+                  id:
+                    description: an identifier for the resource with format projects/{{project}}/zones/{{zone}}/instanceGroupManagers/{{name}}
+                    type: string
+                  instanceGroup:
+                    description: The full URL of the instance group created by the
+                      manager.
+                    type: string
+                  instanceGroupManagerId:
+                    description: an identifier for the resource with format projects/{{project}}/zones/{{zone}}/instanceGroupManagers/{{name}}
+                    type: number
+                  instanceLifecyclePolicy:
+                    properties:
+                      defaultActionOnFailure:
+                        description: ', Specifies the action that a MIG performs on
+                          a failed VM. If the value of the on_failed_health_check
+                          field is DEFAULT_ACTION, then the same action also applies
+                          to the VMs on which your application fails a health check.
+                          Valid options are: DO_NOTHING, REPAIR. If DO_NOTHING, then
+                          MIG does not repair a failed VM. If REPAIR (default), then
+                          MIG automatically repairs a failed VM by recreating it.
+                          For more information, see about repairing VMs in a MIG.'
+                        type: string
+                      forceUpdateOnRepair:
+                        description: ', Specifies whether to apply the group''s latest
+                          configuration when repairing a VM. Valid options are: YES,
+                          NO. If YES and you updated the group''s instance template
+                          or per-instance configurations after the VM was created,
+                          then these changes are applied when VM is repaired. If NO
+                          (default), then updates are applied in accordance with the
+                          group''s update policy type.'
+                        type: string
+                    type: object
+                  listManagedInstancesResults:
+                    description: |-
+                      Pagination behavior of the listManagedInstances API
+                      method for this managed instance group. Valid values are: PAGELESS, PAGINATED.
+                      If PAGELESS (default), Pagination is disabled for the group's listManagedInstances API method.
+                      maxResults and pageToken query parameters are ignored and all instances are returned in a single
+                      response. If PAGINATED, pagination is enabled, maxResults and pageToken query parameters are
+                      respected.
+                    type: string
+                  namedPort:
+                    description: |-
+                      The named port configuration. See the section below
+                      for details on configuration.
+                    items:
+                      properties:
+                        name:
+                          description: The name of the port.
+                          type: string
+                        port:
+                          description: The port number.
+                          type: number
+                      type: object
+                    type: array
+                  operation:
+                    type: string
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs. If it
+                      is not provided, the provider project is used.
+                    type: string
+                  resourcePolicies:
+                    description: Resource policies for this managed instance group.
+                      Structure is documented below.
+                    properties:
+                      workloadPolicy:
+                        description: The URL of the workload policy that is specified
+                          for this managed instance group. It can be a full or partial
+                          URL.
+                        type: string
+                    type: object
+                  selfLink:
+                    description: The URL of the created resource.
+                    type: string
+                  standbyPolicy:
+                    description: The standby policy for stopped and suspended instances.
+                      Structure is documented below. For more information, see the
+                      official documentation.
+                    properties:
+                      initialDelaySec:
+                        description: '- Specifies the number of seconds that the MIG
+                          should wait to suspend or stop a VM after that VM was created.
+                          The initial delay gives the initialization script the time
+                          to prepare your VM for a quick scale out. The value of initial
+                          delay must be between 0 and 3600 seconds. The default value
+                          is 0.'
+                        type: number
+                      mode:
+                        description: '- Defines how a MIG resumes or starts VMs from
+                          a standby pool when the group scales out. Valid options
+                          are: MANUAL, SCALE_OUT_POOL. If MANUAL(default), you have
+                          full control over which VMs are stopped and suspended in
+                          the MIG. If SCALE_OUT_POOL, the MIG uses the VMs from the
+                          standby pools to accelerate the scale out by resuming or
+                          starting them and then automatically replenishes the standby
+                          pool with new VMs to maintain the target sizes.'
+                        type: string
+                    type: object
+                  statefulDisk:
+                    description: Disks created on the instances that will be preserved
+                      on instance delete, update, etc. Structure is documented below.
+                      For more information see the official documentation.
+                    items:
+                      properties:
+                        deleteRule:
+                          description: ', A value that prescribes what should happen
+                            to the stateful disk when the VM instance is deleted.
+                            The available options are NEVER and ON_PERMANENT_INSTANCE_DELETION.
+                            NEVER - detach the disk when the VM is deleted, but do
+                            not delete the disk. ON_PERMANENT_INSTANCE_DELETION will
+                            delete the stateful disk when the VM is permanently deleted
+                            from the instance group. The default is NEVER.'
+                          type: string
+                        deviceName:
+                          description: ', The device name of the disk to be attached.'
+                          type: string
+                      type: object
+                    type: array
+                  statefulExternalIp:
+                    description: External network IPs assigned to the instances that
+                      will be preserved on instance delete, update, etc. This map
+                      is keyed with the network interface name. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        deleteRule:
+                          description: ', A value that prescribes what should happen
+                            to the external ip when the VM instance is deleted. The
+                            available options are NEVER and ON_PERMANENT_INSTANCE_DELETION.
+                            NEVER - detach the ip when the VM is deleted, but do not
+                            delete the ip. ON_PERMANENT_INSTANCE_DELETION will delete
+                            the external ip when the VM is permanently deleted from
+                            the instance group.'
+                          type: string
+                        interfaceName:
+                          description: ', The network interface name of the external
+                            Ip. Possible value: nic0'
+                          type: string
+                      type: object
+                    type: array
+                  statefulInternalIp:
+                    description: Internal network IPs assigned to the instances that
+                      will be preserved on instance delete, update, etc. This map
+                      is keyed with the network interface name. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        deleteRule:
+                          description: ', A value that prescribes what should happen
+                            to the internal ip when the VM instance is deleted. The
+                            available options are NEVER and ON_PERMANENT_INSTANCE_DELETION.
+                            NEVER - detach the ip when the VM is deleted, but do not
+                            delete the ip. ON_PERMANENT_INSTANCE_DELETION will delete
+                            the internal ip when the VM is permanently deleted from
+                            the instance group.'
+                          type: string
+                        interfaceName:
+                          description: ', The network interface name of the internal
+                            Ip. Possible value: nic0'
+                          type: string
+                      type: object
+                    type: array
+                  status:
+                    description: The status of this managed instance group.
+                    items:
+                      properties:
+                        allInstancesConfig:
+                          description: Status of all-instances configuration on the
+                            group.
+                          items:
+                            properties:
+                              currentRevision:
+                                description: Current all-instances configuration revision.
+                                  This value is in RFC3339 text format.
+                                type: string
+                              effective:
+                                description: A bit indicating whether this configuration
+                                  has been applied to all managed instances in the
+                                  group.
+                                type: boolean
+                            type: object
+                          type: array
+                        isStable:
+                          description: 'A bit indicating whether the managed instance
+                            group is in a stable state. A stable state means that:
+                            none of the instances in the managed instance group is
+                            currently undergoing any type of change (for example,
+                            creation, restart, or deletion); no future changes are
+                            scheduled for instances in the managed instance group;
+                            and the managed instance group itself is not being modified.'
+                          type: boolean
+                        stateful:
+                          description: Stateful status of the given Instance Group
+                            Manager.
+                          items:
+                            properties:
+                              hasStatefulConfig:
+                                description: A bit indicating whether the managed
+                                  instance group has stateful configuration, that
+                                  is, if you have configured any items in a stateful
+                                  policy or in per-instance configs. The group might
+                                  report that it has no stateful config even when
+                                  there is still some preserved state on a managed
+                                  instance, for example, if you have deleted all PICs
+                                  but not yet applied those deletions.
+                                type: boolean
+                              perInstanceConfigs:
+                                description: Status of per-instance configs on the
+                                  instances.
+                                items:
+                                  properties:
+                                    allEffective:
+                                      description: A bit indicating if all of the
+                                        group's per-instance configs (listed in the
+                                        output of a listPerInstanceConfigs API call)
+                                        have status EFFECTIVE or there are no per-instance-configs.
+                                      type: boolean
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        versionTarget:
+                          description: A status of consistency of Instances' versions
+                            with their target version specified by version field on
+                            Instance Group Manager.
+                          items:
+                            properties:
+                              isReached:
+                                type: boolean
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  targetPools:
+                    description: |-
+                      The full URL of all target pools to which new
+                      instances in the group are added. Updating the target pools attribute does
+                      not affect existing instances.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  targetSize:
+                    description: |-
+                      The target number of running instances for this managed
+                      instance group. This value will fight with autoscaler settings when set, and generally shouldn't be set
+                      when using one. If a value is required, such as to specify a creation-time target size for the MIG,
+                      lifecycle. Defaults to 0.
+                    type: number
+                  targetStoppedSize:
+                    description: The target number of stopped instances for this managed
+                      instance group.
+                    type: number
+                  targetSuspendedSize:
+                    description: The target number of suspended instances for this
+                      managed instance group.
+                    type: number
+                  updatePolicy:
+                    description: The update policy for this managed instance group.
+                      Structure is documented below. For more information, see the
+                      official documentation and API.
+                    properties:
+                      maxSurgeFixed:
+                        description: ', Specifies a fixed number of VM instances.
+                          This must be a positive integer. Conflicts with max_surge_percent.
+                          Both cannot be 0.'
+                        type: number
+                      maxSurgePercent:
+                        description: ', Specifies a percentage of instances between
+                          0 to 100%, inclusive. For example, specify 80 for 80%. Conflicts
+                          with max_surge_fixed.'
+                        type: number
+                      maxUnavailableFixed:
+                        description: ', Specifies a fixed number of VM instances.
+                          This must be a positive integer.'
+                        type: number
+                      maxUnavailablePercent:
+                        description: ', Specifies a percentage of instances between
+                          0 to 100%, inclusive. For example, specify 80 for 80%..'
+                        type: number
+                      minimalAction:
+                        description: '- Minimal action to be taken on an instance.
+                          You can specify either NONE to forbid any actions, REFRESH
+                          to update without stopping instances, RESTART to restart
+                          existing instances or REPLACE to delete and create new instances
+                          from the target template. If you specify a REFRESH, the
+                          Updater will attempt to perform that action only. However,
+                          if the Updater determines that the minimal action you specify
+                          is not enough to perform the update, it might perform a
+                          more disruptive action.'
+                        type: string
+                      mostDisruptiveAllowedAction:
+                        description: '- Most disruptive action that is allowed to
+                          be taken on an instance. You can specify either NONE to
+                          forbid any actions, REFRESH to allow actions that do not
+                          need instance restart, RESTART to allow actions that can
+                          be applied without instance replacing or REPLACE to allow
+                          all possible actions. If the Updater determines that the
+                          minimal update action needed is more disruptive than most
+                          disruptive allowed action you specify it will not perform
+                          the update at all.'
+                        type: string
+                      replacementMethod:
+                        description: ', The instance replacement method for managed
+                          instance groups. Valid values are: "RECREATE", "SUBSTITUTE".
+                          If SUBSTITUTE (default), the group replaces VM instances
+                          with new instances that have randomly generated names. If
+                          RECREATE, instance names are preserved.  You must also set
+                          max_unavailable_fixed or max_unavailable_percent to be greater
+                          than 0.'
+                        type: string
+                      type:
+                        description: '- The type of update process. You can specify
+                          either PROACTIVE so that the instance group manager proactively
+                          executes actions in order to bring instances to their target
+                          versions or OPPORTUNISTIC so that no action is proactively
+                          executed but the update will be performed as part of other
+                          actions (for example, resizes or recreateInstances calls).'
+                        type: string
+                    type: object
+                  version:
+                    description: |-
+                      Application versions managed by this instance group. Each
+                      version deals with a specific instance template, allowing canary release scenarios.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        instanceTemplate:
+                          description: '- The full URL to an instance template from
+                            which all new instances of this version will be created.
+                            It is recommended to reference instance templates through
+                            their unique id (self_link_unique attribute).'
+                          type: string
+                        name:
+                          description: '- Version name.'
+                          type: string
+                        targetSize:
+                          description: '- The number of instances calculated as a
+                            fixed number or a percentage depending on the settings.
+                            Structure is documented below.'
+                          properties:
+                            fixed:
+                              description: ', The number of instances which are managed
+                                for this version. Conflicts with percent.'
+                              type: number
+                            percent:
+                              description: |-
+                                , The number of instances (calculated as percentage) which are managed for this version. Conflicts with fixed.
+                                Note that when using percent, rounding will be in favor of explicitly set target_size values; a managed instance group with 2 instances and 2 versions,
+                                one of which has a target_size.percent of 60 will create 2 instances of that version.
+                              type: number
+                          type: object
+                      type: object
+                    type: array
+                  waitForInstances:
+                    description: |-
+                      Whether to wait for all instances to be created/updated before
+                      returning.
+                    type: boolean
+                  waitForInstancesStatus:
+                    description: |-
+                      When used with wait_for_instances it specifies the status to wait for.
+                      When STABLE is specified this resource will wait until the instances are stable before returning. When UPDATED is
+                      set, it will wait for the version target to be reached and any per instance configs to be effective as well as all
+                      instances to be stable before returning. The possible values are STABLE and UPDATED
+                    type: string
+                  zone:
+                    description: |-
+                      The zone that instances in this group should be created
+                      in.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

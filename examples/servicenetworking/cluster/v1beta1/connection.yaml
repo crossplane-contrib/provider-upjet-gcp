@@ -1,0 +1,54 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: servicenetworking.gcp.upbound.io/v1beta1
+kind: Connection
+metadata:
+  annotations:
+    meta.upbound.io/example-id: servicenetworking/v1beta1/connection
+  labels:
+    testing.upbound.io/example-name: service-connection
+  name: service-connection
+spec:
+  forProvider:
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: service-connection
+    reservedPeeringRangesSelector:
+      matchLabels:
+        testing.upbound.io/example-name: service-connection
+    service: servicenetworking.googleapis.com
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: GlobalAddress
+metadata:
+  annotations:
+    meta.upbound.io/example-id: servicenetworking/v1beta1/connection
+  labels:
+    testing.upbound.io/example-name: service-connection
+  name: service-connection
+spec:
+  forProvider:
+    addressType: INTERNAL
+    purpose: VPC_PEERING
+    prefixLength: 16
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: service-connection
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: servicenetworking/v1beta1/connection
+  labels:
+    testing.upbound.io/example-name: service-connection
+  name: service-connection
+spec:
+  forProvider:
+    autoCreateSubnetworks: false

@@ -1,0 +1,18 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: osconfig.gcp.upbound.io/v1beta2
+kind: PatchDeployment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: osconfig/v1beta2/patchdeployment
+  labels:
+    testing.upbound.io/example-name: patch-deployment
+  name: patpatch-deploymentch
+spec:
+  forProvider:
+    instanceFilter:
+      all: true
+    oneTimeSchedule:
+      executeTime: "2999-10-10T10:10:10.045123456Z"

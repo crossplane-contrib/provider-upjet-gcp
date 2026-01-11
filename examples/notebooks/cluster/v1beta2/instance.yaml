@@ -1,0 +1,19 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: notebooks.gcp.upbound.io/v1beta2
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: notebooks/v1beta2/instance
+  labels:
+    testing.upbound.io/example-name: instance
+  name: instance
+spec:
+  forProvider:
+    location: us-central1-a
+    machineType: e2-medium
+    vmImage:
+      imageFamily: tf-1-13-cu100-notebooks
+      project: deeplearning-platform-release

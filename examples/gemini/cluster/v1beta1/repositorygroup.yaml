@@ -1,0 +1,50 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: gemini.gcp.upbound.io/v1beta1
+kind: RepositoryGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: gemini/v1beta1/repositorygroup
+    upjet.upbound.io/manual-intervention: "Requires existing ConnectGitRepositoryLink resource"
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    codeRepositoryIndex: example-cri
+    labels:
+      label1: value1
+    location: us-central1
+    repositories:
+    - branchPattern: main
+      resource: projects/example-project/locations/us-central1/connections/example-connection/gitRepositoryLinks/example-repo
+---
+apiVersion: gemini.gcp.upbound.io/v1beta1
+kind: CodeRepositoryIndex
+metadata:
+  annotations:
+    meta.upbound.io/example-id: gemini/v1beta1/coderepositoryindex
+    upjet.upbound.io/manual-intervention: "Skipped because the parent resource was skipped"
+  labels:
+    testing.upbound.io/example-name: example
+  name: example-cri
+spec:
+  forProvider:
+    location: us-central1
+---
+apiVersion: developerconnect.gcp.upbound.io/v1beta1
+kind: ConnectGitRepositoryLink
+metadata:
+  annotations:
+    meta.upbound.io/example-id: gemini/v1beta1/repositorygroup
+    upjet.upbound.io/manual-intervention: "Requires existing GitHub repository and pre-created Developer Connect connection"
+  labels:
+    testing.upbound.io/example-name: my-repository
+  name: my-repository
+spec:
+  forProvider:
+    location: us-central1
+    parentConnection: my-connection
+    cloneUri: https://github.com/myuser/myrepo.git

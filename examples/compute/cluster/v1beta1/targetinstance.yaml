@@ -1,0 +1,38 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: TargetInstance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/targetinstance
+  labels:
+    testing.upbound.io/example-name: target-instance
+  name: target-instance
+spec:
+  forProvider:
+    instanceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: target-instance
+    zone: us-central1-a
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/targetinstance
+  labels:
+    testing.upbound.io/example-name: target-instance
+  name: target-instance
+spec:
+  forProvider:
+    bootDisk:
+    - initializeParams:
+      - image: debian-cloud/debian-11
+    machineType: e2-medium
+    networkInterface:
+    - network: default
+    zone: us-central1-a

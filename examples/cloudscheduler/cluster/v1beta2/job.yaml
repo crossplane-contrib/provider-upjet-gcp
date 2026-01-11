@@ -1,0 +1,21 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: cloudscheduler.gcp.upbound.io/v1beta2
+kind: Job
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudscheduler/v1beta2/job
+  labels:
+    testing.upbound.io/example-name: job
+  name: job
+spec:
+  forProvider:
+    description: Test job
+    httpTarget:
+      body: dGVzdAo=
+      httpMethod: POST
+      uri: https://postman-echo.com/post
+    region: us-central1
+    schedule: '*/2 * * * *'

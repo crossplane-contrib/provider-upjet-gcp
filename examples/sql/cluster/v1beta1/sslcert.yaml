@@ -1,0 +1,41 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: sql.gcp.upbound.io/v1beta1
+kind: SSLCert
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sql/v1beta1/sslcert
+  labels:
+    testing.upbound.io/example-name: example_cert
+  name: example-cert
+spec:
+  forProvider:
+    commonName: client-name
+    instanceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example_instance
+  writeConnectionSecretToRef:
+    name: example-sql-ssl-secret
+    namespace: upbound-system
+
+---
+
+apiVersion: sql.gcp.upbound.io/v1beta1
+kind: DatabaseInstance
+metadata:
+  annotations:
+    uptest.upbound.io/pre-delete-hook: testhooks/delete-sslcert.sh
+    meta.upbound.io/example-id: sql/v1beta1/databaseinstance
+  labels:
+    testing.upbound.io/example-name: example_instance
+  name: example-instance-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    region: "us-central1"
+    databaseVersion: "MYSQL_5_7"
+    settings:
+      - tier: "db-f1-micro"
+        diskSize: 20
+    deletionProtection: false # allow crossplane to delete the instance automatically

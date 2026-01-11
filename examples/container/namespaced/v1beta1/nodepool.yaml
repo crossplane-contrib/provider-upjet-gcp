@@ -1,0 +1,57 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: container.gcp.m.upbound.io/v1beta1
+kind: NodePool
+metadata:
+  annotations:
+    meta.upbound.io/example-id: container/v1beta1/nodepool
+    uptest.upbound.io/disable-import: "true"
+  labels:
+    testing.upbound.io/example-name: nodepool
+  name: nodepool
+  namespace: upbound-system
+spec:
+  forProvider:
+    clusterSelector:
+      matchLabels:
+        testing.upbound.io/example-name: nodepool
+    nodeConfig:
+      machineType: e2-medium
+      oauthScopes:
+        - https://www.googleapis.com/auth/cloud-platform
+      preemptible: true
+      serviceAccountSelector:
+        matchLabels:
+          testing.upbound.io/example-name: nodepool
+    nodeCount: 1
+---
+apiVersion: container.gcp.m.upbound.io/v1beta1
+kind: Cluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: container/v1beta1/nodepool
+  labels:
+    testing.upbound.io/example-name: nodepool
+  name: nodepool
+  namespace: upbound-system
+spec:
+  forProvider:
+    deletionProtection: false
+    initialNodeCount: 1
+    location: us-central1-a
+    removeDefaultNodePool: true
+---
+apiVersion: cloudplatform.gcp.m.upbound.io/v1beta1
+kind: ServiceAccount
+metadata:
+  annotations:
+    meta.upbound.io/example-id: container/v1beta1/nodepool
+  labels:
+    testing.upbound.io/example-name: nodepool
+  name: nodepool
+  namespace: upbound-system
+spec:
+  forProvider:
+    displayName: Service Account for GKE Cluster

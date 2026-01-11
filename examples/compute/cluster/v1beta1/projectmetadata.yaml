@@ -1,0 +1,19 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: ProjectMetadata
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/projectmetadata
+    upjet.upbound.io/manual-intervention: "This resource manages all project-level metadata including project-level ssh keys. Keys unset in config but set on the server will be removed"
+  labels:
+    testing.upbound.io/example-name: project-metadata
+  name: project-metadata
+spec:
+  forProvider:
+    metadata:
+      "13": "42"
+      fizz: buzz
+      foo: bar

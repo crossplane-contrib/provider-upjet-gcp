@@ -1,0 +1,678 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.18.0
+  name: routers.compute.gcp.m.upbound.io
+spec:
+  group: compute.gcp.m.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - gcp
+    kind: Router
+    listKind: RouterList
+    plural: routers
+    singular: router
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: Router is the Schema for the Routers API. Represents a Router
+          resource.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: RouterSpec defines the desired state of Router
+            properties:
+              forProvider:
+                properties:
+                  bgp:
+                    description: |-
+                      BGP information specific to this router.
+                      Structure is documented below.
+                    properties:
+                      advertiseMode:
+                        description: |-
+                          User-specified flag to indicate which mode to use for advertisement.
+                          Default value is DEFAULT.
+                          Possible values are: DEFAULT, CUSTOM.
+                        type: string
+                      advertisedGroups:
+                        description: |-
+                          User-specified list of prefix groups to advertise in custom mode.
+                          This field can only be populated if advertiseMode is CUSTOM and
+                          is advertised to all peers of the router. These groups will be
+                          advertised in addition to any specified prefixes. Leave this field
+                          blank to advertise no custom groups.
+                          This enum field has the one valid value: ALL_SUBNETS
+                        items:
+                          type: string
+                        type: array
+                      advertisedIpRanges:
+                        description: |-
+                          User-specified list of individual IP ranges to advertise in
+                          custom mode. This field can only be populated if advertiseMode
+                          is CUSTOM and is advertised to all peers of the router. These IP
+                          ranges will be advertised in addition to any specified groups.
+                          Leave this field blank to advertise no custom IP ranges.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            description:
+                              description: An optional description of this resource.
+                              type: string
+                            range:
+                              description: |-
+                                The IP range to advertise. The value must be a
+                                CIDR-formatted string.
+                              type: string
+                          type: object
+                        type: array
+                      asn:
+                        description: |-
+                          Local BGP Autonomous System Number (ASN). Must be an RFC6996
+                          private ASN, either 16-bit or 32-bit. The value will be fixed for
+                          this router resource. All VPN tunnels that link to this router
+                          will have the same local ASN.
+                        type: number
+                      identifierRange:
+                        description: |-
+                          Explicitly specifies a range of valid BGP Identifiers for this Router.
+                          It is provided as a link-local IPv4 range (from 169.254.0.0/16), of
+                          size at least /30, even if the BGP sessions are over IPv6. It must
+                          not overlap with any IPv4 BGP session ranges. Other vendors commonly
+                          call this router ID.
+                        type: string
+                      keepaliveInterval:
+                        description: |-
+                          The interval in seconds between BGP keepalive messages that are sent
+                          to the peer. Hold time is three times the interval at which keepalive
+                          messages are sent, and the hold time is the maximum number of seconds
+                          allowed to elapse between successive keepalive messages that BGP
+                          receives from a peer.
+                          BGP will use the smaller of either the local hold time value or the
+                          peer's hold time value as the hold time for the BGP connection
+                          between the two peers. If set, this value must be between 20 and 60.
+                          The default is 20.
+                        type: number
+                    type: object
+                  description:
+                    description: An optional description of this resource.
+                    type: string
+                  encryptedInterconnectRouter:
+                    description: |-
+                      Indicates if a router is dedicated for use with encrypted VLAN
+                      attachments (interconnectAttachments).
+                    type: boolean
+                  md5AuthenticationKeys:
+                    description: |-
+                      Keys used for MD5 authentication.
+                      Structure is documented below.
+                    properties:
+                      key:
+                        description: Value of the key used for MD5 authentication.
+                        type: string
+                      name:
+                        description: |-
+                          Name used to identify the key. Must be unique within a router.
+                          Must be referenced by exactly one bgpPeer. Must comply with RFC1035.
+                        type: string
+                    type: object
+                  network:
+                    description: A reference to the network to which this router belongs.
+                    type: string
+                  networkRef:
+                    description: Reference to a Network in compute to populate network.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      namespace:
+                        description: Namespace of the referenced object
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  networkSelector:
+                    description: Selector for a Network in compute to populate network.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  region:
+                    description: Region where the router resides.
+                    type: string
+                required:
+                - region
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  bgp:
+                    description: |-
+                      BGP information specific to this router.
+                      Structure is documented below.
+                    properties:
+                      advertiseMode:
+                        description: |-
+                          User-specified flag to indicate which mode to use for advertisement.
+                          Default value is DEFAULT.
+                          Possible values are: DEFAULT, CUSTOM.
+                        type: string
+                      advertisedGroups:
+                        description: |-
+                          User-specified list of prefix groups to advertise in custom mode.
+                          This field can only be populated if advertiseMode is CUSTOM and
+                          is advertised to all peers of the router. These groups will be
+                          advertised in addition to any specified prefixes. Leave this field
+                          blank to advertise no custom groups.
+                          This enum field has the one valid value: ALL_SUBNETS
+                        items:
+                          type: string
+                        type: array
+                      advertisedIpRanges:
+                        description: |-
+                          User-specified list of individual IP ranges to advertise in
+                          custom mode. This field can only be populated if advertiseMode
+                          is CUSTOM and is advertised to all peers of the router. These IP
+                          ranges will be advertised in addition to any specified groups.
+                          Leave this field blank to advertise no custom IP ranges.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            description:
+                              description: An optional description of this resource.
+                              type: string
+                            range:
+                              description: |-
+                                The IP range to advertise. The value must be a
+                                CIDR-formatted string.
+                              type: string
+                          type: object
+                        type: array
+                      asn:
+                        description: |-
+                          Local BGP Autonomous System Number (ASN). Must be an RFC6996
+                          private ASN, either 16-bit or 32-bit. The value will be fixed for
+                          this router resource. All VPN tunnels that link to this router
+                          will have the same local ASN.
+                        type: number
+                      identifierRange:
+                        description: |-
+                          Explicitly specifies a range of valid BGP Identifiers for this Router.
+                          It is provided as a link-local IPv4 range (from 169.254.0.0/16), of
+                          size at least /30, even if the BGP sessions are over IPv6. It must
+                          not overlap with any IPv4 BGP session ranges. Other vendors commonly
+                          call this router ID.
+                        type: string
+                      keepaliveInterval:
+                        description: |-
+                          The interval in seconds between BGP keepalive messages that are sent
+                          to the peer. Hold time is three times the interval at which keepalive
+                          messages are sent, and the hold time is the maximum number of seconds
+                          allowed to elapse between successive keepalive messages that BGP
+                          receives from a peer.
+                          BGP will use the smaller of either the local hold time value or the
+                          peer's hold time value as the hold time for the BGP connection
+                          between the two peers. If set, this value must be between 20 and 60.
+                          The default is 20.
+                        type: number
+                    type: object
+                  description:
+                    description: An optional description of this resource.
+                    type: string
+                  encryptedInterconnectRouter:
+                    description: |-
+                      Indicates if a router is dedicated for use with encrypted VLAN
+                      attachments (interconnectAttachments).
+                    type: boolean
+                  md5AuthenticationKeys:
+                    description: |-
+                      Keys used for MD5 authentication.
+                      Structure is documented below.
+                    properties:
+                      key:
+                        description: Value of the key used for MD5 authentication.
+                        type: string
+                      name:
+                        description: |-
+                          Name used to identify the key. Must be unique within a router.
+                          Must be referenced by exactly one bgpPeer. Must comply with RFC1035.
+                        type: string
+                    type: object
+                  network:
+                    description: A reference to the network to which this router belongs.
+                    type: string
+                  networkRef:
+                    description: Reference to a Network in compute to populate network.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      namespace:
+                        description: Namespace of the referenced object
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  networkSelector:
+                    description: Selector for a Network in compute to populate network.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  kind: ClusterProviderConfig
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  kind:
+                    description: Kind of the referenced object.
+                    type: string
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - kind
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                required:
+                - name
+                type: object
+            required:
+            - forProvider
+            type: object
+          status:
+            description: RouterStatus defines the observed state of Router.
+            properties:
+              atProvider:
+                properties:
+                  bgp:
+                    description: |-
+                      BGP information specific to this router.
+                      Structure is documented below.
+                    properties:
+                      advertiseMode:
+                        description: |-
+                          User-specified flag to indicate which mode to use for advertisement.
+                          Default value is DEFAULT.
+                          Possible values are: DEFAULT, CUSTOM.
+                        type: string
+                      advertisedGroups:
+                        description: |-
+                          User-specified list of prefix groups to advertise in custom mode.
+                          This field can only be populated if advertiseMode is CUSTOM and
+                          is advertised to all peers of the router. These groups will be
+                          advertised in addition to any specified prefixes. Leave this field
+                          blank to advertise no custom groups.
+                          This enum field has the one valid value: ALL_SUBNETS
+                        items:
+                          type: string
+                        type: array
+                      advertisedIpRanges:
+                        description: |-
+                          User-specified list of individual IP ranges to advertise in
+                          custom mode. This field can only be populated if advertiseMode
+                          is CUSTOM and is advertised to all peers of the router. These IP
+                          ranges will be advertised in addition to any specified groups.
+                          Leave this field blank to advertise no custom IP ranges.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            description:
+                              description: An optional description of this resource.
+                              type: string
+                            range:
+                              description: |-
+                                The IP range to advertise. The value must be a
+                                CIDR-formatted string.
+                              type: string
+                          type: object
+                        type: array
+                      asn:
+                        description: |-
+                          Local BGP Autonomous System Number (ASN). Must be an RFC6996
+                          private ASN, either 16-bit or 32-bit. The value will be fixed for
+                          this router resource. All VPN tunnels that link to this router
+                          will have the same local ASN.
+                        type: number
+                      identifierRange:
+                        description: |-
+                          Explicitly specifies a range of valid BGP Identifiers for this Router.
+                          It is provided as a link-local IPv4 range (from 169.254.0.0/16), of
+                          size at least /30, even if the BGP sessions are over IPv6. It must
+                          not overlap with any IPv4 BGP session ranges. Other vendors commonly
+                          call this router ID.
+                        type: string
+                      keepaliveInterval:
+                        description: |-
+                          The interval in seconds between BGP keepalive messages that are sent
+                          to the peer. Hold time is three times the interval at which keepalive
+                          messages are sent, and the hold time is the maximum number of seconds
+                          allowed to elapse between successive keepalive messages that BGP
+                          receives from a peer.
+                          BGP will use the smaller of either the local hold time value or the
+                          peer's hold time value as the hold time for the BGP connection
+                          between the two peers. If set, this value must be between 20 and 60.
+                          The default is 20.
+                        type: number
+                    type: object
+                  creationTimestamp:
+                    description: Creation timestamp in RFC3339 text format.
+                    type: string
+                  description:
+                    description: An optional description of this resource.
+                    type: string
+                  encryptedInterconnectRouter:
+                    description: |-
+                      Indicates if a router is dedicated for use with encrypted VLAN
+                      attachments (interconnectAttachments).
+                    type: boolean
+                  id:
+                    description: an identifier for the resource with format projects/{{project}}/regions/{{region}}/routers/{{name}}
+                    type: string
+                  md5AuthenticationKeys:
+                    description: |-
+                      Keys used for MD5 authentication.
+                      Structure is documented below.
+                    properties:
+                      key:
+                        description: Value of the key used for MD5 authentication.
+                        type: string
+                      name:
+                        description: |-
+                          Name used to identify the key. Must be unique within a router.
+                          Must be referenced by exactly one bgpPeer. Must comply with RFC1035.
+                        type: string
+                    type: object
+                  network:
+                    description: A reference to the network to which this router belongs.
+                    type: string
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  region:
+                    description: Region where the router resides.
+                    type: string
+                  selfLink:
+                    description: The URI of the created resource.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

@@ -1,0 +1,1873 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.18.0
+  name: instances.memorystore.gcp.upbound.io
+spec:
+  group: memorystore.gcp.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - gcp
+    kind: Instance
+    listKind: InstanceList
+    plural: instances
+    singular: instance
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: Instance is the Schema for the Instances API. A Google Cloud
+          Memorystore instance.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: InstanceSpec defines the desired state of Instance
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  authorizationMode:
+                    description: |-
+                      Optional. Immutable. Authorization mode of the instance. Possible values:
+                      AUTH_DISABLED
+                      IAM_AUTH
+                    type: string
+                  automatedBackupConfig:
+                    description: |-
+                      The automated backup config for a instance.
+                      Structure is documented below.
+                    properties:
+                      fixedFrequencySchedule:
+                        description: |-
+                          Trigger automated backups at a fixed frequency.
+                          Structure is documented below.
+                        properties:
+                          startTime:
+                            description: |-
+                              Start time of the window in UTC time.
+                              Structure is documented below.
+                            properties:
+                              hours:
+                                description: |-
+                                  Hours of day in 24 hour format. Should be from 0 to 23.
+                                  An API may choose to allow the value "24:00:00" for scenarios like business closing time.
+                                type: number
+                            type: object
+                        type: object
+                      retention:
+                        description: |-
+                          How long to keep automated backups before the backups are deleted.
+                          The value should be between 1 day and 365 days. If not specified, the default value is 35 days.
+                          A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s". The default_value is "3024000s"
+                        type: string
+                    type: object
+                  crossInstanceReplicationConfig:
+                    description: |-
+                      Cross instance replication config
+                      Structure is documented below.
+                    properties:
+                      instanceRole:
+                        description: 'The instance role supports the following values:'
+                        type: string
+                      primaryInstance:
+                        description: |-
+                          This field is only set for a secondary instance. Details of the primary instance that is used as the replication source for this secondary instance. This is allowed to be set only for clusters whose cluster role is of type SECONDARY.
+                          Structure is documented below.
+                        properties:
+                          instance:
+                            description: 'The full resource path of the Nth instance
+                              in the format: projects/{project}/locations/{region}/instance/{instance-id}'
+                            type: string
+                          instanceRef:
+                            description: Reference to a Instance in memorystore to
+                              populate instance.
+                            properties:
+                              name:
+                                description: Name of the referenced object.
+                                type: string
+                              policy:
+                                description: Policies for referencing.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            required:
+                            - name
+                            type: object
+                          instanceSelector:
+                            description: Selector for a Instance in memorystore to
+                              populate instance.
+                            properties:
+                              matchControllerRef:
+                                description: |-
+                                  MatchControllerRef ensures an object with the same controller reference
+                                  as the selecting object is selected.
+                                type: boolean
+                              matchLabels:
+                                additionalProperties:
+                                  type: string
+                                description: MatchLabels ensures an object with matching
+                                  labels is selected.
+                                type: object
+                              policy:
+                                description: Policies for selection.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            type: object
+                        type: object
+                      secondaryInstances:
+                        description: |-
+                          List of secondary instances that are replicating from this primary cluster. This is allowed to be set only for instances whose cluster role is of type PRIMARY.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            instance:
+                              description: 'The full resource path of the Nth instance
+                                in the format: projects/{project}/locations/{region}/instance/{instance-id}'
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                  deletionProtectionEnabled:
+                    description: Optional. If set to true deletion of the instance
+                      will fail.
+                    type: boolean
+                  desiredAutoCreatedEndpoints:
+                    description: Immutable. User inputs for the auto-created endpoints
+                      connections.
+                    items:
+                      properties:
+                        network:
+                          description: |-
+                            (Output)
+                            Output only. The consumer network where the IP address resides, in the form of
+                            projects/{project_id}/global/networks/{network_id}.
+                          type: string
+                        networkRef:
+                          description: Reference to a Network in compute to populate
+                            network.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        networkSelector:
+                          description: Selector for a Network in compute to populate
+                            network.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                        projectId:
+                          description: |-
+                            (Output)
+                            Output only. The consumer project_id where the forwarding rule is created from.
+                          type: string
+                      type: object
+                    type: array
+                  desiredPscAutoConnections:
+                    description: desired_psc_auto_connections is deprecated  Use desired_auto_created_endpoints
+                      instead.
+                    items:
+                      properties:
+                        network:
+                          description: |-
+                            (Output)
+                            Output only. The consumer network where the IP address resides, in the form of
+                            projects/{project_id}/global/networks/{network_id}.
+                          type: string
+                        projectId:
+                          description: |-
+                            (Output)
+                            Output only. The consumer project_id where the forwarding rule is created from.
+                          type: string
+                      type: object
+                    type: array
+                  engineConfigs:
+                    additionalProperties:
+                      type: string
+                    description: Optional. User-provided engine configurations for
+                      the instance.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  engineVersion:
+                    description: Optional. Engine version of the instance.
+                    type: string
+                  gcsSource:
+                    description: |-
+                      GCS source for the instance.
+                      Structure is documented below.
+                    properties:
+                      uris:
+                        description: |-
+                          URIs of the GCS objects to import.
+                          Example: gs://bucket1/object1, gs://bucket2/folder2/object2
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
+                    type: object
+                  kmsKey:
+                    description: The KMS key used to encrypt the at-rest data of the
+                      cluster
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      Optional. Labels to represent user-provided metadata.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  location:
+                    description: Resource ID segment making up resource name. It identifies
+                      the resource within its parent collection as described in https://google.aip.dev/122.
+                      See documentation for resource type memorystore.googleapis.com/CertificateAuthority.
+                    type: string
+                  maintenancePolicy:
+                    description: |-
+                      Maintenance policy for a cluster
+                      Structure is documented below.
+                    properties:
+                      weeklyMaintenanceWindow:
+                        description: |-
+                          Optional. Maintenance window that is applied to resources covered by this policy.
+                          Minimum 1. For the current version, the maximum number
+                          of weekly_window is expected to be one.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            day:
+                              description: The day of week that maintenance updates
+                                occur.
+                              type: string
+                            startTime:
+                              description: |-
+                                Start time of the window in UTC time.
+                                Structure is documented below.
+                              properties:
+                                hours:
+                                  description: |-
+                                    Hours of day in 24 hour format. Should be from 0 to 23.
+                                    An API may choose to allow the value "24:00:00" for scenarios like business closing time.
+                                  type: number
+                                minutes:
+                                  description: Minutes of hour of day. Must be from
+                                    0 to 59.
+                                  type: number
+                                nanos:
+                                  description: Fractions of seconds in nanoseconds.
+                                    Must be from 0 to 999,999,999.
+                                  type: number
+                                seconds:
+                                  description: |-
+                                    Seconds of minutes of the time. Must normally be from 0 to 59.
+                                    An API may allow the value 60 if it allows leap-seconds.
+                                  type: number
+                              type: object
+                          type: object
+                        type: array
+                    type: object
+                  managedBackupSource:
+                    description: |-
+                      Managed backup source for the instance.
+                      Structure is documented below.
+                    properties:
+                      backup:
+                        description: 'Example: projects/{project}/locations/{location}/backupCollections/{collection}/backups/{backup}.'
+                        type: string
+                    type: object
+                  mode:
+                    description: |-
+                      Optional. cluster or cluster-disabled.
+                      Possible values:
+                      CLUSTER
+                      CLUSTER_DISABLED
+                      Possible values are: CLUSTER, CLUSTER_DISABLED.
+                    type: string
+                  nodeType:
+                    description: |-
+                      Optional. Machine type for individual nodes of the instance.
+                      Possible values:
+                      SHARED_CORE_NANO
+                      HIGHMEM_MEDIUM
+                      HIGHMEM_XLARGE
+                      STANDARD_SMALL
+                    type: string
+                  persistenceConfig:
+                    description: |-
+                      Represents persistence configuration for a instance.
+                      Structure is documented below.
+                    properties:
+                      aofConfig:
+                        description: |-
+                          Configuration for AOF based persistence.
+                          Structure is documented below.
+                        properties:
+                          appendFsync:
+                            description: |-
+                              Optional. The fsync mode.
+                              Possible values:
+                              NEVER
+                              EVERY_SEC
+                              ALWAYS
+                            type: string
+                        type: object
+                      mode:
+                        description: |-
+                          Optional. Current persistence mode.
+                          Possible values:
+                          DISABLED
+                          RDB
+                          AOF
+                          Possible values are: DISABLED, RDB, AOF.
+                        type: string
+                      rdbConfig:
+                        description: |-
+                          Configuration for RDB based persistence.
+                          Structure is documented below.
+                        properties:
+                          rdbSnapshotPeriod:
+                            description: |-
+                              Optional. Period between RDB snapshots.
+                              Possible values:
+                              ONE_HOUR
+                              SIX_HOURS
+                              TWELVE_HOURS
+                              TWENTY_FOUR_HOURS
+                            type: string
+                          rdbSnapshotStartTime:
+                            description: |-
+                              Optional. Time that the first snapshot was/will be attempted, and to which future
+                              snapshots will be aligned. If not provided, the current time will be
+                              used.
+                            type: string
+                        type: object
+                    type: object
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  replicaCount:
+                    description: Optional. Number of replica nodes per shard. If omitted
+                      the default is 0 replicas.
+                    type: number
+                  shardCount:
+                    description: Required. Number of shards for the instance.
+                    type: number
+                  transitEncryptionMode:
+                    description: |-
+                      Optional. Immutable. In-transit encryption mode of the instance.
+                      Possible values:
+                      TRANSIT_ENCRYPTION_DISABLED
+                      SERVER_AUTHENTICATION
+                    type: string
+                  zoneDistributionConfig:
+                    description: |-
+                      Zone distribution configuration for allocation of instance resources.
+                      Structure is documented below.
+                    properties:
+                      mode:
+                        description: |-
+                          Optional. Current zone distribution mode. Defaults to MULTI_ZONE.
+                          Possible values:
+                          MULTI_ZONE
+                          SINGLE_ZONE
+                          Possible values are: MULTI_ZONE, SINGLE_ZONE.
+                        type: string
+                      zone:
+                        description: |-
+                          Optional. Defines zone where all resources will be allocated with SINGLE_ZONE mode.
+                          Ignored for MULTI_ZONE mode.
+                        type: string
+                    type: object
+                required:
+                - location
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  authorizationMode:
+                    description: |-
+                      Optional. Immutable. Authorization mode of the instance. Possible values:
+                      AUTH_DISABLED
+                      IAM_AUTH
+                    type: string
+                  automatedBackupConfig:
+                    description: |-
+                      The automated backup config for a instance.
+                      Structure is documented below.
+                    properties:
+                      fixedFrequencySchedule:
+                        description: |-
+                          Trigger automated backups at a fixed frequency.
+                          Structure is documented below.
+                        properties:
+                          startTime:
+                            description: |-
+                              Start time of the window in UTC time.
+                              Structure is documented below.
+                            properties:
+                              hours:
+                                description: |-
+                                  Hours of day in 24 hour format. Should be from 0 to 23.
+                                  An API may choose to allow the value "24:00:00" for scenarios like business closing time.
+                                type: number
+                            type: object
+                        type: object
+                      retention:
+                        description: |-
+                          How long to keep automated backups before the backups are deleted.
+                          The value should be between 1 day and 365 days. If not specified, the default value is 35 days.
+                          A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s". The default_value is "3024000s"
+                        type: string
+                    type: object
+                  crossInstanceReplicationConfig:
+                    description: |-
+                      Cross instance replication config
+                      Structure is documented below.
+                    properties:
+                      instanceRole:
+                        description: 'The instance role supports the following values:'
+                        type: string
+                      primaryInstance:
+                        description: |-
+                          This field is only set for a secondary instance. Details of the primary instance that is used as the replication source for this secondary instance. This is allowed to be set only for clusters whose cluster role is of type SECONDARY.
+                          Structure is documented below.
+                        properties:
+                          instance:
+                            description: 'The full resource path of the Nth instance
+                              in the format: projects/{project}/locations/{region}/instance/{instance-id}'
+                            type: string
+                          instanceRef:
+                            description: Reference to a Instance in memorystore to
+                              populate instance.
+                            properties:
+                              name:
+                                description: Name of the referenced object.
+                                type: string
+                              policy:
+                                description: Policies for referencing.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            required:
+                            - name
+                            type: object
+                          instanceSelector:
+                            description: Selector for a Instance in memorystore to
+                              populate instance.
+                            properties:
+                              matchControllerRef:
+                                description: |-
+                                  MatchControllerRef ensures an object with the same controller reference
+                                  as the selecting object is selected.
+                                type: boolean
+                              matchLabels:
+                                additionalProperties:
+                                  type: string
+                                description: MatchLabels ensures an object with matching
+                                  labels is selected.
+                                type: object
+                              policy:
+                                description: Policies for selection.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            type: object
+                        type: object
+                      secondaryInstances:
+                        description: |-
+                          List of secondary instances that are replicating from this primary cluster. This is allowed to be set only for instances whose cluster role is of type PRIMARY.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            instance:
+                              description: 'The full resource path of the Nth instance
+                                in the format: projects/{project}/locations/{region}/instance/{instance-id}'
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                  deletionProtectionEnabled:
+                    description: Optional. If set to true deletion of the instance
+                      will fail.
+                    type: boolean
+                  desiredAutoCreatedEndpoints:
+                    description: Immutable. User inputs for the auto-created endpoints
+                      connections.
+                    items:
+                      properties:
+                        network:
+                          description: |-
+                            (Output)
+                            Output only. The consumer network where the IP address resides, in the form of
+                            projects/{project_id}/global/networks/{network_id}.
+                          type: string
+                        networkRef:
+                          description: Reference to a Network in compute to populate
+                            network.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        networkSelector:
+                          description: Selector for a Network in compute to populate
+                            network.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                        projectId:
+                          description: |-
+                            (Output)
+                            Output only. The consumer project_id where the forwarding rule is created from.
+                          type: string
+                      type: object
+                    type: array
+                  desiredPscAutoConnections:
+                    description: desired_psc_auto_connections is deprecated  Use desired_auto_created_endpoints
+                      instead.
+                    items:
+                      properties:
+                        network:
+                          description: |-
+                            (Output)
+                            Output only. The consumer network where the IP address resides, in the form of
+                            projects/{project_id}/global/networks/{network_id}.
+                          type: string
+                        projectId:
+                          description: |-
+                            (Output)
+                            Output only. The consumer project_id where the forwarding rule is created from.
+                          type: string
+                      type: object
+                    type: array
+                  engineConfigs:
+                    additionalProperties:
+                      type: string
+                    description: Optional. User-provided engine configurations for
+                      the instance.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  engineVersion:
+                    description: Optional. Engine version of the instance.
+                    type: string
+                  gcsSource:
+                    description: |-
+                      GCS source for the instance.
+                      Structure is documented below.
+                    properties:
+                      uris:
+                        description: |-
+                          URIs of the GCS objects to import.
+                          Example: gs://bucket1/object1, gs://bucket2/folder2/object2
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
+                    type: object
+                  kmsKey:
+                    description: The KMS key used to encrypt the at-rest data of the
+                      cluster
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      Optional. Labels to represent user-provided metadata.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  maintenancePolicy:
+                    description: |-
+                      Maintenance policy for a cluster
+                      Structure is documented below.
+                    properties:
+                      weeklyMaintenanceWindow:
+                        description: |-
+                          Optional. Maintenance window that is applied to resources covered by this policy.
+                          Minimum 1. For the current version, the maximum number
+                          of weekly_window is expected to be one.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            day:
+                              description: The day of week that maintenance updates
+                                occur.
+                              type: string
+                            startTime:
+                              description: |-
+                                Start time of the window in UTC time.
+                                Structure is documented below.
+                              properties:
+                                hours:
+                                  description: |-
+                                    Hours of day in 24 hour format. Should be from 0 to 23.
+                                    An API may choose to allow the value "24:00:00" for scenarios like business closing time.
+                                  type: number
+                                minutes:
+                                  description: Minutes of hour of day. Must be from
+                                    0 to 59.
+                                  type: number
+                                nanos:
+                                  description: Fractions of seconds in nanoseconds.
+                                    Must be from 0 to 999,999,999.
+                                  type: number
+                                seconds:
+                                  description: |-
+                                    Seconds of minutes of the time. Must normally be from 0 to 59.
+                                    An API may allow the value 60 if it allows leap-seconds.
+                                  type: number
+                              type: object
+                          type: object
+                        type: array
+                    type: object
+                  managedBackupSource:
+                    description: |-
+                      Managed backup source for the instance.
+                      Structure is documented below.
+                    properties:
+                      backup:
+                        description: 'Example: projects/{project}/locations/{location}/backupCollections/{collection}/backups/{backup}.'
+                        type: string
+                    type: object
+                  mode:
+                    description: |-
+                      Optional. cluster or cluster-disabled.
+                      Possible values:
+                      CLUSTER
+                      CLUSTER_DISABLED
+                      Possible values are: CLUSTER, CLUSTER_DISABLED.
+                    type: string
+                  nodeType:
+                    description: |-
+                      Optional. Machine type for individual nodes of the instance.
+                      Possible values:
+                      SHARED_CORE_NANO
+                      HIGHMEM_MEDIUM
+                      HIGHMEM_XLARGE
+                      STANDARD_SMALL
+                    type: string
+                  persistenceConfig:
+                    description: |-
+                      Represents persistence configuration for a instance.
+                      Structure is documented below.
+                    properties:
+                      aofConfig:
+                        description: |-
+                          Configuration for AOF based persistence.
+                          Structure is documented below.
+                        properties:
+                          appendFsync:
+                            description: |-
+                              Optional. The fsync mode.
+                              Possible values:
+                              NEVER
+                              EVERY_SEC
+                              ALWAYS
+                            type: string
+                        type: object
+                      mode:
+                        description: |-
+                          Optional. Current persistence mode.
+                          Possible values:
+                          DISABLED
+                          RDB
+                          AOF
+                          Possible values are: DISABLED, RDB, AOF.
+                        type: string
+                      rdbConfig:
+                        description: |-
+                          Configuration for RDB based persistence.
+                          Structure is documented below.
+                        properties:
+                          rdbSnapshotPeriod:
+                            description: |-
+                              Optional. Period between RDB snapshots.
+                              Possible values:
+                              ONE_HOUR
+                              SIX_HOURS
+                              TWELVE_HOURS
+                              TWENTY_FOUR_HOURS
+                            type: string
+                          rdbSnapshotStartTime:
+                            description: |-
+                              Optional. Time that the first snapshot was/will be attempted, and to which future
+                              snapshots will be aligned. If not provided, the current time will be
+                              used.
+                            type: string
+                        type: object
+                    type: object
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  replicaCount:
+                    description: Optional. Number of replica nodes per shard. If omitted
+                      the default is 0 replicas.
+                    type: number
+                  shardCount:
+                    description: Required. Number of shards for the instance.
+                    type: number
+                  transitEncryptionMode:
+                    description: |-
+                      Optional. Immutable. In-transit encryption mode of the instance.
+                      Possible values:
+                      TRANSIT_ENCRYPTION_DISABLED
+                      SERVER_AUTHENTICATION
+                    type: string
+                  zoneDistributionConfig:
+                    description: |-
+                      Zone distribution configuration for allocation of instance resources.
+                      Structure is documented below.
+                    properties:
+                      mode:
+                        description: |-
+                          Optional. Current zone distribution mode. Defaults to MULTI_ZONE.
+                          Possible values:
+                          MULTI_ZONE
+                          SINGLE_ZONE
+                          Possible values are: MULTI_ZONE, SINGLE_ZONE.
+                        type: string
+                      zone:
+                        description: |-
+                          Optional. Defines zone where all resources will be allocated with SINGLE_ZONE mode.
+                          Ignored for MULTI_ZONE mode.
+                        type: string
+                    type: object
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.shardCount is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.shardCount)
+                || (has(self.initProvider) && has(self.initProvider.shardCount))'
+          status:
+            description: InstanceStatus defines the observed state of Instance.
+            properties:
+              atProvider:
+                properties:
+                  authorizationMode:
+                    description: |-
+                      Optional. Immutable. Authorization mode of the instance. Possible values:
+                      AUTH_DISABLED
+                      IAM_AUTH
+                    type: string
+                  automatedBackupConfig:
+                    description: |-
+                      The automated backup config for a instance.
+                      Structure is documented below.
+                    properties:
+                      fixedFrequencySchedule:
+                        description: |-
+                          Trigger automated backups at a fixed frequency.
+                          Structure is documented below.
+                        properties:
+                          startTime:
+                            description: |-
+                              Start time of the window in UTC time.
+                              Structure is documented below.
+                            properties:
+                              hours:
+                                description: |-
+                                  Hours of day in 24 hour format. Should be from 0 to 23.
+                                  An API may choose to allow the value "24:00:00" for scenarios like business closing time.
+                                type: number
+                            type: object
+                        type: object
+                      retention:
+                        description: |-
+                          How long to keep automated backups before the backups are deleted.
+                          The value should be between 1 day and 365 days. If not specified, the default value is 35 days.
+                          A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s". The default_value is "3024000s"
+                        type: string
+                    type: object
+                  backupCollection:
+                    description: |-
+                      The backup collection full resource name.
+                      Example: projects/{project}/locations/{location}/backupCollections/{collection}
+                    type: string
+                  createTime:
+                    description: Output only. Creation timestamp of the instance.
+                    type: string
+                  crossInstanceReplicationConfig:
+                    description: |-
+                      Cross instance replication config
+                      Structure is documented below.
+                    properties:
+                      instanceRole:
+                        description: 'The instance role supports the following values:'
+                        type: string
+                      membership:
+                        description: |-
+                          (Output)
+                          An output only view of all the member instance participating in cross instance replication. This field is populated for all the member clusters irrespective of their cluster role.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            primaryInstance:
+                              description: |-
+                                (Output)
+                                Details of the primary instance that is used as the replication source for all the secondary instances.
+                                Structure is documented below.
+                              items:
+                                properties:
+                                  instance:
+                                    description: 'The full resource path of the Nth
+                                      instance in the format: projects/{project}/locations/{region}/instance/{instance-id}'
+                                    type: string
+                                  uid:
+                                    description: Output only. System assigned, unique
+                                      identifier for the instance.
+                                    type: string
+                                type: object
+                              type: array
+                            secondaryInstance:
+                              description: |-
+                                (Output)
+                                List of secondary instances that are replicating from the primary instance.
+                                Structure is documented below.
+                              items:
+                                properties:
+                                  instance:
+                                    description: 'The full resource path of the Nth
+                                      instance in the format: projects/{project}/locations/{region}/instance/{instance-id}'
+                                    type: string
+                                  uid:
+                                    description: Output only. System assigned, unique
+                                      identifier for the instance.
+                                    type: string
+                                type: object
+                              type: array
+                          type: object
+                        type: array
+                      primaryInstance:
+                        description: |-
+                          This field is only set for a secondary instance. Details of the primary instance that is used as the replication source for this secondary instance. This is allowed to be set only for clusters whose cluster role is of type SECONDARY.
+                          Structure is documented below.
+                        properties:
+                          instance:
+                            description: 'The full resource path of the Nth instance
+                              in the format: projects/{project}/locations/{region}/instance/{instance-id}'
+                            type: string
+                          uid:
+                            description: Output only. System assigned, unique identifier
+                              for the instance.
+                            type: string
+                        type: object
+                      secondaryInstances:
+                        description: |-
+                          List of secondary instances that are replicating from this primary cluster. This is allowed to be set only for instances whose cluster role is of type PRIMARY.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            instance:
+                              description: 'The full resource path of the Nth instance
+                                in the format: projects/{project}/locations/{region}/instance/{instance-id}'
+                              type: string
+                            uid:
+                              description: Output only. System assigned, unique identifier
+                                for the instance.
+                              type: string
+                          type: object
+                        type: array
+                      updateTime:
+                        description: |-
+                          (Output)
+                          The last time cross instance replication config was updated.
+                        type: string
+                    type: object
+                  deletionProtectionEnabled:
+                    description: Optional. If set to true deletion of the instance
+                      will fail.
+                    type: boolean
+                  desiredAutoCreatedEndpoints:
+                    description: Immutable. User inputs for the auto-created endpoints
+                      connections.
+                    items:
+                      properties:
+                        network:
+                          description: |-
+                            (Output)
+                            Output only. The consumer network where the IP address resides, in the form of
+                            projects/{project_id}/global/networks/{network_id}.
+                          type: string
+                        projectId:
+                          description: |-
+                            (Output)
+                            Output only. The consumer project_id where the forwarding rule is created from.
+                          type: string
+                      type: object
+                    type: array
+                  desiredPscAutoConnections:
+                    description: desired_psc_auto_connections is deprecated  Use desired_auto_created_endpoints
+                      instead.
+                    items:
+                      properties:
+                        network:
+                          description: |-
+                            (Output)
+                            Output only. The consumer network where the IP address resides, in the form of
+                            projects/{project_id}/global/networks/{network_id}.
+                          type: string
+                        projectId:
+                          description: |-
+                            (Output)
+                            Output only. The consumer project_id where the forwarding rule is created from.
+                          type: string
+                      type: object
+                    type: array
+                  discoveryEndpoints:
+                    description: |-
+                      (Deprecated)
+                      Deprecated. Output only. Endpoints clients can connect to the instance through.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        address:
+                          description: |-
+                            (Output)
+                            Output only. IP address of the exposed endpoint clients connect to.
+                          type: string
+                        network:
+                          description: |-
+                            (Output)
+                            Output only. The network where the IP address of the discovery endpoint will be
+                            reserved, in the form of
+                            projects/{network_project}/global/networks/{network_id}.
+                          type: string
+                        port:
+                          description: |-
+                            (Output)
+                            Output only. The port number of the exposed endpoint.
+                          type: number
+                      type: object
+                    type: array
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
+                  endpoints:
+                    description: |-
+                      Endpoints for the instance.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        connections:
+                          description: |-
+                            A group of PSC connections. They are created in the same VPC network, one for each service attachment in the cluster.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              pscAutoConnection:
+                                description: |-
+                                  Detailed information of a PSC connection that is created through service connectivity automation.
+                                  Structure is documented below.
+                                properties:
+                                  connectionType:
+                                    description: |-
+                                      (Output)
+                                      Output Only. Type of a PSC Connection.
+                                      Possible values:
+                                      CONNECTION_TYPE_DISCOVERY
+                                      CONNECTION_TYPE_PRIMARY
+                                      CONNECTION_TYPE_READER
+                                    type: string
+                                  forwardingRule:
+                                    description: |-
+                                      (Output)
+                                      Output only. The URI of the consumer side forwarding rule.
+                                      Format:
+                                      projects/{project}/regions/{region}/forwardingRules/{forwarding_rule}
+                                    type: string
+                                  ipAddress:
+                                    description: |-
+                                      (Output)
+                                      Output only. The IP allocated on the consumer network for the PSC forwarding rule.
+                                    type: string
+                                  network:
+                                    description: |-
+                                      (Output)
+                                      Output only. The consumer network where the IP address resides, in the form of
+                                      projects/{project_id}/global/networks/{network_id}.
+                                    type: string
+                                  port:
+                                    description: |-
+                                      (Output)
+                                      Output only. Ports of the exposed endpoint.
+                                    type: number
+                                  projectId:
+                                    description: |-
+                                      (Output)
+                                      Output only. The consumer project_id where the forwarding rule is created from.
+                                    type: string
+                                  pscConnectionId:
+                                    description: |-
+                                      (Output)
+                                      Output only. The PSC connection id of the forwarding rule connected to the
+                                      service attachment.
+                                    type: string
+                                  serviceAttachment:
+                                    description: |-
+                                      (Output)
+                                      Output only. The service attachment which is the target of the PSC connection, in the form of projects/{project-id}/regions/{region}/serviceAttachments/{service-attachment-id}.
+                                    type: string
+                                type: object
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  engineConfigs:
+                    additionalProperties:
+                      type: string
+                    description: Optional. User-provided engine configurations for
+                      the instance.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  engineVersion:
+                    description: Optional. Engine version of the instance.
+                    type: string
+                  gcsSource:
+                    description: |-
+                      GCS source for the instance.
+                      Structure is documented below.
+                    properties:
+                      uris:
+                        description: |-
+                          URIs of the GCS objects to import.
+                          Example: gs://bucket1/object1, gs://bucket2/folder2/object2
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
+                    type: object
+                  id:
+                    description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/instances/{{instance_id}}
+                    type: string
+                  kmsKey:
+                    description: The KMS key used to encrypt the at-rest data of the
+                      cluster
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      Optional. Labels to represent user-provided metadata.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  location:
+                    description: Resource ID segment making up resource name. It identifies
+                      the resource within its parent collection as described in https://google.aip.dev/122.
+                      See documentation for resource type memorystore.googleapis.com/CertificateAuthority.
+                    type: string
+                  maintenancePolicy:
+                    description: |-
+                      Maintenance policy for a cluster
+                      Structure is documented below.
+                    properties:
+                      createTime:
+                        description: |-
+                          (Output)
+                          The time when the policy was created.
+                          A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+                          resolution and up to nine fractional digits.
+                        type: string
+                      updateTime:
+                        description: |-
+                          (Output)
+                          The time when the policy was last updated.
+                          A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+                          resolution and up to nine fractional digits.
+                        type: string
+                      weeklyMaintenanceWindow:
+                        description: |-
+                          Optional. Maintenance window that is applied to resources covered by this policy.
+                          Minimum 1. For the current version, the maximum number
+                          of weekly_window is expected to be one.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            day:
+                              description: The day of week that maintenance updates
+                                occur.
+                              type: string
+                            duration:
+                              description: |-
+                                (Output)
+                                Duration of the maintenance window.
+                                The current window is fixed at 1 hour.
+                                A duration in seconds with up to nine fractional digits,
+                                terminated by 's'. Example: "3.5s".
+                              type: string
+                            startTime:
+                              description: |-
+                                Start time of the window in UTC time.
+                                Structure is documented below.
+                              properties:
+                                hours:
+                                  description: |-
+                                    Hours of day in 24 hour format. Should be from 0 to 23.
+                                    An API may choose to allow the value "24:00:00" for scenarios like business closing time.
+                                  type: number
+                                minutes:
+                                  description: Minutes of hour of day. Must be from
+                                    0 to 59.
+                                  type: number
+                                nanos:
+                                  description: Fractions of seconds in nanoseconds.
+                                    Must be from 0 to 999,999,999.
+                                  type: number
+                                seconds:
+                                  description: |-
+                                    Seconds of minutes of the time. Must normally be from 0 to 59.
+                                    An API may allow the value 60 if it allows leap-seconds.
+                                  type: number
+                              type: object
+                          type: object
+                        type: array
+                    type: object
+                  maintenanceSchedule:
+                    description: |-
+                      Upcoming maintenance schedule.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        endTime:
+                          description: |-
+                            (Output)
+                            The end time of any upcoming scheduled maintenance for this cluster.
+                            A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+                            resolution and up to nine fractional digits.
+                          type: string
+                        scheduleDeadlineTime:
+                          description: |-
+                            (Output)
+                            The deadline that the maintenance schedule start time
+                            can not go beyond, including reschedule.
+                            A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+                            resolution and up to nine fractional digits.
+                          type: string
+                        startTime:
+                          description: |-
+                            (Output)
+                            The start time of any upcoming scheduled maintenance for this cluster.
+                            A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+                            resolution and up to nine fractional digits.
+                          type: string
+                      type: object
+                    type: array
+                  managedBackupSource:
+                    description: |-
+                      Managed backup source for the instance.
+                      Structure is documented below.
+                    properties:
+                      backup:
+                        description: 'Example: projects/{project}/locations/{location}/backupCollections/{collection}/backups/{backup}.'
+                        type: string
+                    type: object
+                  managedServerCa:
+                    description: |-
+                      Instance's Certificate Authority. This field will only be populated if instance's transit_encryption_mode is SERVER_AUTHENTICATION
+                      Structure is documented below.
+                    items:
+                      properties:
+                        caCerts:
+                          description: |-
+                            (Output)
+                            The PEM encoded CA certificate chains for managed server authentication
+                            Structure is documented below.
+                          items:
+                            properties:
+                              certificates:
+                                description: |-
+                                  (Output)
+                                  The certificates that form the CA chain, from leaf to root order
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  mode:
+                    description: |-
+                      Optional. cluster or cluster-disabled.
+                      Possible values:
+                      CLUSTER
+                      CLUSTER_DISABLED
+                      Possible values are: CLUSTER, CLUSTER_DISABLED.
+                    type: string
+                  name:
+                    description: |-
+                      Identifier. Unique name of the instance.
+                      Format: projects/{project}/locations/{location}/instances/{instance}
+                    type: string
+                  nodeConfig:
+                    description: |-
+                      Represents configuration for nodes of the instance.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        sizeGb:
+                          description: |-
+                            (Output)
+                            Output only. Memory size in GB of the node.
+                          type: number
+                      type: object
+                    type: array
+                  nodeType:
+                    description: |-
+                      Optional. Machine type for individual nodes of the instance.
+                      Possible values:
+                      SHARED_CORE_NANO
+                      HIGHMEM_MEDIUM
+                      HIGHMEM_XLARGE
+                      STANDARD_SMALL
+                    type: string
+                  persistenceConfig:
+                    description: |-
+                      Represents persistence configuration for a instance.
+                      Structure is documented below.
+                    properties:
+                      aofConfig:
+                        description: |-
+                          Configuration for AOF based persistence.
+                          Structure is documented below.
+                        properties:
+                          appendFsync:
+                            description: |-
+                              Optional. The fsync mode.
+                              Possible values:
+                              NEVER
+                              EVERY_SEC
+                              ALWAYS
+                            type: string
+                        type: object
+                      mode:
+                        description: |-
+                          Optional. Current persistence mode.
+                          Possible values:
+                          DISABLED
+                          RDB
+                          AOF
+                          Possible values are: DISABLED, RDB, AOF.
+                        type: string
+                      rdbConfig:
+                        description: |-
+                          Configuration for RDB based persistence.
+                          Structure is documented below.
+                        properties:
+                          rdbSnapshotPeriod:
+                            description: |-
+                              Optional. Period between RDB snapshots.
+                              Possible values:
+                              ONE_HOUR
+                              SIX_HOURS
+                              TWELVE_HOURS
+                              TWENTY_FOUR_HOURS
+                            type: string
+                          rdbSnapshotStartTime:
+                            description: |-
+                              Optional. Time that the first snapshot was/will be attempted, and to which future
+                              snapshots will be aligned. If not provided, the current time will be
+                              used.
+                            type: string
+                        type: object
+                    type: object
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  pscAttachmentDetails:
+                    description: |-
+                      Configuration of a service attachment of the cluster, for creating PSC connections.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        connectionType:
+                          description: |-
+                            (Output)
+                            Service attachment URI which your self-created PscConnection should use as target.
+                          type: string
+                        serviceAttachment:
+                          description: |-
+                            (Output)
+                            Service attachment URI which your self-created PscConnection should use as target.
+                          type: string
+                      type: object
+                    type: array
+                  pscAutoConnections:
+                    description: |-
+                      (Deprecated)
+                      Output only. User inputs and resource details of the auto-created PSC connections.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        connectionType:
+                          description: |-
+                            (Output)
+                            Output Only. Type of a PSC Connection.
+                            Possible values:
+                            CONNECTION_TYPE_DISCOVERY
+                            CONNECTION_TYPE_PRIMARY
+                            CONNECTION_TYPE_READER
+                          type: string
+                        forwardingRule:
+                          description: |-
+                            (Output)
+                            Output only. The URI of the consumer side forwarding rule.
+                            Format:
+                            projects/{project}/regions/{region}/forwardingRules/{forwarding_rule}
+                          type: string
+                        ipAddress:
+                          description: |-
+                            (Output)
+                            Output only. The IP allocated on the consumer network for the PSC forwarding rule.
+                          type: string
+                        network:
+                          description: |-
+                            (Output)
+                            Output only. The consumer network where the IP address resides, in the form of
+                            projects/{project_id}/global/networks/{network_id}.
+                          type: string
+                        port:
+                          description: |-
+                            (Output)
+                            Output only. Ports of the exposed endpoint.
+                          type: number
+                        projectId:
+                          description: |-
+                            (Output)
+                            Output only. The consumer project_id where the forwarding rule is created from.
+                          type: string
+                        pscConnectionId:
+                          description: |-
+                            (Output)
+                            Output only. The PSC connection id of the forwarding rule connected to the
+                            service attachment.
+                          type: string
+                        pscConnectionStatus:
+                          description: |-
+                            (Output)
+                            Output Only. The status of the PSC connection: whether a connection exists and ACTIVE or it no longer exists.
+                            Possible values:
+                            ACTIVE
+                            NOT_FOUND
+                          type: string
+                        serviceAttachment:
+                          description: |-
+                            (Output)
+                            Output only. The service attachment which is the target of the PSC connection, in the form of projects/{project-id}/regions/{region}/serviceAttachments/{service-attachment-id}.
+                          type: string
+                      type: object
+                    type: array
+                  replicaCount:
+                    description: Optional. Number of replica nodes per shard. If omitted
+                      the default is 0 replicas.
+                    type: number
+                  shardCount:
+                    description: Required. Number of shards for the instance.
+                    type: number
+                  state:
+                    description: |-
+                      Output only. Current state of the instance.
+                      Possible values:
+                      CREATING
+                      ACTIVE
+                      UPDATING
+                      DELETING
+                    type: string
+                  stateInfo:
+                    description: |-
+                      Additional information about the state of the instance.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        updateInfo:
+                          description: |-
+                            (Output)
+                            Represents information about instance with state UPDATING.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              targetEngineVersion:
+                                description: |-
+                                  (Output)
+                                  Output only. Target engine version for the instance.
+                                type: string
+                              targetNodeType:
+                                description: |-
+                                  (Output)
+                                  Output only. Target node type for the instance.
+                                type: string
+                              targetReplicaCount:
+                                description: |-
+                                  (Output)
+                                  Output only. Target number of replica nodes per shard for the instance.
+                                type: number
+                              targetShardCount:
+                                description: |-
+                                  (Output)
+                                  Output only. Target number of shards for the instance.
+                                type: number
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  transitEncryptionMode:
+                    description: |-
+                      Optional. Immutable. In-transit encryption mode of the instance.
+                      Possible values:
+                      TRANSIT_ENCRYPTION_DISABLED
+                      SERVER_AUTHENTICATION
+                    type: string
+                  uid:
+                    description: Output only. System assigned, unique identifier for
+                      the instance.
+                    type: string
+                  updateTime:
+                    description: Output only. Latest update timestamp of the instance.
+                    type: string
+                  zoneDistributionConfig:
+                    description: |-
+                      Zone distribution configuration for allocation of instance resources.
+                      Structure is documented below.
+                    properties:
+                      mode:
+                        description: |-
+                          Optional. Current zone distribution mode. Defaults to MULTI_ZONE.
+                          Possible values:
+                          MULTI_ZONE
+                          SINGLE_ZONE
+                          Possible values are: MULTI_ZONE, SINGLE_ZONE.
+                        type: string
+                      zone:
+                        description: |-
+                          Optional. Defines zone where all resources will be allocated with SINGLE_ZONE mode.
+                          Ignored for MULTI_ZONE mode.
+                        type: string
+                    type: object
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

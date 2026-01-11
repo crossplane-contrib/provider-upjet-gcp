@@ -1,0 +1,97 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: appengine.gcp.upbound.io/v1beta1
+kind: ApplicationURLDispatchRules
+metadata:
+  annotations:
+    meta.upbound.io/example-id: appengine/v1beta1/applicationurldispatchrules
+    upjet.upbound.io/manual-intervention: "The default service (StandardAppVersion) cannot be deleted."
+  labels:
+    testing.upbound.io/example-name: web_service
+  name: web-service
+spec:
+  forProvider:
+    dispatchRules:
+    - domain: '*'
+      path: /admin/*
+      serviceSelector:
+        matchLabels:
+          testing.upbound.io/example-name: myapp_v1
+
+---
+
+apiVersion: appengine.gcp.upbound.io/v1beta1
+kind: StandardAppVersion
+metadata:
+  annotations:
+    meta.upbound.io/example-id: appengine/v1beta1/applicationurldispatchrules
+  labels:
+    testing.upbound.io/example-name: myapp_v1
+  name: myapp-v1
+spec:
+  forProvider:
+    automaticScaling:
+      - maxConcurrentRequests: 10
+        standardSchedulerSettings:
+          - maxInstances: 1
+    deleteServiceOnDestroy: true
+    deployment:
+      - files:
+          - sourceUrl: https://storage.googleapis.com/${bucket.name}/${bucket-object.name}
+            name: bucket-object
+    entrypoint:
+      - shell: node ./app.js
+    runtime: nodejs10
+    service: default
+
+---
+
+apiVersion: storage.gcp.upbound.io/v1beta1
+kind: BucketObject
+metadata:
+  annotations:
+    meta.upbound.io/example-id: appengine/v1beta1/applicationurldispatchrules
+  labels:
+    testing.upbound.io/example-name: bucket-object
+  name: bucket-object
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: bucket-object
+    name: bucket-object
+    content: "Upbound!"
+    contentType: text/plain
+
+---
+
+apiVersion: storage.gcp.upbound.io/v1beta1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: appengine/v1beta1/applicationurldispatchrules
+  labels:
+    testing.upbound.io/example-name: bucket-object
+  name: bucket-object-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    cors:
+      - maxAgeSeconds: 3600
+        method:
+          - GET
+          - HEAD
+          - PUT
+          - POST
+          - DELETE
+        origin:
+          - http://image-store.com
+        responseHeader:
+          - '*'
+    forceDestroy: true
+    location: US
+    uniformBucketLevelAccess: false
+    website:
+      - mainPageSuffix: index.html
+        notFoundPage: 404.html

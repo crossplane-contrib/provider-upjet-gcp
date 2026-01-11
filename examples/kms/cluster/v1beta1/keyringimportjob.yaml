@@ -1,0 +1,33 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: kms.gcp.upbound.io/v1beta1
+kind: KeyRingImportJob
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1beta1/keyringimportjob
+  labels:
+    testing.upbound.io/example-name: keyring-import-job
+  name: keyring-import-job-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    importMethod: RSA_OAEP_3072_SHA1_AES_256
+    protectionLevel: "SOFTWARE"
+    keyRingSelector:
+      matchLabels:
+        testing.upbound.io/example-name: keyring-import-job
+
+---
+
+apiVersion: kms.gcp.upbound.io/v1beta1
+kind: KeyRing
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1beta1/keyringimportjob
+  labels:
+    testing.upbound.io/example-name: keyring-import-job
+  name: keyring-import-job-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    location: global

@@ -1,0 +1,18 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: documentai.gcp.m.upbound.io/v1beta1
+kind: Processor
+metadata:
+  annotations:
+    meta.upbound.io/example-id: documentai/v1beta1/processor
+  labels:
+    testing.upbound.io/example-name: processor
+  name: processor
+  namespace: upbound-system
+spec:
+  forProvider:
+    location: us
+    type: OCR_PROCESSOR
+    displayName: "test-processor"

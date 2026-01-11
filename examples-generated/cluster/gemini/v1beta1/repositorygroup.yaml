@@ -1,0 +1,21 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: gemini.gcp.upbound.io/v1beta1
+kind: RepositoryGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: gemini/v1beta1/repositorygroup
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    codeRepositoryIndex: example-cri
+    labels:
+      label1: value1
+    location: us-central1
+    repositories:
+    - branchPattern: main
+      resource: projects/example-project/locations/us-central1/connections/example-connection/gitRepositoryLinks/example-repo

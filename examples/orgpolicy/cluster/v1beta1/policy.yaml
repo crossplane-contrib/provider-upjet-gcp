@@ -1,0 +1,16 @@
+apiVersion: orgpolicy.gcp.upbound.io/v1beta1
+kind: Policy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: orgpolicy/v1beta1/policy
+    upjet.upbound.io/manual-intervention: "Policy requires Org Access Rights"
+    crossplane.io/external-name: iam.disableServiceAccountKeyUpload
+  labels:
+    testing.upbound.io/example-name: primary
+  name: primary
+spec:
+  forProvider:
+    parent: projects/${project.project_id}
+    spec:
+      rules:
+        - enforce: "FALSE"

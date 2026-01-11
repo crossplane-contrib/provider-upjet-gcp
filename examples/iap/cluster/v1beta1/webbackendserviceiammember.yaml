@@ -1,0 +1,52 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: iap.gcp.upbound.io/v1beta1
+kind: WebBackendServiceIAMMember
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iap/v1beta1/webbackendserviceiammember
+  labels:
+    testing.upbound.io/example-name: web-backend-service-iam
+  name: web-backend-service-iam
+spec:
+  forProvider:
+    member: "${data.google_iam_member.member}"
+    role: "roles/viewer"
+    webBackendServiceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: web-backend-service-iam
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: HealthCheck
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iap/v1beta1/webbackendserviceiammember
+  labels:
+    testing.upbound.io/example-name: web-backend-service-iam
+  name: web-backend-service-iam 
+spec:
+  forProvider:
+    checkIntervalSec: 1
+    httpHealthCheck:
+      - port: 80
+    timeoutSec: 1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: BackendService
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iap/v1beta1/webbackendserviceiammember
+  labels:
+    testing.upbound.io/example-name: web-backend-service-iam  
+  name: web-backend-service-iam
+spec:
+  forProvider:
+    healthChecksSelector:
+      matchLabels:
+        testing.upbound.io/example-name: web-backend-service-iam

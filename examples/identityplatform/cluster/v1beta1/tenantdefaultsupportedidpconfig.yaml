@@ -1,0 +1,56 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: identityplatform.gcp.upbound.io/v1beta1
+kind: TenantDefaultSupportedIdPConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: identityplatform/v1beta1/tenantdefaultsupportedidpconfig
+  labels:
+    testing.upbound.io/example-name: tenant-default-supported-idp-config
+  name: tenant-default-supported-idp-config
+spec:
+  forProvider:
+    clientIdSecretRef:
+      key: clientId
+      name: tenant-default-supported-idp-config
+      namespace: upbound-system
+    clientSecretSecretRef:
+      key: clientSecret
+      name: tenant-default-supported-idp-config
+      namespace: upbound-system
+    enabled: true
+    idpId: google.com
+    tenantSelector:
+      matchLabels:
+        testing.upbound.io/example-name: tenant-default-supported-idp-config
+---
+
+apiVersion: v1
+data:
+  clientId: dXBib3VuZA==
+  clientSecret: MTIzNDU=
+kind: Secret
+metadata:
+  annotations:
+    meta.upbound.io/example-id: identityplatform/v1beta1/tenantdefaultsupportedidpconfig
+  labels:
+    testing.upbound.io/example-name: tenant-default-supported-idp-config
+  name: tenant-default-supported-idp-config
+  namespace: upbound-system
+
+---
+
+apiVersion: identityplatform.gcp.upbound.io/v1beta1
+kind: Tenant
+metadata:
+  annotations:
+    meta.upbound.io/example-id: identityplatform/v1beta1/tenantdefaultsupportedidpconfig
+  labels:
+    testing.upbound.io/example-name: tenant-default-supported-idp-config
+  name: tenant-default-supported-idp-config
+spec:
+  forProvider:
+    # displayName should start with a letter and only consist of letters, digits and hyphens with 4-20 characters
+    displayName: tenant-default

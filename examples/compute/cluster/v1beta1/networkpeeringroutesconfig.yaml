@@ -1,0 +1,90 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: NetworkPeeringRoutesConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/networkpeeringroutesconfig
+  labels:
+    testing.upbound.io/example-name: peering-primary-routes
+  name: peering-primary-routes
+spec:
+  forProvider:
+    exportCustomRoutes: true
+    importCustomRoutes: true
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: peering-primary-routes-primary
+    peeringSelector:
+      matchLabels:
+        testing.upbound.io/example-name: peering-primary-routes-primary
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/networkpeeringroutesconfig
+  labels:
+    testing.upbound.io/example-name: peering-primary-routes-primary
+  name: peering-primary-routes-primary
+spec:
+  forProvider:
+    autoCreateSubnetworks: false
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: NetworkPeering
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/networkpeeringroutesconfig
+  labels:
+    testing.upbound.io/example-name: peering-primary-routes-primary
+  name: peering-primary-routes-primary
+spec:
+  forProvider:
+    exportCustomRoutes: true
+    importCustomRoutes: true
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: peering-primary-routes-primary
+    peerNetworkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: peering-primary-routes-secondary
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: NetworkPeering
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/networkpeeringroutesconfig
+  labels:
+    testing.upbound.io/example-name: peering-primary-routes-secondary
+  name: peering-primary-routes-secondary
+spec:
+  forProvider:
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: peering-primary-routes-secondary
+    peerNetworkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: peering-primary-routes-primary
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/networkpeeringroutesconfig
+  labels:
+    testing.upbound.io/example-name: peering-primary-routes-secondary
+  name: peering-primary-routes-secondary
+spec:
+  forProvider:
+    autoCreateSubnetworks: false

@@ -1,0 +1,18 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: firestore.gcp.upbound.io/v1beta1
+kind: Document
+metadata:
+  annotations:
+    meta.upbound.io/example-id: firestore/v1beta1/document
+    upjet.upbound.io/manual-intervention: "The Cloud Firestore API is not available for Datastore Mode projects"
+  labels:
+    testing.upbound.io/example-name: firestore
+  name: firestore
+spec:
+  forProvider:
+    collection: somenewcollection
+    documentId: my-doc-
+    fields: '{"something":{"mapValue":{"fields":{"akey":{"stringValue":"avalue"}}}}}'

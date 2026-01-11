@@ -1,0 +1,39 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: identityplatform.gcp.upbound.io/v1beta1
+kind: DefaultSupportedIdPConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: identityplatform/v1beta1/defaultsupportedidpconfig
+  labels:
+    testing.upbound.io/example-name: default-supported-idp-config
+  name: default-supported-idp-config
+spec:
+  forProvider:
+    clientIdSecretRef:
+      key: clientId
+      name: default-supported-idp-config
+      namespace: upbound-system
+    clientSecretSecretRef:
+      key: clientSecret
+      name: default-supported-idp-config
+      namespace: upbound-system
+    enabled: true
+    idpId: google.com
+
+---
+
+apiVersion: v1
+data:
+  clientId: dXBib3VuZA==
+  clientSecret: MTIzNDU=
+kind: Secret
+metadata:
+  annotations:
+    meta.upbound.io/example-id: identityplatform/v1beta1/defaultsupportedidpconfig
+  labels:
+    testing.upbound.io/example-name: default-supported-idp-config
+  name: default-supported-idp-config
+  namespace: upbound-system

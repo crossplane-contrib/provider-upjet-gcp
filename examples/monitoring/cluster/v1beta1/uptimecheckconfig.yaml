@@ -1,0 +1,30 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: monitoring.gcp.upbound.io/v1beta1
+kind: UptimeCheckConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: monitoring/v1beta1/uptimecheckconfig
+  labels:
+    testing.upbound.io/example-name: http_uptime_check
+  name: example-http-uptime-check
+spec:
+  forProvider:
+    checkerType: STATIC_IP_CHECKERS
+    contentMatchers:
+    - content: example
+    displayName: example-http-uptime-check
+    httpCheck:
+    - body: Zm9vJTI1M0RiYXI=
+      contentType: URL_ENCODED
+      path: some-path
+      port: 8010
+      requestMethod: POST
+    monitoredResource:
+    - labels:
+        host: 192.168.1.1
+        project_id: official-provider-testing
+      type: uptime_url
+    timeout: 60s

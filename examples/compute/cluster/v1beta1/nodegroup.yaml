@@ -1,0 +1,38 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: NodeGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/nodegroup
+    # upjet.upbound.io/manual-intervention: "Quota 'C2_CPUS' exceeded. Limit: 24.0 in region us-central1"
+  labels:
+    testing.upbound.io/example-name: node-group
+  name: node-group
+spec:
+  forProvider:
+    description: Example node group
+    nodeTemplateSelector:
+      matchLabels:
+        testing.upbound.io/example-name: node-group
+    initialSize: 1
+    zone: us-central1-a
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: NodeTemplate
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/nodegroup
+    # upjet.upbound.io/manual-intervention: "Quota 'C2_CPUS' exceeded. Limit: 24.0 in region us-central1"
+  labels:
+    testing.upbound.io/example-name: node-group
+  name: node-group
+spec:
+  forProvider:
+    # https://cloud.google.com/compute/docs/nodes/sole-tenant-nodes#node_types
+    nodeType: c2-node-60-240
+    region: us-central1

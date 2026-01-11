@@ -1,0 +1,69 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: bigquery.gcp.upbound.io/v1beta2
+kind: Job
+metadata:
+  annotations:
+    meta.upbound.io/example-id: bigquery/v1beta2/job
+    upjet.upbound.io/manual-intervention: This resource requires a schema to be provisioned
+      in the referenced dataset's table
+  labels:
+    testing.upbound.io/example-name: job
+  name: job
+spec:
+  forProvider:
+    jobId: my_job_query
+    labels:
+      example-label: example-value
+    query:
+      allowLargeResults: true
+      destinationTable:
+        datasetIdSelector:
+          matchLabels:
+            testing.upbound.io/example-name: bar
+        tableIdSelector:
+          matchLabels:
+            testing.upbound.io/example-name: foo
+      flattenResults: true
+      query: SELECT status FROM crossplane-playground.bar.foo
+      scriptOptions:
+        keyResultStatement: LAST
+
+---
+
+apiVersion: bigquery.gcp.upbound.io/v1beta2
+kind: Dataset
+metadata:
+  annotations:
+    meta.upbound.io/example-id: bigquery/v1beta2/job
+    upjet.upbound.io/manual-intervention: 'Dependent resource skipped: This resource
+      requires a schema to be provisioned in the referenced dataset''s table'
+  labels:
+    testing.upbound.io/example-name: bar
+  name: bar
+spec:
+  forProvider:
+    description: This is a test description
+    friendlyName: test
+    location: US
+
+---
+
+apiVersion: bigquery.gcp.upbound.io/v1beta2
+kind: Table
+metadata:
+  annotations:
+    meta.upbound.io/example-id: bigquery/v1beta2/job
+    upjet.upbound.io/manual-intervention: 'Dependent resource skipped: This resource
+      requires a schema to be provisioned in the referenced dataset''s table'
+  labels:
+    testing.upbound.io/example-name: foo
+  name: foo
+spec:
+  forProvider:
+    datasetIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: bar
+    deletionProtection: false

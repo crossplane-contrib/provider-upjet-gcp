@@ -1,0 +1,18 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: accesscontextmanager.gcp.upbound.io/v1beta1
+kind: AccessPolicyIAMMember
+metadata:
+  annotations:
+    meta.upbound.io/example-id: accesscontextmanager/v1beta1/accesspolicyiammember
+    upjet.upbound.io/manual-intervention: "Requires organization level IAM permissions"
+  labels:
+    testing.upbound.io/example-name: accesspolicy-iam-member
+  name: accesspolicy-iam-member
+spec:
+  forProvider:
+    member: "${data.google_iam_member.member}"
+    role: "roles/viewer"
+    name: ${google_access_context_manager_access_policy.access-policy.name}

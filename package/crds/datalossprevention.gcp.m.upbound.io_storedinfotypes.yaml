@@ -1,0 +1,578 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.18.0
+  name: storedinfotypes.datalossprevention.gcp.m.upbound.io
+spec:
+  group: datalossprevention.gcp.m.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - gcp
+    kind: StoredInfoType
+    listKind: StoredInfoTypeList
+    plural: storedinfotypes
+    singular: storedinfotype
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: StoredInfoType is the Schema for the StoredInfoTypes API. Allows
+          creation of custom info types.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: StoredInfoTypeSpec defines the desired state of StoredInfoType
+            properties:
+              forProvider:
+                properties:
+                  description:
+                    description: A description of the info type.
+                    type: string
+                  dictionary:
+                    description: |-
+                      Dictionary which defines the rule.
+                      Structure is documented below.
+                    properties:
+                      cloudStoragePath:
+                        description: |-
+                          Newline-delimited file of words in Cloud Storage. Only a single file is accepted.
+                          Structure is documented below.
+                        properties:
+                          path:
+                            description: 'A url representing a file or path (no wildcards)
+                              in Cloud Storage. Example: gs://[BUCKET_NAME]/dictionary.txt'
+                            type: string
+                        type: object
+                      wordList:
+                        description: |-
+                          List of words or phrases to search for.
+                          Structure is documented below.
+                        properties:
+                          words:
+                            description: |-
+                              Words or phrases defining the dictionary. The dictionary must contain at least one
+                              phrase and every phrase must contain at least 2 characters that are letters or digits.
+                            items:
+                              type: string
+                            type: array
+                        type: object
+                    type: object
+                  displayName:
+                    description: User set display name of the info type.
+                    type: string
+                  largeCustomDictionary:
+                    description: |-
+                      Dictionary which defines the rule.
+                      Structure is documented below.
+                    properties:
+                      bigQueryField:
+                        description: |-
+                          Field in a BigQuery table where each cell represents a dictionary phrase.
+                          Structure is documented below.
+                        properties:
+                          field:
+                            description: |-
+                              Designated field in the BigQuery table.
+                              Structure is documented below.
+                            properties:
+                              name:
+                                description: The resource name of the info type. Set
+                                  by the server.
+                                type: string
+                            type: object
+                          table:
+                            description: |-
+                              Field in a BigQuery table where each cell represents a dictionary phrase.
+                              Structure is documented below.
+                            properties:
+                              datasetId:
+                                description: The dataset ID of the table.
+                                type: string
+                              projectId:
+                                description: The Google Cloud Platform project ID
+                                  of the project containing the table.
+                                type: string
+                              tableId:
+                                description: The name of the table.
+                                type: string
+                            type: object
+                        type: object
+                      cloudStorageFileSet:
+                        description: |-
+                          Set of files containing newline-delimited lists of dictionary phrases.
+                          Structure is documented below.
+                        properties:
+                          url:
+                            description: The url, in the format gs://<bucket>/<path>.
+                              Trailing wildcard in the path is allowed.
+                            type: string
+                        type: object
+                      outputPath:
+                        description: |-
+                          Location to store dictionary artifacts in Google Cloud Storage. These files will only be accessible by project owners and the DLP API.
+                          If any of these artifacts are modified, the dictionary is considered invalid and can no longer be used.
+                          Structure is documented below.
+                        properties:
+                          path:
+                            description: 'A url representing a file or path (no wildcards)
+                              in Cloud Storage. Example: gs://[BUCKET_NAME]/dictionary.txt'
+                            type: string
+                        type: object
+                    type: object
+                  parent:
+                    description: 'The parent of the info type in any of the following
+                      formats:'
+                    type: string
+                  regex:
+                    description: |-
+                      Regular expression which defines the rule.
+                      Structure is documented below.
+                    properties:
+                      groupIndexes:
+                        description: The index of the submatch to extract as findings.
+                          When not specified, the entire match is returned. No more
+                          than 3 may be included.
+                        items:
+                          type: number
+                        type: array
+                      pattern:
+                        description: |-
+                          Pattern defining the regular expression.
+                          Its syntax (https://github.com/google/re2/wiki/Syntax) can be found under the google/re2 repository on GitHub.
+                        type: string
+                    type: object
+                  storedInfoTypeId:
+                    description: |-
+                      The storedInfoType ID can contain uppercase and lowercase letters, numbers, and hyphens;
+                      that is, it must match the regular expression: [a-zA-Z\d-_]+. The maximum length is 100
+                      characters. Can be empty to allow the system to generate one.
+                    type: string
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  description:
+                    description: A description of the info type.
+                    type: string
+                  dictionary:
+                    description: |-
+                      Dictionary which defines the rule.
+                      Structure is documented below.
+                    properties:
+                      cloudStoragePath:
+                        description: |-
+                          Newline-delimited file of words in Cloud Storage. Only a single file is accepted.
+                          Structure is documented below.
+                        properties:
+                          path:
+                            description: 'A url representing a file or path (no wildcards)
+                              in Cloud Storage. Example: gs://[BUCKET_NAME]/dictionary.txt'
+                            type: string
+                        type: object
+                      wordList:
+                        description: |-
+                          List of words or phrases to search for.
+                          Structure is documented below.
+                        properties:
+                          words:
+                            description: |-
+                              Words or phrases defining the dictionary. The dictionary must contain at least one
+                              phrase and every phrase must contain at least 2 characters that are letters or digits.
+                            items:
+                              type: string
+                            type: array
+                        type: object
+                    type: object
+                  displayName:
+                    description: User set display name of the info type.
+                    type: string
+                  largeCustomDictionary:
+                    description: |-
+                      Dictionary which defines the rule.
+                      Structure is documented below.
+                    properties:
+                      bigQueryField:
+                        description: |-
+                          Field in a BigQuery table where each cell represents a dictionary phrase.
+                          Structure is documented below.
+                        properties:
+                          field:
+                            description: |-
+                              Designated field in the BigQuery table.
+                              Structure is documented below.
+                            properties:
+                              name:
+                                description: The resource name of the info type. Set
+                                  by the server.
+                                type: string
+                            type: object
+                          table:
+                            description: |-
+                              Field in a BigQuery table where each cell represents a dictionary phrase.
+                              Structure is documented below.
+                            properties:
+                              datasetId:
+                                description: The dataset ID of the table.
+                                type: string
+                              projectId:
+                                description: The Google Cloud Platform project ID
+                                  of the project containing the table.
+                                type: string
+                              tableId:
+                                description: The name of the table.
+                                type: string
+                            type: object
+                        type: object
+                      cloudStorageFileSet:
+                        description: |-
+                          Set of files containing newline-delimited lists of dictionary phrases.
+                          Structure is documented below.
+                        properties:
+                          url:
+                            description: The url, in the format gs://<bucket>/<path>.
+                              Trailing wildcard in the path is allowed.
+                            type: string
+                        type: object
+                      outputPath:
+                        description: |-
+                          Location to store dictionary artifacts in Google Cloud Storage. These files will only be accessible by project owners and the DLP API.
+                          If any of these artifacts are modified, the dictionary is considered invalid and can no longer be used.
+                          Structure is documented below.
+                        properties:
+                          path:
+                            description: 'A url representing a file or path (no wildcards)
+                              in Cloud Storage. Example: gs://[BUCKET_NAME]/dictionary.txt'
+                            type: string
+                        type: object
+                    type: object
+                  parent:
+                    description: 'The parent of the info type in any of the following
+                      formats:'
+                    type: string
+                  regex:
+                    description: |-
+                      Regular expression which defines the rule.
+                      Structure is documented below.
+                    properties:
+                      groupIndexes:
+                        description: The index of the submatch to extract as findings.
+                          When not specified, the entire match is returned. No more
+                          than 3 may be included.
+                        items:
+                          type: number
+                        type: array
+                      pattern:
+                        description: |-
+                          Pattern defining the regular expression.
+                          Its syntax (https://github.com/google/re2/wiki/Syntax) can be found under the google/re2 repository on GitHub.
+                        type: string
+                    type: object
+                  storedInfoTypeId:
+                    description: |-
+                      The storedInfoType ID can contain uppercase and lowercase letters, numbers, and hyphens;
+                      that is, it must match the regular expression: [a-zA-Z\d-_]+. The maximum length is 100
+                      characters. Can be empty to allow the system to generate one.
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  kind: ClusterProviderConfig
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  kind:
+                    description: Kind of the referenced object.
+                    type: string
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - kind
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                required:
+                - name
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.parent is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.parent)
+                || (has(self.initProvider) && has(self.initProvider.parent))'
+          status:
+            description: StoredInfoTypeStatus defines the observed state of StoredInfoType.
+            properties:
+              atProvider:
+                properties:
+                  description:
+                    description: A description of the info type.
+                    type: string
+                  dictionary:
+                    description: |-
+                      Dictionary which defines the rule.
+                      Structure is documented below.
+                    properties:
+                      cloudStoragePath:
+                        description: |-
+                          Newline-delimited file of words in Cloud Storage. Only a single file is accepted.
+                          Structure is documented below.
+                        properties:
+                          path:
+                            description: 'A url representing a file or path (no wildcards)
+                              in Cloud Storage. Example: gs://[BUCKET_NAME]/dictionary.txt'
+                            type: string
+                        type: object
+                      wordList:
+                        description: |-
+                          List of words or phrases to search for.
+                          Structure is documented below.
+                        properties:
+                          words:
+                            description: |-
+                              Words or phrases defining the dictionary. The dictionary must contain at least one
+                              phrase and every phrase must contain at least 2 characters that are letters or digits.
+                            items:
+                              type: string
+                            type: array
+                        type: object
+                    type: object
+                  displayName:
+                    description: User set display name of the info type.
+                    type: string
+                  id:
+                    description: an identifier for the resource with format {{parent}}/storedInfoTypes/{{name}}
+                    type: string
+                  largeCustomDictionary:
+                    description: |-
+                      Dictionary which defines the rule.
+                      Structure is documented below.
+                    properties:
+                      bigQueryField:
+                        description: |-
+                          Field in a BigQuery table where each cell represents a dictionary phrase.
+                          Structure is documented below.
+                        properties:
+                          field:
+                            description: |-
+                              Designated field in the BigQuery table.
+                              Structure is documented below.
+                            properties:
+                              name:
+                                description: The resource name of the info type. Set
+                                  by the server.
+                                type: string
+                            type: object
+                          table:
+                            description: |-
+                              Field in a BigQuery table where each cell represents a dictionary phrase.
+                              Structure is documented below.
+                            properties:
+                              datasetId:
+                                description: The dataset ID of the table.
+                                type: string
+                              projectId:
+                                description: The Google Cloud Platform project ID
+                                  of the project containing the table.
+                                type: string
+                              tableId:
+                                description: The name of the table.
+                                type: string
+                            type: object
+                        type: object
+                      cloudStorageFileSet:
+                        description: |-
+                          Set of files containing newline-delimited lists of dictionary phrases.
+                          Structure is documented below.
+                        properties:
+                          url:
+                            description: The url, in the format gs://<bucket>/<path>.
+                              Trailing wildcard in the path is allowed.
+                            type: string
+                        type: object
+                      outputPath:
+                        description: |-
+                          Location to store dictionary artifacts in Google Cloud Storage. These files will only be accessible by project owners and the DLP API.
+                          If any of these artifacts are modified, the dictionary is considered invalid and can no longer be used.
+                          Structure is documented below.
+                        properties:
+                          path:
+                            description: 'A url representing a file or path (no wildcards)
+                              in Cloud Storage. Example: gs://[BUCKET_NAME]/dictionary.txt'
+                            type: string
+                        type: object
+                    type: object
+                  name:
+                    description: The resource name of the info type. Set by the server.
+                    type: string
+                  parent:
+                    description: 'The parent of the info type in any of the following
+                      formats:'
+                    type: string
+                  regex:
+                    description: |-
+                      Regular expression which defines the rule.
+                      Structure is documented below.
+                    properties:
+                      groupIndexes:
+                        description: The index of the submatch to extract as findings.
+                          When not specified, the entire match is returned. No more
+                          than 3 may be included.
+                        items:
+                          type: number
+                        type: array
+                      pattern:
+                        description: |-
+                          Pattern defining the regular expression.
+                          Its syntax (https://github.com/google/re2/wiki/Syntax) can be found under the google/re2 repository on GitHub.
+                        type: string
+                    type: object
+                  storedInfoTypeId:
+                    description: |-
+                      The storedInfoType ID can contain uppercase and lowercase letters, numbers, and hyphens;
+                      that is, it must match the regular expression: [a-zA-Z\d-_]+. The maximum length is 100
+                      characters. Can be empty to allow the system to generate one.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

@@ -1,0 +1,132 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: privateca.gcp.upbound.io/v1beta1
+kind: Certificate
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privateca/v1beta1/certificate
+    upjet.upbound.io/manual-intervention: "All CAs in the CA Pool must be removed or be past their recovery period before the pool can be deleted"
+  labels:
+    testing.upbound.io/example-name: certificate
+  name: certificate-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    certificateAuthoritySelector:
+      matchLabels:
+        testing.upbound.io/example-name: certificate
+    config:
+    - publicKey:
+      - format: PEM
+        keySecretRef:
+          key: rsa_public.pem
+          name: certificate
+          namespace: upbound-system
+      subjectConfig:
+      - subject:
+        - commonName: san1.example.com
+          countryCode: us
+          locality: mountain view
+          organization: google
+          organizationalUnit: enterprise
+          province: california
+          streetAddress: 1600 amphitheatre parkway
+        subjectAltName:
+        - emailAddresses:
+          - email@example.com
+          ipAddresses:
+          - 127.0.0.1
+          uris:
+          - http://www.ietf.org/rfc/rfc3986.txt
+      x509Config:
+      - caOptions:
+        - isCa: false
+        keyUsage:
+        - baseKeyUsage:
+          - crlSign: false
+            decipherOnly: false
+          extendedKeyUsage:
+          - serverAuth: false
+    lifetime: 860s
+    location: us-central1
+    poolSelector:
+      matchLabels:
+        testing.upbound.io/example-name: certificate
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privateca/v1beta1/certificate
+    upjet.upbound.io/manual-intervention: "All CAs in the CA Pool must be removed or be past their recovery period before the pool can be deleted"
+  labels:
+    testing.upbound.io/example-name: certificate
+  name: certificate
+  namespace: upbound-system
+data:
+  # Note: The key value must be base64 encoded. So make sure to encode the public key before creating Kubernetes Secret.
+  # E.g. 
+  # base64 rsa_public.pem | tr -d \n > rsa_public.pem.b64
+  # kubectl create secret generic certificate --from-file=rsa_public.pem=rsa_public.pem.b64 -n upbound-system -oyaml --dry-run=client
+  rsa_public.pem: TFMwdExTMUNSVWRKVGlCUVZVSk1TVU1nUzBWWkxTMHRMUzBLVFVsSlFrbHFRVTVDWjJ0eGFHdHBSemwzTUVKQlVVVkdRVUZQUTBGUk9FRk5TVWxDUTJkTFEwRlJSVUY0U25GNlNVMDNVbXhtYW5Gc0wzUjVSa0ZTUlFvdlJYZ3lhazh3U0ZOU1ZtOXZkWGN3Y2xaVVdsUkRWRVJWZHpWS1NqTkdXa1JGVFZKM1JFa3lVbWxRVldnMk9IRnhObWwzTjFKRlJsSTBXVU16UVRWWENrNUNTRlZwYjJwWU5rTkNhelpYWXpBNFRGbFNWM2RQZWpOYWMyVkJRME0wTUc1d2RtTk5iWFF5TjBsNVZEa3JiSFY0WTB0UlNXOVdhVlJJTlRabWFUVUtjRGRCYTIxSmMydGpUVGRYYldOdFNqbGxSbWxJVjFkcFFqWlVRbVpsUVU1clZHWXhSMlJVUlcwM0swOWpRbFZTYzBjd2JtaDRjMk5XVm1OUVUwNW5ZUW81V0hGclNrNVBaRWxvSzJOVFFpOURTa3hvYTFkMloxQkVRa281SzFJNFRrcHhSWEY2UTBad01UUnVRbG8xZUUxMU9ERlBUVTl2WjB0S1kwTlFTRkZDQ2xaT2NHbHFTM1E0ZW1ZdmNDOXpPRzlxTW5OS2JsSktjRE0xVVd0TlJGcFFhelZ4V21sa1ZtSTBiRFpoTjNocEwxWjRSVVV5Ym01eFYydFZUVFUzVWtnS2RYZEpSRUZSUVVJS0xTMHRMUzFGVGtRZ1VGVkNURWxESUV0RldTMHRMUzB0Q2c9PQ==
+
+---
+
+apiVersion: privateca.gcp.upbound.io/v1beta1
+kind: CertificateAuthority
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privateca/v1beta1/certificate
+    upjet.upbound.io/manual-intervention: "All CAs in the CA Pool must be removed or be past their recovery period before the pool can be deleted"
+  labels:
+    testing.upbound.io/example-name: certificate
+  name: certificate-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    config:
+    - subjectConfig:
+      - subject:
+        - commonName: my-certificate-authority
+          organization: Upbound
+        subjectAltName:
+        - dnsNames:
+          - upbound.io
+      x509Config:
+      - caOptions:
+        - isCa: true
+        keyUsage:
+        - baseKeyUsage:
+          - certSign: true
+            crlSign: true
+          extendedKeyUsage:
+          - serverAuth: true
+    deletionProtection: false
+    ignoreActiveCertificatesOnDeletion: false
+    keySpec:
+    - algorithm: RSA_PKCS1_4096_SHA256
+    location: us-central1
+    poolSelector:
+      matchLabels:
+        testing.upbound.io/example-name: certificate
+
+---
+
+apiVersion: privateca.gcp.upbound.io/v1beta1
+kind: CAPool
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privateca/v1beta1/certificate
+    upjet.upbound.io/manual-intervention: "All CAs in the CA Pool must be removed or be past their recovery period before the pool can be deleted"
+  labels:
+    testing.upbound.io/example-name: certificate
+  name: certificate-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    location: us-central1
+    publishingOptions:
+    - publishCaCert: true
+      publishCrl: true
+    tier: ENTERPRISE

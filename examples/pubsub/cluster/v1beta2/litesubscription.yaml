@@ -1,0 +1,41 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: pubsub.gcp.upbound.io/v1beta2
+kind: LiteSubscription
+metadata:
+  annotations:
+    meta.upbound.io/example-id: pubsub/v1beta2/litesubscription
+  labels:
+    testing.upbound.io/example-name: lite-subscription
+  name: lite-subscription-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    deliveryConfig:
+      deliveryRequirement: DELIVER_AFTER_STORED
+    topicSelector:
+      matchLabels:
+        testing.upbound.io/example-name: lite-subscription
+    zone: us-central1-a
+
+---
+
+apiVersion: pubsub.gcp.upbound.io/v1beta2
+kind: LiteTopic
+metadata:
+  annotations:
+    meta.upbound.io/example-id: pubsub/v1beta2/litesubscription
+  labels:
+    testing.upbound.io/example-name: lite-subscription
+  name: lite-subscription-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    partitionConfig:
+      capacity:
+        publishMibPerSec: 4
+        subscribeMibPerSec: 8
+      count: 1
+    retentionConfig:
+      perPartitionBytes: "32212254720"
+    zone: us-central1-a

@@ -1,0 +1,35 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: datacatalog.gcp.upbound.io/v1beta1
+kind: TagTemplate
+metadata:
+  annotations:
+    meta.upbound.io/example-id: datacatalog/v1beta1/tagtemplate
+  labels:
+    testing.upbound.io/example-name: basic_tag_template
+  name: basictagtemplate
+spec:
+  forProvider:
+    displayName: "Demo Tag Template"
+    fields:
+    - displayName: "Source of data asset"
+      fieldId: "source"
+      isRequired: true
+      type:
+      - primitiveType: "STRING"
+    - displayName: "Number of rows in the data asset"
+      fieldId: "num_rows"
+      type:
+      - primitiveType: "DOUBLE"
+    - displayName: "PII type"
+      fieldId: "pii_type"
+      type:
+      - enumType:
+        - allowedValues:
+          - displayName: "EMAIL"
+          - displayName: "SOCIAL SECURITY NUMBER"
+          - displayName: "NONE"
+    forceDelete: true
+    region: us-central1

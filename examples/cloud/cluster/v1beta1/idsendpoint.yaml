@@ -1,0 +1,72 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: cloud.gcp.upbound.io/v1beta1
+kind: IdsEndpoint
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloud/v1beta1/idsendpoint
+  labels:
+    testing.upbound.io/example-name: example-endpoint
+  name: example-endpoint
+spec:
+  forProvider:
+    location: us-central1-a
+    name: test
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: network
+    severity: "INFORMATIONAL"
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: GlobalAddress
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloud/v1beta1/idsendpoint
+  labels:
+    testing.upbound.io/example-name: service_range
+  name: service-range
+spec:
+  forProvider:
+    addressType: "INTERNAL"
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: network
+    prefixLength: 16
+    purpose: "VPC_PEERING"
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloud/v1beta1/idsendpoint
+  labels:
+    testing.upbound.io/example-name: network
+  name: network
+spec:
+  forProvider: {}
+
+---
+
+apiVersion: servicenetworking.gcp.upbound.io/v1beta1
+kind: Connection
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloud/v1beta1/idsendpoint
+  labels:
+    testing.upbound.io/example-name: private_service_connection
+  name: private-service-connection
+spec:
+  forProvider:
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: network
+    reservedPeeringRangesSelector:
+      matchLabels:
+        testing.upbound.io/example-name: service_range
+    service: servicenetworking.googleapis.com

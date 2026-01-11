@@ -1,0 +1,17 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: HTTPHealthCheck
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/httphealthcheck
+  labels:
+    testing.upbound.io/example-name: http-health-check
+  name: http-health-check
+spec:
+  forProvider:
+    checkIntervalSec: 1
+    requestPath: /health_check
+    timeoutSec: 1

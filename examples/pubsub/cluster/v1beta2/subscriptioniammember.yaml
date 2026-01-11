@@ -1,0 +1,48 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: pubsub.gcp.upbound.io/v1beta2
+kind: SubscriptionIAMMember
+metadata:
+  annotations:
+    meta.upbound.io/example-id: pubsub/v1beta2/subscriptioniammember
+  labels:
+    testing.upbound.io/example-name: subscription-iam-member
+  name: subscription-iam-member
+spec:
+  forProvider:
+    member: ${data.google_iam_member.member}
+    role: roles/viewer
+    subscriptionSelector:
+      matchLabels:
+        testing.upbound.io/example-name: subscription-iam-member
+
+---
+
+apiVersion: pubsub.gcp.upbound.io/v1beta2
+kind: Subscription
+metadata:
+  annotations:
+    meta.upbound.io/example-id: pubsub/v1beta2/subscriptioniammember
+  labels:
+    testing.upbound.io/example-name: subscription-iam-member
+  name: subscription-iam-member
+spec:
+  forProvider:
+    topicSelector:
+      matchLabels:
+        testing.upbound.io/example-name: subscription-iam-member
+
+---
+
+apiVersion: pubsub.gcp.upbound.io/v1beta2
+kind: Topic
+metadata:
+  annotations:
+    meta.upbound.io/example-id: pubsub/v1beta2/subscriptioniammember
+  labels:
+    testing.upbound.io/example-name: subscription-iam-member
+  name: subscription-iam-member
+spec:
+  forProvider: {}

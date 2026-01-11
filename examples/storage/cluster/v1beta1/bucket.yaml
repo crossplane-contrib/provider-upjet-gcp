@@ -1,0 +1,32 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: storage.gcp.upbound.io/v1beta1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: storage/v1beta1/bucket
+  labels:
+     testing.upbound.io/example-name: bucket
+  name: bucket-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    cors:
+    - maxAgeSeconds: 3600
+      method:
+      - GET
+      - HEAD
+      - PUT
+      - POST
+      - DELETE
+      origin:
+      - http://image-store.com
+      responseHeader:
+      - '*'
+    forceDestroy: true
+    location: US
+    uniformBucketLevelAccess: true
+    website:
+    - mainPageSuffix: index.html
+      notFoundPage: 404.html

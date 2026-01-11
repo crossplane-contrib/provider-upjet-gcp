@@ -1,0 +1,18 @@
+apiVersion: apigee.gcp.m.upbound.io/v1beta1
+kind: AddonsConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/addonsconfig
+  labels:
+    testing.upbound.io/example-name: apigee-addon-configs-explicitdisable
+  name: apigee-addon-configs-explicitdisable
+  namespace: upbound-system
+spec:
+  forProvider:
+    addonsConfig:
+      apiSecurityConfig:
+        enabled: false
+      monetizationConfig:
+        enabled: false
+    org: official-provider-testing
+    # This organization exists in the test environment and is temporarily hardcoded for 'uptest' verification purposes. Tests will fail if the organization is removed.

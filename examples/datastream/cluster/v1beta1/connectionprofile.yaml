@@ -1,0 +1,20 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: datastream.gcp.upbound.io/v1beta1
+kind: ConnectionProfile
+metadata:
+  annotations:
+    meta.upbound.io/example-id: datastream/v1beta1/connectionprofile
+    upjet.upbound.io/manual-intervention: "This example resource needs a real bucket"
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    displayName: "Connection profile"
+    gcsProfile:
+    - bucket: example-bucket
+      rootPath: "/"
+    location: us-central1

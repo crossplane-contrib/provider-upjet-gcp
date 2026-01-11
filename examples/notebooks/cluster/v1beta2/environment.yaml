@@ -1,0 +1,17 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: notebooks.gcp.upbound.io/v1beta2
+kind: Environment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: notebooks/v1beta2/environment
+  labels:
+    testing.upbound.io/example-name: environment
+  name: environment
+spec:
+  forProvider:
+    containerImage:
+      repository: gcr.io/deeplearning-platform-release/base-cpu
+    location: us-central1-a

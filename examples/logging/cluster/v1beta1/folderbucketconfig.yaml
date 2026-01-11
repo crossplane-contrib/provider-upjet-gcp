@@ -1,0 +1,36 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: logging.gcp.upbound.io/v1beta1
+kind: FolderBucketConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: logging/v1beta1/folderbucketconfig
+    upjet.upbound.io/manual-intervention: "This resource depends on Folder.cloudplatform with the required organization level IAM permissions"
+  labels:
+    testing.upbound.io/example-name: basic
+  name: basic
+spec:
+  forProvider:
+    bucketId: _Default
+    folderSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    location: global
+    retentionDays: 30
+
+---
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: Folder
+metadata:
+  annotations:
+    meta.upbound.io/example-id: logging/v1beta1/folderbucketconfig
+    upjet.upbound.io/manual-intervention: "Requires organization level IAM permissions"
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    displayName: some-folder-name
+    parent: organizations/{org_id}

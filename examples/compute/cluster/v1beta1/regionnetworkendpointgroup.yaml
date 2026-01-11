@@ -1,0 +1,117 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: RegionNetworkEndpointGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regionnetworkendpointgroup
+    upjet.upbound.io/manual-intervention: "BucketObject does not support source field"
+  labels:
+    testing.upbound.io/example-name: region-endpoint-network-group
+  name: region-endpoint-network-group
+spec:
+  forProvider:
+    cloudFunction:
+    - functionSelector:
+        matchLabels:
+          testing.upbound.io/example-name: region-endpoint-network-group
+    networkEndpointType: SERVERLESS
+    region: us-central1
+
+---
+
+apiVersion: cloudfunctions.gcp.upbound.io/v1beta1
+kind: Function
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regionnetworkendpointgroup
+    upjet.upbound.io/manual-intervention: "BucketObject does not support source field"
+  labels:
+    testing.upbound.io/example-name: region-endpoint-network-group
+  name: region-endpoint-network-group
+spec:
+  forProvider:
+    availableMemoryMb: 128
+    description: Upbound function
+    entryPoint: helloGET
+    runtime: nodejs16
+    sourceArchiveBucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: region-endpoint-network-group
+    sourceArchiveObjectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: region-endpoint-network-group
+    triggerHttp: true
+    region: us-central1
+
+---
+
+apiVersion: cloudfunctions.gcp.upbound.io/v1beta1
+kind: FunctionIAMMember
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regionnetworkendpointgroup
+    upjet.upbound.io/manual-intervention: "BucketObject does not support source field"
+  labels:
+    testing.upbound.io/example-name: region-endpoint-network-group
+  name: region-endpoint-network-group
+spec:
+  forProvider:
+    cloudFunctionSelector:
+      matchLabels:
+        testing.upbound.io/example-name: region-endpoint-network-group
+    member: "allUsers"
+    role: "roles/cloudfunctions.invoker"
+    region: us-central1
+
+---
+
+apiVersion: storage.gcp.upbound.io/v1beta1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regionnetworkendpointgroup
+    upjet.upbound.io/manual-intervention: "BucketObject does not support source field"
+  labels:
+    testing.upbound.io/example-name: region-endpoint-network-group
+  name: region-endpoint-network-group-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    location: US
+
+---
+
+apiVersion: storage.gcp.upbound.io/v1beta1
+kind: BucketObject
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regionnetworkendpointgroup
+    upjet.upbound.io/manual-intervention: "BucketObject does not support source field"
+  labels:
+    testing.upbound.io/example-name: region-endpoint-network-group
+  name: region-endpoint-network-group
+spec:
+  forProvider:
+    bucketSelector: 
+      matchLabels:
+        testing.upbound.io/example-name: region-endpoint-network-group
+    name: function.zip
+    source: ./path/to/zip/file/which/contains/code
+    contentType: application/zip
+    
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regionnetworkendpointgroup
+    upjet.upbound.io/manual-intervention: "BucketObject does not support source field"
+  labels:
+    testing.upbound.io/example-name: region-endpoint-network-group
+  name: region-endpoint-network-group
+  namespace: upbound-system
+data:
+  function.zip: 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

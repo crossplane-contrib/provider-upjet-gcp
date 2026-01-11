@@ -1,0 +1,18 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: container.gcp.upbound.io/v1beta1
+kind: Registry
+metadata:
+  annotations:
+    upjet.upbound.io/manual-intervention: "Creates a Bucket named {location}.artifacts.{project}.appspot.com. Does not delete bucket."
+  labels:
+    testing.upbound.io/example-name: example-container-registry
+  name: example-container-registry
+spec:
+  forProvider:
+    location: US
+  writeConnectionSecretToRef:
+    name: example-container-registry-secret
+    namespace: upbound-system

@@ -1,0 +1,99 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: RegionURLMap
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta2/regionurlmap
+  labels:
+    testing.upbound.io/example-name: region-url-map
+  name: region-url-map
+spec:
+  forProvider:
+    defaultServiceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: region-url-map-home
+    description: a description
+    hostRule:
+    - hosts:
+      - mysite.com
+      pathMatcher: allpaths
+    pathMatcher:
+    - defaultServiceSelector:
+        matchLabels:
+          testing.upbound.io/example-name: region-url-map-home
+      name: allpaths
+      pathRule:
+      - paths:
+        - /home
+        serviceSelector:
+          matchLabels:
+            testing.upbound.io/example-name: region-url-map-home
+      - paths:
+        - /login
+        serviceSelector:
+          matchLabels:
+            testing.upbound.io/example-name: region-url-map-login
+    region: us-central1
+    test:
+    - host: hi.com
+      path: /home
+      serviceSelector:
+        matchLabels:
+          testing.upbound.io/example-name: region-url-map-home
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: RegionBackendService
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta2/regionurlmap
+  labels:
+    testing.upbound.io/example-name: region-url-map-home
+  name: region-url-map-home
+spec:
+  forProvider:
+    healthChecksRefs:
+    - name: region-url-map
+    loadBalancingScheme: INTERNAL_MANAGED
+    protocol: HTTP
+    region: us-central1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: RegionBackendService
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta2/regionurlmap
+  labels:
+    testing.upbound.io/example-name: region-url-map-login
+  name: region-url-map-login
+spec:
+  forProvider:
+    healthChecksRefs:
+    - name: region-url-map
+    loadBalancingScheme: INTERNAL_MANAGED
+    protocol: HTTP
+    region: us-central1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: RegionHealthCheck
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta2/regionurlmap
+  labels:
+    testing.upbound.io/example-name: region-url-map
+  name: region-url-map
+spec:
+  forProvider:
+    checkIntervalSec: 1
+    region: us-central1
+    tcpHealthCheck:
+      port: 80
+    timeoutSec: 1

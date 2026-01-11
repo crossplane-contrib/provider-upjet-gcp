@@ -1,0 +1,325 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.18.0
+  name: appgateways.beyondcorp.gcp.m.upbound.io
+spec:
+  group: beyondcorp.gcp.m.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - gcp
+    kind: AppGateway
+    listKind: AppGatewayList
+    plural: appgateways
+    singular: appgateway
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: AppGateway is the Schema for the AppGateways API. A BeyondCorp
+          AppGateway resource represents a BeyondCorp protected AppGateway to a remote
+          application.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: AppGatewaySpec defines the desired state of AppGateway
+            properties:
+              forProvider:
+                properties:
+                  displayName:
+                    description: An arbitrary user-provided name for the AppGateway.
+                    type: string
+                  hostType:
+                    description: |-
+                      The type of hosting used by the AppGateway.
+                      Default value is HOST_TYPE_UNSPECIFIED.
+                      Possible values are: HOST_TYPE_UNSPECIFIED, GCP_REGIONAL_MIG.
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: Resource labels to represent user provided metadata.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  region:
+                    description: The region of the AppGateway.
+                    type: string
+                  type:
+                    description: |-
+                      The type of network connectivity used by the AppGateway.
+                      Default value is TYPE_UNSPECIFIED.
+                      Possible values are: TYPE_UNSPECIFIED, TCP_PROXY.
+                    type: string
+                required:
+                - region
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  displayName:
+                    description: An arbitrary user-provided name for the AppGateway.
+                    type: string
+                  hostType:
+                    description: |-
+                      The type of hosting used by the AppGateway.
+                      Default value is HOST_TYPE_UNSPECIFIED.
+                      Possible values are: HOST_TYPE_UNSPECIFIED, GCP_REGIONAL_MIG.
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: Resource labels to represent user provided metadata.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  type:
+                    description: |-
+                      The type of network connectivity used by the AppGateway.
+                      Default value is TYPE_UNSPECIFIED.
+                      Possible values are: TYPE_UNSPECIFIED, TCP_PROXY.
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  kind: ClusterProviderConfig
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  kind:
+                    description: Kind of the referenced object.
+                    type: string
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - kind
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                required:
+                - name
+                type: object
+            required:
+            - forProvider
+            type: object
+          status:
+            description: AppGatewayStatus defines the observed state of AppGateway.
+            properties:
+              atProvider:
+                properties:
+                  allocatedConnections:
+                    description: |-
+                      A list of connections allocated for the Gateway.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        ingressPort:
+                          description: The ingress port of an allocated connection.
+                          type: number
+                        pscUri:
+                          description: The PSC uri of an allocated connection.
+                          type: string
+                      type: object
+                    type: array
+                  displayName:
+                    description: An arbitrary user-provided name for the AppGateway.
+                    type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  hostType:
+                    description: |-
+                      The type of hosting used by the AppGateway.
+                      Default value is HOST_TYPE_UNSPECIFIED.
+                      Possible values are: HOST_TYPE_UNSPECIFIED, GCP_REGIONAL_MIG.
+                    type: string
+                  id:
+                    description: an identifier for the resource with format projects/{{project}}/locations/{{region}}/appGateways/{{name}}
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: Resource labels to represent user provided metadata.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  region:
+                    description: The region of the AppGateway.
+                    type: string
+                  state:
+                    description: Represents the different states of a AppGateway.
+                    type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  type:
+                    description: |-
+                      The type of network connectivity used by the AppGateway.
+                      Default value is TYPE_UNSPECIFIED.
+                      Possible values are: TYPE_UNSPECIFIED, TCP_PROXY.
+                    type: string
+                  uri:
+                    description: Server-defined URI for this resource.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

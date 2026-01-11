@@ -1,0 +1,18 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: monitoring.gcp.upbound.io/v1beta1
+kind: NotificationChannel
+metadata:
+  annotations:
+    meta.upbound.io/example-id: monitoring/v1beta1/notificationchannel
+  labels:
+    testing.upbound.io/example-name: example_notification_channel
+  name: example-notification-channel
+spec:
+  forProvider:
+    displayName: Test Notification Channel
+    labels:
+      email_address: fake_email@blahblah.com
+    type: email

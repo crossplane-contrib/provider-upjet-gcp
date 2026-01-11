@@ -1,0 +1,69 @@
+apiVersion: tags.gcp.m.upbound.io/v1beta1
+kind: LocationTagBinding
+metadata:
+  annotations:
+    meta.upbound.io/example-id: tags/v1beta1/locationtagbinding
+    upjet.upbound.io/manual-intervention: "The resource requires a real Project number"
+  labels:
+    testing.upbound.io/example-name: binding
+  name: binding
+  namespace: upbound-system
+spec:
+  forProvider:
+    location: us-central1
+    parent: //run.googleapis.com/projects/&{project_number}/locations/us-central1/services/default
+    tagValueSelector:
+      matchLabels:
+        testing.upbound.io/example-name: value
+---
+apiVersion: cloudrun.gcp.m.upbound.io/v1beta1
+kind: V2Service
+metadata:
+  annotations:
+    meta.upbound.io/example-id: tags/v1beta1/locationtagbinding
+    upjet.upbound.io/manual-intervention: "Skipped in automatic testing, because LocationTagBinding will be skipped too"
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    ingress: "INGRESS_TRAFFIC_ALL"
+    location: us-central1
+    template:
+      - containers:
+          - image: us-docker.pkg.dev/cloudrun/container/hello
+---
+apiVersion: tags.gcp.m.upbound.io/v1beta1
+kind: TagKey
+metadata:
+  annotations:
+    meta.upbound.io/example-id: tags/v1beta1/locationtagbinding
+    upjet.upbound.io/manual-intervention: "The resource requires a real Project number or ID"
+  labels:
+    testing.upbound.io/example-name: key
+  name: key
+  namespace: upbound-system
+spec:
+  forProvider:
+    description: For keyname resources.
+    parent: projects/&{project_id}
+    shortName: keyname
+---
+apiVersion: tags.gcp.m.upbound.io/v1beta1
+kind: TagValue
+metadata:
+  annotations:
+    meta.upbound.io/example-id: tags/v1beta1/locationtagbinding
+    upjet.upbound.io/manual-intervention: "This resource is skipped because the LocationTagKey resource is skipped"
+  labels:
+    testing.upbound.io/example-name: value
+  name: value
+  namespace: upbound-system
+spec:
+  forProvider:
+    description: For valuename resources.
+    parentSelector:
+      matchLabels:
+        testing.upbound.io/example-name: key
+    shortName: valuename

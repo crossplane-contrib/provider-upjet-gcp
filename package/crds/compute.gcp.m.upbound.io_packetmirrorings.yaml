@@ -1,0 +1,1015 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.18.0
+  name: packetmirrorings.compute.gcp.m.upbound.io
+spec:
+  group: compute.gcp.m.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - gcp
+    kind: PacketMirroring
+    listKind: PacketMirroringList
+    plural: packetmirrorings
+    singular: packetmirroring
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: PacketMirroring is the Schema for the PacketMirrorings API. Packet
+          Mirroring mirrors traffic to and from particular VM instances.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: PacketMirroringSpec defines the desired state of PacketMirroring
+            properties:
+              forProvider:
+                properties:
+                  collectorIlb:
+                    description: |-
+                      The Forwarding Rule resource (of type load_balancing_scheme=INTERNAL)
+                      that will be used as collector for mirrored traffic. The
+                      specified forwarding rule must have is_mirroring_collector
+                      set to true.
+                      Structure is documented below.
+                    properties:
+                      url:
+                        description: The URL of the forwarding rule.
+                        type: string
+                      urlRef:
+                        description: Reference to a ForwardingRule in compute to populate
+                          url.
+                        properties:
+                          name:
+                            description: Name of the referenced object.
+                            type: string
+                          namespace:
+                            description: Namespace of the referenced object
+                            type: string
+                          policy:
+                            description: Policies for referencing.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        required:
+                        - name
+                        type: object
+                      urlSelector:
+                        description: Selector for a ForwardingRule in compute to populate
+                          url.
+                        properties:
+                          matchControllerRef:
+                            description: |-
+                              MatchControllerRef ensures an object with the same controller reference
+                              as the selecting object is selected.
+                            type: boolean
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: MatchLabels ensures an object with matching
+                              labels is selected.
+                            type: object
+                          namespace:
+                            description: Namespace for the selector
+                            type: string
+                          policy:
+                            description: Policies for selection.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        type: object
+                    type: object
+                  description:
+                    description: A human-readable description of the rule.
+                    type: string
+                  filter:
+                    description: |-
+                      A filter for mirrored traffic.  If unset, all traffic is mirrored.
+                      Structure is documented below.
+                    properties:
+                      cidrRanges:
+                        description: |-
+                          IP CIDR ranges that apply as a filter on the source (ingress) or
+                          destination (egress) IP in the IP header. Only IPv4 is supported.
+                        items:
+                          type: string
+                        type: array
+                      direction:
+                        description: |-
+                          Direction of traffic to mirror.
+                          Default value is BOTH.
+                          Possible values are: INGRESS, EGRESS, BOTH.
+                        type: string
+                      ipProtocols:
+                        description: Possible IP protocols including tcp, udp, icmp
+                          and esp
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  mirroredResources:
+                    description: |-
+                      A means of specifying which resources to mirror.
+                      Structure is documented below.
+                    properties:
+                      instances:
+                        description: |-
+                          All the listed instances will be mirrored.  Specify at most 50.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            url:
+                              description: The URL of the subnetwork where this rule
+                                should be active.
+                              type: string
+                            urlRef:
+                              description: Reference to a Instance in compute to populate
+                                url.
+                              properties:
+                                name:
+                                  description: Name of the referenced object.
+                                  type: string
+                                namespace:
+                                  description: Namespace of the referenced object
+                                  type: string
+                                policy:
+                                  description: Policies for referencing.
+                                  properties:
+                                    resolution:
+                                      default: Required
+                                      description: |-
+                                        Resolution specifies whether resolution of this reference is required.
+                                        The default is 'Required', which means the reconcile will fail if the
+                                        reference cannot be resolved. 'Optional' means this reference will be
+                                        a no-op if it cannot be resolved.
+                                      enum:
+                                      - Required
+                                      - Optional
+                                      type: string
+                                    resolve:
+                                      description: |-
+                                        Resolve specifies when this reference should be resolved. The default
+                                        is 'IfNotPresent', which will attempt to resolve the reference only when
+                                        the corresponding field is not present. Use 'Always' to resolve the
+                                        reference on every reconcile.
+                                      enum:
+                                      - Always
+                                      - IfNotPresent
+                                      type: string
+                                  type: object
+                              required:
+                              - name
+                              type: object
+                            urlSelector:
+                              description: Selector for a Instance in compute to populate
+                                url.
+                              properties:
+                                matchControllerRef:
+                                  description: |-
+                                    MatchControllerRef ensures an object with the same controller reference
+                                    as the selecting object is selected.
+                                  type: boolean
+                                matchLabels:
+                                  additionalProperties:
+                                    type: string
+                                  description: MatchLabels ensures an object with
+                                    matching labels is selected.
+                                  type: object
+                                namespace:
+                                  description: Namespace for the selector
+                                  type: string
+                                policy:
+                                  description: Policies for selection.
+                                  properties:
+                                    resolution:
+                                      default: Required
+                                      description: |-
+                                        Resolution specifies whether resolution of this reference is required.
+                                        The default is 'Required', which means the reconcile will fail if the
+                                        reference cannot be resolved. 'Optional' means this reference will be
+                                        a no-op if it cannot be resolved.
+                                      enum:
+                                      - Required
+                                      - Optional
+                                      type: string
+                                    resolve:
+                                      description: |-
+                                        Resolve specifies when this reference should be resolved. The default
+                                        is 'IfNotPresent', which will attempt to resolve the reference only when
+                                        the corresponding field is not present. Use 'Always' to resolve the
+                                        reference on every reconcile.
+                                      enum:
+                                      - Always
+                                      - IfNotPresent
+                                      type: string
+                                  type: object
+                              type: object
+                          type: object
+                        type: array
+                      subnetworks:
+                        description: |-
+                          All instances in one of these subnetworks will be mirrored.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            url:
+                              description: The URL of the subnetwork where this rule
+                                should be active.
+                              type: string
+                          type: object
+                        type: array
+                      tags:
+                        description: All instances with these tags will be mirrored.
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  network:
+                    description: |-
+                      Specifies the mirrored VPC network. Only packets in this network
+                      will be mirrored. All mirrored VMs should have a NIC in the given
+                      network. All mirrored subnetworks should belong to the given network.
+                      Structure is documented below.
+                    properties:
+                      url:
+                        description: The full self_link URL of the network where this
+                          rule is active.
+                        type: string
+                      urlRef:
+                        description: Reference to a Network in compute to populate
+                          url.
+                        properties:
+                          name:
+                            description: Name of the referenced object.
+                            type: string
+                          namespace:
+                            description: Namespace of the referenced object
+                            type: string
+                          policy:
+                            description: Policies for referencing.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        required:
+                        - name
+                        type: object
+                      urlSelector:
+                        description: Selector for a Network in compute to populate
+                          url.
+                        properties:
+                          matchControllerRef:
+                            description: |-
+                              MatchControllerRef ensures an object with the same controller reference
+                              as the selecting object is selected.
+                            type: boolean
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: MatchLabels ensures an object with matching
+                              labels is selected.
+                            type: object
+                          namespace:
+                            description: Namespace for the selector
+                            type: string
+                          policy:
+                            description: Policies for selection.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        type: object
+                    type: object
+                  priority:
+                    description: |-
+                      Since only one rule can be active at a time, priority is
+                      used to break ties in the case of two rules that apply to
+                      the same instances.
+                    type: number
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  region:
+                    description: |-
+                      The Region in which the created address should reside.
+                      If it is not provided, the provider region is used.
+                    type: string
+                required:
+                - region
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  collectorIlb:
+                    description: |-
+                      The Forwarding Rule resource (of type load_balancing_scheme=INTERNAL)
+                      that will be used as collector for mirrored traffic. The
+                      specified forwarding rule must have is_mirroring_collector
+                      set to true.
+                      Structure is documented below.
+                    properties:
+                      url:
+                        description: The URL of the forwarding rule.
+                        type: string
+                      urlRef:
+                        description: Reference to a ForwardingRule in compute to populate
+                          url.
+                        properties:
+                          name:
+                            description: Name of the referenced object.
+                            type: string
+                          namespace:
+                            description: Namespace of the referenced object
+                            type: string
+                          policy:
+                            description: Policies for referencing.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        required:
+                        - name
+                        type: object
+                      urlSelector:
+                        description: Selector for a ForwardingRule in compute to populate
+                          url.
+                        properties:
+                          matchControllerRef:
+                            description: |-
+                              MatchControllerRef ensures an object with the same controller reference
+                              as the selecting object is selected.
+                            type: boolean
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: MatchLabels ensures an object with matching
+                              labels is selected.
+                            type: object
+                          namespace:
+                            description: Namespace for the selector
+                            type: string
+                          policy:
+                            description: Policies for selection.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        type: object
+                    type: object
+                  description:
+                    description: A human-readable description of the rule.
+                    type: string
+                  filter:
+                    description: |-
+                      A filter for mirrored traffic.  If unset, all traffic is mirrored.
+                      Structure is documented below.
+                    properties:
+                      cidrRanges:
+                        description: |-
+                          IP CIDR ranges that apply as a filter on the source (ingress) or
+                          destination (egress) IP in the IP header. Only IPv4 is supported.
+                        items:
+                          type: string
+                        type: array
+                      direction:
+                        description: |-
+                          Direction of traffic to mirror.
+                          Default value is BOTH.
+                          Possible values are: INGRESS, EGRESS, BOTH.
+                        type: string
+                      ipProtocols:
+                        description: Possible IP protocols including tcp, udp, icmp
+                          and esp
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  mirroredResources:
+                    description: |-
+                      A means of specifying which resources to mirror.
+                      Structure is documented below.
+                    properties:
+                      instances:
+                        description: |-
+                          All the listed instances will be mirrored.  Specify at most 50.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            url:
+                              description: The URL of the subnetwork where this rule
+                                should be active.
+                              type: string
+                            urlRef:
+                              description: Reference to a Instance in compute to populate
+                                url.
+                              properties:
+                                name:
+                                  description: Name of the referenced object.
+                                  type: string
+                                namespace:
+                                  description: Namespace of the referenced object
+                                  type: string
+                                policy:
+                                  description: Policies for referencing.
+                                  properties:
+                                    resolution:
+                                      default: Required
+                                      description: |-
+                                        Resolution specifies whether resolution of this reference is required.
+                                        The default is 'Required', which means the reconcile will fail if the
+                                        reference cannot be resolved. 'Optional' means this reference will be
+                                        a no-op if it cannot be resolved.
+                                      enum:
+                                      - Required
+                                      - Optional
+                                      type: string
+                                    resolve:
+                                      description: |-
+                                        Resolve specifies when this reference should be resolved. The default
+                                        is 'IfNotPresent', which will attempt to resolve the reference only when
+                                        the corresponding field is not present. Use 'Always' to resolve the
+                                        reference on every reconcile.
+                                      enum:
+                                      - Always
+                                      - IfNotPresent
+                                      type: string
+                                  type: object
+                              required:
+                              - name
+                              type: object
+                            urlSelector:
+                              description: Selector for a Instance in compute to populate
+                                url.
+                              properties:
+                                matchControllerRef:
+                                  description: |-
+                                    MatchControllerRef ensures an object with the same controller reference
+                                    as the selecting object is selected.
+                                  type: boolean
+                                matchLabels:
+                                  additionalProperties:
+                                    type: string
+                                  description: MatchLabels ensures an object with
+                                    matching labels is selected.
+                                  type: object
+                                namespace:
+                                  description: Namespace for the selector
+                                  type: string
+                                policy:
+                                  description: Policies for selection.
+                                  properties:
+                                    resolution:
+                                      default: Required
+                                      description: |-
+                                        Resolution specifies whether resolution of this reference is required.
+                                        The default is 'Required', which means the reconcile will fail if the
+                                        reference cannot be resolved. 'Optional' means this reference will be
+                                        a no-op if it cannot be resolved.
+                                      enum:
+                                      - Required
+                                      - Optional
+                                      type: string
+                                    resolve:
+                                      description: |-
+                                        Resolve specifies when this reference should be resolved. The default
+                                        is 'IfNotPresent', which will attempt to resolve the reference only when
+                                        the corresponding field is not present. Use 'Always' to resolve the
+                                        reference on every reconcile.
+                                      enum:
+                                      - Always
+                                      - IfNotPresent
+                                      type: string
+                                  type: object
+                              type: object
+                          type: object
+                        type: array
+                      subnetworks:
+                        description: |-
+                          All instances in one of these subnetworks will be mirrored.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            url:
+                              description: The URL of the subnetwork where this rule
+                                should be active.
+                              type: string
+                          type: object
+                        type: array
+                      tags:
+                        description: All instances with these tags will be mirrored.
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  network:
+                    description: |-
+                      Specifies the mirrored VPC network. Only packets in this network
+                      will be mirrored. All mirrored VMs should have a NIC in the given
+                      network. All mirrored subnetworks should belong to the given network.
+                      Structure is documented below.
+                    properties:
+                      url:
+                        description: The full self_link URL of the network where this
+                          rule is active.
+                        type: string
+                      urlRef:
+                        description: Reference to a Network in compute to populate
+                          url.
+                        properties:
+                          name:
+                            description: Name of the referenced object.
+                            type: string
+                          namespace:
+                            description: Namespace of the referenced object
+                            type: string
+                          policy:
+                            description: Policies for referencing.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        required:
+                        - name
+                        type: object
+                      urlSelector:
+                        description: Selector for a Network in compute to populate
+                          url.
+                        properties:
+                          matchControllerRef:
+                            description: |-
+                              MatchControllerRef ensures an object with the same controller reference
+                              as the selecting object is selected.
+                            type: boolean
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: MatchLabels ensures an object with matching
+                              labels is selected.
+                            type: object
+                          namespace:
+                            description: Namespace for the selector
+                            type: string
+                          policy:
+                            description: Policies for selection.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        type: object
+                    type: object
+                  priority:
+                    description: |-
+                      Since only one rule can be active at a time, priority is
+                      used to break ties in the case of two rules that apply to
+                      the same instances.
+                    type: number
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  kind: ClusterProviderConfig
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  kind:
+                    description: Kind of the referenced object.
+                    type: string
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - kind
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                required:
+                - name
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.collectorIlb is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.collectorIlb)
+                || (has(self.initProvider) && has(self.initProvider.collectorIlb))'
+            - message: spec.forProvider.mirroredResources is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.mirroredResources)
+                || (has(self.initProvider) && has(self.initProvider.mirroredResources))'
+            - message: spec.forProvider.network is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.network)
+                || (has(self.initProvider) && has(self.initProvider.network))'
+          status:
+            description: PacketMirroringStatus defines the observed state of PacketMirroring.
+            properties:
+              atProvider:
+                properties:
+                  collectorIlb:
+                    description: |-
+                      The Forwarding Rule resource (of type load_balancing_scheme=INTERNAL)
+                      that will be used as collector for mirrored traffic. The
+                      specified forwarding rule must have is_mirroring_collector
+                      set to true.
+                      Structure is documented below.
+                    properties:
+                      url:
+                        description: The URL of the forwarding rule.
+                        type: string
+                    type: object
+                  description:
+                    description: A human-readable description of the rule.
+                    type: string
+                  filter:
+                    description: |-
+                      A filter for mirrored traffic.  If unset, all traffic is mirrored.
+                      Structure is documented below.
+                    properties:
+                      cidrRanges:
+                        description: |-
+                          IP CIDR ranges that apply as a filter on the source (ingress) or
+                          destination (egress) IP in the IP header. Only IPv4 is supported.
+                        items:
+                          type: string
+                        type: array
+                      direction:
+                        description: |-
+                          Direction of traffic to mirror.
+                          Default value is BOTH.
+                          Possible values are: INGRESS, EGRESS, BOTH.
+                        type: string
+                      ipProtocols:
+                        description: Possible IP protocols including tcp, udp, icmp
+                          and esp
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  id:
+                    description: an identifier for the resource with format projects/{{project}}/regions/{{region}}/packetMirrorings/{{name}}
+                    type: string
+                  mirroredResources:
+                    description: |-
+                      A means of specifying which resources to mirror.
+                      Structure is documented below.
+                    properties:
+                      instances:
+                        description: |-
+                          All the listed instances will be mirrored.  Specify at most 50.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            url:
+                              description: The URL of the subnetwork where this rule
+                                should be active.
+                              type: string
+                          type: object
+                        type: array
+                      subnetworks:
+                        description: |-
+                          All instances in one of these subnetworks will be mirrored.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            url:
+                              description: The URL of the subnetwork where this rule
+                                should be active.
+                              type: string
+                          type: object
+                        type: array
+                      tags:
+                        description: All instances with these tags will be mirrored.
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  network:
+                    description: |-
+                      Specifies the mirrored VPC network. Only packets in this network
+                      will be mirrored. All mirrored VMs should have a NIC in the given
+                      network. All mirrored subnetworks should belong to the given network.
+                      Structure is documented below.
+                    properties:
+                      url:
+                        description: The full self_link URL of the network where this
+                          rule is active.
+                        type: string
+                    type: object
+                  priority:
+                    description: |-
+                      Since only one rule can be active at a time, priority is
+                      used to break ties in the case of two rules that apply to
+                      the same instances.
+                    type: number
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  region:
+                    description: |-
+                      The Region in which the created address should reside.
+                      If it is not provided, the provider region is used.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

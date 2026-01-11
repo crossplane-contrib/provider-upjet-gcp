@@ -1,0 +1,23 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: dataproc.gcp.m.upbound.io/v1beta1
+kind: AutoscalingPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dataproc/v1beta1/autoscalingpolicy
+  labels:
+    testing.upbound.io/example-name: asp
+  name: asp
+  namespace: upbound-system
+spec:
+  forProvider:
+    basicAlgorithm:
+      yarnConfig:
+        gracefulDecommissionTimeout: 30s
+        scaleDownFactor: 0.5
+        scaleUpFactor: 0.5
+    location: us-central1
+    workerConfig:
+      maxInstances: 3

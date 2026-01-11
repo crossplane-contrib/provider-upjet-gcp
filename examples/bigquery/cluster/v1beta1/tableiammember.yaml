@@ -1,0 +1,80 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: bigquery.gcp.upbound.io/v1beta1
+kind: TableIAMMember
+metadata:
+  annotations:
+    meta.upbound.io/example-id: bigquery/v1beta1/tableiammember
+    upjet.upbound.io/manual-intervention: "Member refers to an existing user account"
+  labels:
+    testing.upbound.io/example-name: binding
+  name: binding
+spec:
+  forProvider:
+    role: roles/bigquery.dataOwner
+    member: user:jane@example.com
+    datasetIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    tableIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: bigquery.gcp.upbound.io/v1beta1
+kind: Table
+metadata:
+  annotations:
+    meta.upbound.io/example-id: bigquery/v1beta1/tableiammember
+    upjet.upbound.io/manual-intervention: "Dependent resource skipped: Member refers to an existing user account"
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    deletionProtection: false
+    datasetIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    labels:
+      env: default
+    schema: |
+      [
+        {
+          "name": "permalink",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": "The Permalink"
+        },
+        {
+          "name": "state",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": "State where the head office is located"
+        }
+      ]
+    timePartitioning:
+      - type: DAY
+
+---
+
+apiVersion: bigquery.gcp.upbound.io/v1beta1
+kind: Dataset
+metadata:
+  annotations:
+    meta.upbound.io/example-id: bigquery/v1beta1/tableiammember
+    upjet.upbound.io/manual-intervention: "Dependent resource skipped: Member refers to an existing user account"
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    defaultTableExpirationMs: 3600000
+    description: This is a test description
+    friendlyName: test
+    labels:
+      env: default
+    location: EU

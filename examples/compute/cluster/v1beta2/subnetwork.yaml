@@ -1,0 +1,36 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: Subnetwork
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta2/subnetwork
+  labels:
+    testing.upbound.io/example-name: example_subnet
+  name: example-subnet
+spec:
+  forProvider:
+    ipCidrRange: 10.2.0.0/16
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example_subnet_network
+    region: us-central1
+    secondaryIpRange:
+    - ipCidrRange: 192.168.10.0/24
+      rangeName: test-secondary-range-update1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta2/subnetwork
+  labels:
+    testing.upbound.io/example-name: example_subnet_network
+  name: example-subnet-network
+spec:
+  forProvider:
+    autoCreateSubnetworks: false

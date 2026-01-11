@@ -1,0 +1,121 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: RegionInstanceGroupManager
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regioninstancegroupmanager
+  labels:
+    testing.upbound.io/example-name: region-instance-group-manager
+  name: region-instance-group-manager
+spec:
+  forProvider:
+    autoHealingPolicies:
+    - healthCheckSelector:
+        matchLabels:
+          testing.upbound.io/example-name: region-instance-group-manager
+      initialDelaySec: 300
+    baseInstanceName: region-instance-group-manager
+    distributionPolicyZones:
+    - us-central1-a
+    - us-central1-f
+    name: region-instance-group-manager
+    namedPort:
+    - name: custom
+      port: 8888
+    region: us-central1
+    targetPoolsRefs:
+    - name: region-instance-group-manager
+    targetSize: 2
+    version:
+    - instanceTemplateSelector:
+        matchLabels:
+          testing.upbound.io/example-name: region-instance-group-manager
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: InstanceTemplate
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regioninstancegroupmanager
+  labels:
+    testing.upbound.io/example-name: region-instance-group-manager
+  name: region-instance-group-manager
+spec:
+  forProvider:
+    canIpForward: false
+    description: This template is used to create app server instances.
+    disk:
+      - autoDelete: false
+        boot: true
+        sourceImage: debian-cloud/debian-11
+    instanceDescription: description assigned to instances
+    labels:
+      environment: dev
+    machineType: e2-medium
+    metadata:
+      environment: dev
+    networkInterface:
+      - network: default
+    scheduling:
+      - automaticRestart: true
+        onHostMaintenance: MIGRATE
+    tags:
+      - foo
+      - bar
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: TargetPool
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regioninstancegroupmanager
+  labels:
+    testing.upbound.io/example-name: region-instance-group-manager
+  name: region-instance-group-manager
+spec:
+  forProvider:
+    region: us-central1
+    # Only legacy HTTPHealthCheck is supported
+    healthChecksSelector:
+        matchLabels:
+          testing.upbound.io/example-name: region-instance-group-manager
+    instances:
+    - us-central1-a/example
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: HTTPHealthCheck
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regioninstancegroupmanager
+  labels:
+    testing.upbound.io/example-name: region-instance-group-manager
+  name: region-instance-group-manager
+spec:
+  forProvider:
+    checkIntervalSec: 1
+    requestPath: /health_check
+    timeoutSec: 1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: HealthCheck
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regioninstancegroupmanager
+  labels:
+    testing.upbound.io/example-name: region-instance-group-manager
+  name: region-instance-group-manager
+spec:
+  forProvider:
+    checkIntervalSec: 1
+    httpHealthCheck:
+      - port: 80
+    timeoutSec: 1

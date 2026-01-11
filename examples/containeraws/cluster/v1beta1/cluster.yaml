@@ -1,0 +1,59 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: containeraws.gcp.upbound.io/v1beta1
+kind: Cluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: containeraws/v1beta1/cluster
+    upjet.upbound.io/manual-intervention: >-
+      AWS Infrastructure is required to test this resource. Manifests for deploying
+      these via provider-aws are available in the `provider-aws` folder.
+  labels:
+    testing.upbound.io/example-name: example-aws-cluster
+  name: example-aws-cluster
+spec:
+  forProvider:
+    annotations:
+      example-name: example-aws-cluster
+    authorization:
+    - adminUsers:
+      - username: emailAddress:my@service-account.com
+    awsRegion: my-aws-region
+    controlPlane:
+    - awsServicesAuthentication:
+      - roleArn: arn:aws:iam::012345678910:role/containeraws-gcp-upbound-api-role
+        roleSessionName: example-aws-cluster-session
+      configEncryption:
+      - kmsKeyArn: arn:aws:kms:my-aws-region:012345678910:key/12345678-1234-1234-1234-123456789111
+      databaseEncryption:
+      - kmsKeyArn: arn:aws:kms:my-aws-region:012345678910:key/12345678-1234-1234-1234-123456789111
+      iamInstanceProfile: containeraws-gcp-upbound-ctp-profile
+      instanceType: t3.medium
+      mainVolume:
+      - iops: 3000
+        kmsKeyArn: arn:aws:kms:my-aws-region:012345678910:key/12345678-1234-1234-1234-123456789111
+        sizeGib: 10
+        volumeType: GP3
+      rootVolume:
+      - iops: 3000
+        kmsKeyArn: arn:aws:kms:my-aws-region:012345678910:key/12345678-1234-1234-1234-123456789111
+        sizeGib: 10
+        volumeType: GP3
+      subnetIds:
+      - subnet-00000000000000000
+      # Get a valid list of versions by running
+      # `gcloud container aws get-server-config --location GCP_LOCATION` 
+      version: 1.23.8-gke.1700 # Valid GKE Version from 
+    description: Example aws cluster
+    fleet:
+    - project: my-project-number
+    location: us-west1
+    networking:
+    - podAddressCidrBlocks:
+      - 10.2.0.0/16
+      serviceAddressCidrBlocks:
+      - 10.1.0.0/16
+      vpcId: vpc-00000000000000000
+    project: my-project-name

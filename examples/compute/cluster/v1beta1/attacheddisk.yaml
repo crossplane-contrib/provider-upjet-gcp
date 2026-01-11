@@ -1,0 +1,61 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: AttachedDisk
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/attacheddisk
+  labels:
+    testing.upbound.io/example-name: attached-disk
+  name: attached-disk
+spec:
+  forProvider:
+    zone: us-central1-a
+    diskSelector:
+      matchLabels:
+        testing.upbound.io/example-name: attached-disk
+    instanceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: attached-disk
+
+---
+
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Disk
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/attacheddisk
+  labels:
+    testing.upbound.io/example-name: attached-disk
+  name: attached-disk
+spec:
+  forProvider:
+    image: debian-11-bullseye-v20220719
+    physicalBlockSizeBytes: 4096
+    type: pd-ssd
+    zone: us-central1-a
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/attacheddisk
+  labels:
+    testing.upbound.io/example-name: attached-disk
+  name: attached-disk-instance
+spec:
+  forProvider:
+    machineType: e2-medium
+    zone: us-central1-a
+    networkInterface:
+      - network: default
+    bootDisk:
+      - initializeParams:
+          - image: debian-cloud/debian-11

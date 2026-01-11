@@ -1,0 +1,17 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: bigquery.gcp.upbound.io/v1beta2
+kind: Reservation
+metadata:
+  annotations:
+    meta.upbound.io/example-id: bigquery/v1beta2/reservation
+  labels:
+    testing.upbound.io/example-name: reservation
+  name: reservation
+spec:
+  forProvider:
+    ignoreIdleSlots: false
+    location: asia-northeast1
+    slotCapacity: 0

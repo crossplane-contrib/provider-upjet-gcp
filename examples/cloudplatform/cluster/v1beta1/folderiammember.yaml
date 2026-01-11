@@ -1,0 +1,18 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: FolderIAMMember
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudplatform/v1beta1/folderiammember
+    upjet.upbound.io/manual-intervention: "Depends on a valid folder & member"
+  labels:
+    testing.upbound.io/example-name: folder-iam-member
+  name: folder-iam-member
+spec:
+  forProvider:
+    member: "${data.google_iam_member.member}"
+    role: "roles/viewer"
+    folder: ${data.cloudplatform_folder.id}

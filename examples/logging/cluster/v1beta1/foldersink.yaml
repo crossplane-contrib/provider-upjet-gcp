@@ -1,0 +1,50 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: logging.gcp.upbound.io/v1beta1
+kind: FolderSink
+metadata:
+  annotations:
+    meta.upbound.io/example-id: logging/v1beta1/foldersink
+    upjet.upbound.io/manual-intervention: "This resource depends on Folder.cloudplatform with the required organization level IAM permissions"
+  labels:
+    testing.upbound.io/example-name: my-sink
+  name: my-sink
+spec:
+  forProvider:
+    description: some explanation on what this is
+    destination: storage.googleapis.com/${google_storage_bucket.log-bucket.name}
+    filter: resource.type = gce_instance AND severity >= WARNING
+    folderSelector:
+      matchLabels:
+        testing.upbound.io/example-name: my-folder
+
+---
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: Folder
+metadata:
+  annotations:
+    meta.upbound.io/example-id: logging/v1beta1/foldersink
+    upjet.upbound.io/manual-intervention: "Requires organization level IAM permissions"
+  labels:
+    testing.upbound.io/example-name: my-folder
+  name: my-folder
+spec:
+  forProvider:
+    displayName: My folder
+    parent: organizations/{org_id}
+
+---
+apiVersion: storage.gcp.upbound.io/v1beta1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: logging/v1beta1/foldersink
+  labels:
+    meta.upbound.io/example-id: logging/v1beta1/foldersink
+    upjet.upbound.io/manual-intervention: "This resource is the dependency of FolderSink.logging. This resource is skipping because parent resource was skipped."
+  name: log-bucket-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    location: US

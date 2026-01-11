@@ -1,0 +1,86 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/instance
+  labels:
+    testing.upbound.io/example-name: example_instance
+  name: example-instance
+spec:
+  forProvider:
+    bootDisk:
+    - initializeParams:
+      - image: debian-cloud/debian-11
+    machineType: e2-medium
+    metadata:
+      environment: dev
+    metadataStartupScript: echo 'Upbound!' > /test.txt
+    networkInterface:
+    - accessConfig:
+      - {}
+      networkSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example_instance_network
+      subnetworkSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example_instance_network
+    serviceAccount:
+    - emailSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example_instance_sa
+      scopes:
+      - cloud-platform
+    tags: 
+    - foo
+    - bar
+    zone: us-central1-a
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/instance
+  labels:
+    testing.upbound.io/example-name: example_instance_network
+  name: example-instance-network
+spec:
+  forProvider:
+    autoCreateSubnetworks: false
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Subnetwork
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/instance
+  labels:
+    testing.upbound.io/example-name: example_instance_network
+  name: example-instance-subnetwork
+spec:
+  forProvider:
+    ipCidrRange: 10.0.0.0/16
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example_instance_network
+    region: us-central1
+
+---
+
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: ServiceAccount
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/instance
+  labels:
+    testing.upbound.io/example-name: example_instance_sa
+  name: example-instance-sa
+spec:
+  forProvider:
+    displayName: Example Instance Service Account

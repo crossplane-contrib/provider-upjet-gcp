@@ -1,0 +1,127 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: Autoscaler
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta2/autoscaler
+  labels:
+    testing.upbound.io/example-name: autoscaler
+  name: autoscaler
+spec:
+  forProvider:
+    autoscalingPolicy:
+      cooldownPeriod: 60
+      maxReplicas: 2
+      minReplicas: 1
+    targetSelector:
+      matchLabels:
+        testing.upbound.io/example-name: autoscaler
+    zone: us-central1-a
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: InstanceGroupManager
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta2/autoscaler
+  labels:
+    testing.upbound.io/example-name: autoscaler
+  name: autoscaler
+spec:
+  forProvider:
+    autoHealingPolicies:
+      healthCheckRef:
+        name: autoscaler
+      initialDelaySec: 300
+    baseInstanceName: autoscaler
+    namedPort:
+    - name: custom
+      port: 8888
+    targetPoolsSelector:
+      matchLabels:
+        testing.upbound.io/example-name: autoscaler
+    targetSize: 2
+    version:
+    - instanceTemplateSelector:
+        matchLabels:
+          testing.upbound.io/example-name: autoscaler
+    zone: us-central1-a
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: HTTPHealthCheck
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta2/autoscaler
+  labels:
+    testing.upbound.io/example-name: autoscaler
+  name: autoscaler
+spec:
+  forProvider:
+    checkIntervalSec: 1
+    requestPath: /health_check
+    timeoutSec: 1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: TargetPool
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta2/autoscaler
+  labels:
+    testing.upbound.io/example-name: autoscaler
+  name: autoscaler
+spec:
+  forProvider:
+    healthChecksSelector:
+      matchLabels:
+        testing.upbound.io/example-name: autoscaler
+    instances:
+    - us-central1-a/example-autoscaler
+    region: us-central1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: HealthCheck
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta2/autoscaler
+  labels:
+    testing.upbound.io/example-name: autoscaler
+  name: autoscaler
+spec:
+  forProvider:
+    checkIntervalSec: 1
+    tcpHealthCheck:
+      port: 80
+    timeoutSec: 1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: InstanceTemplate
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta2/autoscaler
+  labels:
+    testing.upbound.io/example-name: autoscaler
+  name: autoscaler
+spec:
+  forProvider:
+    canIpForward: false
+    description: This template is used to create app server instances.
+    disk:
+    - autoDelete: false
+      boot: true
+      sourceImage: debian-cloud/debian-11
+    instanceDescription: Description assigned to instances
+    machineType: e2-medium
+    networkInterface:
+    - network: default

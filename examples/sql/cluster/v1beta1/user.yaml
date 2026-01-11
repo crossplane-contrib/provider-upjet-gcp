@@ -1,0 +1,62 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: sql.gcp.upbound.io/v1beta1
+kind: User
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sql/v1beta1/user
+  labels:
+    testing.upbound.io/example-name: example_user
+  name: example-user
+spec:
+  forProvider:
+    passwordSecretRef:
+      name: example-sql-user
+      namespace: upbound-system
+      key: password
+    instanceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example_instance
+  writeConnectionSecretToRef:
+    name: example-sql-db-user-secret
+    namespace: upbound-system
+
+---
+
+apiVersion: v1
+data:
+  password: Y2hhbmdlbWU=
+kind: Secret
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sql/v1beta1/user
+  labels:
+    testing.upbound.io/example-name: example_user
+  name: example-sql-user
+  namespace: upbound-system
+
+---
+
+apiVersion: sql.gcp.upbound.io/v1beta1
+kind: DatabaseInstance
+metadata:
+  annotations:
+    uptest.upbound.io/pre-delete-hook: ../testhooks/delete-user.sh
+    meta.upbound.io/example-id: sql/v1beta1/user
+  labels:
+    testing.upbound.io/example-name: example_instance
+  # ${Rand...} is not valid YAML and is used with automated testing
+  name: example-instance-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    region: "us-central1"
+    databaseVersion: "MYSQL_5_7"
+    settings:
+      - tier: "db-f1-micro"
+        diskSize: 20
+    deletionProtection: false # allow crossplane to delete the instance automatically
+  writeConnectionSecretToRef:
+    name: example-sql-db-instance-secret
+    namespace: upbound-system

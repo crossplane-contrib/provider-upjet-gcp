@@ -1,0 +1,50 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: monitoring.gcp.upbound.io/v1beta2
+kind: SLO
+metadata:
+  annotations:
+    meta.upbound.io/example-id: monitoring/v1beta2/slo
+  labels:
+    testing.upbound.io/example-name: appeng_slo
+  name: appeng-slo
+spec:
+  forProvider:
+    calendarPeriod: DAY
+    displayName: Terraform Test SLO for App Engine
+    goal: 0.9
+    requestBasedSli:
+      distributionCut:
+        distributionFilter: metric.type="serviceruntime.googleapis.com/api/request_latencies"
+          resource.type="api"
+        range:
+          max: 0.5
+    serviceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: google_monitoring_app_engine_service
+    sloId: ae-slo
+    userLabels:
+      my_key: my_value
+      my_other_key: my_other_value
+
+---
+
+apiVersion: monitoring.gcp.upbound.io/v1beta2
+kind: CustomService
+metadata:
+  annotations:
+    meta.upbound.io/example-id: monitoring/v1beta2/slo
+  labels:
+    testing.upbound.io/example-name: google_monitoring_app_engine_service
+  name: google-monitoring-app-engine-service
+spec:
+  forProvider:
+    displayName: My Custom Service custom-srv
+    serviceId: custom-srv
+    telemetry:
+      resourceName: //product.googleapis.com/foo/foo/services/test
+    userLabels:
+      my_key: my_value
+      my_other_key: my_other_value

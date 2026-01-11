@@ -1,0 +1,36 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: healthcare.gcp.upbound.io/v1beta2
+kind: DatasetIAMMember
+metadata:
+  annotations:
+    meta.upbound.io/example-id: healthcare/v1beta2/datasetiammember
+  labels:
+    testing.upbound.io/example-name: dataset-iam-member
+  name: dataset-iam-member
+spec:
+  forProvider:
+    datasetIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: dataset
+    member: user:joe@example.com
+    role: roles/editor
+
+---
+
+apiVersion: healthcare.gcp.upbound.io/v1beta1
+kind: Dataset
+metadata:
+  annotations:
+    meta.upbound.io/example-id: healthcare/v1beta2/datasetiammember
+    uptest.upbound.io/pre-delete-hook: testhooks/delete-datasetiammember.sh
+  labels:
+    testing.upbound.io/example-name: dataset
+  name: dataset
+spec:
+  forProvider:
+    location: us-central1
+    name: dataset
+    timeZone: UTC

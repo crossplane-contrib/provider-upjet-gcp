@@ -1,0 +1,21 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: firestore.gcp.upbound.io/v1beta1
+kind: Index
+metadata:
+  annotations:
+    meta.upbound.io/example-id: firestore/v1beta1/index
+    upjet.upbound.io/manual-intervention: "Requires project level IAM permissions"
+  labels:
+    testing.upbound.io/example-name: index
+  name: index
+spec:
+  forProvider:
+    collection: chatrooms
+    fields:
+    - fieldPath: name
+      order: ASCENDING
+    - fieldPath: description
+      order: DESCENDING

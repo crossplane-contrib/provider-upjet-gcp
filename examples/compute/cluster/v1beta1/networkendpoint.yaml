@@ -1,0 +1,103 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: NetworkEndpoint
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/networkendpoint
+  labels:
+    testing.upbound.io/example-name: network-endpoint
+  name: network-endpoint
+spec:
+  forProvider:
+    instanceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: network-endpoint
+    # Requires selected Instance's IP address
+    ipAddress: 10.2.0.21
+    networkEndpointGroupSelector:
+      matchLabels:
+        testing.upbound.io/example-name: network-endpoint
+    port: 90
+    zone: us-central1-a
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/networkendpoint
+  labels:
+    testing.upbound.io/example-name: network-endpoint
+  name: network-endpoint
+spec:
+  forProvider:
+    machineType: e2-medium
+    zone: us-central1-a
+    networkInterface:
+      - networkSelector:
+          matchLabels:
+            testing.upbound.io/example-name: network-endpoint
+        networkIp: 10.2.0.21
+        subnetworkSelector:
+          matchLabels:
+            testing.upbound.io/example-name: network-endpoint
+    bootDisk:
+      - initializeParams:
+          - image: debian-cloud/debian-11
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: NetworkEndpointGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/networkendpoint
+  labels:
+    testing.upbound.io/example-name: network-endpoint
+  name: network-endpoint
+spec:
+  forProvider:
+    defaultPort: 90
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: network-endpoint
+    subnetworkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: network-endpoint
+    zone: us-central1-a
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Subnetwork
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/networkendpoint
+  labels:
+    testing.upbound.io/example-name: network-endpoint
+  name: network-endpoint
+spec:
+  forProvider:
+    ipCidrRange: 10.2.0.0/16
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: network-endpoint
+    region: us-central1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/networkendpoint
+  labels:
+    testing.upbound.io/example-name: network-endpoint
+  name: network-endpoint
+spec:
+  forProvider:
+     autoCreateSubnetworks: false

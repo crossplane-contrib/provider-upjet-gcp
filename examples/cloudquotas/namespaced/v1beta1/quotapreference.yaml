@@ -1,0 +1,19 @@
+apiVersion: cloudquotas.gcp.m.upbound.io/v1beta1
+kind: QuotaPreference
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudquotas/v1beta1/quotapreference
+  labels:
+    testing.upbound.io/example-name: preference
+  name: preference
+  namespace: upbound-system
+spec:
+  forProvider:
+    contactEmail: testuser@gmail.com
+    dimensions:
+      region: us-east1
+    parent: projects/official-provider-testing
+    quotaConfig:
+      preferredValue: "5000"
+    quotaId: CPUS-per-project-region
+    service: compute.googleapis.com

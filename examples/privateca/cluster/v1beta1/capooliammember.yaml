@@ -1,0 +1,37 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: privateca.gcp.upbound.io/v1beta1
+kind: CAPoolIAMMember
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privateca/v1beta1/capooliammember
+  labels:
+    testing.upbound.io/example-name: ca-pool-iam-member
+  name: ca-pool-iam-member
+spec:
+  forProvider:
+    member: "${data.google_iam_member.member}"
+    role: "roles/privateca.certificateManager"
+    caPoolSelector:
+      matchLabels:
+        testing.upbound.io/example-name: ca-pool-iam-member
+
+---
+
+apiVersion: privateca.gcp.upbound.io/v1beta1
+kind: CAPool
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privateca/v1beta1/capooliammember
+  labels:
+    testing.upbound.io/example-name: ca-pool-iam-member
+  name: ca-pool-iam-member-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    location: us-central1
+    publishingOptions:
+    - publishCaCert: true
+      publishCrl: true
+    tier: ENTERPRISE

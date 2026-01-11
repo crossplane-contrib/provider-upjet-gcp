@@ -1,0 +1,41 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: containeranalysis.gcp.upbound.io/v1beta1
+kind: Occurrence
+metadata:
+  annotations:
+    meta.upbound.io/example-id: containeranalysis/v1beta1/occurrence
+    upjet.upbound.io/manual-intervention: "Requires reference to KMS CryptoKey version"
+  labels:
+    testing.upbound.io/example-name: occurrence
+  name: occurrence
+spec:
+  forProvider:
+    attestation:
+    - serializedPayload: ${filebase64("path/to/my/payload.json")}
+      signatures:
+      - publicKeyId: ${data.google_kms_crypto_key_version.version.id}
+        serialized_payload: ${filebase64("path/to/my/payload.json.sig")}
+    noteNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: occurrence
+    resourceUri: gcr.io/my-project/my-image
+
+---
+
+apiVersion: containeranalysis.gcp.upbound.io/v1beta1
+kind: Note
+metadata:
+  annotations:
+    meta.upbound.io/example-id: containeranalysis/v1beta1/occurrence
+    upjet.upbound.io/manual-intervention: "Requires reference to KMS CryptoKey version"
+  labels:
+    testing.upbound.io/example-name: occurrence
+  name: occurrence
+spec:
+  forProvider:
+    attestationAuthority:
+    - hint:
+      - humanReadableName: Attestor Note

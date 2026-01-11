@@ -1,0 +1,17 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: certificatemanager.gcp.upbound.io/v1beta1
+kind: DNSAuthorization
+metadata:
+  annotations:
+    meta.upbound.io/example-id: certificatemanager/v1beta1/dnsauthorization
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    location: global
+    description: The default dnss
+    domain: hashicorptest.com

@@ -1,0 +1,15 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: composer.gcp.upbound.io/v1beta2
+kind: Environment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: composer/v1beta2/environment
+  labels:
+    testing.upbound.io/example-name: composer-environment
+  name: composer-environment
+spec:
+  forProvider:
+    region: us-east1

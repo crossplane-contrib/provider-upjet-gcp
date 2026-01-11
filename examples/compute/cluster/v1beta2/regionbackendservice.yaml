@@ -1,0 +1,37 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: RegionBackendService
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta2/regionbackendservice
+  labels:
+    testing.upbound.io/example-name: region-backend-service
+  name: region-backend-service
+spec:
+  forProvider:
+    connectionDrainingTimeoutSec: 10
+    healthChecksRefs:
+    - name: region-backend-service
+    region: us-central1
+    sessionAffinity: CLIENT_IP
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: RegionHealthCheck
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta2/regionbackendservice
+  labels:
+    testing.upbound.io/example-name: region-backend-service
+  name: region-backend-service
+spec:
+  forProvider:
+    checkIntervalSec: 1
+    region: us-central1
+    tcpHealthCheck:
+      port: 80
+    timeoutSec: 1

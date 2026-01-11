@@ -1,0 +1,40 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: spanner.gcp.upbound.io/v1beta1
+kind: InstanceIAMMember
+metadata:
+  labels:
+    testing.upbound.io/example-name: example-instanceiammember
+  annotations:
+    meta.upbound.io/example-id: spanner/v1beta1/instanceiammember
+    upjet.upbound.io/manual-intervention:
+      "IAM member resource must exist first and be part of the Google workspace
+      address configured for the project"
+  name: example-instanceiammember
+spec:
+  forProvider:
+    member: "${data.google_iam_member.member}"
+    # User can also be used
+    # member: user:example.name@example.com
+    role: "roles/editor"
+    instance: example2
+
+---
+
+apiVersion: spanner.gcp.upbound.io/v1beta1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: spanner/v1beta1/instanceiammember
+  labels:
+    testing.upbound.io/example-name: example2
+  name: example2
+spec:
+  forProvider:
+    config: regional-us-central1
+    displayName: Test Spanner Instance
+    labels:
+      foo: bar
+    numNodes: 2

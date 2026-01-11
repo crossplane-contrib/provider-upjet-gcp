@@ -1,0 +1,17 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: cloudplatform.gcp.upbound.io/v1beta2
+kind: ProjectIAMMember
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudplatform/v1beta2/projectiammember
+  labels:
+    testing.upbound.io/example-name: project-iam-member
+  name: project-iam-member
+spec:
+  forProvider:
+    member: ${data.google_iam_member.member}
+    project: ${data.cloudplatform_project.projectId}
+    role: roles/viewer

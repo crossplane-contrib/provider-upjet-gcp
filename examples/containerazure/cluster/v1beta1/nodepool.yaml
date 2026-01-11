@@ -1,0 +1,111 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: containerazure.gcp.upbound.io/v1beta1
+kind: NodePool
+metadata:
+  annotations:
+    meta.upbound.io/example-id: containerazure/v1beta1/nodepool
+    upjet.upbound.io/manual-intervention: >-
+      Azure Infrastructure is required to test this resource. Manifests and scripts
+      for deploying these via provider-azure and the azure cli are available in
+      the `provider-azure` folder.
+      Before creating this resource, run:
+      - `provider-azure/00-containerazure-application.sh`
+      - `kubectl apply -f provider-azure/00-containerazure-network.yaml`
+      - `kubectl apply -f provider-azure/01-containerazure-roles.yaml`
+  labels:
+    testing.upbound.io/example-name: example-azure-nodepool
+  name: example-azure-nodepool
+spec:
+  forProvider:
+    annotations:
+      annotation-one: value-one
+    autoscaling:
+    - maxNodeCount: 3
+      minNodeCount: 2
+    client: projects/my-project-number/locations/us-west1/azureClients/example-client-nodepool
+    config:
+    - proxyConfig:
+      - resourceGroupId: /subscriptions/12345678-1234-1234-1234-123456789111/resourceGroups/my--dev-cluster
+        secretId: https://my--dev-keyvault.vault.azure.net/secrets/my--dev-secret/0000000000000000000000000000000000
+      rootVolume:
+      - sizeGib: 32
+      sshConfig:
+      - authorizedKey: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC8yaayO6lnb2v+SedxUMa2c8vtIEzCzBjM3EJJsv8Vm9zUDWR7dXWKoNGARUb2mNGXASvI6mFIDXTIlkQ0poDEPpMaXR0g2cb5xT8jAAJq7fqXL3+0rcJhY/uigQ+MrT6s+ub0BFVbsmGHNrMQttXX9gtmwkeAEvj3mra9e5pkNf90qlKnZz6U0SVArxVsLx07vHPHDIYrl0OPG4zUREF52igbBPiNrHJFDQJT/4YlDMJmo/QT/A1D6n9ocemvZSzhRx15/Arjowhr+VVKSbaxzPtEfY0oIg2SrqJnnr/l3Du5qIefwh5VmCZe4xopPUaDDoOIEFriZ88sB+3zz8ib8sk8zJJQCgeP78tQvXCgS+4e5W3TUg9mxjB6KjXTyHIVhDZqhqde0OI3Fy1UuVzRUwnBaLjBnAwP5EoFQGRmDYk/rEYe7HTmovLeEBUDQocBQKT4Ripm/xJkkWY7B07K/tfo56dGUCkvyIVXKBInCh+dLK7gZapnd4UWkY0xBYcwo1geMLRq58iFTLA2j/JmpmHXp7m0l7jJii7d44uD3tTIFYThn7NlOnvhLim/YcBK07GMGIN7XwrrKZKmxXaspw6KBWVhzuw1UPxctxshYEaMLfFg/bwOw8HvMPr9VtrElpSB7oiOh91PDIPdPBgHCi7N2QgQ5l/ZDBHieSpNrQ==
+          thomasrodgers
+      tags:
+        owner: mmv2
+      vmSize: Standard_DS2_v2
+    location: us-west1
+    maxPodsConstraint:
+    - maxPodsPerNode: 110
+    project: my-project-name
+    subnetId: /subscriptions/12345678-1234-1234-1234-123456789111/resourceGroups/my--dev-byo/providers/Microsoft.Network/virtualNetworks/my--dev-vnet/subnets/default
+    version: ${data.google_container_azure_versions.versions.valid_versions[0]}
+
+---
+
+apiVersion: containerazure.gcp.upbound.io/v1beta1
+kind: Cluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: containerazure/v1beta1/nodepool
+    upjet.upbound.io/manual-intervention: >-
+      Azure Infrastructure is required to test this resource. Manifests and scripts
+      for deploying these via provider-azure and the azure cli are available in
+      the `provider-azure` folder.
+      Before creating this resource, run:
+      - `provider-azure/00-containerazure-application.sh`
+      - `kubectl apply -f provider-azure/00-containerazure-network.yaml`
+      - `kubectl apply -f provider-azure/01-containerazure-roles.yaml`
+  labels:
+    testing.upbound.io/example-name: example-azure-nodepool
+  name: example-azure-nodepool
+spec:
+  forProvider:
+    authorization:
+    - adminUsers:
+      - username: mmv2@google.com
+    azureRegion: westus2
+    clientSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example-azure-nodepool
+    controlPlane:
+    - sshConfig:
+      - authorizedKey: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC8yaayO6lnb2v+SedxUMa2c8vtIEzCzBjM3EJJsv8Vm9zUDWR7dXWKoNGARUb2mNGXASvI6mFIDXTIlkQ0poDEPpMaXR0g2cb5xT8jAAJq7fqXL3+0rcJhY/uigQ+MrT6s+ub0BFVbsmGHNrMQttXX9gtmwkeAEvj3mra9e5pkNf90qlKnZz6U0SVArxVsLx07vHPHDIYrl0OPG4zUREF52igbBPiNrHJFDQJT/4YlDMJmo/QT/A1D6n9ocemvZSzhRx15/Arjowhr+VVKSbaxzPtEfY0oIg2SrqJnnr/l3Du5qIefwh5VmCZe4xopPUaDDoOIEFriZ88sB+3zz8ib8sk8zJJQCgeP78tQvXCgS+4e5W3TUg9mxjB6KjXTyHIVhDZqhqde0OI3Fy1UuVzRUwnBaLjBnAwP5EoFQGRmDYk/rEYe7HTmovLeEBUDQocBQKT4Ripm/xJkkWY7B07K/tfo56dGUCkvyIVXKBInCh+dLK7gZapnd4UWkY0xBYcwo1geMLRq58iFTLA2j/JmpmHXp7m0l7jJii7d44uD3tTIFYThn7NlOnvhLim/YcBK07GMGIN7XwrrKZKmxXaspw6KBWVhzuw1UPxctxshYEaMLfFg/bwOw8HvMPr9VtrElpSB7oiOh91PDIPdPBgHCi7N2QgQ5l/ZDBHieSpNrQ==
+          thomasrodgers
+      subnetId: /subscriptions/12345678-1234-1234-1234-123456789111/resourceGroups/my--dev-byo/providers/Microsoft.Network/virtualNetworks/my--dev-vnet/subnets/default
+      version: ${data.google_container_azure_versions.versions.valid_versions[0]}
+    fleet:
+    - project: my-project-number
+    location: us-west1
+    networking:
+    - podAddressCidrBlocks:
+      - 10.200.0.0/16
+      serviceAddressCidrBlocks:
+      - 10.32.0.0/24
+      virtualNetworkId: /subscriptions/12345678-1234-1234-1234-123456789111/resourceGroups/my--dev-byo/providers/Microsoft.Network/virtualNetworks/my--dev-vnet
+    project: my-project-name
+    resourceGroupId: /subscriptions/12345678-1234-1234-1234-123456789111/resourceGroups/my--dev-cluster
+
+---
+
+apiVersion: containerazure.gcp.upbound.io/v1beta1
+kind: Client
+metadata:
+  annotations:
+    meta.upbound.io/example-id: containerazure/v1beta1/nodepool
+    upjet.upbound.io/manual-intervention: >-
+      Before creating this client, run: `provider-azure/00-containerazure-application.sh`
+      After creating this client, run: `provider-azure/authorize_client.sh ${client name}`
+  labels:
+    testing.upbound.io/example-name: example-azure-nodepool
+  name: example-azure-nodepool
+spec:
+  forProvider:
+    applicationId: 12345678-1234-1234-1234-123456789111
+    location: us-west1
+    project: my-project-name
+    tenantId: 12345678-1234-1234-1234-123456789111

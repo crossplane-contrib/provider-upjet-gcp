@@ -1,0 +1,86 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: RegionTargetHTTPProxy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regiontargethttpproxy
+  labels:
+    testing.upbound.io/example-name: region-target-http-proxy
+  name: region-target-http-proxy
+spec:
+  forProvider:
+    region: us-central1
+    urlMapSelector:
+      matchLabels:
+        testing.upbound.io/example-name: region-target-http-proxy
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: RegionBackendService
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regiontargethttpproxy
+  labels:
+    testing.upbound.io/example-name: region-target-http-proxy
+  name: region-target-http-proxy
+spec:
+  forProvider:
+    healthChecksRefs:
+    - name: region-target-http-proxy
+    loadBalancingScheme: INTERNAL_MANAGED
+    protocol: HTTP
+    region: us-central1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: RegionURLMap
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regiontargethttpproxy
+  labels:
+    testing.upbound.io/example-name: region-target-http-proxy
+  name: region-target-http-proxy
+spec:
+  forProvider:
+    defaultServiceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: region-target-http-proxy
+    hostRule:
+    - hosts:
+      - mysite.com
+      pathMatcher: allpaths
+    pathMatcher:
+    - defaultServiceSelector:
+        matchLabels:
+          testing.upbound.io/example-name: region-target-http-proxy
+      name: allpaths
+      pathRule:
+      - paths:
+        - /*
+        serviceSelector:
+          matchLabels:
+            testing.upbound.io/example-name: region-target-http-proxy
+    region: us-central1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: RegionHealthCheck
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regiontargethttpproxy
+  labels:
+    testing.upbound.io/example-name: region-target-http-proxy
+  name: region-target-http-proxy
+spec:
+  forProvider:
+    checkIntervalSec: 1
+    tcpHealthCheck:
+    - port: 80
+    timeoutSec: 1
+    region: us-central1

@@ -1,0 +1,34 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: ImageIAMMember
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/imageiammember
+  labels:
+    testing.upbound.io/example-name: image-iam-member
+  name: image-iam-member
+spec:
+  forProvider:
+    imageSelector:
+      matchLabels:
+        testing.upbound.io/example-name: image-iam-member
+    role: "roles/viewer"
+    member: "${data.google_iam_member.member}"
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Image
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/imageiammember
+  labels:
+    testing.upbound.io/example-name: image-iam-member
+  name: image-iam-member
+spec:
+  forProvider:
+    rawDisk:
+      - source: https://storage.googleapis.com/bosh-gce-raw-stemcells/bosh-stemcell-97.98-google-kvm-ubuntu-xenial-go_agent-raw-1557960142.tar.gz

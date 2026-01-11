@@ -1,0 +1,56 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: gameservices.gcp.upbound.io/v1beta1
+kind: GameServerCluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: gameservices/v1beta1/gameservercluster
+    upjet.upbound.io/manual-intervention: "Error 404: Method not found"
+  labels:
+    testing.upbound.io/example-name: game-server-cluster
+  name: game-server-cluster
+spec:
+  forProvider:
+    connectionInfo:
+    - gkeClusterReference:
+      - clusterSelector:
+          matchLabels:
+            testing.upbound.io/example-name: game-server-cluster
+      namespace: game-server-cluster
+    realmIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: game-server-cluster
+
+---
+
+apiVersion: container.gcp.upbound.io/v1beta1
+kind: Cluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: gkehub/v1beta1/membership
+    upjet.upbound.io/manual-intervention: "Error 404: Method not found"
+  labels:
+    testing.upbound.io/example-name: game-server-cluster
+  name: game-server-cluster
+spec:
+  forProvider:
+    location: us-central1-a
+    initialNodeCount: 1
+
+---
+
+apiVersion: gameservices.gcp.upbound.io/v1beta1
+kind: Realm
+metadata:
+  annotations:
+    meta.upbound.io/example-id: gameservices/v1beta1/gameservercluster
+    upjet.upbound.io/manual-intervention: "Error 404: Method not found"
+  labels:
+    testing.upbound.io/example-name: game-server-cluster
+  name: game-server-cluster
+spec:
+  forProvider:
+    description: Test Game Realm
+    timeZone: PST8PDT

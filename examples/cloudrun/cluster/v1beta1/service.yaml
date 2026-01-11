@@ -1,0 +1,63 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: cloudrun.gcp.upbound.io/v1beta1
+kind: Service
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudrun/v1beta1/service
+  labels:
+    testing.upbound.io/example-name: cloudrun-service
+  name: cloudrun-service
+spec:
+  forProvider:
+    location: us-central1
+    template:
+    - spec:
+      - containers:
+        - image: us-docker.pkg.dev/cloudrun/container/hello
+    traffic:
+    - latestRevision: true
+      percent: 100
+
+---
+
+apiVersion: cloudrun.gcp.upbound.io/v1beta1
+kind: ServiceIAMMember
+metadata:
+  labels:
+    testing.upbound.io/example-name: cloudrun-service
+  annotations:
+    meta.upbound.io/example-id: cloudrun/v1beta1/service
+  name: cloudrun-service
+spec:
+  forProvider:
+    location: us-central1
+    member: "${data.google_iam_member.member}"
+    role: "roles/viewer"
+    serviceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: cloudrun-service
+
+---
+
+apiVersion: cloudrun.gcp.upbound.io/v1beta1
+kind: DomainMapping
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudrun/v1beta1/service
+    upjet.upbound.io/manual-intervention: "Must be authorized to administer the domain example.com"
+  labels:
+    testing.upbound.io/example-name: cloudrun-service
+  name: cloudrun-service 
+spec:
+  forProvider:
+    name: example.com
+    location: us-central1
+    metadata:
+    - namespace: ${data.cloudplatform_project.projectId}
+    spec:
+    - routeNameSelector:
+        matchLabels:
+          testing.upbound.io/example-name: cloudrun-service

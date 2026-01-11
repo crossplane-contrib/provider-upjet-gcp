@@ -1,0 +1,61 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: sql.gcp.upbound.io/v1beta2
+kind: User
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sql/v1beta2/user
+  labels:
+    testing.upbound.io/example-name: example_user
+  name: example-user
+spec:
+  forProvider:
+    instanceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example_instance
+    passwordSecretRef:
+      key: password
+      name: example-sql-user
+      namespace: upbound-system
+  writeConnectionSecretToRef:
+    name: example-sql-db-user-secret
+    namespace: upbound-system
+
+---
+
+apiVersion: v1
+data:
+  password: Y2hhbmdlbWU=
+kind: Secret
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sql/v1beta1/user
+  labels:
+    testing.upbound.io/example-name: example_user
+  name: example-sql-user
+  namespace: upbound-system
+
+---
+
+apiVersion: sql.gcp.upbound.io/v1beta2
+kind: DatabaseInstance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sql/v1beta2/user
+    uptest.upbound.io/pre-delete-hook: ../testhooks/delete-user.sh
+  labels:
+    testing.upbound.io/example-name: example_instance
+  name: example-instance-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    databaseVersion: MYSQL_5_7
+    deletionProtection: false
+    region: us-central1
+    settings:
+      diskSize: 20
+      tier: db-f1-micro
+  writeConnectionSecretToRef:
+    name: example-sql-db-instance-secret
+    namespace: upbound-system

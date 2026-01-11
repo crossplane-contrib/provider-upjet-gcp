@@ -1,0 +1,60 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: eventarc.gcp.upbound.io/v1beta1
+kind: Trigger
+metadata:
+  annotations:
+    meta.upbound.io/example-id: eventarc/v1beta1/trigger
+  labels:
+    testing.upbound.io/example-name: trigger
+  name: trigger
+spec:
+  forProvider:
+    destination:
+    - cloudRunService:
+      - region: us-central1
+        serviceSelector:
+          matchLabels:
+            testing.upbound.io/example-name: trigger
+    labels:
+      foo: bar
+    location: us-central1
+    matchingCriteria:
+    - attribute: type
+      value: google.cloud.pubsub.topic.v1.messagePublished
+
+---
+
+apiVersion: cloudrun.gcp.upbound.io/v1beta1
+kind: Service
+metadata:
+  annotations:
+    meta.upbound.io/example-id: eventarc/v1beta1/trigger
+  labels:
+    testing.upbound.io/example-name: trigger
+  name: trigger
+spec:
+  forProvider:
+    location: us-central1
+    template:
+    - spec:
+      - containers:
+        - image: us-docker.pkg.dev/cloudrun/container/hello
+    traffic:
+    - latestRevision: true
+      percent: 100
+
+---
+
+apiVersion: pubsub.gcp.upbound.io/v1beta1
+kind: Topic
+metadata:
+  annotations:
+    meta.upbound.io/example-id: eventarc/v1beta1/trigger
+  labels:
+    testing.upbound.io/example-name: trigger
+  name: trigger
+spec:
+  forProvider: {}

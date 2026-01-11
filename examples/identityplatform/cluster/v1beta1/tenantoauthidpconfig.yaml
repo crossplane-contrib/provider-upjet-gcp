@@ -1,0 +1,59 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: identityplatform.gcp.upbound.io/v1beta1
+kind: TenantOAuthIdPConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: identityplatform/v1beta1/tenantoauthidpconfig
+  labels:
+    testing.upbound.io/example-name: tenant-oauth-idp-config
+  name: tenant-oauth-idp-config
+spec:
+  forProvider:
+    name: oidc.tenant-oauth-idp-config
+    clientIdSecretRef:
+      key: clientId
+      name: oauth-idp-config
+      namespace: upbound-system
+    clientSecretSecretRef:
+      key: clientSecret
+      name: oauth-idp-config
+      namespace: upbound-system
+    displayName: Display Name
+    enabled: true
+    issuer: issuer
+    tenantSelector:
+      matchLabels:
+        testing.upbound.io/example-name: tenant-oauth-idp-config
+
+---
+
+apiVersion: v1
+data:
+  clientId: dXBib3VuZA==
+  clientSecret: MTIzNDU=
+kind: Secret
+metadata:
+  annotations:
+    meta.upbound.io/example-id: identityplatform/v1beta1/tenantoauthidpconfig
+  labels:
+    testing.upbound.io/example-name: tenant-oauth-idp-config
+  name: tenant-oauth-idp-config
+  namespace: upbound-system
+
+---
+
+apiVersion: identityplatform.gcp.upbound.io/v1beta1
+kind: Tenant
+metadata:
+  annotations:
+    meta.upbound.io/example-id: identityplatform/v1beta1/tenantoauthidpconfig
+  labels:
+    testing.upbound.io/example-name: tenant-oauth-idp-config
+  name: tenant-oauth-idp-config
+spec:
+  forProvider:
+    # displayName should start with a letter and only consist of letters, digits and hyphens with 4-20 characters
+    displayName: tenant-oauth

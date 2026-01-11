@@ -1,0 +1,187 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: ServiceAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/serviceattachment
+    upjet.upbound.io/manual-intervention: "Must be authorized to administer the domain gcp.example.com"
+  labels:
+    testing.upbound.io/example-name: service-attachment
+  name: service-attachment
+spec:
+  forProvider:
+    connectionPreference: ACCEPT_AUTOMATIC
+    description: A service attachment
+    domainNames:
+    - gcp.example.com.
+    enableProxyProtocol: true
+    natSubnetsRefs:
+    - name: service-attachment
+    region: us-central1
+    targetServiceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: service-attachment
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Address
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/serviceattachment
+    upjet.upbound.io/manual-intervention: "Must be authorized to administer the domain gcp.example.com"
+  labels:
+    testing.upbound.io/example-name: service-attachment
+  name: service-attachment
+spec:
+  forProvider:
+    addressType: INTERNAL
+    region: us-central1
+    subnetworkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: service-attachment
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: ForwardingRule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/serviceattachment
+    upjet.upbound.io/manual-intervention: "Must be authorized to administer the domain gcp.example.com"
+  labels:
+    testing.upbound.io/example-name: service-attachment
+  name: service-attachment
+spec:
+  forProvider:
+    ipAddressSelector:
+      matchLabels:
+        testing.upbound.io/example-name: service-attachment
+    loadBalancingScheme: ""
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: service-attachment
+    region: us-central1
+    targetSelector:
+      matchLabels:
+        testing.upbound.io/example-name: service-attachment
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: ForwardingRule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/serviceattachment
+    upjet.upbound.io/manual-intervention: "Must be authorized to administer the domain gcp.example.com"
+  labels:
+    testing.upbound.io/example-name: service-attachment
+  name: service-attachment
+spec:
+  forProvider:
+    allPorts: true
+    backendServiceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: service-attachment
+    loadBalancingScheme: INTERNAL
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: service-attachment
+    region: us-central1
+    subnetworkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: service-attachment
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: RegionHealthCheck
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/serviceattachment
+    upjet.upbound.io/manual-intervention: "Must be authorized to administer the domain gcp.example.com"
+  labels:
+    testing.upbound.io/example-name: service-attachment
+  name: service-attachment
+spec:
+  forProvider:
+    checkIntervalSec: 1
+    tcpHealthCheck:
+    - port: 80
+    timeoutSec: 1
+    region: us-central1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/serviceattachment
+    upjet.upbound.io/manual-intervention: "Must be authorized to administer the domain gcp.example.com"
+  labels:
+    testing.upbound.io/example-name: service-attachment
+  name: service-attachment
+spec:
+  forProvider:
+    autoCreateSubnetworks: false
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: RegionBackendService
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/serviceattachment
+    upjet.upbound.io/manual-intervention: "Must be authorized to administer the domain gcp.example.com"
+  labels:
+    testing.upbound.io/example-name: service-attachment
+  name: service-attachment
+spec:
+  forProvider:
+    healthChecksSelector:
+      matchLabels:
+        testing.upbound.io/example-name: service-attachment
+    region: us-central1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Subnetwork
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/serviceattachment
+    upjet.upbound.io/manual-intervention: "Must be authorized to administer the domain gcp.example.com"
+  labels:
+    testing.upbound.io/example-name: service-attachment
+  name: service-attachment
+spec:
+  forProvider:
+    ipCidrRange: 10.1.0.0/16
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: service-attachment
+    purpose: PRIVATE_SERVICE_CONNECT
+    region: us-central1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Subnetwork
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/serviceattachment
+    upjet.upbound.io/manual-intervention: "Must be authorized to administer the domain gcp.example.com"
+  labels:
+    testing.upbound.io/example-name: service-attachment
+  name: service-attachment
+spec:
+  forProvider:
+    ipCidrRange: 10.0.0.0/16
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: service-attachment
+    region: us-central1

@@ -1,0 +1,53 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: kms.gcp.upbound.io/v1beta1
+kind: CryptoKeyIAMMember
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1beta1/cryptokeyiammember
+  labels:
+    testing.upbound.io/example-name: crypto-key-iam-member
+  name: crypto-key-iam-member
+spec:
+  forProvider:
+    member: "${data.google_iam_member.member}"
+    role: "roles/editor"
+    cryptoKeyIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: crypto-key-iam-member
+
+---
+
+# By default, keys in Cloud KMS spend 24 hours in the Scheduled for destruction (soft deleted) state before the key material is logically deleted from the system
+apiVersion: kms.gcp.upbound.io/v1beta1
+kind: CryptoKey
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1beta1/cryptokeyiammember
+  labels:
+    testing.upbound.io/example-name: crypto-key-iam-member
+  name: crypto-key-iam-member-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    keyRingSelector:
+      matchLabels:
+        testing.upbound.io/example-name: crypto-key-iam-member
+    rotationPeriod: 100000s
+    # The minimum duration is 24 hours for all keys, except for import-only keys which have a minimum duration of 0
+    destroyScheduledDuration: 86400s
+
+---
+
+apiVersion: kms.gcp.upbound.io/v1beta1
+kind: KeyRing
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1beta1/cryptokeyiammember
+  labels:
+    testing.upbound.io/example-name: crypto-key-iam-member
+  name: crypto-key-iam-member-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    location: global

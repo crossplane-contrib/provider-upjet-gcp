@@ -1,0 +1,20 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: dataproc.gcp.upbound.io/v1beta2
+kind: Cluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dataproc/v1beta2/cluster
+  labels:
+    testing.upbound.io/example-name: simplecluster
+  name: simplecluster
+spec:
+  forProvider:
+    clusterConfig:
+      preemptibleWorkerConfig:
+        diskConfig:
+          bootDiskType: pd-standard
+    name: simplecluster
+    region: us-central1

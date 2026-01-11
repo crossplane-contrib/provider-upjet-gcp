@@ -1,0 +1,17 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: NodeTemplate
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/nodetemplate
+  labels:
+    testing.upbound.io/example-name: node-template
+  name: node-template
+  namespace: upbound-system
+spec:
+  forProvider:
+    nodeType: c2-node-60-240
+    region: europe-west1

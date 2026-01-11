@@ -1,0 +1,39 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: sourcerepo.gcp.upbound.io/v1beta1
+kind: RepositoryIAMMember
+metadata:
+  labels:
+    testing.upbound.io/example-name: example-repositoryiammember
+  annotations:
+    meta.upbound.io/example-id: secretmanager/v1beta1/repositoryiammember
+    upjet.upbound.io/manual-intervention:
+      "IAM member resource must exist first and be part of the Google workspace
+      address configured for the project"
+  name: example-repositoryiammember
+spec:
+  forProvider:
+    member: "${data.google_iam_member.member}"
+    # User can also be used
+    # member: user:example.name@example.com
+    role: "roles/editor"
+    repositorySelector:
+      matchLabels:
+        testing.upbound.io/example-name: my-repo12345
+
+---
+apiVersion: sourcerepo.gcp.upbound.io/v1beta1
+kind: Repository
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sourcerepo/v1beta1/repositoryiammember
+    upjet.upbound.io/manual-intervention:
+      "Requires enabling `Cloud Source Repositories API` and granting `Source
+      Repository Administrator` role"
+  labels:
+    testing.upbound.io/example-name: my-repo12345
+  name: my-repo12345
+spec:
+  forProvider: {}

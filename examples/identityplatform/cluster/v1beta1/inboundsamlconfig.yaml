@@ -1,0 +1,42 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: identityplatform.gcp.upbound.io/v1beta1
+kind: InboundSAMLConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: identityplatform/v1beta1/inboundsamlconfig
+  labels:
+    testing.upbound.io/example-name: inbound-saml-config
+  name: inbound-saml-config
+spec:
+  forProvider:
+    name: saml.inbound-saml-config
+    displayName: Display Name
+    idpConfig:
+    - idpCertificates:
+      - x509CertificateSecretRef:
+          key: rsa_cert.pem
+          name: inbound-saml-config
+          namespace: upbound-system
+      idpEntityId: tf-idp
+      signRequest: true
+      ssoUrl: https://example.com
+    spConfig:
+    - callbackUri: https://example.com
+      spEntityId: tf-sp
+
+---
+
+apiVersion: v1
+data:
+  rsa_cert.pem: dXBib3VuZA==
+kind: Secret
+metadata:
+  annotations:
+    meta.upbound.io/example-id: identityplatform/v1beta1/inboundsamlconfig
+  labels:
+    testing.upbound.io/example-name: inbound-saml-config
+  name: inbound-saml-config
+  namespace: upbound-system

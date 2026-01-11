@@ -1,0 +1,33 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: healthcare.gcp.upbound.io/v1beta1
+kind: ConsentStore
+metadata:
+  annotations:
+    meta.upbound.io/example-id: healthcare/v1beta1/consentstore
+  labels:
+    testing.upbound.io/example-name: consent-store
+  name: consent-store
+spec:
+  forProvider:
+    name: consent-store
+    datasetSelector:
+      matchLabels:
+        testing.upbound.io/example-name: consent-store
+
+---
+
+apiVersion: healthcare.gcp.upbound.io/v1beta1
+kind: Dataset
+metadata:
+  annotations:
+    meta.upbound.io/example-id: healthcare/v1beta1/consentstore
+  labels:
+    testing.upbound.io/example-name: consent-store
+  name: consent-store
+spec:
+  forProvider:
+    name: consent-store
+    location: us-central1

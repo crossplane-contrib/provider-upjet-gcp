@@ -1,0 +1,18 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: provider-gcp
+  description: "Official GCP Provider for Crossplane by Upbound"
+  links:
+    - url: https://marketplace.upbound.io/providers/upbound/provider-gcp/latest/docs/quickstart
+      title: Provider GCP Quickstart
+  annotations:
+    github.com/project-slug: upbound/provider-gcp
+spec:
+  type: service
+  lifecycle: production
+  owner: team-extensions

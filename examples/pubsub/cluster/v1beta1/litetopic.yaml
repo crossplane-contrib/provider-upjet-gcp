@@ -1,0 +1,59 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: pubsub.gcp.upbound.io/v1beta1
+kind: LiteTopic
+metadata:
+  annotations:
+    meta.upbound.io/example-id: pubsub/v1beta1/litetopic
+  labels:
+    testing.upbound.io/example-name: lite-topic
+  name: lite-topic-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    zone: us-central1-a
+    partitionConfig:
+    - capacity:
+      - publishMibPerSec: 4
+        subscribeMibPerSec: 8
+      count: 1
+    retentionConfig:
+    - perPartitionBytes: "32212254720"
+
+---
+
+apiVersion: pubsub.gcp.upbound.io/v1beta1
+kind: LiteTopic
+metadata:
+  annotations:
+    meta.upbound.io/example-id: pubsub/v1beta1/litetopic
+  labels:
+    testing.upbound.io/example-name: lite-topic-reservation
+  name: lite-topic-reservation-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    zone: us-central1-a
+    partitionConfig:
+    - count: 1
+    reservationConfig:
+    - throughputReservationSelector:
+        matchLabels:
+          testing.upbound.io/example-name: lite-topic-reservation
+    retentionConfig:
+    - perPartitionBytes: "32212254720"
+
+---
+
+apiVersion: pubsub.gcp.upbound.io/v1beta1
+kind: LiteReservation
+metadata:
+  annotations:
+    meta.upbound.io/example-id: pubsub/v1beta1/litetopic
+  labels:
+    testing.upbound.io/example-name: lite-topic-reservation
+  name: lite-topic-reservation-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    region: us-central1
+    throughputCapacity: 2

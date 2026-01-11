@@ -1,0 +1,32 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: HaVPNGateway
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/havpngateway
+  labels:
+    testing.upbound.io/example-name: ha-vpn-gateway
+  name: ha-vpn-gateway
+spec:
+  forProvider:
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: ha-vpn-gateway
+    region: us-central1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/havpngateway
+  labels:
+    testing.upbound.io/example-name: ha-vpn-gateway
+  name: ha-vpn-gateway
+spec:
+  forProvider:
+    autoCreateSubnetworks: false

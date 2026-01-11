@@ -1,0 +1,64 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+version: '2023-01-30'
+discriminant: spec.credentials.source
+sources:
+  - name: Upbound
+    docs: |
+      # OpenID Connect (OIDC)
+      
+      Using OIDC to authenticate to GCP eliminates the need to store credentials
+      in this control plane. Instead, you will need to add Upbound as an identity
+      provider in your GCP account, and then add it to an enabled identity pool. Go 
+      through the following steps to add the identity provider.
+      
+      ## Creating an Identity Pool
+      
+      1. Open the IAM console at [https://console.cloud.google.com/iam-admin/iam](https://console.cloud.google.com/iam-admin/iam).
+      2. Select [Workload Identity Federation](https://console.cloud.google.com/iam-admin/workload-identity-pools)
+      3. Select **Create Pool** and name it, for example `upbound-oidc-pool`.
+      4. **Enable** the pool.
+      
+      ## Add Upbound IdP to the pool
+      
+      1. Select **Add a provider to pool** and then select **OpenID Connect (OIDC)** with the following details.
+      ```
+      Provider Name: upbound-oidc-provider
+      Provider ID: upbound-oidc-provider (by default, this will be the same as the provider name)
+      Issuer (URL): https://proidc.upbound.io
+      ```
+      2. Select **Allowed audiences** and add `sts.googleapis.com` for **Audience 1**.
+      
+      ## Optional: Configure provider attributes and conditions
+      
+      When Upbound authenticates to GCP it provides an OIDC subject (`sub`) of a managed control plane:
+      `mcp:<account>/<mcp-name>:provider:<provider-name>`. GCP allows specifying conditions via CEL for
+      more fine-grained control of your access scopes.
+      
+      1. In **Attribute Mapping**, configure `google.subject` to `assertion.sub`.
+      2. Select **Attribute Conditions** > **Add Condition**. For example, to authenticate any control plane in the organization:
+      ```
+      google.subject.contains("mcp:<ORGANIZATION_NAME>")
+      ```
+
+      ## Create and grant access to service account
+      
+      To access GCP resources, pool identities will need to be granted access to a service account.
+      The service account email will be used to create the ProviderConfig.
+
+      Create the service account by following the steps in [Create a GCP Service Account](https://docs.upbound.io/quickstart/gcp-deploy/#create-a-gcp-service-account).
+
+      To add the service account to the Workload Identity pool:
+
+      1. Return to the Workload Identity Federation page and select your pool.
+      2. Near the top of the page select Grant Access.
+      3. Select the new service account, upbound-service-account.
+      4. Under Select principals use All identities in the pool.
+
+      See the [Upbound documentation](https://docs.upbound.io/all-spaces/legacy-spaces/multicloud-deploy/#connect-to-gcp-with-oidc)
+      for more information on configuring OIDC with Upbound and GCP.
+    showFields:
+      - spec.credentials.upbound
+      - spec.projectID

@@ -1,0 +1,68 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: dialogflowcx.gcp.upbound.io/v1beta1
+kind: Environment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dialogflowcx/v1beta1/environment
+  labels:
+    testing.upbound.io/example-name: environment
+  name: environment
+spec:
+  forProvider:
+    description: Development Environment
+    displayName: Development
+    parentSelector:
+      matchLabels:
+        testing.upbound.io/example-name: environment
+    versionConfigs:
+    - versionSelector:
+        matchLabels:
+          testing.upbound.io/example-name: environment
+
+---
+
+apiVersion: dialogflowcx.gcp.upbound.io/v1beta1
+kind: Agent
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dialogflowcx/v1beta1/environment
+  labels:
+    testing.upbound.io/example-name: environment
+  name: environment
+spec:
+  forProvider:
+    avatarUri: https://cloud.google.com/_static/images/cloud/icons/favicons/onecloud/super_cloud.png
+    defaultLanguageCode: en
+    description: Example description.
+    displayName: environment
+    enableSpellCorrection: true
+    enableStackdriverLogging: true
+    location: global
+    speechToTextSettings:
+    - enableSpeechAdaptation: true
+    supportedLanguageCodes:
+    - fr
+    - de
+    - es
+    timeZone: America/New_York
+
+---
+
+apiVersion: dialogflowcx.gcp.upbound.io/v1beta1
+kind: Version
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dialogflowcx/v1beta1/environment
+  labels:
+    testing.upbound.io/example-name: environment
+  name: environment
+spec:
+  forProvider:
+    description: version 1.0.0
+    displayName: 1.0.0
+    parentSelector:
+      matchLabels:
+        testing.upbound.io/example-name: environment

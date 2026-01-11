@@ -1,0 +1,51 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: kms.gcp.upbound.io/v1beta2
+kind: CryptoKeyIAMMember
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1beta2/cryptokeyiammember
+  labels:
+    testing.upbound.io/example-name: crypto-key-iam-member
+  name: crypto-key-iam-member
+spec:
+  forProvider:
+    cryptoKeyIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: crypto-key-iam-member
+    member: ${data.google_iam_member.member}
+    role: roles/editor
+
+---
+
+apiVersion: kms.gcp.upbound.io/v1beta2
+kind: CryptoKey
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1beta2/cryptokeyiammember
+  labels:
+    testing.upbound.io/example-name: crypto-key-iam-member
+  name: crypto-key-iam-member-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    destroyScheduledDuration: 86400s
+    keyRingSelector:
+      matchLabels:
+        testing.upbound.io/example-name: crypto-key-iam-member
+    rotationPeriod: 100000s
+
+---
+
+apiVersion: kms.gcp.upbound.io/v1beta1
+kind: KeyRing
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1beta2/cryptokeyiammember
+  labels:
+    testing.upbound.io/example-name: crypto-key-iam-member
+  name: crypto-key-iam-member-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    location: global

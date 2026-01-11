@@ -1,0 +1,59 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: dialogflowcx.gcp.upbound.io/v1beta1
+kind: Intent
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dialogflowcx/v1beta1/intent
+  labels:
+    testing.upbound.io/example-name: intent
+  name: intent
+spec:
+  forProvider:
+    description: Intent example
+    displayName: Example
+    labels:
+      label1: value1
+      label2: value2
+    parameters:
+    - entityType: projects/-/locations/-/agents/-/entityTypes/sys.date
+      id: param1
+    parentSelector:
+      matchLabels:
+        testing.upbound.io/example-name: intent
+    priority: 1
+    trainingPhrases:
+    - parts:
+      - text: training
+      - text: phrase
+      - text: example
+      repeatCount: 1
+
+---
+
+apiVersion: dialogflowcx.gcp.upbound.io/v1beta1
+kind: Agent
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dialogflowcx/v1beta1/intent
+  labels:
+    testing.upbound.io/example-name: intent
+  name: intent
+spec:
+  forProvider:
+    avatarUri: https://cloud.google.com/_static/images/cloud/icons/favicons/onecloud/super_cloud.png
+    defaultLanguageCode: en
+    description: Example description.
+    displayName: intent
+    enableSpellCorrection: true
+    enableStackdriverLogging: true
+    location: global
+    speechToTextSettings:
+    - enableSpeechAdaptation: true
+    supportedLanguageCodes:
+    - fr
+    - de
+    - es
+    timeZone: America/New_York

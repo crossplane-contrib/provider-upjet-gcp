@@ -1,0 +1,193 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+name: End to End Testing
+
+on:
+  issue_comment:
+    types: [created]
+
+env:
+  GO_VERSION: "1.24"
+
+jobs:
+  check-permissions:
+    runs-on: ubuntu-latest
+    outputs:
+      permission: ${{ steps.check-permissions.outputs.permission }}
+    steps:
+      - name: Get Commenter Permissions
+        id: check-permissions
+        run: |
+          echo "Trigger keyword: '/test-examples'"
+          echo "Go version: ${{ env.GO_VERSION }}"
+
+          REPO=${{ github.repository }}
+          COMMENTER=${{ github.event.comment.user.login }}
+
+          # Fetch the commenter's repo-level permission grant
+          GRANTED=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/$REPO/collaborators/$COMMENTER/permission" | jq -r .permission)
+
+          # Make it accessible in the workflow via a job output -- cannot use env
+          echo "User $COMMENTER has $GRANTED permissions"
+          echo "permission=$GRANTED" >> "$GITHUB_OUTPUT"
+
+  get-example-list:
+    needs: check-permissions
+    if: ${{ (needs.check-permissions.outputs.permission == 'admin' || needs.check-permissions.outputs.permission == 'write') && github.event.issue.pull_request != null && contains(github.event.comment.body, '/test-examples')}}
+    runs-on: ubuntu-latest
+    outputs:
+      example_list: ${{ steps.get-example-list-name.outputs.example-list }}
+      example_hash: ${{ steps.get-example-list-name.outputs.example-hash }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          submodules: true
+
+      - name: Checkout PR
+        id: checkout-pr
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr checkout ${{ github.event.issue.number }}
+          git submodule update --init --recursive
+          OUTPUT=$(git log -1 --format='%H')
+          echo "commit-sha=$OUTPUT" >> $GITHUB_OUTPUT
+
+      - name: Prepare The Example List
+        env:
+          COMMENT: ${{ github.event.comment.body }}
+        id: get-example-list-name
+        run: |
+          PATHS=$(echo $COMMENT | sed 's/^.*\/test-examples="//g' | cut -d '"' -f 1 | sed 's/,/ /g')
+          EXAMPLE_LIST=""
+          for P in $PATHS; do EXAMPLE_LIST="${EXAMPLE_LIST},$(find $P -name '*.yaml' | tr '\n' ',')"; done
+
+          sudo apt-get -y install coreutils
+          COUNT=$(echo ${EXAMPLE_LIST:1} | grep -o ".yaml" | wc -l)
+          if [ $COUNT -gt 1 ]; then EXAMPLE_HASH=$(echo ${EXAMPLE_LIST} | md5sum | cut -f1 -d" "); else EXAMPLE_HASH=$(echo ${EXAMPLE_LIST:1} | sed 's/.$//'); fi
+
+          echo "Examples: ${EXAMPLE_LIST:1}"
+          echo "Example Hash: ${EXAMPLE_HASH}"
+
+          echo "example-list=${EXAMPLE_LIST:1}" >> $GITHUB_OUTPUT
+          echo "example-hash=${EXAMPLE_HASH}" >> $GITHUB_OUTPUT
+
+      - name: Create Pending Status Check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            /repos/${{ github.repository }}/statuses/${{ steps.checkout-pr.outputs.commit-sha }} \
+            -f state='pending' \
+            -f target_url='https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}' \
+            -f description='Running...' \
+            -f context="Uptest-${{ steps.get-example-list-name.outputs.example-hash }}"
+
+  uptest:
+    needs:
+      - check-permissions
+      - get-example-list
+    if: ${{ (needs.check-permissions.outputs.permission == 'admin' || needs.check-permissions.outputs.permission == 'write') && github.event.issue.pull_request != null && contains(github.event.comment.body, '/test-examples')}}
+    runs-on: ${{ (github.repository_owner == 'crossplane-contrib' && 'oracle-vm-16cpu-64gb-x86-64' || 'Ubuntu-Jumbo-Runner') }}
+
+    steps:
+      - name: Cleanup Disk
+        uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be # v1.3.1
+        with:
+          large-packages: false
+          swap-storage: false
+
+      - name: Setup QEMU
+        uses: docker/setup-qemu-action@29109295f81e9208d7d86ff1c6c12d2833863392 # v3.6.0
+        with:
+          platforms: all
+
+      - name: Checkout
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          submodules: true
+
+      - name: Setup Go
+        uses: actions/setup-go@d35c59abb061a4a6fb18e82ac0862c26744d6ab5 # v5.5.0
+        with:
+          go-version: ${{ env.GO_VERSION }}
+
+      - name: Checkout PR
+        id: checkout-pr
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr checkout ${{ github.event.issue.number }}
+          git submodule update --init --recursive
+          OUTPUT=$(git log -1 --format='%H')
+          echo "commit-sha=$OUTPUT" >> $GITHUB_OUTPUT
+
+      - name: Vendor Dependencies
+        run: make vendor vendor.check
+
+      - name: Run Uptest
+        id: run-uptest
+        env:
+          UPTEST_CLOUD_CREDENTIALS: ${{ secrets.UPTEST_CLOUD_CREDENTIALS }}
+          UPTEST_EXAMPLE_LIST: ${{ needs.get-example-list.outputs.example_list }}
+          UPTEST_TEST_DIR: ./_output/controlplane-dump
+          UPTEST_DATASOURCE_PATH: .work/uptest-datasource.yaml
+          UPTEST_UPDATE_PARAMETER: ""
+        run: |
+          mkdir -p .work && echo "${{ secrets.UPTEST_DATASOURCE }}" > .work/uptest-datasource.yaml
+          make e2e
+
+      - name: Create Successful Status Check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          EXAMPLE_HASH: ${{ needs.get-example-list.outputs.example_hash }}
+        run: |
+          gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            /repos/${{ github.repository }}/statuses/${{ steps.checkout-pr.outputs.commit-sha }} \
+            -f state='success' \
+            -f target_url='https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}' \
+            -f description='Passed' \
+            -f context="Uptest-${EXAMPLE_HASH}"
+
+      - name: Collect Cluster Dump
+        if: always()
+        run: |
+          make controlplane.dump
+
+      - name: Upload Cluster Dump
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: controlplane-dump
+          path: ./_output/controlplane-dump
+
+      - name: Cleanup
+        if: always()
+        run: |
+          eval $(make --no-print-directory build.vars)
+          ${KUBECTL} delete managed --all || true
+
+      - name: Create Unsuccessful Status Check
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          EXAMPLE_HASH: ${{ needs.get-example-list.outputs.example_hash }}
+        run: |
+          gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            /repos/${{ github.repository }}/statuses/${{ steps.checkout-pr.outputs.commit-sha }} \
+            -f state='failure' \
+            -f target_url='https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}' \
+            -f description='Failed' \
+            -f context="Uptest-${EXAMPLE_HASH}"

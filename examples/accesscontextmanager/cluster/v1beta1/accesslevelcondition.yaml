@@ -1,0 +1,90 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: accesscontextmanager.gcp.upbound.io/v1beta1
+kind: AccessLevelCondition
+metadata:
+  annotations:
+    meta.upbound.io/example-id: accesscontextmanager/v1beta1/accesslevelcondition
+    upjet.upbound.io/manual-intervention: "Requires organization level IAM permissions"
+  labels:
+    testing.upbound.io/example-name: access-level-conditions
+  name: access-level-conditions
+spec:
+  forProvider:
+    accessLevelSelector:
+      matchLabels:
+        testing.upbound.io/example-name: access-level-service-account
+    devicePolicy:
+    - osConstraints:
+      - osType: DESKTOP_CHROME_OS
+      requireAdminApproval: false
+      requireCorpOwned: true
+      requireScreenLock: false
+    ipSubnetworks:
+    - 192.0.4.0/24
+    members:
+    - user:test@google.com
+    - user:test2@google.com
+    - serviceAccount:${google_service_account.created-later.email}
+    negate: false
+    regions:
+    - IT
+    - US
+
+---
+
+apiVersion: accesscontextmanager.gcp.upbound.io/v1beta1
+kind: AccessLevel
+metadata:
+  annotations:
+    meta.upbound.io/example-id: accesscontextmanager/v1beta1/accesslevelcondition
+    upjet.upbound.io/manual-intervention: "Requires organization level IAM permissions"
+  labels:
+    testing.upbound.io/example-name: access-level-service-account
+  name: access-level-service-account
+spec:
+  forProvider:
+    basic:
+    - conditions:
+      - devicePolicy:
+        - osConstraints:
+          - osType: DESKTOP_CHROME_OS
+          requireScreenLock: true
+        regions:
+        - CH
+        - IT
+        - US
+    name: accessPolicies/${google_access_context_manager_access_policy.access-policy.name}/accessLevels/chromeos_no_lock
+    parent: accessPolicies/${google_access_context_manager_access_policy.access-policy.name}
+    title: chromeos_no_lock
+
+---
+
+apiVersion: accesscontextmanager.gcp.upbound.io/v1beta1
+kind: AccessPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: accesscontextmanager/v1beta1/accesslevelcondition
+    upjet.upbound.io/manual-intervention: "Requires organization level IAM permissions"
+  labels:
+    testing.upbound.io/example-name: access-policy
+  name: access-policy
+spec:
+  forProvider:
+    parent: organizations/123456789
+    title: my policy
+
+---
+
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: ServiceAccount
+metadata:
+  annotations:
+    meta.upbound.io/example-id: accesscontextmanager/v1beta1/accesslevelcondition
+  labels:
+    testing.upbound.io/example-name: created-later
+  name: created-later
+spec:
+  forProvider: {}

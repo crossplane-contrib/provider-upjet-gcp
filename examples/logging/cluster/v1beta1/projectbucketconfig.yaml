@@ -1,0 +1,19 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: logging.gcp.upbound.io/v1beta1
+kind: ProjectBucketConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: logging/v1beta1/projectbucketconfig
+    upjet.upbound.io/manual-intervention: "ProjectBucketConfig requires a real Project ID"
+  labels:
+    testing.upbound.io/example-name: basic
+  name: basic
+spec:
+  forProvider:
+    bucketId: _Default
+    location: global
+    project: ${project_id}
+    retentionDays: 30

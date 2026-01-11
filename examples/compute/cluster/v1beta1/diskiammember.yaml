@@ -1,0 +1,39 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: DiskIAMMember
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/diskiammember
+  labels:
+    testing.upbound.io/example-name: disk-iam-member
+  name: disk-iam-member
+spec:
+  forProvider:
+    nameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: disk-iam-member
+    zone: us-central1-a
+    role: "roles/viewer"
+    member: "${data.google_iam_member.member}"
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Disk
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/diskiammember
+  labels:
+    testing.upbound.io/example-name: disk-iam-member
+  name: disk-iam-member
+spec:
+  forProvider:
+    image: debian-11-bullseye-v20220719
+    labels:
+      environment: dev
+    physicalBlockSizeBytes: 4096
+    type: pd-ssd
+    zone: us-central1-a

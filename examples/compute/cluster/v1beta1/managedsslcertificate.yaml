@@ -1,0 +1,18 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: ManagedSSLCertificate
+metadata:
+  annotations:
+    upjet.upbound.io/manual-intervention: "The provisioning process can complete only when the domain name for which the certificate is created points to a target pool which, itself, points at the certificate"
+    meta.upbound.io/example-id: compute/v1beta1/managedsslcertificate
+  labels:
+    testing.upbound.io/example-name: managed-ssl-certificate
+  name: managed-ssl-certificate
+spec:
+  forProvider:
+    managed:
+    - domains:
+      - test.example.com.

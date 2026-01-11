@@ -1,0 +1,18 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: sql.gcp.upbound.io/v1beta1
+kind: Database
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sql/v1beta1/database
+  labels:
+    testing.upbound.io/example-name: example_database
+  # ${Rand...} is not valid YAML and is used with automated testing
+  name: example-database-${Rand.RFC1123Subdomain} 
+spec:
+  forProvider:
+    instanceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example_instance

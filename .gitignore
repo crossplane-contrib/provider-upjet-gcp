@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 /.cache
 /.work
 /_output
@@ -6,10 +10,13 @@ cover.out
 /.vendor-new
 .DS_Store
 .history
+kubeconfig
 
 # ignore IDE folders
 .vscode/
 .idea/
+.devcontainer.json
+.devcontainer/
 
 # packages
 *.xpkg

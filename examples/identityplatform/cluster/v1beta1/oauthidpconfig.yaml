@@ -1,0 +1,41 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: identityplatform.gcp.upbound.io/v1beta1
+kind: OAuthIdPConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: identityplatform/v1beta1/oauthidpconfig
+  labels:
+    testing.upbound.io/example-name: oauth-idp-config
+  name: oauth-idp-config
+spec:
+  forProvider:
+    name: oidc.oauth-idp-config
+    clientIdSecretRef:
+      key: clientId
+      name: oauth-idp-config
+      namespace: upbound-system
+    clientSecretSecretRef:
+      key: clientSecret
+      name: oauth-idp-config
+      namespace: upbound-system
+    displayName: Display Name
+    enabled: true
+    issuer: issuer
+
+---
+
+apiVersion: v1
+data:
+  clientId: dXBib3VuZA==
+  clientSecret: MTIzNDU=
+kind: Secret
+metadata:
+  annotations:
+    meta.upbound.io/example-id: identityplatform/v1beta1/oauthidpconfig
+  labels:
+    testing.upbound.io/example-name: oauth-idp-config
+  name: oauth-idp-config
+  namespace: upbound-system

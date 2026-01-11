@@ -1,0 +1,116 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: TargetGRPCProxy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/targetgrpcproxy
+  labels:
+    testing.upbound.io/example-name: target-grpc-proxy
+  name: target-grpc-proxy
+spec:
+  forProvider:
+    urlMapSelector:
+      matchLabels:
+        testing.upbound.io/example-name: target-grpc-proxy
+    validateForProxyless: true
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: URLMap
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/targetgrpcproxy
+  labels:
+    testing.upbound.io/example-name: target-grpc-proxy
+  name: target-grpc-proxy
+spec:
+  forProvider:
+    defaultServiceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: target-grpc-proxy
+    description: a description
+    hostRule:
+    - hosts:
+      - mysite.com
+      pathMatcher: allpaths
+    pathMatcher:
+    - defaultServiceSelector:
+        matchLabels:
+          testing.upbound.io/example-name: target-grpc-proxy
+      name: allpaths
+      routeRules:
+      - headerAction:
+        - requestHeadersToAdd:
+          - headerName: AddSomethingElse
+            headerValue: MyOtherValue
+            replace: true
+          requestHeadersToRemove:
+          - RemoveMe2
+          responseHeadersToAdd:
+          - headerName: AddMe
+            headerValue: MyValue
+            replace: false
+          responseHeadersToRemove:
+          - RemoveMe3
+        matchRules:
+        - fullPathMatch: a full path
+          headerMatches:
+          - exactMatch: match this exactly
+            headerName: someheader
+            invertMatch: true
+          ignoreCase: true
+          metadataFilters:
+          - filterLabels:
+            - name: PLANET
+              value: MARS
+            filterMatchCriteria: MATCH_ANY
+          queryParameterMatches:
+          - name: a query parameter
+            presentMatch: true
+        priority: 1
+        urlRedirect:
+        - hostRedirect: A host
+          httpsRedirect: false
+          pathRedirect: some/path
+          redirectResponseCode: TEMPORARY_REDIRECT
+          stripQuery: true
+    test:
+    - host: hi.com
+      path: /home
+      serviceSelector:
+        matchLabels:
+          testing.upbound.io/example-name: target-grpc-proxy
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: BackendBucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/targetgrpcproxy
+  labels:
+    testing.upbound.io/example-name: target-grpc-proxy
+  name: target-grpc-proxy
+spec:
+  forProvider:
+    bucketNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: target-grpc-proxy
+
+---
+
+apiVersion: storage.gcp.upbound.io/v1beta1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: storage/v1beta1/targetgrpcproxy
+  labels:
+    testing.upbound.io/example-name: target-grpc-proxy
+  name: target-grpc-proxy-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    location: US

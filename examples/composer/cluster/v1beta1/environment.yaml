@@ -1,0 +1,20 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: composer.gcp.upbound.io/v1beta1
+kind: Environment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: composer/v1beta1/environment
+  labels:
+    testing.upbound.io/example-name: composer-environment
+  name: composer-environment
+spec:
+  forProvider:
+    region: us-central1
+    config:
+      - softwareConfig:
+          - imageVersion: "composer-3-airflow-2.10.5"
+        nodeConfig:
+          - serviceAccount: official-provider-testing@official-provider-testing.iam.gserviceaccount.com

@@ -1,0 +1,91 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: datacatalog.gcp.upbound.io/v1beta1
+kind: Tag
+metadata:
+  annotations:
+    meta.upbound.io/example-id: datacatalog/v1beta1/tag
+  labels:
+    testing.upbound.io/example-name: basic_tag
+  name: basic-tag
+spec:
+  forProvider:
+    fields:
+    - fieldName: "source"
+      stringValue: "my-string"
+    parentSelector:
+      matchLabels:
+        testing.upbound.io/example-name: entry
+    templateSelector:
+      matchLabels:
+        testing.upbound.io/example-name: basic_tag_template
+
+---
+
+apiVersion: datacatalog.gcp.upbound.io/v1beta1
+kind: Entry
+metadata:
+  annotations:
+    meta.upbound.io/example-id: datacatalog/v1beta1/tag
+  labels:
+    testing.upbound.io/example-name: entry
+  name: entry
+spec:
+  forProvider:
+    entryGroupSelector:
+      matchLabels:
+        testing.upbound.io/example-name: entry
+    entryId: entry
+    userSpecifiedSystem: SomethingExternal
+    userSpecifiedType: my_custom_type
+
+---
+
+apiVersion: datacatalog.gcp.upbound.io/v1beta1
+kind: EntryGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: datacatalog/v1beta1/tag
+  labels:
+    testing.upbound.io/example-name: entry
+  name: entry
+spec:
+  forProvider:
+    entryGroupId: my_group
+    region: us-central1
+
+---
+
+apiVersion: datacatalog.gcp.upbound.io/v1beta1
+kind: TagTemplate
+metadata:
+  annotations:
+    meta.upbound.io/example-id: datacatalog/v1beta1/tag
+  labels:
+    testing.upbound.io/example-name: basic_tag_template
+  name: basictagtemplate
+spec:
+  forProvider:
+    displayName: "Demo Tag Template"
+    fields:
+      - displayName: "Source of data asset"
+        fieldId: "source"
+        isRequired: true
+        type:
+          - primitiveType: "STRING"
+      - displayName: "Number of rows in the data asset"
+        fieldId: "num_rows"
+        type:
+          - primitiveType: "DOUBLE"
+      - displayName: "PII type"
+        fieldId: "pii_type"
+        type:
+          - enumType:
+              - allowedValues:
+                  - displayName: "EMAIL"
+                  - displayName: "SOCIAL SECURITY NUMBER"
+                  - displayName: "NONE"
+    forceDelete: true
+    region: us-central1

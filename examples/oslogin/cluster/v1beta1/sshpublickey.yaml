@@ -1,0 +1,33 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: oslogin.gcp.upbound.io/v1beta1
+kind: SSHPublicKey
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oslogin/v1beta1/sshpublickey
+  labels:
+    testing.upbound.io/example-name: ssh-public-key
+  name: ssh-public-key
+spec:
+  forProvider:
+    keySecretRef:
+      key: id_rsa.pub
+      name: ssh-public-key
+      namespace: upbound-system
+    user: ${data.google_iam_member.op-user}
+
+---
+
+apiVersion: v1
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oslogin/v1beta1/sshpublickey
+  labels:
+    testing.upbound.io/example-name: ssh-public-key
+  name: ssh-public-key
+  namespace: upbound-system
+data:
+  id_rsa.pub: LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQklqQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FROEFNSUlCQ2dLQ0FRRUF4SnF6SU03UmxmanFsL3R5RkFSRQovRXgyak8wSFNSVm9vdXcwclZUWlRDVERVdzVKSjNGWkRFTVJ3REkyUmlQVWg2OHFxNml3N1JFRlI0WUMzQTVXCk5CSFVpb2pYNkNCazZXYzA4TFlSV3dPejNac2VBQ0M0MG5wdmNNbXQyN0l5VDkrbHV4Y0tRSW9WaVRINTZmaTUKcDdBa21Jc2tjTTdXbWNtSjllRmlIV1dpQjZUQmZlQU5rVGYxR2RURW03K09jQlVSc0cwbmh4c2NWVmNQU05nYQo5WHFrSk5PZEloK2NTQi9DSkxoa1d2Z1BEQko5K1I4TkpxRXF6Q0ZwMTRuQlo1eE11ODFPTU9vZ0tKY0NQSFFCClZOcGlqS3Q4emYvcC9zOG9qMnNKblJKcDM1UWtNRFpQazVxWmlkVmI0bDZhN3hpL1Z4RUUybm5xV2tVTTU3UkgKdXdJREFRQUIKLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tCg==
+kind: Secret

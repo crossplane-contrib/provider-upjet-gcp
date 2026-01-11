@@ -1,0 +1,17 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: healthcare.gcp.upbound.io/v1beta1
+kind: Dataset
+metadata:
+  annotations:
+    meta.upbound.io/example-id: healthcare/v1beta1/dataset
+  labels:
+    testing.upbound.io/example-name: dataset
+  name: dataset
+spec:
+  forProvider:
+    name: dataset
+    location: us-central1
+    timeZone: UTC

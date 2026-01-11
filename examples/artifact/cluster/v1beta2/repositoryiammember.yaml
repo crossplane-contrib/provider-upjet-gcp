@@ -1,0 +1,35 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: artifact.gcp.upbound.io/v1beta2
+kind: RegistryRepositoryIAMMember
+metadata:
+  annotations:
+    meta.upbound.io/example-id: artifact/v1beta2/registryrepositoryiammember
+  labels:
+    testing.upbound.io/example-name: registry_repository_iam_member
+  name: registry-repository-iam-member
+spec:
+  forProvider:
+    location: us-central1
+    member: user:john@example.com
+    repository: my-repo
+    role: roles/viewer
+
+---
+
+apiVersion: artifact.gcp.upbound.io/v1beta2
+kind: RegistryRepository
+metadata:
+  annotations:
+    meta.upbound.io/example-id: artifact/v1beta2/registryrepositoryiammember
+    uptest.upbound.io/pre-delete-hook: testhooks/delete-registryrepositoryiammember.sh
+  labels:
+    testing.upbound.io/example-name: my-repo
+  name: my-repo
+spec:
+  forProvider:
+    description: example docker repository
+    format: DOCKER
+    location: us-central1

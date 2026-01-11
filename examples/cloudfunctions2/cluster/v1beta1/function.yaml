@@ -1,0 +1,58 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: cloudfunctions2.gcp.upbound.io/v1beta1
+kind: Function
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudfunctions2/v1beta1/function
+    upjet.upbound.io/manual-intervention: "This resource requires a valid function-source.zip object in the created bucket resource."
+  labels:
+    testing.upbound.io/example-name: function
+  name: function
+spec:
+  forProvider:
+    buildConfig:
+    - entryPoint: "helloHttp"
+      runtime: "nodejs20"
+      dockerRepository: "projects/official-provider-testing/locations/us-central1/repositories/gcf-artifacts"
+      source:
+      - storageSource:
+        - bucketSelector:
+            matchLabels:
+              testing.upbound.io/example-name: bucket-func2-test
+          object: function-source.zip
+    location: us-central1
+
+---
+
+apiVersion: storage.gcp.upbound.io/v1beta1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudfunctions2/v1beta1/function
+    upjet.upbound.io/manual-intervention: "This resource requires a valid function-source.zip object."
+  labels:
+    testing.upbound.io/example-name: bucket-func2-test
+  name: bucket-func2-test
+spec:
+  forProvider:
+    cors:
+      - maxAgeSeconds: 3600
+        method:
+          - GET
+          - HEAD
+          - PUT
+          - POST
+          - DELETE
+        origin:
+          - http://image-store.com
+        responseHeader:
+          - '*'
+    forceDestroy: true
+    location: US
+    uniformBucketLevelAccess: true
+    website:
+      - mainPageSuffix: index.html
+        notFoundPage: 404.html

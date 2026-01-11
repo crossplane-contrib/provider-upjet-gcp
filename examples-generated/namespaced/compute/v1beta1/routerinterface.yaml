@@ -1,0 +1,24 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: RouterInterface
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/routerinterface
+  labels:
+    testing.upbound.io/example-name: foobar
+  name: foobar
+  namespace: upbound-system
+spec:
+  forProvider:
+    ipRange: 169.254.1.1/30
+    name: interface-1
+    region: us-central1
+    routerSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    vpnTunnelSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

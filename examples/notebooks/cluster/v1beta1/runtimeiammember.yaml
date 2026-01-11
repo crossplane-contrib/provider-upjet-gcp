@@ -1,0 +1,46 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: notebooks.gcp.upbound.io/v1beta1
+kind: RuntimeIAMMember
+metadata:
+  annotations:
+    meta.upbound.io/example-id: notebooks/v1beta1/runtimeiammember
+  labels:
+    testing.upbound.io/example-name: runtime-iam-member
+  name: runtime-iam-member
+spec:
+  forProvider:
+    member: "${data.google_iam_member.member}"
+    role: "roles/viewer"
+    location: us-central1
+    runtimeNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: runtime-iam-member
+
+---
+
+apiVersion: notebooks.gcp.upbound.io/v1beta1
+kind: Runtime
+metadata:
+  annotations:
+    meta.upbound.io/example-id: notebooks/v1beta1/runtimeiammember
+  labels:
+    testing.upbound.io/example-name: runtime-iam-member
+  name: runtime-iam-member
+spec:
+  forProvider:
+    accessConfig:
+    - accessType: SERVICE_ACCOUNT
+      runtimeOwner: "${data.google_iam_member.op-user}"
+    location: us-central1
+    virtualMachine:
+    - virtualMachineConfig:
+      - dataDisk:
+        - initializeParams:
+          - diskSizeGb: 100
+            diskType: PD_STANDARD
+        machineType: n1-standard-4
+    softwareConfig:
+      - enableHealthMonitoring: true

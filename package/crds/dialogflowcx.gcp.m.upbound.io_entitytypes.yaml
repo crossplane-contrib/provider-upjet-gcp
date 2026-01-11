@@ -1,0 +1,585 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.18.0
+  name: entitytypes.dialogflowcx.gcp.m.upbound.io
+spec:
+  group: dialogflowcx.gcp.m.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - gcp
+    kind: EntityType
+    listKind: EntityTypeList
+    plural: entitytypes
+    singular: entitytype
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: EntityType is the Schema for the EntityTypes API. Entities are
+          extracted from user input and represent parameters that are meaningful to
+          your application.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: EntityTypeSpec defines the desired state of EntityType
+            properties:
+              forProvider:
+                properties:
+                  autoExpansionMode:
+                    description: Represents kinds of entities.
+                    type: string
+                  displayName:
+                    description: The human-readable name of the entity type, unique
+                      within the agent.
+                    type: string
+                  enableFuzzyExtraction:
+                    description: Enables fuzzy entity extraction during classification.
+                    type: boolean
+                  entities:
+                    description: |-
+                      The collection of entity entries associated with the entity type.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        synonyms:
+                          description: |-
+                            A collection of value synonyms. For example, if the entity type is vegetable, and value is scallions, a synonym could be green onions.
+                            For KIND_LIST entity types: This collection must contain exactly one synonym equal to value.
+                          items:
+                            type: string
+                          type: array
+                        value:
+                          description: |-
+                            The primary value associated with this entity entry. For example, if the entity type is vegetable, the value could be scallions.
+                            For KIND_MAP entity types: A canonical value to be used in place of synonyms.
+                            For KIND_LIST entity types: A string that can contain references to other entity types (with or without aliases).
+                          type: string
+                      type: object
+                    type: array
+                  excludedPhrases:
+                    description: |-
+                      Collection of exceptional words and phrases that shouldn't be matched. For example, if you have a size entity type with entry giant(an adjective), you might consider adding giants(a noun) as an exclusion.
+                      If the kind of entity type is KIND_MAP, then the phrases specified by entities and excluded phrases should be mutually exclusive.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        value:
+                          description: The word or phrase to be excluded.
+                          type: string
+                      type: object
+                    type: array
+                  kind:
+                    description: Indicates whether the entity type can be automatically
+                      expanded.
+                    type: string
+                  languageCode:
+                    description: |-
+                      The language of the following fields in entityType:
+                      EntityType.entities.value
+                      EntityType.entities.synonyms
+                      EntityType.excluded_phrases.value
+                      If not specified, the agent's default language is used. Many languages are supported. Note: languages must be enabled in the agent before they can be used.
+                    type: string
+                  parent:
+                    description: |-
+                      The agent to create a entity type for.
+                      Format: projects//locations//agents/.
+                    type: string
+                  parentRef:
+                    description: Reference to a Agent in dialogflowcx to populate
+                      parent.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      namespace:
+                        description: Namespace of the referenced object
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  parentSelector:
+                    description: Selector for a Agent in dialogflowcx to populate
+                      parent.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  redact:
+                    description: Indicates whether parameters of the entity type should
+                      be redacted in log. If redaction is enabled, page parameters
+                      and intent parameters referring to the entity type will be replaced
+                      by parameter name when logging.
+                    type: boolean
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  autoExpansionMode:
+                    description: Represents kinds of entities.
+                    type: string
+                  displayName:
+                    description: The human-readable name of the entity type, unique
+                      within the agent.
+                    type: string
+                  enableFuzzyExtraction:
+                    description: Enables fuzzy entity extraction during classification.
+                    type: boolean
+                  entities:
+                    description: |-
+                      The collection of entity entries associated with the entity type.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        synonyms:
+                          description: |-
+                            A collection of value synonyms. For example, if the entity type is vegetable, and value is scallions, a synonym could be green onions.
+                            For KIND_LIST entity types: This collection must contain exactly one synonym equal to value.
+                          items:
+                            type: string
+                          type: array
+                        value:
+                          description: |-
+                            The primary value associated with this entity entry. For example, if the entity type is vegetable, the value could be scallions.
+                            For KIND_MAP entity types: A canonical value to be used in place of synonyms.
+                            For KIND_LIST entity types: A string that can contain references to other entity types (with or without aliases).
+                          type: string
+                      type: object
+                    type: array
+                  excludedPhrases:
+                    description: |-
+                      Collection of exceptional words and phrases that shouldn't be matched. For example, if you have a size entity type with entry giant(an adjective), you might consider adding giants(a noun) as an exclusion.
+                      If the kind of entity type is KIND_MAP, then the phrases specified by entities and excluded phrases should be mutually exclusive.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        value:
+                          description: The word or phrase to be excluded.
+                          type: string
+                      type: object
+                    type: array
+                  kind:
+                    description: Indicates whether the entity type can be automatically
+                      expanded.
+                    type: string
+                  languageCode:
+                    description: |-
+                      The language of the following fields in entityType:
+                      EntityType.entities.value
+                      EntityType.entities.synonyms
+                      EntityType.excluded_phrases.value
+                      If not specified, the agent's default language is used. Many languages are supported. Note: languages must be enabled in the agent before they can be used.
+                    type: string
+                  parent:
+                    description: |-
+                      The agent to create a entity type for.
+                      Format: projects//locations//agents/.
+                    type: string
+                  parentRef:
+                    description: Reference to a Agent in dialogflowcx to populate
+                      parent.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      namespace:
+                        description: Namespace of the referenced object
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  parentSelector:
+                    description: Selector for a Agent in dialogflowcx to populate
+                      parent.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  redact:
+                    description: Indicates whether parameters of the entity type should
+                      be redacted in log. If redaction is enabled, page parameters
+                      and intent parameters referring to the entity type will be replaced
+                      by parameter name when logging.
+                    type: boolean
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  kind: ClusterProviderConfig
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  kind:
+                    description: Kind of the referenced object.
+                    type: string
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - kind
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                required:
+                - name
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.displayName is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.displayName)
+                || (has(self.initProvider) && has(self.initProvider.displayName))'
+            - message: spec.forProvider.entities is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.entities)
+                || (has(self.initProvider) && has(self.initProvider.entities))'
+            - message: spec.forProvider.kind is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.kind)
+                || (has(self.initProvider) && has(self.initProvider.kind))'
+          status:
+            description: EntityTypeStatus defines the observed state of EntityType.
+            properties:
+              atProvider:
+                properties:
+                  autoExpansionMode:
+                    description: Represents kinds of entities.
+                    type: string
+                  displayName:
+                    description: The human-readable name of the entity type, unique
+                      within the agent.
+                    type: string
+                  enableFuzzyExtraction:
+                    description: Enables fuzzy entity extraction during classification.
+                    type: boolean
+                  entities:
+                    description: |-
+                      The collection of entity entries associated with the entity type.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        synonyms:
+                          description: |-
+                            A collection of value synonyms. For example, if the entity type is vegetable, and value is scallions, a synonym could be green onions.
+                            For KIND_LIST entity types: This collection must contain exactly one synonym equal to value.
+                          items:
+                            type: string
+                          type: array
+                        value:
+                          description: |-
+                            The primary value associated with this entity entry. For example, if the entity type is vegetable, the value could be scallions.
+                            For KIND_MAP entity types: A canonical value to be used in place of synonyms.
+                            For KIND_LIST entity types: A string that can contain references to other entity types (with or without aliases).
+                          type: string
+                      type: object
+                    type: array
+                  excludedPhrases:
+                    description: |-
+                      Collection of exceptional words and phrases that shouldn't be matched. For example, if you have a size entity type with entry giant(an adjective), you might consider adding giants(a noun) as an exclusion.
+                      If the kind of entity type is KIND_MAP, then the phrases specified by entities and excluded phrases should be mutually exclusive.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        value:
+                          description: The word or phrase to be excluded.
+                          type: string
+                      type: object
+                    type: array
+                  id:
+                    description: an identifier for the resource with format {{parent}}/entityTypes/{{name}}
+                    type: string
+                  kind:
+                    description: Indicates whether the entity type can be automatically
+                      expanded.
+                    type: string
+                  languageCode:
+                    description: |-
+                      The language of the following fields in entityType:
+                      EntityType.entities.value
+                      EntityType.entities.synonyms
+                      EntityType.excluded_phrases.value
+                      If not specified, the agent's default language is used. Many languages are supported. Note: languages must be enabled in the agent before they can be used.
+                    type: string
+                  name:
+                    description: |-
+                      The unique identifier of the entity type.
+                      Format: projects//locations//agents//entityTypes/.
+                    type: string
+                  parent:
+                    description: |-
+                      The agent to create a entity type for.
+                      Format: projects//locations//agents/.
+                    type: string
+                  redact:
+                    description: Indicates whether parameters of the entity type should
+                      be redacted in log. If redaction is enabled, page parameters
+                      and intent parameters referring to the entity type will be replaced
+                      by parameter name when logging.
+                    type: boolean
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

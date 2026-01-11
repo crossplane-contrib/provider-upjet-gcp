@@ -1,0 +1,15 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: sourcerepo.gcp.upbound.io/v1beta1
+kind: Repository
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sourcerepo/v1beta1/repository
+    upjet.upbound.io/manual-intervention: "Requires enabling `Cloud Source Repositories API` and granting `Source Repository Administrator` role"
+  labels:
+    testing.upbound.io/example-name: my-repo12345
+  name: my-repo12345
+spec:
+  forProvider: {}

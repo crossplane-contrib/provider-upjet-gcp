@@ -1,0 +1,18 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: FirewallPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/firewallpolicy
+    upjet.upbound.io/manual-intervention: "Required organizational level permissions for compute.firewallPolicies.create"
+  labels:
+    testing.upbound.io/example-name: firewall-policy
+  name: firewall-policy
+spec:
+  forProvider:
+    description: Example Resource
+    parent: organizations/1234567
+    shortName: firewall-policy

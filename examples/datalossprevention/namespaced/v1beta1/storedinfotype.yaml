@@ -1,0 +1,23 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: datalossprevention.gcp.m.upbound.io/v1beta1
+kind: StoredInfoType
+metadata:
+  annotations:
+    meta.upbound.io/example-id: datalossprevention/v1beta1/storedinfotype
+    upjet.upbound.io/manual-intervention: The resource requires a real Project ID
+  labels:
+    testing.upbound.io/example-name: basic
+  name: basic
+  namespace: upbound-system
+spec:
+  forProvider:
+    description: Description
+    displayName: Displayname
+    parent: projects/&{project_id}
+    regex:
+      groupIndexes:
+        - 2
+      pattern: patient

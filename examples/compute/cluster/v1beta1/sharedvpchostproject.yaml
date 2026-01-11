@@ -1,0 +1,47 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: SharedVPCHostProject
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/sharedvpchostproject
+  labels:
+    testing.upbound.io/example-name: host
+  name: host
+spec:
+  forProvider:
+    project: ${data.cloudplatform_project.projectId}
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: SharedVPCServiceProject
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/sharedvpchostproject
+    upjet.upbound.io/manual-intervention: "The dependent resource needs organization-level permissions"
+  labels:
+    testing.upbound.io/example-name: service1
+  name: service1
+spec:
+  forProvider:
+    hostProject: host-project-id
+    serviceProject: service-project-id-1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: SharedVPCServiceProject
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/sharedvpchostproject
+    upjet.upbound.io/manual-intervention: "The dependent resource needs organization-level permissions"
+  labels:
+    testing.upbound.io/example-name: service2
+  name: service2
+spec:
+  forProvider:
+    hostProject: host-project-id
+    serviceProject: service-project-id-2

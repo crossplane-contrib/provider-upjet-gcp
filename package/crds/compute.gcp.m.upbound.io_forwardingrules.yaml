@@ -1,0 +1,1696 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.18.0
+  name: forwardingrules.compute.gcp.m.upbound.io
+spec:
+  group: compute.gcp.m.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - gcp
+    kind: ForwardingRule
+    listKind: ForwardingRuleList
+    plural: forwardingrules
+    singular: forwardingrule
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: ForwardingRule is the Schema for the ForwardingRules API. A ForwardingRule
+          resource.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: ForwardingRuleSpec defines the desired state of ForwardingRule
+            properties:
+              forProvider:
+                properties:
+                  allPorts:
+                    description: |-
+                      The ports, portRange, and allPorts fields are mutually exclusive.
+                      Only packets addressed to ports in the specified range will be forwarded
+                      to the backends configured with this forwarding rule.
+                      The allPorts field has the following limitations:
+                    type: boolean
+                  allowGlobalAccess:
+                    description: |-
+                      This field is used along with the backend_service field for
+                      internal load balancing or with the target field for internal
+                      TargetInstance.
+                      If the field is set to TRUE, clients can access ILB from all
+                      regions.
+                      Otherwise only allows access from clients in the same region as the
+                      internal load balancer.
+                    type: boolean
+                  allowPscGlobalAccess:
+                    description: This is used in PSC consumer ForwardingRule to control
+                      whether the PSC endpoint can be accessed from another region.
+                    type: boolean
+                  backendService:
+                    description: |-
+                      Identifies the backend service to which the forwarding rule sends traffic.
+                      Required for Internal TCP/UDP Load Balancing and Network Load Balancing;
+                      must be omitted for all other load balancer types.
+                    type: string
+                  backendServiceRef:
+                    description: Reference to a RegionBackendService in compute to
+                      populate backendService.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      namespace:
+                        description: Namespace of the referenced object
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  backendServiceSelector:
+                    description: Selector for a RegionBackendService in compute to
+                      populate backendService.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  description:
+                    description: |-
+                      An optional description of this resource. Provide this property when
+                      you create the resource.
+                    type: string
+                  ipAddress:
+                    description: |-
+                      IP address for which this forwarding rule accepts traffic. When a client
+                      sends traffic to this IP address, the forwarding rule directs the traffic
+                      to the referenced target or backendService.
+                      While creating a forwarding rule, specifying an IPAddress is
+                      required under the following circumstances:
+                    type: string
+                  ipAddressRef:
+                    description: Reference to a Address in compute to populate ipAddress.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      namespace:
+                        description: Namespace of the referenced object
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  ipAddressSelector:
+                    description: Selector for a Address in compute to populate ipAddress.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  ipCollection:
+                    description: |-
+                      Resource reference of a PublicDelegatedPrefix. The PDP must be a sub-PDP
+                      in EXTERNAL_IPV6_FORWARDING_RULE_CREATION mode.
+                      Use one of the following formats to specify a sub-PDP when creating an
+                      IPv6 NetLB forwarding rule using BYOIP:
+                      Full resource URL, as in:
+                    type: string
+                  ipProtocol:
+                    description: |-
+                      The IP protocol to which this rule applies.
+                      For protocol forwarding, valid
+                      options are TCP, UDP, ESP,
+                      AH, SCTP, ICMP and
+                      L3_DEFAULT.
+                      The valid IP protocols are different for different load balancing products
+                      as described in Load balancing
+                      features.
+                      A Forwarding Rule with protocol L3_DEFAULT can attach with target instance or
+                      backend service with UNSPECIFIED protocol.
+                      A forwarding rule with "L3_DEFAULT" IPProtocal cannot be attached to a backend service with TCP or UDP.
+                      Possible values are: TCP, UDP, ESP, AH, SCTP, ICMP, L3_DEFAULT.
+                    type: string
+                  ipVersion:
+                    description: |-
+                      The IP address version that will be used by this forwarding rule.
+                      Valid options are IPV4 and IPV6.
+                      If not set, the IPv4 address will be used by default.
+                      Possible values are: IPV4, IPV6.
+                    type: string
+                  isMirroringCollector:
+                    description: |-
+                      Indicates whether or not this load balancer can be used as a collector for
+                      packet mirroring. To prevent mirroring loops, instances behind this
+                      load balancer will not have their traffic mirrored even if a
+                      PacketMirroring rule applies to them.
+                      This can only be set to true for load balancers that have their
+                      loadBalancingScheme set to INTERNAL.
+                    type: boolean
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: Labels to apply to this forwarding rule.  A list
+                      of key->value pairs.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  loadBalancingScheme:
+                    description: |-
+                      Specifies the forwarding rule type.
+                      Note that an empty string value ("") is also supported for some use
+                      cases, for example PSC (private service connection) regional forwarding
+                      rules.
+                      For more information about forwarding rules, refer to
+                      Forwarding rule concepts.
+                      Default value is EXTERNAL.
+                      Possible values are: EXTERNAL, EXTERNAL_MANAGED, INTERNAL, INTERNAL_MANAGED.
+                    type: string
+                  network:
+                    description: |-
+                      This field is not used for external load balancing.
+                      For Internal TCP/UDP Load Balancing, this field identifies the network that
+                      the load balanced IP should belong to for this Forwarding Rule.
+                      If the subnetwork is specified, the network of the subnetwork will be used.
+                      If neither subnetwork nor this field is specified, the default network will
+                      be used.
+                      For Private Service Connect forwarding rules that forward traffic to Google
+                      APIs, a network must be provided.
+                    type: string
+                  networkRef:
+                    description: Reference to a Network in compute to populate network.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      namespace:
+                        description: Namespace of the referenced object
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  networkSelector:
+                    description: Selector for a Network in compute to populate network.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  networkTier:
+                    description: |-
+                      This signifies the networking tier used for configuring
+                      this load balancer and can only take the following values:
+                      PREMIUM, STANDARD.
+                      For regional ForwardingRule, the valid values are PREMIUM and
+                      STANDARD. For GlobalForwardingRule, the valid value is
+                      PREMIUM.
+                      If this field is not specified, it is assumed to be PREMIUM.
+                      If IPAddress is specified, this value must be equal to the
+                      networkTier of the Address.
+                      Possible values are: PREMIUM, STANDARD.
+                    type: string
+                  noAutomateDnsZone:
+                    description: This is used in PSC consumer ForwardingRule to control
+                      whether it should try to auto-generate a DNS zone or not. Non-PSC
+                      forwarding rules do not use this field.
+                    type: boolean
+                  portRange:
+                    description: |-
+                      The ports, portRange, and allPorts fields are mutually exclusive.
+                      Only packets addressed to ports in the specified range will be forwarded
+                      to the backends configured with this forwarding rule.
+                      The portRange field has the following limitations:
+                    type: string
+                  ports:
+                    description: |-
+                      The ports, portRange, and allPorts fields are mutually exclusive.
+                      Only packets addressed to ports in the specified range will be forwarded
+                      to the backends configured with this forwarding rule.
+                      The ports field has the following limitations:
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  recreateClosedPsc:
+                    description: this is used in psc consumer forwardingrule to make
+                      provider recreate the forwardingrule when the status is closed
+                    type: boolean
+                  region:
+                    description: |-
+                      A reference to the region where the regional forwarding rule resides.
+                      This field is not applicable to global forwarding rules.
+                    type: string
+                  serviceDirectoryRegistrations:
+                    description: |-
+                      Service Directory resources to register this forwarding rule with.
+                      Currently, only supports a single Service Directory resource.
+                      Structure is documented below.
+                    properties:
+                      namespace:
+                        description: Service Directory namespace to register the forwarding
+                          rule under.
+                        type: string
+                      service:
+                        description: Service Directory service to register the forwarding
+                          rule under.
+                        type: string
+                    type: object
+                  serviceLabel:
+                    description: |-
+                      An optional prefix to the service name for this Forwarding Rule.
+                      If specified, will be the first label of the fully qualified service
+                      name.
+                      The label must be 1-63 characters long, and comply with RFC1035.
+                      Specifically, the label must be 1-63 characters long and match the
+                      regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the first
+                      character must be a lowercase letter, and all following characters
+                      must be a dash, lowercase letter, or digit, except the last
+                      character, which cannot be a dash.
+                      This field is only used for INTERNAL load balancing.
+                    type: string
+                  sourceIpRanges:
+                    description: If not empty, this Forwarding Rule will only forward
+                      the traffic when the source IP address matches one of the IP
+                      addresses or CIDR ranges set here. Note that a Forwarding Rule
+                      can only have up to 64 source IP ranges, and this field can
+                      only be used with a regional Forwarding Rule whose scheme is
+                      EXTERNAL. Each sourceIpRange entry should be either an IP address
+                      (for example, 1.2.3.4) or a CIDR range (for example, 1.2.3.0/24).
+                    items:
+                      type: string
+                    type: array
+                  subnetwork:
+                    description: |-
+                      This field identifies the subnetwork that the load balanced IP should
+                      belong to for this Forwarding Rule, used in internal load balancing and
+                      network load balancing with IPv6.
+                      If the network specified is in auto subnet mode, this field is optional.
+                      However, a subnetwork must be specified if the network is in custom subnet
+                      mode or when creating external forwarding rule with IPv6.
+                    type: string
+                  subnetworkRef:
+                    description: Reference to a Subnetwork in compute to populate
+                      subnetwork.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      namespace:
+                        description: Namespace of the referenced object
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  subnetworkSelector:
+                    description: Selector for a Subnetwork in compute to populate
+                      subnetwork.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  target:
+                    description: |-
+                      is set to targetGrpcProxy and
+                      validateForProxyless is set to true, the
+                      IPAddress should be set to 0.0.0.0.
+                    type: string
+                  targetRef:
+                    description: Reference to a RegionTargetHTTPProxy in compute to
+                      populate target.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      namespace:
+                        description: Namespace of the referenced object
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  targetSelector:
+                    description: Selector for a RegionTargetHTTPProxy in compute to
+                      populate target.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                required:
+                - region
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  allPorts:
+                    description: |-
+                      The ports, portRange, and allPorts fields are mutually exclusive.
+                      Only packets addressed to ports in the specified range will be forwarded
+                      to the backends configured with this forwarding rule.
+                      The allPorts field has the following limitations:
+                    type: boolean
+                  allowGlobalAccess:
+                    description: |-
+                      This field is used along with the backend_service field for
+                      internal load balancing or with the target field for internal
+                      TargetInstance.
+                      If the field is set to TRUE, clients can access ILB from all
+                      regions.
+                      Otherwise only allows access from clients in the same region as the
+                      internal load balancer.
+                    type: boolean
+                  allowPscGlobalAccess:
+                    description: This is used in PSC consumer ForwardingRule to control
+                      whether the PSC endpoint can be accessed from another region.
+                    type: boolean
+                  backendService:
+                    description: |-
+                      Identifies the backend service to which the forwarding rule sends traffic.
+                      Required for Internal TCP/UDP Load Balancing and Network Load Balancing;
+                      must be omitted for all other load balancer types.
+                    type: string
+                  backendServiceRef:
+                    description: Reference to a RegionBackendService in compute to
+                      populate backendService.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      namespace:
+                        description: Namespace of the referenced object
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  backendServiceSelector:
+                    description: Selector for a RegionBackendService in compute to
+                      populate backendService.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  description:
+                    description: |-
+                      An optional description of this resource. Provide this property when
+                      you create the resource.
+                    type: string
+                  ipAddress:
+                    description: |-
+                      IP address for which this forwarding rule accepts traffic. When a client
+                      sends traffic to this IP address, the forwarding rule directs the traffic
+                      to the referenced target or backendService.
+                      While creating a forwarding rule, specifying an IPAddress is
+                      required under the following circumstances:
+                    type: string
+                  ipAddressRef:
+                    description: Reference to a Address in compute to populate ipAddress.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      namespace:
+                        description: Namespace of the referenced object
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  ipAddressSelector:
+                    description: Selector for a Address in compute to populate ipAddress.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  ipCollection:
+                    description: |-
+                      Resource reference of a PublicDelegatedPrefix. The PDP must be a sub-PDP
+                      in EXTERNAL_IPV6_FORWARDING_RULE_CREATION mode.
+                      Use one of the following formats to specify a sub-PDP when creating an
+                      IPv6 NetLB forwarding rule using BYOIP:
+                      Full resource URL, as in:
+                    type: string
+                  ipProtocol:
+                    description: |-
+                      The IP protocol to which this rule applies.
+                      For protocol forwarding, valid
+                      options are TCP, UDP, ESP,
+                      AH, SCTP, ICMP and
+                      L3_DEFAULT.
+                      The valid IP protocols are different for different load balancing products
+                      as described in Load balancing
+                      features.
+                      A Forwarding Rule with protocol L3_DEFAULT can attach with target instance or
+                      backend service with UNSPECIFIED protocol.
+                      A forwarding rule with "L3_DEFAULT" IPProtocal cannot be attached to a backend service with TCP or UDP.
+                      Possible values are: TCP, UDP, ESP, AH, SCTP, ICMP, L3_DEFAULT.
+                    type: string
+                  ipVersion:
+                    description: |-
+                      The IP address version that will be used by this forwarding rule.
+                      Valid options are IPV4 and IPV6.
+                      If not set, the IPv4 address will be used by default.
+                      Possible values are: IPV4, IPV6.
+                    type: string
+                  isMirroringCollector:
+                    description: |-
+                      Indicates whether or not this load balancer can be used as a collector for
+                      packet mirroring. To prevent mirroring loops, instances behind this
+                      load balancer will not have their traffic mirrored even if a
+                      PacketMirroring rule applies to them.
+                      This can only be set to true for load balancers that have their
+                      loadBalancingScheme set to INTERNAL.
+                    type: boolean
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: Labels to apply to this forwarding rule.  A list
+                      of key->value pairs.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  loadBalancingScheme:
+                    description: |-
+                      Specifies the forwarding rule type.
+                      Note that an empty string value ("") is also supported for some use
+                      cases, for example PSC (private service connection) regional forwarding
+                      rules.
+                      For more information about forwarding rules, refer to
+                      Forwarding rule concepts.
+                      Default value is EXTERNAL.
+                      Possible values are: EXTERNAL, EXTERNAL_MANAGED, INTERNAL, INTERNAL_MANAGED.
+                    type: string
+                  network:
+                    description: |-
+                      This field is not used for external load balancing.
+                      For Internal TCP/UDP Load Balancing, this field identifies the network that
+                      the load balanced IP should belong to for this Forwarding Rule.
+                      If the subnetwork is specified, the network of the subnetwork will be used.
+                      If neither subnetwork nor this field is specified, the default network will
+                      be used.
+                      For Private Service Connect forwarding rules that forward traffic to Google
+                      APIs, a network must be provided.
+                    type: string
+                  networkRef:
+                    description: Reference to a Network in compute to populate network.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      namespace:
+                        description: Namespace of the referenced object
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  networkSelector:
+                    description: Selector for a Network in compute to populate network.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  networkTier:
+                    description: |-
+                      This signifies the networking tier used for configuring
+                      this load balancer and can only take the following values:
+                      PREMIUM, STANDARD.
+                      For regional ForwardingRule, the valid values are PREMIUM and
+                      STANDARD. For GlobalForwardingRule, the valid value is
+                      PREMIUM.
+                      If this field is not specified, it is assumed to be PREMIUM.
+                      If IPAddress is specified, this value must be equal to the
+                      networkTier of the Address.
+                      Possible values are: PREMIUM, STANDARD.
+                    type: string
+                  noAutomateDnsZone:
+                    description: This is used in PSC consumer ForwardingRule to control
+                      whether it should try to auto-generate a DNS zone or not. Non-PSC
+                      forwarding rules do not use this field.
+                    type: boolean
+                  portRange:
+                    description: |-
+                      The ports, portRange, and allPorts fields are mutually exclusive.
+                      Only packets addressed to ports in the specified range will be forwarded
+                      to the backends configured with this forwarding rule.
+                      The portRange field has the following limitations:
+                    type: string
+                  ports:
+                    description: |-
+                      The ports, portRange, and allPorts fields are mutually exclusive.
+                      Only packets addressed to ports in the specified range will be forwarded
+                      to the backends configured with this forwarding rule.
+                      The ports field has the following limitations:
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  recreateClosedPsc:
+                    description: this is used in psc consumer forwardingrule to make
+                      provider recreate the forwardingrule when the status is closed
+                    type: boolean
+                  serviceDirectoryRegistrations:
+                    description: |-
+                      Service Directory resources to register this forwarding rule with.
+                      Currently, only supports a single Service Directory resource.
+                      Structure is documented below.
+                    properties:
+                      namespace:
+                        description: Service Directory namespace to register the forwarding
+                          rule under.
+                        type: string
+                      service:
+                        description: Service Directory service to register the forwarding
+                          rule under.
+                        type: string
+                    type: object
+                  serviceLabel:
+                    description: |-
+                      An optional prefix to the service name for this Forwarding Rule.
+                      If specified, will be the first label of the fully qualified service
+                      name.
+                      The label must be 1-63 characters long, and comply with RFC1035.
+                      Specifically, the label must be 1-63 characters long and match the
+                      regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the first
+                      character must be a lowercase letter, and all following characters
+                      must be a dash, lowercase letter, or digit, except the last
+                      character, which cannot be a dash.
+                      This field is only used for INTERNAL load balancing.
+                    type: string
+                  sourceIpRanges:
+                    description: If not empty, this Forwarding Rule will only forward
+                      the traffic when the source IP address matches one of the IP
+                      addresses or CIDR ranges set here. Note that a Forwarding Rule
+                      can only have up to 64 source IP ranges, and this field can
+                      only be used with a regional Forwarding Rule whose scheme is
+                      EXTERNAL. Each sourceIpRange entry should be either an IP address
+                      (for example, 1.2.3.4) or a CIDR range (for example, 1.2.3.0/24).
+                    items:
+                      type: string
+                    type: array
+                  subnetwork:
+                    description: |-
+                      This field identifies the subnetwork that the load balanced IP should
+                      belong to for this Forwarding Rule, used in internal load balancing and
+                      network load balancing with IPv6.
+                      If the network specified is in auto subnet mode, this field is optional.
+                      However, a subnetwork must be specified if the network is in custom subnet
+                      mode or when creating external forwarding rule with IPv6.
+                    type: string
+                  subnetworkRef:
+                    description: Reference to a Subnetwork in compute to populate
+                      subnetwork.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      namespace:
+                        description: Namespace of the referenced object
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  subnetworkSelector:
+                    description: Selector for a Subnetwork in compute to populate
+                      subnetwork.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  target:
+                    description: |-
+                      is set to targetGrpcProxy and
+                      validateForProxyless is set to true, the
+                      IPAddress should be set to 0.0.0.0.
+                    type: string
+                  targetRef:
+                    description: Reference to a RegionTargetHTTPProxy in compute to
+                      populate target.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      namespace:
+                        description: Namespace of the referenced object
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  targetSelector:
+                    description: Selector for a RegionTargetHTTPProxy in compute to
+                      populate target.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  kind: ClusterProviderConfig
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  kind:
+                    description: Kind of the referenced object.
+                    type: string
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - kind
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                required:
+                - name
+                type: object
+            required:
+            - forProvider
+            type: object
+          status:
+            description: ForwardingRuleStatus defines the observed state of ForwardingRule.
+            properties:
+              atProvider:
+                properties:
+                  allPorts:
+                    description: |-
+                      The ports, portRange, and allPorts fields are mutually exclusive.
+                      Only packets addressed to ports in the specified range will be forwarded
+                      to the backends configured with this forwarding rule.
+                      The allPorts field has the following limitations:
+                    type: boolean
+                  allowGlobalAccess:
+                    description: |-
+                      This field is used along with the backend_service field for
+                      internal load balancing or with the target field for internal
+                      TargetInstance.
+                      If the field is set to TRUE, clients can access ILB from all
+                      regions.
+                      Otherwise only allows access from clients in the same region as the
+                      internal load balancer.
+                    type: boolean
+                  allowPscGlobalAccess:
+                    description: This is used in PSC consumer ForwardingRule to control
+                      whether the PSC endpoint can be accessed from another region.
+                    type: boolean
+                  backendService:
+                    description: |-
+                      Identifies the backend service to which the forwarding rule sends traffic.
+                      Required for Internal TCP/UDP Load Balancing and Network Load Balancing;
+                      must be omitted for all other load balancer types.
+                    type: string
+                  baseForwardingRule:
+                    description: '[Output Only] The URL for the corresponding base
+                      Forwarding Rule. By base Forwarding Rule, we mean the Forwarding
+                      Rule that has the same IP address, protocol, and port settings
+                      with the current Forwarding Rule, but without sourceIPRanges
+                      specified. Always empty if the current Forwarding Rule does
+                      not have sourceIPRanges specified.'
+                    type: string
+                  creationTimestamp:
+                    description: Creation timestamp in RFC3339 text format.
+                    type: string
+                  description:
+                    description: |-
+                      An optional description of this resource. Provide this property when
+                      you create the resource.
+                    type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  forwardingRuleId:
+                    description: The unique identifier number for the resource. This
+                      identifier is defined by the server.
+                    type: number
+                  id:
+                    description: an identifier for the resource with format projects/{{project}}/regions/{{region}}/forwardingRules/{{name}}
+                    type: string
+                  ipAddress:
+                    description: |-
+                      IP address for which this forwarding rule accepts traffic. When a client
+                      sends traffic to this IP address, the forwarding rule directs the traffic
+                      to the referenced target or backendService.
+                      While creating a forwarding rule, specifying an IPAddress is
+                      required under the following circumstances:
+                    type: string
+                  ipCollection:
+                    description: |-
+                      Resource reference of a PublicDelegatedPrefix. The PDP must be a sub-PDP
+                      in EXTERNAL_IPV6_FORWARDING_RULE_CREATION mode.
+                      Use one of the following formats to specify a sub-PDP when creating an
+                      IPv6 NetLB forwarding rule using BYOIP:
+                      Full resource URL, as in:
+                    type: string
+                  ipProtocol:
+                    description: |-
+                      The IP protocol to which this rule applies.
+                      For protocol forwarding, valid
+                      options are TCP, UDP, ESP,
+                      AH, SCTP, ICMP and
+                      L3_DEFAULT.
+                      The valid IP protocols are different for different load balancing products
+                      as described in Load balancing
+                      features.
+                      A Forwarding Rule with protocol L3_DEFAULT can attach with target instance or
+                      backend service with UNSPECIFIED protocol.
+                      A forwarding rule with "L3_DEFAULT" IPProtocal cannot be attached to a backend service with TCP or UDP.
+                      Possible values are: TCP, UDP, ESP, AH, SCTP, ICMP, L3_DEFAULT.
+                    type: string
+                  ipVersion:
+                    description: |-
+                      The IP address version that will be used by this forwarding rule.
+                      Valid options are IPV4 and IPV6.
+                      If not set, the IPv4 address will be used by default.
+                      Possible values are: IPV4, IPV6.
+                    type: string
+                  isMirroringCollector:
+                    description: |-
+                      Indicates whether or not this load balancer can be used as a collector for
+                      packet mirroring. To prevent mirroring loops, instances behind this
+                      load balancer will not have their traffic mirrored even if a
+                      PacketMirroring rule applies to them.
+                      This can only be set to true for load balancers that have their
+                      loadBalancingScheme set to INTERNAL.
+                    type: boolean
+                  labelFingerprint:
+                    description: |-
+                      The fingerprint used for optimistic locking of this resource.  Used
+                      internally during updates.
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: Labels to apply to this forwarding rule.  A list
+                      of key->value pairs.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  loadBalancingScheme:
+                    description: |-
+                      Specifies the forwarding rule type.
+                      Note that an empty string value ("") is also supported for some use
+                      cases, for example PSC (private service connection) regional forwarding
+                      rules.
+                      For more information about forwarding rules, refer to
+                      Forwarding rule concepts.
+                      Default value is EXTERNAL.
+                      Possible values are: EXTERNAL, EXTERNAL_MANAGED, INTERNAL, INTERNAL_MANAGED.
+                    type: string
+                  network:
+                    description: |-
+                      This field is not used for external load balancing.
+                      For Internal TCP/UDP Load Balancing, this field identifies the network that
+                      the load balanced IP should belong to for this Forwarding Rule.
+                      If the subnetwork is specified, the network of the subnetwork will be used.
+                      If neither subnetwork nor this field is specified, the default network will
+                      be used.
+                      For Private Service Connect forwarding rules that forward traffic to Google
+                      APIs, a network must be provided.
+                    type: string
+                  networkTier:
+                    description: |-
+                      This signifies the networking tier used for configuring
+                      this load balancer and can only take the following values:
+                      PREMIUM, STANDARD.
+                      For regional ForwardingRule, the valid values are PREMIUM and
+                      STANDARD. For GlobalForwardingRule, the valid value is
+                      PREMIUM.
+                      If this field is not specified, it is assumed to be PREMIUM.
+                      If IPAddress is specified, this value must be equal to the
+                      networkTier of the Address.
+                      Possible values are: PREMIUM, STANDARD.
+                    type: string
+                  noAutomateDnsZone:
+                    description: This is used in PSC consumer ForwardingRule to control
+                      whether it should try to auto-generate a DNS zone or not. Non-PSC
+                      forwarding rules do not use this field.
+                    type: boolean
+                  portRange:
+                    description: |-
+                      The ports, portRange, and allPorts fields are mutually exclusive.
+                      Only packets addressed to ports in the specified range will be forwarded
+                      to the backends configured with this forwarding rule.
+                      The portRange field has the following limitations:
+                    type: string
+                  ports:
+                    description: |-
+                      The ports, portRange, and allPorts fields are mutually exclusive.
+                      Only packets addressed to ports in the specified range will be forwarded
+                      to the backends configured with this forwarding rule.
+                      The ports field has the following limitations:
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  pscConnectionId:
+                    description: The PSC connection id of the PSC Forwarding Rule.
+                    type: string
+                  pscConnectionStatus:
+                    description: 'The PSC connection status of the PSC Forwarding
+                      Rule. Possible values: STATUS_UNSPECIFIED, PENDING, ACCEPTED,
+                      REJECTED, CLOSED'
+                    type: string
+                  recreateClosedPsc:
+                    description: this is used in psc consumer forwardingrule to make
+                      provider recreate the forwardingrule when the status is closed
+                    type: boolean
+                  region:
+                    description: |-
+                      A reference to the region where the regional forwarding rule resides.
+                      This field is not applicable to global forwarding rules.
+                    type: string
+                  selfLink:
+                    description: The URI of the created resource.
+                    type: string
+                  serviceDirectoryRegistrations:
+                    description: |-
+                      Service Directory resources to register this forwarding rule with.
+                      Currently, only supports a single Service Directory resource.
+                      Structure is documented below.
+                    properties:
+                      namespace:
+                        description: Service Directory namespace to register the forwarding
+                          rule under.
+                        type: string
+                      service:
+                        description: Service Directory service to register the forwarding
+                          rule under.
+                        type: string
+                    type: object
+                  serviceLabel:
+                    description: |-
+                      An optional prefix to the service name for this Forwarding Rule.
+                      If specified, will be the first label of the fully qualified service
+                      name.
+                      The label must be 1-63 characters long, and comply with RFC1035.
+                      Specifically, the label must be 1-63 characters long and match the
+                      regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the first
+                      character must be a lowercase letter, and all following characters
+                      must be a dash, lowercase letter, or digit, except the last
+                      character, which cannot be a dash.
+                      This field is only used for INTERNAL load balancing.
+                    type: string
+                  serviceName:
+                    description: |-
+                      The internal fully qualified service name for this Forwarding Rule.
+                      This field is only used for INTERNAL load balancing.
+                    type: string
+                  sourceIpRanges:
+                    description: If not empty, this Forwarding Rule will only forward
+                      the traffic when the source IP address matches one of the IP
+                      addresses or CIDR ranges set here. Note that a Forwarding Rule
+                      can only have up to 64 source IP ranges, and this field can
+                      only be used with a regional Forwarding Rule whose scheme is
+                      EXTERNAL. Each sourceIpRange entry should be either an IP address
+                      (for example, 1.2.3.4) or a CIDR range (for example, 1.2.3.0/24).
+                    items:
+                      type: string
+                    type: array
+                  subnetwork:
+                    description: |-
+                      This field identifies the subnetwork that the load balanced IP should
+                      belong to for this Forwarding Rule, used in internal load balancing and
+                      network load balancing with IPv6.
+                      If the network specified is in auto subnet mode, this field is optional.
+                      However, a subnetwork must be specified if the network is in custom subnet
+                      mode or when creating external forwarding rule with IPv6.
+                    type: string
+                  target:
+                    description: |-
+                      is set to targetGrpcProxy and
+                      validateForProxyless is set to true, the
+                      IPAddress should be set to 0.0.0.0.
+                    type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

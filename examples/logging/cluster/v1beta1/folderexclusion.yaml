@@ -1,0 +1,35 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: logging.gcp.upbound.io/v1beta1
+kind: FolderExclusion
+metadata:
+  annotations:
+    meta.upbound.io/example-id: logging/v1beta1/folderexclusion
+    upjet.upbound.io/manual-intervention: "This resource depends on Folder.cloudplatform with the required organization level IAM permissions"
+  labels:
+    testing.upbound.io/example-name: my-exclusion
+  name: my-exclusion
+spec:
+  forProvider:
+    description: Exclude GCE instance debug logs
+    filter: resource.type = gce_instance AND severity <= DEBUG
+    folderSelector:
+      matchLabels:
+        testing.upbound.io/example-name: my-folder
+
+---
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: Folder
+metadata:
+  annotations:
+    meta.upbound.io/example-id: logging/v1beta1/folderexclusion
+    upjet.upbound.io/manual-intervention: "Requires organization level IAM permissions"
+  labels:
+    testing.upbound.io/example-name: my-folder
+  name: my-folder
+spec:
+  forProvider:
+    displayName: My folder
+    parent: organizations/{org_id}

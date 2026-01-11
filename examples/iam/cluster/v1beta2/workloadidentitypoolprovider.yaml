@@ -1,0 +1,33 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: iam.gcp.upbound.io/v1beta2
+kind: WorkloadIdentityPoolProvider
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iam/v1beta2/workloadidentitypoolprovider
+  labels:
+    testing.upbound.io/example-name: identity-pool-provider
+  name: identity-pool-provider
+spec:
+  forProvider:
+    aws:
+      accountId: "999999999999"
+    workloadIdentityPoolIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: identity-pool
+
+---
+
+apiVersion: iam.gcp.upbound.io/v1beta1
+kind: WorkloadIdentityPool
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iam/v1beta2/workloadidentitypoolprovider
+    upjet.upbound.io/manual-intervention: Needs permissions for Pool creation
+  labels:
+    testing.upbound.io/example-name: identity-pool
+  name: identity-pool
+spec:
+  forProvider: {}

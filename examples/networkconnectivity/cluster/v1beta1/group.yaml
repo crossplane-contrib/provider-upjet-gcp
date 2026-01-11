@@ -1,0 +1,41 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: networkconnectivity.gcp.upbound.io/v1beta1
+kind: Group
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkconnectivity/v1beta1/group
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    autoAccept:
+      autoAcceptProjects:
+      - foo
+      - bar
+    description: A sample hub group
+    hubSelector:
+      matchLabels:
+        testing.upbound.io/example-name: basic_hub
+    labels:
+      label-one: value-one
+
+---
+
+apiVersion: networkconnectivity.gcp.upbound.io/v1beta1
+kind: Hub
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkconnectivity/v1beta1/group
+  labels:
+    testing.upbound.io/example-name: basic_hub
+  name: basic-hub
+spec:
+  forProvider:
+    description: A sample hub
+    labels:
+      label-one: value-one
+    name: network-connectivity-hub1

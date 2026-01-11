@@ -1,0 +1,23 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: dataflow.gcp.upbound.io/v1beta1
+kind: Job
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dataflow/v1beta1/job
+    upjet.upbound.io/manual-intervention: "This example resource needs an input file stored in a bucket"
+  labels:
+    testing.upbound.io/example-name: big_data_job
+  name: big-data-job
+spec:
+  forProvider:
+    name: dataflow-job
+    skipWaitOnJobTermination: true
+    region: us-central1
+    parameters:
+      inputFile: gs://my-bucket/file.txt
+      output: gs://my-bucket/output.txt
+    tempGcsLocation: gs://my-bucket/tmp_dir
+    templateGcsPath: gs://dataflow-templates/latest/Word_Count

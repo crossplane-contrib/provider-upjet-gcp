@@ -1,0 +1,93 @@
+apiVersion: apigee.gcp.upbound.io/v1beta1
+kind: AddonsConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/addonsconfig
+    upjet.upbound.io/manual-intervention: "This resource was skipped because the dependent Organization resource was skipped"
+  labels:
+    testing.upbound.io/example-name: apigee-addon-configs
+  name: apigee-addon-configs
+spec:
+  forProvider:
+    addonsConfig:
+      apiSecurityConfig:
+        enabled: true
+      monetizationConfig:
+        enabled: true
+    orgSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee-addon-configs
+
+---
+
+apiVersion: apigee.gcp.upbound.io/v1beta2
+kind: Organization
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/addonsconfig
+    upjet.upbound.io/manual-intervention: Organization requires a real Project ID
+  labels:
+    testing.upbound.io/example-name: apigee-addon-configs
+  name: apigee-addon-configs
+spec:
+  forProvider:
+    analyticsRegion: us-central1
+    authorizedNetworkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee-addon-configs
+    projectId: ${project.project_id}
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: GlobalAddress
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/addonsconfig
+    upjet.upbound.io/manual-intervention: "This resource was skipped because the dependent Organization resource was skipped"
+  labels:
+    testing.upbound.io/example-name: apigee-addon-configs
+  name: apigee-addon-configs
+spec:
+  forProvider:
+    addressType: INTERNAL
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee-addon-configs
+    prefixLength: 16
+    purpose: VPC_PEERING
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/addonsconfig
+    upjet.upbound.io/manual-intervention: "This resource was skipped because the dependent Organization resource was skipped"
+  labels:
+    testing.upbound.io/example-name: apigee-addon-configs
+  name: apigee-addon-configs
+spec:
+  forProvider: {}
+
+---
+
+apiVersion: servicenetworking.gcp.upbound.io/v1beta1
+kind: Connection
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/addonsconfig
+    upjet.upbound.io/manual-intervention: "This resource was skipped because the dependent Organization resource was skipped"
+  labels:
+    testing.upbound.io/example-name: apigee-addon-configs
+  name: apigee-addon-configs
+spec:
+  forProvider:
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee-addon-configs
+    reservedPeeringRangesSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee-addon-configs
+    service: servicenetworking.googleapis.com

@@ -1,0 +1,18 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: mlengine.gcp.upbound.io/v1beta1
+kind: Model
+metadata:
+  annotations:
+    meta.upbound.io/example-id: mlengine/v1beta1/model
+  labels:
+    testing.upbound.io/example-name: model
+  name: model
+spec:
+  forProvider:
+    description: My model
+    name: model
+    regions:
+      - us-central1
