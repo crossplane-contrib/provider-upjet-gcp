@@ -1,4 +1,4 @@
-FROM alpine:3.17.2
+FROM europe-west3-docker.pkg.dev/xxxl-artifact-repo/docker-hub-proxy/alpine:3.17.2
 RUN apk --no-cache add ca-certificates bash
 
 ARG TARGETOS
