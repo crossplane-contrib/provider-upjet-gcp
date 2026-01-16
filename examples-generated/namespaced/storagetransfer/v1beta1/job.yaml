@@ -1,0 +1,99 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: storagetransfer.gcp.m.upbound.io/v1beta1
+kind: Job
+metadata:
+  annotations:
+    meta.upbound.io/example-id: storagetransfer/v1beta1/job
+  labels:
+    testing.upbound.io/example-name: s3-bucket-nightly-backup
+  name: s3-bucket-nightly-backup
+  namespace: upbound-system
+spec:
+  forProvider:
+    description: Nightly backup of S3 bucket
+    loggingConfig:
+      logActionStates:
+      - SUCCEEDED
+      - FAILED
+      logActions:
+      - COPY
+      - DELETE
+    notificationConfig:
+      eventTypes:
+      - TRANSFER_OPERATION_SUCCESS
+      - TRANSFER_OPERATION_FAILED
+      payloadFormat: JSON
+      pubsubTopicSelector:
+        matchLabels:
+          testing.upbound.io/example-name: topic
+    project: ${var.project}
+    schedule:
+      repeatInterval: 604800s
+      scheduleEndDate:
+        day: 15
+        month: 1
+        year: 2019
+      scheduleStartDate:
+        day: 1
+        month: 10
+        year: 2018
+      startTimeOfDay:
+        hours: 23
+        minutes: 30
+        nanos: 0
+        seconds: 0
+    transferSpec:
+      awsS3DataSource:
+        awsAccessKey:
+          accessKeyIdSecretRef:
+            key: example-key
+            name: example-secret
+          secretAccessKeySecretRef:
+            key: example-key
+            name: example-secret
+        bucketName: ${var.aws_s3_bucket}
+      gcsDataSink:
+        bucketNameSelector:
+          matchLabels:
+            testing.upbound.io/example-name: s3-backup-bucket
+        path: foo/bar/
+      objectConditions:
+        excludePrefixes:
+        - requests.gz
+        maxTimeElapsedSinceLastModification: 600s
+      transferOptions:
+        deleteObjectsUniqueInSink: false
+
+---
+
+apiVersion: pubsub.gcp.m.upbound.io/v1beta1
+kind: Topic
+metadata:
+  annotations:
+    meta.upbound.io/example-id: storagetransfer/v1beta1/job
+  labels:
+    testing.upbound.io/example-name: topic
+  name: topic
+  namespace: upbound-system
+spec:
+  forProvider: {}
+
+---
+
+apiVersion: storage.gcp.m.upbound.io/v1beta1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: storagetransfer/v1beta1/job
+  labels:
+    testing.upbound.io/example-name: s3-backup-bucket
+  name: s3-backup-bucket
+  namespace: upbound-system
+spec:
+  forProvider:
+    location: US
+    project: ${var.project}
+    storageClass: NEARLINE

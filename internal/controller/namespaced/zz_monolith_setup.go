@@ -396,6 +396,7 @@ import (
 	objectaccesscontrol "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storage/objectaccesscontrol"
 	objectacl "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storage/objectacl"
 	agentpool "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storagetransfer/agentpool"
+	jobstoragetransfer "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storagetransfer/job"
 	locationtagbinding "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/tags/locationtagbinding"
 	tagbinding "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/tags/tagbinding"
 	tagkey "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/tags/tagkey"
@@ -800,6 +801,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		objectaccesscontrol.Setup,
 		objectacl.Setup,
 		agentpool.Setup,
+		jobstoragetransfer.Setup,
 		locationtagbinding.Setup,
 		tagbinding.Setup,
 		tagkey.Setup,
@@ -1210,6 +1212,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		objectaccesscontrol.SetupGated,
 		objectacl.SetupGated,
 		agentpool.SetupGated,
+		jobstoragetransfer.SetupGated,
 		locationtagbinding.SetupGated,
 		tagbinding.SetupGated,
 		tagkey.SetupGated,
