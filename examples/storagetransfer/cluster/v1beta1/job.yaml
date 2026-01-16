@@ -50,7 +50,7 @@ spec:
       gcsDataSink:
         bucketNameSelector:
           matchLabels:
-            testing.upbound.io/example-name: s3-backup-bucket
+            testing.upbound.io/example-name: gcs-backup-bucket
         path: foo/bar/
       objectConditions:
         excludePrefixes:
