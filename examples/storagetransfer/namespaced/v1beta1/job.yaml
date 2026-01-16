@@ -8,12 +8,12 @@ metadata:
   annotations:
     meta.upbound.io/example-id: storagetransfer/v1beta1/job
   labels:
-    testing.upbound.io/example-name: s3-bucket-nightly-backup
-  name: s3-bucket-nightly-backup
+    testing.upbound.io/example-name: gcs-bucket-nightly-backup
+  name: gcs-bucket-nightly-backup
   namespace: upbound-system
 spec:
   forProvider:
-    description: Nightly backup of S3 bucket
+    description: Nightly backup of GCS bucket
     loggingConfig:
       logActionStates:
       - SUCCEEDED
@@ -29,7 +29,6 @@ spec:
       pubsubTopicSelector:
         matchLabels:
           testing.upbound.io/example-name: topic
-    project: ${var.project}
     schedule:
       repeatInterval: 604800s
       scheduleEndDate:
@@ -46,19 +45,12 @@ spec:
         nanos: 0
         seconds: 0
     transferSpec:
-      awsS3DataSource:
-        awsAccessKey:
-          accessKeyIdSecretRef:
-            key: example-key
-            name: example-secret
-          secretAccessKeySecretRef:
-            key: example-key
-            name: example-secret
-        bucketName: ${var.aws_s3_bucket}
+      gcsDataSource:
+        bucketName: source-bucket-${Rand.RFC1123Subdomain}
       gcsDataSink:
         bucketNameSelector:
           matchLabels:
-            testing.upbound.io/example-name: s3-backup-bucket
+            testing.upbound.io/example-name: gcs-backup-bucket
         path: foo/bar/
       objectConditions:
         excludePrefixes:
@@ -89,11 +81,26 @@ metadata:
   annotations:
     meta.upbound.io/example-id: storagetransfer/v1beta1/job
   labels:
-    testing.upbound.io/example-name: s3-backup-bucket
-  name: s3-backup-bucket
+    testing.upbound.io/example-name: source-bucket
+  name: source-bucket-${Rand.RFC1123Subdomain}
   namespace: upbound-system
 spec:
   forProvider:
     location: US
-    project: ${var.project}
+    storageClass: NEARLINE
+
+---
+
+apiVersion: storage.gcp.m.upbound.io/v1beta1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: storagetransfer/v1beta1/job
+  labels:
+    testing.upbound.io/example-name: gcs-backup-bucket
+  name: gcs-backup-bucket-${Rand.RFC1123Subdomain}
+  namespace: upbound-system
+spec:
+  forProvider:
+    location: US
     storageClass: NEARLINE
