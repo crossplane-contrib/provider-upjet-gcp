@@ -51,6 +51,7 @@ import (
 	"github.com/upbound/provider-gcp/v2/config/cluster/spanner"
 	"github.com/upbound/provider-gcp/v2/config/cluster/sql"
 	"github.com/upbound/provider-gcp/v2/config/cluster/storage"
+	"github.com/upbound/provider-gcp/v2/config/cluster/storagetransfer"
 	"github.com/upbound/provider-gcp/v2/config/cluster/tags"
 	"github.com/upbound/provider-gcp/v2/config/cluster/tpu"
 	"github.com/upbound/provider-gcp/v2/config/cluster/vertexai"
@@ -98,6 +99,7 @@ func init() {
 	ProviderConfiguration.AddConfig(sourcerepo.Configure)
 	ProviderConfiguration.AddConfig(spanner.Configure)
 	ProviderConfiguration.AddConfig(storage.Configure)
+	ProviderConfiguration.AddConfig(storagetransfer.Configure)
 	ProviderConfiguration.AddConfig(sql.Configure)
 	ProviderConfiguration.AddConfig(redis.Configure)
 	ProviderConfiguration.AddConfig(bigquery.Configure)

@@ -47,6 +47,54 @@ func (mg *Job) ResolveReferences( // ResolveReferences of this Job.
 		mg.Spec.ForProvider.NotificationConfig.PubsubTopicRef = rsp.ResolvedReference
 
 	}
+	if mg.Spec.ForProvider.ReplicationSpec != nil {
+		if mg.Spec.ForProvider.ReplicationSpec.GcsDataSink != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta2", "Bucket", "BucketList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ReplicationSpec.GcsDataSink.BucketName),
+					Extract:      reference.ExternalName(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.ForProvider.ReplicationSpec.GcsDataSink.BucketNameRef,
+					Selector:     mg.Spec.ForProvider.ReplicationSpec.GcsDataSink.BucketNameSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.ReplicationSpec.GcsDataSink.BucketName")
+			}
+			mg.Spec.ForProvider.ReplicationSpec.GcsDataSink.BucketName = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.ReplicationSpec.GcsDataSink.BucketNameRef = rsp.ResolvedReference
+
+		}
+	}
+	if mg.Spec.ForProvider.ReplicationSpec != nil {
+		if mg.Spec.ForProvider.ReplicationSpec.GcsDataSource != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta2", "Bucket", "BucketList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ReplicationSpec.GcsDataSource.BucketName),
+					Extract:      reference.ExternalName(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.ForProvider.ReplicationSpec.GcsDataSource.BucketNameRef,
+					Selector:     mg.Spec.ForProvider.ReplicationSpec.GcsDataSource.BucketNameSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.ReplicationSpec.GcsDataSource.BucketName")
+			}
+			mg.Spec.ForProvider.ReplicationSpec.GcsDataSource.BucketName = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.ReplicationSpec.GcsDataSource.BucketNameRef = rsp.ResolvedReference
+
+		}
+	}
 	if mg.Spec.ForProvider.TransferSpec != nil {
 		if mg.Spec.ForProvider.TransferSpec.GcsDataSink != nil {
 			{
@@ -68,6 +116,30 @@ func (mg *Job) ResolveReferences( // ResolveReferences of this Job.
 			}
 			mg.Spec.ForProvider.TransferSpec.GcsDataSink.BucketName = reference.ToPtrValue(rsp.ResolvedValue)
 			mg.Spec.ForProvider.TransferSpec.GcsDataSink.BucketNameRef = rsp.ResolvedReference
+
+		}
+	}
+	if mg.Spec.ForProvider.TransferSpec != nil {
+		if mg.Spec.ForProvider.TransferSpec.GcsDataSource != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta2", "Bucket", "BucketList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.TransferSpec.GcsDataSource.BucketName),
+					Extract:      reference.ExternalName(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.ForProvider.TransferSpec.GcsDataSource.BucketNameRef,
+					Selector:     mg.Spec.ForProvider.TransferSpec.GcsDataSource.BucketNameSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.TransferSpec.GcsDataSource.BucketName")
+			}
+			mg.Spec.ForProvider.TransferSpec.GcsDataSource.BucketName = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.TransferSpec.GcsDataSource.BucketNameRef = rsp.ResolvedReference
 
 		}
 	}
@@ -93,6 +165,54 @@ func (mg *Job) ResolveReferences( // ResolveReferences of this Job.
 		mg.Spec.InitProvider.NotificationConfig.PubsubTopicRef = rsp.ResolvedReference
 
 	}
+	if mg.Spec.InitProvider.ReplicationSpec != nil {
+		if mg.Spec.InitProvider.ReplicationSpec.GcsDataSink != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta2", "Bucket", "BucketList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ReplicationSpec.GcsDataSink.BucketName),
+					Extract:      reference.ExternalName(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.InitProvider.ReplicationSpec.GcsDataSink.BucketNameRef,
+					Selector:     mg.Spec.InitProvider.ReplicationSpec.GcsDataSink.BucketNameSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.ReplicationSpec.GcsDataSink.BucketName")
+			}
+			mg.Spec.InitProvider.ReplicationSpec.GcsDataSink.BucketName = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.ReplicationSpec.GcsDataSink.BucketNameRef = rsp.ResolvedReference
+
+		}
+	}
+	if mg.Spec.InitProvider.ReplicationSpec != nil {
+		if mg.Spec.InitProvider.ReplicationSpec.GcsDataSource != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta2", "Bucket", "BucketList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ReplicationSpec.GcsDataSource.BucketName),
+					Extract:      reference.ExternalName(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.InitProvider.ReplicationSpec.GcsDataSource.BucketNameRef,
+					Selector:     mg.Spec.InitProvider.ReplicationSpec.GcsDataSource.BucketNameSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.ReplicationSpec.GcsDataSource.BucketName")
+			}
+			mg.Spec.InitProvider.ReplicationSpec.GcsDataSource.BucketName = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.ReplicationSpec.GcsDataSource.BucketNameRef = rsp.ResolvedReference
+
+		}
+	}
 	if mg.Spec.InitProvider.TransferSpec != nil {
 		if mg.Spec.InitProvider.TransferSpec.GcsDataSink != nil {
 			{
@@ -114,6 +234,30 @@ func (mg *Job) ResolveReferences( // ResolveReferences of this Job.
 			}
 			mg.Spec.InitProvider.TransferSpec.GcsDataSink.BucketName = reference.ToPtrValue(rsp.ResolvedValue)
 			mg.Spec.InitProvider.TransferSpec.GcsDataSink.BucketNameRef = rsp.ResolvedReference
+
+		}
+	}
+	if mg.Spec.InitProvider.TransferSpec != nil {
+		if mg.Spec.InitProvider.TransferSpec.GcsDataSource != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta2", "Bucket", "BucketList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.TransferSpec.GcsDataSource.BucketName),
+					Extract:      reference.ExternalName(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.InitProvider.TransferSpec.GcsDataSource.BucketNameRef,
+					Selector:     mg.Spec.InitProvider.TransferSpec.GcsDataSource.BucketNameSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.TransferSpec.GcsDataSource.BucketName")
+			}
+			mg.Spec.InitProvider.TransferSpec.GcsDataSource.BucketName = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.TransferSpec.GcsDataSource.BucketNameRef = rsp.ResolvedReference
 
 		}
 	}

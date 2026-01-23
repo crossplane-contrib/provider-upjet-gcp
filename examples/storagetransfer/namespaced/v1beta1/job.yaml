@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+# SPDX-FileCopyrightText: 2026 The Crossplane Authors <https://crossplane.io>
 #
 # SPDX-License-Identifier: CC0-1.0
 
@@ -46,11 +46,13 @@ spec:
         seconds: 0
     transferSpec:
       gcsDataSource:
-        bucketName: source-bucket-${Rand.RFC1123Subdomain}
+        bucketNameSelector:
+          matchLabels:
+            testing.upbound.io/example-name: source-bucket
       gcsDataSink:
         bucketNameSelector:
           matchLabels:
-            testing.upbound.io/example-name: gcs-backup-bucket
+            testing.upbound.io/example-name: backup-bucket
         path: foo/bar/
       objectConditions:
         excludePrefixes:
@@ -97,8 +99,8 @@ metadata:
   annotations:
     meta.upbound.io/example-id: storagetransfer/v1beta1/job
   labels:
-    testing.upbound.io/example-name: gcs-backup-bucket
-  name: gcs-backup-bucket-${Rand.RFC1123Subdomain}
+    testing.upbound.io/example-name: backup-bucket
+  name: backup-bucket-${Rand.RFC1123Subdomain}
   namespace: upbound-system
 spec:
   forProvider:

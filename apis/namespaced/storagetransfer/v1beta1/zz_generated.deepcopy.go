@@ -686,6 +686,16 @@ func (in *GcsDataSinkInitParameters) DeepCopyInto(out *GcsDataSinkInitParameters
 		*out = new(string)
 		**out = **in
 	}
+	if in.BucketNameRef != nil {
+		in, out := &in.BucketNameRef, &out.BucketNameRef
+		*out = new(v1.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.BucketNameSelector != nil {
+		in, out := &in.BucketNameSelector, &out.BucketNameSelector
+		*out = new(v1.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Path != nil {
 		in, out := &in.Path, &out.Path
 		*out = new(string)
@@ -736,6 +746,16 @@ func (in *GcsDataSinkParameters) DeepCopyInto(out *GcsDataSinkParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.BucketNameRef != nil {
+		in, out := &in.BucketNameRef, &out.BucketNameRef
+		*out = new(v1.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.BucketNameSelector != nil {
+		in, out := &in.BucketNameSelector, &out.BucketNameSelector
+		*out = new(v1.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Path != nil {
 		in, out := &in.Path, &out.Path
 		*out = new(string)
@@ -760,6 +780,16 @@ func (in *GcsDataSourceInitParameters) DeepCopyInto(out *GcsDataSourceInitParame
 		in, out := &in.BucketName, &out.BucketName
 		*out = new(string)
 		**out = **in
+	}
+	if in.BucketNameRef != nil {
+		in, out := &in.BucketNameRef, &out.BucketNameRef
+		*out = new(v1.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.BucketNameSelector != nil {
+		in, out := &in.BucketNameSelector, &out.BucketNameSelector
+		*out = new(v1.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Path != nil {
 		in, out := &in.Path, &out.Path
@@ -810,6 +840,16 @@ func (in *GcsDataSourceParameters) DeepCopyInto(out *GcsDataSourceParameters) {
 		in, out := &in.BucketName, &out.BucketName
 		*out = new(string)
 		**out = **in
+	}
+	if in.BucketNameRef != nil {
+		in, out := &in.BucketNameRef, &out.BucketNameRef
+		*out = new(v1.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.BucketNameSelector != nil {
+		in, out := &in.BucketNameSelector, &out.BucketNameSelector
+		*out = new(v1.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Path != nil {
 		in, out := &in.Path, &out.Path
@@ -2880,6 +2920,16 @@ func (in *TransferSpecGcsDataSourceInitParameters) DeepCopyInto(out *TransferSpe
 		*out = new(string)
 		**out = **in
 	}
+	if in.BucketNameRef != nil {
+		in, out := &in.BucketNameRef, &out.BucketNameRef
+		*out = new(v1.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.BucketNameSelector != nil {
+		in, out := &in.BucketNameSelector, &out.BucketNameSelector
+		*out = new(v1.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Path != nil {
 		in, out := &in.Path, &out.Path
 		*out = new(string)
@@ -2929,6 +2979,16 @@ func (in *TransferSpecGcsDataSourceParameters) DeepCopyInto(out *TransferSpecGcs
 		in, out := &in.BucketName, &out.BucketName
 		*out = new(string)
 		**out = **in
+	}
+	if in.BucketNameRef != nil {
+		in, out := &in.BucketNameRef, &out.BucketNameRef
+		*out = new(v1.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.BucketNameSelector != nil {
+		in, out := &in.BucketNameSelector, &out.BucketNameSelector
+		*out = new(v1.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Path != nil {
 		in, out := &in.Path, &out.Path

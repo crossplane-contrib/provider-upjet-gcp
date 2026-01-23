@@ -203,7 +203,16 @@ type EventStreamParameters struct {
 type GcsDataSinkInitParameters struct {
 
 	// Google Cloud Storage bucket name.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta1.Bucket
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
+
+	// Reference to a Bucket in storage to populate bucketName.
+	// +kubebuilder:validation:Optional
+	BucketNameRef *v1.NamespacedReference `json:"bucketNameRef,omitempty" tf:"-"`
+
+	// Selector for a Bucket in storage to populate bucketName.
+	// +kubebuilder:validation:Optional
+	BucketNameSelector *v1.NamespacedSelector `json:"bucketNameSelector,omitempty" tf:"-"`
 
 	// Root directory path to the filesystem.
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
@@ -221,8 +230,17 @@ type GcsDataSinkObservation struct {
 type GcsDataSinkParameters struct {
 
 	// Google Cloud Storage bucket name.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta1.Bucket
 	// +kubebuilder:validation:Optional
-	BucketName *string `json:"bucketName" tf:"bucket_name,omitempty"`
+	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
+
+	// Reference to a Bucket in storage to populate bucketName.
+	// +kubebuilder:validation:Optional
+	BucketNameRef *v1.NamespacedReference `json:"bucketNameRef,omitempty" tf:"-"`
+
+	// Selector for a Bucket in storage to populate bucketName.
+	// +kubebuilder:validation:Optional
+	BucketNameSelector *v1.NamespacedSelector `json:"bucketNameSelector,omitempty" tf:"-"`
 
 	// Root directory path to the filesystem.
 	// +kubebuilder:validation:Optional
@@ -232,7 +250,16 @@ type GcsDataSinkParameters struct {
 type GcsDataSourceInitParameters struct {
 
 	// Google Cloud Storage bucket name.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta1.Bucket
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
+
+	// Reference to a Bucket in storage to populate bucketName.
+	// +kubebuilder:validation:Optional
+	BucketNameRef *v1.NamespacedReference `json:"bucketNameRef,omitempty" tf:"-"`
+
+	// Selector for a Bucket in storage to populate bucketName.
+	// +kubebuilder:validation:Optional
+	BucketNameSelector *v1.NamespacedSelector `json:"bucketNameSelector,omitempty" tf:"-"`
 
 	// Root directory path to the filesystem.
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
@@ -250,8 +277,17 @@ type GcsDataSourceObservation struct {
 type GcsDataSourceParameters struct {
 
 	// Google Cloud Storage bucket name.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta1.Bucket
 	// +kubebuilder:validation:Optional
-	BucketName *string `json:"bucketName" tf:"bucket_name,omitempty"`
+	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
+
+	// Reference to a Bucket in storage to populate bucketName.
+	// +kubebuilder:validation:Optional
+	BucketNameRef *v1.NamespacedReference `json:"bucketNameRef,omitempty" tf:"-"`
+
+	// Selector for a Bucket in storage to populate bucketName.
+	// +kubebuilder:validation:Optional
+	BucketNameSelector *v1.NamespacedSelector `json:"bucketNameSelector,omitempty" tf:"-"`
 
 	// Root directory path to the filesystem.
 	// +kubebuilder:validation:Optional
@@ -1102,7 +1138,16 @@ type TransferSpecGcsDataSinkParameters struct {
 type TransferSpecGcsDataSourceInitParameters struct {
 
 	// Google Cloud Storage bucket name.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta1.Bucket
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
+
+	// Reference to a Bucket in storage to populate bucketName.
+	// +kubebuilder:validation:Optional
+	BucketNameRef *v1.NamespacedReference `json:"bucketNameRef,omitempty" tf:"-"`
+
+	// Selector for a Bucket in storage to populate bucketName.
+	// +kubebuilder:validation:Optional
+	BucketNameSelector *v1.NamespacedSelector `json:"bucketNameSelector,omitempty" tf:"-"`
 
 	// Root directory path to the filesystem.
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
@@ -1120,8 +1165,17 @@ type TransferSpecGcsDataSourceObservation struct {
 type TransferSpecGcsDataSourceParameters struct {
 
 	// Google Cloud Storage bucket name.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta1.Bucket
 	// +kubebuilder:validation:Optional
-	BucketName *string `json:"bucketName" tf:"bucket_name,omitempty"`
+	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
+
+	// Reference to a Bucket in storage to populate bucketName.
+	// +kubebuilder:validation:Optional
+	BucketNameRef *v1.NamespacedReference `json:"bucketNameRef,omitempty" tf:"-"`
+
+	// Selector for a Bucket in storage to populate bucketName.
+	// +kubebuilder:validation:Optional
+	BucketNameSelector *v1.NamespacedSelector `json:"bucketNameSelector,omitempty" tf:"-"`
 
 	// Root directory path to the filesystem.
 	// +kubebuilder:validation:Optional
