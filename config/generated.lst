@@ -385,6 +385,7 @@
   "google_storage_object_access_control",
   "google_storage_object_acl",
   "google_storage_transfer_agent_pool",
+  "google_storage_transfer_job",
   "google_tags_location_tag_binding",
   "google_tags_tag_binding",
   "google_tags_tag_key",

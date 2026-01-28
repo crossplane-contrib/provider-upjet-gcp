@@ -10,6 +10,7 @@ import (
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
 	agentpool "github.com/upbound/provider-gcp/v2/internal/controller/cluster/storagetransfer/agentpool"
+	job "github.com/upbound/provider-gcp/v2/internal/controller/cluster/storagetransfer/job"
 )
 
 // Setup_storagetransfer creates all controllers with the supplied logger and adds them to
@@ -17,6 +18,7 @@ import (
 func Setup_storagetransfer(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		agentpool.Setup,
+		job.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err
@@ -30,6 +32,7 @@ func Setup_storagetransfer(mgr ctrl.Manager, o controller.Options) error {
 func SetupGated_storagetransfer(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		agentpool.SetupGated,
+		job.SetupGated,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err

@@ -843,6 +843,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_storage_object_acl": config.IdentifierFromProvider,
 	// Imported by using the following projects/{{project}}/agentPools/{{name}}
 	"google_storage_transfer_agent_pool": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/agentPools/{{ .external_name }}"),
+	// Imported by using the following {{project}}/{{name}}
+	"google_storage_transfer_job": config.IdentifierFromProvider,
 	// Imported by using the following {{bucketbucket_name}}/notificationConfigs/{{id}}
 	"google_storage_notification": config.IdentifierFromProvider,
 	// Imported by using the following projects/{{project}}/hmacKeys/{{access_id}}

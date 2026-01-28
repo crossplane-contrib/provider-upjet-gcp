@@ -1,0 +1,2715 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.18.0
+  name: jobs.storagetransfer.gcp.m.upbound.io
+spec:
+  group: storagetransfer.gcp.m.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - gcp
+    kind: Job
+    listKind: JobList
+    plural: jobs
+    singular: job
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: Job is the Schema for the Jobs API. Creates a new Transfer Job
+          in Google Cloud Storage Transfer.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: JobSpec defines the desired state of Job
+            properties:
+              forProvider:
+                properties:
+                  description:
+                    description: Unique description to identify the Transfer Job.
+                    type: string
+                  eventStream:
+                    description: Specifies the Event-driven transfer options. Event-driven
+                      transfers listen to an event stream to transfer updated files.
+                      Structure documented below Either event_stream or schedule must
+                      be set.
+                    properties:
+                      eventStreamExpirationTime:
+                        description: 'Specifies the data and time at which Storage
+                          Transfer Service stops listening for events from this stream.
+                          After this time, any transfers in progress will complete,
+                          but no new transfers are initiated.A timestamp in RFC3339
+                          UTC "Zulu" format, with nanosecond resolution and up to
+                          nine fractional digits. Examples: "2014-10-02T15:01:23Z"
+                          and "2014-10-02T15:01:23.045123456Z".'
+                        type: string
+                      eventStreamStartTime:
+                        description: 'Specifies the date and time that Storage Transfer
+                          Service starts listening for events from this stream. If
+                          no start time is specified or start time is in the past,
+                          Storage Transfer Service starts listening immediately. A
+                          timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+                          resolution and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z"
+                          and "2014-10-02T15:01:23.045123456Z".'
+                        type: string
+                      name:
+                        description: Specifies a unique name of the resource such
+                          as AWS SQS ARN in the form 'arn:aws:sqs:region:account_id:queue_name',
+                          or Pub/Sub subscription resource name in the form 'projects/{project}/subscriptions/{sub}'.
+                        type: string
+                    type: object
+                  loggingConfig:
+                    description: Logging configuration. Structure documented below.
+                    properties:
+                      enableOnPremGcsTransferLogs:
+                        type: boolean
+                      logActionStates:
+                        description: |-
+                          A list of loggable action states. If empty, no logs are generated. Not supported for transfers with PosixFilesystem data sources; use enableOnpremGcsTransferLogs instead.
+                          Each action state may be one of SUCCEEDED, and FAILED.
+                        items:
+                          type: string
+                        type: array
+                      logActions:
+                        description: |-
+                          A list of actions to be logged. If empty, no logs are generated. Not supported for transfers with PosixFilesystem data sources; use enableOnpremGcsTransferLogs instead.
+                          Each action may be one of FIND, DELETE, and COPY.
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  name:
+                    description: The name of the Transfer Job. This name must start
+                      with "transferJobs/" prefix and end with a letter or a number,
+                      and should be no more than 128 characters ( transferJobs/^(?!OPI)[A-Za-z0-9-._~]*[A-Za-z0-9]$
+                      ). For transfers involving PosixFilesystem, this name must start
+                      with transferJobs/OPI specifically ( transferJobs/OPI^[A-Za-z0-9-._~]*[A-Za-z0-9]$
+                      ). For all other transfer types, this name must not start with
+                      transferJobs/OPI. Default the provider will assign a random
+                      unique name with transferJobs/{{name}} format, where name is
+                      a numeric value.
+                    type: string
+                  notificationConfig:
+                    description: Notification configuration. This is not supported
+                      for transfers involving PosixFilesystem. Structure documented
+                      below.
+                    properties:
+                      eventTypes:
+                        description: Event types for which a notification is desired.
+                          If empty, send notifications for all event types. The valid
+                          types are "TRANSFER_OPERATION_SUCCESS", "TRANSFER_OPERATION_FAILED",
+                          "TRANSFER_OPERATION_ABORTED".
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
+                      payloadFormat:
+                        description: The desired format of the notification message
+                          payloads. One of "NONE" or "JSON".
+                        type: string
+                      pubsubTopic:
+                        description: 'The Topic.name of the Pub/Sub topic to which
+                          to publish notifications. Must be of the format: projects/{project}/topics/{topic}.
+                          Not matching this format results in an INVALID_ARGUMENT
+                          error.'
+                        type: string
+                      pubsubTopicRef:
+                        description: Reference to a Topic in pubsub to populate pubsubTopic.
+                        properties:
+                          name:
+                            description: Name of the referenced object.
+                            type: string
+                          namespace:
+                            description: Namespace of the referenced object
+                            type: string
+                          policy:
+                            description: Policies for referencing.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        required:
+                        - name
+                        type: object
+                      pubsubTopicSelector:
+                        description: Selector for a Topic in pubsub to populate pubsubTopic.
+                        properties:
+                          matchControllerRef:
+                            description: |-
+                              MatchControllerRef ensures an object with the same controller reference
+                              as the selecting object is selected.
+                            type: boolean
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: MatchLabels ensures an object with matching
+                              labels is selected.
+                            type: object
+                          namespace:
+                            description: Namespace for the selector
+                            type: string
+                          policy:
+                            description: Policies for selection.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        type: object
+                    type: object
+                  project:
+                    description: |-
+                      The project in which the resource belongs. If it
+                      is not provided, the provider project is used.
+                    type: string
+                  replicationSpec:
+                    description: Replication specification. Structure documented below.
+                      User should not configure schedule, event_stream with this argument.
+                      One of transfer_spec, or replication_spec must be specified.
+                    properties:
+                      gcsDataSink:
+                        description: A Google Cloud Storage data sink. Structure documented
+                          below.
+                        properties:
+                          bucketName:
+                            description: Google Cloud Storage bucket name.
+                            type: string
+                          bucketNameRef:
+                            description: Reference to a Bucket in storage to populate
+                              bucketName.
+                            properties:
+                              name:
+                                description: Name of the referenced object.
+                                type: string
+                              namespace:
+                                description: Namespace of the referenced object
+                                type: string
+                              policy:
+                                description: Policies for referencing.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            required:
+                            - name
+                            type: object
+                          bucketNameSelector:
+                            description: Selector for a Bucket in storage to populate
+                              bucketName.
+                            properties:
+                              matchControllerRef:
+                                description: |-
+                                  MatchControllerRef ensures an object with the same controller reference
+                                  as the selecting object is selected.
+                                type: boolean
+                              matchLabels:
+                                additionalProperties:
+                                  type: string
+                                description: MatchLabels ensures an object with matching
+                                  labels is selected.
+                                type: object
+                              namespace:
+                                description: Namespace for the selector
+                                type: string
+                              policy:
+                                description: Policies for selection.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            type: object
+                          path:
+                            description: Root directory path to the filesystem.
+                            type: string
+                        type: object
+                      gcsDataSource:
+                        description: A Google Cloud Storage data source. Structure
+                          documented below.
+                        properties:
+                          bucketName:
+                            description: Google Cloud Storage bucket name.
+                            type: string
+                          bucketNameRef:
+                            description: Reference to a Bucket in storage to populate
+                              bucketName.
+                            properties:
+                              name:
+                                description: Name of the referenced object.
+                                type: string
+                              namespace:
+                                description: Namespace of the referenced object
+                                type: string
+                              policy:
+                                description: Policies for referencing.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            required:
+                            - name
+                            type: object
+                          bucketNameSelector:
+                            description: Selector for a Bucket in storage to populate
+                              bucketName.
+                            properties:
+                              matchControllerRef:
+                                description: |-
+                                  MatchControllerRef ensures an object with the same controller reference
+                                  as the selecting object is selected.
+                                type: boolean
+                              matchLabels:
+                                additionalProperties:
+                                  type: string
+                                description: MatchLabels ensures an object with matching
+                                  labels is selected.
+                                type: object
+                              namespace:
+                                description: Namespace for the selector
+                                type: string
+                              policy:
+                                description: Policies for selection.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            type: object
+                          path:
+                            description: Root directory path to the filesystem.
+                            type: string
+                        type: object
+                      objectConditions:
+                        description: Only objects that satisfy these object conditions
+                          are included in the set of data source and data sink objects.
+                          Object conditions based on objects' last_modification_time
+                          do not exclude objects in a data sink. Structure documented
+                          below.
+                        properties:
+                          excludePrefixes:
+                            description: exclude_prefixes must follow the requirements
+                              described for include_prefixes. See Requirements.
+                            items:
+                              type: string
+                            type: array
+                          includePrefixes:
+                            description: If include_prefixes is specified, objects
+                              that satisfy the object conditions must have names that
+                              start with one of the include_prefixes and that do not
+                              start with any of the exclude_prefixes. If include_prefixes
+                              is not specified, all objects except those that have
+                              names starting with one of the exclude_prefixes must
+                              satisfy the object conditions. See Requirements.
+                            items:
+                              type: string
+                            type: array
+                          lastModifiedBefore:
+                            description: 'If specified, only objects with a "last
+                              modification time" before this timestamp and objects
+                              that don''t have a "last modification time" are transferred.
+                              A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+                              resolution and up to nine fractional digits. Examples:
+                              "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".'
+                            type: string
+                          lastModifiedSince:
+                            description: 'If specified, only objects with a "last
+                              modification time" on or after this timestamp and objects
+                              that don''t have a "last modification time" are transferred.
+                              A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+                              resolution and up to nine fractional digits. Examples:
+                              "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".'
+                            type: string
+                          maxTimeElapsedSinceLastModification:
+                            description: 'A duration in seconds with up to nine fractional
+                              digits, terminated by ''s''. Example: "3.5s".'
+                            type: string
+                          minTimeElapsedSinceLastModification:
+                            description: 'A duration in seconds with up to nine fractional
+                              digits, terminated by ''s''. Example: "3.5s".'
+                            type: string
+                        type: object
+                      transferOptions:
+                        description: Characteristics of how to treat files from datasource
+                          and sink during job. If the option delete_objects_unique_in_sink
+                          is true, object conditions based on objects' last_modification_time
+                          are ignored and do not exclude objects in a data source
+                          or a data sink. Structure documented below.
+                        properties:
+                          deleteObjectsFromSourceAfterTransfer:
+                            description: Whether objects should be deleted from the
+                              source after they are transferred to the sink. Note
+                              that this option and delete_objects_unique_in_sink are
+                              mutually exclusive.
+                            type: boolean
+                          deleteObjectsUniqueInSink:
+                            description: |-
+                              Whether objects that exist only in the sink should be deleted. Note that this option and
+                              delete_objects_from_source_after_transfer are mutually exclusive.
+                            type: boolean
+                          metadataOptions:
+                            properties:
+                              acl:
+                                type: string
+                              gid:
+                                type: string
+                              kmsKey:
+                                type: string
+                              mode:
+                                type: string
+                              storageClass:
+                                type: string
+                              symlink:
+                                type: string
+                              temporaryHold:
+                                type: string
+                              timeCreated:
+                                type: string
+                              uid:
+                                type: string
+                            type: object
+                          overwriteObjectsAlreadyExistingInSink:
+                            description: Whether overwriting objects that already
+                              exist in the sink is allowed.
+                            type: boolean
+                          overwriteWhen:
+                            description: 'When to overwrite objects that already exist
+                              in the sink. If not set, overwrite behavior is determined
+                              by overwrite_objects_already_existing_in_sink. Possible
+                              values: ALWAYS, DIFFERENT, NEVER.'
+                            type: string
+                        type: object
+                    type: object
+                  schedule:
+                    description: Schedule specification defining when the Transfer
+                      Job should be scheduled to start, end and what time to run.
+                      Structure documented below. Either schedule or event_stream
+                      must be set.
+                    properties:
+                      repeatInterval:
+                        description: 'Interval between the start of each scheduled
+                          transfer. If unspecified, the default value is 24 hours.
+                          This value may not be less than 1 hour. A duration in seconds
+                          with up to nine fractional digits, terminated by ''s''.
+                          Example: "3.5s".'
+                        type: string
+                      scheduleEndDate:
+                        description: The last day the recurring transfer will be run.
+                          If schedule_end_date is the same as schedule_start_date,
+                          the transfer will be executed only once. Structure documented
+                          below.
+                        properties:
+                          day:
+                            description: Day of month. Must be from 1 to 31 and valid
+                              for the year and month.
+                            type: number
+                          month:
+                            description: Month of year. Must be from 1 to 12.
+                            type: number
+                          year:
+                            description: Year of date. Must be from 1 to 9999.
+                            type: number
+                        type: object
+                      scheduleStartDate:
+                        description: The first day the recurring transfer is scheduled
+                          to run. If schedule_start_date is in the past, the transfer
+                          will run for the first time on the following day. Structure
+                          documented below.
+                        properties:
+                          day:
+                            description: Day of month. Must be from 1 to 31 and valid
+                              for the year and month.
+                            type: number
+                          month:
+                            description: Month of year. Must be from 1 to 12.
+                            type: number
+                          year:
+                            description: Year of date. Must be from 1 to 9999.
+                            type: number
+                        type: object
+                      startTimeOfDay:
+                        description: The time in UTC at which the transfer will be
+                          scheduled to start in a day. Transfers may start later than
+                          this time. If not specified, recurring and one-time transfers
+                          that are scheduled to run today will run immediately; recurring
+                          transfers that are scheduled to run on a future date will
+                          start at approximately midnight UTC on that date. Note that
+                          when configuring a transfer with the Cloud Platform Console,
+                          the transfer's start time in a day is specified in your
+                          local timezone. Structure documented below.
+                        properties:
+                          hours:
+                            description: Hours of day in 24 hour format. Should be
+                              from 0 to 23
+                            type: number
+                          minutes:
+                            description: Minutes of hour of day. Must be from 0 to
+                              59.
+                            type: number
+                          nanos:
+                            description: Fractions of seconds in nanoseconds. Must
+                              be from 0 to 999,999,999.
+                            type: number
+                          seconds:
+                            description: Seconds of minutes of the time. Must normally
+                              be from 0 to 59.
+                            type: number
+                        type: object
+                    type: object
+                  status:
+                    description: 'Status of the job. Default: ENABLED. NOTE: The effect
+                      of the new job status takes place during a subsequent job run.
+                      For example, if you change the job status from ENABLED to DISABLED,
+                      and an operation spawned by the transfer is running, the status
+                      change would not affect the current operation.'
+                    type: string
+                  transferSpec:
+                    description: Transfer specification. Structure documented below.
+                      One of transfer_spec, or replication_spec can be specified.
+                    properties:
+                      awsS3DataSource:
+                        description: An AWS S3 data source. Structure documented below.
+                        properties:
+                          awsAccessKey:
+                            description: AWS credentials block.
+                            properties:
+                              accessKeyIdSecretRef:
+                                description: AWS Key ID.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                              secretAccessKeySecretRef:
+                                description: AWS Secret Access Key.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                            type: object
+                          bucketName:
+                            description: Google Cloud Storage bucket name.
+                            type: string
+                          managedPrivateNetwork:
+                            description: Egress bytes over a Google-managed private
+                              network. This network is shared between other users
+                              of Storage Transfer Service.
+                            type: boolean
+                          path:
+                            description: Root directory path to the filesystem.
+                            type: string
+                          roleArn:
+                            description: The Amazon Resource Name (ARN) of the role
+                              to support temporary credentials via 'AssumeRoleWithWebIdentity'.
+                              For more information about ARNs, see IAM ARNs. When
+                              a role ARN is provided, Transfer Service fetches temporary
+                              credentials for the session using a 'AssumeRoleWithWebIdentity'
+                              call for the provided role using the [GoogleServiceAccount][]
+                              for this project.
+                            type: string
+                        type: object
+                      azureBlobStorageDataSource:
+                        description: An Azure Blob Storage data source. Structure
+                          documented below.
+                        properties:
+                          azureCredentials:
+                            description: Credentials used to authenticate API requests
+                              to Azure block.
+                            properties:
+                              sasTokenSecretRef:
+                                description: Azure shared access signature. See Grant
+                                  limited access to Azure Storage resources using
+                                  shared access signatures (SAS).
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                            type: object
+                          container:
+                            description: The container to transfer from the Azure
+                              Storage account.`
+                            type: string
+                          path:
+                            description: Root directory path to the filesystem.
+                            type: string
+                          storageAccount:
+                            description: The name of the Azure Storage account.
+                            type: string
+                        type: object
+                      gcsDataSink:
+                        description: A Google Cloud Storage data sink. Structure documented
+                          below.
+                        properties:
+                          bucketName:
+                            description: Google Cloud Storage bucket name.
+                            type: string
+                          bucketNameRef:
+                            description: Reference to a Bucket in storage to populate
+                              bucketName.
+                            properties:
+                              name:
+                                description: Name of the referenced object.
+                                type: string
+                              namespace:
+                                description: Namespace of the referenced object
+                                type: string
+                              policy:
+                                description: Policies for referencing.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            required:
+                            - name
+                            type: object
+                          bucketNameSelector:
+                            description: Selector for a Bucket in storage to populate
+                              bucketName.
+                            properties:
+                              matchControllerRef:
+                                description: |-
+                                  MatchControllerRef ensures an object with the same controller reference
+                                  as the selecting object is selected.
+                                type: boolean
+                              matchLabels:
+                                additionalProperties:
+                                  type: string
+                                description: MatchLabels ensures an object with matching
+                                  labels is selected.
+                                type: object
+                              namespace:
+                                description: Namespace for the selector
+                                type: string
+                              policy:
+                                description: Policies for selection.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            type: object
+                          path:
+                            description: Root directory path to the filesystem.
+                            type: string
+                        type: object
+                      gcsDataSource:
+                        description: A Google Cloud Storage data source. Structure
+                          documented below.
+                        properties:
+                          bucketName:
+                            description: Google Cloud Storage bucket name.
+                            type: string
+                          bucketNameRef:
+                            description: Reference to a Bucket in storage to populate
+                              bucketName.
+                            properties:
+                              name:
+                                description: Name of the referenced object.
+                                type: string
+                              namespace:
+                                description: Namespace of the referenced object
+                                type: string
+                              policy:
+                                description: Policies for referencing.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            required:
+                            - name
+                            type: object
+                          bucketNameSelector:
+                            description: Selector for a Bucket in storage to populate
+                              bucketName.
+                            properties:
+                              matchControllerRef:
+                                description: |-
+                                  MatchControllerRef ensures an object with the same controller reference
+                                  as the selecting object is selected.
+                                type: boolean
+                              matchLabels:
+                                additionalProperties:
+                                  type: string
+                                description: MatchLabels ensures an object with matching
+                                  labels is selected.
+                                type: object
+                              namespace:
+                                description: Namespace for the selector
+                                type: string
+                              policy:
+                                description: Policies for selection.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            type: object
+                          path:
+                            description: Root directory path to the filesystem.
+                            type: string
+                        type: object
+                      hdfsDataSource:
+                        description: An HDFS data source. Structure documented below.
+                        properties:
+                          path:
+                            description: Root directory path to the filesystem.
+                            type: string
+                        type: object
+                      httpDataSource:
+                        description: A HTTP URL data source. Structure documented
+                          below.
+                        properties:
+                          listUrl:
+                            description: The URL that points to the file that stores
+                              the object list entries. This file must allow public
+                              access. Currently, only URLs with HTTP and HTTPS schemes
+                              are supported.
+                            type: string
+                        type: object
+                      objectConditions:
+                        description: Only objects that satisfy these object conditions
+                          are included in the set of data source and data sink objects.
+                          Object conditions based on objects' last_modification_time
+                          do not exclude objects in a data sink. Structure documented
+                          below.
+                        properties:
+                          excludePrefixes:
+                            description: exclude_prefixes must follow the requirements
+                              described for include_prefixes. See Requirements.
+                            items:
+                              type: string
+                            type: array
+                          includePrefixes:
+                            description: If include_prefixes is specified, objects
+                              that satisfy the object conditions must have names that
+                              start with one of the include_prefixes and that do not
+                              start with any of the exclude_prefixes. If include_prefixes
+                              is not specified, all objects except those that have
+                              names starting with one of the exclude_prefixes must
+                              satisfy the object conditions. See Requirements.
+                            items:
+                              type: string
+                            type: array
+                          lastModifiedBefore:
+                            description: 'If specified, only objects with a "last
+                              modification time" before this timestamp and objects
+                              that don''t have a "last modification time" are transferred.
+                              A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+                              resolution and up to nine fractional digits. Examples:
+                              "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".'
+                            type: string
+                          lastModifiedSince:
+                            description: 'If specified, only objects with a "last
+                              modification time" on or after this timestamp and objects
+                              that don''t have a "last modification time" are transferred.
+                              A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+                              resolution and up to nine fractional digits. Examples:
+                              "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".'
+                            type: string
+                          maxTimeElapsedSinceLastModification:
+                            description: 'A duration in seconds with up to nine fractional
+                              digits, terminated by ''s''. Example: "3.5s".'
+                            type: string
+                          minTimeElapsedSinceLastModification:
+                            description: 'A duration in seconds with up to nine fractional
+                              digits, terminated by ''s''. Example: "3.5s".'
+                            type: string
+                        type: object
+                      posixDataSink:
+                        description: A POSIX data sink. Structure documented below.
+                        properties:
+                          rootDirectory:
+                            description: Root directory path to the filesystem.
+                            type: string
+                        type: object
+                      posixDataSource:
+                        description: A POSIX filesystem data source. Structure documented
+                          below.
+                        properties:
+                          rootDirectory:
+                            description: Root directory path to the filesystem.
+                            type: string
+                        type: object
+                      sinkAgentPoolName:
+                        description: Specifies the agent pool name associated with
+                          the posix data sink. When unspecified, the default name
+                          is used.
+                        type: string
+                      sourceAgentPoolName:
+                        description: Specifies the agent pool name associated with
+                          the posix data source. When unspecified, the default name
+                          is used.
+                        type: string
+                      transferOptions:
+                        description: Characteristics of how to treat files from datasource
+                          and sink during job. If the option delete_objects_unique_in_sink
+                          is true, object conditions based on objects' last_modification_time
+                          are ignored and do not exclude objects in a data source
+                          or a data sink. Structure documented below.
+                        properties:
+                          deleteObjectsFromSourceAfterTransfer:
+                            description: Whether objects should be deleted from the
+                              source after they are transferred to the sink. Note
+                              that this option and delete_objects_unique_in_sink are
+                              mutually exclusive.
+                            type: boolean
+                          deleteObjectsUniqueInSink:
+                            description: |-
+                              Whether objects that exist only in the sink should be deleted. Note that this option and
+                              delete_objects_from_source_after_transfer are mutually exclusive.
+                            type: boolean
+                          metadataOptions:
+                            properties:
+                              acl:
+                                type: string
+                              gid:
+                                type: string
+                              kmsKey:
+                                type: string
+                              mode:
+                                type: string
+                              storageClass:
+                                type: string
+                              symlink:
+                                type: string
+                              temporaryHold:
+                                type: string
+                              timeCreated:
+                                type: string
+                              uid:
+                                type: string
+                            type: object
+                          overwriteObjectsAlreadyExistingInSink:
+                            description: Whether overwriting objects that already
+                              exist in the sink is allowed.
+                            type: boolean
+                          overwriteWhen:
+                            description: 'When to overwrite objects that already exist
+                              in the sink. If not set, overwrite behavior is determined
+                              by overwrite_objects_already_existing_in_sink. Possible
+                              values: ALWAYS, DIFFERENT, NEVER.'
+                            type: string
+                        type: object
+                    type: object
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  description:
+                    description: Unique description to identify the Transfer Job.
+                    type: string
+                  eventStream:
+                    description: Specifies the Event-driven transfer options. Event-driven
+                      transfers listen to an event stream to transfer updated files.
+                      Structure documented below Either event_stream or schedule must
+                      be set.
+                    properties:
+                      eventStreamExpirationTime:
+                        description: 'Specifies the data and time at which Storage
+                          Transfer Service stops listening for events from this stream.
+                          After this time, any transfers in progress will complete,
+                          but no new transfers are initiated.A timestamp in RFC3339
+                          UTC "Zulu" format, with nanosecond resolution and up to
+                          nine fractional digits. Examples: "2014-10-02T15:01:23Z"
+                          and "2014-10-02T15:01:23.045123456Z".'
+                        type: string
+                      eventStreamStartTime:
+                        description: 'Specifies the date and time that Storage Transfer
+                          Service starts listening for events from this stream. If
+                          no start time is specified or start time is in the past,
+                          Storage Transfer Service starts listening immediately. A
+                          timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+                          resolution and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z"
+                          and "2014-10-02T15:01:23.045123456Z".'
+                        type: string
+                      name:
+                        description: Specifies a unique name of the resource such
+                          as AWS SQS ARN in the form 'arn:aws:sqs:region:account_id:queue_name',
+                          or Pub/Sub subscription resource name in the form 'projects/{project}/subscriptions/{sub}'.
+                        type: string
+                    type: object
+                  loggingConfig:
+                    description: Logging configuration. Structure documented below.
+                    properties:
+                      enableOnPremGcsTransferLogs:
+                        type: boolean
+                      logActionStates:
+                        description: |-
+                          A list of loggable action states. If empty, no logs are generated. Not supported for transfers with PosixFilesystem data sources; use enableOnpremGcsTransferLogs instead.
+                          Each action state may be one of SUCCEEDED, and FAILED.
+                        items:
+                          type: string
+                        type: array
+                      logActions:
+                        description: |-
+                          A list of actions to be logged. If empty, no logs are generated. Not supported for transfers with PosixFilesystem data sources; use enableOnpremGcsTransferLogs instead.
+                          Each action may be one of FIND, DELETE, and COPY.
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  name:
+                    description: The name of the Transfer Job. This name must start
+                      with "transferJobs/" prefix and end with a letter or a number,
+                      and should be no more than 128 characters ( transferJobs/^(?!OPI)[A-Za-z0-9-._~]*[A-Za-z0-9]$
+                      ). For transfers involving PosixFilesystem, this name must start
+                      with transferJobs/OPI specifically ( transferJobs/OPI^[A-Za-z0-9-._~]*[A-Za-z0-9]$
+                      ). For all other transfer types, this name must not start with
+                      transferJobs/OPI. Default the provider will assign a random
+                      unique name with transferJobs/{{name}} format, where name is
+                      a numeric value.
+                    type: string
+                  notificationConfig:
+                    description: Notification configuration. This is not supported
+                      for transfers involving PosixFilesystem. Structure documented
+                      below.
+                    properties:
+                      eventTypes:
+                        description: Event types for which a notification is desired.
+                          If empty, send notifications for all event types. The valid
+                          types are "TRANSFER_OPERATION_SUCCESS", "TRANSFER_OPERATION_FAILED",
+                          "TRANSFER_OPERATION_ABORTED".
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
+                      payloadFormat:
+                        description: The desired format of the notification message
+                          payloads. One of "NONE" or "JSON".
+                        type: string
+                      pubsubTopic:
+                        description: 'The Topic.name of the Pub/Sub topic to which
+                          to publish notifications. Must be of the format: projects/{project}/topics/{topic}.
+                          Not matching this format results in an INVALID_ARGUMENT
+                          error.'
+                        type: string
+                      pubsubTopicRef:
+                        description: Reference to a Topic in pubsub to populate pubsubTopic.
+                        properties:
+                          name:
+                            description: Name of the referenced object.
+                            type: string
+                          namespace:
+                            description: Namespace of the referenced object
+                            type: string
+                          policy:
+                            description: Policies for referencing.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        required:
+                        - name
+                        type: object
+                      pubsubTopicSelector:
+                        description: Selector for a Topic in pubsub to populate pubsubTopic.
+                        properties:
+                          matchControllerRef:
+                            description: |-
+                              MatchControllerRef ensures an object with the same controller reference
+                              as the selecting object is selected.
+                            type: boolean
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: MatchLabels ensures an object with matching
+                              labels is selected.
+                            type: object
+                          namespace:
+                            description: Namespace for the selector
+                            type: string
+                          policy:
+                            description: Policies for selection.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        type: object
+                    type: object
+                  project:
+                    description: |-
+                      The project in which the resource belongs. If it
+                      is not provided, the provider project is used.
+                    type: string
+                  replicationSpec:
+                    description: Replication specification. Structure documented below.
+                      User should not configure schedule, event_stream with this argument.
+                      One of transfer_spec, or replication_spec must be specified.
+                    properties:
+                      gcsDataSink:
+                        description: A Google Cloud Storage data sink. Structure documented
+                          below.
+                        properties:
+                          bucketName:
+                            description: Google Cloud Storage bucket name.
+                            type: string
+                          bucketNameRef:
+                            description: Reference to a Bucket in storage to populate
+                              bucketName.
+                            properties:
+                              name:
+                                description: Name of the referenced object.
+                                type: string
+                              namespace:
+                                description: Namespace of the referenced object
+                                type: string
+                              policy:
+                                description: Policies for referencing.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            required:
+                            - name
+                            type: object
+                          bucketNameSelector:
+                            description: Selector for a Bucket in storage to populate
+                              bucketName.
+                            properties:
+                              matchControllerRef:
+                                description: |-
+                                  MatchControllerRef ensures an object with the same controller reference
+                                  as the selecting object is selected.
+                                type: boolean
+                              matchLabels:
+                                additionalProperties:
+                                  type: string
+                                description: MatchLabels ensures an object with matching
+                                  labels is selected.
+                                type: object
+                              namespace:
+                                description: Namespace for the selector
+                                type: string
+                              policy:
+                                description: Policies for selection.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            type: object
+                          path:
+                            description: Root directory path to the filesystem.
+                            type: string
+                        type: object
+                      gcsDataSource:
+                        description: A Google Cloud Storage data source. Structure
+                          documented below.
+                        properties:
+                          bucketName:
+                            description: Google Cloud Storage bucket name.
+                            type: string
+                          bucketNameRef:
+                            description: Reference to a Bucket in storage to populate
+                              bucketName.
+                            properties:
+                              name:
+                                description: Name of the referenced object.
+                                type: string
+                              namespace:
+                                description: Namespace of the referenced object
+                                type: string
+                              policy:
+                                description: Policies for referencing.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            required:
+                            - name
+                            type: object
+                          bucketNameSelector:
+                            description: Selector for a Bucket in storage to populate
+                              bucketName.
+                            properties:
+                              matchControllerRef:
+                                description: |-
+                                  MatchControllerRef ensures an object with the same controller reference
+                                  as the selecting object is selected.
+                                type: boolean
+                              matchLabels:
+                                additionalProperties:
+                                  type: string
+                                description: MatchLabels ensures an object with matching
+                                  labels is selected.
+                                type: object
+                              namespace:
+                                description: Namespace for the selector
+                                type: string
+                              policy:
+                                description: Policies for selection.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            type: object
+                          path:
+                            description: Root directory path to the filesystem.
+                            type: string
+                        type: object
+                      objectConditions:
+                        description: Only objects that satisfy these object conditions
+                          are included in the set of data source and data sink objects.
+                          Object conditions based on objects' last_modification_time
+                          do not exclude objects in a data sink. Structure documented
+                          below.
+                        properties:
+                          excludePrefixes:
+                            description: exclude_prefixes must follow the requirements
+                              described for include_prefixes. See Requirements.
+                            items:
+                              type: string
+                            type: array
+                          includePrefixes:
+                            description: If include_prefixes is specified, objects
+                              that satisfy the object conditions must have names that
+                              start with one of the include_prefixes and that do not
+                              start with any of the exclude_prefixes. If include_prefixes
+                              is not specified, all objects except those that have
+                              names starting with one of the exclude_prefixes must
+                              satisfy the object conditions. See Requirements.
+                            items:
+                              type: string
+                            type: array
+                          lastModifiedBefore:
+                            description: 'If specified, only objects with a "last
+                              modification time" before this timestamp and objects
+                              that don''t have a "last modification time" are transferred.
+                              A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+                              resolution and up to nine fractional digits. Examples:
+                              "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".'
+                            type: string
+                          lastModifiedSince:
+                            description: 'If specified, only objects with a "last
+                              modification time" on or after this timestamp and objects
+                              that don''t have a "last modification time" are transferred.
+                              A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+                              resolution and up to nine fractional digits. Examples:
+                              "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".'
+                            type: string
+                          maxTimeElapsedSinceLastModification:
+                            description: 'A duration in seconds with up to nine fractional
+                              digits, terminated by ''s''. Example: "3.5s".'
+                            type: string
+                          minTimeElapsedSinceLastModification:
+                            description: 'A duration in seconds with up to nine fractional
+                              digits, terminated by ''s''. Example: "3.5s".'
+                            type: string
+                        type: object
+                      transferOptions:
+                        description: Characteristics of how to treat files from datasource
+                          and sink during job. If the option delete_objects_unique_in_sink
+                          is true, object conditions based on objects' last_modification_time
+                          are ignored and do not exclude objects in a data source
+                          or a data sink. Structure documented below.
+                        properties:
+                          deleteObjectsFromSourceAfterTransfer:
+                            description: Whether objects should be deleted from the
+                              source after they are transferred to the sink. Note
+                              that this option and delete_objects_unique_in_sink are
+                              mutually exclusive.
+                            type: boolean
+                          deleteObjectsUniqueInSink:
+                            description: |-
+                              Whether objects that exist only in the sink should be deleted. Note that this option and
+                              delete_objects_from_source_after_transfer are mutually exclusive.
+                            type: boolean
+                          metadataOptions:
+                            properties:
+                              acl:
+                                type: string
+                              gid:
+                                type: string
+                              kmsKey:
+                                type: string
+                              mode:
+                                type: string
+                              storageClass:
+                                type: string
+                              symlink:
+                                type: string
+                              temporaryHold:
+                                type: string
+                              timeCreated:
+                                type: string
+                              uid:
+                                type: string
+                            type: object
+                          overwriteObjectsAlreadyExistingInSink:
+                            description: Whether overwriting objects that already
+                              exist in the sink is allowed.
+                            type: boolean
+                          overwriteWhen:
+                            description: 'When to overwrite objects that already exist
+                              in the sink. If not set, overwrite behavior is determined
+                              by overwrite_objects_already_existing_in_sink. Possible
+                              values: ALWAYS, DIFFERENT, NEVER.'
+                            type: string
+                        type: object
+                    type: object
+                  schedule:
+                    description: Schedule specification defining when the Transfer
+                      Job should be scheduled to start, end and what time to run.
+                      Structure documented below. Either schedule or event_stream
+                      must be set.
+                    properties:
+                      repeatInterval:
+                        description: 'Interval between the start of each scheduled
+                          transfer. If unspecified, the default value is 24 hours.
+                          This value may not be less than 1 hour. A duration in seconds
+                          with up to nine fractional digits, terminated by ''s''.
+                          Example: "3.5s".'
+                        type: string
+                      scheduleEndDate:
+                        description: The last day the recurring transfer will be run.
+                          If schedule_end_date is the same as schedule_start_date,
+                          the transfer will be executed only once. Structure documented
+                          below.
+                        properties:
+                          day:
+                            description: Day of month. Must be from 1 to 31 and valid
+                              for the year and month.
+                            type: number
+                          month:
+                            description: Month of year. Must be from 1 to 12.
+                            type: number
+                          year:
+                            description: Year of date. Must be from 1 to 9999.
+                            type: number
+                        type: object
+                      scheduleStartDate:
+                        description: The first day the recurring transfer is scheduled
+                          to run. If schedule_start_date is in the past, the transfer
+                          will run for the first time on the following day. Structure
+                          documented below.
+                        properties:
+                          day:
+                            description: Day of month. Must be from 1 to 31 and valid
+                              for the year and month.
+                            type: number
+                          month:
+                            description: Month of year. Must be from 1 to 12.
+                            type: number
+                          year:
+                            description: Year of date. Must be from 1 to 9999.
+                            type: number
+                        type: object
+                      startTimeOfDay:
+                        description: The time in UTC at which the transfer will be
+                          scheduled to start in a day. Transfers may start later than
+                          this time. If not specified, recurring and one-time transfers
+                          that are scheduled to run today will run immediately; recurring
+                          transfers that are scheduled to run on a future date will
+                          start at approximately midnight UTC on that date. Note that
+                          when configuring a transfer with the Cloud Platform Console,
+                          the transfer's start time in a day is specified in your
+                          local timezone. Structure documented below.
+                        properties:
+                          hours:
+                            description: Hours of day in 24 hour format. Should be
+                              from 0 to 23
+                            type: number
+                          minutes:
+                            description: Minutes of hour of day. Must be from 0 to
+                              59.
+                            type: number
+                          nanos:
+                            description: Fractions of seconds in nanoseconds. Must
+                              be from 0 to 999,999,999.
+                            type: number
+                          seconds:
+                            description: Seconds of minutes of the time. Must normally
+                              be from 0 to 59.
+                            type: number
+                        type: object
+                    type: object
+                  status:
+                    description: 'Status of the job. Default: ENABLED. NOTE: The effect
+                      of the new job status takes place during a subsequent job run.
+                      For example, if you change the job status from ENABLED to DISABLED,
+                      and an operation spawned by the transfer is running, the status
+                      change would not affect the current operation.'
+                    type: string
+                  transferSpec:
+                    description: Transfer specification. Structure documented below.
+                      One of transfer_spec, or replication_spec can be specified.
+                    properties:
+                      awsS3DataSource:
+                        description: An AWS S3 data source. Structure documented below.
+                        properties:
+                          awsAccessKey:
+                            description: AWS credentials block.
+                            properties:
+                              accessKeyIdSecretRef:
+                                description: AWS Key ID.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                              secretAccessKeySecretRef:
+                                description: AWS Secret Access Key.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                            required:
+                            - accessKeyIdSecretRef
+                            - secretAccessKeySecretRef
+                            type: object
+                          bucketName:
+                            description: Google Cloud Storage bucket name.
+                            type: string
+                          managedPrivateNetwork:
+                            description: Egress bytes over a Google-managed private
+                              network. This network is shared between other users
+                              of Storage Transfer Service.
+                            type: boolean
+                          path:
+                            description: Root directory path to the filesystem.
+                            type: string
+                          roleArn:
+                            description: The Amazon Resource Name (ARN) of the role
+                              to support temporary credentials via 'AssumeRoleWithWebIdentity'.
+                              For more information about ARNs, see IAM ARNs. When
+                              a role ARN is provided, Transfer Service fetches temporary
+                              credentials for the session using a 'AssumeRoleWithWebIdentity'
+                              call for the provided role using the [GoogleServiceAccount][]
+                              for this project.
+                            type: string
+                        type: object
+                      azureBlobStorageDataSource:
+                        description: An Azure Blob Storage data source. Structure
+                          documented below.
+                        properties:
+                          azureCredentials:
+                            description: Credentials used to authenticate API requests
+                              to Azure block.
+                            properties:
+                              sasTokenSecretRef:
+                                description: Azure shared access signature. See Grant
+                                  limited access to Azure Storage resources using
+                                  shared access signatures (SAS).
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                            required:
+                            - sasTokenSecretRef
+                            type: object
+                          container:
+                            description: The container to transfer from the Azure
+                              Storage account.`
+                            type: string
+                          path:
+                            description: Root directory path to the filesystem.
+                            type: string
+                          storageAccount:
+                            description: The name of the Azure Storage account.
+                            type: string
+                        type: object
+                      gcsDataSink:
+                        description: A Google Cloud Storage data sink. Structure documented
+                          below.
+                        properties:
+                          bucketName:
+                            description: Google Cloud Storage bucket name.
+                            type: string
+                          bucketNameRef:
+                            description: Reference to a Bucket in storage to populate
+                              bucketName.
+                            properties:
+                              name:
+                                description: Name of the referenced object.
+                                type: string
+                              namespace:
+                                description: Namespace of the referenced object
+                                type: string
+                              policy:
+                                description: Policies for referencing.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            required:
+                            - name
+                            type: object
+                          bucketNameSelector:
+                            description: Selector for a Bucket in storage to populate
+                              bucketName.
+                            properties:
+                              matchControllerRef:
+                                description: |-
+                                  MatchControllerRef ensures an object with the same controller reference
+                                  as the selecting object is selected.
+                                type: boolean
+                              matchLabels:
+                                additionalProperties:
+                                  type: string
+                                description: MatchLabels ensures an object with matching
+                                  labels is selected.
+                                type: object
+                              namespace:
+                                description: Namespace for the selector
+                                type: string
+                              policy:
+                                description: Policies for selection.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            type: object
+                          path:
+                            description: Root directory path to the filesystem.
+                            type: string
+                        type: object
+                      gcsDataSource:
+                        description: A Google Cloud Storage data source. Structure
+                          documented below.
+                        properties:
+                          bucketName:
+                            description: Google Cloud Storage bucket name.
+                            type: string
+                          bucketNameRef:
+                            description: Reference to a Bucket in storage to populate
+                              bucketName.
+                            properties:
+                              name:
+                                description: Name of the referenced object.
+                                type: string
+                              namespace:
+                                description: Namespace of the referenced object
+                                type: string
+                              policy:
+                                description: Policies for referencing.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            required:
+                            - name
+                            type: object
+                          bucketNameSelector:
+                            description: Selector for a Bucket in storage to populate
+                              bucketName.
+                            properties:
+                              matchControllerRef:
+                                description: |-
+                                  MatchControllerRef ensures an object with the same controller reference
+                                  as the selecting object is selected.
+                                type: boolean
+                              matchLabels:
+                                additionalProperties:
+                                  type: string
+                                description: MatchLabels ensures an object with matching
+                                  labels is selected.
+                                type: object
+                              namespace:
+                                description: Namespace for the selector
+                                type: string
+                              policy:
+                                description: Policies for selection.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            type: object
+                          path:
+                            description: Root directory path to the filesystem.
+                            type: string
+                        type: object
+                      hdfsDataSource:
+                        description: An HDFS data source. Structure documented below.
+                        properties:
+                          path:
+                            description: Root directory path to the filesystem.
+                            type: string
+                        type: object
+                      httpDataSource:
+                        description: A HTTP URL data source. Structure documented
+                          below.
+                        properties:
+                          listUrl:
+                            description: The URL that points to the file that stores
+                              the object list entries. This file must allow public
+                              access. Currently, only URLs with HTTP and HTTPS schemes
+                              are supported.
+                            type: string
+                        type: object
+                      objectConditions:
+                        description: Only objects that satisfy these object conditions
+                          are included in the set of data source and data sink objects.
+                          Object conditions based on objects' last_modification_time
+                          do not exclude objects in a data sink. Structure documented
+                          below.
+                        properties:
+                          excludePrefixes:
+                            description: exclude_prefixes must follow the requirements
+                              described for include_prefixes. See Requirements.
+                            items:
+                              type: string
+                            type: array
+                          includePrefixes:
+                            description: If include_prefixes is specified, objects
+                              that satisfy the object conditions must have names that
+                              start with one of the include_prefixes and that do not
+                              start with any of the exclude_prefixes. If include_prefixes
+                              is not specified, all objects except those that have
+                              names starting with one of the exclude_prefixes must
+                              satisfy the object conditions. See Requirements.
+                            items:
+                              type: string
+                            type: array
+                          lastModifiedBefore:
+                            description: 'If specified, only objects with a "last
+                              modification time" before this timestamp and objects
+                              that don''t have a "last modification time" are transferred.
+                              A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+                              resolution and up to nine fractional digits. Examples:
+                              "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".'
+                            type: string
+                          lastModifiedSince:
+                            description: 'If specified, only objects with a "last
+                              modification time" on or after this timestamp and objects
+                              that don''t have a "last modification time" are transferred.
+                              A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+                              resolution and up to nine fractional digits. Examples:
+                              "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".'
+                            type: string
+                          maxTimeElapsedSinceLastModification:
+                            description: 'A duration in seconds with up to nine fractional
+                              digits, terminated by ''s''. Example: "3.5s".'
+                            type: string
+                          minTimeElapsedSinceLastModification:
+                            description: 'A duration in seconds with up to nine fractional
+                              digits, terminated by ''s''. Example: "3.5s".'
+                            type: string
+                        type: object
+                      posixDataSink:
+                        description: A POSIX data sink. Structure documented below.
+                        properties:
+                          rootDirectory:
+                            description: Root directory path to the filesystem.
+                            type: string
+                        type: object
+                      posixDataSource:
+                        description: A POSIX filesystem data source. Structure documented
+                          below.
+                        properties:
+                          rootDirectory:
+                            description: Root directory path to the filesystem.
+                            type: string
+                        type: object
+                      sinkAgentPoolName:
+                        description: Specifies the agent pool name associated with
+                          the posix data sink. When unspecified, the default name
+                          is used.
+                        type: string
+                      sourceAgentPoolName:
+                        description: Specifies the agent pool name associated with
+                          the posix data source. When unspecified, the default name
+                          is used.
+                        type: string
+                      transferOptions:
+                        description: Characteristics of how to treat files from datasource
+                          and sink during job. If the option delete_objects_unique_in_sink
+                          is true, object conditions based on objects' last_modification_time
+                          are ignored and do not exclude objects in a data source
+                          or a data sink. Structure documented below.
+                        properties:
+                          deleteObjectsFromSourceAfterTransfer:
+                            description: Whether objects should be deleted from the
+                              source after they are transferred to the sink. Note
+                              that this option and delete_objects_unique_in_sink are
+                              mutually exclusive.
+                            type: boolean
+                          deleteObjectsUniqueInSink:
+                            description: |-
+                              Whether objects that exist only in the sink should be deleted. Note that this option and
+                              delete_objects_from_source_after_transfer are mutually exclusive.
+                            type: boolean
+                          metadataOptions:
+                            properties:
+                              acl:
+                                type: string
+                              gid:
+                                type: string
+                              kmsKey:
+                                type: string
+                              mode:
+                                type: string
+                              storageClass:
+                                type: string
+                              symlink:
+                                type: string
+                              temporaryHold:
+                                type: string
+                              timeCreated:
+                                type: string
+                              uid:
+                                type: string
+                            type: object
+                          overwriteObjectsAlreadyExistingInSink:
+                            description: Whether overwriting objects that already
+                              exist in the sink is allowed.
+                            type: boolean
+                          overwriteWhen:
+                            description: 'When to overwrite objects that already exist
+                              in the sink. If not set, overwrite behavior is determined
+                              by overwrite_objects_already_existing_in_sink. Possible
+                              values: ALWAYS, DIFFERENT, NEVER.'
+                            type: string
+                        type: object
+                    type: object
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  kind: ClusterProviderConfig
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  kind:
+                    description: Kind of the referenced object.
+                    type: string
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - kind
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                required:
+                - name
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.description is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.description)
+                || (has(self.initProvider) && has(self.initProvider.description))'
+          status:
+            description: JobStatus defines the observed state of Job.
+            properties:
+              atProvider:
+                properties:
+                  creationTime:
+                    description: When the Transfer Job was created.
+                    type: string
+                  deletionTime:
+                    description: When the Transfer Job was deleted.
+                    type: string
+                  description:
+                    description: Unique description to identify the Transfer Job.
+                    type: string
+                  eventStream:
+                    description: Specifies the Event-driven transfer options. Event-driven
+                      transfers listen to an event stream to transfer updated files.
+                      Structure documented below Either event_stream or schedule must
+                      be set.
+                    properties:
+                      eventStreamExpirationTime:
+                        description: 'Specifies the data and time at which Storage
+                          Transfer Service stops listening for events from this stream.
+                          After this time, any transfers in progress will complete,
+                          but no new transfers are initiated.A timestamp in RFC3339
+                          UTC "Zulu" format, with nanosecond resolution and up to
+                          nine fractional digits. Examples: "2014-10-02T15:01:23Z"
+                          and "2014-10-02T15:01:23.045123456Z".'
+                        type: string
+                      eventStreamStartTime:
+                        description: 'Specifies the date and time that Storage Transfer
+                          Service starts listening for events from this stream. If
+                          no start time is specified or start time is in the past,
+                          Storage Transfer Service starts listening immediately. A
+                          timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+                          resolution and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z"
+                          and "2014-10-02T15:01:23.045123456Z".'
+                        type: string
+                      name:
+                        description: Specifies a unique name of the resource such
+                          as AWS SQS ARN in the form 'arn:aws:sqs:region:account_id:queue_name',
+                          or Pub/Sub subscription resource name in the form 'projects/{project}/subscriptions/{sub}'.
+                        type: string
+                    type: object
+                  id:
+                    type: string
+                  lastModificationTime:
+                    description: When the Transfer Job was last modified.
+                    type: string
+                  loggingConfig:
+                    description: Logging configuration. Structure documented below.
+                    properties:
+                      enableOnPremGcsTransferLogs:
+                        type: boolean
+                      logActionStates:
+                        description: |-
+                          A list of loggable action states. If empty, no logs are generated. Not supported for transfers with PosixFilesystem data sources; use enableOnpremGcsTransferLogs instead.
+                          Each action state may be one of SUCCEEDED, and FAILED.
+                        items:
+                          type: string
+                        type: array
+                      logActions:
+                        description: |-
+                          A list of actions to be logged. If empty, no logs are generated. Not supported for transfers with PosixFilesystem data sources; use enableOnpremGcsTransferLogs instead.
+                          Each action may be one of FIND, DELETE, and COPY.
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  name:
+                    description: The name of the Transfer Job. This name must start
+                      with "transferJobs/" prefix and end with a letter or a number,
+                      and should be no more than 128 characters ( transferJobs/^(?!OPI)[A-Za-z0-9-._~]*[A-Za-z0-9]$
+                      ). For transfers involving PosixFilesystem, this name must start
+                      with transferJobs/OPI specifically ( transferJobs/OPI^[A-Za-z0-9-._~]*[A-Za-z0-9]$
+                      ). For all other transfer types, this name must not start with
+                      transferJobs/OPI. Default the provider will assign a random
+                      unique name with transferJobs/{{name}} format, where name is
+                      a numeric value.
+                    type: string
+                  notificationConfig:
+                    description: Notification configuration. This is not supported
+                      for transfers involving PosixFilesystem. Structure documented
+                      below.
+                    properties:
+                      eventTypes:
+                        description: Event types for which a notification is desired.
+                          If empty, send notifications for all event types. The valid
+                          types are "TRANSFER_OPERATION_SUCCESS", "TRANSFER_OPERATION_FAILED",
+                          "TRANSFER_OPERATION_ABORTED".
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
+                      payloadFormat:
+                        description: The desired format of the notification message
+                          payloads. One of "NONE" or "JSON".
+                        type: string
+                      pubsubTopic:
+                        description: 'The Topic.name of the Pub/Sub topic to which
+                          to publish notifications. Must be of the format: projects/{project}/topics/{topic}.
+                          Not matching this format results in an INVALID_ARGUMENT
+                          error.'
+                        type: string
+                    type: object
+                  project:
+                    description: |-
+                      The project in which the resource belongs. If it
+                      is not provided, the provider project is used.
+                    type: string
+                  replicationSpec:
+                    description: Replication specification. Structure documented below.
+                      User should not configure schedule, event_stream with this argument.
+                      One of transfer_spec, or replication_spec must be specified.
+                    properties:
+                      gcsDataSink:
+                        description: A Google Cloud Storage data sink. Structure documented
+                          below.
+                        properties:
+                          bucketName:
+                            description: Google Cloud Storage bucket name.
+                            type: string
+                          path:
+                            description: Root directory path to the filesystem.
+                            type: string
+                        type: object
+                      gcsDataSource:
+                        description: A Google Cloud Storage data source. Structure
+                          documented below.
+                        properties:
+                          bucketName:
+                            description: Google Cloud Storage bucket name.
+                            type: string
+                          path:
+                            description: Root directory path to the filesystem.
+                            type: string
+                        type: object
+                      objectConditions:
+                        description: Only objects that satisfy these object conditions
+                          are included in the set of data source and data sink objects.
+                          Object conditions based on objects' last_modification_time
+                          do not exclude objects in a data sink. Structure documented
+                          below.
+                        properties:
+                          excludePrefixes:
+                            description: exclude_prefixes must follow the requirements
+                              described for include_prefixes. See Requirements.
+                            items:
+                              type: string
+                            type: array
+                          includePrefixes:
+                            description: If include_prefixes is specified, objects
+                              that satisfy the object conditions must have names that
+                              start with one of the include_prefixes and that do not
+                              start with any of the exclude_prefixes. If include_prefixes
+                              is not specified, all objects except those that have
+                              names starting with one of the exclude_prefixes must
+                              satisfy the object conditions. See Requirements.
+                            items:
+                              type: string
+                            type: array
+                          lastModifiedBefore:
+                            description: 'If specified, only objects with a "last
+                              modification time" before this timestamp and objects
+                              that don''t have a "last modification time" are transferred.
+                              A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+                              resolution and up to nine fractional digits. Examples:
+                              "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".'
+                            type: string
+                          lastModifiedSince:
+                            description: 'If specified, only objects with a "last
+                              modification time" on or after this timestamp and objects
+                              that don''t have a "last modification time" are transferred.
+                              A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+                              resolution and up to nine fractional digits. Examples:
+                              "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".'
+                            type: string
+                          maxTimeElapsedSinceLastModification:
+                            description: 'A duration in seconds with up to nine fractional
+                              digits, terminated by ''s''. Example: "3.5s".'
+                            type: string
+                          minTimeElapsedSinceLastModification:
+                            description: 'A duration in seconds with up to nine fractional
+                              digits, terminated by ''s''. Example: "3.5s".'
+                            type: string
+                        type: object
+                      transferOptions:
+                        description: Characteristics of how to treat files from datasource
+                          and sink during job. If the option delete_objects_unique_in_sink
+                          is true, object conditions based on objects' last_modification_time
+                          are ignored and do not exclude objects in a data source
+                          or a data sink. Structure documented below.
+                        properties:
+                          deleteObjectsFromSourceAfterTransfer:
+                            description: Whether objects should be deleted from the
+                              source after they are transferred to the sink. Note
+                              that this option and delete_objects_unique_in_sink are
+                              mutually exclusive.
+                            type: boolean
+                          deleteObjectsUniqueInSink:
+                            description: |-
+                              Whether objects that exist only in the sink should be deleted. Note that this option and
+                              delete_objects_from_source_after_transfer are mutually exclusive.
+                            type: boolean
+                          metadataOptions:
+                            properties:
+                              acl:
+                                type: string
+                              gid:
+                                type: string
+                              kmsKey:
+                                type: string
+                              mode:
+                                type: string
+                              storageClass:
+                                type: string
+                              symlink:
+                                type: string
+                              temporaryHold:
+                                type: string
+                              timeCreated:
+                                type: string
+                              uid:
+                                type: string
+                            type: object
+                          overwriteObjectsAlreadyExistingInSink:
+                            description: Whether overwriting objects that already
+                              exist in the sink is allowed.
+                            type: boolean
+                          overwriteWhen:
+                            description: 'When to overwrite objects that already exist
+                              in the sink. If not set, overwrite behavior is determined
+                              by overwrite_objects_already_existing_in_sink. Possible
+                              values: ALWAYS, DIFFERENT, NEVER.'
+                            type: string
+                        type: object
+                    type: object
+                  schedule:
+                    description: Schedule specification defining when the Transfer
+                      Job should be scheduled to start, end and what time to run.
+                      Structure documented below. Either schedule or event_stream
+                      must be set.
+                    properties:
+                      repeatInterval:
+                        description: 'Interval between the start of each scheduled
+                          transfer. If unspecified, the default value is 24 hours.
+                          This value may not be less than 1 hour. A duration in seconds
+                          with up to nine fractional digits, terminated by ''s''.
+                          Example: "3.5s".'
+                        type: string
+                      scheduleEndDate:
+                        description: The last day the recurring transfer will be run.
+                          If schedule_end_date is the same as schedule_start_date,
+                          the transfer will be executed only once. Structure documented
+                          below.
+                        properties:
+                          day:
+                            description: Day of month. Must be from 1 to 31 and valid
+                              for the year and month.
+                            type: number
+                          month:
+                            description: Month of year. Must be from 1 to 12.
+                            type: number
+                          year:
+                            description: Year of date. Must be from 1 to 9999.
+                            type: number
+                        type: object
+                      scheduleStartDate:
+                        description: The first day the recurring transfer is scheduled
+                          to run. If schedule_start_date is in the past, the transfer
+                          will run for the first time on the following day. Structure
+                          documented below.
+                        properties:
+                          day:
+                            description: Day of month. Must be from 1 to 31 and valid
+                              for the year and month.
+                            type: number
+                          month:
+                            description: Month of year. Must be from 1 to 12.
+                            type: number
+                          year:
+                            description: Year of date. Must be from 1 to 9999.
+                            type: number
+                        type: object
+                      startTimeOfDay:
+                        description: The time in UTC at which the transfer will be
+                          scheduled to start in a day. Transfers may start later than
+                          this time. If not specified, recurring and one-time transfers
+                          that are scheduled to run today will run immediately; recurring
+                          transfers that are scheduled to run on a future date will
+                          start at approximately midnight UTC on that date. Note that
+                          when configuring a transfer with the Cloud Platform Console,
+                          the transfer's start time in a day is specified in your
+                          local timezone. Structure documented below.
+                        properties:
+                          hours:
+                            description: Hours of day in 24 hour format. Should be
+                              from 0 to 23
+                            type: number
+                          minutes:
+                            description: Minutes of hour of day. Must be from 0 to
+                              59.
+                            type: number
+                          nanos:
+                            description: Fractions of seconds in nanoseconds. Must
+                              be from 0 to 999,999,999.
+                            type: number
+                          seconds:
+                            description: Seconds of minutes of the time. Must normally
+                              be from 0 to 59.
+                            type: number
+                        type: object
+                    type: object
+                  status:
+                    description: 'Status of the job. Default: ENABLED. NOTE: The effect
+                      of the new job status takes place during a subsequent job run.
+                      For example, if you change the job status from ENABLED to DISABLED,
+                      and an operation spawned by the transfer is running, the status
+                      change would not affect the current operation.'
+                    type: string
+                  transferSpec:
+                    description: Transfer specification. Structure documented below.
+                      One of transfer_spec, or replication_spec can be specified.
+                    properties:
+                      awsS3DataSource:
+                        description: An AWS S3 data source. Structure documented below.
+                        properties:
+                          awsAccessKey:
+                            description: AWS credentials block.
+                            properties:
+                              accessKeyIdSecretRef:
+                                description: AWS Key ID.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                              secretAccessKeySecretRef:
+                                description: AWS Secret Access Key.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                            type: object
+                          bucketName:
+                            description: Google Cloud Storage bucket name.
+                            type: string
+                          managedPrivateNetwork:
+                            description: Egress bytes over a Google-managed private
+                              network. This network is shared between other users
+                              of Storage Transfer Service.
+                            type: boolean
+                          path:
+                            description: Root directory path to the filesystem.
+                            type: string
+                          roleArn:
+                            description: The Amazon Resource Name (ARN) of the role
+                              to support temporary credentials via 'AssumeRoleWithWebIdentity'.
+                              For more information about ARNs, see IAM ARNs. When
+                              a role ARN is provided, Transfer Service fetches temporary
+                              credentials for the session using a 'AssumeRoleWithWebIdentity'
+                              call for the provided role using the [GoogleServiceAccount][]
+                              for this project.
+                            type: string
+                        type: object
+                      azureBlobStorageDataSource:
+                        description: An Azure Blob Storage data source. Structure
+                          documented below.
+                        properties:
+                          azureCredentials:
+                            description: Credentials used to authenticate API requests
+                              to Azure block.
+                            properties:
+                              sasTokenSecretRef:
+                                description: Azure shared access signature. See Grant
+                                  limited access to Azure Storage resources using
+                                  shared access signatures (SAS).
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                            type: object
+                          container:
+                            description: The container to transfer from the Azure
+                              Storage account.`
+                            type: string
+                          path:
+                            description: Root directory path to the filesystem.
+                            type: string
+                          storageAccount:
+                            description: The name of the Azure Storage account.
+                            type: string
+                        type: object
+                      gcsDataSink:
+                        description: A Google Cloud Storage data sink. Structure documented
+                          below.
+                        properties:
+                          bucketName:
+                            description: Google Cloud Storage bucket name.
+                            type: string
+                          path:
+                            description: Root directory path to the filesystem.
+                            type: string
+                        type: object
+                      gcsDataSource:
+                        description: A Google Cloud Storage data source. Structure
+                          documented below.
+                        properties:
+                          bucketName:
+                            description: Google Cloud Storage bucket name.
+                            type: string
+                          path:
+                            description: Root directory path to the filesystem.
+                            type: string
+                        type: object
+                      hdfsDataSource:
+                        description: An HDFS data source. Structure documented below.
+                        properties:
+                          path:
+                            description: Root directory path to the filesystem.
+                            type: string
+                        type: object
+                      httpDataSource:
+                        description: A HTTP URL data source. Structure documented
+                          below.
+                        properties:
+                          listUrl:
+                            description: The URL that points to the file that stores
+                              the object list entries. This file must allow public
+                              access. Currently, only URLs with HTTP and HTTPS schemes
+                              are supported.
+                            type: string
+                        type: object
+                      objectConditions:
+                        description: Only objects that satisfy these object conditions
+                          are included in the set of data source and data sink objects.
+                          Object conditions based on objects' last_modification_time
+                          do not exclude objects in a data sink. Structure documented
+                          below.
+                        properties:
+                          excludePrefixes:
+                            description: exclude_prefixes must follow the requirements
+                              described for include_prefixes. See Requirements.
+                            items:
+                              type: string
+                            type: array
+                          includePrefixes:
+                            description: If include_prefixes is specified, objects
+                              that satisfy the object conditions must have names that
+                              start with one of the include_prefixes and that do not
+                              start with any of the exclude_prefixes. If include_prefixes
+                              is not specified, all objects except those that have
+                              names starting with one of the exclude_prefixes must
+                              satisfy the object conditions. See Requirements.
+                            items:
+                              type: string
+                            type: array
+                          lastModifiedBefore:
+                            description: 'If specified, only objects with a "last
+                              modification time" before this timestamp and objects
+                              that don''t have a "last modification time" are transferred.
+                              A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+                              resolution and up to nine fractional digits. Examples:
+                              "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".'
+                            type: string
+                          lastModifiedSince:
+                            description: 'If specified, only objects with a "last
+                              modification time" on or after this timestamp and objects
+                              that don''t have a "last modification time" are transferred.
+                              A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+                              resolution and up to nine fractional digits. Examples:
+                              "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".'
+                            type: string
+                          maxTimeElapsedSinceLastModification:
+                            description: 'A duration in seconds with up to nine fractional
+                              digits, terminated by ''s''. Example: "3.5s".'
+                            type: string
+                          minTimeElapsedSinceLastModification:
+                            description: 'A duration in seconds with up to nine fractional
+                              digits, terminated by ''s''. Example: "3.5s".'
+                            type: string
+                        type: object
+                      posixDataSink:
+                        description: A POSIX data sink. Structure documented below.
+                        properties:
+                          rootDirectory:
+                            description: Root directory path to the filesystem.
+                            type: string
+                        type: object
+                      posixDataSource:
+                        description: A POSIX filesystem data source. Structure documented
+                          below.
+                        properties:
+                          rootDirectory:
+                            description: Root directory path to the filesystem.
+                            type: string
+                        type: object
+                      sinkAgentPoolName:
+                        description: Specifies the agent pool name associated with
+                          the posix data sink. When unspecified, the default name
+                          is used.
+                        type: string
+                      sourceAgentPoolName:
+                        description: Specifies the agent pool name associated with
+                          the posix data source. When unspecified, the default name
+                          is used.
+                        type: string
+                      transferOptions:
+                        description: Characteristics of how to treat files from datasource
+                          and sink during job. If the option delete_objects_unique_in_sink
+                          is true, object conditions based on objects' last_modification_time
+                          are ignored and do not exclude objects in a data source
+                          or a data sink. Structure documented below.
+                        properties:
+                          deleteObjectsFromSourceAfterTransfer:
+                            description: Whether objects should be deleted from the
+                              source after they are transferred to the sink. Note
+                              that this option and delete_objects_unique_in_sink are
+                              mutually exclusive.
+                            type: boolean
+                          deleteObjectsUniqueInSink:
+                            description: |-
+                              Whether objects that exist only in the sink should be deleted. Note that this option and
+                              delete_objects_from_source_after_transfer are mutually exclusive.
+                            type: boolean
+                          metadataOptions:
+                            properties:
+                              acl:
+                                type: string
+                              gid:
+                                type: string
+                              kmsKey:
+                                type: string
+                              mode:
+                                type: string
+                              storageClass:
+                                type: string
+                              symlink:
+                                type: string
+                              temporaryHold:
+                                type: string
+                              timeCreated:
+                                type: string
+                              uid:
+                                type: string
+                            type: object
+                          overwriteObjectsAlreadyExistingInSink:
+                            description: Whether overwriting objects that already
+                              exist in the sink is allowed.
+                            type: boolean
+                          overwriteWhen:
+                            description: 'When to overwrite objects that already exist
+                              in the sink. If not set, overwrite behavior is determined
+                              by overwrite_objects_already_existing_in_sink. Possible
+                              values: ALWAYS, DIFFERENT, NEVER.'
+                            type: string
+                        type: object
+                    type: object
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
