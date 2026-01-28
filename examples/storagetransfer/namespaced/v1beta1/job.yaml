@@ -151,6 +151,24 @@ metadata:
   annotations:
     meta.upbound.io/example-id: storagetransfer/v1beta1/job
   labels:
+    testing.upbound.io/example-name: backup-bucket-bucket-viewer
+  name: backup-bucket-bucket-viewer
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: backup-bucket
+    member: serviceAccount:project-${data.cloudplatform_project.projectNumber}@storage-transfer-service.iam.gserviceaccount.com
+    role: roles/storage.bucketViewer
+
+---
+
+apiVersion: storage.gcp.m.upbound.io/v1beta1
+kind: BucketIAMMember
+metadata:
+  annotations:
+    meta.upbound.io/example-id: storagetransfer/v1beta1/job
+  labels:
     testing.upbound.io/example-name: backup-bucket-object-admin
   name: backup-bucket-object-admin
 spec:
