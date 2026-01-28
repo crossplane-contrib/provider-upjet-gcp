@@ -106,3 +106,58 @@ spec:
   forProvider:
     location: US
     storageClass: NEARLINE
+
+---
+
+
+apiVersion: storage.gcp.m.upbound.io/v1beta1
+kind: BucketIAMMember
+metadata:
+  annotations:
+    meta.upbound.io/example-id: storagetransfer/v1beta1/job
+  labels:
+    testing.upbound.io/example-name: source-bucket-iam-member
+  name: source-bucket-iam-member
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: source-bucket
+    member: serviceAccount:project-${data.cloudplatform_project.projectNumber}@storage-transfer-service.iam.gserviceaccount.com
+    role: roles/storage.admin
+
+---
+
+apiVersion: storage.gcp.m.upbound.io/v1beta1
+kind: BucketIAMMember
+metadata:
+  annotations:
+    meta.upbound.io/example-id: storagetransfer/v1beta1/job
+  labels:
+    testing.upbound.io/example-name: backup-bucket-iam-member
+  name: backup-bucket-iam-member
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: backup-bucket
+    member: serviceAccount:project-${data.cloudplatform_project.projectNumber}@storage-transfer-service.iam.gserviceaccount.com
+    role: roles/storage.admin
+
+---
+
+apiVersion: pubsub.gcp.m.upbound.io/v1beta1
+kind: TopicIAMMember
+metadata:
+  annotations:
+    meta.upbound.io/example-id: storagetransfer/v1beta1/job
+  labels:
+    testing.upbound.io/example-name: topic-iam-member
+  name: topic-iam-member
+spec:
+  forProvider:
+    member: serviceAccount:project-${data.cloudplatform_project.projectNumber}@storage-transfer-service.iam.gserviceaccount.com
+    role: roles/pubsub.publisher
+    topicSelector:
+      matchLabels:
+        testing.upbound.io/example-name: topic
