@@ -109,22 +109,21 @@ spec:
 
 ---
 
-
 apiVersion: storage.gcp.m.upbound.io/v1beta1
 kind: BucketIAMMember
 metadata:
   annotations:
     meta.upbound.io/example-id: storagetransfer/v1beta1/job
   labels:
-    testing.upbound.io/example-name: source-bucket-iam-member
-  name: source-bucket-iam-member
+    testing.upbound.io/example-name: source-bucket-bucket-viewer
+  name: source-bucket-bucket-viewer
 spec:
   forProvider:
     bucketSelector:
       matchLabels:
         testing.upbound.io/example-name: source-bucket
     member: serviceAccount:project-${data.cloudplatform_project.projectNumber}@storage-transfer-service.iam.gserviceaccount.com
-    role: roles/storage.admin
+    role: roles/storage.bucketViewer
 
 ---
 
@@ -134,15 +133,33 @@ metadata:
   annotations:
     meta.upbound.io/example-id: storagetransfer/v1beta1/job
   labels:
-    testing.upbound.io/example-name: backup-bucket-iam-member
-  name: backup-bucket-iam-member
+    testing.upbound.io/example-name: source-bucket-object-viewer
+  name: source-bucket-object-viewer
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: source-bucket
+    member: serviceAccount:project-${data.cloudplatform_project.projectNumber}@storage-transfer-service.iam.gserviceaccount.com
+    role: roles/storage.objectViewer
+
+---
+
+apiVersion: storage.gcp.m.upbound.io/v1beta1
+kind: BucketIAMMember
+metadata:
+  annotations:
+    meta.upbound.io/example-id: storagetransfer/v1beta1/job
+  labels:
+    testing.upbound.io/example-name: backup-bucket-object-admin
+  name: backup-bucket-object-admin
 spec:
   forProvider:
     bucketSelector:
       matchLabels:
         testing.upbound.io/example-name: backup-bucket
     member: serviceAccount:project-${data.cloudplatform_project.projectNumber}@storage-transfer-service.iam.gserviceaccount.com
-    role: roles/storage.admin
+    role: roles/storage.objectAdmin
 
 ---
 
