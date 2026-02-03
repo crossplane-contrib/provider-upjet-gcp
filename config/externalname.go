@@ -1119,6 +1119,15 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_memorystore_instance": config.TemplatedStringAsIdentifier("instance_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/instances/{{ .external_name }}"),
 	// Imported by using the following projects/{{project}}/locations/{{region}}/instances/{{name}}
 	"google_memorystore_instance_desired_user_created_endpoints": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.region }}/instances/{{ .external_name }}"),
+
+	// google managedkafka
+	//
+	// The resource can be imported using projects/{{project}}/locations/{{location}}/clusters/{{cluster_id}}
+	"google_managed_kafka_cluster": config.TemplatedStringAsIdentifier("cluster_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/clusters/{{ .external_name }}"),
+	// The resource can be imported using projects/{{project}}/locations/{{location}}/clusters/{{cluster}}/topics/{{topic_id}}
+	"google_managed_kafka_topic": config.TemplatedStringAsIdentifier("topic_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/clusters/{{ .parameters.cluster }}/topics/{{ .external_name }}"),
+	// The resource can be imported using projects/{{project}}/locations/{{location}}/clusters/{{cluster}}/acls/{{acl_id}}
+	"google_managed_kafka_acl": config.TemplatedStringAsIdentifier("acl_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/clusters/{{ .parameters.cluster }}/acls/{{ .external_name }}"),
 }
 
 // cliReconciledExternalNameConfigs contains all external name configurations

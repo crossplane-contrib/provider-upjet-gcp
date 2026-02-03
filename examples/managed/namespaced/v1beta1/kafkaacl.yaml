@@ -1,0 +1,50 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: managed.gcp.m.upbound.io/v1beta1
+kind: KafkaACL
+metadata:
+  annotations:
+    meta.upbound.io/example-id: managed/v1beta1/kafkaacl
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: upbound-system
+spec:
+  forProvider:
+    aclEntries:
+    - host: '*'
+      operation: ALL
+      permissionType: ALLOW
+      principal: User:admin@my-project.iam.gserviceaccount.com
+    - host: '*'
+      operation: WRITE
+      permissionType: ALLOW
+      principal: User:producer-client@my-project.iam.gserviceaccount.com
+    clusterSelector:
+      matchLabels:
+        testing.upbound.io/example-name: cluster
+    location: us-central1
+
+---
+
+apiVersion: managed.gcp.m.upbound.io/v1beta1
+kind: KafkaCluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: managed/v1beta1/kafkaacl
+  labels:
+    testing.upbound.io/example-name: cluster
+  name: cluster
+  namespace: upbound-system
+spec:
+  forProvider:
+    capacityConfig:
+      memoryBytes: 3221225472
+      vcpuCount: 3
+    gcpConfig:
+      accessConfig:
+        networkConfigs:
+        - subnet: projects/${data.google_project.project.number}/regions/us-central1/subnetworks/default
+    location: us-central1

@@ -314,6 +314,9 @@ import (
 	projectbucketconfig "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/logging/projectbucketconfig"
 	projectexclusion "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/logging/projectexclusion"
 	projectsink "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/logging/projectsink"
+	kafkaacl "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/managed/kafkaacl"
+	kafkacluster "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/managed/kafkacluster"
+	kafkatopic "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/managed/kafkatopic"
 	instancememcache "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/memcache/instance"
 	instancememorystore "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/memorystore/instance"
 	instancedesiredusercreatedendpoints "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/memorystore/instancedesiredusercreatedendpoints"
@@ -719,6 +722,9 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		projectbucketconfig.Setup,
 		projectexclusion.Setup,
 		projectsink.Setup,
+		kafkaacl.Setup,
+		kafkacluster.Setup,
+		kafkatopic.Setup,
 		instancememcache.Setup,
 		instancememorystore.Setup,
 		instancedesiredusercreatedendpoints.Setup,
@@ -1130,6 +1136,9 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		projectbucketconfig.SetupGated,
 		projectexclusion.SetupGated,
 		projectsink.SetupGated,
+		kafkaacl.SetupGated,
+		kafkacluster.SetupGated,
+		kafkatopic.SetupGated,
 		instancememcache.SetupGated,
 		instancememorystore.SetupGated,
 		instancedesiredusercreatedendpoints.SetupGated,
