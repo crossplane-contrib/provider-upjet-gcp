@@ -1127,7 +1127,7 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// The resource can be imported using projects/{{project}}/locations/{{location}}/clusters/{{cluster}}/topics/{{topic_id}}
 	"google_managed_kafka_topic": config.TemplatedStringAsIdentifier("topic_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/clusters/{{ .parameters.cluster }}/topics/{{ .external_name }}"),
 	// The resource can be imported using projects/{{project}}/locations/{{location}}/clusters/{{cluster}}/acls/{{acl_id}}
-	"google_managed_kafka_acl": config.TemplatedStringAsIdentifier("acl_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/clusters/{{ .parameters.cluster }}/acls/{{ .external_name }}"),
+	"google_managed_kafka_acl": config.IdentifierFromProvider,
 }
 
 // cliReconciledExternalNameConfigs contains all external name configurations
