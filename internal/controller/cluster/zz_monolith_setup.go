@@ -86,6 +86,8 @@ import (
 	function "github.com/upbound/provider-gcp/v2/internal/controller/cluster/cloudfunctions/function"
 	functioniammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/cloudfunctions/functioniammember"
 	functioncloudfunctions2 "github.com/upbound/provider-gcp/v2/internal/controller/cluster/cloudfunctions2/function"
+	group "github.com/upbound/provider-gcp/v2/internal/controller/cluster/cloudidentity/group"
+	groupmembership "github.com/upbound/provider-gcp/v2/internal/controller/cluster/cloudidentity/groupmembership"
 	folder "github.com/upbound/provider-gcp/v2/internal/controller/cluster/cloudplatform/folder"
 	folderiammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/cloudplatform/folderiammember"
 	organizationiamauditconfig "github.com/upbound/provider-gcp/v2/internal/controller/cluster/cloudplatform/organizationiamauditconfig"
@@ -321,7 +323,7 @@ import (
 	alertpolicy "github.com/upbound/provider-gcp/v2/internal/controller/cluster/monitoring/alertpolicy"
 	customservice "github.com/upbound/provider-gcp/v2/internal/controller/cluster/monitoring/customservice"
 	dashboard "github.com/upbound/provider-gcp/v2/internal/controller/cluster/monitoring/dashboard"
-	group "github.com/upbound/provider-gcp/v2/internal/controller/cluster/monitoring/group"
+	groupmonitoring "github.com/upbound/provider-gcp/v2/internal/controller/cluster/monitoring/group"
 	metricdescriptor "github.com/upbound/provider-gcp/v2/internal/controller/cluster/monitoring/metricdescriptor"
 	notificationchannel "github.com/upbound/provider-gcp/v2/internal/controller/cluster/monitoring/notificationchannel"
 	servicemonitoring "github.com/upbound/provider-gcp/v2/internal/controller/cluster/monitoring/service"
@@ -491,6 +493,8 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		function.Setup,
 		functioniammember.Setup,
 		functioncloudfunctions2.Setup,
+		group.Setup,
+		groupmembership.Setup,
 		folder.Setup,
 		folderiammember.Setup,
 		organizationiamauditconfig.Setup,
@@ -726,7 +730,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		alertpolicy.Setup,
 		customservice.Setup,
 		dashboard.Setup,
-		group.Setup,
+		groupmonitoring.Setup,
 		metricdescriptor.Setup,
 		notificationchannel.Setup,
 		servicemonitoring.Setup,
@@ -902,6 +906,8 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		function.SetupGated,
 		functioniammember.SetupGated,
 		functioncloudfunctions2.SetupGated,
+		group.SetupGated,
+		groupmembership.SetupGated,
 		folder.SetupGated,
 		folderiammember.SetupGated,
 		organizationiamauditconfig.SetupGated,
@@ -1137,7 +1143,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		alertpolicy.SetupGated,
 		customservice.SetupGated,
 		dashboard.SetupGated,
-		group.SetupGated,
+		groupmonitoring.SetupGated,
 		metricdescriptor.SetupGated,
 		notificationchannel.SetupGated,
 		servicemonitoring.SetupGated,
