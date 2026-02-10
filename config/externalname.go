@@ -1128,6 +1128,15 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_managed_kafka_topic": config.TemplatedStringAsIdentifier("topic_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/clusters/{{ .parameters.cluster }}/topics/{{ .external_name }}"),
 	// Imported by using the following projects/{{project}}/locations/{{location}}/clusters/{{cluster}}/acls/{{acl_id}}
 	"google_managed_kafka_acl": config.IdentifierFromProvider,
+	
+  // cloudidentity
+	//
+	// Imported by using the following: groups/<group_id>
+	// Please see the cloudIdentity function for details.
+	"google_cloud_identity_group": cloudIdentity(),
+	// Imported by using the following: groups/<group_id>/memberships/<membership_id>
+	// Please see the cloudIdentity function for details.
+	"google_cloud_identity_group_membership": cloudIdentity(),
 }
 
 // cliReconciledExternalNameConfigs contains all external name configurations
@@ -1225,6 +1234,31 @@ func apigeeOrganization() config.ExternalName {
 			return
 		}
 		base["name"] = parts[len(parts)-1]
+	}
+	return e
+}
+
+// This function configures cloud_identity resources in a special way. The
+// reason this is required is due to the implementation of these resources. In
+// the Read functions, resources are fetched using not only the ID field but
+// also the name field. It is important to note that this field exists only
+// under the status field. The name field has the same value as the resource ID;
+// therefore, this function sets the name field to the ID value
+// (or external-name — in this case they are equivalent; see IdentifierFromProvider).
+// This ensures that the resource behaves correctly.
+// If this configuration is not applied, although the happy path (create-delete)
+// appears to succeed, the resource fails in scenarios where import or state
+// reconstruction is required (e.g., import, pod restart, etc.) with a "resource
+// already exists" error. This happens because the Read function cannot find the
+// resource when the name field (in status) is empty, and the system attempts to
+// recreate it. This configuration fixes that issue.
+func cloudIdentity() config.ExternalName {
+	e := config.IdentifierFromProvider
+	e.SetIdentifierArgumentFn = func(base map[string]any, externalName string) {
+		if externalName == "" {
+			return
+		}
+		base["name"] = externalName
 	}
 	return e
 }

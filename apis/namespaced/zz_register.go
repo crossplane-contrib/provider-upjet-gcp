@@ -25,6 +25,7 @@ import (
 	v1beta1cloudbuild "github.com/upbound/provider-gcp/v2/apis/namespaced/cloudbuild/v1beta1"
 	v1beta1cloudfunctions "github.com/upbound/provider-gcp/v2/apis/namespaced/cloudfunctions/v1beta1"
 	v1beta1cloudfunctions2 "github.com/upbound/provider-gcp/v2/apis/namespaced/cloudfunctions2/v1beta1"
+	v1beta1cloudidentity "github.com/upbound/provider-gcp/v2/apis/namespaced/cloudidentity/v1beta1"
 	v1beta1cloudplatform "github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1"
 	v1beta1cloudquotas "github.com/upbound/provider-gcp/v2/apis/namespaced/cloudquotas/v1beta1"
 	v1beta1cloudrun "github.com/upbound/provider-gcp/v2/apis/namespaced/cloudrun/v1beta1"
@@ -111,6 +112,7 @@ func init() {
 		v1beta1cloudbuild.SchemeBuilder.AddToScheme,
 		v1beta1cloudfunctions.SchemeBuilder.AddToScheme,
 		v1beta1cloudfunctions2.SchemeBuilder.AddToScheme,
+		v1beta1cloudidentity.SchemeBuilder.AddToScheme,
 		v1beta1cloudplatform.SchemeBuilder.AddToScheme,
 		v1beta1cloudquotas.SchemeBuilder.AddToScheme,
 		v1beta1cloudrun.SchemeBuilder.AddToScheme,
