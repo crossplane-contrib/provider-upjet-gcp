@@ -70,6 +70,8 @@
   "google_certificate_manager_certificate_map_entry",
   "google_certificate_manager_dns_authorization",
   "google_certificate_manager_trust_config",
+  "google_cloud_identity_group",
+  "google_cloud_identity_group_membership",
   "google_cloud_ids_endpoint",
   "google_cloud_quotas_quota_preference",
   "google_cloud_run_domain_mapping",
