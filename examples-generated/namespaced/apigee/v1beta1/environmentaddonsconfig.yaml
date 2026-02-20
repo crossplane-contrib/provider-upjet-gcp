@@ -1,0 +1,57 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: apigee.gcp.m.upbound.io/v1beta1
+kind: EnvironmentAddonsConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/environmentaddonsconfig
+  labels:
+    testing.upbound.io/example-name: ""
+  name: ""
+  namespace: upbound-system
+spec:
+  forProvider:
+    analyticsEnabled: true
+    envId: ${google_apigee_environment..id}
+
+---
+
+apiVersion: apigee.gcp.m.upbound.io/v1beta1
+kind: Environment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/environmentaddonsconfig
+  labels:
+    testing.upbound.io/example-name: ""
+  name: ""
+  namespace: upbound-system
+spec:
+  forProvider:
+    description: Apigee Environment
+    displayName: environment-1
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee_org
+    type: COMPREHENSIVE
+
+---
+
+apiVersion: apigee.gcp.m.upbound.io/v1beta1
+kind: Organization
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/environmentaddonsconfig
+  labels:
+    testing.upbound.io/example-name: apigee_org
+  name: apigee-org
+  namespace: upbound-system
+spec:
+  forProvider:
+    analyticsRegion: us-central1
+    authorizedNetworkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee_network
+    billingType: PAYG
+    projectId: ${google_project.project.project_id}

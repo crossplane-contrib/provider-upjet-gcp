@@ -14,7 +14,7 @@ import (
 	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
 )
 
-type ConditionInitParameters struct {
+type EnvironmentIAMMemberConditionInitParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
@@ -22,7 +22,7 @@ type ConditionInitParameters struct {
 	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
-type ConditionObservation struct {
+type EnvironmentIAMMemberConditionObservation struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
@@ -30,7 +30,7 @@ type ConditionObservation struct {
 	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
-type ConditionParameters struct {
+type EnvironmentIAMMemberConditionParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -43,7 +43,7 @@ type ConditionParameters struct {
 }
 
 type EnvironmentIAMMemberInitParameters struct {
-	Condition *ConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
+	Condition *EnvironmentIAMMemberConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	EnvID *string `json:"envId,omitempty" tf:"env_id,omitempty"`
 
@@ -55,7 +55,7 @@ type EnvironmentIAMMemberInitParameters struct {
 }
 
 type EnvironmentIAMMemberObservation struct {
-	Condition *ConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
+	Condition *EnvironmentIAMMemberConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	EnvID *string `json:"envId,omitempty" tf:"env_id,omitempty"`
 
@@ -73,7 +73,7 @@ type EnvironmentIAMMemberObservation struct {
 type EnvironmentIAMMemberParameters struct {
 
 	// +kubebuilder:validation:Optional
-	Condition *ConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
+	Condition *EnvironmentIAMMemberConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	EnvID *string `json:"envId,omitempty" tf:"env_id,omitempty"`
