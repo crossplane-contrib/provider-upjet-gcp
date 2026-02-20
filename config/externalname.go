@@ -932,36 +932,74 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 
 	// apigee
 	//
-	// Imported by using the following format: {{org_id}}/endpointAttachments/{{endpoint_attachment_id}}
-	"google_apigee_endpoint_attachment": config.TemplatedStringAsIdentifier("endpoint_attachment_id", "{{ .parameters.org_id }}/endpointAttachments/{{ .external_name }}"),
 	// Imported by using the following format: organizations/{{name}}
 	"google_apigee_addons_config": config.IdentifierFromProvider,
+	// Imported by using the following format: organizations/{{org_id}}/apis/{{name}}
+	"google_apigee_api": config.TemplatedStringAsIdentifier("name", "organizations/{{ .parameters.org_id }}/apis/{{ .external_name }}"),
+	// Imported by using the following format: {{org_id}}/apiproducts/{{name}}
+	"google_apigee_api_product": config.TemplatedStringAsIdentifier("name", "{{ .parameters.org_id }}/apiproducts/{{ .external_name }}"),
+	// Imported by using the following format: {{org_id}}/appgroups/{{name}}
+	"google_apigee_app_group": config.TemplatedStringAsIdentifier("name", "{{ .parameters.org_id }}/appgroups/{{ .external_name }}"),
+	// Imported by using the following format: {{org_id}}/controlPlaneAccess
+	"google_apigee_control_plane_access": config.IdentifierFromProvider,
+	// Imported by using the following format: {{org_id}}/developers/{{email}}
+	"google_apigee_developer": config.TemplatedStringAsIdentifier("email", "{{ .parameters.org_id }}/developers/{{ .external_name }}"),
+	// Imported by using the following format: {{org_id}}/dnszones/{{name}}
+	"google_apigee_dns_zone": config.TemplatedStringAsIdentifier("name", "{{ .parameters.org_id }}/dnszones/{{ .external_name }}"),
+	// Imported by using the following format: {{org_id}}/endpointAttachments/{{endpoint_attachment_id}}
+	"google_apigee_endpoint_attachment": config.TemplatedStringAsIdentifier("endpoint_attachment_id", "{{ .parameters.org_id }}/endpointAttachments/{{ .external_name }}"),
+	// Imported by using the following format: {{env_id}}/keystores/{{name}}
+	"google_apigee_env_keystore": config.TemplatedStringAsIdentifier("name", "{{ .parameters.env_id }}/keystores/{{ .external_name }}"),
+	// Imported by using the following format: {{env_id}}/references/{{name}}
+	"google_apigee_env_references": config.TemplatedStringAsIdentifier("name", "{{ .parameters.env_id }}/references/{{ .external_name }}"),
 	// Imported by using the following format: {{org_id}}/envgroups/{{name}}
 	"google_apigee_envgroup": config.TemplatedStringAsIdentifier("name", "{{ .parameters.org_id }}/envgroups/{{ .external_name }}"),
 	// Imported by using the following format: {{envgroup_id}}/attachments/{{name}}. Name doesn't exist in parameters, try using IdentifierFromProvider
 	"google_apigee_envgroup_attachment": apigeeEnvgroupAttachment(),
 	// Imported by using the following format: {{org_id}}/environments/{{name}}
 	"google_apigee_environment": config.TemplatedStringAsIdentifier("name", "{{ .parameters.org_id }}/environments/{{ .external_name }}"),
+	// Imported by using the following format: {{org_id}}/environments/{{environment}}/addonsConfig
+	"google_apigee_environment_addons_config": config.IdentifierFromProvider,
+	// Imported by using the following format: {{org_id}}/environments/{{environment}} roles/viewer user:jane@example.com
+	"google_apigee_environment_iam_binding": config.IdentifierFromProvider,
+	// Imported by using the following format: {{org_id}}/environments/{{environment}} roles/viewer user:jane@example.com
+	"google_apigee_environment_iam_member": config.IdentifierFromProvider,
+	// Imported by using the following format: {{org_id}}/environments/{{environment}}
+	"google_apigee_environment_iam_policy": config.IdentifierFromProvider,
+	// Imported by using the following format: {{env_id}}/keyvaluemaps/{{name}}
+	"google_apigee_environment_keyvaluemaps": config.TemplatedStringAsIdentifier("name", "{{ .parameters.env_id }}/keyvaluemaps/{{ .external_name }}"),
+	// Imported by using the following format: {{env_id}}/keyvaluemaps/{{keyvaluemap}}/entries/{{name}}
+	"google_apigee_environment_keyvaluemaps_entries": config.TemplatedStringAsIdentifier("name", "{{ .parameters.env_id }}/keyvaluemaps/{{ .parameters.keyvaluemap }}/entries/{{ .external_name }}"),
+	// Imported by using the following format: {{org_id}}/environments/{{environment}}/flowhooks/{{flow_hook_point}}
+	"google_apigee_flowhook": config.IdentifierFromProvider,
 	// Imported by using the following format: {{org_id}}/instances/{{name}}
 	"google_apigee_instance": config.TemplatedStringAsIdentifier("name", "{{ .parameters.org_id }}/instances/{{ .external_name }}"),
 	// Imported by using the following format: {{instance_id}}/attachments/{{name}}
 	"google_apigee_instance_attachment": apigeeInstanceAttachment(),
-	// Imported by using the following format: organizations/{{name}}
-	"google_apigee_organization": apigeeOrganization(),
-	// Imported by using the following format: organizations/{{name}}/syncAuthorization
-	"google_apigee_sync_authorization": config.TemplatedStringAsIdentifier("", "organizations/{{ .parameters.name }}/syncAuthorization"),
-	// Imported by using the following format: {{instance_id}}/natAddresses/{{name}}
-	"google_apigee_nat_address": config.TemplatedStringAsIdentifier("name", "{{ .parameters.instance_id }}/natAddresses/{{ .external_name }}"),
-	// Imported by using the following format: {{org_id}}/environments/{{environment}} roles/viewer user:jane@example.com
-	"google_apigee_environment_iam_member": config.IdentifierFromProvider,
-	// Imported by using the following format: {{env_id}}/keystores/{{name}}
-	"google_apigee_env_keystore": config.TemplatedStringAsIdentifier("name", "{{ .parameters.env_id }}/keystores/{{ .external_name }}"),
-	// Imported by using the following format: {{env_id}}/references/{{name}}
-	"google_apigee_env_references": config.TemplatedStringAsIdentifier("name", "{{ .parameters.env_id }}/references/{{ .external_name }}"),
-	// Imported by using the following format: {{env_id}}/targetservers/{{name}}
-	"google_apigee_target_server": config.TemplatedStringAsIdentifier("name", "{{ .parameters.env_id }}/targetservers/{{ .external_name }}"),
 	// Imported by using the following format: organizations/{{org_id}}/environments/{{environment}}/keystores/{{keystore}}/aliases/{{alias}}
 	"google_apigee_keystores_aliases_key_cert_file": config.TemplatedStringAsIdentifier("alias", "organizations/{{ .parameters.org_id }}/environments/{{ .parameters.environment }}/keystores/{{ .parameters.keystore }}/aliases/{{ .external_name }}"),
+	// Imported by using the following format: organizations/{{org_id}}/environments/{{environment}}/keystores/{{keystore}}/aliases/{{alias}}
+	"google_apigee_keystores_aliases_pkcs12": config.TemplatedStringAsIdentifier("alias", "organizations/{{ .parameters.org_id }}/environments/{{ .parameters.environment }}/keystores/{{ .parameters.keystore }}/aliases/{{ .external_name }}"),
+	// Imported by using the following format: organizations/{{org_id}}/environments/{{environment}}/keystores/{{keystore}}/aliases/{{alias}}
+	"google_apigee_keystores_aliases_self_signed_cert": config.TemplatedStringAsIdentifier("alias", "organizations/{{ .parameters.org_id }}/environments/{{ .parameters.environment }}/keystores/{{ .parameters.keystore }}/aliases/{{ .external_name }}"),
+	// Imported by using the following format: {{instance_id}}/natAddresses/{{name}}
+	"google_apigee_nat_address": config.TemplatedStringAsIdentifier("name", "{{ .parameters.instance_id }}/natAddresses/{{ .external_name }}"),
+	// Imported by using the following format: organizations/{{name}}
+	"google_apigee_organization": apigeeOrganization(),
+	// Imported by using the following format: {{org_id}}/securityActions/{{security_action_id}}
+	"google_apigee_security_action": config.TemplatedStringAsIdentifier("security_action_id", "{{ .parameters.org_id }}/securityActions/{{ .external_name }}"),
+	// Imported by using the following format: {{org_id}}/environments/{{environment}}/securityMonitoringConditions/{{security_monitoring_condition_id}}
+	"google_apigee_security_monitoring_condition": config.TemplatedStringAsIdentifier("security_monitoring_condition_id", "{{ .parameters.org_id }}/environments/{{ .parameters.environment }}/securityMonitoringConditions/{{ .external_name }}"),
+	// Imported by using the following format: {{org_id}}/securityProfilesV2/{{security_profile_id}}
+	"google_apigee_security_profile_v2": config.TemplatedStringAsIdentifier("security_profile_id", "{{ .parameters.org_id }}/securityProfilesV2/{{ .external_name }}"),
+	// Imported by using the following format: organizations/{{org_id}}/sharedflows/{{name}}
+	"google_apigee_sharedflow": config.TemplatedStringAsIdentifier("name", "organizations/{{ .parameters.org_id }}/sharedflows/{{ .external_name }}"),
+	// Imported by using the following format: {{org_id}}/environments/{{environment}}/sharedflows/{{sharedflow_id}}/revisions/{{revision}}/deployments
+	"google_apigee_sharedflow_deployment": config.IdentifierFromProvider,
+	// Imported by using the following format: organizations/{{name}}/syncAuthorization
+	"google_apigee_sync_authorization": config.TemplatedStringAsIdentifier("", "organizations/{{ .parameters.name }}/syncAuthorization"),
+	// Imported by using the following format: {{env_id}}/targetservers/{{name}}
+	"google_apigee_target_server": config.TemplatedStringAsIdentifier("name", "{{ .parameters.env_id }}/targetservers/{{ .external_name }}"),
 
 	// binaryauthorization
 	//

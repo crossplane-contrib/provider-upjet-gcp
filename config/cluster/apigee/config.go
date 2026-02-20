@@ -74,4 +74,119 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			return diff, nil
 		}
 	})
+	p.AddResourceConfigurator("google_apigee_api", func(r *config.Resource) {
+		// org_id requires Organization ID without organization/ prefix, so extract name attribute
+		r.References["org_id"] = config.Reference{
+			TerraformName: "google_apigee_organization",
+			Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)`,
+		}
+	})
+	p.AddResourceConfigurator("google_apigee_api_product", func(r *config.Resource) {
+		// org_id requires Organization ID without organization/ prefix, so extract name attribute
+		r.References["org_id"] = config.Reference{
+			TerraformName: "google_apigee_organization",
+			Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)`,
+		}
+	})
+	p.AddResourceConfigurator("google_apigee_app_group", func(r *config.Resource) {
+		// org_id requires Organization ID without organization/ prefix, so extract name attribute
+		r.References["org_id"] = config.Reference{
+			TerraformName: "google_apigee_organization",
+			Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)`,
+		}
+	})
+	p.AddResourceConfigurator("google_apigee_developer", func(r *config.Resource) {
+		// org_id requires Organization ID without organization/ prefix, so extract name attribute
+		r.References["org_id"] = config.Reference{
+			TerraformName: "google_apigee_organization",
+			Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)`,
+		}
+	})
+	p.AddResourceConfigurator("google_apigee_dns_zone", func(r *config.Resource) {
+		// org_id requires Organization ID without organization/ prefix, so extract name attribute
+		r.References["org_id"] = config.Reference{
+			TerraformName: "google_apigee_organization",
+			Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)`,
+		}
+	})
+	p.AddResourceConfigurator("google_apigee_environment_keyvaluemaps", func(r *config.Resource) {
+		r.References["env_id"] = config.Reference{
+			TerraformName: "google_apigee_environment",
+			Extractor:     common.ExtractResourceIDFuncPath,
+		}
+	})
+	p.AddResourceConfigurator("google_apigee_environment_keyvaluemaps_entries", func(r *config.Resource) {
+		r.References["env_id"] = config.Reference{
+			TerraformName: "google_apigee_environment",
+			Extractor:     common.ExtractResourceIDFuncPath,
+		}
+	})
+	p.AddResourceConfigurator("google_apigee_flowhook", func(r *config.Resource) {
+		// org_id requires Organization ID without organization/ prefix, so extract name attribute
+		r.References["org_id"] = config.Reference{
+			TerraformName: "google_apigee_organization",
+			Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)`,
+		}
+		r.References["sharedflow"] = config.Reference{
+			TerraformName: "google_apigee_sharedflow",
+		}
+	})
+	p.AddResourceConfigurator("google_apigee_keystores_aliases_pkcs12", func(r *config.Resource) {
+		// org_id requires Organization ID without organization/ prefix, so extract name attribute
+		r.References["org_id"] = config.Reference{
+			TerraformName: "google_apigee_organization",
+			Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)`,
+		}
+	})
+	p.AddResourceConfigurator("google_apigee_keystores_aliases_self_signed_cert", func(r *config.Resource) {
+		// org_id requires Organization ID without organization/ prefix, so extract name attribute
+		r.References["org_id"] = config.Reference{
+			TerraformName: "google_apigee_organization",
+			Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)`,
+		}
+	})
+	p.AddResourceConfigurator("google_apigee_security_action", func(r *config.Resource) {
+		// org_id requires Organization ID without organization/ prefix, so extract name attribute
+		r.References["org_id"] = config.Reference{
+			TerraformName: "google_apigee_organization",
+			Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)`,
+		}
+	})
+	p.AddResourceConfigurator("google_apigee_security_monitoring_condition", func(r *config.Resource) {
+		// org_id requires Organization ID without organization/ prefix, so extract name attribute
+		r.References["org_id"] = config.Reference{
+			TerraformName: "google_apigee_organization",
+			Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)`,
+		}
+	})
+	p.AddResourceConfigurator("google_apigee_security_profile_v2", func(r *config.Resource) {
+		// org_id requires Organization ID without organization/ prefix, so extract name attribute
+		r.References["org_id"] = config.Reference{
+			TerraformName: "google_apigee_organization",
+			Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)`,
+		}
+	})
+	p.AddResourceConfigurator("google_apigee_sharedflow", func(r *config.Resource) {
+		// org_id requires Organization ID without organization/ prefix, so extract name attribute
+		r.References["org_id"] = config.Reference{
+			TerraformName: "google_apigee_organization",
+			Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)`,
+		}
+	})
+	p.AddResourceConfigurator("google_apigee_sharedflow_deployment", func(r *config.Resource) {
+		// org_id requires Organization ID without organization/ prefix, so extract name attribute
+		r.References["org_id"] = config.Reference{
+			TerraformName: "google_apigee_organization",
+			Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)`,
+		}
+		r.References["sharedflow_id"] = config.Reference{
+			TerraformName: "google_apigee_sharedflow",
+		}
+	})
+	p.AddResourceConfigurator("google_apigee_target_server", func(r *config.Resource) {
+		r.References["env_id"] = config.Reference{
+			TerraformName: "google_apigee_environment",
+			Extractor:     common.ExtractResourceIDFuncPath,
+		}
+	})
 }
