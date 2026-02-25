@@ -4,7 +4,7 @@
 
 module github.com/upbound/provider-gcp/v2
 
-go 1.24.10
+go 1.24.13
 
 tool golang.org/x/tools/cmd/goimports
 
