@@ -8,7 +8,6 @@ import (
 	"context"
 	"strings"
 
-	"github.com/crossplane/upjet/v2/pkg/config"
 	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
 	"github.com/crossplane/upjet/v2/pkg/config/conversion"
 	"github.com/crossplane/upjet/v2/pkg/registry/reference"
@@ -101,8 +100,8 @@ func bumpVersionsWithEmbeddedLists(pc *ujconfig.Provider) {
 			// with the converted API (with embedded objects in place of
 			// singleton lists), so we need the appropriate Terraform
 			// converter in this case.
-			r.TerraformConversions = []config.TerraformConversion{
-				config.NewTFSingletonConversion(),
+			r.TerraformConversions = []ujconfig.TerraformConversion{
+				ujconfig.NewTFSingletonConversion(),
 			}
 		}
 		pc.Resources[n] = r

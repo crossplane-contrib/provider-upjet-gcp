@@ -116,8 +116,8 @@ func TerraformSetupBuilder(tfProvider *schema.Provider) terraform.SetupFn { //no
 		case xpv1.CredentialsSourceInjectedIdentity:
 			// We don't need to do anything here, as the TF Provider will take care of workloadIdentity etc.
 		case impersonateServiceAccount:
-			if pcSpec.Credentials.ImpersonateServiceAccountSpec.Name != "" {
-				ps.Configuration[keyImpersonateServiceAccount] = pcSpec.Credentials.ImpersonateServiceAccountSpec.Name
+			if pcSpec.Credentials.Name != "" {
+				ps.Configuration[keyImpersonateServiceAccount] = pcSpec.Credentials.Name
 			}
 		case credentialsSourceAccessToken:
 			data, err := resource.CommonCredentialExtractor(ctx, xpv1.CredentialsSourceSecret, crClient, pcSpec.Credentials.CommonCredentialSelectors)

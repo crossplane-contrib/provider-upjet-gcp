@@ -48,10 +48,10 @@ GO_TEST_PARALLEL := $(shell echo $$(( $(NPROCS) / 2 )))
 # correctly.
 export GOPRIVATE = github.com/upbound/*
 
-GO_REQUIRED_VERSION ?= 1.21
+GO_REQUIRED_VERSION ?= $(shell grep -E '^go ' go.mod | awk '{print $2}')
 # GOLANGCILINT_VERSION is inherited from build submodule by default.
 # Uncomment below if you need to override the version.
-GOLANGCILINT_VERSION ?= 1.64.8
+GOLANGCILINT_VERSION ?= 2.11.3
 
 RUN_BUILDTAGGER ?= false
 # if RUN_BUILDTAGGER is set to "true", we will use build constraints
@@ -409,7 +409,7 @@ build-lint-cache: $(GOLANGCILINT)
 	@# minimum.
 	@(BUILDTAGGER_DOWNLOAD_URL=$(BUILDTAGGER_DOWNLOAD_URL) ./scripts/tag.sh && \
 	(([[ "${SKIP_LINTER_ANALYSIS}" == "true" ]] && $(OK) "Skipping analysis cache build phase because it's already been populated") && \
-	[[ "${SKIP_LINTER_ANALYSIS}" == "true" ]] || $(GOLANGCILINT) run -v --build-tags activedirectory,configregistry,configprovider,linter_run -v --disable-all --exclude '.*')) || $(FAIL)
+	[[ "${SKIP_LINTER_ANALYSIS}" == "true" ]] || $(GOLANGCILINT) run -v --build-tags activedirectory,configregistry,configprovider,linter_run -v --default none)) || $(FAIL)
 	@$(OK) Running golangci-lint with the analysis cache building phase.
 
 delete-build-tags:
