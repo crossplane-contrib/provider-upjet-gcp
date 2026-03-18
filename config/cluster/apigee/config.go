@@ -59,7 +59,7 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			hasActualDiff := false
 			for _, field := range addonsConfigurationsFields {
 				addonDiff, ok := diff.Attributes[fmt.Sprintf("addons_config.0.%s.0.enabled", field)]
-				if ok && !(addonDiff.Old == "" && addonDiff.New == "false") {
+				if ok && (addonDiff.Old != "" || addonDiff.New != "false") {
 					hasActualDiff = true
 					break
 				}
