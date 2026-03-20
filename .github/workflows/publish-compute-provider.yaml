@@ -52,21 +52,22 @@ jobs:
       - name: Push compute provider to GHCR
         run: |
           VERSION=${{ inputs.version }}
-          XPKG_DIR="_output/package/linux_amd64"
 
-          for xpkg in "${XPKG_DIR}"/*.xpkg; do
-            [ -f "$xpkg" ] || continue
-            loaded=$(docker load -qi "$xpkg")
-            sha="${loaded##*: }"
-            echo "Loaded $xpkg as $sha"
+          echo "=== Docker images after build ==="
+          docker images | grep provider-gcp || true
 
-            # Derive image name from xpkg filename:
-            #   provider-gcp-compute-v2.4.0-fix.1.xpkg -> provider-gcp-compute
-            base=$(basename "$xpkg" .xpkg)
-            name="${base%-${VERSION}}"
+          # The build-provider target loads xpkg into Docker with a
+          # build-registry prefix (e.g. build-<hash>/provider-gcp-compute-amd64).
+          # Find it, retag for GHCR, and push.
+          COMPUTE_IMG=$(docker images --format "{{.Repository}}" | grep "provider-gcp-compute" | head -1)
+          if [ -z "$COMPUTE_IMG" ]; then
+            echo "ERROR: No provider-gcp-compute image found in Docker"
+            docker images
+            exit 1
+          fi
 
-            target="${{ env.GHCR_REGISTRY }}/${name}:${VERSION}"
-            echo "Tagging and pushing as ${target}"
-            docker tag "$sha" "$target"
-            docker push "$target"
-          done
+          TARGET="${{ env.GHCR_REGISTRY }}/provider-gcp-compute:${VERSION}"
+          echo "Retagging ${COMPUTE_IMG} -> ${TARGET}"
+          docker tag "${COMPUTE_IMG}" "${TARGET}"
+          docker push "${TARGET}"
+          echo "Pushed ${TARGET}"
