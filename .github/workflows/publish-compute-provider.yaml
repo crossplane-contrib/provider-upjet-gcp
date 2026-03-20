@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: "Version tag (e.g., v1.14.0-fix.1)"
+        description: "Version tag (e.g., v2.4.0-fix.1)"
         required: true
 
 permissions:
@@ -41,10 +41,32 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and publish compute provider
+      - name: Build compute provider xpkg
         run: |
           make build-provider.compute \
             XPKG_REG_ORGS=${{ env.GHCR_REGISTRY }} \
             VERSION=${{ inputs.version }} \
             PLATFORMS="linux_amd64" \
             BATCH_PLATFORMS="linux_amd64"
+
+      - name: Push compute provider to GHCR
+        run: |
+          VERSION=${{ inputs.version }}
+          XPKG_DIR="_output/package/linux_amd64"
+
+          for xpkg in "${XPKG_DIR}"/*.xpkg; do
+            [ -f "$xpkg" ] || continue
+            loaded=$(docker load -qi "$xpkg")
+            sha="${loaded##*: }"
+            echo "Loaded $xpkg as $sha"
+
+            # Derive image name from xpkg filename:
+            #   provider-gcp-compute-v2.4.0-fix.1.xpkg -> provider-gcp-compute
+            base=$(basename "$xpkg" .xpkg)
+            name="${base%-${VERSION}}"
+
+            target="${{ env.GHCR_REGISTRY }}/${name}:${VERSION}"
+            echo "Tagging and pushing as ${target}"
+            docker tag "$sha" "$target"
+            docker push "$target"
+          done
