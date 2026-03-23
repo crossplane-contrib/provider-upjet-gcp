@@ -5,12 +5,15 @@
 package compute
 
 import (
+	"log"
+
 	"github.com/crossplane/crossplane-runtime/v2/pkg/fieldpath"
 	"github.com/crossplane/crossplane-runtime/v2/pkg/reference"
 	"github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 	"github.com/crossplane/upjet/v2/pkg/config"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	transport_tpg "github.com/hashicorp/terraform-provider-google/google/transport"
 
 	"github.com/upbound/provider-gcp/v2/config/cluster/common"
 )
@@ -519,6 +522,52 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 	p.AddResourceConfigurator("google_compute_region_security_policy", func(r *config.Resource) {
 		r.MarkAsRequired("region")
 	})
+
+	// The GCP Compute API's getAssociation endpoint returns HTTP 400 instead
+	// of 404 when a firewall policy association does not exist. The Terraform
+	// provider's HandleNotFoundError only recognizes 404 as "not found", so
+	// upjet treats the 400 as a reconciliation error and never proceeds to
+	// Create. We wrap the Read function to also treat 400 as "not found".
+	for _, resource := range []string{
+		"google_compute_firewall_policy_association",
+		"google_compute_network_firewall_policy_association",
+		"google_compute_region_network_firewall_policy_association",
+	} {
+		p.AddResourceConfigurator(resource, func(r *config.Resource) {
+			originalRead := r.TerraformResource.Read
+			r.TerraformResource.Read = func(d *schema.ResourceData, meta any) error {
+				err := originalRead(d, meta)
+				if err != nil && transport_tpg.IsGoogleApiErrorWithCode(err, 400) {
+					log.Printf("[WARN] Removing %s %q because GCP returned 400 (treating as not found)", resource, d.Id())
+					d.SetId("")
+					return nil
+				}
+				return err
+			}
+		})
+	}
+
+	// The GCP Compute API's getRule endpoint uses the same RPC-style URL
+	// pattern and returns HTTP 400 instead of 404 when a firewall policy
+	// rule or security policy rule does not exist.
+	for _, resource := range []string{
+		"google_compute_firewall_policy_rule",
+		"google_compute_network_firewall_policy_rule",
+		"google_compute_region_network_firewall_policy_rule",
+	} {
+		p.AddResourceConfigurator(resource, func(r *config.Resource) {
+			originalRead := r.TerraformResource.Read
+			r.TerraformResource.Read = func(d *schema.ResourceData, meta any) error {
+				err := originalRead(d, meta)
+				if err != nil && transport_tpg.IsGoogleApiErrorWithCode(err, 400) {
+					log.Printf("[WARN] Removing %s %q because GCP returned 400 (treating as not found)", resource, d.Id())
+					d.SetId("")
+					return nil
+				}
+				return err
+			}
+		})
+	}
 }
 
 // InstanceGroupExtractor extracts Instance Group from
