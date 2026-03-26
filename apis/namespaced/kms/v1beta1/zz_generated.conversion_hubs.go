@@ -16,6 +16,9 @@ func (tr *CryptoKeyIAMMember) Hub() {}
 func (tr *CryptoKeyVersion) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *KeyHandle) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *KeyRing) Hub() {}
 
 // Hub marks this type as a conversion hub.
