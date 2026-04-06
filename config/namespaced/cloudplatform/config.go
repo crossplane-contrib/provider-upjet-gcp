@@ -87,6 +87,10 @@ func Configure(p *config.Provider) {
 	})
 	p.AddResourceConfigurator("google_service_account", func(r *config.Resource) {
 		r.Kind = "ServiceAccount"
+		r.References["project"] = config.Reference{
+			TerraformName: "google_project",
+			Extractor:     common.ExtractProjectIDFuncPath,
+		}
 	})
 	p.AddResourceConfigurator("google_service_account_iam_policy", func(r *config.Resource) {
 		r.References["service_account_id"] = config.Reference{
