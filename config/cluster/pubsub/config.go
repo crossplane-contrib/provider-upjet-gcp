@@ -10,7 +10,7 @@ import "github.com/crossplane/upjet/v2/pkg/config"
 // ResourceConfigurators.
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("google_pubsub_lite_reservation", func(r *config.Resource) {
-		config.MarkAsRequired(r.TerraformResource, "region")
+		r.MarkAsRequired("region")
 	})
 
 	p.AddResourceConfigurator("google_pubsub_lite_subscription", func(r *config.Resource) {
@@ -18,7 +18,7 @@ func Configure(p *config.Provider) {
 			TerraformName: "google_pubsub_lite_topic",
 		}
 		r.Sensitive.AdditionalConnectionDetailsFn = pubsubLiteConnectionDetails
-		config.MarkAsRequired(r.TerraformResource, "zone")
+		r.MarkAsRequired("zone")
 	})
 
 	p.AddResourceConfigurator("google_pubsub_lite_topic", func(r *config.Resource) {
@@ -26,9 +26,9 @@ func Configure(p *config.Provider) {
 			TerraformName: "google_pubsub_lite_reservation",
 		}
 		r.Sensitive.AdditionalConnectionDetailsFn = pubsubLiteConnectionDetails
-		config.MarkAsRequired(r.TerraformResource, "zone")
-		config.MarkAsRequired(r.TerraformResource, "partition_config")
-		config.MarkAsRequired(r.TerraformResource, "retention_config")
+		r.MarkAsRequired("zone")
+		r.MarkAsRequired("partition_config")
+		r.MarkAsRequired("retention_config")
 	})
 	p.AddResourceConfigurator("google_pubsub_subscription", func(r *config.Resource) {
 		r.References["topic"] = config.Reference{

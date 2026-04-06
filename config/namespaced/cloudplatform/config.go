@@ -97,24 +97,24 @@ func Configure(p *config.Provider) {
 			TerraformName: "google_service_account",
 			Extractor:     common.ExtractResourceIDFuncPath,
 		}
-		config.MarkAsRequired(r.TerraformResource, "service_account_id")
+		r.MarkAsRequired("service_account_id")
 	})
 	p.AddResourceConfigurator("google_service_account_iam_binding", func(r *config.Resource) {
 		r.References["service_account_id"] = config.Reference{
 			TerraformName: "google_service_account",
 			Extractor:     common.ExtractResourceIDFuncPath,
 		}
-		config.MarkAsRequired(r.TerraformResource, "service_account_id")
+		r.MarkAsRequired("service_account_id")
 	})
 	p.AddResourceConfigurator("google_service_account_iam_member", func(r *config.Resource) {
 		r.References["service_account_id"] = config.Reference{
 			TerraformName: "google_service_account",
 			Extractor:     common.ExtractResourceIDFuncPath,
 		}
-		config.MarkAsRequired(r.TerraformResource, "service_account_id")
+		r.MarkAsRequired("service_account_id")
 	})
 	p.AddResourceConfigurator("google_service_networking_peered_dns_domain", func(r *config.Resource) {
-		config.MarkAsRequired(r.TerraformResource, "network")
-		config.MarkAsRequired(r.TerraformResource, "service")
+		r.MarkAsRequired("network")
+		r.MarkAsRequired("service")
 	})
 }

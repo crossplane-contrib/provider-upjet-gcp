@@ -28,7 +28,7 @@ var (
 
 // Configure configures individual resources by adding custom
 // ResourceConfigurators.
-func Configure(p *config.Provider) { //nolint: gocyclo
+func Configure(p *config.Provider) { // nolint: gocyclo
 	// Note(turkenh): We ignore gocyclo in this function since it configures
 	//  all resources separately and no complex logic here.
 
@@ -52,7 +52,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 	})
 
 	p.AddResourceConfigurator("google_compute_disk", func(r *config.Resource) {
-		config.MarkAsRequired(r.TerraformResource, "zone")
+		r.MarkAsRequired("zone")
 	})
 
 	p.AddResourceConfigurator("google_compute_disk_iam_member", func(r *config.Resource) {
@@ -83,7 +83,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 		r.References["network"] = config.Reference{
 			TerraformName: "google_compute_network",
 		}
-		config.MarkAsRequired(r.TerraformResource, "region")
+		r.MarkAsRequired("region")
 	})
 
 	p.AddResourceConfigurator("google_compute_address", func(r *config.Resource) {
@@ -95,7 +95,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 			TerraformName: "google_compute_subnetwork",
 			Extractor:     common.PathSelfLinkExtractor,
 		}
-		config.MarkAsRequired(r.TerraformResource, "region")
+		r.MarkAsRequired("region")
 	})
 
 	p.AddResourceConfigurator("google_compute_firewall", func(r *config.Resource) {
@@ -110,7 +110,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 			TerraformName: "google_compute_network",
 			Extractor:     common.PathSelfLinkExtractor,
 		}
-		config.MarkAsRequired(r.TerraformResource, "region")
+		r.MarkAsRequired("region")
 	})
 
 	p.AddResourceConfigurator("google_compute_router_nat", func(r *config.Resource) {
@@ -121,7 +121,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 			TerraformName: "google_compute_subnetwork",
 		}
 		delete(r.References, "region")
-		config.MarkAsRequired(r.TerraformResource, "region")
+		r.MarkAsRequired("region")
 	})
 
 	p.AddResourceConfigurator("google_compute_instance_template", func(r *config.Resource) {
@@ -225,7 +225,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 			TerraformName: "google_compute_network",
 			Extractor:     common.ExtractResourceIDFuncPath,
 		}
-		config.MarkAsRequired(r.TerraformResource, "region")
+		r.MarkAsRequired("region")
 	})
 
 	p.AddResourceConfigurator("google_compute_instance_from_template", func(r *config.Resource) {
@@ -256,7 +256,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 			TerraformName: "google_compute_router",
 			Extractor:     common.PathSelfLinkExtractor,
 		}
-		config.MarkAsRequired(r.TerraformResource, "region")
+		r.MarkAsRequired("region")
 	})
 
 	p.AddResourceConfigurator("google_compute_network_endpoint_group", func(r *config.Resource) {
@@ -289,15 +289,15 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 	})
 
 	p.AddResourceConfigurator("google_compute_node_group", func(r *config.Resource) {
-		config.MarkAsRequired(r.TerraformResource, "zone")
+		r.MarkAsRequired("zone")
 	})
 
 	p.AddResourceConfigurator("google_compute_node_template", func(r *config.Resource) {
-		config.MarkAsRequired(r.TerraformResource, "region")
+		r.MarkAsRequired("region")
 	})
 
 	p.AddResourceConfigurator("google_compute_packet_mirroring", func(r *config.Resource) {
-		config.MarkAsRequired(r.TerraformResource, "region")
+		r.MarkAsRequired("region")
 	})
 
 	p.AddResourceConfigurator("google_compute_forwarding_rule", func(r *config.Resource) {
@@ -323,7 +323,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 			TerraformName: "google_compute_region_target_http_proxy",
 			Extractor:     common.PathSelfLinkExtractor,
 		}
-		config.MarkAsRequired(r.TerraformResource, "region")
+		r.MarkAsRequired("region")
 	})
 
 	p.AddResourceConfigurator("google_compute_region_backend_service", func(r *config.Resource) {
@@ -335,7 +335,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 			TerraformName: "google_compute_region_instance_group_manager",
 			Extractor:     PathInstanceGroupExtractor,
 		}
-		config.MarkAsRequired(r.TerraformResource, "region")
+		r.MarkAsRequired("region")
 	})
 
 	p.AddResourceConfigurator("google_compute_region_instance_group_manager", func(r *config.Resource) {
@@ -355,7 +355,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 	})
 
 	p.AddResourceConfigurator("google_compute_region_target_http_proxy", func(r *config.Resource) {
-		config.MarkAsRequired(r.TerraformResource, "region")
+		r.MarkAsRequired("region")
 
 		r.References["url_map"] = config.Reference{
 			TerraformName: "google_compute_region_url_map",
@@ -365,7 +365,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 	})
 
 	p.AddResourceConfigurator("google_compute_region_target_tcp_proxy", func(r *config.Resource) {
-		config.MarkAsRequired(r.TerraformResource, "region")
+		r.MarkAsRequired("region")
 
 		r.References["backend_service"] = config.Reference{
 			TerraformName: "google_compute_region_backend_service",
@@ -375,14 +375,14 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 	})
 
 	p.AddResourceConfigurator("google_compute_region_url_map", func(r *config.Resource) {
-		config.MarkAsRequired(r.TerraformResource, "region")
+		r.MarkAsRequired("region")
 	})
 	p.AddResourceConfigurator("google_compute_region_autoscaler", func(r *config.Resource) {
 		r.MarkAsRequired("region")
 	})
 
 	p.AddResourceConfigurator("google_compute_region_disk", func(r *config.Resource) {
-		config.MarkAsRequired(r.TerraformResource, "region")
+		r.MarkAsRequired("region")
 	})
 
 	p.AddResourceConfigurator("google_compute_region_disk_iam_member", func(r *config.Resource) {
@@ -392,26 +392,26 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 	})
 
 	p.AddResourceConfigurator("google_compute_region_disk_resource_policy_attachment", func(r *config.Resource) {
-		config.MarkAsRequired(r.TerraformResource, "region")
+		r.MarkAsRequired("region")
 	})
 
 	p.AddResourceConfigurator("google_compute_region_health_check", func(r *config.Resource) {
-		config.MarkAsRequired(r.TerraformResource, "region")
+		r.MarkAsRequired("region")
 	})
 
 	p.AddResourceConfigurator("google_compute_region_ssl_certificate", func(r *config.Resource) {
-		config.MarkAsRequired(r.TerraformResource, "region")
+		r.MarkAsRequired("region")
 	})
 
 	p.AddResourceConfigurator("google_compute_region_target_https_proxy", func(r *config.Resource) {
 		r.References["ssl_certificates"] = config.Reference{
 			TerraformName: "google_compute_region_ssl_certificate",
 		}
-		config.MarkAsRequired(r.TerraformResource, "region")
+		r.MarkAsRequired("region")
 	})
 
 	p.AddResourceConfigurator("google_compute_reservation", func(r *config.Resource) {
-		config.MarkAsRequired(r.TerraformResource, "zone")
+		r.MarkAsRequired("zone")
 		r.TerraformCustomDiff = func(diff *terraform.InstanceDiff, _ *terraform.InstanceState, _ *terraform.ResourceConfig) (*terraform.InstanceDiff, error) {
 			if diff != nil {
 				delete(diff.Attributes, "share_settings.#")
@@ -456,7 +456,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 		r.References["vpn_gateway"] = config.Reference{
 			TerraformName: "google_compute_ha_vpn_gateway",
 		}
-		config.MarkAsRequired(r.TerraformResource, "region")
+		r.MarkAsRequired("region")
 	})
 
 	p.AddResourceConfigurator("google_compute_target_https_proxy", func(r *config.Resource) {
@@ -488,18 +488,18 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 	})
 
 	p.AddResourceConfigurator("google_compute_vpn_gateway", func(r *config.Resource) {
-		config.MarkAsRequired(r.TerraformResource, "region")
+		r.MarkAsRequired("region")
 	})
 
 	p.AddResourceConfigurator("google_compute_target_instance", func(r *config.Resource) {
-		config.MarkAsRequired(r.TerraformResource, "zone")
+		r.MarkAsRequired("zone")
 	})
 
 	p.AddResourceConfigurator("google_compute_subnetwork_iam_member", func(r *config.Resource) {
 		r.References["subnetwork"] = config.Reference{
 			TerraformName: "google_compute_subnetwork",
 		}
-		config.MarkAsRequired(r.TerraformResource, "region")
+		r.MarkAsRequired("region")
 	})
 	p.AddResourceConfigurator("google_compute_firewall_policy_rule", func(r *config.Resource) {
 		r.MetaResource.ArgumentDocs["layer4_configs.ports"] = `An optional list of ports to which this rule applies. This field is only applicable for UDP or TCP protocol. Each entry must be either an integer or a range. If not specified, this rule applies to connections through any port.`

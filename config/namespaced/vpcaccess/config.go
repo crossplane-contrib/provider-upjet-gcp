@@ -13,6 +13,6 @@ func Configure(p *config.Provider) {
 		r.References["network"] = config.Reference{
 			TerraformName: "google_compute_network",
 		}
-		config.MarkAsRequired(r.TerraformResource, "region")
+		r.MarkAsRequired("region")
 	})
 }
