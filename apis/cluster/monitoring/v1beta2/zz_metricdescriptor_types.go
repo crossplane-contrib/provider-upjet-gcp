@@ -297,6 +297,7 @@ type MetricDescriptorStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // MetricDescriptor is the Schema for the MetricDescriptors API. Defines a metric type and its schema.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

@@ -362,6 +362,7 @@ type BucketObjectStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // BucketObject is the Schema for the BucketObjects API. Creates a new object inside a specified bucket
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

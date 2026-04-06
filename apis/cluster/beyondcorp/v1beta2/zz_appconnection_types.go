@@ -279,6 +279,7 @@ type AppConnectionStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // AppConnection is the Schema for the AppConnections API. A BeyondCorp AppConnection resource represents a BeyondCorp protected AppConnection to a remote application.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

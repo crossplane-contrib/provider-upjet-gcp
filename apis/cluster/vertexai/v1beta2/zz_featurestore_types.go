@@ -230,6 +230,7 @@ type FeaturestoreStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Featurestore is the Schema for the Featurestores API. A collection of DataItems and Annotations on them.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

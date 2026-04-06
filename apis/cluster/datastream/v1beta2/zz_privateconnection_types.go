@@ -261,6 +261,7 @@ type PrivateConnectionStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // PrivateConnection is the Schema for the PrivateConnections API. The PrivateConnection resource is used to establish private connectivity between Datastream and a customer's network.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

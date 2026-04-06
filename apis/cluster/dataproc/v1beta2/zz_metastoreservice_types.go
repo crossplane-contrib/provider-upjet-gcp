@@ -884,6 +884,7 @@ type MetastoreServiceStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // MetastoreService is the Schema for the MetastoreServices API. A managed metastore service that serves metadata queries.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

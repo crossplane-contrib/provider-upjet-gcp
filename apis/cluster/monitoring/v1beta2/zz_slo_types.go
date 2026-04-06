@@ -1477,6 +1477,7 @@ type SLOStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // SLO is the Schema for the SLOs API. A Service-Level Objective (SLO) describes the level of desired good service.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

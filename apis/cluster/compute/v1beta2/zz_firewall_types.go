@@ -609,6 +609,7 @@ type FirewallStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Firewall is the Schema for the Firewalls API. Each network has its own firewall controlling access to and from the instances.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

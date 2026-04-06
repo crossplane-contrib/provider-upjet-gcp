@@ -8533,6 +8533,7 @@ type DeidentifyTemplateStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // DeidentifyTemplate is the Schema for the DeidentifyTemplates API. Allows creation of templates to de-identify content.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

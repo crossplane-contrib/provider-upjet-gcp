@@ -152,6 +152,7 @@ type TensorboardStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Tensorboard is the Schema for the Tensorboards API. Tensorboard is a physical database that stores users' training metrics.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

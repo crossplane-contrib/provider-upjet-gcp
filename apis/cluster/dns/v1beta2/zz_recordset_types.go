@@ -958,6 +958,7 @@ type RecordSetStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // RecordSet is the Schema for the RecordSets API. Manages a set of DNS records within Google Cloud DNS.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

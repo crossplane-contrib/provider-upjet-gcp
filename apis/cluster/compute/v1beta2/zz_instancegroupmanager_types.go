@@ -946,6 +946,7 @@ type InstanceGroupManagerStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // InstanceGroupManager is the Schema for the InstanceGroupManagers API. Manages an Instance Group within GCE.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

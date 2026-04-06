@@ -2931,6 +2931,7 @@ type AlertPolicyStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // AlertPolicy is the Schema for the AlertPolicys API. A description of the conditions under which some aspect of your system is considered to be "unhealthy" and the ways to notify people or services about this state.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

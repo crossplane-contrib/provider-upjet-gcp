@@ -108,6 +108,7 @@ type AgentPoolStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // AgentPool is the Schema for the AgentPools API. Represents an On-Premises Agent pool.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

@@ -1883,6 +1883,7 @@ type JobStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Job is the Schema for the Jobs API. Jobs are actions that BigQuery runs on your behalf to load data, export data, query data, or copy data.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

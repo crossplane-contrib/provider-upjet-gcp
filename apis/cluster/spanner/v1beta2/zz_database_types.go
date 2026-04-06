@@ -238,6 +238,7 @@ type DatabaseStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Database is the Schema for the Databases API. A Cloud Spanner Database which is hosted on a Spanner instance.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

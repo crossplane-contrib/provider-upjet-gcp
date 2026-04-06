@@ -1409,6 +1409,7 @@ type InstanceFromTemplateStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // InstanceFromTemplate is the Schema for the InstanceFromTemplates API. Manages a VM instance resource within GCE.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

@@ -1886,6 +1886,7 @@ type InstanceTemplateStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // InstanceTemplate is the Schema for the InstanceTemplates API. Manages a VM instance template resource within GCE.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

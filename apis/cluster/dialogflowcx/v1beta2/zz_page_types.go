@@ -3540,6 +3540,7 @@ type PageStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Page is the Schema for the Pages API. A Dialogflow CX conversation (session) can be described and visualized as a state machine.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

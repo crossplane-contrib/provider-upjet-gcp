@@ -481,6 +481,7 @@ type DataTransferConfigStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // DataTransferConfig is the Schema for the DataTransferConfigs API. Represents a data transfer configuration.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
