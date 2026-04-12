@@ -523,8 +523,8 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 		// initial observe call fails instead of recognizing the resource
 		// needs to be created.
 		// See: https://github.com/crossplane-contrib/provider-upjet-gcp/issues/836
-		origRead := r.TerraformResource.Read
-		r.TerraformResource.Read = func(d *schema.ResourceData, meta interface{}) error {
+		origRead := r.TerraformResource.Read                                              //nolint:staticcheck // upstream resource uses deprecated Read field
+		r.TerraformResource.Read = func(d *schema.ResourceData, meta interface{}) error { //nolint:staticcheck // wrapping upstream's deprecated Read field
 			err := origRead(d, meta)
 			if err != nil && strings.Contains(err.Error(), "does not contain a rule at priority") {
 				d.SetId("")
