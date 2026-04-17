@@ -86,6 +86,8 @@ spec:
                     type: array
                   instance:
                     type: string
+                  instanceName:
+                    type: string
                   members:
                     items:
                       type: string
@@ -126,6 +128,8 @@ spec:
                       type: object
                     type: array
                   instance:
+                    type: string
+                  instanceName:
                     type: string
                   members:
                     items:
@@ -222,10 +226,6 @@ spec:
             - forProvider
             type: object
             x-kubernetes-validations:
-            - message: spec.forProvider.instance is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.instance)
-                || (has(self.initProvider) && has(self.initProvider.instance))'
             - message: spec.forProvider.members is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.members)
@@ -251,6 +251,8 @@ spec:
                   id:
                     type: string
                   instance:
+                    type: string
+                  instanceName:
                     type: string
                   members:
                     items:
