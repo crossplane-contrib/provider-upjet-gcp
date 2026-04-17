@@ -385,6 +385,12 @@ type GcsSourceParameters struct {
 
 type InstanceInitParameters struct {
 
+	// Allows customers to specify if they are okay with deploying a multi-zone
+	// instance in less than 3 zones. Once set, if there is a zonal outage during
+	// the instance creation, the instance will only be deployed in 2 zones, and
+	// stay within the 2 zones for its lifecycle.
+	AllowFewerZonesDeployment *bool `json:"allowFewerZonesDeployment,omitempty" tf:"allow_fewer_zones_deployment,omitempty"`
+
 	// Optional. Immutable. Authorization mode of the instance. Possible values:
 	// AUTH_DISABLED
 	// IAM_AUTH
@@ -476,6 +482,12 @@ type InstanceInitParameters struct {
 }
 
 type InstanceObservation struct {
+
+	// Allows customers to specify if they are okay with deploying a multi-zone
+	// instance in less than 3 zones. Once set, if there is a zonal outage during
+	// the instance creation, the instance will only be deployed in 2 zones, and
+	// stay within the 2 zones for its lifecycle.
+	AllowFewerZonesDeployment *bool `json:"allowFewerZonesDeployment,omitempty" tf:"allow_fewer_zones_deployment,omitempty"`
 
 	// Optional. Immutable. Authorization mode of the instance. Possible values:
 	// AUTH_DISABLED
@@ -641,6 +653,13 @@ type InstanceObservation struct {
 }
 
 type InstanceParameters struct {
+
+	// Allows customers to specify if they are okay with deploying a multi-zone
+	// instance in less than 3 zones. Once set, if there is a zonal outage during
+	// the instance creation, the instance will only be deployed in 2 zones, and
+	// stay within the 2 zones for its lifecycle.
+	// +kubebuilder:validation:Optional
+	AllowFewerZonesDeployment *bool `json:"allowFewerZonesDeployment,omitempty" tf:"allow_fewer_zones_deployment,omitempty"`
 
 	// Optional. Immutable. Authorization mode of the instance. Possible values:
 	// AUTH_DISABLED

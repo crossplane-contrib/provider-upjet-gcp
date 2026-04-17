@@ -645,6 +645,13 @@ spec:
                           bucketName:
                             description: Google Cloud Storage bucket name.
                             type: string
+                          cloudfrontDomain:
+                            description: 'The CloudFront distribution domain name
+                              pointing to this bucket, to use when fetching. See Transfer
+                              from S3 via CloudFront for more information. Format:
+                              https://{id}.cloudfront.net or any valid custom domain.
+                              Must begin with https://.'
+                            type: string
                           managedPrivateNetwork:
                             description: Egress bytes over a Google-managed private
                               network. This network is shared between other users
@@ -668,7 +675,7 @@ spec:
                           documented below.
                         properties:
                           azureCredentials:
-                            description: Credentials used to authenticate API requests
+                            description: ) Credentials used to authenticate API requests
                               to Azure block.
                             properties:
                               sasTokenSecretRef:
@@ -690,6 +697,44 @@ spec:
                             description: The container to transfer from the Azure
                               Storage account.`
                             type: string
+                          credentialsSecret:
+                            description: ) Full Resource name of a secret in Secret
+                              Manager containing SAS Credentials in JSON form. Service
+                              Agent for Storage Transfer must have permissions to
+                              access secret. If credentials_secret is specified, do
+                              not specify azure_credentials.`,
+                            type: string
+                          federatedIdentityConfig:
+                            description: Federated identity config of a user registered
+                              Azure application. Structure documented below.
+                            properties:
+                              clientIdSecretRef:
+                                description: The client (application) ID of the application
+                                  with federated credentials.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                              tenantIdSecretRef:
+                                description: The client (directory) ID of the application
+                                  with federated credentials.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                            type: object
                           path:
                             description: Root directory path to the filesystem.
                             type: string
@@ -1629,6 +1674,13 @@ spec:
                           bucketName:
                             description: Google Cloud Storage bucket name.
                             type: string
+                          cloudfrontDomain:
+                            description: 'The CloudFront distribution domain name
+                              pointing to this bucket, to use when fetching. See Transfer
+                              from S3 via CloudFront for more information. Format:
+                              https://{id}.cloudfront.net or any valid custom domain.
+                              Must begin with https://.'
+                            type: string
                           managedPrivateNetwork:
                             description: Egress bytes over a Google-managed private
                               network. This network is shared between other users
@@ -1652,7 +1704,7 @@ spec:
                           documented below.
                         properties:
                           azureCredentials:
-                            description: Credentials used to authenticate API requests
+                            description: ) Credentials used to authenticate API requests
                               to Azure block.
                             properties:
                               sasTokenSecretRef:
@@ -1676,6 +1728,47 @@ spec:
                             description: The container to transfer from the Azure
                               Storage account.`
                             type: string
+                          credentialsSecret:
+                            description: ) Full Resource name of a secret in Secret
+                              Manager containing SAS Credentials in JSON form. Service
+                              Agent for Storage Transfer must have permissions to
+                              access secret. If credentials_secret is specified, do
+                              not specify azure_credentials.`,
+                            type: string
+                          federatedIdentityConfig:
+                            description: Federated identity config of a user registered
+                              Azure application. Structure documented below.
+                            properties:
+                              clientIdSecretRef:
+                                description: The client (application) ID of the application
+                                  with federated credentials.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                              tenantIdSecretRef:
+                                description: The client (directory) ID of the application
+                                  with federated credentials.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                            required:
+                            - clientIdSecretRef
+                            - tenantIdSecretRef
+                            type: object
                           path:
                             description: Root directory path to the filesystem.
                             type: string
@@ -2434,6 +2527,13 @@ spec:
                           bucketName:
                             description: Google Cloud Storage bucket name.
                             type: string
+                          cloudfrontDomain:
+                            description: 'The CloudFront distribution domain name
+                              pointing to this bucket, to use when fetching. See Transfer
+                              from S3 via CloudFront for more information. Format:
+                              https://{id}.cloudfront.net or any valid custom domain.
+                              Must begin with https://.'
+                            type: string
                           managedPrivateNetwork:
                             description: Egress bytes over a Google-managed private
                               network. This network is shared between other users
@@ -2457,7 +2557,7 @@ spec:
                           documented below.
                         properties:
                           azureCredentials:
-                            description: Credentials used to authenticate API requests
+                            description: ) Credentials used to authenticate API requests
                               to Azure block.
                             properties:
                               sasTokenSecretRef:
@@ -2479,6 +2579,44 @@ spec:
                             description: The container to transfer from the Azure
                               Storage account.`
                             type: string
+                          credentialsSecret:
+                            description: ) Full Resource name of a secret in Secret
+                              Manager containing SAS Credentials in JSON form. Service
+                              Agent for Storage Transfer must have permissions to
+                              access secret. If credentials_secret is specified, do
+                              not specify azure_credentials.`,
+                            type: string
+                          federatedIdentityConfig:
+                            description: Federated identity config of a user registered
+                              Azure application. Structure documented below.
+                            properties:
+                              clientIdSecretRef:
+                                description: The client (application) ID of the application
+                                  with federated credentials.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                              tenantIdSecretRef:
+                                description: The client (directory) ID of the application
+                                  with federated credentials.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                            type: object
                           path:
                             description: Root directory path to the filesystem.
                             type: string

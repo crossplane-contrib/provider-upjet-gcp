@@ -390,6 +390,11 @@ spec:
             properties:
               atProvider:
                 properties:
+                  configuredCapabilities:
+                    description: Optional capabilities configured for this folder.
+                    items:
+                      type: string
+                    type: array
                   createTime:
                     description: |-
                       Timestamp when the Folder was created. Assigned by the server.
@@ -412,6 +417,10 @@ spec:
                   lifecycleState:
                     description: The lifecycle state of the folder such as ACTIVE
                       or DELETE_REQUESTED.
+                    type: string
+                  managementProject:
+                    description: Management Project associated with this folder (if
+                      capability is enabled).
                     type: string
                   name:
                     description: The resource name of the Folder. Its format is folders/{folder_id}.

@@ -59,6 +59,43 @@ spec:
             properties:
               forProvider:
                 properties:
+                  advancedOptionsConfig:
+                    description: |-
+                      Advanced Options Config of this security policy.
+                      Structure is documented below.
+                    properties:
+                      jsonCustomConfig:
+                        description: |-
+                          Custom configuration to apply the JSON parsing. Only applicable when JSON parsing is set to STANDARD.
+                          Structure is documented below.
+                        properties:
+                          contentTypes:
+                            description: A list of custom Content-Type header values
+                              to apply the JSON parsing.
+                            items:
+                              type: string
+                            type: array
+                            x-kubernetes-list-type: set
+                        type: object
+                      jsonParsing:
+                        description: |-
+                          JSON body parsing. Supported values include: "DISABLED", "STANDARD", "STANDARD_WITH_GRAPHQL".
+                          Possible values are: DISABLED, STANDARD, STANDARD_WITH_GRAPHQL.
+                        type: string
+                      logLevel:
+                        description: |-
+                          Logging level. Supported values include: "NORMAL", "VERBOSE".
+                          Possible values are: NORMAL, VERBOSE.
+                        type: string
+                      userIpRequestHeaders:
+                        description: An optional list of case-insensitive request
+                          header names to use for resolving the callers client IP
+                          address.
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
+                    type: object
                   ddosProtectionConfig:
                     description: |-
                       Configuration for Google Cloud Armor DDOS Proctection Config.
@@ -485,6 +522,43 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  advancedOptionsConfig:
+                    description: |-
+                      Advanced Options Config of this security policy.
+                      Structure is documented below.
+                    properties:
+                      jsonCustomConfig:
+                        description: |-
+                          Custom configuration to apply the JSON parsing. Only applicable when JSON parsing is set to STANDARD.
+                          Structure is documented below.
+                        properties:
+                          contentTypes:
+                            description: A list of custom Content-Type header values
+                              to apply the JSON parsing.
+                            items:
+                              type: string
+                            type: array
+                            x-kubernetes-list-type: set
+                        type: object
+                      jsonParsing:
+                        description: |-
+                          JSON body parsing. Supported values include: "DISABLED", "STANDARD", "STANDARD_WITH_GRAPHQL".
+                          Possible values are: DISABLED, STANDARD, STANDARD_WITH_GRAPHQL.
+                        type: string
+                      logLevel:
+                        description: |-
+                          Logging level. Supported values include: "NORMAL", "VERBOSE".
+                          Possible values are: NORMAL, VERBOSE.
+                        type: string
+                      userIpRequestHeaders:
+                        description: An optional list of case-insensitive request
+                          header names to use for resolving the callers client IP
+                          address.
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
+                    type: object
                   ddosProtectionConfig:
                     description: |-
                       Configuration for Google Cloud Armor DDOS Proctection Config.
@@ -955,6 +1029,43 @@ spec:
             properties:
               atProvider:
                 properties:
+                  advancedOptionsConfig:
+                    description: |-
+                      Advanced Options Config of this security policy.
+                      Structure is documented below.
+                    properties:
+                      jsonCustomConfig:
+                        description: |-
+                          Custom configuration to apply the JSON parsing. Only applicable when JSON parsing is set to STANDARD.
+                          Structure is documented below.
+                        properties:
+                          contentTypes:
+                            description: A list of custom Content-Type header values
+                              to apply the JSON parsing.
+                            items:
+                              type: string
+                            type: array
+                            x-kubernetes-list-type: set
+                        type: object
+                      jsonParsing:
+                        description: |-
+                          JSON body parsing. Supported values include: "DISABLED", "STANDARD", "STANDARD_WITH_GRAPHQL".
+                          Possible values are: DISABLED, STANDARD, STANDARD_WITH_GRAPHQL.
+                        type: string
+                      logLevel:
+                        description: |-
+                          Logging level. Supported values include: "NORMAL", "VERBOSE".
+                          Possible values are: NORMAL, VERBOSE.
+                        type: string
+                      userIpRequestHeaders:
+                        description: An optional list of case-insensitive request
+                          header names to use for resolving the callers client IP
+                          address.
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
+                    type: object
                   ddosProtectionConfig:
                     description: |-
                       Configuration for Google Cloud Armor DDOS Proctection Config.

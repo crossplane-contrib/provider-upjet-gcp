@@ -8732,7 +8732,7 @@ spec:
                           diskType:
                             description: |-
                               Type of the disk attached to each node
-                              (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced'
+                              (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced' This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
                             type: string
                           imageType:
                             description: |-
@@ -9566,6 +9566,31 @@ spec:
                               per core by the underlying processor is assumed.
                             type: number
                         type: object
+                      bootDisk:
+                        description: Configuration of the node pool boot disk. Structure
+                          is documented below
+                        properties:
+                          diskType:
+                            description: |-
+                              Type of the disk attached to each node
+                              (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced' This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
+                            type: string
+                          provisionedIops:
+                            description: Configure disk IOPs. This is only valid if
+                              the disk_type is 'hyperdisk-balanced'. See performance
+                              limit documention for more information about valid values.
+                            type: number
+                          provisionedThroughput:
+                            description: Configure disk throughput. This is only valid
+                              if the disk_type is 'hyperdisk-balanced'. See performance
+                              limit documention for more information about valid values.
+                            type: number
+                          sizeGb:
+                            description: |-
+                              Size of the disk attached to each node, specified
+                              in GB. The smallest allowed disk size is 10GB. Defaults to 100GB. This is being migrated from node_config.disk_size_gb, and must match if specified in both places. Prefer using this field.
+                            type: number
+                        type: object
                       bootDiskKmsKey:
                         description: 'The Customer Managed Encryption Key used to
                           encrypt the boot disk attached to each node in the node
@@ -9620,12 +9645,13 @@ spec:
                       diskSizeGb:
                         description: |-
                           Size of the disk attached to each node, specified
-                          in GB. The smallest allowed disk size is 10GB. Defaults to 100GB.
+                          in GB. The smallest allowed disk size is 10GB. Defaults to 100GB. This is being migrated to boot_disk.size_gb, and must match if specified in both places.
+                          Prefer configuring boot_disk.
                         type: number
                       diskType:
                         description: |-
                           Type of the disk attached to each node
-                          (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced'
+                          (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced' This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
                         type: string
                       enableConfidentialStorage:
                         description: Enabling Confidential Storage will create boot
@@ -9796,6 +9822,129 @@ spec:
                               Prior to the 6.4.0 this field was marked as required. The workaround for the required field
                               is setting the empty string "", which will function identically to not setting this field.
                             type: string
+                          evictionMaxPodGracePeriodSeconds:
+                            description: Defines the maximum allowed grace period
+                              (in seconds) to use when terminating pods in response
+                              to a soft eviction threshold being met. The integer
+                              must be positive and not exceed 300.
+                            type: number
+                          evictionMinimumReclaim:
+                            description: Defines a map of signal names to percentage
+                              that defines minimum reclaims. It describes the minimum
+                              amount of a given resource the kubelet will reclaim
+                              when performing a pod eviction. Structure is documented
+                              below.
+                            properties:
+                              imagefsAvailable:
+                                description: Defines grace period for the imagefs.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              imagefsInodesFree:
+                                description: Defines grace period for the imagefs.inodesFree
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              memoryAvailable:
+                                description: Defines grace period for the memory.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m", such as "30s",
+                                  "1m30s", "2.5m". Valid time units are "ns", "us"
+                                  (or "µs"), "ms", "s", "m", "h".
+                                type: string
+                              nodefsAvailable:
+                                description: Defines grace period for the nodefs.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              nodefsInodesFree:
+                                description: Defines grace period for the nodefs.inodesFree
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              pidAvailable:
+                                description: Defines grace period for the pid.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                            type: object
+                          evictionSoft:
+                            description: Defines a map of signal names to quantities
+                              or percentage that defines soft eviction thresholds.
+                              Structure is documented below.
+                            properties:
+                              imagefsAvailable:
+                                description: Defines grace period for the imagefs.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              imagefsInodesFree:
+                                description: Defines grace period for the imagefs.inodesFree
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              memoryAvailable:
+                                description: Defines grace period for the memory.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m", such as "30s",
+                                  "1m30s", "2.5m". Valid time units are "ns", "us"
+                                  (or "µs"), "ms", "s", "m", "h".
+                                type: string
+                              nodefsAvailable:
+                                description: Defines grace period for the nodefs.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              nodefsInodesFree:
+                                description: Defines grace period for the nodefs.inodesFree
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              pidAvailable:
+                                description: Defines grace period for the pid.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                            type: object
+                          evictionSoftGracePeriod:
+                            description: Defines a map of signal names to durations
+                              that defines grace periods for soft eviction thresholds.
+                              Each soft eviction threshold must have a corresponding
+                              grace period. Structure is documented below.
+                            properties:
+                              imagefsAvailable:
+                                description: Defines grace period for the imagefs.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              imagefsInodesFree:
+                                description: Defines grace period for the imagefs.inodesFree
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              memoryAvailable:
+                                description: Defines grace period for the memory.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m", such as "30s",
+                                  "1m30s", "2.5m". Valid time units are "ns", "us"
+                                  (or "µs"), "ms", "s", "m", "h".
+                                type: string
+                              nodefsAvailable:
+                                description: Defines grace period for the nodefs.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              nodefsInodesFree:
+                                description: Defines grace period for the nodefs.inodesFree
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              pidAvailable:
+                                description: Defines grace period for the pid.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                            type: object
                           imageGcHighThresholdPercent:
                             description: Defines the percent of disk usage after which
                               image garbage collection is always run. The integer
@@ -9827,11 +9976,20 @@ spec:
                               pools in the cluster. It is strongly recommended to
                               set this to FALSE. Possible values: TRUE, FALSE.'
                             type: string
+                          maxParallelImagePulls:
+                            description: Set the maximum number of image pulls in
+                              parallel. The integer must be between 2 and 5, inclusive.
+                            type: number
                           podPidsLimit:
                             description: Controls the maximum number of processes
                               allowed to run in a pod. The value must be greater than
                               or equal to 1024 and less than 4194304.
                             type: number
+                          singleProcessOomKill:
+                            description: Defines whether to enable single process
+                              OOM killer. If true, the processes in the container
+                              will be OOM killed individually instead of as a group.
+                            type: boolean
                         type: object
                       labels:
                         additionalProperties:
@@ -9871,6 +10029,16 @@ spec:
                               Note that validations happen all server side. All attributes are optional.
                             type: object
                             x-kubernetes-map-type: granular
+                          transparentHugepageDefrag:
+                            description: |-
+                              The Linux kernel transparent hugepage defrag setting.
+                              Accepted values are:
+                            type: string
+                          transparentHugepageEnabled:
+                            description: |-
+                              The Linux kernel transparent hugepage setting.
+                              Accepted values are:
+                            type: string
                         type: object
                       localNvmeSsdBlockConfig:
                         description: Parameters for the local NVMe SSDs. Structure
@@ -10100,10 +10268,19 @@ spec:
                         type: object
                       soleTenantConfig:
                         description: Allows specifying multiple node affinities useful
-                          for running workloads on sole tenant nodes. node_affinity
-                          structure is documented below.
+                          for running workloads on sole tenant nodes. Structure is
+                          documented below.
                         properties:
+                          minNodeCpus:
+                            description: Specifies the minimum number of vCPUs that
+                              each sole tenant node must have to use CPU overcommit.
+                              If not specified, the CPU overcommit feeature is disabled.
+                              The value should be greater than or equal to half of
+                              the machine type's CPU count.
+                            type: number
                           nodeAffinity:
+                            description: The node affinity settings for the sole tenant
+                              node pool. Structure is documented below.
                             items:
                               properties:
                                 key:
@@ -11016,7 +11193,7 @@ spec:
                           diskType:
                             description: |-
                               Type of the disk attached to each node
-                              (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced'
+                              (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced' This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
                             type: string
                           imageType:
                             description: |-
@@ -11841,6 +12018,31 @@ spec:
                               per core by the underlying processor is assumed.
                             type: number
                         type: object
+                      bootDisk:
+                        description: Configuration of the node pool boot disk. Structure
+                          is documented below
+                        properties:
+                          diskType:
+                            description: |-
+                              Type of the disk attached to each node
+                              (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced' This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
+                            type: string
+                          provisionedIops:
+                            description: Configure disk IOPs. This is only valid if
+                              the disk_type is 'hyperdisk-balanced'. See performance
+                              limit documention for more information about valid values.
+                            type: number
+                          provisionedThroughput:
+                            description: Configure disk throughput. This is only valid
+                              if the disk_type is 'hyperdisk-balanced'. See performance
+                              limit documention for more information about valid values.
+                            type: number
+                          sizeGb:
+                            description: |-
+                              Size of the disk attached to each node, specified
+                              in GB. The smallest allowed disk size is 10GB. Defaults to 100GB. This is being migrated from node_config.disk_size_gb, and must match if specified in both places. Prefer using this field.
+                            type: number
+                        type: object
                       bootDiskKmsKey:
                         description: 'The Customer Managed Encryption Key used to
                           encrypt the boot disk attached to each node in the node
@@ -11895,12 +12097,13 @@ spec:
                       diskSizeGb:
                         description: |-
                           Size of the disk attached to each node, specified
-                          in GB. The smallest allowed disk size is 10GB. Defaults to 100GB.
+                          in GB. The smallest allowed disk size is 10GB. Defaults to 100GB. This is being migrated to boot_disk.size_gb, and must match if specified in both places.
+                          Prefer configuring boot_disk.
                         type: number
                       diskType:
                         description: |-
                           Type of the disk attached to each node
-                          (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced'
+                          (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced' This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
                         type: string
                       enableConfidentialStorage:
                         description: Enabling Confidential Storage will create boot
@@ -12071,6 +12274,129 @@ spec:
                               Prior to the 6.4.0 this field was marked as required. The workaround for the required field
                               is setting the empty string "", which will function identically to not setting this field.
                             type: string
+                          evictionMaxPodGracePeriodSeconds:
+                            description: Defines the maximum allowed grace period
+                              (in seconds) to use when terminating pods in response
+                              to a soft eviction threshold being met. The integer
+                              must be positive and not exceed 300.
+                            type: number
+                          evictionMinimumReclaim:
+                            description: Defines a map of signal names to percentage
+                              that defines minimum reclaims. It describes the minimum
+                              amount of a given resource the kubelet will reclaim
+                              when performing a pod eviction. Structure is documented
+                              below.
+                            properties:
+                              imagefsAvailable:
+                                description: Defines grace period for the imagefs.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              imagefsInodesFree:
+                                description: Defines grace period for the imagefs.inodesFree
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              memoryAvailable:
+                                description: Defines grace period for the memory.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m", such as "30s",
+                                  "1m30s", "2.5m". Valid time units are "ns", "us"
+                                  (or "µs"), "ms", "s", "m", "h".
+                                type: string
+                              nodefsAvailable:
+                                description: Defines grace period for the nodefs.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              nodefsInodesFree:
+                                description: Defines grace period for the nodefs.inodesFree
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              pidAvailable:
+                                description: Defines grace period for the pid.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                            type: object
+                          evictionSoft:
+                            description: Defines a map of signal names to quantities
+                              or percentage that defines soft eviction thresholds.
+                              Structure is documented below.
+                            properties:
+                              imagefsAvailable:
+                                description: Defines grace period for the imagefs.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              imagefsInodesFree:
+                                description: Defines grace period for the imagefs.inodesFree
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              memoryAvailable:
+                                description: Defines grace period for the memory.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m", such as "30s",
+                                  "1m30s", "2.5m". Valid time units are "ns", "us"
+                                  (or "µs"), "ms", "s", "m", "h".
+                                type: string
+                              nodefsAvailable:
+                                description: Defines grace period for the nodefs.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              nodefsInodesFree:
+                                description: Defines grace period for the nodefs.inodesFree
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              pidAvailable:
+                                description: Defines grace period for the pid.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                            type: object
+                          evictionSoftGracePeriod:
+                            description: Defines a map of signal names to durations
+                              that defines grace periods for soft eviction thresholds.
+                              Each soft eviction threshold must have a corresponding
+                              grace period. Structure is documented below.
+                            properties:
+                              imagefsAvailable:
+                                description: Defines grace period for the imagefs.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              imagefsInodesFree:
+                                description: Defines grace period for the imagefs.inodesFree
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              memoryAvailable:
+                                description: Defines grace period for the memory.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m", such as "30s",
+                                  "1m30s", "2.5m". Valid time units are "ns", "us"
+                                  (or "µs"), "ms", "s", "m", "h".
+                                type: string
+                              nodefsAvailable:
+                                description: Defines grace period for the nodefs.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              nodefsInodesFree:
+                                description: Defines grace period for the nodefs.inodesFree
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              pidAvailable:
+                                description: Defines grace period for the pid.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                            type: object
                           imageGcHighThresholdPercent:
                             description: Defines the percent of disk usage after which
                               image garbage collection is always run. The integer
@@ -12102,11 +12428,20 @@ spec:
                               pools in the cluster. It is strongly recommended to
                               set this to FALSE. Possible values: TRUE, FALSE.'
                             type: string
+                          maxParallelImagePulls:
+                            description: Set the maximum number of image pulls in
+                              parallel. The integer must be between 2 and 5, inclusive.
+                            type: number
                           podPidsLimit:
                             description: Controls the maximum number of processes
                               allowed to run in a pod. The value must be greater than
                               or equal to 1024 and less than 4194304.
                             type: number
+                          singleProcessOomKill:
+                            description: Defines whether to enable single process
+                              OOM killer. If true, the processes in the container
+                              will be OOM killed individually instead of as a group.
+                            type: boolean
                         type: object
                       labels:
                         additionalProperties:
@@ -12146,6 +12481,16 @@ spec:
                               Note that validations happen all server side. All attributes are optional.
                             type: object
                             x-kubernetes-map-type: granular
+                          transparentHugepageDefrag:
+                            description: |-
+                              The Linux kernel transparent hugepage defrag setting.
+                              Accepted values are:
+                            type: string
+                          transparentHugepageEnabled:
+                            description: |-
+                              The Linux kernel transparent hugepage setting.
+                              Accepted values are:
+                            type: string
                         type: object
                       localNvmeSsdBlockConfig:
                         description: Parameters for the local NVMe SSDs. Structure
@@ -12375,10 +12720,19 @@ spec:
                         type: object
                       soleTenantConfig:
                         description: Allows specifying multiple node affinities useful
-                          for running workloads on sole tenant nodes. node_affinity
-                          structure is documented below.
+                          for running workloads on sole tenant nodes. Structure is
+                          documented below.
                         properties:
+                          minNodeCpus:
+                            description: Specifies the minimum number of vCPUs that
+                              each sole tenant node must have to use CPU overcommit.
+                              If not specified, the CPU overcommit feeature is disabled.
+                              The value should be greater than or equal to half of
+                              the machine type's CPU count.
+                            type: number
                           nodeAffinity:
+                            description: The node affinity settings for the sole tenant
+                              node pool. Structure is documented below.
                             items:
                               properties:
                                 key:
@@ -13367,7 +13721,7 @@ spec:
                           diskType:
                             description: |-
                               Type of the disk attached to each node
-                              (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced'
+                              (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced' This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
                             type: string
                           imageType:
                             description: |-
@@ -14195,6 +14549,31 @@ spec:
                               per core by the underlying processor is assumed.
                             type: number
                         type: object
+                      bootDisk:
+                        description: Configuration of the node pool boot disk. Structure
+                          is documented below
+                        properties:
+                          diskType:
+                            description: |-
+                              Type of the disk attached to each node
+                              (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced' This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
+                            type: string
+                          provisionedIops:
+                            description: Configure disk IOPs. This is only valid if
+                              the disk_type is 'hyperdisk-balanced'. See performance
+                              limit documention for more information about valid values.
+                            type: number
+                          provisionedThroughput:
+                            description: Configure disk throughput. This is only valid
+                              if the disk_type is 'hyperdisk-balanced'. See performance
+                              limit documention for more information about valid values.
+                            type: number
+                          sizeGb:
+                            description: |-
+                              Size of the disk attached to each node, specified
+                              in GB. The smallest allowed disk size is 10GB. Defaults to 100GB. This is being migrated from node_config.disk_size_gb, and must match if specified in both places. Prefer using this field.
+                            type: number
+                        type: object
                       bootDiskKmsKey:
                         description: 'The Customer Managed Encryption Key used to
                           encrypt the boot disk attached to each node in the node
@@ -14249,12 +14628,13 @@ spec:
                       diskSizeGb:
                         description: |-
                           Size of the disk attached to each node, specified
-                          in GB. The smallest allowed disk size is 10GB. Defaults to 100GB.
+                          in GB. The smallest allowed disk size is 10GB. Defaults to 100GB. This is being migrated to boot_disk.size_gb, and must match if specified in both places.
+                          Prefer configuring boot_disk.
                         type: number
                       diskType:
                         description: |-
                           Type of the disk attached to each node
-                          (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced'
+                          (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced' This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
                         type: string
                       effectiveTaints:
                         description: List of kubernetes taints applied to each node.
@@ -14442,6 +14822,129 @@ spec:
                               Prior to the 6.4.0 this field was marked as required. The workaround for the required field
                               is setting the empty string "", which will function identically to not setting this field.
                             type: string
+                          evictionMaxPodGracePeriodSeconds:
+                            description: Defines the maximum allowed grace period
+                              (in seconds) to use when terminating pods in response
+                              to a soft eviction threshold being met. The integer
+                              must be positive and not exceed 300.
+                            type: number
+                          evictionMinimumReclaim:
+                            description: Defines a map of signal names to percentage
+                              that defines minimum reclaims. It describes the minimum
+                              amount of a given resource the kubelet will reclaim
+                              when performing a pod eviction. Structure is documented
+                              below.
+                            properties:
+                              imagefsAvailable:
+                                description: Defines grace period for the imagefs.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              imagefsInodesFree:
+                                description: Defines grace period for the imagefs.inodesFree
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              memoryAvailable:
+                                description: Defines grace period for the memory.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m", such as "30s",
+                                  "1m30s", "2.5m". Valid time units are "ns", "us"
+                                  (or "µs"), "ms", "s", "m", "h".
+                                type: string
+                              nodefsAvailable:
+                                description: Defines grace period for the nodefs.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              nodefsInodesFree:
+                                description: Defines grace period for the nodefs.inodesFree
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              pidAvailable:
+                                description: Defines grace period for the pid.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                            type: object
+                          evictionSoft:
+                            description: Defines a map of signal names to quantities
+                              or percentage that defines soft eviction thresholds.
+                              Structure is documented below.
+                            properties:
+                              imagefsAvailable:
+                                description: Defines grace period for the imagefs.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              imagefsInodesFree:
+                                description: Defines grace period for the imagefs.inodesFree
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              memoryAvailable:
+                                description: Defines grace period for the memory.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m", such as "30s",
+                                  "1m30s", "2.5m". Valid time units are "ns", "us"
+                                  (or "µs"), "ms", "s", "m", "h".
+                                type: string
+                              nodefsAvailable:
+                                description: Defines grace period for the nodefs.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              nodefsInodesFree:
+                                description: Defines grace period for the nodefs.inodesFree
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              pidAvailable:
+                                description: Defines grace period for the pid.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                            type: object
+                          evictionSoftGracePeriod:
+                            description: Defines a map of signal names to durations
+                              that defines grace periods for soft eviction thresholds.
+                              Each soft eviction threshold must have a corresponding
+                              grace period. Structure is documented below.
+                            properties:
+                              imagefsAvailable:
+                                description: Defines grace period for the imagefs.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              imagefsInodesFree:
+                                description: Defines grace period for the imagefs.inodesFree
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              memoryAvailable:
+                                description: Defines grace period for the memory.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m", such as "30s",
+                                  "1m30s", "2.5m". Valid time units are "ns", "us"
+                                  (or "µs"), "ms", "s", "m", "h".
+                                type: string
+                              nodefsAvailable:
+                                description: Defines grace period for the nodefs.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              nodefsInodesFree:
+                                description: Defines grace period for the nodefs.inodesFree
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              pidAvailable:
+                                description: Defines grace period for the pid.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                            type: object
                           imageGcHighThresholdPercent:
                             description: Defines the percent of disk usage after which
                               image garbage collection is always run. The integer
@@ -14473,11 +14976,20 @@ spec:
                               pools in the cluster. It is strongly recommended to
                               set this to FALSE. Possible values: TRUE, FALSE.'
                             type: string
+                          maxParallelImagePulls:
+                            description: Set the maximum number of image pulls in
+                              parallel. The integer must be between 2 and 5, inclusive.
+                            type: number
                           podPidsLimit:
                             description: Controls the maximum number of processes
                               allowed to run in a pod. The value must be greater than
                               or equal to 1024 and less than 4194304.
                             type: number
+                          singleProcessOomKill:
+                            description: Defines whether to enable single process
+                              OOM killer. If true, the processes in the container
+                              will be OOM killed individually instead of as a group.
+                            type: boolean
                         type: object
                       labels:
                         additionalProperties:
@@ -14517,6 +15029,16 @@ spec:
                               Note that validations happen all server side. All attributes are optional.
                             type: object
                             x-kubernetes-map-type: granular
+                          transparentHugepageDefrag:
+                            description: |-
+                              The Linux kernel transparent hugepage defrag setting.
+                              Accepted values are:
+                            type: string
+                          transparentHugepageEnabled:
+                            description: |-
+                              The Linux kernel transparent hugepage setting.
+                              Accepted values are:
+                            type: string
                         type: object
                       localNvmeSsdBlockConfig:
                         description: Parameters for the local NVMe SSDs. Structure
@@ -14670,10 +15192,19 @@ spec:
                         type: object
                       soleTenantConfig:
                         description: Allows specifying multiple node affinities useful
-                          for running workloads on sole tenant nodes. node_affinity
-                          structure is documented below.
+                          for running workloads on sole tenant nodes. Structure is
+                          documented below.
                         properties:
+                          minNodeCpus:
+                            description: Specifies the minimum number of vCPUs that
+                              each sole tenant node must have to use CPU overcommit.
+                              If not specified, the CPU overcommit feeature is disabled.
+                              The value should be greater than or equal to half of
+                              the machine type's CPU count.
+                            type: number
                           nodeAffinity:
+                            description: The node affinity settings for the sole tenant
+                              node pool. Structure is documented below.
                             items:
                               properties:
                                 key:
@@ -14921,6 +15452,33 @@ spec:
                                     is assumed.
                                   type: number
                               type: object
+                            bootDisk:
+                              description: Configuration of the node pool boot disk.
+                                Structure is documented below
+                              properties:
+                                diskType:
+                                  description: |-
+                                    Type of the disk attached to each node
+                                    (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced' This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
+                                  type: string
+                                provisionedIops:
+                                  description: Configure disk IOPs. This is only valid
+                                    if the disk_type is 'hyperdisk-balanced'. See
+                                    performance limit documention for more information
+                                    about valid values.
+                                  type: number
+                                provisionedThroughput:
+                                  description: Configure disk throughput. This is
+                                    only valid if the disk_type is 'hyperdisk-balanced'.
+                                    See performance limit documention for more information
+                                    about valid values.
+                                  type: number
+                                sizeGb:
+                                  description: |-
+                                    Size of the disk attached to each node, specified
+                                    in GB. The smallest allowed disk size is 10GB. Defaults to 100GB. This is being migrated from node_config.disk_size_gb, and must match if specified in both places. Prefer using this field.
+                                  type: number
+                              type: object
                             bootDiskKmsKey:
                               description: 'The Customer Managed Encryption Key used
                                 to encrypt the boot disk attached to each node in
@@ -14976,12 +15534,13 @@ spec:
                             diskSizeGb:
                               description: |-
                                 Size of the disk attached to each node, specified
-                                in GB. The smallest allowed disk size is 10GB. Defaults to 100GB.
+                                in GB. The smallest allowed disk size is 10GB. Defaults to 100GB. This is being migrated to boot_disk.size_gb, and must match if specified in both places.
+                                Prefer configuring boot_disk.
                               type: number
                             diskType:
                               description: |-
                                 Type of the disk attached to each node
-                                (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced'
+                                (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced' This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
                               type: string
                             effectiveTaints:
                               description: List of kubernetes taints applied to each
@@ -15168,6 +15727,132 @@ spec:
                                     Prior to the 6.4.0 this field was marked as required. The workaround for the required field
                                     is setting the empty string "", which will function identically to not setting this field.
                                   type: string
+                                evictionMaxPodGracePeriodSeconds:
+                                  description: Defines the maximum allowed grace period
+                                    (in seconds) to use when terminating pods in response
+                                    to a soft eviction threshold being met. The integer
+                                    must be positive and not exceed 300.
+                                  type: number
+                                evictionMinimumReclaim:
+                                  description: Defines a map of signal names to percentage
+                                    that defines minimum reclaims. It describes the
+                                    minimum amount of a given resource the kubelet
+                                    will reclaim when performing a pod eviction. Structure
+                                    is documented below.
+                                  properties:
+                                    imagefsAvailable:
+                                      description: Defines grace period for the imagefs.available
+                                        soft eviction threshold. The value must be
+                                        a positive duration string no more than "5m".
+                                      type: string
+                                    imagefsInodesFree:
+                                      description: Defines grace period for the imagefs.inodesFree
+                                        soft eviction threshold. The value must be
+                                        a positive duration string no more than "5m".
+                                      type: string
+                                    memoryAvailable:
+                                      description: Defines grace period for the memory.available
+                                        soft eviction threshold. The value must be
+                                        a positive duration string no more than "5m",
+                                        such as "30s", "1m30s", "2.5m". Valid time
+                                        units are "ns", "us" (or "µs"), "ms", "s",
+                                        "m", "h".
+                                      type: string
+                                    nodefsAvailable:
+                                      description: Defines grace period for the nodefs.available
+                                        soft eviction threshold. The value must be
+                                        a positive duration string no more than "5m".
+                                      type: string
+                                    nodefsInodesFree:
+                                      description: Defines grace period for the nodefs.inodesFree
+                                        soft eviction threshold. The value must be
+                                        a positive duration string no more than "5m".
+                                      type: string
+                                    pidAvailable:
+                                      description: Defines grace period for the pid.available
+                                        soft eviction threshold. The value must be
+                                        a positive duration string no more than "5m".
+                                      type: string
+                                  type: object
+                                evictionSoft:
+                                  description: Defines a map of signal names to quantities
+                                    or percentage that defines soft eviction thresholds.
+                                    Structure is documented below.
+                                  properties:
+                                    imagefsAvailable:
+                                      description: Defines grace period for the imagefs.available
+                                        soft eviction threshold. The value must be
+                                        a positive duration string no more than "5m".
+                                      type: string
+                                    imagefsInodesFree:
+                                      description: Defines grace period for the imagefs.inodesFree
+                                        soft eviction threshold. The value must be
+                                        a positive duration string no more than "5m".
+                                      type: string
+                                    memoryAvailable:
+                                      description: Defines grace period for the memory.available
+                                        soft eviction threshold. The value must be
+                                        a positive duration string no more than "5m",
+                                        such as "30s", "1m30s", "2.5m". Valid time
+                                        units are "ns", "us" (or "µs"), "ms", "s",
+                                        "m", "h".
+                                      type: string
+                                    nodefsAvailable:
+                                      description: Defines grace period for the nodefs.available
+                                        soft eviction threshold. The value must be
+                                        a positive duration string no more than "5m".
+                                      type: string
+                                    nodefsInodesFree:
+                                      description: Defines grace period for the nodefs.inodesFree
+                                        soft eviction threshold. The value must be
+                                        a positive duration string no more than "5m".
+                                      type: string
+                                    pidAvailable:
+                                      description: Defines grace period for the pid.available
+                                        soft eviction threshold. The value must be
+                                        a positive duration string no more than "5m".
+                                      type: string
+                                  type: object
+                                evictionSoftGracePeriod:
+                                  description: Defines a map of signal names to durations
+                                    that defines grace periods for soft eviction thresholds.
+                                    Each soft eviction threshold must have a corresponding
+                                    grace period. Structure is documented below.
+                                  properties:
+                                    imagefsAvailable:
+                                      description: Defines grace period for the imagefs.available
+                                        soft eviction threshold. The value must be
+                                        a positive duration string no more than "5m".
+                                      type: string
+                                    imagefsInodesFree:
+                                      description: Defines grace period for the imagefs.inodesFree
+                                        soft eviction threshold. The value must be
+                                        a positive duration string no more than "5m".
+                                      type: string
+                                    memoryAvailable:
+                                      description: Defines grace period for the memory.available
+                                        soft eviction threshold. The value must be
+                                        a positive duration string no more than "5m",
+                                        such as "30s", "1m30s", "2.5m". Valid time
+                                        units are "ns", "us" (or "µs"), "ms", "s",
+                                        "m", "h".
+                                      type: string
+                                    nodefsAvailable:
+                                      description: Defines grace period for the nodefs.available
+                                        soft eviction threshold. The value must be
+                                        a positive duration string no more than "5m".
+                                      type: string
+                                    nodefsInodesFree:
+                                      description: Defines grace period for the nodefs.inodesFree
+                                        soft eviction threshold. The value must be
+                                        a positive duration string no more than "5m".
+                                      type: string
+                                    pidAvailable:
+                                      description: Defines grace period for the pid.available
+                                        soft eviction threshold. The value must be
+                                        a positive duration string no more than "5m".
+                                      type: string
+                                  type: object
                                 imageGcHighThresholdPercent:
                                   description: Defines the percent of disk usage after
                                     which image garbage collection is always run.
@@ -15200,11 +15885,22 @@ spec:
                                     node pools in the cluster. It is strongly recommended
                                     to set this to FALSE. Possible values: TRUE, FALSE.'
                                   type: string
+                                maxParallelImagePulls:
+                                  description: Set the maximum number of image pulls
+                                    in parallel. The integer must be between 2 and
+                                    5, inclusive.
+                                  type: number
                                 podPidsLimit:
                                   description: Controls the maximum number of processes
                                     allowed to run in a pod. The value must be greater
                                     than or equal to 1024 and less than 4194304.
                                   type: number
+                                singleProcessOomKill:
+                                  description: Defines whether to enable single process
+                                    OOM killer. If true, the processes in the container
+                                    will be OOM killed individually instead of as
+                                    a group.
+                                  type: boolean
                               type: object
                             labels:
                               additionalProperties:
@@ -15246,6 +15942,16 @@ spec:
                                     Note that validations happen all server side. All attributes are optional.
                                   type: object
                                   x-kubernetes-map-type: granular
+                                transparentHugepageDefrag:
+                                  description: |-
+                                    The Linux kernel transparent hugepage defrag setting.
+                                    Accepted values are:
+                                  type: string
+                                transparentHugepageEnabled:
+                                  description: |-
+                                    The Linux kernel transparent hugepage setting.
+                                    Accepted values are:
+                                  type: string
                               type: object
                             localNvmeSsdBlockConfig:
                               description: Parameters for the local NVMe SSDs. Structure
@@ -15403,9 +16109,20 @@ spec:
                             soleTenantConfig:
                               description: Allows specifying multiple node affinities
                                 useful for running workloads on sole tenant nodes.
-                                node_affinity structure is documented below.
+                                Structure is documented below.
                               properties:
+                                minNodeCpus:
+                                  description: Specifies the minimum number of vCPUs
+                                    that each sole tenant node must have to use CPU
+                                    overcommit. If not specified, the CPU overcommit
+                                    feeature is disabled. The value should be greater
+                                    than or equal to half of the machine type's CPU
+                                    count.
+                                  type: number
                                 nodeAffinity:
+                                  description: The node affinity settings for the
+                                    sole tenant node pool. Structure is documented
+                                    below.
                                   items:
                                     properties:
                                       key:

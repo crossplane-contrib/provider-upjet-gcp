@@ -44,6 +44,9 @@ type FolderInitParameters struct {
 
 type FolderObservation struct {
 
+	// Optional capabilities configured for this folder.
+	ConfiguredCapabilities []*string `json:"configuredCapabilities,omitempty" tf:"configured_capabilities,omitempty"`
+
 	// Timestamp when the Folder was created. Assigned by the server.
 	// A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z".
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
@@ -62,6 +65,9 @@ type FolderObservation struct {
 
 	// The lifecycle state of the folder such as ACTIVE or DELETE_REQUESTED.
 	LifecycleState *string `json:"lifecycleState,omitempty" tf:"lifecycle_state,omitempty"`
+
+	// Management Project associated with this folder (if capability is enabled).
+	ManagementProject *string `json:"managementProject,omitempty" tf:"management_project,omitempty"`
 
 	// The resource name of the Folder. Its format is folders/{folder_id}.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`

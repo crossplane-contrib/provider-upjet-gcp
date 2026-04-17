@@ -44,6 +44,9 @@ type AwsS3DataSourceInitParameters struct {
 	// Google Cloud Storage bucket name.
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
 
+	// The CloudFront distribution domain name pointing to this bucket, to use when fetching. See Transfer from S3 via CloudFront for more information. Format: https://{id}.cloudfront.net or any valid custom domain. Must begin with https://.
+	CloudfrontDomain *string `json:"cloudfrontDomain,omitempty" tf:"cloudfront_domain,omitempty"`
+
 	// Egress bytes over a Google-managed private network. This network is shared between other users of Storage Transfer Service.
 	ManagedPrivateNetwork *bool `json:"managedPrivateNetwork,omitempty" tf:"managed_private_network,omitempty"`
 
@@ -61,6 +64,9 @@ type AwsS3DataSourceObservation struct {
 
 	// Google Cloud Storage bucket name.
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
+
+	// The CloudFront distribution domain name pointing to this bucket, to use when fetching. See Transfer from S3 via CloudFront for more information. Format: https://{id}.cloudfront.net or any valid custom domain. Must begin with https://.
+	CloudfrontDomain *string `json:"cloudfrontDomain,omitempty" tf:"cloudfront_domain,omitempty"`
 
 	// Egress bytes over a Google-managed private network. This network is shared between other users of Storage Transfer Service.
 	ManagedPrivateNetwork *bool `json:"managedPrivateNetwork,omitempty" tf:"managed_private_network,omitempty"`
@@ -82,6 +88,10 @@ type AwsS3DataSourceParameters struct {
 	// +kubebuilder:validation:Optional
 	BucketName *string `json:"bucketName" tf:"bucket_name,omitempty"`
 
+	// The CloudFront distribution domain name pointing to this bucket, to use when fetching. See Transfer from S3 via CloudFront for more information. Format: https://{id}.cloudfront.net or any valid custom domain. Must begin with https://.
+	// +kubebuilder:validation:Optional
+	CloudfrontDomain *string `json:"cloudfrontDomain,omitempty" tf:"cloudfront_domain,omitempty"`
+
 	// Egress bytes over a Google-managed private network. This network is shared between other users of Storage Transfer Service.
 	// +kubebuilder:validation:Optional
 	ManagedPrivateNetwork *bool `json:"managedPrivateNetwork,omitempty" tf:"managed_private_network,omitempty"`
@@ -97,11 +107,17 @@ type AwsS3DataSourceParameters struct {
 
 type AzureBlobStorageDataSourceInitParameters struct {
 
-	// Credentials used to authenticate API requests to Azure block.
+	// ) Credentials used to authenticate API requests to Azure block.
 	AzureCredentials *AzureCredentialsInitParameters `json:"azureCredentials,omitempty" tf:"azure_credentials,omitempty"`
 
 	// The container to transfer from the Azure Storage account.`
 	Container *string `json:"container,omitempty" tf:"container,omitempty"`
+
+	// ) Full Resource name of a secret in Secret Manager containing SAS Credentials in JSON form. Service Agent for Storage Transfer must have permissions to access secret. If credentials_secret is specified, do not specify azure_credentials.`,
+	CredentialsSecret *string `json:"credentialsSecret,omitempty" tf:"credentials_secret,omitempty"`
+
+	// Federated identity config of a user registered Azure application. Structure documented below.
+	FederatedIdentityConfig *FederatedIdentityConfigInitParameters `json:"federatedIdentityConfig,omitempty" tf:"federated_identity_config,omitempty"`
 
 	// Root directory path to the filesystem.
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
@@ -112,11 +128,17 @@ type AzureBlobStorageDataSourceInitParameters struct {
 
 type AzureBlobStorageDataSourceObservation struct {
 
-	// Credentials used to authenticate API requests to Azure block.
+	// ) Credentials used to authenticate API requests to Azure block.
 	AzureCredentials *AzureCredentialsParameters `json:"azureCredentials,omitempty" tf:"azure_credentials,omitempty"`
 
 	// The container to transfer from the Azure Storage account.`
 	Container *string `json:"container,omitempty" tf:"container,omitempty"`
+
+	// ) Full Resource name of a secret in Secret Manager containing SAS Credentials in JSON form. Service Agent for Storage Transfer must have permissions to access secret. If credentials_secret is specified, do not specify azure_credentials.`,
+	CredentialsSecret *string `json:"credentialsSecret,omitempty" tf:"credentials_secret,omitempty"`
+
+	// Federated identity config of a user registered Azure application. Structure documented below.
+	FederatedIdentityConfig *FederatedIdentityConfigParameters `json:"federatedIdentityConfig,omitempty" tf:"federated_identity_config,omitempty"`
 
 	// Root directory path to the filesystem.
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
@@ -127,13 +149,21 @@ type AzureBlobStorageDataSourceObservation struct {
 
 type AzureBlobStorageDataSourceParameters struct {
 
-	// Credentials used to authenticate API requests to Azure block.
+	// ) Credentials used to authenticate API requests to Azure block.
 	// +kubebuilder:validation:Optional
-	AzureCredentials *AzureCredentialsParameters `json:"azureCredentials" tf:"azure_credentials,omitempty"`
+	AzureCredentials *AzureCredentialsParameters `json:"azureCredentials,omitempty" tf:"azure_credentials,omitempty"`
 
 	// The container to transfer from the Azure Storage account.`
 	// +kubebuilder:validation:Optional
 	Container *string `json:"container" tf:"container,omitempty"`
+
+	// ) Full Resource name of a secret in Secret Manager containing SAS Credentials in JSON form. Service Agent for Storage Transfer must have permissions to access secret. If credentials_secret is specified, do not specify azure_credentials.`,
+	// +kubebuilder:validation:Optional
+	CredentialsSecret *string `json:"credentialsSecret,omitempty" tf:"credentials_secret,omitempty"`
+
+	// Federated identity config of a user registered Azure application. Structure documented below.
+	// +kubebuilder:validation:Optional
+	FederatedIdentityConfig *FederatedIdentityConfigParameters `json:"federatedIdentityConfig,omitempty" tf:"federated_identity_config,omitempty"`
 
 	// Root directory path to the filesystem.
 	// +kubebuilder:validation:Optional
@@ -197,6 +227,29 @@ type EventStreamParameters struct {
 	// Specifies a unique name of the resource such as AWS SQS ARN in the form 'arn:aws:sqs:region:account_id:queue_name', or Pub/Sub subscription resource name in the form 'projects/{project}/subscriptions/{sub}'.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name" tf:"name,omitempty"`
+}
+
+type FederatedIdentityConfigInitParameters struct {
+
+	// The client (application) ID of the application with federated credentials.
+	ClientIDSecretRef v1.SecretKeySelector `json:"clientIdSecretRef" tf:"-"`
+
+	// The client (directory) ID of the application with federated credentials.
+	TenantIDSecretRef v1.SecretKeySelector `json:"tenantIdSecretRef" tf:"-"`
+}
+
+type FederatedIdentityConfigObservation struct {
+}
+
+type FederatedIdentityConfigParameters struct {
+
+	// The client (application) ID of the application with federated credentials.
+	// +kubebuilder:validation:Optional
+	ClientIDSecretRef v1.SecretKeySelector `json:"clientIdSecretRef" tf:"-"`
+
+	// The client (directory) ID of the application with federated credentials.
+	// +kubebuilder:validation:Optional
+	TenantIDSecretRef v1.SecretKeySelector `json:"tenantIdSecretRef" tf:"-"`
 }
 
 type GcsDataSinkInitParameters struct {

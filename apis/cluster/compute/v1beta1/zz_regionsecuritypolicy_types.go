@@ -13,6 +13,28 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
+type AdvancedOptionsConfigJSONCustomConfigInitParameters struct {
+
+	// A list of custom Content-Type header values to apply the JSON parsing.
+	// +listType=set
+	ContentTypes []*string `json:"contentTypes,omitempty" tf:"content_types,omitempty"`
+}
+
+type AdvancedOptionsConfigJSONCustomConfigObservation struct {
+
+	// A list of custom Content-Type header values to apply the JSON parsing.
+	// +listType=set
+	ContentTypes []*string `json:"contentTypes,omitempty" tf:"content_types,omitempty"`
+}
+
+type AdvancedOptionsConfigJSONCustomConfigParameters struct {
+
+	// A list of custom Content-Type header values to apply the JSON parsing.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	ContentTypes []*string `json:"contentTypes" tf:"content_types,omitempty"`
+}
+
 type DdosProtectionConfigInitParameters struct {
 
 	// Google Cloud Armor offers the following options to help protect systems against DDoS attacks:
@@ -563,7 +585,72 @@ type RateLimitOptionsRateLimitThresholdParameters struct {
 	IntervalSec *float64 `json:"intervalSec,omitempty" tf:"interval_sec,omitempty"`
 }
 
+type RegionSecurityPolicyAdvancedOptionsConfigInitParameters struct {
+
+	// Custom configuration to apply the JSON parsing. Only applicable when JSON parsing is set to STANDARD.
+	// Structure is documented below.
+	JSONCustomConfig *AdvancedOptionsConfigJSONCustomConfigInitParameters `json:"jsonCustomConfig,omitempty" tf:"json_custom_config,omitempty"`
+
+	// JSON body parsing. Supported values include: "DISABLED", "STANDARD", "STANDARD_WITH_GRAPHQL".
+	// Possible values are: DISABLED, STANDARD, STANDARD_WITH_GRAPHQL.
+	JSONParsing *string `json:"jsonParsing,omitempty" tf:"json_parsing,omitempty"`
+
+	// Logging level. Supported values include: "NORMAL", "VERBOSE".
+	// Possible values are: NORMAL, VERBOSE.
+	LogLevel *string `json:"logLevel,omitempty" tf:"log_level,omitempty"`
+
+	// An optional list of case-insensitive request header names to use for resolving the callers client IP address.
+	// +listType=set
+	UserIPRequestHeaders []*string `json:"userIpRequestHeaders,omitempty" tf:"user_ip_request_headers,omitempty"`
+}
+
+type RegionSecurityPolicyAdvancedOptionsConfigObservation struct {
+
+	// Custom configuration to apply the JSON parsing. Only applicable when JSON parsing is set to STANDARD.
+	// Structure is documented below.
+	JSONCustomConfig *AdvancedOptionsConfigJSONCustomConfigObservation `json:"jsonCustomConfig,omitempty" tf:"json_custom_config,omitempty"`
+
+	// JSON body parsing. Supported values include: "DISABLED", "STANDARD", "STANDARD_WITH_GRAPHQL".
+	// Possible values are: DISABLED, STANDARD, STANDARD_WITH_GRAPHQL.
+	JSONParsing *string `json:"jsonParsing,omitempty" tf:"json_parsing,omitempty"`
+
+	// Logging level. Supported values include: "NORMAL", "VERBOSE".
+	// Possible values are: NORMAL, VERBOSE.
+	LogLevel *string `json:"logLevel,omitempty" tf:"log_level,omitempty"`
+
+	// An optional list of case-insensitive request header names to use for resolving the callers client IP address.
+	// +listType=set
+	UserIPRequestHeaders []*string `json:"userIpRequestHeaders,omitempty" tf:"user_ip_request_headers,omitempty"`
+}
+
+type RegionSecurityPolicyAdvancedOptionsConfigParameters struct {
+
+	// Custom configuration to apply the JSON parsing. Only applicable when JSON parsing is set to STANDARD.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	JSONCustomConfig *AdvancedOptionsConfigJSONCustomConfigParameters `json:"jsonCustomConfig,omitempty" tf:"json_custom_config,omitempty"`
+
+	// JSON body parsing. Supported values include: "DISABLED", "STANDARD", "STANDARD_WITH_GRAPHQL".
+	// Possible values are: DISABLED, STANDARD, STANDARD_WITH_GRAPHQL.
+	// +kubebuilder:validation:Optional
+	JSONParsing *string `json:"jsonParsing,omitempty" tf:"json_parsing,omitempty"`
+
+	// Logging level. Supported values include: "NORMAL", "VERBOSE".
+	// Possible values are: NORMAL, VERBOSE.
+	// +kubebuilder:validation:Optional
+	LogLevel *string `json:"logLevel,omitempty" tf:"log_level,omitempty"`
+
+	// An optional list of case-insensitive request header names to use for resolving the callers client IP address.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	UserIPRequestHeaders []*string `json:"userIpRequestHeaders,omitempty" tf:"user_ip_request_headers,omitempty"`
+}
+
 type RegionSecurityPolicyInitParameters struct {
+
+	// Advanced Options Config of this security policy.
+	// Structure is documented below.
+	AdvancedOptionsConfig *RegionSecurityPolicyAdvancedOptionsConfigInitParameters `json:"advancedOptionsConfig,omitempty" tf:"advanced_options_config,omitempty"`
 
 	// Configuration for Google Cloud Armor DDOS Proctection Config.
 	// Structure is documented below.
@@ -591,6 +678,10 @@ type RegionSecurityPolicyInitParameters struct {
 }
 
 type RegionSecurityPolicyObservation struct {
+
+	// Advanced Options Config of this security policy.
+	// Structure is documented below.
+	AdvancedOptionsConfig *RegionSecurityPolicyAdvancedOptionsConfigObservation `json:"advancedOptionsConfig,omitempty" tf:"advanced_options_config,omitempty"`
 
 	// Configuration for Google Cloud Armor DDOS Proctection Config.
 	// Structure is documented below.
@@ -638,6 +729,11 @@ type RegionSecurityPolicyObservation struct {
 }
 
 type RegionSecurityPolicyParameters struct {
+
+	// Advanced Options Config of this security policy.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AdvancedOptionsConfig *RegionSecurityPolicyAdvancedOptionsConfigParameters `json:"advancedOptionsConfig,omitempty" tf:"advanced_options_config,omitempty"`
 
 	// Configuration for Google Cloud Armor DDOS Proctection Config.
 	// Structure is documented below.

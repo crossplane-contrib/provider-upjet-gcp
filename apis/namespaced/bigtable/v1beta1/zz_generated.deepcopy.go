@@ -2702,6 +2702,11 @@ func (in *TableIAMBindingInitParameters) DeepCopyInto(out *TableIAMBindingInitPa
 		*out = new(string)
 		**out = **in
 	}
+	if in.InstanceName != nil {
+		in, out := &in.InstanceName, &out.InstanceName
+		*out = new(string)
+		**out = **in
+	}
 	if in.Members != nil {
 		in, out := &in.Members, &out.Members
 		*out = make([]*string, len(*in))
@@ -2785,6 +2790,11 @@ func (in *TableIAMBindingObservation) DeepCopyInto(out *TableIAMBindingObservati
 		*out = new(string)
 		**out = **in
 	}
+	if in.InstanceName != nil {
+		in, out := &in.InstanceName, &out.InstanceName
+		*out = new(string)
+		**out = **in
+	}
 	if in.Members != nil {
 		in, out := &in.Members, &out.Members
 		*out = make([]*string, len(*in))
@@ -2833,6 +2843,11 @@ func (in *TableIAMBindingParameters) DeepCopyInto(out *TableIAMBindingParameters
 	}
 	if in.Instance != nil {
 		in, out := &in.Instance, &out.Instance
+		*out = new(string)
+		**out = **in
+	}
+	if in.InstanceName != nil {
+		in, out := &in.InstanceName, &out.InstanceName
 		*out = new(string)
 		**out = **in
 	}
@@ -3039,6 +3054,11 @@ func (in *TableIAMMemberInitParameters) DeepCopyInto(out *TableIAMMemberInitPara
 		*out = new(string)
 		**out = **in
 	}
+	if in.InstanceName != nil {
+		in, out := &in.InstanceName, &out.InstanceName
+		*out = new(string)
+		**out = **in
+	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
 		*out = new(string)
@@ -3111,6 +3131,11 @@ func (in *TableIAMMemberObservation) DeepCopyInto(out *TableIAMMemberObservation
 		*out = new(string)
 		**out = **in
 	}
+	if in.InstanceName != nil {
+		in, out := &in.InstanceName, &out.InstanceName
+		*out = new(string)
+		**out = **in
+	}
 	if in.Member != nil {
 		in, out := &in.Member, &out.Member
 		*out = new(string)
@@ -3153,6 +3178,11 @@ func (in *TableIAMMemberParameters) DeepCopyInto(out *TableIAMMemberParameters) 
 	}
 	if in.Instance != nil {
 		in, out := &in.Instance, &out.Instance
+		*out = new(string)
+		**out = **in
+	}
+	if in.InstanceName != nil {
+		in, out := &in.InstanceName, &out.InstanceName
 		*out = new(string)
 		**out = **in
 	}
@@ -3258,6 +3288,11 @@ func (in *TableIAMPolicyInitParameters) DeepCopyInto(out *TableIAMPolicyInitPara
 		*out = new(string)
 		**out = **in
 	}
+	if in.InstanceName != nil {
+		in, out := &in.InstanceName, &out.InstanceName
+		*out = new(string)
+		**out = **in
+	}
 	if in.PolicyData != nil {
 		in, out := &in.PolicyData, &out.PolicyData
 		*out = new(string)
@@ -3330,6 +3365,11 @@ func (in *TableIAMPolicyObservation) DeepCopyInto(out *TableIAMPolicyObservation
 		*out = new(string)
 		**out = **in
 	}
+	if in.InstanceName != nil {
+		in, out := &in.InstanceName, &out.InstanceName
+		*out = new(string)
+		**out = **in
+	}
 	if in.PolicyData != nil {
 		in, out := &in.PolicyData, &out.PolicyData
 		*out = new(string)
@@ -3362,6 +3402,11 @@ func (in *TableIAMPolicyParameters) DeepCopyInto(out *TableIAMPolicyParameters) 
 	*out = *in
 	if in.Instance != nil {
 		in, out := &in.Instance, &out.Instance
+		*out = new(string)
+		**out = **in
+	}
+	if in.InstanceName != nil {
+		in, out := &in.InstanceName, &out.InstanceName
 		*out = new(string)
 		**out = **in
 	}
