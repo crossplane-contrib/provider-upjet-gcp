@@ -585,6 +585,205 @@ spec:
                           type: number
                       type: object
                     type: array
+                  haPolicy:
+                    description: |-
+                      Configures self-managed High Availability (HA) for External and Internal Protocol Forwarding.
+                      The backends of this regional backend service must only specify zonal network endpoint groups
+                      (NEGs) of type GCE_VM_IP. Note that haPolicy is not for load balancing, and therefore cannot
+                      be specified with sessionAffinity, connectionTrackingPolicy, and failoverPolicy. haPolicy
+                      requires customers to be responsible for tracking backend endpoint health and electing a
+                      leader among the healthy endpoints. Therefore, haPolicy cannot be specified with healthChecks.
+                      haPolicy can only be specified for External Passthrough Network Load Balancers and Internal
+                      Passthrough Network Load Balancers.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        fastIpMove:
+                          description: |-
+                            Specifies whether fast IP move is enabled, and if so, the mechanism to achieve it.
+                            Supported values are:
+                          type: string
+                        leader:
+                          description: |-
+                            Selects one of the network endpoints attached to the backend NEGs of this service as the
+                            active endpoint (the leader) that receives all traffic.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              backendGroup:
+                                description: |-
+                                  A fully-qualified URL of the zonal Network Endpoint Group (NEG) that the leader is
+                                  attached to.
+                                type: string
+                              backendGroupRef:
+                                description: Reference to a NetworkEndpointGroup in
+                                  compute to populate backendGroup.
+                                properties:
+                                  name:
+                                    description: Name of the referenced object.
+                                    type: string
+                                  policy:
+                                    description: Policies for referencing.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                required:
+                                - name
+                                type: object
+                              backendGroupSelector:
+                                description: Selector for a NetworkEndpointGroup in
+                                  compute to populate backendGroup.
+                                properties:
+                                  matchControllerRef:
+                                    description: |-
+                                      MatchControllerRef ensures an object with the same controller reference
+                                      as the selecting object is selected.
+                                    type: boolean
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    description: MatchLabels ensures an object with
+                                      matching labels is selected.
+                                    type: object
+                                  policy:
+                                    description: Policies for selection.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                type: object
+                              networkEndpoint:
+                                description: |-
+                                  The network endpoint within the leader.backendGroup that is designated as the leader.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    instance:
+                                      description: |-
+                                        The name of the VM instance of the leader network endpoint. The instance must
+                                        already be attached to the NEG specified in the haPolicy.leader.backendGroup.
+                                      type: string
+                                    instanceRef:
+                                      description: Reference to a Instance in compute
+                                        to populate instance.
+                                      properties:
+                                        name:
+                                          description: Name of the referenced object.
+                                          type: string
+                                        policy:
+                                          description: Policies for referencing.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: |-
+                                                Resolution specifies whether resolution of this reference is required.
+                                                The default is 'Required', which means the reconcile will fail if the
+                                                reference cannot be resolved. 'Optional' means this reference will be
+                                                a no-op if it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: |-
+                                                Resolve specifies when this reference should be resolved. The default
+                                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                the corresponding field is not present. Use 'Always' to resolve the
+                                                reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      required:
+                                      - name
+                                      type: object
+                                    instanceSelector:
+                                      description: Selector for a Instance in compute
+                                        to populate instance.
+                                      properties:
+                                        matchControllerRef:
+                                          description: |-
+                                            MatchControllerRef ensures an object with the same controller reference
+                                            as the selecting object is selected.
+                                          type: boolean
+                                        matchLabels:
+                                          additionalProperties:
+                                            type: string
+                                          description: MatchLabels ensures an object
+                                            with matching labels is selected.
+                                          type: object
+                                        policy:
+                                          description: Policies for selection.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: |-
+                                                Resolution specifies whether resolution of this reference is required.
+                                                The default is 'Required', which means the reconcile will fail if the
+                                                reference cannot be resolved. 'Optional' means this reference will be
+                                                a no-op if it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: |-
+                                                Resolve specifies when this reference should be resolved. The default
+                                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                the corresponding field is not present. Use 'Always' to resolve the
+                                                reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      type: object
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   healthChecks:
                     description: |-
                       The set of URLs to HealthCheck resources for health checking
@@ -761,6 +960,80 @@ spec:
                       The URL of the network to which this backend service belongs.
                       This field can only be specified when the load balancing scheme is set to INTERNAL.
                     type: string
+                  networkRef:
+                    description: Reference to a Network in compute to populate network.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  networkSelector:
+                    description: Selector for a Network in compute to populate network.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                   outlierDetection:
                     description: |-
                       Settings controlling eviction of unhealthy hosts from the load balancing pool.
@@ -1470,6 +1743,205 @@ spec:
                           type: number
                       type: object
                     type: array
+                  haPolicy:
+                    description: |-
+                      Configures self-managed High Availability (HA) for External and Internal Protocol Forwarding.
+                      The backends of this regional backend service must only specify zonal network endpoint groups
+                      (NEGs) of type GCE_VM_IP. Note that haPolicy is not for load balancing, and therefore cannot
+                      be specified with sessionAffinity, connectionTrackingPolicy, and failoverPolicy. haPolicy
+                      requires customers to be responsible for tracking backend endpoint health and electing a
+                      leader among the healthy endpoints. Therefore, haPolicy cannot be specified with healthChecks.
+                      haPolicy can only be specified for External Passthrough Network Load Balancers and Internal
+                      Passthrough Network Load Balancers.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        fastIpMove:
+                          description: |-
+                            Specifies whether fast IP move is enabled, and if so, the mechanism to achieve it.
+                            Supported values are:
+                          type: string
+                        leader:
+                          description: |-
+                            Selects one of the network endpoints attached to the backend NEGs of this service as the
+                            active endpoint (the leader) that receives all traffic.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              backendGroup:
+                                description: |-
+                                  A fully-qualified URL of the zonal Network Endpoint Group (NEG) that the leader is
+                                  attached to.
+                                type: string
+                              backendGroupRef:
+                                description: Reference to a NetworkEndpointGroup in
+                                  compute to populate backendGroup.
+                                properties:
+                                  name:
+                                    description: Name of the referenced object.
+                                    type: string
+                                  policy:
+                                    description: Policies for referencing.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                required:
+                                - name
+                                type: object
+                              backendGroupSelector:
+                                description: Selector for a NetworkEndpointGroup in
+                                  compute to populate backendGroup.
+                                properties:
+                                  matchControllerRef:
+                                    description: |-
+                                      MatchControllerRef ensures an object with the same controller reference
+                                      as the selecting object is selected.
+                                    type: boolean
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    description: MatchLabels ensures an object with
+                                      matching labels is selected.
+                                    type: object
+                                  policy:
+                                    description: Policies for selection.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                type: object
+                              networkEndpoint:
+                                description: |-
+                                  The network endpoint within the leader.backendGroup that is designated as the leader.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    instance:
+                                      description: |-
+                                        The name of the VM instance of the leader network endpoint. The instance must
+                                        already be attached to the NEG specified in the haPolicy.leader.backendGroup.
+                                      type: string
+                                    instanceRef:
+                                      description: Reference to a Instance in compute
+                                        to populate instance.
+                                      properties:
+                                        name:
+                                          description: Name of the referenced object.
+                                          type: string
+                                        policy:
+                                          description: Policies for referencing.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: |-
+                                                Resolution specifies whether resolution of this reference is required.
+                                                The default is 'Required', which means the reconcile will fail if the
+                                                reference cannot be resolved. 'Optional' means this reference will be
+                                                a no-op if it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: |-
+                                                Resolve specifies when this reference should be resolved. The default
+                                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                the corresponding field is not present. Use 'Always' to resolve the
+                                                reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      required:
+                                      - name
+                                      type: object
+                                    instanceSelector:
+                                      description: Selector for a Instance in compute
+                                        to populate instance.
+                                      properties:
+                                        matchControllerRef:
+                                          description: |-
+                                            MatchControllerRef ensures an object with the same controller reference
+                                            as the selecting object is selected.
+                                          type: boolean
+                                        matchLabels:
+                                          additionalProperties:
+                                            type: string
+                                          description: MatchLabels ensures an object
+                                            with matching labels is selected.
+                                          type: object
+                                        policy:
+                                          description: Policies for selection.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: |-
+                                                Resolution specifies whether resolution of this reference is required.
+                                                The default is 'Required', which means the reconcile will fail if the
+                                                reference cannot be resolved. 'Optional' means this reference will be
+                                                a no-op if it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: |-
+                                                Resolve specifies when this reference should be resolved. The default
+                                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                the corresponding field is not present. Use 'Always' to resolve the
+                                                reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      type: object
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   healthChecks:
                     description: |-
                       The set of URLs to HealthCheck resources for health checking
@@ -1646,6 +2118,80 @@ spec:
                       The URL of the network to which this backend service belongs.
                       This field can only be specified when the load balancing scheme is set to INTERNAL.
                     type: string
+                  networkRef:
+                    description: Reference to a Network in compute to populate network.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  networkSelector:
+                    description: Selector for a Network in compute to populate network.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                   outlierDetection:
                     description: |-
                       Settings controlling eviction of unhealthy hosts from the load balancing pool.
@@ -2363,6 +2909,53 @@ spec:
                     description: The unique identifier for the resource. This identifier
                       is defined by the server.
                     type: number
+                  haPolicy:
+                    description: |-
+                      Configures self-managed High Availability (HA) for External and Internal Protocol Forwarding.
+                      The backends of this regional backend service must only specify zonal network endpoint groups
+                      (NEGs) of type GCE_VM_IP. Note that haPolicy is not for load balancing, and therefore cannot
+                      be specified with sessionAffinity, connectionTrackingPolicy, and failoverPolicy. haPolicy
+                      requires customers to be responsible for tracking backend endpoint health and electing a
+                      leader among the healthy endpoints. Therefore, haPolicy cannot be specified with healthChecks.
+                      haPolicy can only be specified for External Passthrough Network Load Balancers and Internal
+                      Passthrough Network Load Balancers.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        fastIpMove:
+                          description: |-
+                            Specifies whether fast IP move is enabled, and if so, the mechanism to achieve it.
+                            Supported values are:
+                          type: string
+                        leader:
+                          description: |-
+                            Selects one of the network endpoints attached to the backend NEGs of this service as the
+                            active endpoint (the leader) that receives all traffic.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              backendGroup:
+                                description: |-
+                                  A fully-qualified URL of the zonal Network Endpoint Group (NEG) that the leader is
+                                  attached to.
+                                type: string
+                              networkEndpoint:
+                                description: |-
+                                  The network endpoint within the leader.backendGroup that is designated as the leader.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    instance:
+                                      description: |-
+                                        The name of the VM instance of the leader network endpoint. The instance must
+                                        already be attached to the NEG specified in the haPolicy.leader.backendGroup.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   healthChecks:
                     description: |-
                       The set of URLs to HealthCheck resources for health checking
