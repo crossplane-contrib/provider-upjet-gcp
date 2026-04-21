@@ -432,6 +432,115 @@ func (mg *HMACKey) ResolveReferences(ctx context.Context, c client.Reader) error
 	return nil
 }
 
+// ResolveReferences of this InsightsReportConfig.
+func (mg *InsightsReportConfig) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	if mg.Spec.ForProvider.ObjectMetadataReportOptions != nil {
+		if mg.Spec.ForProvider.ObjectMetadataReportOptions.StorageDestinationOptions != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta2", "Bucket", "BucketList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ObjectMetadataReportOptions.StorageDestinationOptions.Bucket),
+					Extract:      reference.ExternalName(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.ForProvider.ObjectMetadataReportOptions.StorageDestinationOptions.BucketRef,
+					Selector:     mg.Spec.ForProvider.ObjectMetadataReportOptions.StorageDestinationOptions.BucketSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.ObjectMetadataReportOptions.StorageDestinationOptions.Bucket")
+			}
+			mg.Spec.ForProvider.ObjectMetadataReportOptions.StorageDestinationOptions.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.ObjectMetadataReportOptions.StorageDestinationOptions.BucketRef = rsp.ResolvedReference
+
+		}
+	}
+	if mg.Spec.ForProvider.ObjectMetadataReportOptions != nil {
+		if mg.Spec.ForProvider.ObjectMetadataReportOptions.StorageFilters != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta2", "Bucket", "BucketList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ObjectMetadataReportOptions.StorageFilters.Bucket),
+					Extract:      reference.ExternalName(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.ForProvider.ObjectMetadataReportOptions.StorageFilters.BucketRef,
+					Selector:     mg.Spec.ForProvider.ObjectMetadataReportOptions.StorageFilters.BucketSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.ObjectMetadataReportOptions.StorageFilters.Bucket")
+			}
+			mg.Spec.ForProvider.ObjectMetadataReportOptions.StorageFilters.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.ObjectMetadataReportOptions.StorageFilters.BucketRef = rsp.ResolvedReference
+
+		}
+	}
+	if mg.Spec.InitProvider.ObjectMetadataReportOptions != nil {
+		if mg.Spec.InitProvider.ObjectMetadataReportOptions.StorageDestinationOptions != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta2", "Bucket", "BucketList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ObjectMetadataReportOptions.StorageDestinationOptions.Bucket),
+					Extract:      reference.ExternalName(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.InitProvider.ObjectMetadataReportOptions.StorageDestinationOptions.BucketRef,
+					Selector:     mg.Spec.InitProvider.ObjectMetadataReportOptions.StorageDestinationOptions.BucketSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.ObjectMetadataReportOptions.StorageDestinationOptions.Bucket")
+			}
+			mg.Spec.InitProvider.ObjectMetadataReportOptions.StorageDestinationOptions.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.ObjectMetadataReportOptions.StorageDestinationOptions.BucketRef = rsp.ResolvedReference
+
+		}
+	}
+	if mg.Spec.InitProvider.ObjectMetadataReportOptions != nil {
+		if mg.Spec.InitProvider.ObjectMetadataReportOptions.StorageFilters != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta2", "Bucket", "BucketList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ObjectMetadataReportOptions.StorageFilters.Bucket),
+					Extract:      reference.ExternalName(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.InitProvider.ObjectMetadataReportOptions.StorageFilters.BucketRef,
+					Selector:     mg.Spec.InitProvider.ObjectMetadataReportOptions.StorageFilters.BucketSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.ObjectMetadataReportOptions.StorageFilters.Bucket")
+			}
+			mg.Spec.InitProvider.ObjectMetadataReportOptions.StorageFilters.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.ObjectMetadataReportOptions.StorageFilters.BucketRef = rsp.ResolvedReference
+
+		}
+	}
+
+	return nil
+}
+
 // ResolveReferences of this ManagedFolder.
 func (mg *ManagedFolder) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed
