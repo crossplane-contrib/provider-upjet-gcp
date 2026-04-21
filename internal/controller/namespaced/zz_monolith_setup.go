@@ -398,6 +398,7 @@ import (
 	defaultobjectaccesscontrol "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storage/defaultobjectaccesscontrol"
 	defaultobjectacl "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storage/defaultobjectacl"
 	hmackey "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storage/hmackey"
+	insightsreportconfig "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storage/insightsreportconfig"
 	managedfolder "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storage/managedfolder"
 	managedfolderiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storage/managedfolderiammember"
 	notification "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storage/notification"
@@ -810,6 +811,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		defaultobjectaccesscontrol.Setup,
 		defaultobjectacl.Setup,
 		hmackey.Setup,
+		insightsreportconfig.Setup,
 		managedfolder.Setup,
 		managedfolderiammember.Setup,
 		notification.Setup,
@@ -1228,6 +1230,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		defaultobjectaccesscontrol.SetupGated,
 		defaultobjectacl.SetupGated,
 		hmackey.SetupGated,
+		insightsreportconfig.SetupGated,
 		managedfolder.SetupGated,
 		managedfolderiammember.SetupGated,
 		notification.SetupGated,
@@ -1645,6 +1648,7 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		defaultobjectaccesscontrol.SetupWebhookWithManager,
 		defaultobjectacl.SetupWebhookWithManager,
 		hmackey.SetupWebhookWithManager,
+		insightsreportconfig.SetupWebhookWithManager,
 		managedfolder.SetupWebhookWithManager,
 		managedfolderiammember.SetupWebhookWithManager,
 		notification.SetupWebhookWithManager,
