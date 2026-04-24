@@ -65,6 +65,7 @@ import (
 	v1beta1memcache "github.com/upbound/provider-gcp/v2/apis/namespaced/memcache/v1beta1"
 	v1beta1memorystore "github.com/upbound/provider-gcp/v2/apis/namespaced/memorystore/v1beta1"
 	v1beta1mlengine "github.com/upbound/provider-gcp/v2/apis/namespaced/mlengine/v1beta1"
+	v1beta1modelarmor "github.com/upbound/provider-gcp/v2/apis/namespaced/modelarmor/v1beta1"
 	v1beta1monitoring "github.com/upbound/provider-gcp/v2/apis/namespaced/monitoring/v1beta1"
 	v1beta1networkconnectivity "github.com/upbound/provider-gcp/v2/apis/namespaced/networkconnectivity/v1beta1"
 	v1beta1networkmanagement "github.com/upbound/provider-gcp/v2/apis/namespaced/networkmanagement/v1beta1"
@@ -151,6 +152,7 @@ func init() {
 		v1beta1memcache.SchemeBuilder.AddToScheme,
 		v1beta1memorystore.SchemeBuilder.AddToScheme,
 		v1beta1mlengine.SchemeBuilder.AddToScheme,
+		v1beta1modelarmor.SchemeBuilder.AddToScheme,
 		v1beta1monitoring.SchemeBuilder.AddToScheme,
 		v1beta1networkconnectivity.SchemeBuilder.AddToScheme,
 		v1beta1networkmanagement.SchemeBuilder.AddToScheme,

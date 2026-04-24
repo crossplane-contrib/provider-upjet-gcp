@@ -320,6 +320,8 @@ import (
 	instancememorystore "github.com/upbound/provider-gcp/v2/internal/controller/cluster/memorystore/instance"
 	instancedesiredusercreatedendpoints "github.com/upbound/provider-gcp/v2/internal/controller/cluster/memorystore/instancedesiredusercreatedendpoints"
 	model "github.com/upbound/provider-gcp/v2/internal/controller/cluster/mlengine/model"
+	floorsetting "github.com/upbound/provider-gcp/v2/internal/controller/cluster/modelarmor/floorsetting"
+	template "github.com/upbound/provider-gcp/v2/internal/controller/cluster/modelarmor/template"
 	alertpolicy "github.com/upbound/provider-gcp/v2/internal/controller/cluster/monitoring/alertpolicy"
 	customservice "github.com/upbound/provider-gcp/v2/internal/controller/cluster/monitoring/customservice"
 	dashboard "github.com/upbound/provider-gcp/v2/internal/controller/cluster/monitoring/dashboard"
@@ -727,6 +729,8 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		instancememorystore.Setup,
 		instancedesiredusercreatedendpoints.Setup,
 		model.Setup,
+		floorsetting.Setup,
+		template.Setup,
 		alertpolicy.Setup,
 		customservice.Setup,
 		dashboard.Setup,
@@ -1140,6 +1144,8 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		instancememorystore.SetupGated,
 		instancedesiredusercreatedendpoints.SetupGated,
 		model.SetupGated,
+		floorsetting.SetupGated,
+		template.SetupGated,
 		alertpolicy.SetupGated,
 		customservice.SetupGated,
 		dashboard.SetupGated,
