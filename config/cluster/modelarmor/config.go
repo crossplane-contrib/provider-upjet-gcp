@@ -22,6 +22,8 @@ func Configure(p *config.Provider) {
 			TerraformName: "google_data_loss_prevention_deidentify_template",
 			Extractor:     common.ExtractResourceIDFuncPath,
 		}
+		r.MetaResource.Description = "A `Template` is a resource of Model Armor that lets you configure how Model Armor screens prompts and responses."
+		r.MetaResource.SubCategory = "Model Armor"
 	})
 
 	p.AddResourceConfigurator("google_model_armor_floorsetting", func(r *config.Resource) {
