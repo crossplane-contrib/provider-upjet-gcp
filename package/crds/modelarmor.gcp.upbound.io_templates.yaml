@@ -34,7 +34,9 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: Template is the Schema for the Templates API. <no value>
+        description: Template is the Schema for the Templates API. A `Template` is
+          a resource of Model Armor that lets you configure how Model Armor screens
+          prompts and responses.
         properties:
           apiVersion:
             description: |-
@@ -73,36 +75,94 @@ spec:
               forProvider:
                 properties:
                   filterConfig:
+                    description: |-
+                      Filters configuration.
+                      Structure is documented below.
                     properties:
                       maliciousUriFilterSettings:
+                        description: |-
+                          Malicious URI filter settings.
+                          Structure is documented below.
                         properties:
                           filterEnforcement:
+                            description: |-
+                              Tells whether Prompt injection and Jailbreak filter is enabled or
+                              disabled.
+                              Possible values:
+                              ENABLED
+                              DISABLED
                             type: string
                         type: object
                       piAndJailbreakFilterSettings:
+                        description: |-
+                          Prompt injection and Jailbreak Filter settings.
+                          Structure is documented below.
                         properties:
                           confidenceLevel:
+                            description: |-
+                              Possible values:
+                              LOW_AND_ABOVE
+                              MEDIUM_AND_ABOVE
+                              HIGH
                             type: string
                           filterEnforcement:
+                            description: |-
+                              Tells whether Prompt injection and Jailbreak filter is enabled or
+                              disabled.
+                              Possible values:
+                              ENABLED
+                              DISABLED
                             type: string
                         type: object
                       raiSettings:
+                        description: |-
+                          Responsible AI Filter settings.
+                          Structure is documented below.
                         properties:
                           raiFilters:
+                            description: |-
+                              List of Responsible AI filters enabled for template.
+                              Structure is documented below.
                             items:
                               properties:
                                 confidenceLevel:
+                                  description: |-
+                                    Possible values:
+                                    LOW_AND_ABOVE
+                                    MEDIUM_AND_ABOVE
+                                    HIGH
                                   type: string
                                 filterType:
+                                  description: |-
+                                    Possible values:
+                                    SEXUALLY_EXPLICIT
+                                    HATE_SPEECH
+                                    HARASSMENT
+                                    DANGEROUS
                                   type: string
                               type: object
                             type: array
                         type: object
                       sdpSettings:
+                        description: |-
+                          Sensitive Data Protection settings.
+                          Structure is documented below.
                         properties:
                           advancedConfig:
+                            description: |-
+                              Sensitive Data Protection Advanced configuration.
+                              Structure is documented below.
                             properties:
                               deidentifyTemplate:
+                                description: |-
+                                  Optional Sensitive Data Protection Deidentify template resource name.
+                                  If provided then DeidentifyContent action is performed during Sanitization
+                                  using this template and inspect template. The De-identified data will
+                                  be returned in SdpDeidentifyResult.
+                                  Note that all info-types present in the deidentify template must be present
+                                  in inspect template.
+                                  e.g.
+                                  projects/{project}/locations/{location}/deidentifyTemplates/{deidentify_template}
                                 type: string
                               deidentifyTemplateRef:
                                 description: Reference to a DeidentifyTemplate in
@@ -181,6 +241,14 @@ spec:
                                     type: object
                                 type: object
                               inspectTemplate:
+                                description: |-
+                                  Sensitive Data Protection inspect template resource name
+                                  If only inspect template is provided (de-identify template not provided),
+                                  then Sensitive Data Protection InspectContent action is performed during
+                                  Sanitization. All Sensitive Data Protection findings identified during
+                                  inspection will be returned as SdpFinding in SdpInsepctionResult.
+                                  e.g:-
+                                  projects/{project}/locations/{location}/inspectTemplates/{inspect_template}
                                 type: string
                               inspectTemplateRef:
                                 description: Reference to a InspectTemplate in datalossprevention
@@ -260,8 +328,17 @@ spec:
                                 type: object
                             type: object
                           basicConfig:
+                            description: |-
+                              Sensitive Data Protection basic configuration.
+                              Structure is documented below.
                             properties:
                               filterEnforcement:
+                                description: |-
+                                  Tells whether Prompt injection and Jailbreak filter is enabled or
+                                  disabled.
+                                  Possible values:
+                                  ENABLED
+                                  DISABLED
                                 type: string
                             type: object
                         type: object
@@ -269,33 +346,70 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
+                    description: |-
+                      Labels as key value pairs
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   location:
+                    description: Resource ID segment making up resource name. It identifies
+                      the resource within its parent collection as described in https://google.aip.dev/122.
                     type: string
                   project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   templateMetadata:
+                    description: |-
+                      Message describing TemplateMetadata
+                      Structure is documented below.
                     properties:
                       customLlmResponseSafetyErrorCode:
+                        description: |-
+                          Indicates the custom error code set by the user to be returned to the end
+                          user if the LLM response trips Model Armor filters.
                         type: number
                       customLlmResponseSafetyErrorMessage:
+                        description: |-
+                          Indicates the custom error message set by the user to be returned to the
+                          end user if the LLM response trips Model Armor filters.
                         type: string
                       customPromptSafetyErrorCode:
+                        description: |-
+                          Indicates the custom error code set by the user to be returned to the end
+                          user by the service extension if the prompt trips Model Armor filters.
                         type: number
                       customPromptSafetyErrorMessage:
+                        description: |-
+                          Indicates the custom error message set by the user to be returned to the
+                          end user if the prompt trips Model Armor filters.
                         type: string
                       enforcementType:
+                        description: |-
+                          Possible values:
+                          INSPECT_ONLY
+                          INSPECT_AND_BLOCK
                         type: string
                       ignorePartialInvocationFailures:
+                        description: If true, partial detector failures should be
+                          ignored.
                         type: boolean
                       logSanitizeOperations:
+                        description: If true, log sanitize operations.
                         type: boolean
                       logTemplateOperations:
+                        description: If true, log template crud operations.
                         type: boolean
                       multiLanguageDetection:
+                        description: |-
+                          Metadata to enable multi language detection via template.
+                          Structure is documented below.
                         properties:
                           enableMultiLanguageDetection:
+                            description: If true, multi language detection will be
+                              enabled.
                             type: boolean
                         type: object
                     type: object
@@ -316,36 +430,94 @@ spec:
                   autoscaler.
                 properties:
                   filterConfig:
+                    description: |-
+                      Filters configuration.
+                      Structure is documented below.
                     properties:
                       maliciousUriFilterSettings:
+                        description: |-
+                          Malicious URI filter settings.
+                          Structure is documented below.
                         properties:
                           filterEnforcement:
+                            description: |-
+                              Tells whether Prompt injection and Jailbreak filter is enabled or
+                              disabled.
+                              Possible values:
+                              ENABLED
+                              DISABLED
                             type: string
                         type: object
                       piAndJailbreakFilterSettings:
+                        description: |-
+                          Prompt injection and Jailbreak Filter settings.
+                          Structure is documented below.
                         properties:
                           confidenceLevel:
+                            description: |-
+                              Possible values:
+                              LOW_AND_ABOVE
+                              MEDIUM_AND_ABOVE
+                              HIGH
                             type: string
                           filterEnforcement:
+                            description: |-
+                              Tells whether Prompt injection and Jailbreak filter is enabled or
+                              disabled.
+                              Possible values:
+                              ENABLED
+                              DISABLED
                             type: string
                         type: object
                       raiSettings:
+                        description: |-
+                          Responsible AI Filter settings.
+                          Structure is documented below.
                         properties:
                           raiFilters:
+                            description: |-
+                              List of Responsible AI filters enabled for template.
+                              Structure is documented below.
                             items:
                               properties:
                                 confidenceLevel:
+                                  description: |-
+                                    Possible values:
+                                    LOW_AND_ABOVE
+                                    MEDIUM_AND_ABOVE
+                                    HIGH
                                   type: string
                                 filterType:
+                                  description: |-
+                                    Possible values:
+                                    SEXUALLY_EXPLICIT
+                                    HATE_SPEECH
+                                    HARASSMENT
+                                    DANGEROUS
                                   type: string
                               type: object
                             type: array
                         type: object
                       sdpSettings:
+                        description: |-
+                          Sensitive Data Protection settings.
+                          Structure is documented below.
                         properties:
                           advancedConfig:
+                            description: |-
+                              Sensitive Data Protection Advanced configuration.
+                              Structure is documented below.
                             properties:
                               deidentifyTemplate:
+                                description: |-
+                                  Optional Sensitive Data Protection Deidentify template resource name.
+                                  If provided then DeidentifyContent action is performed during Sanitization
+                                  using this template and inspect template. The De-identified data will
+                                  be returned in SdpDeidentifyResult.
+                                  Note that all info-types present in the deidentify template must be present
+                                  in inspect template.
+                                  e.g.
+                                  projects/{project}/locations/{location}/deidentifyTemplates/{deidentify_template}
                                 type: string
                               deidentifyTemplateRef:
                                 description: Reference to a DeidentifyTemplate in
@@ -424,6 +596,14 @@ spec:
                                     type: object
                                 type: object
                               inspectTemplate:
+                                description: |-
+                                  Sensitive Data Protection inspect template resource name
+                                  If only inspect template is provided (de-identify template not provided),
+                                  then Sensitive Data Protection InspectContent action is performed during
+                                  Sanitization. All Sensitive Data Protection findings identified during
+                                  inspection will be returned as SdpFinding in SdpInsepctionResult.
+                                  e.g:-
+                                  projects/{project}/locations/{location}/inspectTemplates/{inspect_template}
                                 type: string
                               inspectTemplateRef:
                                 description: Reference to a InspectTemplate in datalossprevention
@@ -503,8 +683,17 @@ spec:
                                 type: object
                             type: object
                           basicConfig:
+                            description: |-
+                              Sensitive Data Protection basic configuration.
+                              Structure is documented below.
                             properties:
                               filterEnforcement:
+                                description: |-
+                                  Tells whether Prompt injection and Jailbreak filter is enabled or
+                                  disabled.
+                                  Possible values:
+                                  ENABLED
+                                  DISABLED
                                 type: string
                             type: object
                         type: object
@@ -512,31 +701,66 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
+                    description: |-
+                      Labels as key value pairs
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   templateMetadata:
+                    description: |-
+                      Message describing TemplateMetadata
+                      Structure is documented below.
                     properties:
                       customLlmResponseSafetyErrorCode:
+                        description: |-
+                          Indicates the custom error code set by the user to be returned to the end
+                          user if the LLM response trips Model Armor filters.
                         type: number
                       customLlmResponseSafetyErrorMessage:
+                        description: |-
+                          Indicates the custom error message set by the user to be returned to the
+                          end user if the LLM response trips Model Armor filters.
                         type: string
                       customPromptSafetyErrorCode:
+                        description: |-
+                          Indicates the custom error code set by the user to be returned to the end
+                          user by the service extension if the prompt trips Model Armor filters.
                         type: number
                       customPromptSafetyErrorMessage:
+                        description: |-
+                          Indicates the custom error message set by the user to be returned to the
+                          end user if the prompt trips Model Armor filters.
                         type: string
                       enforcementType:
+                        description: |-
+                          Possible values:
+                          INSPECT_ONLY
+                          INSPECT_AND_BLOCK
                         type: string
                       ignorePartialInvocationFailures:
+                        description: If true, partial detector failures should be
+                          ignored.
                         type: boolean
                       logSanitizeOperations:
+                        description: If true, log sanitize operations.
                         type: boolean
                       logTemplateOperations:
+                        description: If true, log template crud operations.
                         type: boolean
                       multiLanguageDetection:
+                        description: |-
+                          Metadata to enable multi language detection via template.
+                          Structure is documented below.
                         properties:
                           enableMultiLanguageDetection:
+                            description: If true, multi language detection will be
+                              enabled.
                             type: boolean
                         type: object
                     type: object
@@ -638,6 +862,7 @@ spec:
               atProvider:
                 properties:
                   createTime:
+                    description: Create time stamp
                     type: string
                   effectiveLabels:
                     additionalProperties:
@@ -645,90 +870,208 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   filterConfig:
+                    description: |-
+                      Filters configuration.
+                      Structure is documented below.
                     properties:
                       maliciousUriFilterSettings:
+                        description: |-
+                          Malicious URI filter settings.
+                          Structure is documented below.
                         properties:
                           filterEnforcement:
+                            description: |-
+                              Tells whether Prompt injection and Jailbreak filter is enabled or
+                              disabled.
+                              Possible values:
+                              ENABLED
+                              DISABLED
                             type: string
                         type: object
                       piAndJailbreakFilterSettings:
+                        description: |-
+                          Prompt injection and Jailbreak Filter settings.
+                          Structure is documented below.
                         properties:
                           confidenceLevel:
+                            description: |-
+                              Possible values:
+                              LOW_AND_ABOVE
+                              MEDIUM_AND_ABOVE
+                              HIGH
                             type: string
                           filterEnforcement:
+                            description: |-
+                              Tells whether Prompt injection and Jailbreak filter is enabled or
+                              disabled.
+                              Possible values:
+                              ENABLED
+                              DISABLED
                             type: string
                         type: object
                       raiSettings:
+                        description: |-
+                          Responsible AI Filter settings.
+                          Structure is documented below.
                         properties:
                           raiFilters:
+                            description: |-
+                              List of Responsible AI filters enabled for template.
+                              Structure is documented below.
                             items:
                               properties:
                                 confidenceLevel:
+                                  description: |-
+                                    Possible values:
+                                    LOW_AND_ABOVE
+                                    MEDIUM_AND_ABOVE
+                                    HIGH
                                   type: string
                                 filterType:
+                                  description: |-
+                                    Possible values:
+                                    SEXUALLY_EXPLICIT
+                                    HATE_SPEECH
+                                    HARASSMENT
+                                    DANGEROUS
                                   type: string
                               type: object
                             type: array
                         type: object
                       sdpSettings:
+                        description: |-
+                          Sensitive Data Protection settings.
+                          Structure is documented below.
                         properties:
                           advancedConfig:
+                            description: |-
+                              Sensitive Data Protection Advanced configuration.
+                              Structure is documented below.
                             properties:
                               deidentifyTemplate:
+                                description: |-
+                                  Optional Sensitive Data Protection Deidentify template resource name.
+                                  If provided then DeidentifyContent action is performed during Sanitization
+                                  using this template and inspect template. The De-identified data will
+                                  be returned in SdpDeidentifyResult.
+                                  Note that all info-types present in the deidentify template must be present
+                                  in inspect template.
+                                  e.g.
+                                  projects/{project}/locations/{location}/deidentifyTemplates/{deidentify_template}
                                 type: string
                               inspectTemplate:
+                                description: |-
+                                  Sensitive Data Protection inspect template resource name
+                                  If only inspect template is provided (de-identify template not provided),
+                                  then Sensitive Data Protection InspectContent action is performed during
+                                  Sanitization. All Sensitive Data Protection findings identified during
+                                  inspection will be returned as SdpFinding in SdpInsepctionResult.
+                                  e.g:-
+                                  projects/{project}/locations/{location}/inspectTemplates/{inspect_template}
                                 type: string
                             type: object
                           basicConfig:
+                            description: |-
+                              Sensitive Data Protection basic configuration.
+                              Structure is documented below.
                             properties:
                               filterEnforcement:
+                                description: |-
+                                  Tells whether Prompt injection and Jailbreak filter is enabled or
+                                  disabled.
+                                  Possible values:
+                                  ENABLED
+                                  DISABLED
                                 type: string
                             type: object
                         type: object
                     type: object
                   id:
+                    description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/templates/{{template_id}}
                     type: string
                   labels:
                     additionalProperties:
                       type: string
+                    description: |-
+                      Labels as key value pairs
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   location:
+                    description: Resource ID segment making up resource name. It identifies
+                      the resource within its parent collection as described in https://google.aip.dev/122.
                     type: string
                   name:
+                    description: Identifier. name of resource
                     type: string
                   project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   templateMetadata:
+                    description: |-
+                      Message describing TemplateMetadata
+                      Structure is documented below.
                     properties:
                       customLlmResponseSafetyErrorCode:
+                        description: |-
+                          Indicates the custom error code set by the user to be returned to the end
+                          user if the LLM response trips Model Armor filters.
                         type: number
                       customLlmResponseSafetyErrorMessage:
+                        description: |-
+                          Indicates the custom error message set by the user to be returned to the
+                          end user if the LLM response trips Model Armor filters.
                         type: string
                       customPromptSafetyErrorCode:
+                        description: |-
+                          Indicates the custom error code set by the user to be returned to the end
+                          user by the service extension if the prompt trips Model Armor filters.
                         type: number
                       customPromptSafetyErrorMessage:
+                        description: |-
+                          Indicates the custom error message set by the user to be returned to the
+                          end user if the prompt trips Model Armor filters.
                         type: string
                       enforcementType:
+                        description: |-
+                          Possible values:
+                          INSPECT_ONLY
+                          INSPECT_AND_BLOCK
                         type: string
                       ignorePartialInvocationFailures:
+                        description: If true, partial detector failures should be
+                          ignored.
                         type: boolean
                       logSanitizeOperations:
+                        description: If true, log sanitize operations.
                         type: boolean
                       logTemplateOperations:
+                        description: If true, log template crud operations.
                         type: boolean
                       multiLanguageDetection:
+                        description: |-
+                          Metadata to enable multi language detection via template.
+                          Structure is documented below.
                         properties:
                           enableMultiLanguageDetection:
+                            description: If true, multi language detection will be
+                              enabled.
                             type: boolean
                         type: object
                     type: object
                   terraformLabels:
                     additionalProperties:
                       type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
                     type: object
                     x-kubernetes-map-type: granular
                   updateTime:
+                    description: Update time stamp
                     type: string
                 type: object
               conditions:

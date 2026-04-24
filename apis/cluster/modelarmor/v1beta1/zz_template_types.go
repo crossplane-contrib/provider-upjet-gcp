@@ -14,98 +14,203 @@ import (
 )
 
 type FilterConfigMaliciousURIFilterSettingsInitParameters struct {
+
+	// Tells whether Prompt injection and Jailbreak filter is enabled or
+	// disabled.
+	// Possible values:
+	// ENABLED
+	// DISABLED
 	FilterEnforcement *string `json:"filterEnforcement,omitempty" tf:"filter_enforcement,omitempty"`
 }
 
 type FilterConfigMaliciousURIFilterSettingsObservation struct {
+
+	// Tells whether Prompt injection and Jailbreak filter is enabled or
+	// disabled.
+	// Possible values:
+	// ENABLED
+	// DISABLED
 	FilterEnforcement *string `json:"filterEnforcement,omitempty" tf:"filter_enforcement,omitempty"`
 }
 
 type FilterConfigMaliciousURIFilterSettingsParameters struct {
 
+	// Tells whether Prompt injection and Jailbreak filter is enabled or
+	// disabled.
+	// Possible values:
+	// ENABLED
+	// DISABLED
 	// +kubebuilder:validation:Optional
 	FilterEnforcement *string `json:"filterEnforcement,omitempty" tf:"filter_enforcement,omitempty"`
 }
 
 type FilterConfigPiAndJailbreakFilterSettingsInitParameters struct {
+
+	// Possible values:
+	// LOW_AND_ABOVE
+	// MEDIUM_AND_ABOVE
+	// HIGH
 	ConfidenceLevel *string `json:"confidenceLevel,omitempty" tf:"confidence_level,omitempty"`
 
+	// Tells whether Prompt injection and Jailbreak filter is enabled or
+	// disabled.
+	// Possible values:
+	// ENABLED
+	// DISABLED
 	FilterEnforcement *string `json:"filterEnforcement,omitempty" tf:"filter_enforcement,omitempty"`
 }
 
 type FilterConfigPiAndJailbreakFilterSettingsObservation struct {
+
+	// Possible values:
+	// LOW_AND_ABOVE
+	// MEDIUM_AND_ABOVE
+	// HIGH
 	ConfidenceLevel *string `json:"confidenceLevel,omitempty" tf:"confidence_level,omitempty"`
 
+	// Tells whether Prompt injection and Jailbreak filter is enabled or
+	// disabled.
+	// Possible values:
+	// ENABLED
+	// DISABLED
 	FilterEnforcement *string `json:"filterEnforcement,omitempty" tf:"filter_enforcement,omitempty"`
 }
 
 type FilterConfigPiAndJailbreakFilterSettingsParameters struct {
 
+	// Possible values:
+	// LOW_AND_ABOVE
+	// MEDIUM_AND_ABOVE
+	// HIGH
 	// +kubebuilder:validation:Optional
 	ConfidenceLevel *string `json:"confidenceLevel,omitempty" tf:"confidence_level,omitempty"`
 
+	// Tells whether Prompt injection and Jailbreak filter is enabled or
+	// disabled.
+	// Possible values:
+	// ENABLED
+	// DISABLED
 	// +kubebuilder:validation:Optional
 	FilterEnforcement *string `json:"filterEnforcement,omitempty" tf:"filter_enforcement,omitempty"`
 }
 
 type FilterConfigRaiSettingsInitParameters struct {
+
+	// List of Responsible AI filters enabled for template.
+	// Structure is documented below.
 	RaiFilters []RaiSettingsRaiFiltersInitParameters `json:"raiFilters,omitempty" tf:"rai_filters,omitempty"`
 }
 
 type FilterConfigRaiSettingsObservation struct {
+
+	// List of Responsible AI filters enabled for template.
+	// Structure is documented below.
 	RaiFilters []RaiSettingsRaiFiltersObservation `json:"raiFilters,omitempty" tf:"rai_filters,omitempty"`
 }
 
 type FilterConfigRaiSettingsParameters struct {
 
+	// List of Responsible AI filters enabled for template.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	RaiFilters []RaiSettingsRaiFiltersParameters `json:"raiFilters" tf:"rai_filters,omitempty"`
 }
 
 type FilterConfigSdpSettingsInitParameters struct {
+
+	// Sensitive Data Protection Advanced configuration.
+	// Structure is documented below.
 	AdvancedConfig *SdpSettingsAdvancedConfigInitParameters `json:"advancedConfig,omitempty" tf:"advanced_config,omitempty"`
 
+	// Sensitive Data Protection basic configuration.
+	// Structure is documented below.
 	BasicConfig *SdpSettingsBasicConfigInitParameters `json:"basicConfig,omitempty" tf:"basic_config,omitempty"`
 }
 
 type FilterConfigSdpSettingsObservation struct {
+
+	// Sensitive Data Protection Advanced configuration.
+	// Structure is documented below.
 	AdvancedConfig *SdpSettingsAdvancedConfigObservation `json:"advancedConfig,omitempty" tf:"advanced_config,omitempty"`
 
+	// Sensitive Data Protection basic configuration.
+	// Structure is documented below.
 	BasicConfig *SdpSettingsBasicConfigObservation `json:"basicConfig,omitempty" tf:"basic_config,omitempty"`
 }
 
 type FilterConfigSdpSettingsParameters struct {
 
+	// Sensitive Data Protection Advanced configuration.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AdvancedConfig *SdpSettingsAdvancedConfigParameters `json:"advancedConfig,omitempty" tf:"advanced_config,omitempty"`
 
+	// Sensitive Data Protection basic configuration.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	BasicConfig *SdpSettingsBasicConfigParameters `json:"basicConfig,omitempty" tf:"basic_config,omitempty"`
 }
 
 type RaiSettingsRaiFiltersInitParameters struct {
+
+	// Possible values:
+	// LOW_AND_ABOVE
+	// MEDIUM_AND_ABOVE
+	// HIGH
 	ConfidenceLevel *string `json:"confidenceLevel,omitempty" tf:"confidence_level,omitempty"`
 
+	// Possible values:
+	// SEXUALLY_EXPLICIT
+	// HATE_SPEECH
+	// HARASSMENT
+	// DANGEROUS
 	FilterType *string `json:"filterType,omitempty" tf:"filter_type,omitempty"`
 }
 
 type RaiSettingsRaiFiltersObservation struct {
+
+	// Possible values:
+	// LOW_AND_ABOVE
+	// MEDIUM_AND_ABOVE
+	// HIGH
 	ConfidenceLevel *string `json:"confidenceLevel,omitempty" tf:"confidence_level,omitempty"`
 
+	// Possible values:
+	// SEXUALLY_EXPLICIT
+	// HATE_SPEECH
+	// HARASSMENT
+	// DANGEROUS
 	FilterType *string `json:"filterType,omitempty" tf:"filter_type,omitempty"`
 }
 
 type RaiSettingsRaiFiltersParameters struct {
 
+	// Possible values:
+	// LOW_AND_ABOVE
+	// MEDIUM_AND_ABOVE
+	// HIGH
 	// +kubebuilder:validation:Optional
 	ConfidenceLevel *string `json:"confidenceLevel,omitempty" tf:"confidence_level,omitempty"`
 
+	// Possible values:
+	// SEXUALLY_EXPLICIT
+	// HATE_SPEECH
+	// HARASSMENT
+	// DANGEROUS
 	// +kubebuilder:validation:Optional
 	FilterType *string `json:"filterType" tf:"filter_type,omitempty"`
 }
 
 type SdpSettingsAdvancedConfigInitParameters struct {
 
+	// Optional Sensitive Data Protection Deidentify template resource name.
+	// If provided then DeidentifyContent action is performed during Sanitization
+	// using this template and inspect template. The De-identified data will
+	// be returned in SdpDeidentifyResult.
+	// Note that all info-types present in the deidentify template must be present
+	// in inspect template.
+	// e.g.
+	// projects/{project}/locations/{location}/deidentifyTemplates/{deidentify_template}
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/datalossprevention/v1beta2.DeidentifyTemplate
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.ExtractResourceID()
 	DeidentifyTemplate *string `json:"deidentifyTemplate,omitempty" tf:"deidentify_template,omitempty"`
@@ -118,6 +223,13 @@ type SdpSettingsAdvancedConfigInitParameters struct {
 	// +kubebuilder:validation:Optional
 	DeidentifyTemplateSelector *v1.Selector `json:"deidentifyTemplateSelector,omitempty" tf:"-"`
 
+	// Sensitive Data Protection inspect template resource name
+	// If only inspect template is provided (de-identify template not provided),
+	// then Sensitive Data Protection InspectContent action is performed during
+	// Sanitization. All Sensitive Data Protection findings identified during
+	// inspection will be returned as SdpFinding in SdpInsepctionResult.
+	// e.g:-
+	// projects/{project}/locations/{location}/inspectTemplates/{inspect_template}
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/datalossprevention/v1beta2.InspectTemplate
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.ExtractResourceID()
 	InspectTemplate *string `json:"inspectTemplate,omitempty" tf:"inspect_template,omitempty"`
@@ -132,13 +244,37 @@ type SdpSettingsAdvancedConfigInitParameters struct {
 }
 
 type SdpSettingsAdvancedConfigObservation struct {
+
+	// Optional Sensitive Data Protection Deidentify template resource name.
+	// If provided then DeidentifyContent action is performed during Sanitization
+	// using this template and inspect template. The De-identified data will
+	// be returned in SdpDeidentifyResult.
+	// Note that all info-types present in the deidentify template must be present
+	// in inspect template.
+	// e.g.
+	// projects/{project}/locations/{location}/deidentifyTemplates/{deidentify_template}
 	DeidentifyTemplate *string `json:"deidentifyTemplate,omitempty" tf:"deidentify_template,omitempty"`
 
+	// Sensitive Data Protection inspect template resource name
+	// If only inspect template is provided (de-identify template not provided),
+	// then Sensitive Data Protection InspectContent action is performed during
+	// Sanitization. All Sensitive Data Protection findings identified during
+	// inspection will be returned as SdpFinding in SdpInsepctionResult.
+	// e.g:-
+	// projects/{project}/locations/{location}/inspectTemplates/{inspect_template}
 	InspectTemplate *string `json:"inspectTemplate,omitempty" tf:"inspect_template,omitempty"`
 }
 
 type SdpSettingsAdvancedConfigParameters struct {
 
+	// Optional Sensitive Data Protection Deidentify template resource name.
+	// If provided then DeidentifyContent action is performed during Sanitization
+	// using this template and inspect template. The De-identified data will
+	// be returned in SdpDeidentifyResult.
+	// Note that all info-types present in the deidentify template must be present
+	// in inspect template.
+	// e.g.
+	// projects/{project}/locations/{location}/deidentifyTemplates/{deidentify_template}
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/datalossprevention/v1beta2.DeidentifyTemplate
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -152,6 +288,13 @@ type SdpSettingsAdvancedConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	DeidentifyTemplateSelector *v1.Selector `json:"deidentifyTemplateSelector,omitempty" tf:"-"`
 
+	// Sensitive Data Protection inspect template resource name
+	// If only inspect template is provided (de-identify template not provided),
+	// then Sensitive Data Protection InspectContent action is performed during
+	// Sanitization. All Sensitive Data Protection findings identified during
+	// inspection will be returned as SdpFinding in SdpInsepctionResult.
+	// e.g:-
+	// projects/{project}/locations/{location}/inspectTemplates/{inspect_template}
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/datalossprevention/v1beta2.InspectTemplate
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -167,191 +310,326 @@ type SdpSettingsAdvancedConfigParameters struct {
 }
 
 type SdpSettingsBasicConfigInitParameters struct {
+
+	// Tells whether Prompt injection and Jailbreak filter is enabled or
+	// disabled.
+	// Possible values:
+	// ENABLED
+	// DISABLED
 	FilterEnforcement *string `json:"filterEnforcement,omitempty" tf:"filter_enforcement,omitempty"`
 }
 
 type SdpSettingsBasicConfigObservation struct {
+
+	// Tells whether Prompt injection and Jailbreak filter is enabled or
+	// disabled.
+	// Possible values:
+	// ENABLED
+	// DISABLED
 	FilterEnforcement *string `json:"filterEnforcement,omitempty" tf:"filter_enforcement,omitempty"`
 }
 
 type SdpSettingsBasicConfigParameters struct {
 
+	// Tells whether Prompt injection and Jailbreak filter is enabled or
+	// disabled.
+	// Possible values:
+	// ENABLED
+	// DISABLED
 	// +kubebuilder:validation:Optional
 	FilterEnforcement *string `json:"filterEnforcement,omitempty" tf:"filter_enforcement,omitempty"`
 }
 
 type TemplateFilterConfigInitParameters struct {
+
+	// Malicious URI filter settings.
+	// Structure is documented below.
 	MaliciousURIFilterSettings *FilterConfigMaliciousURIFilterSettingsInitParameters `json:"maliciousUriFilterSettings,omitempty" tf:"malicious_uri_filter_settings,omitempty"`
 
+	// Prompt injection and Jailbreak Filter settings.
+	// Structure is documented below.
 	PiAndJailbreakFilterSettings *FilterConfigPiAndJailbreakFilterSettingsInitParameters `json:"piAndJailbreakFilterSettings,omitempty" tf:"pi_and_jailbreak_filter_settings,omitempty"`
 
+	// Responsible AI Filter settings.
+	// Structure is documented below.
 	RaiSettings *FilterConfigRaiSettingsInitParameters `json:"raiSettings,omitempty" tf:"rai_settings,omitempty"`
 
+	// Sensitive Data Protection settings.
+	// Structure is documented below.
 	SdpSettings *FilterConfigSdpSettingsInitParameters `json:"sdpSettings,omitempty" tf:"sdp_settings,omitempty"`
 }
 
 type TemplateFilterConfigObservation struct {
+
+	// Malicious URI filter settings.
+	// Structure is documented below.
 	MaliciousURIFilterSettings *FilterConfigMaliciousURIFilterSettingsObservation `json:"maliciousUriFilterSettings,omitempty" tf:"malicious_uri_filter_settings,omitempty"`
 
+	// Prompt injection and Jailbreak Filter settings.
+	// Structure is documented below.
 	PiAndJailbreakFilterSettings *FilterConfigPiAndJailbreakFilterSettingsObservation `json:"piAndJailbreakFilterSettings,omitempty" tf:"pi_and_jailbreak_filter_settings,omitempty"`
 
+	// Responsible AI Filter settings.
+	// Structure is documented below.
 	RaiSettings *FilterConfigRaiSettingsObservation `json:"raiSettings,omitempty" tf:"rai_settings,omitempty"`
 
+	// Sensitive Data Protection settings.
+	// Structure is documented below.
 	SdpSettings *FilterConfigSdpSettingsObservation `json:"sdpSettings,omitempty" tf:"sdp_settings,omitempty"`
 }
 
 type TemplateFilterConfigParameters struct {
 
+	// Malicious URI filter settings.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	MaliciousURIFilterSettings *FilterConfigMaliciousURIFilterSettingsParameters `json:"maliciousUriFilterSettings,omitempty" tf:"malicious_uri_filter_settings,omitempty"`
 
+	// Prompt injection and Jailbreak Filter settings.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	PiAndJailbreakFilterSettings *FilterConfigPiAndJailbreakFilterSettingsParameters `json:"piAndJailbreakFilterSettings,omitempty" tf:"pi_and_jailbreak_filter_settings,omitempty"`
 
+	// Responsible AI Filter settings.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	RaiSettings *FilterConfigRaiSettingsParameters `json:"raiSettings,omitempty" tf:"rai_settings,omitempty"`
 
+	// Sensitive Data Protection settings.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SdpSettings *FilterConfigSdpSettingsParameters `json:"sdpSettings,omitempty" tf:"sdp_settings,omitempty"`
 }
 
 type TemplateInitParameters struct {
+
+	// Filters configuration.
+	// Structure is documented below.
 	FilterConfig *TemplateFilterConfigInitParameters `json:"filterConfig,omitempty" tf:"filter_config,omitempty"`
 
+	// Labels as key value pairs
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// Message describing TemplateMetadata
+	// Structure is documented below.
 	TemplateMetadata *TemplateMetadataInitParameters `json:"templateMetadata,omitempty" tf:"template_metadata,omitempty"`
 }
 
 type TemplateMetadataInitParameters struct {
+
+	// Indicates the custom error code set by the user to be returned to the end
+	// user if the LLM response trips Model Armor filters.
 	CustomLlmResponseSafetyErrorCode *float64 `json:"customLlmResponseSafetyErrorCode,omitempty" tf:"custom_llm_response_safety_error_code,omitempty"`
 
+	// Indicates the custom error message set by the user to be returned to the
+	// end user if the LLM response trips Model Armor filters.
 	CustomLlmResponseSafetyErrorMessage *string `json:"customLlmResponseSafetyErrorMessage,omitempty" tf:"custom_llm_response_safety_error_message,omitempty"`
 
+	// Indicates the custom error code set by the user to be returned to the end
+	// user by the service extension if the prompt trips Model Armor filters.
 	CustomPromptSafetyErrorCode *float64 `json:"customPromptSafetyErrorCode,omitempty" tf:"custom_prompt_safety_error_code,omitempty"`
 
+	// Indicates the custom error message set by the user to be returned to the
+	// end user if the prompt trips Model Armor filters.
 	CustomPromptSafetyErrorMessage *string `json:"customPromptSafetyErrorMessage,omitempty" tf:"custom_prompt_safety_error_message,omitempty"`
 
+	// Possible values:
+	// INSPECT_ONLY
+	// INSPECT_AND_BLOCK
 	EnforcementType *string `json:"enforcementType,omitempty" tf:"enforcement_type,omitempty"`
 
+	// If true, partial detector failures should be ignored.
 	IgnorePartialInvocationFailures *bool `json:"ignorePartialInvocationFailures,omitempty" tf:"ignore_partial_invocation_failures,omitempty"`
 
+	// If true, log sanitize operations.
 	LogSanitizeOperations *bool `json:"logSanitizeOperations,omitempty" tf:"log_sanitize_operations,omitempty"`
 
+	// If true, log template crud operations.
 	LogTemplateOperations *bool `json:"logTemplateOperations,omitempty" tf:"log_template_operations,omitempty"`
 
+	// Metadata to enable multi language detection via template.
+	// Structure is documented below.
 	MultiLanguageDetection *TemplateMetadataMultiLanguageDetectionInitParameters `json:"multiLanguageDetection,omitempty" tf:"multi_language_detection,omitempty"`
 }
 
 type TemplateMetadataMultiLanguageDetectionInitParameters struct {
+
+	// If true, multi language detection will be enabled.
 	EnableMultiLanguageDetection *bool `json:"enableMultiLanguageDetection,omitempty" tf:"enable_multi_language_detection,omitempty"`
 }
 
 type TemplateMetadataMultiLanguageDetectionObservation struct {
+
+	// If true, multi language detection will be enabled.
 	EnableMultiLanguageDetection *bool `json:"enableMultiLanguageDetection,omitempty" tf:"enable_multi_language_detection,omitempty"`
 }
 
 type TemplateMetadataMultiLanguageDetectionParameters struct {
 
+	// If true, multi language detection will be enabled.
 	// +kubebuilder:validation:Optional
 	EnableMultiLanguageDetection *bool `json:"enableMultiLanguageDetection" tf:"enable_multi_language_detection,omitempty"`
 }
 
 type TemplateMetadataObservation struct {
+
+	// Indicates the custom error code set by the user to be returned to the end
+	// user if the LLM response trips Model Armor filters.
 	CustomLlmResponseSafetyErrorCode *float64 `json:"customLlmResponseSafetyErrorCode,omitempty" tf:"custom_llm_response_safety_error_code,omitempty"`
 
+	// Indicates the custom error message set by the user to be returned to the
+	// end user if the LLM response trips Model Armor filters.
 	CustomLlmResponseSafetyErrorMessage *string `json:"customLlmResponseSafetyErrorMessage,omitempty" tf:"custom_llm_response_safety_error_message,omitempty"`
 
+	// Indicates the custom error code set by the user to be returned to the end
+	// user by the service extension if the prompt trips Model Armor filters.
 	CustomPromptSafetyErrorCode *float64 `json:"customPromptSafetyErrorCode,omitempty" tf:"custom_prompt_safety_error_code,omitempty"`
 
+	// Indicates the custom error message set by the user to be returned to the
+	// end user if the prompt trips Model Armor filters.
 	CustomPromptSafetyErrorMessage *string `json:"customPromptSafetyErrorMessage,omitempty" tf:"custom_prompt_safety_error_message,omitempty"`
 
+	// Possible values:
+	// INSPECT_ONLY
+	// INSPECT_AND_BLOCK
 	EnforcementType *string `json:"enforcementType,omitempty" tf:"enforcement_type,omitempty"`
 
+	// If true, partial detector failures should be ignored.
 	IgnorePartialInvocationFailures *bool `json:"ignorePartialInvocationFailures,omitempty" tf:"ignore_partial_invocation_failures,omitempty"`
 
+	// If true, log sanitize operations.
 	LogSanitizeOperations *bool `json:"logSanitizeOperations,omitempty" tf:"log_sanitize_operations,omitempty"`
 
+	// If true, log template crud operations.
 	LogTemplateOperations *bool `json:"logTemplateOperations,omitempty" tf:"log_template_operations,omitempty"`
 
+	// Metadata to enable multi language detection via template.
+	// Structure is documented below.
 	MultiLanguageDetection *TemplateMetadataMultiLanguageDetectionObservation `json:"multiLanguageDetection,omitempty" tf:"multi_language_detection,omitempty"`
 }
 
 type TemplateMetadataParameters struct {
 
+	// Indicates the custom error code set by the user to be returned to the end
+	// user if the LLM response trips Model Armor filters.
 	// +kubebuilder:validation:Optional
 	CustomLlmResponseSafetyErrorCode *float64 `json:"customLlmResponseSafetyErrorCode,omitempty" tf:"custom_llm_response_safety_error_code,omitempty"`
 
+	// Indicates the custom error message set by the user to be returned to the
+	// end user if the LLM response trips Model Armor filters.
 	// +kubebuilder:validation:Optional
 	CustomLlmResponseSafetyErrorMessage *string `json:"customLlmResponseSafetyErrorMessage,omitempty" tf:"custom_llm_response_safety_error_message,omitempty"`
 
+	// Indicates the custom error code set by the user to be returned to the end
+	// user by the service extension if the prompt trips Model Armor filters.
 	// +kubebuilder:validation:Optional
 	CustomPromptSafetyErrorCode *float64 `json:"customPromptSafetyErrorCode,omitempty" tf:"custom_prompt_safety_error_code,omitempty"`
 
+	// Indicates the custom error message set by the user to be returned to the
+	// end user if the prompt trips Model Armor filters.
 	// +kubebuilder:validation:Optional
 	CustomPromptSafetyErrorMessage *string `json:"customPromptSafetyErrorMessage,omitempty" tf:"custom_prompt_safety_error_message,omitempty"`
 
+	// Possible values:
+	// INSPECT_ONLY
+	// INSPECT_AND_BLOCK
 	// +kubebuilder:validation:Optional
 	EnforcementType *string `json:"enforcementType,omitempty" tf:"enforcement_type,omitempty"`
 
+	// If true, partial detector failures should be ignored.
 	// +kubebuilder:validation:Optional
 	IgnorePartialInvocationFailures *bool `json:"ignorePartialInvocationFailures,omitempty" tf:"ignore_partial_invocation_failures,omitempty"`
 
+	// If true, log sanitize operations.
 	// +kubebuilder:validation:Optional
 	LogSanitizeOperations *bool `json:"logSanitizeOperations,omitempty" tf:"log_sanitize_operations,omitempty"`
 
+	// If true, log template crud operations.
 	// +kubebuilder:validation:Optional
 	LogTemplateOperations *bool `json:"logTemplateOperations,omitempty" tf:"log_template_operations,omitempty"`
 
+	// Metadata to enable multi language detection via template.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	MultiLanguageDetection *TemplateMetadataMultiLanguageDetectionParameters `json:"multiLanguageDetection,omitempty" tf:"multi_language_detection,omitempty"`
 }
 
 type TemplateObservation struct {
+
+	// Create time stamp
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
 
+	// Filters configuration.
+	// Structure is documented below.
 	FilterConfig *TemplateFilterConfigObservation `json:"filterConfig,omitempty" tf:"filter_config,omitempty"`
 
+	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/templates/{{template_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Labels as key value pairs
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
+	// Resource ID segment making up resource name. It identifies the resource within its parent collection as described in https://google.aip.dev/122.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
+	// Identifier. name of resource
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// Message describing TemplateMetadata
+	// Structure is documented below.
 	TemplateMetadata *TemplateMetadataObservation `json:"templateMetadata,omitempty" tf:"template_metadata,omitempty"`
 
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
 	// +mapType=granular
 	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
+	// Update time stamp
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`
 }
 
 type TemplateParameters struct {
 
+	// Filters configuration.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	FilterConfig *TemplateFilterConfigParameters `json:"filterConfig,omitempty" tf:"filter_config,omitempty"`
 
+	// Labels as key value pairs
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
+	// Resource ID segment making up resource name. It identifies the resource within its parent collection as described in https://google.aip.dev/122.
 	// +kubebuilder:validation:Required
 	Location *string `json:"location" tf:"location,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// Message describing TemplateMetadata
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	TemplateMetadata *TemplateMetadataParameters `json:"templateMetadata,omitempty" tf:"template_metadata,omitempty"`
 }
@@ -383,7 +661,7 @@ type TemplateStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// Template is the Schema for the Templates API. <no value>
+// Template is the Schema for the Templates API. A `Template` is a resource of Model Armor that lets you configure how Model Armor screens prompts and responses.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
