@@ -301,6 +301,7 @@
   "google_monitoring_dashboard",
   "google_monitoring_group",
   "google_monitoring_metric_descriptor",
+  "google_monitoring_monitored_project",
   "google_monitoring_notification_channel",
   "google_monitoring_service",
   "google_monitoring_slo",
