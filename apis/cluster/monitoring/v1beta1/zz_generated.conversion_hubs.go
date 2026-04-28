@@ -11,3 +11,6 @@ func (tr *Dashboard) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *Group) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *MonitoredProject) Hub() {}
