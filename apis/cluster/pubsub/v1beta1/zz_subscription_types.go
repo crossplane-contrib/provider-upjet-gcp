@@ -58,6 +58,21 @@ type BigqueryConfigInitParameters struct {
 	// and any messages with extra fields are not written and remain in the subscription's backlog.
 	DropUnknownFields *bool `json:"dropUnknownFields,omitempty" tf:"drop_unknown_fields,omitempty"`
 
+	// The service account to use to write to BigQuery. If not specified, the Pub/Sub
+	// service agent,
+	// service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com, is used.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
+	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+
+	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailRef *v1.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailSelector *v1.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+
 	// The name of the table to which to write data, of the form {projectId}:{datasetId}.{tableId}
 	Table *string `json:"table,omitempty" tf:"table,omitempty"`
 
@@ -80,6 +95,11 @@ type BigqueryConfigObservation struct {
 	// are not part of the BigQuery table schema are dropped when writing to BigQuery. Otherwise, the schemas must be kept in sync
 	// and any messages with extra fields are not written and remain in the subscription's backlog.
 	DropUnknownFields *bool `json:"dropUnknownFields,omitempty" tf:"drop_unknown_fields,omitempty"`
+
+	// The service account to use to write to BigQuery. If not specified, the Pub/Sub
+	// service agent,
+	// service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com, is used.
+	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 
 	// The name of the table to which to write data, of the form {projectId}:{datasetId}.{tableId}
 	Table *string `json:"table,omitempty" tf:"table,omitempty"`
@@ -104,6 +124,22 @@ type BigqueryConfigParameters struct {
 	// and any messages with extra fields are not written and remain in the subscription's backlog.
 	// +kubebuilder:validation:Optional
 	DropUnknownFields *bool `json:"dropUnknownFields,omitempty" tf:"drop_unknown_fields,omitempty"`
+
+	// The service account to use to write to BigQuery. If not specified, the Pub/Sub
+	// service agent,
+	// service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com, is used.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+
+	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailRef *v1.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailSelector *v1.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
 
 	// The name of the table to which to write data, of the form {projectId}:{datasetId}.{tableId}
 	// +kubebuilder:validation:Optional

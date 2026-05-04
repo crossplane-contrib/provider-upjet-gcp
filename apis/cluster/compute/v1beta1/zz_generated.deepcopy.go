@@ -17059,6 +17059,11 @@ func (in *FirewallPolicyRuleObservation) DeepCopyInto(out *FirewallPolicyRuleObs
 		*out = new(string)
 		**out = **in
 	}
+	if in.CreationTimestamp != nil {
+		in, out := &in.CreationTimestamp, &out.CreationTimestamp
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -36537,6 +36542,18 @@ func (in *MatchInitParameters) DeepCopyInto(out *MatchInitParameters) {
 			}
 		}
 	}
+	if in.DestAddressGroupsRefs != nil {
+		in, out := &in.DestAddressGroupsRefs, &out.DestAddressGroupsRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.DestAddressGroupsSelector != nil {
+		in, out := &in.DestAddressGroupsSelector, &out.DestAddressGroupsSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.DestFqdns != nil {
 		in, out := &in.DestFqdns, &out.DestFqdns
 		*out = make([]*string, len(*in))
@@ -36907,6 +36924,18 @@ func (in *MatchParameters) DeepCopyInto(out *MatchParameters) {
 				**out = **in
 			}
 		}
+	}
+	if in.DestAddressGroupsRefs != nil {
+		in, out := &in.DestAddressGroupsRefs, &out.DestAddressGroupsRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.DestAddressGroupsSelector != nil {
+		in, out := &in.DestAddressGroupsSelector, &out.DestAddressGroupsSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.DestFqdns != nil {
 		in, out := &in.DestFqdns, &out.DestFqdns
@@ -60690,6 +60719,13 @@ func (in *RegionInstanceGroupManagerParameters) DeepCopyInto(out *RegionInstance
 		*out = new(string)
 		**out = **in
 	}
+	if in.StandbyPolicy != nil {
+		in, out := &in.StandbyPolicy, &out.StandbyPolicy
+		*out = make([]RegionInstanceGroupManagerStandbyPolicyParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
 	if in.StatefulDisk != nil {
 		in, out := &in.StatefulDisk, &out.StatefulDisk
 		*out = make([]RegionInstanceGroupManagerStatefulDiskParameters, len(*in))
@@ -73142,6 +73178,17 @@ func (in *RouterNATInitParameters) DeepCopyInto(out *RouterNATInitParameters) {
 		*out = new(float64)
 		**out = **in
 	}
+	if in.InitialNATIps != nil {
+		in, out := &in.InitialNATIps, &out.InitialNATIps
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
 	if in.LogConfig != nil {
 		in, out := &in.LogConfig, &out.LogConfig
 		*out = make([]RouterNATLogConfigInitParameters, len(*in))
@@ -73187,6 +73234,13 @@ func (in *RouterNATInitParameters) DeepCopyInto(out *RouterNATInitParameters) {
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.Nat64Subnetwork != nil {
+		in, out := &in.Nat64Subnetwork, &out.Nat64Subnetwork
+		*out = make([]Nat64SubnetworkInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
 		*out = new(string)
@@ -73201,6 +73255,11 @@ func (in *RouterNATInitParameters) DeepCopyInto(out *RouterNATInitParameters) {
 	}
 	if in.SourceSubnetworkIPRangesToNAT != nil {
 		in, out := &in.SourceSubnetworkIPRangesToNAT, &out.SourceSubnetworkIPRangesToNAT
+		*out = new(string)
+		**out = **in
+	}
+	if in.SourceSubnetworkIPRangesToNat64 != nil {
+		in, out := &in.SourceSubnetworkIPRangesToNat64, &out.SourceSubnetworkIPRangesToNat64
 		*out = new(string)
 		**out = **in
 	}
@@ -73224,6 +73283,11 @@ func (in *RouterNATInitParameters) DeepCopyInto(out *RouterNATInitParameters) {
 	if in.TCPTransitoryIdleTimeoutSec != nil {
 		in, out := &in.TCPTransitoryIdleTimeoutSec, &out.TCPTransitoryIdleTimeoutSec
 		*out = new(float64)
+		**out = **in
+	}
+	if in.Type != nil {
+		in, out := &in.Type, &out.Type
+		*out = new(string)
 		**out = **in
 	}
 	if in.UDPIdleTimeoutSec != nil {
@@ -73400,6 +73464,17 @@ func (in *RouterNATObservation) DeepCopyInto(out *RouterNATObservation) {
 		*out = new(float64)
 		**out = **in
 	}
+	if in.InitialNATIps != nil {
+		in, out := &in.InitialNATIps, &out.InitialNATIps
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
 	if in.LogConfig != nil {
 		in, out := &in.LogConfig, &out.LogConfig
 		*out = make([]RouterNATLogConfigObservation, len(*in))
@@ -73433,6 +73508,13 @@ func (in *RouterNATObservation) DeepCopyInto(out *RouterNATObservation) {
 			}
 		}
 	}
+	if in.Nat64Subnetwork != nil {
+		in, out := &in.Nat64Subnetwork, &out.Nat64Subnetwork
+		*out = make([]Nat64SubnetworkObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
 		*out = new(string)
@@ -73460,6 +73542,11 @@ func (in *RouterNATObservation) DeepCopyInto(out *RouterNATObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.SourceSubnetworkIPRangesToNat64 != nil {
+		in, out := &in.SourceSubnetworkIPRangesToNat64, &out.SourceSubnetworkIPRangesToNat64
+		*out = new(string)
+		**out = **in
+	}
 	if in.Subnetwork != nil {
 		in, out := &in.Subnetwork, &out.Subnetwork
 		*out = make([]SubnetworkObservation, len(*in))
@@ -73480,6 +73567,11 @@ func (in *RouterNATObservation) DeepCopyInto(out *RouterNATObservation) {
 	if in.TCPTransitoryIdleTimeoutSec != nil {
 		in, out := &in.TCPTransitoryIdleTimeoutSec, &out.TCPTransitoryIdleTimeoutSec
 		*out = new(float64)
+		**out = **in
+	}
+	if in.Type != nil {
+		in, out := &in.Type, &out.Type
+		*out = new(string)
 		**out = **in
 	}
 	if in.UDPIdleTimeoutSec != nil {
@@ -73544,6 +73636,17 @@ func (in *RouterNATParameters) DeepCopyInto(out *RouterNATParameters) {
 		*out = new(float64)
 		**out = **in
 	}
+	if in.InitialNATIps != nil {
+		in, out := &in.InitialNATIps, &out.InitialNATIps
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
 	if in.LogConfig != nil {
 		in, out := &in.LogConfig, &out.LogConfig
 		*out = make([]RouterNATLogConfigParameters, len(*in))
@@ -73589,6 +73692,13 @@ func (in *RouterNATParameters) DeepCopyInto(out *RouterNATParameters) {
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.Nat64Subnetwork != nil {
+		in, out := &in.Nat64Subnetwork, &out.Nat64Subnetwork
+		*out = make([]Nat64SubnetworkParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
 		*out = new(string)
@@ -73626,6 +73736,11 @@ func (in *RouterNATParameters) DeepCopyInto(out *RouterNATParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.SourceSubnetworkIPRangesToNat64 != nil {
+		in, out := &in.SourceSubnetworkIPRangesToNat64, &out.SourceSubnetworkIPRangesToNat64
+		*out = new(string)
+		**out = **in
+	}
 	if in.Subnetwork != nil {
 		in, out := &in.Subnetwork, &out.Subnetwork
 		*out = make([]SubnetworkParameters, len(*in))
@@ -73646,6 +73761,11 @@ func (in *RouterNATParameters) DeepCopyInto(out *RouterNATParameters) {
 	if in.TCPTransitoryIdleTimeoutSec != nil {
 		in, out := &in.TCPTransitoryIdleTimeoutSec, &out.TCPTransitoryIdleTimeoutSec
 		*out = new(float64)
+		**out = **in
+	}
+	if in.Type != nil {
+		in, out := &in.Type, &out.Type
+		*out = new(string)
 		**out = **in
 	}
 	if in.UDPIdleTimeoutSec != nil {
