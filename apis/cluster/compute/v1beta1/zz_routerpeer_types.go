@@ -131,6 +131,9 @@ type CustomLearnedIPRangesParameters struct {
 
 type Md5AuthenticationKeyInitParameters struct {
 
+	// The MD5 authentication key for this BGP peer. Maximum length is 80 characters. Can only contain printable ASCII characters
+	KeySecretRef v1.SecretKeySelector `json:"keySecretRef" tf:"-"`
+
 	// Name of this BGP peer. The name must be 1-63 characters long,
 	// and comply with RFC1035. Specifically, the name must be 1-63 characters
 	// long and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which

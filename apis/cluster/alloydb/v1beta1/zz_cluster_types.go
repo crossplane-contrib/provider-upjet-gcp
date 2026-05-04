@@ -633,6 +633,10 @@ type ContinuousBackupInfoParameters struct {
 
 type InitialUserInitParameters struct {
 
+	// The initial password for the user.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	PasswordSecretRef v1.SecretKeySelector `json:"passwordSecretRef" tf:"-"`
+
 	// The database username.
 	User *string `json:"user,omitempty" tf:"user,omitempty"`
 }

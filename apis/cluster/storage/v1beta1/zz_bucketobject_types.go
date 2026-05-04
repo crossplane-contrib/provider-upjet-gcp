@@ -286,6 +286,9 @@ type CustomerEncryptionInitParameters struct {
 
 	// Encryption algorithm. Default: AES256
 	EncryptionAlgorithm *string `json:"encryptionAlgorithm,omitempty" tf:"encryption_algorithm,omitempty"`
+
+	// Base64 encoded Customer-Supplied Encryption Key.
+	EncryptionKeySecretRef v1.SecretKeySelector `json:"encryptionKeySecretRef" tf:"-"`
 }
 
 type CustomerEncryptionObservation struct {
