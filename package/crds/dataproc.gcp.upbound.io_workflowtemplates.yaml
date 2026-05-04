@@ -84,6 +84,16 @@ spec:
                       if the workflow was running on a (/dataproc/docs/concepts/workflows/using-workflows#configuring_or_selecting_a_cluster),
                       the cluster is deleted.
                     type: string
+                  encryptionConfig:
+                    description: Encryption settings for the cluster.
+                    items:
+                      properties:
+                        kmsKey:
+                          description: The uri of the KMS key used to encrypt various
+                            sensitive files.
+                          type: string
+                      type: object
+                    type: array
                   jobs:
                     description: Required. The Directed Acyclic Graph of Jobs to submit.
                     items:
@@ -1523,6 +1533,16 @@ spec:
                       if the workflow was running on a (/dataproc/docs/concepts/workflows/using-workflows#configuring_or_selecting_a_cluster),
                       the cluster is deleted.
                     type: string
+                  encryptionConfig:
+                    description: Encryption settings for the cluster.
+                    items:
+                      properties:
+                        kmsKey:
+                          description: The uri of the KMS key used to encrypt various
+                            sensitive files.
+                          type: string
+                      type: object
+                    type: array
                   jobs:
                     description: Required. The Directed Acyclic Graph of Jobs to submit.
                     items:
@@ -3052,6 +3072,16 @@ spec:
                       type: string
                     type: object
                     x-kubernetes-map-type: granular
+                  encryptionConfig:
+                    description: Encryption settings for the cluster.
+                    items:
+                      properties:
+                        kmsKey:
+                          description: The uri of the KMS key used to encrypt various
+                            sensitive files.
+                          type: string
+                      type: object
+                    type: array
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/workflowTemplates/{{name}}
                     type: string
