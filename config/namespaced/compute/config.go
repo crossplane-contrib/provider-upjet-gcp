@@ -5,6 +5,8 @@
 package compute
 
 import (
+	"strings"
+
 	"github.com/crossplane/crossplane-runtime/v2/pkg/fieldpath"
 	"github.com/crossplane/crossplane-runtime/v2/pkg/reference"
 	"github.com/crossplane/crossplane-runtime/v2/pkg/resource"
@@ -514,6 +516,21 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 	p.AddResourceConfigurator("google_compute_network_firewall_policy_rule", func(r *config.Resource) {
 		r.References["match.src_secure_tags.name"] = config.Reference{
 			TerraformName: "google_tags_tag_value",
+		}
+		// The GCP API returns HTTP 400 (not 404) when a firewall policy
+		// rule at the specified priority does not exist. The Terraform
+		// provider's HandleNotFoundError only handles 404, so the
+		// initial observe call fails instead of recognizing the resource
+		// needs to be created.
+		// See: https://github.com/crossplane-contrib/provider-upjet-gcp/issues/836
+		origRead := r.TerraformResource.Read                                              //nolint:staticcheck // upstream resource uses deprecated Read field
+		r.TerraformResource.Read = func(d *schema.ResourceData, meta interface{}) error { //nolint:staticcheck // wrapping upstream's deprecated Read field
+			err := origRead(d, meta)
+			if err != nil && strings.Contains(err.Error(), "does not contain a rule at priority") {
+				d.SetId("")
+				return nil
+			}
+			return err
 		}
 	})
 	p.AddResourceConfigurator("google_compute_region_security_policy", func(r *config.Resource) {
