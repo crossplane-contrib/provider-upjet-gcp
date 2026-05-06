@@ -1,0 +1,1069 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.18.0
+  name: floorsettings.modelarmor.gcp.upbound.io
+spec:
+  group: modelarmor.gcp.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - gcp
+    kind: FloorSetting
+    listKind: FloorSettingList
+    plural: floorsettings
+    singular: floorsetting
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: FloorSetting is the Schema for the FloorSettings API. Model Armor
+          floor settings define rules that dictate minimum requirements for all Model
+          Armor templates created at a specific point in the Google Cloud resource
+          hierarchy (that is, at an organization, folder, or project level).
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: FloorSettingSpec defines the desired state of FloorSetting
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  aiPlatformFloorSetting:
+                    description: |-
+                      AI Platform floor setting.
+                      Structure is documented below.
+                    properties:
+                      enableCloudLogging:
+                        description: If true, log Model Armor filter results to Cloud
+                          Logging.
+                        type: boolean
+                      inspectAndBlock:
+                        description: |-
+                          If true, Model Armor filters will be run in inspect and block mode.
+                          Requests that trip Model Armor filters will be blocked.
+                        type: boolean
+                      inspectOnly:
+                        description: |-
+                          If true, Model Armor filters will be run in inspect only mode. No action
+                          will be taken on the request.
+                        type: boolean
+                    type: object
+                  enableFloorSettingEnforcement:
+                    description: Floor Settings enforcement status.
+                    type: boolean
+                  filterConfig:
+                    description: |-
+                      Filters configuration.
+                      Structure is documented below.
+                    properties:
+                      maliciousUriFilterSettings:
+                        description: |-
+                          Malicious URI filter settings.
+                          Structure is documented below.
+                        properties:
+                          filterEnforcement:
+                            description: |-
+                              Tells whether Prompt injection and Jailbreak filter is enabled or
+                              disabled.
+                              Possible values:
+                              ENABLED
+                              DISABLED
+                            type: string
+                        type: object
+                      piAndJailbreakFilterSettings:
+                        description: |-
+                          Prompt injection and Jailbreak Filter settings.
+                          Structure is documented below.
+                        properties:
+                          confidenceLevel:
+                            description: |-
+                              Possible values:
+                              LOW_AND_ABOVE
+                              MEDIUM_AND_ABOVE
+                              HIGH
+                            type: string
+                          filterEnforcement:
+                            description: |-
+                              Tells whether Prompt injection and Jailbreak filter is enabled or
+                              disabled.
+                              Possible values:
+                              ENABLED
+                              DISABLED
+                            type: string
+                        type: object
+                      raiSettings:
+                        description: |-
+                          Responsible AI Filter settings.
+                          Structure is documented below.
+                        properties:
+                          raiFilters:
+                            description: |-
+                              List of Responsible AI filters enabled for template.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                confidenceLevel:
+                                  description: |-
+                                    Possible values:
+                                    LOW_AND_ABOVE
+                                    MEDIUM_AND_ABOVE
+                                    HIGH
+                                  type: string
+                                filterType:
+                                  description: |-
+                                    Possible values:
+                                    SEXUALLY_EXPLICIT
+                                    HATE_SPEECH
+                                    HARASSMENT
+                                    DANGEROUS
+                                  type: string
+                              type: object
+                            type: array
+                        type: object
+                      sdpSettings:
+                        description: |-
+                          Sensitive Data Protection settings.
+                          Structure is documented below.
+                        properties:
+                          advancedConfig:
+                            description: |-
+                              Sensitive Data Protection Advanced configuration.
+                              Structure is documented below.
+                            properties:
+                              deidentifyTemplate:
+                                description: |-
+                                  Optional Sensitive Data Protection Deidentify template resource name.
+                                  If provided then DeidentifyContent action is performed during Sanitization
+                                  using this template and inspect template. The De-identified data will
+                                  be returned in SdpDeidentifyResult.
+                                  Note that all info-types present in the deidentify template must be present
+                                  in inspect template.
+                                  e.g.
+                                  projects/{project}/locations/{location}/deidentifyTemplates/{deidentify_template}
+                                type: string
+                              deidentifyTemplateRef:
+                                description: Reference to a DeidentifyTemplate in
+                                  datalossprevention to populate deidentifyTemplate.
+                                properties:
+                                  name:
+                                    description: Name of the referenced object.
+                                    type: string
+                                  policy:
+                                    description: Policies for referencing.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                required:
+                                - name
+                                type: object
+                              deidentifyTemplateSelector:
+                                description: Selector for a DeidentifyTemplate in
+                                  datalossprevention to populate deidentifyTemplate.
+                                properties:
+                                  matchControllerRef:
+                                    description: |-
+                                      MatchControllerRef ensures an object with the same controller reference
+                                      as the selecting object is selected.
+                                    type: boolean
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    description: MatchLabels ensures an object with
+                                      matching labels is selected.
+                                    type: object
+                                  policy:
+                                    description: Policies for selection.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                type: object
+                              inspectTemplate:
+                                description: |-
+                                  Sensitive Data Protection inspect template resource name
+                                  If only inspect template is provided (de-identify template not provided),
+                                  then Sensitive Data Protection InspectContent action is performed during
+                                  Sanitization. All Sensitive Data Protection findings identified during
+                                  inspection will be returned as SdpFinding in SdpInsepctionResult.
+                                  e.g:-
+                                  projects/{project}/locations/{location}/inspectTemplates/{inspect_template}
+                                type: string
+                              inspectTemplateRef:
+                                description: Reference to a InspectTemplate in datalossprevention
+                                  to populate inspectTemplate.
+                                properties:
+                                  name:
+                                    description: Name of the referenced object.
+                                    type: string
+                                  policy:
+                                    description: Policies for referencing.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                required:
+                                - name
+                                type: object
+                              inspectTemplateSelector:
+                                description: Selector for a InspectTemplate in datalossprevention
+                                  to populate inspectTemplate.
+                                properties:
+                                  matchControllerRef:
+                                    description: |-
+                                      MatchControllerRef ensures an object with the same controller reference
+                                      as the selecting object is selected.
+                                    type: boolean
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    description: MatchLabels ensures an object with
+                                      matching labels is selected.
+                                    type: object
+                                  policy:
+                                    description: Policies for selection.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                type: object
+                            type: object
+                          basicConfig:
+                            description: |-
+                              Sensitive Data Protection basic configuration.
+                              Structure is documented below.
+                            properties:
+                              filterEnforcement:
+                                description: |-
+                                  Tells whether Prompt injection and Jailbreak filter is enabled or
+                                  disabled.
+                                  Possible values:
+                                  ENABLED
+                                  DISABLED
+                                type: string
+                            type: object
+                        type: object
+                    type: object
+                  floorSettingMetadata:
+                    description: |-
+                      Metadata to enable multi language detection via floor setting.
+                      Structure is documented below.
+                    properties:
+                      multiLanguageDetection:
+                        description: |-
+                          Metadata for multi language detection.
+                          Structure is documented below.
+                        properties:
+                          enableMultiLanguageDetection:
+                            description: If true, multi language detection will be
+                              enabled.
+                            type: boolean
+                        type: object
+                    type: object
+                  integratedServices:
+                    description: List of integrated services for which the floor setting
+                      is applicable.
+                    items:
+                      type: string
+                    type: array
+                  location:
+                    description: Resource ID segment making up resource name. It identifies
+                      the resource within its parent collection as described in https://google.aip.dev/122.
+                    type: string
+                  parent:
+                    description: 'Will be any one of these:'
+                    type: string
+                required:
+                - location
+                - parent
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  aiPlatformFloorSetting:
+                    description: |-
+                      AI Platform floor setting.
+                      Structure is documented below.
+                    properties:
+                      enableCloudLogging:
+                        description: If true, log Model Armor filter results to Cloud
+                          Logging.
+                        type: boolean
+                      inspectAndBlock:
+                        description: |-
+                          If true, Model Armor filters will be run in inspect and block mode.
+                          Requests that trip Model Armor filters will be blocked.
+                        type: boolean
+                      inspectOnly:
+                        description: |-
+                          If true, Model Armor filters will be run in inspect only mode. No action
+                          will be taken on the request.
+                        type: boolean
+                    type: object
+                  enableFloorSettingEnforcement:
+                    description: Floor Settings enforcement status.
+                    type: boolean
+                  filterConfig:
+                    description: |-
+                      Filters configuration.
+                      Structure is documented below.
+                    properties:
+                      maliciousUriFilterSettings:
+                        description: |-
+                          Malicious URI filter settings.
+                          Structure is documented below.
+                        properties:
+                          filterEnforcement:
+                            description: |-
+                              Tells whether Prompt injection and Jailbreak filter is enabled or
+                              disabled.
+                              Possible values:
+                              ENABLED
+                              DISABLED
+                            type: string
+                        type: object
+                      piAndJailbreakFilterSettings:
+                        description: |-
+                          Prompt injection and Jailbreak Filter settings.
+                          Structure is documented below.
+                        properties:
+                          confidenceLevel:
+                            description: |-
+                              Possible values:
+                              LOW_AND_ABOVE
+                              MEDIUM_AND_ABOVE
+                              HIGH
+                            type: string
+                          filterEnforcement:
+                            description: |-
+                              Tells whether Prompt injection and Jailbreak filter is enabled or
+                              disabled.
+                              Possible values:
+                              ENABLED
+                              DISABLED
+                            type: string
+                        type: object
+                      raiSettings:
+                        description: |-
+                          Responsible AI Filter settings.
+                          Structure is documented below.
+                        properties:
+                          raiFilters:
+                            description: |-
+                              List of Responsible AI filters enabled for template.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                confidenceLevel:
+                                  description: |-
+                                    Possible values:
+                                    LOW_AND_ABOVE
+                                    MEDIUM_AND_ABOVE
+                                    HIGH
+                                  type: string
+                                filterType:
+                                  description: |-
+                                    Possible values:
+                                    SEXUALLY_EXPLICIT
+                                    HATE_SPEECH
+                                    HARASSMENT
+                                    DANGEROUS
+                                  type: string
+                              type: object
+                            type: array
+                        type: object
+                      sdpSettings:
+                        description: |-
+                          Sensitive Data Protection settings.
+                          Structure is documented below.
+                        properties:
+                          advancedConfig:
+                            description: |-
+                              Sensitive Data Protection Advanced configuration.
+                              Structure is documented below.
+                            properties:
+                              deidentifyTemplate:
+                                description: |-
+                                  Optional Sensitive Data Protection Deidentify template resource name.
+                                  If provided then DeidentifyContent action is performed during Sanitization
+                                  using this template and inspect template. The De-identified data will
+                                  be returned in SdpDeidentifyResult.
+                                  Note that all info-types present in the deidentify template must be present
+                                  in inspect template.
+                                  e.g.
+                                  projects/{project}/locations/{location}/deidentifyTemplates/{deidentify_template}
+                                type: string
+                              deidentifyTemplateRef:
+                                description: Reference to a DeidentifyTemplate in
+                                  datalossprevention to populate deidentifyTemplate.
+                                properties:
+                                  name:
+                                    description: Name of the referenced object.
+                                    type: string
+                                  policy:
+                                    description: Policies for referencing.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                required:
+                                - name
+                                type: object
+                              deidentifyTemplateSelector:
+                                description: Selector for a DeidentifyTemplate in
+                                  datalossprevention to populate deidentifyTemplate.
+                                properties:
+                                  matchControllerRef:
+                                    description: |-
+                                      MatchControllerRef ensures an object with the same controller reference
+                                      as the selecting object is selected.
+                                    type: boolean
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    description: MatchLabels ensures an object with
+                                      matching labels is selected.
+                                    type: object
+                                  policy:
+                                    description: Policies for selection.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                type: object
+                              inspectTemplate:
+                                description: |-
+                                  Sensitive Data Protection inspect template resource name
+                                  If only inspect template is provided (de-identify template not provided),
+                                  then Sensitive Data Protection InspectContent action is performed during
+                                  Sanitization. All Sensitive Data Protection findings identified during
+                                  inspection will be returned as SdpFinding in SdpInsepctionResult.
+                                  e.g:-
+                                  projects/{project}/locations/{location}/inspectTemplates/{inspect_template}
+                                type: string
+                              inspectTemplateRef:
+                                description: Reference to a InspectTemplate in datalossprevention
+                                  to populate inspectTemplate.
+                                properties:
+                                  name:
+                                    description: Name of the referenced object.
+                                    type: string
+                                  policy:
+                                    description: Policies for referencing.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                required:
+                                - name
+                                type: object
+                              inspectTemplateSelector:
+                                description: Selector for a InspectTemplate in datalossprevention
+                                  to populate inspectTemplate.
+                                properties:
+                                  matchControllerRef:
+                                    description: |-
+                                      MatchControllerRef ensures an object with the same controller reference
+                                      as the selecting object is selected.
+                                    type: boolean
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    description: MatchLabels ensures an object with
+                                      matching labels is selected.
+                                    type: object
+                                  policy:
+                                    description: Policies for selection.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                type: object
+                            type: object
+                          basicConfig:
+                            description: |-
+                              Sensitive Data Protection basic configuration.
+                              Structure is documented below.
+                            properties:
+                              filterEnforcement:
+                                description: |-
+                                  Tells whether Prompt injection and Jailbreak filter is enabled or
+                                  disabled.
+                                  Possible values:
+                                  ENABLED
+                                  DISABLED
+                                type: string
+                            type: object
+                        type: object
+                    type: object
+                  floorSettingMetadata:
+                    description: |-
+                      Metadata to enable multi language detection via floor setting.
+                      Structure is documented below.
+                    properties:
+                      multiLanguageDetection:
+                        description: |-
+                          Metadata for multi language detection.
+                          Structure is documented below.
+                        properties:
+                          enableMultiLanguageDetection:
+                            description: If true, multi language detection will be
+                              enabled.
+                            type: boolean
+                        type: object
+                    type: object
+                  integratedServices:
+                    description: List of integrated services for which the floor setting
+                      is applicable.
+                    items:
+                      type: string
+                    type: array
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.filterConfig is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.filterConfig)
+                || (has(self.initProvider) && has(self.initProvider.filterConfig))'
+          status:
+            description: FloorSettingStatus defines the observed state of FloorSetting.
+            properties:
+              atProvider:
+                properties:
+                  aiPlatformFloorSetting:
+                    description: |-
+                      AI Platform floor setting.
+                      Structure is documented below.
+                    properties:
+                      enableCloudLogging:
+                        description: If true, log Model Armor filter results to Cloud
+                          Logging.
+                        type: boolean
+                      inspectAndBlock:
+                        description: |-
+                          If true, Model Armor filters will be run in inspect and block mode.
+                          Requests that trip Model Armor filters will be blocked.
+                        type: boolean
+                      inspectOnly:
+                        description: |-
+                          If true, Model Armor filters will be run in inspect only mode. No action
+                          will be taken on the request.
+                        type: boolean
+                    type: object
+                  createTime:
+                    description: '[Output only] Create timestamp'
+                    type: string
+                  enableFloorSettingEnforcement:
+                    description: Floor Settings enforcement status.
+                    type: boolean
+                  filterConfig:
+                    description: |-
+                      Filters configuration.
+                      Structure is documented below.
+                    properties:
+                      maliciousUriFilterSettings:
+                        description: |-
+                          Malicious URI filter settings.
+                          Structure is documented below.
+                        properties:
+                          filterEnforcement:
+                            description: |-
+                              Tells whether Prompt injection and Jailbreak filter is enabled or
+                              disabled.
+                              Possible values:
+                              ENABLED
+                              DISABLED
+                            type: string
+                        type: object
+                      piAndJailbreakFilterSettings:
+                        description: |-
+                          Prompt injection and Jailbreak Filter settings.
+                          Structure is documented below.
+                        properties:
+                          confidenceLevel:
+                            description: |-
+                              Possible values:
+                              LOW_AND_ABOVE
+                              MEDIUM_AND_ABOVE
+                              HIGH
+                            type: string
+                          filterEnforcement:
+                            description: |-
+                              Tells whether Prompt injection and Jailbreak filter is enabled or
+                              disabled.
+                              Possible values:
+                              ENABLED
+                              DISABLED
+                            type: string
+                        type: object
+                      raiSettings:
+                        description: |-
+                          Responsible AI Filter settings.
+                          Structure is documented below.
+                        properties:
+                          raiFilters:
+                            description: |-
+                              List of Responsible AI filters enabled for template.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                confidenceLevel:
+                                  description: |-
+                                    Possible values:
+                                    LOW_AND_ABOVE
+                                    MEDIUM_AND_ABOVE
+                                    HIGH
+                                  type: string
+                                filterType:
+                                  description: |-
+                                    Possible values:
+                                    SEXUALLY_EXPLICIT
+                                    HATE_SPEECH
+                                    HARASSMENT
+                                    DANGEROUS
+                                  type: string
+                              type: object
+                            type: array
+                        type: object
+                      sdpSettings:
+                        description: |-
+                          Sensitive Data Protection settings.
+                          Structure is documented below.
+                        properties:
+                          advancedConfig:
+                            description: |-
+                              Sensitive Data Protection Advanced configuration.
+                              Structure is documented below.
+                            properties:
+                              deidentifyTemplate:
+                                description: |-
+                                  Optional Sensitive Data Protection Deidentify template resource name.
+                                  If provided then DeidentifyContent action is performed during Sanitization
+                                  using this template and inspect template. The De-identified data will
+                                  be returned in SdpDeidentifyResult.
+                                  Note that all info-types present in the deidentify template must be present
+                                  in inspect template.
+                                  e.g.
+                                  projects/{project}/locations/{location}/deidentifyTemplates/{deidentify_template}
+                                type: string
+                              inspectTemplate:
+                                description: |-
+                                  Sensitive Data Protection inspect template resource name
+                                  If only inspect template is provided (de-identify template not provided),
+                                  then Sensitive Data Protection InspectContent action is performed during
+                                  Sanitization. All Sensitive Data Protection findings identified during
+                                  inspection will be returned as SdpFinding in SdpInsepctionResult.
+                                  e.g:-
+                                  projects/{project}/locations/{location}/inspectTemplates/{inspect_template}
+                                type: string
+                            type: object
+                          basicConfig:
+                            description: |-
+                              Sensitive Data Protection basic configuration.
+                              Structure is documented below.
+                            properties:
+                              filterEnforcement:
+                                description: |-
+                                  Tells whether Prompt injection and Jailbreak filter is enabled or
+                                  disabled.
+                                  Possible values:
+                                  ENABLED
+                                  DISABLED
+                                type: string
+                            type: object
+                        type: object
+                    type: object
+                  floorSettingMetadata:
+                    description: |-
+                      Metadata to enable multi language detection via floor setting.
+                      Structure is documented below.
+                    properties:
+                      multiLanguageDetection:
+                        description: |-
+                          Metadata for multi language detection.
+                          Structure is documented below.
+                        properties:
+                          enableMultiLanguageDetection:
+                            description: If true, multi language detection will be
+                              enabled.
+                            type: boolean
+                        type: object
+                    type: object
+                  id:
+                    description: an identifier for the resource with format {{parent}}/locations/{{location}}/floorSetting
+                    type: string
+                  integratedServices:
+                    description: List of integrated services for which the floor setting
+                      is applicable.
+                    items:
+                      type: string
+                    type: array
+                  location:
+                    description: Resource ID segment making up resource name. It identifies
+                      the resource within its parent collection as described in https://google.aip.dev/122.
+                    type: string
+                  name:
+                    description: Identifier. The resource name.
+                    type: string
+                  parent:
+                    description: 'Will be any one of these:'
+                    type: string
+                  updateTime:
+                    description: '[Output only] Update timestamp'
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

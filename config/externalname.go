@@ -1128,6 +1128,12 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following: groups/<group_id>/memberships/<membership_id>
 	// Please see the cloudIdentity function for details.
 	"google_cloud_identity_group_membership": cloudIdentity(),
+
+	// modelarmor
+	//
+	//
+	"google_model_armor_template":     config.TemplatedStringAsIdentifier("template_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/templates/{{ .external_name }}"),
+	"google_model_armor_floorsetting": config.TemplatedStringAsIdentifier("", "{{ .parameters.parent }}/locations/{{ .parameters.location }}/floorSetting"),
 }
 
 // cliReconciledExternalNameConfigs contains all external name configurations

@@ -1,0 +1,29 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: modelarmor.gcp.upbound.io/v1beta1
+kind: FloorSetting
+metadata:
+  annotations:
+    meta.upbound.io/example-id: modelarmor/v1beta1/floorsetting
+  labels:
+    testing.upbound.io/example-name: floorsetting-example
+  name: uptest-floorsetting-example
+spec:
+  forProvider:
+    location: global
+    parent: projects/official-provider-testing
+    filterConfig:
+      raiSettings:
+        raiFilters:
+          - filterType: DANGEROUS
+            confidenceLevel: MEDIUM_AND_ABOVE
+          - filterType: HATE_SPEECH
+            confidenceLevel: HIGH
+      piAndJailbreakFilterSettings:
+        filterEnforcement: ENABLED
+        confidenceLevel: HIGH
+      maliciousUriFilterSettings:
+        filterEnforcement: ENABLED
+    enableFloorSettingEnforcement: true

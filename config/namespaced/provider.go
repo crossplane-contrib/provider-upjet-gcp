@@ -37,6 +37,7 @@ import (
 	"github.com/upbound/provider-gcp/v2/config/namespaced/identityplatform"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/kms"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/logging"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/modelarmor"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/monitoring"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/networksecurity"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/notebooks"
@@ -110,5 +111,6 @@ func init() {
 	ProviderConfiguration.AddConfig(vpcaccess.Configure)
 	ProviderConfiguration.AddConfig(healthcare.Configure)
 	ProviderConfiguration.AddConfig(gkehub.Configure)
+	ProviderConfiguration.AddConfig(modelarmor.Configure)
 	ProviderConfiguration.AddConfig(monitoring.Configure)
 }

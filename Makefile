@@ -190,8 +190,10 @@ pull-docs:
 	rm -fR "$(WORK_DIR)/$(notdir $(TERRAFORM_PROVIDER_REPO))"
 	git clone -c advice.detachedHead=false --depth 1 --filter=blob:none --branch "v$(TERRAFORM_PROVIDER_VERSION)" --sparse "$(TERRAFORM_PROVIDER_REPO)" "$(WORK_DIR)/$(notdir $(TERRAFORM_PROVIDER_REPO))";
 	@git -C "$(WORK_DIR)/$(notdir $(TERRAFORM_PROVIDER_REPO))" sparse-checkout set "$(TERRAFORM_DOCS_PATH)"
-	@# remove this because doesn't fit the scraper
-	@rm -fR .work/terraform-provider-google/website/docs/r/model_armor_template.html.markdown
+	@# workaround for fetching fixed docs of model_armor_template. Prior to this version, examples were malformed in the docs
+	@# TODO: remove after TF provider version is bumped v7.27.0+
+	@git -C "$(WORK_DIR)/$(notdir $(TERRAFORM_PROVIDER_REPO))" fetch --depth 1 origin v7.27.0
+	@git -C "$(WORK_DIR)/$(notdir $(TERRAFORM_PROVIDER_REPO))" checkout FETCH_HEAD -- "$(TERRAFORM_DOCS_PATH)/model_armor_template.html.markdown"
 
 generate.init: $(TERRAFORM_PROVIDER_SCHEMA) pull-docs
 
