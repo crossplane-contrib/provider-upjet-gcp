@@ -542,6 +542,10 @@ type RegionInstanceGroupManagerParameters struct {
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
+	// The standby policy for stopped and suspended instances. Structure is documented below. For more information, see the official documentation.
+	// +kubebuilder:validation:Optional
+	StandbyPolicy []RegionInstanceGroupManagerStandbyPolicyParameters `json:"standbyPolicy,omitempty" tf:"standby_policy,omitempty"`
+
 	// Disks created on the instances that will be preserved on instance delete, update, etc. Structure is documented below. For more information see the official documentation. Proactive cross zone instance redistribution must be disabled before you can update stateful disks on existing instance group managers. This can be controlled via the update_policy.
 	// +kubebuilder:validation:Optional
 	StatefulDisk []RegionInstanceGroupManagerStatefulDiskParameters `json:"statefulDisk,omitempty" tf:"stateful_disk,omitempty"`

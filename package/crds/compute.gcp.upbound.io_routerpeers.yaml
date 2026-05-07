@@ -904,6 +904,25 @@ spec:
                   md5AuthenticationKey:
                     items:
                       properties:
+                        keySecretRef:
+                          description: The MD5 authentication key for this BGP peer.
+                            Maximum length is 80 characters. Can only contain printable
+                            ASCII characters
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
                         name:
                           description: |-
                             Name of this BGP peer. The name must be 1-63 characters long,
@@ -913,6 +932,8 @@ spec:
                             following characters must be a dash, lowercase letter, or digit,
                             except the last character, which cannot be a dash.
                           type: string
+                      required:
+                      - keySecretRef
                       type: object
                     type: array
                   peerAsn:

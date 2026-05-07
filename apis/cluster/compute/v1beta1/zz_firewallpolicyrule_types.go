@@ -73,6 +73,9 @@ type FirewallPolicyRuleObservation struct {
 	// The Action to perform when the client connection triggers the rule. Valid actions are "allow", "deny" and "goto_next".
 	Action *string `json:"action,omitempty" tf:"action,omitempty"`
 
+	// Creation timestamp in RFC3339 text format.
+	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
 	// An optional description for this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -224,6 +227,14 @@ type MatchInitParameters struct {
 	// Address groups which should be matched against the traffic destination. Maximum number of destination address groups is 10. Destination address groups is only supported in Egress rules.
 	DestAddressGroups []*string `json:"destAddressGroups,omitempty" tf:"dest_address_groups,omitempty"`
 
+	// References to NetworkFirewallPolicy in compute to populate destAddressGroups.
+	// +kubebuilder:validation:Optional
+	DestAddressGroupsRefs []v1.Reference `json:"destAddressGroupsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of NetworkFirewallPolicy in compute to populate destAddressGroups.
+	// +kubebuilder:validation:Optional
+	DestAddressGroupsSelector *v1.Selector `json:"destAddressGroupsSelector,omitempty" tf:"-"`
+
 	// Domain names that will be used to match against the resolved domain name of destination of traffic. Can only be specified if DIRECTION is egress.
 	DestFqdns []*string `json:"destFqdns,omitempty" tf:"dest_fqdns,omitempty"`
 
@@ -304,6 +315,14 @@ type MatchParameters struct {
 	// Address groups which should be matched against the traffic destination. Maximum number of destination address groups is 10. Destination address groups is only supported in Egress rules.
 	// +kubebuilder:validation:Optional
 	DestAddressGroups []*string `json:"destAddressGroups,omitempty" tf:"dest_address_groups,omitempty"`
+
+	// References to NetworkFirewallPolicy in compute to populate destAddressGroups.
+	// +kubebuilder:validation:Optional
+	DestAddressGroupsRefs []v1.Reference `json:"destAddressGroupsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of NetworkFirewallPolicy in compute to populate destAddressGroups.
+	// +kubebuilder:validation:Optional
+	DestAddressGroupsSelector *v1.Selector `json:"destAddressGroupsSelector,omitempty" tf:"-"`
 
 	// Domain names that will be used to match against the resolved domain name of destination of traffic. Can only be specified if DIRECTION is egress.
 	// +kubebuilder:validation:Optional

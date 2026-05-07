@@ -401,15 +401,21 @@ spec:
                               caviumCerts:
                                 description: Cavium certificate chain corresponding
                                   to the attestation.
-                                type: string
+                                items:
+                                  type: string
+                                type: array
                               googleCardCerts:
                                 description: Google card certificate chain corresponding
                                   to the attestation.
-                                type: string
+                                items:
+                                  type: string
+                                type: array
                               googlePartitionCerts:
                                 description: Google partition certificate chain corresponding
                                   to the attestation.
-                                type: string
+                                items:
+                                  type: string
+                                type: array
                             type: object
                           type: array
                         content:

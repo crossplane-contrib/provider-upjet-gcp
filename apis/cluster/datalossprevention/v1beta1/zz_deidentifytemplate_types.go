@@ -1782,6 +1782,10 @@ type CryptoDeterministicConfigCryptoKeyTransientParameters struct {
 }
 
 type CryptoDeterministicConfigCryptoKeyUnwrappedInitParameters struct {
+
+	// A 128/192/256 bit key.
+	// A base64-encoded string.
+	KeySecretRef v1.SecretKeySelector `json:"keySecretRef" tf:"-"`
 }
 
 type CryptoDeterministicConfigCryptoKeyUnwrappedObservation struct {
@@ -2028,6 +2032,10 @@ type CryptoHashConfigCryptoKeyTransientParameters struct {
 }
 
 type CryptoHashConfigCryptoKeyUnwrappedInitParameters struct {
+
+	// A 128/192/256 bit key.
+	// A base64-encoded string.
+	KeySecretRef v1.SecretKeySelector `json:"keySecretRef" tf:"-"`
 }
 
 type CryptoHashConfigCryptoKeyUnwrappedObservation struct {
@@ -5901,6 +5909,10 @@ type PrimitiveTransformationCryptoReplaceFfxFpeConfigCryptoKeyTransientParameter
 }
 
 type PrimitiveTransformationCryptoReplaceFfxFpeConfigCryptoKeyUnwrappedInitParameters struct {
+
+	// A 128/192/256 bit key.
+	// A base64-encoded string.
+	KeySecretRef v1.SecretKeySelector `json:"keySecretRef" tf:"-"`
 }
 
 type PrimitiveTransformationCryptoReplaceFfxFpeConfigCryptoKeyUnwrappedObservation struct {
@@ -6202,6 +6214,10 @@ type PrimitiveTransformationDateShiftConfigCryptoKeyTransientParameters struct {
 }
 
 type PrimitiveTransformationDateShiftConfigCryptoKeyUnwrappedInitParameters struct {
+
+	// A 128/192/256 bit key.
+	// A base64-encoded string.
+	KeySecretRef v1.SecretKeySelector `json:"keySecretRef" tf:"-"`
 }
 
 type PrimitiveTransformationDateShiftConfigCryptoKeyUnwrappedObservation struct {

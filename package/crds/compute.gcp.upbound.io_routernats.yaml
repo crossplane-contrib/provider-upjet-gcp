@@ -115,6 +115,14 @@ spec:
                     description: Timeout (in seconds) for ICMP connections. Defaults
                       to 30s if not set.
                     type: number
+                  initialNatIps:
+                    description: |-
+                      Self-links of NAT IPs to be used as initial value for creation alongside a RouterNatAddress resource.
+                      Conflicts with natIps and drainNatIps. Only valid if natIpAllocateOption is set to MANUAL_ONLY.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
                   logConfig:
                     description: |-
                       Configuration for logging on NAT
@@ -141,6 +149,19 @@ spec:
                       NAT. Defaults to 64 for static port allocation and 32 dynamic
                       port allocation if not set.
                     type: number
+                  nat64Subnetwork:
+                    description: |-
+                      One or more subnetwork NAT configurations whose traffic should be translated by NAT64 Gateway.
+                      Only used if source_subnetwork_ip_ranges_to_nat64 is set to LIST_OF_IPV6_SUBNETWORKS
+                      Structure is documented below.
+                    items:
+                      properties:
+                        name:
+                          description: Self-link of the subnetwork resource that will
+                            use NAT64
+                          type: string
+                      type: object
+                    type: array
                   natIpAllocateOption:
                     description: |-
                       How external IPs should be allocated for this NAT. Valid values are
@@ -563,6 +584,13 @@ spec:
                       other RouterNat section in any Router for this network in this region.
                       Possible values are: ALL_SUBNETWORKS_ALL_IP_RANGES, ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES, LIST_OF_SUBNETWORKS.
                     type: string
+                  sourceSubnetworkIpRangesToNat64:
+                    description: |-
+                      Specify the Nat option for NAT64, which can take one of the following values:
+                      ALL_IPV6_SUBNETWORKS: All of the IP ranges in every Subnetwork are allowed to Nat.
+                      LIST_OF_IPV6_SUBNETWORKS: A list of Subnetworks are allowed to Nat (specified in the field nat64Subnetwork below).
+                      Possible values are: ALL_IPV6_SUBNETWORKS, LIST_OF_IPV6_SUBNETWORKS.
+                    type: string
                   subnetwork:
                     description: |-
                       One or more subnetwork NAT configurations. Only used if
@@ -686,6 +714,11 @@ spec:
                       Timeout (in seconds) for TCP transitory connections.
                       Defaults to 30s if not set.
                     type: number
+                  type:
+                    description: |-
+                      Indicates whether this NAT is used for public or private IP translation.
+                      Possible values are: PUBLIC, PRIVATE.
+                    type: string
                   udpIdleTimeoutSec:
                     description: Timeout (in seconds) for UDP connections. Defaults
                       to 30s if not set.
@@ -748,6 +781,14 @@ spec:
                     description: Timeout (in seconds) for ICMP connections. Defaults
                       to 30s if not set.
                     type: number
+                  initialNatIps:
+                    description: |-
+                      Self-links of NAT IPs to be used as initial value for creation alongside a RouterNatAddress resource.
+                      Conflicts with natIps and drainNatIps. Only valid if natIpAllocateOption is set to MANUAL_ONLY.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
                   logConfig:
                     description: |-
                       Configuration for logging on NAT
@@ -774,6 +815,19 @@ spec:
                       NAT. Defaults to 64 for static port allocation and 32 dynamic
                       port allocation if not set.
                     type: number
+                  nat64Subnetwork:
+                    description: |-
+                      One or more subnetwork NAT configurations whose traffic should be translated by NAT64 Gateway.
+                      Only used if source_subnetwork_ip_ranges_to_nat64 is set to LIST_OF_IPV6_SUBNETWORKS
+                      Structure is documented below.
+                    items:
+                      properties:
+                        name:
+                          description: Self-link of the subnetwork resource that will
+                            use NAT64
+                          type: string
+                      type: object
+                    type: array
                   natIpAllocateOption:
                     description: |-
                       How external IPs should be allocated for this NAT. Valid values are
@@ -1115,6 +1169,13 @@ spec:
                       other RouterNat section in any Router for this network in this region.
                       Possible values are: ALL_SUBNETWORKS_ALL_IP_RANGES, ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES, LIST_OF_SUBNETWORKS.
                     type: string
+                  sourceSubnetworkIpRangesToNat64:
+                    description: |-
+                      Specify the Nat option for NAT64, which can take one of the following values:
+                      ALL_IPV6_SUBNETWORKS: All of the IP ranges in every Subnetwork are allowed to Nat.
+                      LIST_OF_IPV6_SUBNETWORKS: A list of Subnetworks are allowed to Nat (specified in the field nat64Subnetwork below).
+                      Possible values are: ALL_IPV6_SUBNETWORKS, LIST_OF_IPV6_SUBNETWORKS.
+                    type: string
                   subnetwork:
                     description: |-
                       One or more subnetwork NAT configurations. Only used if
@@ -1238,6 +1299,13 @@ spec:
                       Timeout (in seconds) for TCP transitory connections.
                       Defaults to 30s if not set.
                     type: number
+                  type:
+                    description: |-
+                      Indicates whether this NAT is used for public or private IP translation.
+                      If unspecified, it defaults to PUBLIC.
+                      Default value is PUBLIC.
+                      Possible values are: PUBLIC, PRIVATE.
+                    type: string
                   udpIdleTimeoutSec:
                     description: Timeout (in seconds) for UDP connections. Defaults
                       to 30s if not set.
@@ -1385,6 +1453,14 @@ spec:
                   id:
                     description: an identifier for the resource with format {{project}}/{{region}}/{{router}}/{{name}}
                     type: string
+                  initialNatIps:
+                    description: |-
+                      Self-links of NAT IPs to be used as initial value for creation alongside a RouterNatAddress resource.
+                      Conflicts with natIps and drainNatIps. Only valid if natIpAllocateOption is set to MANUAL_ONLY.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
                   logConfig:
                     description: |-
                       Configuration for logging on NAT
@@ -1411,6 +1487,19 @@ spec:
                       NAT. Defaults to 64 for static port allocation and 32 dynamic
                       port allocation if not set.
                     type: number
+                  nat64Subnetwork:
+                    description: |-
+                      One or more subnetwork NAT configurations whose traffic should be translated by NAT64 Gateway.
+                      Only used if source_subnetwork_ip_ranges_to_nat64 is set to LIST_OF_IPV6_SUBNETWORKS
+                      Structure is documented below.
+                    items:
+                      properties:
+                        name:
+                          description: Self-link of the subnetwork resource that will
+                            use NAT64
+                          type: string
+                      type: object
+                    type: array
                   natIpAllocateOption:
                     description: |-
                       How external IPs should be allocated for this NAT. Valid values are
@@ -1523,6 +1612,13 @@ spec:
                       other RouterNat section in any Router for this network in this region.
                       Possible values are: ALL_SUBNETWORKS_ALL_IP_RANGES, ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES, LIST_OF_SUBNETWORKS.
                     type: string
+                  sourceSubnetworkIpRangesToNat64:
+                    description: |-
+                      Specify the Nat option for NAT64, which can take one of the following values:
+                      ALL_IPV6_SUBNETWORKS: All of the IP ranges in every Subnetwork are allowed to Nat.
+                      LIST_OF_IPV6_SUBNETWORKS: A list of Subnetworks are allowed to Nat (specified in the field nat64Subnetwork below).
+                      Possible values are: ALL_IPV6_SUBNETWORKS, LIST_OF_IPV6_SUBNETWORKS.
+                    type: string
                   subnetwork:
                     description: |-
                       One or more subnetwork NAT configurations. Only used if
@@ -1570,6 +1666,11 @@ spec:
                       Timeout (in seconds) for TCP transitory connections.
                       Defaults to 30s if not set.
                     type: number
+                  type:
+                    description: |-
+                      Indicates whether this NAT is used for public or private IP translation.
+                      Possible values are: PUBLIC, PRIVATE.
+                    type: string
                   udpIdleTimeoutSec:
                     description: Timeout (in seconds) for UDP connections. Defaults
                       to 30s if not set.

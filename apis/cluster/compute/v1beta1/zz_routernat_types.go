@@ -194,6 +194,11 @@ type RouterNATInitParameters struct {
 	// Timeout (in seconds) for ICMP connections. Defaults to 30s if not set.
 	IcmpIdleTimeoutSec *float64 `json:"icmpIdleTimeoutSec,omitempty" tf:"icmp_idle_timeout_sec,omitempty"`
 
+	// Self-links of NAT IPs to be used as initial value for creation alongside a RouterNatAddress resource.
+	// Conflicts with natIps and drainNatIps. Only valid if natIpAllocateOption is set to MANUAL_ONLY.
+	// +listType=set
+	InitialNATIps []*string `json:"initialNatIps,omitempty" tf:"initial_nat_ips,omitempty"`
+
 	// Configuration for logging on NAT
 	// Structure is documented below.
 	LogConfig []RouterNATLogConfigInitParameters `json:"logConfig,omitempty" tf:"log_config,omitempty"`
@@ -226,6 +231,11 @@ type RouterNATInitParameters struct {
 	// +kubebuilder:validation:Optional
 	NATIpsSelector *v1.Selector `json:"natIpsSelector,omitempty" tf:"-"`
 
+	// One or more subnetwork NAT configurations whose traffic should be translated by NAT64 Gateway.
+	// Only used if source_subnetwork_ip_ranges_to_nat64 is set to LIST_OF_IPV6_SUBNETWORKS
+	// Structure is documented below.
+	Nat64Subnetwork []Nat64SubnetworkInitParameters `json:"nat64Subnetwork,omitempty" tf:"nat64_subnetwork,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -247,6 +257,12 @@ type RouterNATInitParameters struct {
 	// Possible values are: ALL_SUBNETWORKS_ALL_IP_RANGES, ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES, LIST_OF_SUBNETWORKS.
 	SourceSubnetworkIPRangesToNAT *string `json:"sourceSubnetworkIpRangesToNat,omitempty" tf:"source_subnetwork_ip_ranges_to_nat,omitempty"`
 
+	// Specify the Nat option for NAT64, which can take one of the following values:
+	// ALL_IPV6_SUBNETWORKS: All of the IP ranges in every Subnetwork are allowed to Nat.
+	// LIST_OF_IPV6_SUBNETWORKS: A list of Subnetworks are allowed to Nat (specified in the field nat64Subnetwork below).
+	// Possible values are: ALL_IPV6_SUBNETWORKS, LIST_OF_IPV6_SUBNETWORKS.
+	SourceSubnetworkIPRangesToNat64 *string `json:"sourceSubnetworkIpRangesToNat64,omitempty" tf:"source_subnetwork_ip_ranges_to_nat64,omitempty"`
+
 	// One or more subnetwork NAT configurations. Only used if
 	// source_subnetwork_ip_ranges_to_nat is set to LIST_OF_SUBNETWORKS
 	// Structure is documented below.
@@ -263,6 +279,12 @@ type RouterNATInitParameters struct {
 	// Timeout (in seconds) for TCP transitory connections.
 	// Defaults to 30s if not set.
 	TCPTransitoryIdleTimeoutSec *float64 `json:"tcpTransitoryIdleTimeoutSec,omitempty" tf:"tcp_transitory_idle_timeout_sec,omitempty"`
+
+	// Indicates whether this NAT is used for public or private IP translation.
+	// If unspecified, it defaults to PUBLIC.
+	// Default value is PUBLIC.
+	// Possible values are: PUBLIC, PRIVATE.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// Timeout (in seconds) for UDP connections. Defaults to 30s if not set.
 	UDPIdleTimeoutSec *float64 `json:"udpIdleTimeoutSec,omitempty" tf:"udp_idle_timeout_sec,omitempty"`
@@ -337,6 +359,11 @@ type RouterNATObservation struct {
 	// Timeout (in seconds) for ICMP connections. Defaults to 30s if not set.
 	IcmpIdleTimeoutSec *float64 `json:"icmpIdleTimeoutSec,omitempty" tf:"icmp_idle_timeout_sec,omitempty"`
 
+	// Self-links of NAT IPs to be used as initial value for creation alongside a RouterNatAddress resource.
+	// Conflicts with natIps and drainNatIps. Only valid if natIpAllocateOption is set to MANUAL_ONLY.
+	// +listType=set
+	InitialNATIps []*string `json:"initialNatIps,omitempty" tf:"initial_nat_ips,omitempty"`
+
 	// Configuration for logging on NAT
 	// Structure is documented below.
 	LogConfig []RouterNATLogConfigObservation `json:"logConfig,omitempty" tf:"log_config,omitempty"`
@@ -358,6 +385,11 @@ type RouterNATObservation struct {
 	// is set to MANUAL_ONLY.
 	// +listType=set
 	NATIps []*string `json:"natIps,omitempty" tf:"nat_ips,omitempty"`
+
+	// One or more subnetwork NAT configurations whose traffic should be translated by NAT64 Gateway.
+	// Only used if source_subnetwork_ip_ranges_to_nat64 is set to LIST_OF_IPV6_SUBNETWORKS
+	// Structure is documented below.
+	Nat64Subnetwork []Nat64SubnetworkObservation `json:"nat64Subnetwork,omitempty" tf:"nat64_subnetwork,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -386,6 +418,12 @@ type RouterNATObservation struct {
 	// Possible values are: ALL_SUBNETWORKS_ALL_IP_RANGES, ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES, LIST_OF_SUBNETWORKS.
 	SourceSubnetworkIPRangesToNAT *string `json:"sourceSubnetworkIpRangesToNat,omitempty" tf:"source_subnetwork_ip_ranges_to_nat,omitempty"`
 
+	// Specify the Nat option for NAT64, which can take one of the following values:
+	// ALL_IPV6_SUBNETWORKS: All of the IP ranges in every Subnetwork are allowed to Nat.
+	// LIST_OF_IPV6_SUBNETWORKS: A list of Subnetworks are allowed to Nat (specified in the field nat64Subnetwork below).
+	// Possible values are: ALL_IPV6_SUBNETWORKS, LIST_OF_IPV6_SUBNETWORKS.
+	SourceSubnetworkIPRangesToNat64 *string `json:"sourceSubnetworkIpRangesToNat64,omitempty" tf:"source_subnetwork_ip_ranges_to_nat64,omitempty"`
+
 	// One or more subnetwork NAT configurations. Only used if
 	// source_subnetwork_ip_ranges_to_nat is set to LIST_OF_SUBNETWORKS
 	// Structure is documented below.
@@ -402,6 +440,10 @@ type RouterNATObservation struct {
 	// Timeout (in seconds) for TCP transitory connections.
 	// Defaults to 30s if not set.
 	TCPTransitoryIdleTimeoutSec *float64 `json:"tcpTransitoryIdleTimeoutSec,omitempty" tf:"tcp_transitory_idle_timeout_sec,omitempty"`
+
+	// Indicates whether this NAT is used for public or private IP translation.
+	// Possible values are: PUBLIC, PRIVATE.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// Timeout (in seconds) for UDP connections. Defaults to 30s if not set.
 	UDPIdleTimeoutSec *float64 `json:"udpIdleTimeoutSec,omitempty" tf:"udp_idle_timeout_sec,omitempty"`
@@ -447,6 +489,12 @@ type RouterNATParameters struct {
 	// +kubebuilder:validation:Optional
 	IcmpIdleTimeoutSec *float64 `json:"icmpIdleTimeoutSec,omitempty" tf:"icmp_idle_timeout_sec,omitempty"`
 
+	// Self-links of NAT IPs to be used as initial value for creation alongside a RouterNatAddress resource.
+	// Conflicts with natIps and drainNatIps. Only valid if natIpAllocateOption is set to MANUAL_ONLY.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	InitialNATIps []*string `json:"initialNatIps,omitempty" tf:"initial_nat_ips,omitempty"`
+
 	// Configuration for logging on NAT
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -483,6 +531,12 @@ type RouterNATParameters struct {
 	// Selector for a list of Address in compute to populate natIps.
 	// +kubebuilder:validation:Optional
 	NATIpsSelector *v1.Selector `json:"natIpsSelector,omitempty" tf:"-"`
+
+	// One or more subnetwork NAT configurations whose traffic should be translated by NAT64 Gateway.
+	// Only used if source_subnetwork_ip_ranges_to_nat64 is set to LIST_OF_IPV6_SUBNETWORKS
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Nat64Subnetwork []Nat64SubnetworkParameters `json:"nat64Subnetwork,omitempty" tf:"nat64_subnetwork,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -525,6 +579,13 @@ type RouterNATParameters struct {
 	// +kubebuilder:validation:Optional
 	SourceSubnetworkIPRangesToNAT *string `json:"sourceSubnetworkIpRangesToNat,omitempty" tf:"source_subnetwork_ip_ranges_to_nat,omitempty"`
 
+	// Specify the Nat option for NAT64, which can take one of the following values:
+	// ALL_IPV6_SUBNETWORKS: All of the IP ranges in every Subnetwork are allowed to Nat.
+	// LIST_OF_IPV6_SUBNETWORKS: A list of Subnetworks are allowed to Nat (specified in the field nat64Subnetwork below).
+	// Possible values are: ALL_IPV6_SUBNETWORKS, LIST_OF_IPV6_SUBNETWORKS.
+	// +kubebuilder:validation:Optional
+	SourceSubnetworkIPRangesToNat64 *string `json:"sourceSubnetworkIpRangesToNat64,omitempty" tf:"source_subnetwork_ip_ranges_to_nat64,omitempty"`
+
 	// One or more subnetwork NAT configurations. Only used if
 	// source_subnetwork_ip_ranges_to_nat is set to LIST_OF_SUBNETWORKS
 	// Structure is documented below.
@@ -545,6 +606,11 @@ type RouterNATParameters struct {
 	// Defaults to 30s if not set.
 	// +kubebuilder:validation:Optional
 	TCPTransitoryIdleTimeoutSec *float64 `json:"tcpTransitoryIdleTimeoutSec,omitempty" tf:"tcp_transitory_idle_timeout_sec,omitempty"`
+
+	// Indicates whether this NAT is used for public or private IP translation.
+	// Possible values are: PUBLIC, PRIVATE.
+	// +kubebuilder:validation:Optional
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// Timeout (in seconds) for UDP connections. Defaults to 30s if not set.
 	// +kubebuilder:validation:Optional

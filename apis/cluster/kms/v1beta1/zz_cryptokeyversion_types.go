@@ -44,13 +44,13 @@ type CertChainsInitParameters struct {
 type CertChainsObservation struct {
 
 	// Cavium certificate chain corresponding to the attestation.
-	CaviumCerts *string `json:"caviumCerts,omitempty" tf:"cavium_certs,omitempty"`
+	CaviumCerts []*string `json:"caviumCerts,omitempty" tf:"cavium_certs,omitempty"`
 
 	// Google card certificate chain corresponding to the attestation.
-	GoogleCardCerts *string `json:"googleCardCerts,omitempty" tf:"google_card_certs,omitempty"`
+	GoogleCardCerts []*string `json:"googleCardCerts,omitempty" tf:"google_card_certs,omitempty"`
 
 	// Google partition certificate chain corresponding to the attestation.
-	GooglePartitionCerts *string `json:"googlePartitionCerts,omitempty" tf:"google_partition_certs,omitempty"`
+	GooglePartitionCerts []*string `json:"googlePartitionCerts,omitempty" tf:"google_partition_certs,omitempty"`
 }
 
 type CertChainsParameters struct {

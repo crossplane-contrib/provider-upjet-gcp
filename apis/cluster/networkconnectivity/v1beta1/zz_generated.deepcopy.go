@@ -3170,6 +3170,16 @@ func (in *SpokeInitParameters) DeepCopyInto(out *SpokeInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.GroupRef != nil {
+		in, out := &in.GroupRef, &out.GroupRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.GroupSelector != nil {
+		in, out := &in.GroupSelector, &out.GroupSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Hub != nil {
 		in, out := &in.Hub, &out.Hub
 		*out = new(string)
@@ -3467,6 +3477,16 @@ func (in *SpokeParameters) DeepCopyInto(out *SpokeParameters) {
 		in, out := &in.Group, &out.Group
 		*out = new(string)
 		**out = **in
+	}
+	if in.GroupRef != nil {
+		in, out := &in.GroupRef, &out.GroupRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.GroupSelector != nil {
+		in, out := &in.GroupSelector, &out.GroupSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Hub != nil {
 		in, out := &in.Hub, &out.Hub
