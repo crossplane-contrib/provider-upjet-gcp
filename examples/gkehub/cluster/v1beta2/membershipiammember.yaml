@@ -35,6 +35,7 @@ spec:
         resourceLinkSelector:
           matchLabels:
             testing.upbound.io/example-name: membership
+    location: us-central1
 
 ---
 

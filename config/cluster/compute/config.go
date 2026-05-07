@@ -146,7 +146,7 @@ func Configure(p *config.Provider) { // nolint: gocyclo
 				delete(diff.Attributes, "confidential_instance_config.#")
 			}
 			for key := range diff.Attributes {
-				if strings.HasPrefix(key, "disk.") && strings.HasSuffix(key, ".#") {
+				if strings.HasPrefix(key, "disk.") && (strings.HasSuffix(key, ".source_image_encryption_key.#") || strings.HasSuffix(key, ".source_snapshot_encryption_key.#")) {
 					delete(diff.Attributes, key)
 				}
 			}
