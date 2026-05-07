@@ -5,6 +5,8 @@
 package compute
 
 import (
+	"strings"
+
 	"github.com/crossplane/crossplane-runtime/v2/pkg/fieldpath"
 	"github.com/crossplane/crossplane-runtime/v2/pkg/reference"
 	"github.com/crossplane/crossplane-runtime/v2/pkg/resource"
@@ -142,6 +144,11 @@ func Configure(p *config.Provider) { // nolint: gocyclo
 			}
 			if cicDiff, ok := diff.Attributes["confidential_instance_config.#"]; ok && cicDiff.Old == "" && cicDiff.New == "" {
 				delete(diff.Attributes, "confidential_instance_config.#")
+			}
+			for key := range diff.Attributes {
+				if strings.HasPrefix(key, "disk.") && strings.HasSuffix(key, ".#") {
+					delete(diff.Attributes, key)
+				}
 			}
 			return diff, nil
 		}
