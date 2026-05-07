@@ -35,6 +35,7 @@ spec:
         resourceLinkSelector:
           matchLabels:
             testing.upbound.io/example-name: membership
+    location: us-central1
 ---
 apiVersion: container.gcp.m.upbound.io/v1beta1
 kind: Cluster
