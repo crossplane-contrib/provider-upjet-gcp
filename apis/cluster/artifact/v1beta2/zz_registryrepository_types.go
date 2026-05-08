@@ -1209,6 +1209,7 @@ type RegistryRepositoryStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // RegistryRepository is the Schema for the RegistryRepositorys API. A repository for storing artifacts
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

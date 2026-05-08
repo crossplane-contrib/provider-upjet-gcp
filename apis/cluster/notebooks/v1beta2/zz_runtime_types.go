@@ -1063,6 +1063,7 @@ type RuntimeStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Runtime is the Schema for the Runtimes API. A Cloud AI Platform Notebook runtime.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

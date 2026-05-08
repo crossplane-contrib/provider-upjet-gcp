@@ -647,6 +647,7 @@ type SpokeStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Spoke is the Schema for the Spokes API. The NetworkConnectivity Spoke resource
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

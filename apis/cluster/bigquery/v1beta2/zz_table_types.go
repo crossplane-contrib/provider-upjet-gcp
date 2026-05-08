@@ -2006,6 +2006,7 @@ type TableStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Table is the Schema for the Tables API. Creates a table resource in a dataset for Google BigQuery.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

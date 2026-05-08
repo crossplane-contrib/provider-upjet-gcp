@@ -519,6 +519,7 @@ type SecretStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Secret is the Schema for the Secrets API. A Secret is a logical secret whose value and versions can be accessed.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

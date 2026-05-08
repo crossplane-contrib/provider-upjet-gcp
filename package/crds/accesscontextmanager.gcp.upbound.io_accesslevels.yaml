@@ -31,12 +31,14 @@ spec:
     - jsonPath: .metadata.creationTimestamp
       name: AGE
       type: date
+    deprecated: true
+    deprecationWarning: This API version is deprecated. Deprecated since v2.6.0.
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: AccessLevel is the Schema for the AccessLevels API. An AccessLevel
-          is a label that can be applied to requests to GCP services, along with a
-          list of requirements necessary for the label to be applied.
+        description: |-
+          AccessLevel is the Schema for the AccessLevels API. An AccessLevel is a label that can be applied to requests to GCP services, along with a list of requirements necessary for the label to be applied.
+          Deprecated: This API version (v1beta1) has been deprecated in release v2.6.0.
         properties:
           apiVersion:
             description: |-
@@ -924,7 +926,7 @@ spec:
         - spec
         type: object
     served: true
-    storage: true
+    storage: false
     subresources:
       status: {}
   - additionalPrinterColumns:
@@ -1800,6 +1802,6 @@ spec:
         - spec
         type: object
     served: true
-    storage: false
+    storage: true
     subresources:
       status: {}

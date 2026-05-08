@@ -882,6 +882,7 @@ type HealthCheckStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // HealthCheck is the Schema for the HealthChecks API. Health Checks determine whether instances are responsive and able to do work.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

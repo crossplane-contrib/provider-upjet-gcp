@@ -245,6 +245,7 @@ type InboundSAMLConfigStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // InboundSAMLConfig is the Schema for the InboundSAMLConfigs API. Inbound SAML configuration for a Identity Toolkit project.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

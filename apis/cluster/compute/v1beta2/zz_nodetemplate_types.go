@@ -362,6 +362,7 @@ type NodeTemplateStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // NodeTemplate is the Schema for the NodeTemplates API. Represents a NodeTemplate resource.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

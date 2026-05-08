@@ -261,6 +261,7 @@ type LiteTopicStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // LiteTopic is the Schema for the LiteTopics API. A named resource to which messages are sent by publishers.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

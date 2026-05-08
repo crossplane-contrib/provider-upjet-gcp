@@ -685,6 +685,7 @@ type AutoscalerStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Autoscaler is the Schema for the Autoscalers API. Represents an Autoscaler resource.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

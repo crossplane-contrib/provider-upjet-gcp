@@ -821,6 +821,7 @@ type RouterNATStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // RouterNAT is the Schema for the RouterNATs API. A NAT service created in a router.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

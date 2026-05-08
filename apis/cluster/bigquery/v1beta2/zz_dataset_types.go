@@ -1017,6 +1017,7 @@ type DatasetStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Dataset is the Schema for the Datasets API. Datasets allow you to organize and control access to your tables.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

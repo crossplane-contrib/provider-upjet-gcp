@@ -268,6 +268,7 @@ type ProjectSinkStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // ProjectSink is the Schema for the ProjectSinks API. Manages a project-level logging sink.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

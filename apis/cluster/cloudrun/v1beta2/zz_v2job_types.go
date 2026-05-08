@@ -1648,6 +1648,7 @@ type V2JobStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // V2Job is the Schema for the V2Jobs API. A Cloud Run Job resource that references a container image which is run to completion.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

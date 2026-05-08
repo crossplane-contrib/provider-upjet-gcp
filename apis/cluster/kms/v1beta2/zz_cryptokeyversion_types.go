@@ -216,6 +216,7 @@ type CryptoKeyVersionStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // CryptoKeyVersion is the Schema for the CryptoKeyVersions API. A
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

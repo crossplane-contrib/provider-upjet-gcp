@@ -247,6 +247,7 @@ type AppProfileStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // AppProfile is the Schema for the AppProfiles API. App profile is a configuration object describing how Cloud Bigtable should treat traffic from a particular end user application.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

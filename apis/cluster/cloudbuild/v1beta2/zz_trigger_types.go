@@ -2680,6 +2680,7 @@ type TriggerStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Trigger is the Schema for the Triggers API. Configuration for an automated build in response to source repository changes.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
