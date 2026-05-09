@@ -33,59 +33,35 @@ type AdaptiveProtectionConfigParameters struct {
 	Layer7DdosDefenseConfig *Layer7DdosDefenseConfigParameters `json:"layer7DdosDefenseConfig,omitempty" tf:"layer_7_ddos_defense_config,omitempty"`
 }
 
-type AdvancedOptionsConfigInitParameters struct {
+type AdvancedOptionsConfigJSONCustomConfigInitParameters struct {
 
-	// Custom configuration to apply the JSON parsing. Only applicable when
-	// json_parsing is set to STANDARD. Structure is documented below.
-	JSONCustomConfig *JSONCustomConfigInitParameters `json:"jsonCustomConfig,omitempty" tf:"json_custom_config,omitempty"`
-
-	// Whether or not to JSON parse the payload body. Defaults to DISABLED.
-	JSONParsing *string `json:"jsonParsing,omitempty" tf:"json_parsing,omitempty"`
-
-	// Log level to use. Defaults to NORMAL.
-	LogLevel *string `json:"logLevel,omitempty" tf:"log_level,omitempty"`
-
-	// An optional list of case-insensitive request header names to use for resolving the callers client IP address.
+	// A list of custom Content-Type header values to apply the JSON parsing. The
+	// format of the Content-Type header values is defined in
+	// RFC 1341. When configuring a custom Content-Type header
+	// value, only the type/subtype needs to be specified, and the parameters should be excluded.
 	// +listType=set
-	UserIPRequestHeaders []*string `json:"userIpRequestHeaders,omitempty" tf:"user_ip_request_headers,omitempty"`
+	ContentTypes []*string `json:"contentTypes,omitempty" tf:"content_types,omitempty"`
 }
 
-type AdvancedOptionsConfigObservation struct {
+type AdvancedOptionsConfigJSONCustomConfigObservation struct {
 
-	// Custom configuration to apply the JSON parsing. Only applicable when
-	// json_parsing is set to STANDARD. Structure is documented below.
-	JSONCustomConfig *JSONCustomConfigObservation `json:"jsonCustomConfig,omitempty" tf:"json_custom_config,omitempty"`
-
-	// Whether or not to JSON parse the payload body. Defaults to DISABLED.
-	JSONParsing *string `json:"jsonParsing,omitempty" tf:"json_parsing,omitempty"`
-
-	// Log level to use. Defaults to NORMAL.
-	LogLevel *string `json:"logLevel,omitempty" tf:"log_level,omitempty"`
-
-	// An optional list of case-insensitive request header names to use for resolving the callers client IP address.
+	// A list of custom Content-Type header values to apply the JSON parsing. The
+	// format of the Content-Type header values is defined in
+	// RFC 1341. When configuring a custom Content-Type header
+	// value, only the type/subtype needs to be specified, and the parameters should be excluded.
 	// +listType=set
-	UserIPRequestHeaders []*string `json:"userIpRequestHeaders,omitempty" tf:"user_ip_request_headers,omitempty"`
+	ContentTypes []*string `json:"contentTypes,omitempty" tf:"content_types,omitempty"`
 }
 
-type AdvancedOptionsConfigParameters struct {
+type AdvancedOptionsConfigJSONCustomConfigParameters struct {
 
-	// Custom configuration to apply the JSON parsing. Only applicable when
-	// json_parsing is set to STANDARD. Structure is documented below.
-	// +kubebuilder:validation:Optional
-	JSONCustomConfig *JSONCustomConfigParameters `json:"jsonCustomConfig,omitempty" tf:"json_custom_config,omitempty"`
-
-	// Whether or not to JSON parse the payload body. Defaults to DISABLED.
-	// +kubebuilder:validation:Optional
-	JSONParsing *string `json:"jsonParsing,omitempty" tf:"json_parsing,omitempty"`
-
-	// Log level to use. Defaults to NORMAL.
-	// +kubebuilder:validation:Optional
-	LogLevel *string `json:"logLevel,omitempty" tf:"log_level,omitempty"`
-
-	// An optional list of case-insensitive request header names to use for resolving the callers client IP address.
+	// A list of custom Content-Type header values to apply the JSON parsing. The
+	// format of the Content-Type header values is defined in
+	// RFC 1341. When configuring a custom Content-Type header
+	// value, only the type/subtype needs to be specified, and the parameters should be excluded.
 	// +kubebuilder:validation:Optional
 	// +listType=set
-	UserIPRequestHeaders []*string `json:"userIpRequestHeaders,omitempty" tf:"user_ip_request_headers,omitempty"`
+	ContentTypes []*string `json:"contentTypes" tf:"content_types,omitempty"`
 }
 
 type ExceedRedirectOptionsInitParameters struct {
@@ -253,37 +229,6 @@ type ExprOptionsParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	RecaptchaOptions *RecaptchaOptionsParameters `json:"recaptchaOptions" tf:"recaptcha_options,omitempty"`
-}
-
-type JSONCustomConfigInitParameters struct {
-
-	// A list of custom Content-Type header values to apply the JSON parsing. The
-	// format of the Content-Type header values is defined in
-	// RFC 1341. When configuring a custom Content-Type header
-	// value, only the type/subtype needs to be specified, and the parameters should be excluded.
-	// +listType=set
-	ContentTypes []*string `json:"contentTypes,omitempty" tf:"content_types,omitempty"`
-}
-
-type JSONCustomConfigObservation struct {
-
-	// A list of custom Content-Type header values to apply the JSON parsing. The
-	// format of the Content-Type header values is defined in
-	// RFC 1341. When configuring a custom Content-Type header
-	// value, only the type/subtype needs to be specified, and the parameters should be excluded.
-	// +listType=set
-	ContentTypes []*string `json:"contentTypes,omitempty" tf:"content_types,omitempty"`
-}
-
-type JSONCustomConfigParameters struct {
-
-	// A list of custom Content-Type header values to apply the JSON parsing. The
-	// format of the Content-Type header values is defined in
-	// RFC 1341. When configuring a custom Content-Type header
-	// value, only the type/subtype needs to be specified, and the parameters should be excluded.
-	// +kubebuilder:validation:Optional
-	// +listType=set
-	ContentTypes []*string `json:"contentTypes" tf:"content_types,omitempty"`
 }
 
 type Layer7DdosDefenseConfigInitParameters struct {
@@ -964,6 +909,61 @@ type RuleRateLimitOptionsParameters struct {
 	RateLimitThreshold *RateLimitOptionsRateLimitThresholdParameters `json:"rateLimitThreshold" tf:"rate_limit_threshold,omitempty"`
 }
 
+type SecurityPolicyAdvancedOptionsConfigInitParameters struct {
+
+	// Custom configuration to apply the JSON parsing. Only applicable when
+	// json_parsing is set to STANDARD. Structure is documented below.
+	JSONCustomConfig *AdvancedOptionsConfigJSONCustomConfigInitParameters `json:"jsonCustomConfig,omitempty" tf:"json_custom_config,omitempty"`
+
+	// Whether or not to JSON parse the payload body. Defaults to DISABLED.
+	JSONParsing *string `json:"jsonParsing,omitempty" tf:"json_parsing,omitempty"`
+
+	// Log level to use. Defaults to NORMAL.
+	LogLevel *string `json:"logLevel,omitempty" tf:"log_level,omitempty"`
+
+	// An optional list of case-insensitive request header names to use for resolving the callers client IP address.
+	// +listType=set
+	UserIPRequestHeaders []*string `json:"userIpRequestHeaders,omitempty" tf:"user_ip_request_headers,omitempty"`
+}
+
+type SecurityPolicyAdvancedOptionsConfigObservation struct {
+
+	// Custom configuration to apply the JSON parsing. Only applicable when
+	// json_parsing is set to STANDARD. Structure is documented below.
+	JSONCustomConfig *AdvancedOptionsConfigJSONCustomConfigObservation `json:"jsonCustomConfig,omitempty" tf:"json_custom_config,omitempty"`
+
+	// Whether or not to JSON parse the payload body. Defaults to DISABLED.
+	JSONParsing *string `json:"jsonParsing,omitempty" tf:"json_parsing,omitempty"`
+
+	// Log level to use. Defaults to NORMAL.
+	LogLevel *string `json:"logLevel,omitempty" tf:"log_level,omitempty"`
+
+	// An optional list of case-insensitive request header names to use for resolving the callers client IP address.
+	// +listType=set
+	UserIPRequestHeaders []*string `json:"userIpRequestHeaders,omitempty" tf:"user_ip_request_headers,omitempty"`
+}
+
+type SecurityPolicyAdvancedOptionsConfigParameters struct {
+
+	// Custom configuration to apply the JSON parsing. Only applicable when
+	// json_parsing is set to STANDARD. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	JSONCustomConfig *AdvancedOptionsConfigJSONCustomConfigParameters `json:"jsonCustomConfig,omitempty" tf:"json_custom_config,omitempty"`
+
+	// Whether or not to JSON parse the payload body. Defaults to DISABLED.
+	// +kubebuilder:validation:Optional
+	JSONParsing *string `json:"jsonParsing,omitempty" tf:"json_parsing,omitempty"`
+
+	// Log level to use. Defaults to NORMAL.
+	// +kubebuilder:validation:Optional
+	LogLevel *string `json:"logLevel,omitempty" tf:"log_level,omitempty"`
+
+	// An optional list of case-insensitive request header names to use for resolving the callers client IP address.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	UserIPRequestHeaders []*string `json:"userIpRequestHeaders,omitempty" tf:"user_ip_request_headers,omitempty"`
+}
+
 type SecurityPolicyInitParameters struct {
 
 	// Configuration for Google Cloud Armor Adaptive Protection. Structure is documented below.
@@ -971,7 +971,7 @@ type SecurityPolicyInitParameters struct {
 
 	// Advanced Configuration Options.
 	// Structure is documented below.
-	AdvancedOptionsConfig *AdvancedOptionsConfigInitParameters `json:"advancedOptionsConfig,omitempty" tf:"advanced_options_config,omitempty"`
+	AdvancedOptionsConfig *SecurityPolicyAdvancedOptionsConfigInitParameters `json:"advancedOptionsConfig,omitempty" tf:"advanced_options_config,omitempty"`
 
 	// An optional description of this security policy. Max size is 2048.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -999,7 +999,7 @@ type SecurityPolicyObservation struct {
 
 	// Advanced Configuration Options.
 	// Structure is documented below.
-	AdvancedOptionsConfig *AdvancedOptionsConfigObservation `json:"advancedOptionsConfig,omitempty" tf:"advanced_options_config,omitempty"`
+	AdvancedOptionsConfig *SecurityPolicyAdvancedOptionsConfigObservation `json:"advancedOptionsConfig,omitempty" tf:"advanced_options_config,omitempty"`
 
 	// An optional description of this security policy. Max size is 2048.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -1038,7 +1038,7 @@ type SecurityPolicyParameters struct {
 	// Advanced Configuration Options.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	AdvancedOptionsConfig *AdvancedOptionsConfigParameters `json:"advancedOptionsConfig,omitempty" tf:"advanced_options_config,omitempty"`
+	AdvancedOptionsConfig *SecurityPolicyAdvancedOptionsConfigParameters `json:"advancedOptionsConfig,omitempty" tf:"advanced_options_config,omitempty"`
 
 	// An optional description of this security policy. Max size is 2048.
 	// +kubebuilder:validation:Optional

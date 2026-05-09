@@ -21,7 +21,7 @@ func (mg *Job) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this Job
 func (tr *Job) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"transfer_spec[*].aws_s3_data_source[*].aws_access_key[*].access_key_id": "transferSpec.awsS3DataSource.awsAccessKey.accessKeyIdSecretRef", "transfer_spec[*].aws_s3_data_source[*].aws_access_key[*].secret_access_key": "transferSpec.awsS3DataSource.awsAccessKey.secretAccessKeySecretRef", "transfer_spec[*].azure_blob_storage_data_source[*].azure_credentials[*].sas_token": "transferSpec.azureBlobStorageDataSource.azureCredentials.sasTokenSecretRef"}
+	return map[string]string{"transfer_spec[*].aws_s3_data_source[*].aws_access_key[*].access_key_id": "transferSpec.awsS3DataSource.awsAccessKey.accessKeyIdSecretRef", "transfer_spec[*].aws_s3_data_source[*].aws_access_key[*].secret_access_key": "transferSpec.awsS3DataSource.awsAccessKey.secretAccessKeySecretRef", "transfer_spec[*].azure_blob_storage_data_source[*].azure_credentials[*].sas_token": "transferSpec.azureBlobStorageDataSource.azureCredentials.sasTokenSecretRef", "transfer_spec[*].azure_blob_storage_data_source[*].federated_identity_config[*].client_id": "transferSpec.azureBlobStorageDataSource.federatedIdentityConfig.clientIdSecretRef", "transfer_spec[*].azure_blob_storage_data_source[*].federated_identity_config[*].tenant_id": "transferSpec.azureBlobStorageDataSource.federatedIdentityConfig.tenantIdSecretRef"}
 }
 
 // GetObservation of this Job

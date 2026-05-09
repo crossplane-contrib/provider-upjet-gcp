@@ -413,6 +413,9 @@ type DatabaseInstanceInitParameters struct {
 	// have binary_log_enabled set, as well as existing backups.
 	MasterInstanceName *string `json:"masterInstanceName,omitempty" tf:"master_instance_name,omitempty"`
 
+	// For a read pool instance, the number of nodes in the read pool.
+	NodeCount *float64 `json:"nodeCount,omitempty" tf:"node_count,omitempty"`
+
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -493,7 +496,7 @@ type DatabaseInstanceObservation struct {
 	// The IPv4 address assigned.
 	IPAddress []IPAddressObservation `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
-	// The type of the instance. The supported values are SQL_INSTANCE_TYPE_UNSPECIFIED, CLOUD_SQL_INSTANCE, ON_PREMISES_INSTANCE and READ_REPLICA_INSTANCE.
+	// The type of the instance. See API reference for SqlInstanceType for supported values.
 	InstanceType *string `json:"instanceType,omitempty" tf:"instance_type,omitempty"`
 
 	// The current software version on the instance. This attribute can not be set during creation. Refer to available_maintenance_versions attribute to see what maintenance_version are available for upgrade. When this attribute gets updated, it will cause an instance restart. Setting a maintenance_version value that is older than the current one on the instance will be ignored.
@@ -503,6 +506,9 @@ type DatabaseInstanceObservation struct {
 	// act as the master in the replication setup. Note, this requires the master to
 	// have binary_log_enabled set, as well as existing backups.
 	MasterInstanceName *string `json:"masterInstanceName,omitempty" tf:"master_instance_name,omitempty"`
+
+	// For a read pool instance, the number of nodes in the read pool.
+	NodeCount *float64 `json:"nodeCount,omitempty" tf:"node_count,omitempty"`
 
 	// The first private (PRIVATE) IPv4 address assigned.
 	PrivateIPAddress *string `json:"privateIpAddress,omitempty" tf:"private_ip_address,omitempty"`
@@ -588,6 +594,10 @@ type DatabaseInstanceParameters struct {
 	// have binary_log_enabled set, as well as existing backups.
 	// +kubebuilder:validation:Optional
 	MasterInstanceName *string `json:"masterInstanceName,omitempty" tf:"master_instance_name,omitempty"`
+
+	// For a read pool instance, the number of nodes in the read pool.
+	// +kubebuilder:validation:Optional
+	NodeCount *float64 `json:"nodeCount,omitempty" tf:"node_count,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
@@ -1113,6 +1123,9 @@ type PscConfigInitParameters struct {
 	// +listType=set
 	AllowedConsumerProjects []*string `json:"allowedConsumerProjects,omitempty" tf:"allowed_consumer_projects,omitempty"`
 
+	// Network Attachment URI in the format projects/project1/regions/region1/networkAttachments/networkAttachment1 to enable outbound connectivity on PSC instance.
+	NetworkAttachmentURI *string `json:"networkAttachmentUri,omitempty" tf:"network_attachment_uri,omitempty"`
+
 	// A comma-separated list of networks or a comma-separated list of network-project pairs. Each project in this list is represented by a project number (numeric) or by a project ID (alphanumeric). This allows Private Service Connect connections to be created automatically for the specified networks.
 	PscAutoConnections []PscAutoConnectionsInitParameters `json:"pscAutoConnections,omitempty" tf:"psc_auto_connections,omitempty"`
 
@@ -1125,6 +1138,9 @@ type PscConfigObservation struct {
 	// List of consumer projects that are allow-listed for PSC connections to this instance. This instance can be connected to with PSC from any network in these projects. Each consumer project in this list may be represented by a project number (numeric) or by a project id (alphanumeric).
 	// +listType=set
 	AllowedConsumerProjects []*string `json:"allowedConsumerProjects,omitempty" tf:"allowed_consumer_projects,omitempty"`
+
+	// Network Attachment URI in the format projects/project1/regions/region1/networkAttachments/networkAttachment1 to enable outbound connectivity on PSC instance.
+	NetworkAttachmentURI *string `json:"networkAttachmentUri,omitempty" tf:"network_attachment_uri,omitempty"`
 
 	// A comma-separated list of networks or a comma-separated list of network-project pairs. Each project in this list is represented by a project number (numeric) or by a project ID (alphanumeric). This allows Private Service Connect connections to be created automatically for the specified networks.
 	PscAutoConnections []PscAutoConnectionsObservation `json:"pscAutoConnections,omitempty" tf:"psc_auto_connections,omitempty"`
@@ -1139,6 +1155,10 @@ type PscConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	AllowedConsumerProjects []*string `json:"allowedConsumerProjects,omitempty" tf:"allowed_consumer_projects,omitempty"`
+
+	// Network Attachment URI in the format projects/project1/regions/region1/networkAttachments/networkAttachment1 to enable outbound connectivity on PSC instance.
+	// +kubebuilder:validation:Optional
+	NetworkAttachmentURI *string `json:"networkAttachmentUri,omitempty" tf:"network_attachment_uri,omitempty"`
 
 	// A comma-separated list of networks or a comma-separated list of network-project pairs. Each project in this list is represented by a project number (numeric) or by a project ID (alphanumeric). This allows Private Service Connect connections to be created automatically for the specified networks.
 	// +kubebuilder:validation:Optional
@@ -1312,6 +1332,9 @@ type ReplicationClusterInitParameters struct {
 
 	// project:your-instance". You can also set this field to "your-instance", but cloud SQL backend will convert it to the aforementioned standard format.
 	FailoverDrReplicaName *string `json:"failoverDrReplicaName,omitempty" tf:"failover_dr_replica_name,omitempty"`
+
+	// only field which if set, indicates this instance has a private service access (PSA) DNS endpoint that is pointing to the primary instance of the cluster. If this instance is the primary, then the DNS endpoint points to this instance. After a switchover or replica failover operation, this DNS endpoint points to the promoted instance. This is a read-only field, returned to the user as information. This field can exist even if a standalone instance doesn't have a DR replica yet or the DR replica is deleted.
+	PsaWriteEndpoint *string `json:"psaWriteEndpoint,omitempty" tf:"psa_write_endpoint,omitempty"`
 }
 
 type ReplicationClusterObservation struct {
@@ -1321,6 +1344,9 @@ type ReplicationClusterObservation struct {
 
 	// project:your-instance". You can also set this field to "your-instance", but cloud SQL backend will convert it to the aforementioned standard format.
 	FailoverDrReplicaName *string `json:"failoverDrReplicaName,omitempty" tf:"failover_dr_replica_name,omitempty"`
+
+	// only field which if set, indicates this instance has a private service access (PSA) DNS endpoint that is pointing to the primary instance of the cluster. If this instance is the primary, then the DNS endpoint points to this instance. After a switchover or replica failover operation, this DNS endpoint points to the promoted instance. This is a read-only field, returned to the user as information. This field can exist even if a standalone instance doesn't have a DR replica yet or the DR replica is deleted.
+	PsaWriteEndpoint *string `json:"psaWriteEndpoint,omitempty" tf:"psa_write_endpoint,omitempty"`
 }
 
 type ReplicationClusterParameters struct {
@@ -1328,6 +1354,10 @@ type ReplicationClusterParameters struct {
 	// project:your-instance". You can also set this field to "your-instance", but cloud SQL backend will convert it to the aforementioned standard format.
 	// +kubebuilder:validation:Optional
 	FailoverDrReplicaName *string `json:"failoverDrReplicaName,omitempty" tf:"failover_dr_replica_name,omitempty"`
+
+	// only field which if set, indicates this instance has a private service access (PSA) DNS endpoint that is pointing to the primary instance of the cluster. If this instance is the primary, then the DNS endpoint points to this instance. After a switchover or replica failover operation, this DNS endpoint points to the promoted instance. This is a read-only field, returned to the user as information. This field can exist even if a standalone instance doesn't have a DR replica yet or the DR replica is deleted.
+	// +kubebuilder:validation:Optional
+	PsaWriteEndpoint *string `json:"psaWriteEndpoint,omitempty" tf:"psa_write_endpoint,omitempty"`
 }
 
 type RestoreBackupContextInitParameters struct {
@@ -1447,11 +1477,13 @@ type SettingsInitParameters struct {
 	AdvancedMachineFeatures []AdvancedMachineFeaturesInitParameters `json:"advancedMachineFeatures,omitempty" tf:"advanced_machine_features,omitempty"`
 
 	// The availability type of the Cloud SQL
-	// instance, high availability (REGIONAL) or single zone (ZONAL).' For all instances, ensure that
+	// instance, high availability (REGIONAL) or single zone (ZONAL). For all instances, ensure that
 	// settings.backup_configuration.enabled is set to true.
 	// For MySQL instances, ensure that settings.backup_configuration.binary_log_enabled is set to true.
 	// For Postgres and SQL Server instances, ensure that settings.backup_configuration.point_in_time_recovery_enabled
 	// is set to true. Defaults to ZONAL.
+	// For read pool instances, this field is read-only. The availability type is changed by specifying
+	// the number of nodes (node_count).
 	AvailabilityType *string `json:"availabilityType,omitempty" tf:"availability_type,omitempty"`
 
 	BackupConfiguration []BackupConfigurationInitParameters `json:"backupConfiguration,omitempty" tf:"backup_configuration,omitempty"`
@@ -1536,11 +1568,13 @@ type SettingsObservation struct {
 	AdvancedMachineFeatures []AdvancedMachineFeaturesObservation `json:"advancedMachineFeatures,omitempty" tf:"advanced_machine_features,omitempty"`
 
 	// The availability type of the Cloud SQL
-	// instance, high availability (REGIONAL) or single zone (ZONAL).' For all instances, ensure that
+	// instance, high availability (REGIONAL) or single zone (ZONAL). For all instances, ensure that
 	// settings.backup_configuration.enabled is set to true.
 	// For MySQL instances, ensure that settings.backup_configuration.binary_log_enabled is set to true.
 	// For Postgres and SQL Server instances, ensure that settings.backup_configuration.point_in_time_recovery_enabled
 	// is set to true. Defaults to ZONAL.
+	// For read pool instances, this field is read-only. The availability type is changed by specifying
+	// the number of nodes (node_count).
 	AvailabilityType *string `json:"availabilityType,omitempty" tf:"availability_type,omitempty"`
 
 	BackupConfiguration []BackupConfigurationObservation `json:"backupConfiguration,omitempty" tf:"backup_configuration,omitempty"`
@@ -1576,6 +1610,13 @@ type SettingsObservation struct {
 
 	// The edition of the instance, can be ENTERPRISE or ENTERPRISE_PLUS.
 	Edition *string `json:"edition,omitempty" tf:"edition,omitempty"`
+
+	// (Computed) The availability type of
+	// the Cloud SQL instance, high availability (REGIONAL) or single zone
+	// (ZONAL). This field always contains the value that is reported by the API (for
+	// read pools, settings.0.effective_availability_type may differ from
+	// settings.0.availability_type).
+	EffectiveAvailabilityType *string `json:"effectiveAvailabilityType,omitempty" tf:"effective_availability_type,omitempty"`
 
 	// Enables Cloud SQL instance integration with Dataplex. MySQL, Postgres and SQL Server instances are supported for this feature. Defaults to false.
 	EnableDataplexIntegration *bool `json:"enableDataplexIntegration,omitempty" tf:"enable_dataplex_integration,omitempty"`
@@ -1632,11 +1673,13 @@ type SettingsParameters struct {
 	AdvancedMachineFeatures []AdvancedMachineFeaturesParameters `json:"advancedMachineFeatures,omitempty" tf:"advanced_machine_features,omitempty"`
 
 	// The availability type of the Cloud SQL
-	// instance, high availability (REGIONAL) or single zone (ZONAL).' For all instances, ensure that
+	// instance, high availability (REGIONAL) or single zone (ZONAL). For all instances, ensure that
 	// settings.backup_configuration.enabled is set to true.
 	// For MySQL instances, ensure that settings.backup_configuration.binary_log_enabled is set to true.
 	// For Postgres and SQL Server instances, ensure that settings.backup_configuration.point_in_time_recovery_enabled
 	// is set to true. Defaults to ZONAL.
+	// For read pool instances, this field is read-only. The availability type is changed by specifying
+	// the number of nodes (node_count).
 	// +kubebuilder:validation:Optional
 	AvailabilityType *string `json:"availabilityType,omitempty" tf:"availability_type,omitempty"`
 

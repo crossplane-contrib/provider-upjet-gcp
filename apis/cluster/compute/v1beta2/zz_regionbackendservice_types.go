@@ -231,6 +231,139 @@ type HTTPCookieTTLParameters struct {
 	Seconds *float64 `json:"seconds" tf:"seconds,omitempty"`
 }
 
+type HaPolicyInitParameters struct {
+
+	// Specifies whether fast IP move is enabled, and if so, the mechanism to achieve it.
+	// Supported values are:
+	FastIPMove *string `json:"fastIpMove,omitempty" tf:"fast_ip_move,omitempty"`
+
+	// Selects one of the network endpoints attached to the backend NEGs of this service as the
+	// active endpoint (the leader) that receives all traffic.
+	// Structure is documented below.
+	Leader *LeaderInitParameters `json:"leader,omitempty" tf:"leader,omitempty"`
+}
+
+type HaPolicyObservation struct {
+
+	// Specifies whether fast IP move is enabled, and if so, the mechanism to achieve it.
+	// Supported values are:
+	FastIPMove *string `json:"fastIpMove,omitempty" tf:"fast_ip_move,omitempty"`
+
+	// Selects one of the network endpoints attached to the backend NEGs of this service as the
+	// active endpoint (the leader) that receives all traffic.
+	// Structure is documented below.
+	Leader *LeaderObservation `json:"leader,omitempty" tf:"leader,omitempty"`
+}
+
+type HaPolicyParameters struct {
+
+	// Specifies whether fast IP move is enabled, and if so, the mechanism to achieve it.
+	// Supported values are:
+	// +kubebuilder:validation:Optional
+	FastIPMove *string `json:"fastIpMove,omitempty" tf:"fast_ip_move,omitempty"`
+
+	// Selects one of the network endpoints attached to the backend NEGs of this service as the
+	// active endpoint (the leader) that receives all traffic.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Leader *LeaderParameters `json:"leader,omitempty" tf:"leader,omitempty"`
+}
+
+type LeaderInitParameters struct {
+
+	// A fully-qualified URL of the zonal Network Endpoint Group (NEG) that the leader is
+	// attached to.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.NetworkEndpointGroup
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
+	BackendGroup *string `json:"backendGroup,omitempty" tf:"backend_group,omitempty"`
+
+	// Reference to a NetworkEndpointGroup in compute to populate backendGroup.
+	// +kubebuilder:validation:Optional
+	BackendGroupRef *v1.Reference `json:"backendGroupRef,omitempty" tf:"-"`
+
+	// Selector for a NetworkEndpointGroup in compute to populate backendGroup.
+	// +kubebuilder:validation:Optional
+	BackendGroupSelector *v1.Selector `json:"backendGroupSelector,omitempty" tf:"-"`
+
+	// The network endpoint within the leader.backendGroup that is designated as the leader.
+	// Structure is documented below.
+	NetworkEndpoint *NetworkEndpointInitParameters `json:"networkEndpoint,omitempty" tf:"network_endpoint,omitempty"`
+}
+
+type LeaderObservation struct {
+
+	// A fully-qualified URL of the zonal Network Endpoint Group (NEG) that the leader is
+	// attached to.
+	BackendGroup *string `json:"backendGroup,omitempty" tf:"backend_group,omitempty"`
+
+	// The network endpoint within the leader.backendGroup that is designated as the leader.
+	// Structure is documented below.
+	NetworkEndpoint *NetworkEndpointObservation `json:"networkEndpoint,omitempty" tf:"network_endpoint,omitempty"`
+}
+
+type LeaderParameters struct {
+
+	// A fully-qualified URL of the zonal Network Endpoint Group (NEG) that the leader is
+	// attached to.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.NetworkEndpointGroup
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
+	// +kubebuilder:validation:Optional
+	BackendGroup *string `json:"backendGroup,omitempty" tf:"backend_group,omitempty"`
+
+	// Reference to a NetworkEndpointGroup in compute to populate backendGroup.
+	// +kubebuilder:validation:Optional
+	BackendGroupRef *v1.Reference `json:"backendGroupRef,omitempty" tf:"-"`
+
+	// Selector for a NetworkEndpointGroup in compute to populate backendGroup.
+	// +kubebuilder:validation:Optional
+	BackendGroupSelector *v1.Selector `json:"backendGroupSelector,omitempty" tf:"-"`
+
+	// The network endpoint within the leader.backendGroup that is designated as the leader.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	NetworkEndpoint *NetworkEndpointParameters `json:"networkEndpoint,omitempty" tf:"network_endpoint,omitempty"`
+}
+
+type NetworkEndpointInitParameters struct {
+
+	// The name of the VM instance of the leader network endpoint. The instance must
+	// already be attached to the NEG specified in the haPolicy.leader.backendGroup.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Instance
+	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
+
+	// Reference to a Instance in compute to populate instance.
+	// +kubebuilder:validation:Optional
+	InstanceRef *v1.Reference `json:"instanceRef,omitempty" tf:"-"`
+
+	// Selector for a Instance in compute to populate instance.
+	// +kubebuilder:validation:Optional
+	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
+}
+
+type NetworkEndpointObservation struct {
+
+	// The name of the VM instance of the leader network endpoint. The instance must
+	// already be attached to the NEG specified in the haPolicy.leader.backendGroup.
+	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
+}
+
+type NetworkEndpointParameters struct {
+
+	// The name of the VM instance of the leader network endpoint. The instance must
+	// already be attached to the NEG specified in the haPolicy.leader.backendGroup.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Instance
+	// +kubebuilder:validation:Optional
+	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
+
+	// Reference to a Instance in compute to populate instance.
+	// +kubebuilder:validation:Optional
+	InstanceRef *v1.Reference `json:"instanceRef,omitempty" tf:"-"`
+
+	// Selector for a Instance in compute to populate instance.
+	// +kubebuilder:validation:Optional
+	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
+}
+
 type OutlierDetectionBaseEjectionTimeInitParameters struct {
 
 	// Span of time that's a fraction of a second at nanosecond
@@ -1225,6 +1358,17 @@ type RegionBackendServiceInitParameters struct {
 	// Structure is documented below.
 	FailoverPolicy *FailoverPolicyInitParameters `json:"failoverPolicy,omitempty" tf:"failover_policy,omitempty"`
 
+	// Configures self-managed High Availability (HA) for External and Internal Protocol Forwarding.
+	// The backends of this regional backend service must only specify zonal network endpoint groups
+	// (NEGs) of type GCE_VM_IP. Note that haPolicy is not for load balancing, and therefore cannot
+	// be specified with sessionAffinity, connectionTrackingPolicy, and failoverPolicy. haPolicy
+	// requires customers to be responsible for tracking backend endpoint health and electing a
+	// leader among the healthy endpoints. Therefore, haPolicy cannot be specified with healthChecks.
+	// haPolicy can only be specified for External Passthrough Network Load Balancers and Internal
+	// Passthrough Network Load Balancers.
+	// Structure is documented below.
+	HaPolicy *HaPolicyInitParameters `json:"haPolicy,omitempty" tf:"ha_policy,omitempty"`
+
 	// The set of URLs to HealthCheck resources for health checking
 	// this RegionBackendService. Currently at most one health
 	// check can be specified.
@@ -1266,7 +1410,17 @@ type RegionBackendServiceInitParameters struct {
 
 	// The URL of the network to which this backend service belongs.
 	// This field can only be specified when the load balancing scheme is set to INTERNAL.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Reference to a Network in compute to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+
+	// Selector for a Network in compute to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// Settings controlling eviction of unhealthy hosts from the load balancing pool.
 	// This field is applicable only when the load_balancing_scheme is set
@@ -1429,6 +1583,17 @@ type RegionBackendServiceObservation struct {
 
 	// The unique identifier for the resource. This identifier is defined by the server.
 	GeneratedID *float64 `json:"generatedId,omitempty" tf:"generated_id,omitempty"`
+
+	// Configures self-managed High Availability (HA) for External and Internal Protocol Forwarding.
+	// The backends of this regional backend service must only specify zonal network endpoint groups
+	// (NEGs) of type GCE_VM_IP. Note that haPolicy is not for load balancing, and therefore cannot
+	// be specified with sessionAffinity, connectionTrackingPolicy, and failoverPolicy. haPolicy
+	// requires customers to be responsible for tracking backend endpoint health and electing a
+	// leader among the healthy endpoints. Therefore, haPolicy cannot be specified with healthChecks.
+	// haPolicy can only be specified for External Passthrough Network Load Balancers and Internal
+	// Passthrough Network Load Balancers.
+	// Structure is documented below.
+	HaPolicy *HaPolicyObservation `json:"haPolicy,omitempty" tf:"ha_policy,omitempty"`
 
 	// The set of URLs to HealthCheck resources for health checking
 	// this RegionBackendService. Currently at most one health
@@ -1774,6 +1939,18 @@ type RegionBackendServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	FailoverPolicy *FailoverPolicyParameters `json:"failoverPolicy,omitempty" tf:"failover_policy,omitempty"`
 
+	// Configures self-managed High Availability (HA) for External and Internal Protocol Forwarding.
+	// The backends of this regional backend service must only specify zonal network endpoint groups
+	// (NEGs) of type GCE_VM_IP. Note that haPolicy is not for load balancing, and therefore cannot
+	// be specified with sessionAffinity, connectionTrackingPolicy, and failoverPolicy. haPolicy
+	// requires customers to be responsible for tracking backend endpoint health and electing a
+	// leader among the healthy endpoints. Therefore, haPolicy cannot be specified with healthChecks.
+	// haPolicy can only be specified for External Passthrough Network Load Balancers and Internal
+	// Passthrough Network Load Balancers.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	HaPolicy *HaPolicyParameters `json:"haPolicy,omitempty" tf:"ha_policy,omitempty"`
+
 	// The set of URLs to HealthCheck resources for health checking
 	// this RegionBackendService. Currently at most one health
 	// check can be specified.
@@ -1821,8 +1998,18 @@ type RegionBackendServiceParameters struct {
 
 	// The URL of the network to which this backend service belongs.
 	// This field can only be specified when the load balancing scheme is set to INTERNAL.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Reference to a Network in compute to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+
+	// Selector for a Network in compute to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// Settings controlling eviction of unhealthy hosts from the load balancing pool.
 	// This field is applicable only when the load_balancing_scheme is set

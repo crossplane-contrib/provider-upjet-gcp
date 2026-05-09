@@ -15,5 +15,5 @@ spec:
     location: us-west1-a
     machineType: e2-medium
     vmImage:
-      imageFamily: pytorch-latest-cu124
-      project: deeplearning-platform-release
+      imageFamily: workbench-instances
+      project: cloud-notebooks-managed

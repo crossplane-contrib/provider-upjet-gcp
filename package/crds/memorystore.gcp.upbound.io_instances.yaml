@@ -73,6 +73,13 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  allowFewerZonesDeployment:
+                    description: |-
+                      Allows customers to specify if they are okay with deploying a multi-zone
+                      instance in less than 3 zones. Once set, if there is a zonal outage during
+                      the instance creation, the instance will only be deployed in 2 zones, and
+                      stay within the 2 zones for its lifecycle.
+                    type: boolean
                   authorizationMode:
                     description: |-
                       Optional. Immutable. Authorization mode of the instance. Possible values:
@@ -547,6 +554,13 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  allowFewerZonesDeployment:
+                    description: |-
+                      Allows customers to specify if they are okay with deploying a multi-zone
+                      instance in less than 3 zones. Once set, if there is a zonal outage during
+                      the instance creation, the instance will only be deployed in 2 zones, and
+                      stay within the 2 zones for its lifecycle.
+                    type: boolean
                   authorizationMode:
                     description: |-
                       Optional. Immutable. Authorization mode of the instance. Possible values:
@@ -1097,6 +1111,13 @@ spec:
             properties:
               atProvider:
                 properties:
+                  allowFewerZonesDeployment:
+                    description: |-
+                      Allows customers to specify if they are okay with deploying a multi-zone
+                      instance in less than 3 zones. Once set, if there is a zonal outage during
+                      the instance creation, the instance will only be deployed in 2 zones, and
+                      stay within the 2 zones for its lifecycle.
+                    type: boolean
                   authorizationMode:
                     description: |-
                       Optional. Immutable. Authorization mode of the instance. Possible values:

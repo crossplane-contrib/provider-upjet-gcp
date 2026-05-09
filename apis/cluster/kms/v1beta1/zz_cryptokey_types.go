@@ -44,6 +44,7 @@ type CryptoKeyInitParameters struct {
 
 	// If set to true, the request will create a CryptoKey without any CryptoKeyVersions.
 	// You must use the google_kms_key_ring_import_job resource to import the CryptoKeyVersion.
+	// This field is only applicable during initial CryptoKey creation.
 	SkipInitialVersionCreation *bool `json:"skipInitialVersionCreation,omitempty" tf:"skip_initial_version_creation,omitempty"`
 
 	// A template describing settings for new crypto key versions.
@@ -98,6 +99,7 @@ type CryptoKeyObservation struct {
 
 	// If set to true, the request will create a CryptoKey without any CryptoKeyVersions.
 	// You must use the google_kms_key_ring_import_job resource to import the CryptoKeyVersion.
+	// This field is only applicable during initial CryptoKey creation.
 	SkipInitialVersionCreation *bool `json:"skipInitialVersionCreation,omitempty" tf:"skip_initial_version_creation,omitempty"`
 
 	// The combination of labels configured directly on the resource
@@ -162,6 +164,7 @@ type CryptoKeyParameters struct {
 
 	// If set to true, the request will create a CryptoKey without any CryptoKeyVersions.
 	// You must use the google_kms_key_ring_import_job resource to import the CryptoKeyVersion.
+	// This field is only applicable during initial CryptoKey creation.
 	// +kubebuilder:validation:Optional
 	SkipInitialVersionCreation *bool `json:"skipInitialVersionCreation,omitempty" tf:"skip_initial_version_creation,omitempty"`
 

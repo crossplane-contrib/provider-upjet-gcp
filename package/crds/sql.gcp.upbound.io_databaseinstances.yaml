@@ -152,6 +152,10 @@ spec:
                       act as the master in the replication setup. Note, this requires the master to
                       have binary_log_enabled set, as well as existing backups.
                     type: string
+                  nodeCount:
+                    description: For a read pool instance, the number of nodes in
+                      the read pool.
+                    type: number
                   project:
                     description: |-
                       The ID of the project in which the resource belongs. If it
@@ -253,6 +257,17 @@ spec:
                             field to "your-instance", but cloud SQL backend will convert
                             it to the aforementioned standard format.
                           type: string
+                        psaWriteEndpoint:
+                          description: only field which if set, indicates this instance
+                            has a private service access (PSA) DNS endpoint that is
+                            pointing to the primary instance of the cluster. If this
+                            instance is the primary, then the DNS endpoint points
+                            to this instance. After a switchover or replica failover
+                            operation, this DNS endpoint points to the promoted instance.
+                            This is a read-only field, returned to the user as information.
+                            This field can exist even if a standalone instance doesn't
+                            have a DR replica yet or the DR replica is deleted.
+                          type: string
                       type: object
                     type: array
                   restoreBackupContext:
@@ -327,11 +342,13 @@ spec:
                         availabilityType:
                           description: |-
                             The availability type of the Cloud SQL
-                            instance, high availability (REGIONAL) or single zone (ZONAL).' For all instances, ensure that
+                            instance, high availability (REGIONAL) or single zone (ZONAL). For all instances, ensure that
                             settings.backup_configuration.enabled is set to true.
                             For MySQL instances, ensure that settings.backup_configuration.binary_log_enabled is set to true.
                             For Postgres and SQL Server instances, ensure that settings.backup_configuration.point_in_time_recovery_enabled
                             is set to true. Defaults to ZONAL.
+                            For read pool instances, this field is read-only. The availability type is changed by specifying
+                            the number of nodes (node_count).
                           type: string
                         backupConfiguration:
                           items:
@@ -677,6 +694,11 @@ spec:
                                         type: string
                                       type: array
                                       x-kubernetes-list-type: set
+                                    networkAttachmentUri:
+                                      description: Network Attachment URI in the format
+                                        projects/project1/regions/region1/networkAttachments/networkAttachment1
+                                        to enable outbound connectivity on PSC instance.
+                                      type: string
                                     pscAutoConnections:
                                       description: A comma-separated list of networks
                                         or a comma-separated list of network-project
@@ -935,6 +957,10 @@ spec:
                       act as the master in the replication setup. Note, this requires the master to
                       have binary_log_enabled set, as well as existing backups.
                     type: string
+                  nodeCount:
+                    description: For a read pool instance, the number of nodes in
+                      the read pool.
+                    type: number
                   project:
                     description: |-
                       The ID of the project in which the resource belongs. If it
@@ -1036,6 +1062,17 @@ spec:
                             field to "your-instance", but cloud SQL backend will convert
                             it to the aforementioned standard format.
                           type: string
+                        psaWriteEndpoint:
+                          description: only field which if set, indicates this instance
+                            has a private service access (PSA) DNS endpoint that is
+                            pointing to the primary instance of the cluster. If this
+                            instance is the primary, then the DNS endpoint points
+                            to this instance. After a switchover or replica failover
+                            operation, this DNS endpoint points to the promoted instance.
+                            This is a read-only field, returned to the user as information.
+                            This field can exist even if a standalone instance doesn't
+                            have a DR replica yet or the DR replica is deleted.
+                          type: string
                       type: object
                     type: array
                   restoreBackupContext:
@@ -1110,11 +1147,13 @@ spec:
                         availabilityType:
                           description: |-
                             The availability type of the Cloud SQL
-                            instance, high availability (REGIONAL) or single zone (ZONAL).' For all instances, ensure that
+                            instance, high availability (REGIONAL) or single zone (ZONAL). For all instances, ensure that
                             settings.backup_configuration.enabled is set to true.
                             For MySQL instances, ensure that settings.backup_configuration.binary_log_enabled is set to true.
                             For Postgres and SQL Server instances, ensure that settings.backup_configuration.point_in_time_recovery_enabled
                             is set to true. Defaults to ZONAL.
+                            For read pool instances, this field is read-only. The availability type is changed by specifying
+                            the number of nodes (node_count).
                           type: string
                         backupConfiguration:
                           items:
@@ -1460,6 +1499,11 @@ spec:
                                         type: string
                                       type: array
                                       x-kubernetes-list-type: set
+                                    networkAttachmentUri:
+                                      description: Network Attachment URI in the format
+                                        projects/project1/regions/region1/networkAttachments/networkAttachment1
+                                        to enable outbound connectivity on PSC instance.
+                                      type: string
                                     pscAutoConnections:
                                       description: A comma-separated list of networks
                                         or a comma-separated list of network-project
@@ -1827,9 +1871,8 @@ spec:
                   id:
                     type: string
                   instanceType:
-                    description: The type of the instance. The supported values are
-                      SQL_INSTANCE_TYPE_UNSPECIFIED, CLOUD_SQL_INSTANCE, ON_PREMISES_INSTANCE
-                      and READ_REPLICA_INSTANCE.
+                    description: The type of the instance. See API reference for SqlInstanceType
+                      for supported values.
                     type: string
                   ipAddress:
                     description: The IPv4 address assigned.
@@ -1862,6 +1905,10 @@ spec:
                       act as the master in the replication setup. Note, this requires the master to
                       have binary_log_enabled set, as well as existing backups.
                     type: string
+                  nodeCount:
+                    description: For a read pool instance, the number of nodes in
+                      the read pool.
+                    type: number
                   privateIpAddress:
                     description: The first private (PRIVATE) IPv4 address assigned.
                     type: string
@@ -1960,6 +2007,17 @@ spec:
                             field to "your-instance", but cloud SQL backend will convert
                             it to the aforementioned standard format.
                           type: string
+                        psaWriteEndpoint:
+                          description: only field which if set, indicates this instance
+                            has a private service access (PSA) DNS endpoint that is
+                            pointing to the primary instance of the cluster. If this
+                            instance is the primary, then the DNS endpoint points
+                            to this instance. After a switchover or replica failover
+                            operation, this DNS endpoint points to the promoted instance.
+                            This is a read-only field, returned to the user as information.
+                            This field can exist even if a standalone instance doesn't
+                            have a DR replica yet or the DR replica is deleted.
+                          type: string
                       type: object
                     type: array
                   restoreBackupContext:
@@ -2024,11 +2082,13 @@ spec:
                         availabilityType:
                           description: |-
                             The availability type of the Cloud SQL
-                            instance, high availability (REGIONAL) or single zone (ZONAL).' For all instances, ensure that
+                            instance, high availability (REGIONAL) or single zone (ZONAL). For all instances, ensure that
                             settings.backup_configuration.enabled is set to true.
                             For MySQL instances, ensure that settings.backup_configuration.binary_log_enabled is set to true.
                             For Postgres and SQL Server instances, ensure that settings.backup_configuration.point_in_time_recovery_enabled
                             is set to true. Defaults to ZONAL.
+                            For read pool instances, this field is read-only. The availability type is changed by specifying
+                            the number of nodes (node_count).
                           type: string
                         backupConfiguration:
                           items:
@@ -2185,6 +2245,14 @@ spec:
                           description: The edition of the instance, can be ENTERPRISE
                             or ENTERPRISE_PLUS.
                           type: string
+                        effectiveAvailabilityType:
+                          description: |-
+                            (Computed) The availability type of
+                            the Cloud SQL instance, high availability (REGIONAL) or single zone
+                            (ZONAL). This field always contains the value that is reported by the API (for
+                            read pools, settings.0.effective_availability_type may differ from
+                            settings.0.availability_type).
+                          type: string
                         enableDataplexIntegration:
                           description: Enables Cloud SQL instance integration with
                             Dataplex. MySQL, Postgres and SQL Server instances are
@@ -2298,6 +2366,11 @@ spec:
                                         type: string
                                       type: array
                                       x-kubernetes-list-type: set
+                                    networkAttachmentUri:
+                                      description: Network Attachment URI in the format
+                                        projects/project1/regions/region1/networkAttachments/networkAttachment1
+                                        to enable outbound connectivity on PSC instance.
+                                      type: string
                                     pscAutoConnections:
                                       description: A comma-separated list of networks
                                         or a comma-separated list of network-project
@@ -2662,6 +2735,10 @@ spec:
                       act as the master in the replication setup. Note, this requires the master to
                       have binary_log_enabled set, as well as existing backups.
                     type: string
+                  nodeCount:
+                    description: For a read pool instance, the number of nodes in
+                      the read pool.
+                    type: number
                   project:
                     description: |-
                       The ID of the project in which the resource belongs. If it
@@ -2761,6 +2838,17 @@ spec:
                           field to "your-instance", but cloud SQL backend will convert
                           it to the aforementioned standard format.
                         type: string
+                      psaWriteEndpoint:
+                        description: only field which if set, indicates this instance
+                          has a private service access (PSA) DNS endpoint that is
+                          pointing to the primary instance of the cluster. If this
+                          instance is the primary, then the DNS endpoint points to
+                          this instance. After a switchover or replica failover operation,
+                          this DNS endpoint points to the promoted instance. This
+                          is a read-only field, returned to the user as information.
+                          This field can exist even if a standalone instance doesn't
+                          have a DR replica yet or the DR replica is deleted.
+                        type: string
                     type: object
                   restoreBackupContext:
                     description: |-
@@ -2827,11 +2915,13 @@ spec:
                       availabilityType:
                         description: |-
                           The availability type of the Cloud SQL
-                          instance, high availability (REGIONAL) or single zone (ZONAL).' For all instances, ensure that
+                          instance, high availability (REGIONAL) or single zone (ZONAL). For all instances, ensure that
                           settings.backup_configuration.enabled is set to true.
                           For MySQL instances, ensure that settings.backup_configuration.binary_log_enabled is set to true.
                           For Postgres and SQL Server instances, ensure that settings.backup_configuration.point_in_time_recovery_enabled
                           is set to true. Defaults to ZONAL.
+                          For read pool instances, this field is read-only. The availability type is changed by specifying
+                          the number of nodes (node_count).
                         type: string
                       backupConfiguration:
                         properties:
@@ -3172,6 +3262,11 @@ spec:
                                     type: string
                                   type: array
                                   x-kubernetes-list-type: set
+                                networkAttachmentUri:
+                                  description: Network Attachment URI in the format
+                                    projects/project1/regions/region1/networkAttachments/networkAttachment1
+                                    to enable outbound connectivity on PSC instance.
+                                  type: string
                                 pscAutoConnections:
                                   description: A comma-separated list of networks
                                     or a comma-separated list of network-project pairs.
@@ -3412,6 +3507,10 @@ spec:
                       act as the master in the replication setup. Note, this requires the master to
                       have binary_log_enabled set, as well as existing backups.
                     type: string
+                  nodeCount:
+                    description: For a read pool instance, the number of nodes in
+                      the read pool.
+                    type: number
                   project:
                     description: |-
                       The ID of the project in which the resource belongs. If it
@@ -3511,6 +3610,17 @@ spec:
                           field to "your-instance", but cloud SQL backend will convert
                           it to the aforementioned standard format.
                         type: string
+                      psaWriteEndpoint:
+                        description: only field which if set, indicates this instance
+                          has a private service access (PSA) DNS endpoint that is
+                          pointing to the primary instance of the cluster. If this
+                          instance is the primary, then the DNS endpoint points to
+                          this instance. After a switchover or replica failover operation,
+                          this DNS endpoint points to the promoted instance. This
+                          is a read-only field, returned to the user as information.
+                          This field can exist even if a standalone instance doesn't
+                          have a DR replica yet or the DR replica is deleted.
+                        type: string
                     type: object
                   restoreBackupContext:
                     description: |-
@@ -3577,11 +3687,13 @@ spec:
                       availabilityType:
                         description: |-
                           The availability type of the Cloud SQL
-                          instance, high availability (REGIONAL) or single zone (ZONAL).' For all instances, ensure that
+                          instance, high availability (REGIONAL) or single zone (ZONAL). For all instances, ensure that
                           settings.backup_configuration.enabled is set to true.
                           For MySQL instances, ensure that settings.backup_configuration.binary_log_enabled is set to true.
                           For Postgres and SQL Server instances, ensure that settings.backup_configuration.point_in_time_recovery_enabled
                           is set to true. Defaults to ZONAL.
+                          For read pool instances, this field is read-only. The availability type is changed by specifying
+                          the number of nodes (node_count).
                         type: string
                       backupConfiguration:
                         properties:
@@ -3922,6 +4034,11 @@ spec:
                                     type: string
                                   type: array
                                   x-kubernetes-list-type: set
+                                networkAttachmentUri:
+                                  description: Network Attachment URI in the format
+                                    projects/project1/regions/region1/networkAttachments/networkAttachment1
+                                    to enable outbound connectivity on PSC instance.
+                                  type: string
                                 pscAutoConnections:
                                   description: A comma-separated list of networks
                                     or a comma-separated list of network-project pairs.
@@ -4271,9 +4388,8 @@ spec:
                   id:
                     type: string
                   instanceType:
-                    description: The type of the instance. The supported values are
-                      SQL_INSTANCE_TYPE_UNSPECIFIED, CLOUD_SQL_INSTANCE, ON_PREMISES_INSTANCE
-                      and READ_REPLICA_INSTANCE.
+                    description: The type of the instance. See API reference for SqlInstanceType
+                      for supported values.
                     type: string
                   ipAddress:
                     description: The IPv4 address assigned.
@@ -4306,6 +4422,10 @@ spec:
                       act as the master in the replication setup. Note, this requires the master to
                       have binary_log_enabled set, as well as existing backups.
                     type: string
+                  nodeCount:
+                    description: For a read pool instance, the number of nodes in
+                      the read pool.
+                    type: number
                   privateIpAddress:
                     description: The first private (PRIVATE) IPv4 address assigned.
                     type: string
@@ -4402,6 +4522,17 @@ spec:
                           field to "your-instance", but cloud SQL backend will convert
                           it to the aforementioned standard format.
                         type: string
+                      psaWriteEndpoint:
+                        description: only field which if set, indicates this instance
+                          has a private service access (PSA) DNS endpoint that is
+                          pointing to the primary instance of the cluster. If this
+                          instance is the primary, then the DNS endpoint points to
+                          this instance. After a switchover or replica failover operation,
+                          this DNS endpoint points to the promoted instance. This
+                          is a read-only field, returned to the user as information.
+                          This field can exist even if a standalone instance doesn't
+                          have a DR replica yet or the DR replica is deleted.
+                        type: string
                     type: object
                   restoreBackupContext:
                     description: |-
@@ -4458,11 +4589,13 @@ spec:
                       availabilityType:
                         description: |-
                           The availability type of the Cloud SQL
-                          instance, high availability (REGIONAL) or single zone (ZONAL).' For all instances, ensure that
+                          instance, high availability (REGIONAL) or single zone (ZONAL). For all instances, ensure that
                           settings.backup_configuration.enabled is set to true.
                           For MySQL instances, ensure that settings.backup_configuration.binary_log_enabled is set to true.
                           For Postgres and SQL Server instances, ensure that settings.backup_configuration.point_in_time_recovery_enabled
                           is set to true. Defaults to ZONAL.
+                          For read pool instances, this field is read-only. The availability type is changed by specifying
+                          the number of nodes (node_count).
                         type: string
                       backupConfiguration:
                         properties:
@@ -4620,6 +4753,14 @@ spec:
                         description: The edition of the instance, can be ENTERPRISE
                           or ENTERPRISE_PLUS.
                         type: string
+                      effectiveAvailabilityType:
+                        description: |-
+                          (Computed) The availability type of
+                          the Cloud SQL instance, high availability (REGIONAL) or single zone
+                          (ZONAL). This field always contains the value that is reported by the API (for
+                          read pools, settings.0.effective_availability_type may differ from
+                          settings.0.availability_type).
+                        type: string
                       enableDataplexIntegration:
                         description: Enables Cloud SQL instance integration with Dataplex.
                           MySQL, Postgres and SQL Server instances are supported for
@@ -4727,6 +4868,11 @@ spec:
                                     type: string
                                   type: array
                                   x-kubernetes-list-type: set
+                                networkAttachmentUri:
+                                  description: Network Attachment URI in the format
+                                    projects/project1/regions/region1/networkAttachments/networkAttachment1
+                                    to enable outbound connectivity on PSC instance.
+                                  type: string
                                 pscAutoConnections:
                                   description: A comma-separated list of networks
                                     or a comma-separated list of network-project pairs.
