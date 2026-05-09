@@ -2488,17 +2488,27 @@ type EphemeralStorageLocalSsdConfigParameters struct {
 
 type ExclusionOptionsInitParameters struct {
 
+	// The behavior of the exclusion end time (for example UNTIL_END_OF_SUPPORT).
+	EndTimeBehavior *string `json:"endTimeBehavior,omitempty" tf:"end_time_behavior,omitempty"`
+
 	// Whether or not to enable GKE Auto-Monitoring. Supported values include: ALL, NONE.
 	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
 }
 
 type ExclusionOptionsObservation struct {
 
+	// The behavior of the exclusion end time (for example UNTIL_END_OF_SUPPORT).
+	EndTimeBehavior *string `json:"endTimeBehavior,omitempty" tf:"end_time_behavior,omitempty"`
+
 	// Whether or not to enable GKE Auto-Monitoring. Supported values include: ALL, NONE.
 	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
 }
 
 type ExclusionOptionsParameters struct {
+
+	// The behavior of the exclusion end time (for example UNTIL_END_OF_SUPPORT).
+	// +kubebuilder:validation:Optional
+	EndTimeBehavior *string `json:"endTimeBehavior" tf:"end_time_behavior,omitempty"`
 
 	// Whether or not to enable GKE Auto-Monitoring. Supported values include: ALL, NONE.
 	// +kubebuilder:validation:Optional

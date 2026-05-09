@@ -878,6 +878,10 @@ spec:
                                   description: 'Whether or not to enable GKE Auto-Monitoring.
                                     Supported values include: ALL, NONE.'
                                   type: string
+                                endTimeBehavior:
+                                  description: |-
+                                    The behavior of the exclusion end time (for example UNTIL_END_OF_SUPPORT).
+                                  type: string
                               type: object
                             startTime:
                               type: string
@@ -3176,6 +3180,10 @@ spec:
                                 scope:
                                   description: 'Whether or not to enable GKE Auto-Monitoring.
                                     Supported values include: ALL, NONE.'
+                                  type: string
+                                endTimeBehavior:
+                                  description: |-
+                                    The behavior of the exclusion end time (for example UNTIL_END_OF_SUPPORT).
                                   type: string
                               type: object
                             startTime:
@@ -5584,6 +5592,10 @@ spec:
                                 scope:
                                   description: 'Whether or not to enable GKE Auto-Monitoring.
                                     Supported values include: ALL, NONE.'
+                                  type: string
+                                endTimeBehavior:
+                                  description: |-
+                                    The behavior of the exclusion end time (for example UNTIL_END_OF_SUPPORT).
                                   type: string
                               type: object
                             startTime:
