@@ -5,7 +5,11 @@
 package config
 
 import (
+	"context"
+	"fmt"
 	"strings"
+
+	"github.com/pkg/errors"
 
 	"github.com/crossplane/upjet/v2/pkg/config"
 
@@ -853,6 +857,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_storage_managed_folder": config.IdentifierFromProvider,
 	// Imported by using the following format: {{bucket}}/managedFolders/{{name}}
 	"google_storage_managed_folder_iam_member": config.IdentifierFromProvider,
+	// Imported by using the following format: {{location}}/{{name}}
+	"google_storage_insights_report_config": storageInsightsReportConfig(),
 
 	// bigquery
 	//
@@ -1134,6 +1140,44 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	//
 	"google_model_armor_template":     config.TemplatedStringAsIdentifier("template_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/templates/{{ .external_name }}"),
 	"google_model_armor_floorsetting": config.TemplatedStringAsIdentifier("", "{{ .parameters.parent }}/locations/{{ .parameters.location }}/floorSetting"),
+}
+
+// storageInsightsReportConfig configures the external name for
+// google_storage_insights_report_config TF resource. The resource name is
+// provider-defined and returned in the computed `name` attribute. The TF
+// import ID uses the format {location}/{name}. During import and state
+// reconstruction, the Terraform provider also expects the computed `name`
+// attribute to be present in addition to the ID in order to return the full
+// observed state. Before the provider assigns a name, no ID is returned.
+func storageInsightsReportConfig() config.ExternalName {
+	e := config.IdentifierFromProvider
+	e.SetIdentifierArgumentFn = func(base map[string]any, externalName string) {
+		if externalName == "" {
+			return
+		}
+		base["name"] = externalName
+	}
+
+	e.GetIDFn = func(_ context.Context, externalName string, parameters map[string]any, _ map[string]any) (string, error) {
+		if externalName == "" {
+			return "", nil
+		}
+		location, ok := parameters["location"].(string)
+		if !ok || location == "" {
+			return "", errors.New("location is required to build the storage insights report config ID")
+		}
+		return fmt.Sprintf("%s/%s", location, externalName), nil
+	}
+
+	e.GetExternalNameFn = func(tfstate map[string]any) (string, error) {
+		if name, ok := tfstate["name"].(string); ok && name != "" {
+			return name, nil
+		}
+		return common.GetNameFromFullyQualifiedID(tfstate)
+	}
+
+	e.IdentifierFields = []string{"location"}
+	return e
 }
 
 // cliReconciledExternalNameConfigs contains all external name configurations
