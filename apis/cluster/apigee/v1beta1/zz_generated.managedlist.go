@@ -7,8 +7,62 @@ package v1beta1
 
 import resource "github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 
+// GetItems of this APIList.
+func (l *APIList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this APIProductList.
+func (l *APIProductList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this AddonsConfigList.
 func (l *AddonsConfigList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this AppGroupList.
+func (l *AppGroupList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this ControlPlaneAccessList.
+func (l *ControlPlaneAccessList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this DNSZoneList.
+func (l *DNSZoneList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this DeveloperList.
+func (l *DeveloperList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
@@ -61,6 +115,24 @@ func (l *EnvgroupList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this EnvironmentAddonsConfigList.
+func (l *EnvironmentAddonsConfigList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this EnvironmentIAMBindingList.
+func (l *EnvironmentIAMBindingList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this EnvironmentIAMMemberList.
 func (l *EnvironmentIAMMemberList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
@@ -70,8 +142,44 @@ func (l *EnvironmentIAMMemberList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this EnvironmentIAMPolicyList.
+func (l *EnvironmentIAMPolicyList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this EnvironmentKeyvaluemapsEntriesList.
+func (l *EnvironmentKeyvaluemapsEntriesList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this EnvironmentKeyvaluemapsList.
+func (l *EnvironmentKeyvaluemapsList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this EnvironmentList.
 func (l *EnvironmentList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this FlowhookList.
+func (l *FlowhookList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
@@ -106,6 +214,24 @@ func (l *KeystoresAliasesKeyCertFileList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this KeystoresAliasesPkcs12List.
+func (l *KeystoresAliasesPkcs12List) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this KeystoresAliasesSelfSignedCertList.
+func (l *KeystoresAliasesSelfSignedCertList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this NATAddressList.
 func (l *NATAddressList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
@@ -117,6 +243,51 @@ func (l *NATAddressList) GetItems() []resource.Managed {
 
 // GetItems of this OrganizationList.
 func (l *OrganizationList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this SecurityActionList.
+func (l *SecurityActionList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this SecurityMonitoringConditionList.
+func (l *SecurityMonitoringConditionList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this SecurityProfileV2List.
+func (l *SecurityProfileV2List) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this SharedflowDeploymentList.
+func (l *SharedflowDeploymentList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this SharedflowList.
+func (l *SharedflowList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]

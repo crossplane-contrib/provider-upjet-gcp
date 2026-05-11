@@ -1,0 +1,55 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: apigee.gcp.upbound.io/v1beta1
+kind: DNSZone
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/dnszone
+  labels:
+    testing.upbound.io/example-name: apigee_dns_zone
+  name: apigee-dns-zone
+spec:
+  forProvider:
+    description: test
+    dnsZoneId: test1
+    domain: foo.com
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee_org
+    peeringConfig:
+      targetNetworkIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: apigee_network
+      targetProjectId: ${data.google_client_config.current.project}
+
+---
+
+apiVersion: apigee.gcp.upbound.io/v1beta2
+kind: Organization
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/dnszone
+  labels:
+    testing.upbound.io/example-name: org
+  name: org
+spec:
+  forProvider:
+    analyticsRegion: us-central1
+    description: Terraform-provisioned basic Apigee Org without VPC Peering.
+    disableVpcPeering: true
+    projectId: ${data.google_client_config.current.project}
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/dnszone
+  labels:
+    testing.upbound.io/example-name: apigee_network
+  name: apigee-network
+spec:
+  forProvider: {}
