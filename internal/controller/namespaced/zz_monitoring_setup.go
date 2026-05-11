@@ -14,6 +14,7 @@ import (
 	dashboard "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/monitoring/dashboard"
 	group "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/monitoring/group"
 	metricdescriptor "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/monitoring/metricdescriptor"
+	monitoredproject "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/monitoring/monitoredproject"
 	notificationchannel "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/monitoring/notificationchannel"
 	service "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/monitoring/service"
 	slo "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/monitoring/slo"
@@ -29,6 +30,7 @@ func Setup_monitoring(mgr ctrl.Manager, o controller.Options) error {
 		dashboard.Setup,
 		group.Setup,
 		metricdescriptor.Setup,
+		monitoredproject.Setup,
 		notificationchannel.Setup,
 		service.Setup,
 		slo.Setup,
@@ -50,6 +52,7 @@ func SetupGated_monitoring(mgr ctrl.Manager, o controller.Options) error {
 		dashboard.SetupGated,
 		group.SetupGated,
 		metricdescriptor.SetupGated,
+		monitoredproject.SetupGated,
 		notificationchannel.SetupGated,
 		service.SetupGated,
 		slo.SetupGated,
