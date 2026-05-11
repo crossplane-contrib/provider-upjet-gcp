@@ -427,6 +427,19 @@ func Configure(p *config.Provider) { // nolint: gocyclo
 		}
 	})
 
+	p.AddResourceConfigurator("google_compute_firewall_policy", func(r *config.Resource) {
+		// keep existing ExternalName (IdentifierFromProvider etc.)
+		r.ExternalName.SetIdentifierArgumentFn = func(base map[string]any, externalName string) {
+			parts := strings.Split(externalName, "/")
+			name := externalName
+			if len(parts) > 0 {
+				name = parts[len(parts)-1]
+			}
+			base["name"] = name
+		}
+		r.ExternalName.OmittedFields = append(r.ExternalName.OmittedFields, "name")
+	})
+
 	p.AddResourceConfigurator("google_compute_firewall_policy_association", func(r *config.Resource) {
 		r.References["ssl_certificates"] = config.Reference{
 			TerraformName: "google_compute_region_ssl_certificate",
