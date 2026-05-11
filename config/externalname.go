@@ -622,6 +622,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_kms_secret_ciphertext": config.IdentifierFromProvider,
 	// Imported by using the following {{name}}
 	"google_kms_crypto_key_version": config.IdentifierFromProvider,
+	// projects/{{project}}/locations/{{location}}/keyHandles/{{name}}
+	"google_kms_key_handle": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/keyHandles/{{ .external_name }}"),
 
 	// monitoring
 	//
