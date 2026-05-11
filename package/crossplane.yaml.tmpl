@@ -35,8 +35,8 @@ spec:
   crossplane:
     version: ">=v1.12.1-0"
 {{ end }}
-{{ if and (ne .Service "config") (ne .Service "monolith") }}
+{{ if and (ne .Service "config") (ne .Service "monolith") -}}
   dependsOn:
-    - provider: {{ .XpkgRegOrg }}/provider-family-{{ .ProviderName }}
+    - provider: {{ .XpkgRegOrg }}/provider-family-{{ .ProviderName }}{{ if .BuildVariant }}-{{ .BuildVariant }}{{ end }}
       version: "{{ .DepConstraint }}"
-{{ end }}
+{{ end -}}
