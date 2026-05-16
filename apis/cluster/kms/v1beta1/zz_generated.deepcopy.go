@@ -102,18 +102,36 @@ func (in *CertChainsObservation) DeepCopyInto(out *CertChainsObservation) {
 	*out = *in
 	if in.CaviumCerts != nil {
 		in, out := &in.CaviumCerts, &out.CaviumCerts
-		*out = new(string)
-		**out = **in
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
 	}
 	if in.GoogleCardCerts != nil {
 		in, out := &in.GoogleCardCerts, &out.GoogleCardCerts
-		*out = new(string)
-		**out = **in
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
 	}
 	if in.GooglePartitionCerts != nil {
 		in, out := &in.GooglePartitionCerts, &out.GooglePartitionCerts
-		*out = new(string)
-		**out = **in
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
 	}
 }
 

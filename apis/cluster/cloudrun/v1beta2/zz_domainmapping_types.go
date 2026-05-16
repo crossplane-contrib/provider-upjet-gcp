@@ -398,6 +398,7 @@ type DomainMappingStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // DomainMapping is the Schema for the DomainMappings API. Resource to hold the state and status of a user's domain mapping.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

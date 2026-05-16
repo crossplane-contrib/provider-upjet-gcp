@@ -6,6 +6,8 @@ package gkehub
 
 import (
 	"github.com/crossplane/upjet/v2/pkg/config"
+
+	"github.com/upbound/provider-gcp/v2/config/cluster/common"
 )
 
 // Configure configures individual resources by adding custom
@@ -14,6 +16,7 @@ func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("google_gke_hub_membership_iam_member", func(r *config.Resource) {
 		r.References["membership_id"] = config.Reference{
 			TerraformName: "google_gke_hub_membership",
+			Extractor:     common.ExtractResourceIDFuncPath,
 		}
 	})
 }

@@ -542,6 +542,10 @@ type RegionInstanceGroupManagerParameters struct {
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
+	// The standby policy for stopped and suspended instances. Structure is documented below. For more information, see the official documentation.
+	// +kubebuilder:validation:Optional
+	StandbyPolicy []RegionInstanceGroupManagerStandbyPolicyParameters `json:"standbyPolicy,omitempty" tf:"standby_policy,omitempty"`
+
 	// Disks created on the instances that will be preserved on instance delete, update, etc. Structure is documented below. For more information see the official documentation. Proactive cross zone instance redistribution must be disabled before you can update stateful disks on existing instance group managers. This can be controlled via the update_policy.
 	// +kubebuilder:validation:Optional
 	StatefulDisk []RegionInstanceGroupManagerStatefulDiskParameters `json:"statefulDisk,omitempty" tf:"stateful_disk,omitempty"`
@@ -1017,9 +1021,10 @@ type RegionInstanceGroupManagerStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
+// +kubebuilder:deprecatedversion:warning="This API version is deprecated. Deprecated since v2.6.0."
 
 // RegionInstanceGroupManager is the Schema for the RegionInstanceGroupManagers API. Manages an Regional Instance Group within GCE.
+// Deprecated: This API version (v1beta1) has been deprecated in release v2.6.0.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

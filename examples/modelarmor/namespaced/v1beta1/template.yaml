@@ -1,0 +1,31 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: modelarmor.gcp.m.upbound.io/v1beta1
+kind: Template
+metadata:
+  annotations:
+    meta.upbound.io/example-id: modelarmor/v1beta1/template
+  labels:
+    testing.upbound.io/example-name: template-example
+  name: uptest-template-example
+  namespace: upbound-system
+spec:
+  forProvider:
+    location: us-central1
+    filterConfig:
+      raiSettings:
+        raiFilters:
+          - filterType: DANGEROUS
+            confidenceLevel: MEDIUM_AND_ABOVE
+          - filterType: HATE_SPEECH
+            confidenceLevel: HIGH
+      piAndJailbreakFilterSettings:
+        filterEnforcement: ENABLED
+        confidenceLevel: HIGH
+      maliciousUriFilterSettings:
+        filterEnforcement: ENABLED
+    templateMetadata:
+      logTemplateOperations: true
+      logSanitizeOperations: true

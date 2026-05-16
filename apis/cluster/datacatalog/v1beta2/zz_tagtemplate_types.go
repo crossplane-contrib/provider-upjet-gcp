@@ -282,6 +282,7 @@ type TagTemplateStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // TagTemplate is the Schema for the TagTemplates API. A tag template defines a tag, which can have one or more typed fields.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

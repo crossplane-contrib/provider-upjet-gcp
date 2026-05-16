@@ -505,8 +505,8 @@ type LivenessProbeTCPSocketParameters struct {
 
 type ScalingInitParameters struct {
 
-	// Maximum number of serving instances that this resource should have.
-	MaxInstanceCount *float64 `json:"maxInstanceCount,omitempty" tf:"max_instance_count,omitempty"`
+	// Total instance count for the service in manual scaling mode.
+	ManualInstanceCount *float64 `json:"manualInstanceCount,omitempty" tf:"manual_instance_count,omitempty"`
 
 	// Minimum number of serving instances that this resource should have.
 	MinInstanceCount *float64 `json:"minInstanceCount,omitempty" tf:"min_instance_count,omitempty"`
@@ -518,8 +518,8 @@ type ScalingInitParameters struct {
 
 type ScalingObservation struct {
 
-	// Maximum number of serving instances that this resource should have.
-	MaxInstanceCount *float64 `json:"maxInstanceCount,omitempty" tf:"max_instance_count,omitempty"`
+	// Total instance count for the service in manual scaling mode.
+	ManualInstanceCount *float64 `json:"manualInstanceCount,omitempty" tf:"manual_instance_count,omitempty"`
 
 	// Minimum number of serving instances that this resource should have.
 	MinInstanceCount *float64 `json:"minInstanceCount,omitempty" tf:"min_instance_count,omitempty"`
@@ -531,11 +531,11 @@ type ScalingObservation struct {
 
 type ScalingParameters struct {
 
-	// Maximum number of serving instances that this resource should have.
+	// Total instance count for the service in manual scaling mode. This number of instances is divided among all revisions with specified traffic based on the percent of traffic they are receiving.
 	// +kubebuilder:validation:Optional
-	MaxInstanceCount *float64 `json:"maxInstanceCount,omitempty" tf:"max_instance_count,omitempty"`
+	ManualInstanceCount *float64 `json:"manualInstanceCount,omitempty" tf:"manual_instance_count,omitempty"`
 
-	// Minimum number of serving instances that this resource should have.
+	// Minimum number of serving instances that this resource should have. Defaults to 0. Must not be greater than maximum instance count.
 	// +kubebuilder:validation:Optional
 	MinInstanceCount *float64 `json:"minInstanceCount,omitempty" tf:"min_instance_count,omitempty"`
 
@@ -1424,6 +1424,9 @@ type V2ServiceObservation struct {
 
 	// The last-modified time.
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`
+
+	// All URLs serving traffic for this Service.
+	Urls []*string `json:"urls,omitempty" tf:"urls,omitempty"`
 }
 
 type V2ServiceParameters struct {
@@ -1724,7 +1727,7 @@ type V2ServiceTemplateInitParameters struct {
 
 	// Scaling settings for this Revision.
 	// Structure is documented below.
-	Scaling []ScalingInitParameters `json:"scaling,omitempty" tf:"scaling,omitempty"`
+	Scaling []TemplateScalingInitParameters `json:"scaling,omitempty" tf:"scaling,omitempty"`
 
 	// Email address of the IAM service account associated with the revision of the service. The service account represents the identity of the running revision, and determines what permissions the revision has. If not provided, the revision will use the project's default service account.
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
@@ -1787,7 +1790,7 @@ type V2ServiceTemplateObservation struct {
 
 	// Scaling settings for this Revision.
 	// Structure is documented below.
-	Scaling []ScalingObservation `json:"scaling,omitempty" tf:"scaling,omitempty"`
+	Scaling []TemplateScalingObservation `json:"scaling,omitempty" tf:"scaling,omitempty"`
 
 	// Email address of the IAM service account associated with the revision of the service. The service account represents the identity of the running revision, and determines what permissions the revision has. If not provided, the revision will use the project's default service account.
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
@@ -1860,7 +1863,7 @@ type V2ServiceTemplateParameters struct {
 	// Scaling settings for this Revision.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Scaling []ScalingParameters `json:"scaling,omitempty" tf:"scaling,omitempty"`
+	Scaling []TemplateScalingParameters `json:"scaling,omitempty" tf:"scaling,omitempty"`
 
 	// Email address of the IAM service account associated with the revision of the service. The service account represents the identity of the running revision, and determines what permissions the revision has. If not provided, the revision will use the project's default service account.
 	// +kubebuilder:validation:Optional
@@ -2267,9 +2270,10 @@ type V2ServiceStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
+// +kubebuilder:deprecatedversion:warning="This API version is deprecated. Deprecated since v2.6.0."
 
 // V2Service is the Schema for the V2Services API. Service acts as a top-level container that manages a set of configurations and revision templates which implement a network service.
+// Deprecated: This API version (v1beta1) has been deprecated in release v2.6.0.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

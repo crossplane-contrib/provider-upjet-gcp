@@ -605,6 +605,7 @@ type DatasetAccessStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // DatasetAccess is the Schema for the DatasetAccesss API. Gives dataset access for a single entity.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

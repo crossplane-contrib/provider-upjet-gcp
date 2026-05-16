@@ -10,6 +10,6 @@ import "github.com/crossplane/upjet/v2/pkg/config"
 // ResourceConfigurators.
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("google_tpu_node", func(r *config.Resource) {
-		config.MarkAsRequired(r.TerraformResource, "zone")
+		r.MarkAsRequired("zone")
 	})
 }

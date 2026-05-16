@@ -501,6 +501,21 @@ func (in *BigqueryConfigInitParameters) DeepCopyInto(out *BigqueryConfigInitPara
 		*out = new(bool)
 		**out = **in
 	}
+	if in.ServiceAccountEmail != nil {
+		in, out := &in.ServiceAccountEmail, &out.ServiceAccountEmail
+		*out = new(string)
+		**out = **in
+	}
+	if in.ServiceAccountEmailRef != nil {
+		in, out := &in.ServiceAccountEmailRef, &out.ServiceAccountEmailRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ServiceAccountEmailSelector != nil {
+		in, out := &in.ServiceAccountEmailSelector, &out.ServiceAccountEmailSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Table != nil {
 		in, out := &in.Table, &out.Table
 		*out = new(string)
@@ -539,6 +554,11 @@ func (in *BigqueryConfigObservation) DeepCopyInto(out *BigqueryConfigObservation
 	if in.DropUnknownFields != nil {
 		in, out := &in.DropUnknownFields, &out.DropUnknownFields
 		*out = new(bool)
+		**out = **in
+	}
+	if in.ServiceAccountEmail != nil {
+		in, out := &in.ServiceAccountEmail, &out.ServiceAccountEmail
+		*out = new(string)
 		**out = **in
 	}
 	if in.Table != nil {
@@ -580,6 +600,21 @@ func (in *BigqueryConfigParameters) DeepCopyInto(out *BigqueryConfigParameters) 
 		in, out := &in.DropUnknownFields, &out.DropUnknownFields
 		*out = new(bool)
 		**out = **in
+	}
+	if in.ServiceAccountEmail != nil {
+		in, out := &in.ServiceAccountEmail, &out.ServiceAccountEmail
+		*out = new(string)
+		**out = **in
+	}
+	if in.ServiceAccountEmailRef != nil {
+		in, out := &in.ServiceAccountEmailRef, &out.ServiceAccountEmailRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ServiceAccountEmailSelector != nil {
+		in, out := &in.ServiceAccountEmailSelector, &out.ServiceAccountEmailSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Table != nil {
 		in, out := &in.Table, &out.Table

@@ -44,13 +44,13 @@ type CertChainsInitParameters struct {
 type CertChainsObservation struct {
 
 	// Cavium certificate chain corresponding to the attestation.
-	CaviumCerts *string `json:"caviumCerts,omitempty" tf:"cavium_certs,omitempty"`
+	CaviumCerts []*string `json:"caviumCerts,omitempty" tf:"cavium_certs,omitempty"`
 
 	// Google card certificate chain corresponding to the attestation.
-	GoogleCardCerts *string `json:"googleCardCerts,omitempty" tf:"google_card_certs,omitempty"`
+	GoogleCardCerts []*string `json:"googleCardCerts,omitempty" tf:"google_card_certs,omitempty"`
 
 	// Google partition certificate chain corresponding to the attestation.
-	GooglePartitionCerts *string `json:"googlePartitionCerts,omitempty" tf:"google_partition_certs,omitempty"`
+	GooglePartitionCerts []*string `json:"googlePartitionCerts,omitempty" tf:"google_partition_certs,omitempty"`
 }
 
 type CertChainsParameters struct {
@@ -213,9 +213,10 @@ type CryptoKeyVersionStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
+// +kubebuilder:deprecatedversion:warning="This API version is deprecated. Deprecated since v2.6.0."
 
 // CryptoKeyVersion is the Schema for the CryptoKeyVersions API. A
+// Deprecated: This API version (v1beta1) has been deprecated in release v2.6.0.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

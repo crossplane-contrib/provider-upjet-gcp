@@ -8,7 +8,6 @@ import (
 	"context"
 	"strings"
 
-	"github.com/crossplane/upjet/v2/pkg/config"
 	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
 	"github.com/crossplane/upjet/v2/pkg/config/conversion"
 	"github.com/crossplane/upjet/v2/pkg/registry/reference"
@@ -86,24 +85,22 @@ func bumpVersionsWithEmbeddedLists(pc *ujconfig.Provider) {
 		if _, ok := oldSLAPIs[n]; ok {
 			r.Version = "v1beta2"
 			r.PreviousVersions = []string{"v1beta1"}
-			// we would like to set the storage version to v1beta1 to facilitate
-			// downgrades.
-			r.SetCRDStorageVersion("v1beta1")
-			// because the controller reconciles on the API version with the singleton list API,
-			// no need for a Terraform conversion.
-			r.ControllerReconcileVersion = "v1beta1"
+			r.SetCRDStorageVersion(r.Version)
+			r.ControllerReconcileVersion = r.Version //nolint:staticcheck
 			r.Conversions = []conversion.Conversion{
 				conversion.NewIdentityConversionExpandPaths(conversion.AllVersions, conversion.AllVersions, conversion.DefaultPathPrefixes(), r.CRDListConversionPaths()...),
 				conversion.NewSingletonListConversion("v1beta1", "v1beta2", conversion.DefaultPathPrefixes(), r.CRDListConversionPaths(), conversion.ToEmbeddedObject),
 				conversion.NewSingletonListConversion("v1beta2", "v1beta1", conversion.DefaultPathPrefixes(), r.CRDListConversionPaths(), conversion.ToSingletonList)}
-		} else {
-			// the controller will be reconciling on the CRD API version
-			// with the converted API (with embedded objects in place of
-			// singleton lists), so we need the appropriate Terraform
-			// converter in this case.
-			r.TerraformConversions = []config.TerraformConversion{
-				config.NewTFSingletonConversion(),
+			if err := r.SetDeprecatedVersion("v1beta1",
+				ujconfig.VersionDeprecation{
+					Warning:            "This API version is deprecated.",
+					DeprecationRelease: "v2.6.0",
+				}); err != nil {
+				panic(err)
 			}
+		}
+		r.TerraformConversions = []ujconfig.TerraformConversion{
+			ujconfig.NewTFSingletonConversion(),
 		}
 		pc.Resources[n] = r
 	}

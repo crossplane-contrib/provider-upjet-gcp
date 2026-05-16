@@ -10,12 +10,12 @@ import "github.com/crossplane/upjet/v2/pkg/config"
 // ResourceConfigurators.
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("google_beyondcorp_app_connection", func(r *config.Resource) {
-		config.MarkAsRequired(r.TerraformResource, "region")
+		r.MarkAsRequired("region")
 	})
 	p.AddResourceConfigurator("google_beyondcorp_app_connector", func(r *config.Resource) {
-		config.MarkAsRequired(r.TerraformResource, "region")
+		r.MarkAsRequired("region")
 	})
 	p.AddResourceConfigurator("google_beyondcorp_app_gateway", func(r *config.Resource) {
-		config.MarkAsRequired(r.TerraformResource, "region")
+		r.MarkAsRequired("region")
 	})
 }

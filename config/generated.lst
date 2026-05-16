@@ -299,6 +299,8 @@
   "google_memorystore_instance",
   "google_memorystore_instance_desired_user_created_endpoints",
   "google_ml_engine_model",
+  "google_model_armor_floorsetting",
+  "google_model_armor_template",
   "google_monitoring_alert_policy",
   "google_monitoring_custom_service",
   "google_monitoring_dashboard",

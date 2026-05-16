@@ -241,6 +241,7 @@ type WorkerPoolStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // WorkerPool is the Schema for the WorkerPools API. Configuration for custom WorkerPool to run builds
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

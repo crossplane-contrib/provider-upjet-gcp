@@ -685,6 +685,7 @@ type RegionAutoscalerStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // RegionAutoscaler is the Schema for the RegionAutoscalers API. Represents an Autoscaler resource.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

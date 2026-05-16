@@ -31,11 +31,14 @@ spec:
     - jsonPath: .metadata.creationTimestamp
       name: AGE
       type: date
+    deprecated: true
+    deprecationWarning: This API version is deprecated. Deprecated since v2.6.0.
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: RouterPeer is the Schema for the RouterPeers API. BGP information
-          that must be configured into the routing stack to establish BGP peering.
+        description: |-
+          RouterPeer is the Schema for the RouterPeers API. BGP information that must be configured into the routing stack to establish BGP peering.
+          Deprecated: This API version (v1beta1) has been deprecated in release v2.6.0.
         properties:
           apiVersion:
             description: |-
@@ -904,6 +907,25 @@ spec:
                   md5AuthenticationKey:
                     items:
                       properties:
+                        keySecretRef:
+                          description: The MD5 authentication key for this BGP peer.
+                            Maximum length is 80 characters. Can only contain printable
+                            ASCII characters
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
                         name:
                           description: |-
                             Name of this BGP peer. The name must be 1-63 characters long,
@@ -913,6 +935,8 @@ spec:
                             following characters must be a dash, lowercase letter, or digit,
                             except the last character, which cannot be a dash.
                           type: string
+                      required:
+                      - keySecretRef
                       type: object
                     type: array
                   peerAsn:
@@ -1558,7 +1582,7 @@ spec:
         - spec
         type: object
     served: true
-    storage: true
+    storage: false
     subresources:
       status: {}
   - additionalPrinterColumns:
@@ -3133,6 +3157,6 @@ spec:
         - spec
         type: object
     served: true
-    storage: false
+    storage: true
     subresources:
       status: {}

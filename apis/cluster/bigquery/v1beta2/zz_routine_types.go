@@ -602,6 +602,7 @@ type RoutineStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Routine is the Schema for the Routines API. A user-defined function or a stored procedure that belongs to a Dataset
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

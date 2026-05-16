@@ -156,6 +156,7 @@ type CustomServiceStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // CustomService is the Schema for the CustomServices API. A Service is a discrete, autonomous, and network-accessible unit, designed to solve an individual concern.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

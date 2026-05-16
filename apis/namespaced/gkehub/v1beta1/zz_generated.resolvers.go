@@ -12,6 +12,7 @@ import (
 	xpresource "github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 	resource "github.com/crossplane/upjet/v2/pkg/resource"
 	errors "github.com/pkg/errors"
+	common "github.com/upbound/provider-gcp/v2/config/cluster/common"
 	apisresolver "github.com/upbound/provider-gcp/v2/internal/apis"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -93,7 +94,7 @@ func (mg *MembershipIAMMember) ResolveReferences(ctx context.Context, c client.R
 
 		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.MembershipID),
-			Extract:      reference.ExternalName(),
+			Extract:      common.ExtractResourceID(),
 			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.MembershipIDRef,
 			Selector:     mg.Spec.ForProvider.MembershipIDSelector,
@@ -113,7 +114,7 @@ func (mg *MembershipIAMMember) ResolveReferences(ctx context.Context, c client.R
 
 		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.MembershipID),
-			Extract:      reference.ExternalName(),
+			Extract:      common.ExtractResourceID(),
 			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.MembershipIDRef,
 			Selector:     mg.Spec.InitProvider.MembershipIDSelector,

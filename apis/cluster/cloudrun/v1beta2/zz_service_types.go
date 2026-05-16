@@ -2067,6 +2067,7 @@ type ServiceStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Service is the Schema for the Services API. A Cloud Run service has a unique endpoint and autoscales containers.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

@@ -2285,6 +2285,7 @@ type FlowStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Flow is the Schema for the Flows API. Flows represents the conversation flows when you build your chatbot agent.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

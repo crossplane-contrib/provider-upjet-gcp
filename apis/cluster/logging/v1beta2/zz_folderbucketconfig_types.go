@@ -183,6 +183,7 @@ type FolderBucketConfigStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // FolderBucketConfig is the Schema for the FolderBucketConfigs API. Manages a folder-level logging bucket config.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

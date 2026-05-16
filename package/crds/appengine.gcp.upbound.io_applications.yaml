@@ -31,11 +31,14 @@ spec:
     - jsonPath: .metadata.creationTimestamp
       name: AGE
       type: date
+    deprecated: true
+    deprecationWarning: This API version is deprecated. Deprecated since v2.6.0.
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: Application is the Schema for the Applications API. Allows management
-          of an App Engine application.
+        description: |-
+          Application is the Schema for the Applications API. Allows management of an App Engine application.
+          Deprecated: This API version (v1beta1) has been deprecated in release v2.6.0.
         properties:
           apiVersion:
             description: |-
@@ -276,6 +279,27 @@ spec:
                           description: OAuth2 client ID to use for the authentication
                             flow.
                           type: string
+                        oauth2ClientSecretSecretRef:
+                          description: |-
+                            OAuth2 client secret to use for the authentication flow.
+                            The SHA-256 hash of the value is returned in the oauth2ClientSecretSha256 field.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                      required:
+                      - oauth2ClientSecretSecretRef
                       type: object
                     type: array
                   locationId:
@@ -614,7 +638,7 @@ spec:
         - spec
         type: object
     served: true
-    storage: true
+    storage: false
     subresources:
       status: {}
   - additionalPrinterColumns:
@@ -1220,6 +1244,6 @@ spec:
         - spec
         type: object
     served: true
-    storage: false
+    storage: true
     subresources:
       status: {}

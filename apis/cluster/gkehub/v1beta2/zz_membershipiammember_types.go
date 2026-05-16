@@ -49,6 +49,7 @@ type MembershipIAMMemberInitParameters struct {
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/gkehub/v1beta2.Membership
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.ExtractResourceID()
 	MembershipID *string `json:"membershipId,omitempty" tf:"membership_id,omitempty"`
 
 	// Reference to a Membership in gkehub to populate membershipId.
@@ -94,6 +95,7 @@ type MembershipIAMMemberParameters struct {
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/gkehub/v1beta2.Membership
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	MembershipID *string `json:"membershipId,omitempty" tf:"membership_id,omitempty"`
 
@@ -137,6 +139,7 @@ type MembershipIAMMemberStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // MembershipIAMMember is the Schema for the MembershipIAMMembers API. <no value>
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

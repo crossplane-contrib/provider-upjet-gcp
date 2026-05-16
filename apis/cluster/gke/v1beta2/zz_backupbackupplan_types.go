@@ -836,6 +836,7 @@ type BackupBackupPlanStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // BackupBackupPlan is the Schema for the BackupBackupPlans API. Represents a Backup Plan instance.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

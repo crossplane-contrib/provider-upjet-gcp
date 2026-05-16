@@ -249,6 +249,7 @@ type ProjectBucketConfigStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // ProjectBucketConfig is the Schema for the ProjectBucketConfigs API. Manages a project-level logging bucket config.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

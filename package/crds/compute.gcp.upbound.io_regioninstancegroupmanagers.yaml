@@ -31,11 +31,14 @@ spec:
     - jsonPath: .metadata.creationTimestamp
       name: AGE
       type: date
+    deprecated: true
+    deprecationWarning: This API version is deprecated. Deprecated since v2.6.0.
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: RegionInstanceGroupManager is the Schema for the RegionInstanceGroupManagers
-          API. Manages an Regional Instance Group within GCE.
+        description: |-
+          RegionInstanceGroupManager is the Schema for the RegionInstanceGroupManagers API. Manages an Regional Instance Group within GCE.
+          Deprecated: This API version (v1beta1) has been deprecated in release v2.6.0.
         properties:
           apiVersion:
             description: |-
@@ -318,6 +321,32 @@ spec:
                     description: The region where the managed instance group resides.
                       If not provided, the provider region is used.
                     type: string
+                  standbyPolicy:
+                    description: The standby policy for stopped and suspended instances.
+                      Structure is documented below. For more information, see the
+                      official documentation.
+                    items:
+                      properties:
+                        initialDelaySec:
+                          description: '- Specifies the number of seconds that the
+                            MIG should wait to suspend or stop a VM after that VM
+                            was created. The initial delay gives the initialization
+                            script the time to prepare your VM for a quick scale out.
+                            The value of initial delay must be between 0 and 3600
+                            seconds. The default value is 0.'
+                          type: number
+                        mode:
+                          description: '- Defines how a MIG resumes or starts VMs
+                            from a standby pool when the group scales out. Valid options
+                            are: MANUAL, SCALE_OUT_POOL. If MANUAL(default), you have
+                            full control over which VMs are stopped and suspended
+                            in the MIG. If SCALE_OUT_POOL, the MIG uses the VMs from
+                            the standby pools to accelerate the scale out by resuming
+                            or starting them and then automatically replenishes the
+                            standby pool with new VMs to maintain the target sizes.'
+                          type: string
+                      type: object
+                    type: array
                   statefulDisk:
                     description: Disks created on the instances that will be preserved
                       on instance delete, update, etc. Structure is documented below.
@@ -2023,7 +2052,7 @@ spec:
         - spec
         type: object
     served: true
-    storage: true
+    storage: false
     subresources:
       status: {}
   - additionalPrinterColumns:
@@ -3990,6 +4019,6 @@ spec:
         - spec
         type: object
     served: true
-    storage: false
+    storage: true
     subresources:
       status: {}

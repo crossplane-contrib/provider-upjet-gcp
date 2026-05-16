@@ -31,11 +31,14 @@ spec:
     - jsonPath: .metadata.creationTimestamp
       name: AGE
       type: date
+    deprecated: true
+    deprecationWarning: This API version is deprecated. Deprecated since v2.6.0.
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: Connection is the Schema for the Connections API. A connection
-          allows BigQuery connections to external data sources.
+        description: |-
+          Connection is the Schema for the Connections API. A connection allows BigQuery connections to external data sources.
+          Deprecated: This API version (v1beta1) has been deprecated in release v2.6.0.
         properties:
           apiVersion:
             description: |-
@@ -687,6 +690,25 @@ spec:
                             Structure is documented below.
                           items:
                             properties:
+                              passwordSecretRef:
+                                description: |-
+                                  Password for database.
+                                  Note: This property is sensitive and will not be displayed in the plan.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
                               username:
                                 description: Username for database.
                                 type: string
@@ -766,6 +788,8 @@ spec:
                                         type: string
                                     type: object
                                 type: object
+                            required:
+                            - passwordSecretRef
                             type: object
                           type: array
                         database:
@@ -1458,7 +1482,7 @@ spec:
         - spec
         type: object
     served: true
-    storage: true
+    storage: false
     subresources:
       status: {}
   - additionalPrinterColumns:
@@ -2849,6 +2873,6 @@ spec:
         - spec
         type: object
     served: true
-    storage: false
+    storage: true
     subresources:
       status: {}

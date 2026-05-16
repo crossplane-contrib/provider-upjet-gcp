@@ -1782,6 +1782,10 @@ type CryptoDeterministicConfigCryptoKeyTransientParameters struct {
 }
 
 type CryptoDeterministicConfigCryptoKeyUnwrappedInitParameters struct {
+
+	// A 128/192/256 bit key.
+	// A base64-encoded string.
+	KeySecretRef v1.SecretKeySelector `json:"keySecretRef" tf:"-"`
 }
 
 type CryptoDeterministicConfigCryptoKeyUnwrappedObservation struct {
@@ -2028,6 +2032,10 @@ type CryptoHashConfigCryptoKeyTransientParameters struct {
 }
 
 type CryptoHashConfigCryptoKeyUnwrappedInitParameters struct {
+
+	// A 128/192/256 bit key.
+	// A base64-encoded string.
+	KeySecretRef v1.SecretKeySelector `json:"keySecretRef" tf:"-"`
 }
 
 type CryptoHashConfigCryptoKeyUnwrappedObservation struct {
@@ -5901,6 +5909,10 @@ type PrimitiveTransformationCryptoReplaceFfxFpeConfigCryptoKeyTransientParameter
 }
 
 type PrimitiveTransformationCryptoReplaceFfxFpeConfigCryptoKeyUnwrappedInitParameters struct {
+
+	// A 128/192/256 bit key.
+	// A base64-encoded string.
+	KeySecretRef v1.SecretKeySelector `json:"keySecretRef" tf:"-"`
 }
 
 type PrimitiveTransformationCryptoReplaceFfxFpeConfigCryptoKeyUnwrappedObservation struct {
@@ -6202,6 +6214,10 @@ type PrimitiveTransformationDateShiftConfigCryptoKeyTransientParameters struct {
 }
 
 type PrimitiveTransformationDateShiftConfigCryptoKeyUnwrappedInitParameters struct {
+
+	// A 128/192/256 bit key.
+	// A base64-encoded string.
+	KeySecretRef v1.SecretKeySelector `json:"keySecretRef" tf:"-"`
 }
 
 type PrimitiveTransformationDateShiftConfigCryptoKeyUnwrappedObservation struct {
@@ -8517,9 +8533,10 @@ type DeidentifyTemplateStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
+// +kubebuilder:deprecatedversion:warning="This API version is deprecated. Deprecated since v2.6.0."
 
 // DeidentifyTemplate is the Schema for the DeidentifyTemplates API. Allows creation of templates to de-identify content.
+// Deprecated: This API version (v1beta1) has been deprecated in release v2.6.0.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

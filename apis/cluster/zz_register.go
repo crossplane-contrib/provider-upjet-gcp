@@ -111,6 +111,7 @@ import (
 	v1beta1memorystore "github.com/upbound/provider-gcp/v2/apis/cluster/memorystore/v1beta1"
 	v1beta1mlengine "github.com/upbound/provider-gcp/v2/apis/cluster/mlengine/v1beta1"
 	v1beta2mlengine "github.com/upbound/provider-gcp/v2/apis/cluster/mlengine/v1beta2"
+	v1beta1modelarmor "github.com/upbound/provider-gcp/v2/apis/cluster/modelarmor/v1beta1"
 	v1beta1monitoring "github.com/upbound/provider-gcp/v2/apis/cluster/monitoring/v1beta1"
 	v1beta2monitoring "github.com/upbound/provider-gcp/v2/apis/cluster/monitoring/v1beta2"
 	v1beta1networkconnectivity "github.com/upbound/provider-gcp/v2/apis/cluster/networkconnectivity/v1beta1"
@@ -260,6 +261,7 @@ func init() {
 		v1beta1memorystore.SchemeBuilder.AddToScheme,
 		v1beta1mlengine.SchemeBuilder.AddToScheme,
 		v1beta2mlengine.SchemeBuilder.AddToScheme,
+		v1beta1modelarmor.SchemeBuilder.AddToScheme,
 		v1beta1monitoring.SchemeBuilder.AddToScheme,
 		v1beta2monitoring.SchemeBuilder.AddToScheme,
 		v1beta1networkconnectivity.SchemeBuilder.AddToScheme,

@@ -31,11 +31,14 @@ spec:
     - jsonPath: .metadata.creationTimestamp
       name: AGE
       type: date
+    deprecated: true
+    deprecationWarning: This API version is deprecated. Deprecated since v2.6.0.
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: WorkflowTemplate is the Schema for the WorkflowTemplates API.
-          A Workflow Template is a reusable workflow configuration.
+        description: |-
+          WorkflowTemplate is the Schema for the WorkflowTemplates API. A Workflow Template is a reusable workflow configuration.
+          Deprecated: This API version (v1beta1) has been deprecated in release v2.6.0.
         properties:
           apiVersion:
             description: |-
@@ -84,6 +87,16 @@ spec:
                       if the workflow was running on a (/dataproc/docs/concepts/workflows/using-workflows#configuring_or_selecting_a_cluster),
                       the cluster is deleted.
                     type: string
+                  encryptionConfig:
+                    description: Encryption settings for the cluster.
+                    items:
+                      properties:
+                        kmsKey:
+                          description: The uri of the KMS key used to encrypt various
+                            sensitive files.
+                          type: string
+                      type: object
+                    type: array
                   jobs:
                     description: Required. The Directed Acyclic Graph of Jobs to submit.
                     items:
@@ -1523,6 +1536,16 @@ spec:
                       if the workflow was running on a (/dataproc/docs/concepts/workflows/using-workflows#configuring_or_selecting_a_cluster),
                       the cluster is deleted.
                     type: string
+                  encryptionConfig:
+                    description: Encryption settings for the cluster.
+                    items:
+                      properties:
+                        kmsKey:
+                          description: The uri of the KMS key used to encrypt various
+                            sensitive files.
+                          type: string
+                      type: object
+                    type: array
                   jobs:
                     description: Required. The Directed Acyclic Graph of Jobs to submit.
                     items:
@@ -3052,6 +3075,16 @@ spec:
                       type: string
                     type: object
                     x-kubernetes-map-type: granular
+                  encryptionConfig:
+                    description: Encryption settings for the cluster.
+                    items:
+                      properties:
+                        kmsKey:
+                          description: The uri of the KMS key used to encrypt various
+                            sensitive files.
+                          type: string
+                      type: object
+                    type: array
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/workflowTemplates/{{name}}
                     type: string
@@ -4681,7 +4714,7 @@ spec:
         - spec
         type: object
     served: true
-    storage: true
+    storage: false
     subresources:
       status: {}
   - additionalPrinterColumns:
@@ -8912,6 +8945,6 @@ spec:
         - spec
         type: object
     served: true
-    storage: false
+    storage: true
     subresources:
       status: {}

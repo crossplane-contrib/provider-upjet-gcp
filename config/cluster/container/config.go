@@ -134,7 +134,7 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			Extractor:     common.PathSelfLinkExtractor,
 		}
 
-		config.MarkAsRequired(r.TerraformResource, "location")
+		r.MarkAsRequired("location")
 	})
 
 	p.AddResourceConfigurator("google_container_node_pool", func(r *config.Resource) {
