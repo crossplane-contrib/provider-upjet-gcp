@@ -70,8 +70,7 @@ func Setup(mgr ctrl.Manager, o tjcontroller.Options) error {
 	// register webhooks for the kind v1beta1.TableIAMBinding
 	// if they're enabled.
 	if o.StartWebhooks {
-		if err := ctrl.NewWebhookManagedBy(mgr).
-			For(&v1beta1.TableIAMBinding{}).
+		if err := ctrl.NewWebhookManagedBy(mgr, &v1beta1.TableIAMBinding{}).
 			Complete(); err != nil {
 			return errors.Wrap(err, "cannot register webhook for the kind v1beta1.TableIAMBinding")
 		}

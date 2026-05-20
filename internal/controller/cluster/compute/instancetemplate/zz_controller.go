@@ -69,8 +69,7 @@ func Setup(mgr ctrl.Manager, o tjcontroller.Options) error {
 	// register webhooks for the kind v1beta2.InstanceTemplate
 	// if they're enabled.
 	if o.StartWebhooks {
-		if err := ctrl.NewWebhookManagedBy(mgr).
-			For(&v1beta2.InstanceTemplate{}).
+		if err := ctrl.NewWebhookManagedBy(mgr, &v1beta2.InstanceTemplate{}).
 			Complete(); err != nil {
 			return errors.Wrap(err, "cannot register webhook for the kind v1beta2.InstanceTemplate")
 		}
