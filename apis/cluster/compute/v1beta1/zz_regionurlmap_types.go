@@ -1879,7 +1879,7 @@ type PathMatcherDefaultRouteActionObservation struct {
 
 	// Specifies the retry policy associated with this route.
 	// Structure is documented below.
-	RetryPolicy *[]DefaultRouteActionRetryPolicyObservation `json:"retryPolicy,omitempty" tf:"retry_policy,omitempty"`
+	RetryPolicy []DefaultRouteActionRetryPolicyObservation `json:"retryPolicy,omitempty" tf:"retry_policy,omitempty"`
 
 	// Specifies the timeout for the selected route. Timeout is computed from the time
 	// the request is has been fully processed (i.e. end-of-stream) up until the
