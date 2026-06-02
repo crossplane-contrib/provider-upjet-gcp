@@ -272,6 +272,7 @@ import (
 	release "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/firebaserules/release"
 	ruleset "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/firebaserules/ruleset"
 	database "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/firestore/database"
+	index "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/firestore/index"
 	coderepositoryindex "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gemini/coderepositoryindex"
 	codetoolssetting "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gemini/codetoolssetting"
 	datasharingwithgooglesetting "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gemini/datasharingwithgooglesetting"
@@ -682,6 +683,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		release.Setup,
 		ruleset.Setup,
 		database.Setup,
+		index.Setup,
 		coderepositoryindex.Setup,
 		codetoolssetting.Setup,
 		datasharingwithgooglesetting.Setup,
@@ -1098,6 +1100,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		release.SetupGated,
 		ruleset.SetupGated,
 		database.SetupGated,
+		index.SetupGated,
 		coderepositoryindex.SetupGated,
 		codetoolssetting.SetupGated,
 		datasharingwithgooglesetting.SetupGated,

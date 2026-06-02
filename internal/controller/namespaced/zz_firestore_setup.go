@@ -10,6 +10,7 @@ import (
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
 	database "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/firestore/database"
+	index "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/firestore/index"
 )
 
 // Setup_firestore creates all controllers with the supplied logger and adds them to
@@ -17,6 +18,7 @@ import (
 func Setup_firestore(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		database.Setup,
+		index.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err
@@ -30,6 +32,7 @@ func Setup_firestore(mgr ctrl.Manager, o controller.Options) error {
 func SetupGated_firestore(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		database.SetupGated,
+		index.SetupGated,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err

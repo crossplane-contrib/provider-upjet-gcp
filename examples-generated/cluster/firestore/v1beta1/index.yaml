@@ -21,7 +21,7 @@ spec:
       order: ASCENDING
     - fieldPath: description
       order: DESCENDING
-    project: official-provider-testing
+    project: my-project-name
 
 ---
 
@@ -37,7 +37,7 @@ spec:
   forProvider:
     deleteProtectionState: DELETE_PROTECTION_DISABLED
     deletionPolicy: DELETE
-    locationId: us-central1
-    name: example-database-index
-    project: official-provider-testing
+    locationId: nam5
+    name: database-id
+    project: my-project-name
     type: FIRESTORE_NATIVE

@@ -72,3 +72,55 @@ func (mg *Database) ResolveReferences( // ResolveReferences of this Database.
 
 	return nil
 }
+
+// ResolveReferences of this Index.
+func (mg *Index) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("firestore.gcp.upbound.io", "v1beta1", "Database", "DatabaseList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Database),
+			Extract:      resource.ExtractParamPath("name", false),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.DatabaseRef,
+			Selector:     mg.Spec.ForProvider.DatabaseSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Database")
+	}
+	mg.Spec.ForProvider.Database = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.DatabaseRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("firestore.gcp.upbound.io", "v1beta1", "Database", "DatabaseList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Database),
+			Extract:      resource.ExtractParamPath("name", false),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.DatabaseRef,
+			Selector:     mg.Spec.InitProvider.DatabaseSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Database")
+	}
+	mg.Spec.InitProvider.Database = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.DatabaseRef = rsp.ResolvedReference
+
+	return nil
+}
